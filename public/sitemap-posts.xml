@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Blog posts are stored in Supabase database and should be dynamically generated -->
+  <!-- This file should be updated programmatically when new blog posts are published -->
+  <!-- Blog post URL format: https://qapilot.io/blogs/:slug -->
+</urlset>

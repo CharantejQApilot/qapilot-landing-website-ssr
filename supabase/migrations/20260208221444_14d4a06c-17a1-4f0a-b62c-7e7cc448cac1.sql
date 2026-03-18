@@ -1,0 +1,1 @@
+ALTER TABLE public.blogs ADD COLUMN is_labs_featured BOOLEAN NOT NULL DEFAULT false;

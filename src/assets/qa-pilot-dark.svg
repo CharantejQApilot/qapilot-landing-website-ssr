@@ -1,0 +1,8 @@
+<svg width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- QA PILOT Dark Version -->
+  <rect x="10" y="5" width="8" height="8" rx="2" fill="#1E90FF"/>
+  <circle cx="30" cy="9" r="8" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+  <path d="M34 6 L37 9 L34 12" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="45" y="13" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">QA</text>
+  <text x="20" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">PILOT</text>
+</svg>

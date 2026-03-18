@@ -1,0 +1,1 @@
+ALTER TABLE public.writers ADD COLUMN profile_image TEXT;
