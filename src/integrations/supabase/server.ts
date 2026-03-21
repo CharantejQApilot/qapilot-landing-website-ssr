@@ -16,18 +16,21 @@ function createClientFromEnv(): SupabaseClient<Database> | null {
   });
 }
 
-/** Use when the route must fail fast if env is missing (e.g. production CMS routes). */
-export function createServerSupabaseClient(): SupabaseClient<Database> {
-  const client = createClientFromEnv();
-  if (!client) {
-    throw new Error('Missing Supabase environment variables');
-  }
-  return client;
+/**
+ * Returns a Supabase client, or `null` if `NEXT_PUBLIC_SUPABASE_URL` /
+ * `NEXT_PUBLIC_SUPABASE_ANON_KEY` are missing.
+ *
+ * Does **not** throw, so `next build` and Vercel deploys succeed even when env is
+ * only attached to Production/Preview (or missing on a fork). Callers must null-check
+ * before running queries — same as `tryCreateServerSupabaseClient`.
+ */
+export function createServerSupabaseClient(): SupabaseClient<Database> | null {
+  return createClientFromEnv();
 }
 
 /**
- * Use for optional UI (banner, featured blocks) or graceful degradation when
- * `NEXT_PUBLIC_SUPABASE_*` are unset so local preview still renders.
+ * Alias for `createServerSupabaseClient`. Prefer this name in public/marketing routes
+ * to signal optional CMS data.
  */
 export function tryCreateServerSupabaseClient(): SupabaseClient<Database> | null {
   return createClientFromEnv();

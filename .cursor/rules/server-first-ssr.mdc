@@ -9,7 +9,7 @@ Assume **no one will repeat “make this SSR.”** Implement it by default.
 
 ## Public pages (marketing, blogs, news, careers, FAQs, labs, etc.)
 
-- **Fetch CMS and public data on the server** using `tryCreateServerSupabaseClient()` or `createServerSupabaseClient()` from `@/integrations/supabase/server` in `page.tsx`, `layout.tsx` (with `Suspense` if needed), or dedicated async Server Components. Prefer **`tryCreateServerSupabaseClient()`** when the UI should still render without env (local preview); use **`createServerSupabaseClient()`** only when missing config must hard-fail.
+- **Fetch CMS and public data on the server** using `tryCreateServerSupabaseClient()` (or the equivalent `createServerSupabaseClient()`) from `@/integrations/supabase/server` in `page.tsx`, `layout.tsx` (with `Suspense` if needed), or dedicated async Server Components. Both return **`null`** when `NEXT_PUBLIC_SUPABASE_*` are unset (so builds succeed); **always null-check** before queries and render empty or fallback UI when missing.
 - **Do not** use `@/integrations/supabase/client`, `useQuery`, or client-side `fetch` for **initial, SEO-relevant content** (titles, body copy, lists, links that crawlers should see).
 - Prefer **`export const revalidate = <seconds>`** or **`export const dynamic = "force-dynamic"`** when content must stay fresh; choose based on how often data changes.
 - Keep **`"use client"`** only for real browser needs: dialogs, HubSpot/forms, complex client-only interactions, or small wrappers around server-passed props.
