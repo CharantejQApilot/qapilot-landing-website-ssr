@@ -1,0 +1,39 @@
+---
+description: Default new and rebuilt pages to server-side data and HTML; minimize client-only fetching for public content
+alwaysApply: true
+---
+
+# Server-first rendering (Next.js App Router)
+
+Assume **no one will repeat “make this SSR.”** Implement it by default.
+
+## Public pages (marketing, blogs, news, careers, FAQs, labs, etc.)
+
+- **Fetch CMS and public data on the server** using `tryCreateServerSupabaseClient()` or `createServerSupabaseClient()` from `@/integrations/supabase/server` in `page.tsx`, `layout.tsx` (with `Suspense` if needed), or dedicated async Server Components. Prefer **`tryCreateServerSupabaseClient()`** when the UI should still render without env (local preview); use **`createServerSupabaseClient()`** only when missing config must hard-fail.
+- **Do not** use `@/integrations/supabase/client`, `useQuery`, or client-side `fetch` for **initial, SEO-relevant content** (titles, body copy, lists, links that crawlers should see).
+- Prefer **`export const revalidate = <seconds>`** or **`export const dynamic = "force-dynamic"`** when content must stay fresh; choose based on how often data changes.
+- Keep **`"use client"`** only for real browser needs: dialogs, HubSpot/forms, complex client-only interactions, or small wrappers around server-passed props.
+
+## When rebuilding existing pages
+
+- Move **client-side data loading** for public content to the **server** the same way (server fetch → pass serializable props to a thin client component if interactivity is required).
+
+## Exceptions (client-heavy is OK)
+
+- **`/admin`**, **`/auth`**, and similar: auth, mutations, and rich editors may stay client-oriented; still prefer server for **read** of public-facing previews if any.
+
+## Quick pattern
+
+```tsx
+// page.tsx — Server Component
+const supabase = tryCreateServerSupabaseClient();
+if (!supabase) return <YourSection items={[]} />;
+const { data } = await supabase.from("…").select("…");
+return <YourSection items={data ?? []} />;
+```
+
+```tsx
+// Only if you need hooks/dialogs: thin client leaf, data from props (already loaded on server).
+"use client";
+export function YourSection({ items }: { items: Item[] }) { … }
+```

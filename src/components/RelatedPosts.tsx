@@ -1,40 +1,27 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 
+export type RelatedPostItem = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  featured_image: string | null;
+  published_date: string | null;
+  youtube_url: string | null;
+};
+
 interface RelatedPostsProps {
-  currentId: string;
-  type: "blog" | "news";
-  limit?: number;
+  posts: RelatedPostItem[] | null | undefined;
+  basePath: string;
 }
 
-const RelatedPosts = ({ currentId, type, limit = 3 }: RelatedPostsProps) => {
-  const table = type === "blog" ? "blogs" : "news_updates";
-  const basePath = type === "blog" ? "/blogs" : "/news";
-
-  const { data: posts } = useQuery({
-    queryKey: [`related-${type}`, currentId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from(table)
-        .select("id, title, slug, excerpt, featured_image, published_date, youtube_url")
-        .eq("published", true)
-        .neq("id", currentId)
-        .order("published_date", { ascending: false })
-        .limit(limit);
-
-      if (error) throw error;
-      return data;
-    },
-    enabled: !!currentId,
-    staleTime: 1000 * 60 * 5,
-  });
-
+/** Renders server-fetched related posts; client boundary matches other card-based UI. */
+const RelatedPosts = ({ posts, basePath }: RelatedPostsProps) => {
   if (!posts || posts.length === 0) return null;
 
   return (

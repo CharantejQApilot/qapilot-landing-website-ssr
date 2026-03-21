@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -30,7 +30,10 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    return { title: "News | QApilot" };
+  }
   const { data: newsItem } = await supabase
     .from("news_updates")
     .select("*")
@@ -85,7 +88,10 @@ export default async function NewsPostPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    notFound();
+  }
 
   const { data: newsItem } = await supabase
     .from("news_updates")
@@ -116,6 +122,18 @@ export default async function NewsPostPage({
       .eq("news_id", newsItem.id);
     backlinks = (data as Backlink[]) ?? [];
   }
+
+  const { data: relatedPosts, error: relatedPostsError } = await supabase
+    .from("news_updates")
+    .select(
+      "id, title, slug, excerpt, featured_image, published_date, youtube_url"
+    )
+    .eq("published", true)
+    .neq("id", newsItem.id)
+    .order("published_date", { ascending: false })
+    .limit(3);
+
+  const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
 
   const videoId = newsItem.youtube_url
     ? extractYouTubeId(newsItem.youtube_url)
@@ -321,7 +339,7 @@ export default async function NewsPostPage({
             </nav>
           )}
 
-          <RelatedPosts currentId={newsItem.id} type="news" />
+          <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.NEWS} />
 
           <div className="mt-12 pt-8 border-t">
             <Link

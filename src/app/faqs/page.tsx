@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import FAQsClient from "./FAQsClient";
 import { PATHS } from "@/lib/routes";
@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.FAQS}` },
 };
 
+export const dynamic = "force-dynamic";
+
 interface FAQ {
   id: string;
   question: string;
@@ -24,12 +26,14 @@ interface FAQ {
 }
 
 export default async function FAQsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data } = await supabase
-    .from("faqs")
-    .select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true });
+  const supabase = tryCreateServerSupabaseClient();
+  const { data } = supabase
+    ? await supabase
+        .from("faqs")
+        .select("*")
+        .eq("is_published", true)
+        .order("display_order", { ascending: true })
+    : { data: null as null };
 
   const faqs = (data as FAQ[] | null) ?? [];
 

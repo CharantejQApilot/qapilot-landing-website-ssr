@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import SafeHtmlContent from "@/components/SafeHtmlContent";
 import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
@@ -65,7 +65,10 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    return { title: "Careers | QApilot" };
+  }
 
   let { data: job } = await supabase
     .from("job_openings")
@@ -106,7 +109,10 @@ export default async function JobPostPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    notFound();
+  }
 
   let { data: jobData } = await supabase
     .from("job_openings")
