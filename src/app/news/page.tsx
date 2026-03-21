@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { PATHS } from "@/lib/routes";
@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.NEWS}` },
 };
 
+/** Always fetch from Supabase at request time — avoids empty static HTML from build-time snapshots. */
+export const dynamic = "force-dynamic";
+
 interface NewsItem {
   id: string;
   title: string;
@@ -28,14 +31,16 @@ interface NewsItem {
 }
 
 export default async function NewsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data } = await supabase
-    .from("news_updates")
-    .select(
-      "id, title, slug, excerpt, featured_image, author_name, author_designation, published_date"
-    )
-    .eq("published", true)
-    .order("published_date", { ascending: false });
+  const supabase = tryCreateServerSupabaseClient();
+  const { data } = supabase
+    ? await supabase
+        .from("news_updates")
+        .select(
+          "id, title, slug, excerpt, featured_image, author_name, author_designation, published_date"
+        )
+        .eq("published", true)
+        .order("published_date", { ascending: false })
+    : { data: null as null };
 
   const newsItems = (data as NewsItem[] | null) ?? [];
 

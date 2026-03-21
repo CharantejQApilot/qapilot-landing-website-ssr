@@ -1,4 +1,5 @@
 import { Zap, Settings, Link2 } from "lucide-react";
+import ReleaseReadinessFlowSection from "@/components/ReleaseReadinessFlowSection";
 
 const cards = [
   {
@@ -84,6 +85,8 @@ const VelocitySection = () => {
             </p>
           </div>
         </header>
+
+        <ReleaseReadinessFlowSection embedded />
 
         {/* Grid: pillar cell height = cards column (combined card stack) */}
         <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-stretch gap-x-5 md:gap-x-7 lg:gap-x-9">

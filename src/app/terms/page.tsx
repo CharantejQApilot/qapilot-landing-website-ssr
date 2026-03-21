@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import SafeHtmlContent from "@/components/SafeHtmlContent";
 import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
@@ -14,14 +14,18 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.TERMS}` },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function TermsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data: termsContent } = await supabase
-    .from("terms_content")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+  const supabase = tryCreateServerSupabaseClient();
+  const { data: termsContent } = supabase
+    ? await supabase
+        .from("terms_content")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single()
+    : { data: null as null };
 
   return (
     <>

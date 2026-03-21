@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import LabsHeroSection from "@/components/LabsHeroSection";
 import LabsFeaturedSection from "@/components/LabsFeaturedSection";
 import WhyLabsSection from "@/components/WhyLabsSection";
@@ -14,6 +15,8 @@ export const metadata: Metadata = {
   description:
     "QApilot Labs is where we build and ship experiments that explore the edges of AI-native development and testing. Discover tools born from hackathons and real-world needs.",
 };
+
+export const revalidate = 120;
 
 export default function LabsPage() {
   return (
@@ -36,7 +39,15 @@ export default function LabsPage() {
         }}
       />
       <LabsHeroSection />
-      <LabsFeaturedSection />
+      <Suspense
+        fallback={
+          <section className="py-8 md:py-12">
+            <div className="container mx-auto max-w-screen-xl px-4 min-h-[280px]" aria-hidden />
+          </section>
+        }
+      >
+        <LabsFeaturedSection />
+      </Suspense>
       <WhyLabsSection />
       <LabsProcessSection />
       <LabsTeamSection />

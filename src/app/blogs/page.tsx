@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
@@ -18,13 +18,18 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.BLOGS}` },
 };
 
+/** Always fetch from Supabase at request time — avoids empty static HTML from build-time snapshots. */
+export const dynamic = "force-dynamic";
+
 export default async function BlogsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data: blogs } = await supabase
-    .from("blogs")
-    .select("*")
-    .eq("published", true)
-    .order("published_date", { ascending: false });
+  const supabase = tryCreateServerSupabaseClient();
+  const { data: blogs } = supabase
+    ? await supabase
+        .from("blogs")
+        .select("*")
+        .eq("published", true)
+        .order("published_date", { ascending: false })
+    : { data: null as null };
 
   const structuredData = [
     {

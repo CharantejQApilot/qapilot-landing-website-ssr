@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import Providers from "./providers";
 import Header from "@/components/Header";
 import NewsBanner from "@/components/NewsBanner";
@@ -241,9 +242,17 @@ export default function RootLayout({
         </noscript>
 
         <Providers>
-          <NewsBanner />
-          <Header />
-          <div className="relative z-0">{children}</div>
+          <div className="relative z-[1200] w-full bg-background">
+            <Suspense
+              fallback={
+                <div id="news-banner" className="h-[44px] shrink-0" aria-hidden />
+              }
+            >
+              <NewsBanner />
+            </Suspense>
+            <Header />
+          </div>
+          <div className="relative z-0 isolate">{children}</div>
         </Providers>
 
         {/* Google Tag Manager */}

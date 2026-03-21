@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -18,7 +18,10 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    return { title: "Blog | QApilot" };
+  }
   const { data: blog } = await supabase
     .from("blogs")
     .select("*")
@@ -68,7 +71,10 @@ export default async function BlogPostPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    notFound();
+  }
 
   const { data: blog } = await supabase
     .from("blogs")
@@ -90,6 +96,18 @@ export default async function BlogPostPage({
       .single();
     writer = data;
   }
+
+  const { data: relatedPosts, error: relatedPostsError } = await supabase
+    .from("blogs")
+    .select(
+      "id, title, slug, excerpt, featured_image, published_date, youtube_url"
+    )
+    .eq("published", true)
+    .neq("id", blog.id)
+    .order("published_date", { ascending: false })
+    .limit(3);
+
+  const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
 
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
@@ -177,7 +195,7 @@ export default async function BlogPostPage({
               />
             )}
 
-            {blog && <RelatedPosts currentId={blog.id} type="blog" />}
+            <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
           </main>
 
           <Footer />
