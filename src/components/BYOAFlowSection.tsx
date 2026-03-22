@@ -263,9 +263,9 @@ const BYOAFlowSection = () => {
   ];
 
   return (
-    <section className="relative py-12 px-4 overflow-hidden">
+    <section className="section-edge relative w-full overflow-hidden py-12">
       
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         {/* Section Title */}
         <div 
           ref={titleRef as React.RefObject<HTMLDivElement>}

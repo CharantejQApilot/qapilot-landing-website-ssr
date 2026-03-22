@@ -110,8 +110,8 @@ const OpenPositionsSection = ({
 
   return (
     <>
-      <section id="open-positions" className="py-16 md:py-24 relative">
-        <div className="container mx-auto px-4 relative z-10">
+      <section id="open-positions" className="section-edge relative w-full border-t border-border py-16 md:py-24">
+        <div className="section-full relative z-10 mx-auto">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               Open <span className="text-primary">Positions</span>
@@ -160,9 +160,9 @@ const OpenPositionsSection = ({
         return (
           <section
             key={org.id}
-            className="py-16 md:py-24 relative border-t border-border/30"
+            className="section-edge relative w-full border-t border-border/30 py-16 md:py-24"
           >
-            <div className="container mx-auto px-4">
+            <div className="section-full mx-auto">
               <div className="text-center mb-12 md:mb-16">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
                   {org.name}

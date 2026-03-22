@@ -5,6 +5,7 @@ import FAQsClient from "./FAQsClient";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "FAQs - Frequently Asked Questions",
@@ -70,11 +71,11 @@ export default async function FAQsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+      <MarketingPageShell background="soft">
+        <main className="section-edge w-full py-16 md:py-24">
+          <div className="section-full mx-auto max-w-4xl">
+            <div className="mb-12 text-center">
+              <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl mb-4">
                 Frequently Asked{" "}
                 <span className="text-primary">Questions</span>
               </h1>
@@ -83,9 +84,8 @@ export default async function FAQsPage() {
             <FAQsClient faqs={faqs} />
           </div>
         </main>
-
         <Footer />
-      </div>
+      </MarketingPageShell>
     </>
   );
 }

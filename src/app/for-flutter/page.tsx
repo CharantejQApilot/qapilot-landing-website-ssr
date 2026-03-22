@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import ForFlutterClient from "./ForFlutterClient";
+import { MarketingPageShell } from "@/components/marketing";
+import { PATHS } from "@/lib/routes";
+import { buildBreadcrumbList } from "@/lib/breadcrumb";
 
 export const metadata: Metadata = {
   title: "Flutter App Testing - AI-Native Testing Platform",
@@ -8,5 +11,22 @@ export const metadata: Metadata = {
 };
 
 export default function ForFlutterPage() {
-  return <ForFlutterClient />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "Flutter Testing", path: PATHS.FOR_FLUTTER },
+            ])
+          )
+        }}
+      />
+      <MarketingPageShell background="hero" contentClassName="contain-layout">
+        <ForFlutterClient />
+      </MarketingPageShell>
+    </>
+  );
 }

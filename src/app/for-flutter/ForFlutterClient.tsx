@@ -6,10 +6,6 @@ import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { CheckCircle, Code, Users, Zap, Target, Layers } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
-import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
-import { buildBreadcrumbList } from "@/lib/breadcrumb";
-
 const ForFlutterClient = () => {
   const {
     openForm
@@ -100,62 +96,13 @@ const ForFlutterClient = () => {
   };
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Flutter Testing", path: PATHS.FOR_FLUTTER }])) }} />
-      <div className="min-h-screen bg-background dark relative contain-layout">
-        {/* Background Effects */}
-      <div className="absolute inset-0 glow-bg"></div>
-      
-      {/* Left Side Background Animations */}
-      <div className="absolute left-0 top-0 h-full w-1/2 pointer-events-none overflow-hidden">
-        {/* Animated Circles */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 opacity-20">
-          <div className="absolute inset-0 border border-primary/20 rounded-full animate-pulse"></div>
-          <div className="absolute inset-2 md:inset-4 border border-primary/20 rounded-full animate-pulse delay-1000"></div>
-          <div className="absolute inset-4 md:inset-8 border border-primary/20 rounded-full animate-pulse delay-2000"></div>
-          <div className="absolute inset-6 md:inset-12 border border-primary/20 rounded-full animate-pulse delay-1500"></div>
-        </div>
-        
-        {/* Floating Geometric Elements */}
-        <div className="absolute left-16 top-20 w-8 h-8 bg-primary/10 rounded-lg animate-float delay-0"></div>
-        <div className="absolute left-8 top-40 w-6 h-6 bg-primary/15 rotate-45 animate-float delay-500"></div>
-        <div className="absolute left-32 top-60 w-4 h-4 bg-primary/20 rounded-full animate-float delay-1000"></div>
-        <div className="absolute left-20 top-80 w-10 h-2 bg-primary/10 rounded-full animate-float delay-1500"></div>
-        
-        {/* Flowing Connection Lines */}
-        <svg className="absolute left-10 top-32 w-32 h-48 opacity-30" viewBox="0 0 128 192">
-          <path d="M10 20 Q40 60 20 100 Q60 140 40 180" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" strokeDasharray="4 4" className="animate-pulse" />
-          <path d="M30 10 Q70 50 50 90 Q90 130 70 170" stroke="hsl(var(--primary))" strokeWidth="1" fill="none" strokeDasharray="2 2" className="animate-pulse delay-1000" />
-        </svg>
-        
-        {/* Code-like Visual Elements */}
-        <div className="absolute left-6 top-96 space-y-2 opacity-20">
-          <div className="flex space-x-1">
-            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-            <div className="w-8 h-2 bg-primary/60 rounded animate-pulse delay-200"></div>
-            <div className="w-4 h-2 bg-primary/40 rounded animate-pulse delay-400"></div>
-          </div>
-          <div className="flex space-x-1 delay-500">
-            <div className="w-4 h-2 bg-primary/40 rounded animate-pulse"></div>
-            <div className="w-6 h-2 bg-primary/60 rounded animate-pulse delay-200"></div>
-          </div>
-          <div className="flex space-x-1 delay-1000">
-            <div className="w-3 h-2 bg-primary/80 rounded animate-pulse"></div>
-            <div className="w-12 h-2 bg-primary/30 rounded animate-pulse delay-200"></div>
-          </div>
-        </div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent animate-pulse"></div>
-      </div>
-
-      <div className="relative z-10">
         {/* Hero Section */}
-        <section ref={heroRef} className="py-20 lg:py-32">
-          <div className="container mx-auto px-6">
+        <section ref={heroRef} className="section-edge w-full py-20 lg:py-32">
+          <div className="section-full mx-auto max-w-screen-xl">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className={`space-y-12 transition-all duration-700 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                 <div className="space-y-8">
-                  <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
+                  <h1 className="font-heading text-4xl font-medium leading-tight text-foreground lg:text-6xl">
                     The Best <span className="text-primary">AI-Native Platform</span> for{" "}
                     <span className="text-primary">Flutter App Testing</span>
                   </h1>
@@ -208,8 +155,8 @@ const ForFlutterClient = () => {
         </section>
 
         {/* The Flutter Testing Problem */}
-        <section ref={problemRef} className="py-20 bg-muted/30">
-          <div className="container mx-auto px-6">
+        <section ref={problemRef} className="section-edge w-full border-t border-border bg-muted/30 py-20">
+          <div className="section-full mx-auto max-w-screen-xl">
             <div className={`space-y-16 transition-all duration-700 ${problemVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <div className="text-center space-y-6">
                 <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -333,8 +280,8 @@ const ForFlutterClient = () => {
         </section>
 
         {/* How QAPilot Solves Flutter Testing */}
-        <section ref={solutionRef} className="py-12 md:py-20 relative overflow-hidden">
-          <div className="container mx-auto px-4 md:px-6 max-w-screen-xl">
+        <section ref={solutionRef} className="section-edge relative w-full overflow-hidden border-t border-border py-12 md:py-20">
+          <div className="section-full mx-auto max-w-screen-xl">
             <div className={`transition-all duration-700 ${solutionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <div className="text-center mb-16 space-y-4 md:space-y-6">
                 <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-foreground">
@@ -689,8 +636,8 @@ const ForFlutterClient = () => {
         </section>
 
         {/* Get More From QApilot */}
-        <section ref={moreRef} className="py-20 bg-muted/30">
-          <div className="container mx-auto px-6">
+        <section ref={moreRef} className="section-edge w-full border-t border-border bg-muted/30 py-20">
+          <div className="section-full mx-auto max-w-screen-xl">
             <div className={`space-y-16 transition-all duration-700 ${moreVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <div className="text-center space-y-6">
                 <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
@@ -749,8 +696,6 @@ const ForFlutterClient = () => {
         </section>
 
         <Footer />
-      </div>
-    </div>
     </>
   );
 };

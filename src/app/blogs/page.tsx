@@ -8,6 +8,7 @@ import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Mobile Testing Blog - Tips, Guides & Best Practices",
@@ -57,19 +58,11 @@ export default async function BlogsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="min-h-screen bg-background dark relative">
-        <div className="absolute inset-0 glow-bg"></div>
-        <div className="absolute right-0 top-1/4 w-64 h-64 md:w-96 md:h-96 opacity-20" aria-hidden="true">
-          <div className="absolute inset-0 border border-primary/20 rounded-full"></div>
-          <div className="absolute inset-2 md:inset-4 border border-primary/20 rounded-full"></div>
-          <div className="absolute inset-4 md:inset-8 border border-primary/20 rounded-full"></div>
-          <div className="absolute inset-6 md:inset-12 border border-primary/20 rounded-full"></div>
-        </div>
-
-        <div className="relative z-10">
-          <main className="container mx-auto px-4 py-20">
+      <MarketingPageShell background="hero">
+          <main className="section-edge w-full py-20">
+            <div className="section-full mx-auto max-w-7xl">
             <header className="text-center mb-16 animate-fade-in">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl mb-6">
                 <span className="text-gradient">
                   Mobile Testing Insights &amp; Best Practices
                 </span>
@@ -304,11 +297,10 @@ export default async function BlogsPage() {
                 </p>
               </div>
             )}
+            </div>
           </main>
-
           <Footer />
-        </div>
-      </div>
+      </MarketingPageShell>
     </>
   );
 }

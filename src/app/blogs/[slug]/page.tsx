@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export async function generateMetadata({
   params,
@@ -121,11 +122,9 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
-      <div className="min-h-screen bg-background dark relative">
-        <div className="absolute inset-0 glow-bg"></div>
-
-        <div className="relative z-10">
-          <main className="container mx-auto px-4 py-20 max-w-6xl">
+      <MarketingPageShell background="soft">
+          <main className="section-edge w-full py-20">
+            <div className="section-full mx-auto max-w-6xl">
             <Link
               href="/blogs"
               className="inline-flex items-center gap-2 mb-8 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -148,7 +147,7 @@ export default async function BlogPostPage({
               </div>
             )}
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
+            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-6 text-gradient">
               {blog.title}
             </h1>
 
@@ -196,11 +195,10 @@ export default async function BlogPostPage({
             )}
 
             <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
+            </div>
           </main>
-
           <Footer />
-        </div>
-      </div>
+      </MarketingPageShell>
     </>
   );
 }

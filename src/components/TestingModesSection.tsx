@@ -70,7 +70,7 @@ const TestingModesSection = () => {
   };
 
   return (
-    <section ref={ref} className="pt-24 pb-12 bg-gradient-to-br from-background via-secondary/5 to-background relative overflow-hidden">
+    <section ref={ref} className="section-edge relative w-full overflow-hidden border-t border-border bg-gradient-to-br from-background via-secondary/5 to-background pt-24 pb-12">
       {/* Background decorations */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full blur-3xl" />
@@ -128,7 +128,7 @@ const TestingModesSection = () => {
         </svg>
       </div>
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="section-full relative z-10 mx-auto max-w-7xl">
         <div className={`text-center mb-16 transition-all duration-700 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>

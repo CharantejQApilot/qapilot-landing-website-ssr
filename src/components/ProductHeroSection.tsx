@@ -10,22 +10,12 @@ const ProductHeroSection = () => {
   const handleGetAccessClick = () => {
     openForm();
   };
-  return <section className="relative min-h-screen flex items-center justify-center px-4 py-20 pb-8">
-      {/* Background Effects */}
-      <div className="absolute inset-0 glow-bg"></div>
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 opacity-20">
-        {/* Concentric circles motif */}
-        <div className="absolute inset-0 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-4 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-8 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-12 border border-primary/20 rounded-full"></div>
-      </div>
-
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10">
+  return <section className="relative flex min-h-screen items-center justify-center section-edge w-full py-20 pb-8">
+      <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         {/* Main Hero Content */}
         <div className="text-center mb-16">
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight text-foreground">
+          <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl lg:text-6xl mb-8">
             Experience <span className="text-primary">Agentic Testing</span> with QApilot.
           </h1>
 

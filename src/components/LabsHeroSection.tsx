@@ -28,10 +28,7 @@ const mobileNodes = [
 
 const LabsHeroSection = () => {
   return (
-    <section className="relative min-h-[70vh] flex flex-col items-center px-4 pt-20 pb-0 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 glow-bg"></div>
-
+    <section className="section-edge relative flex min-h-[70vh] w-full flex-col items-center overflow-hidden pb-0 pt-20">
       {/* Subtle dot grid background */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -56,10 +53,10 @@ const LabsHeroSection = () => {
         <div className="absolute inset-10 border border-primary/15 rounded-full"></div>
       </div>
 
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         {/* Header text */}
         <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight text-foreground animate-fade-in">
+          <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground animate-fade-in sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl mb-4">
             Experiments. Tools.{" "}
             <span className="text-primary">Ideas shipped fast.</span>
           </h1>

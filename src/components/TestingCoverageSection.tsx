@@ -20,8 +20,8 @@ const TestingCoverageSection = () => {
     title: "Actionable Reports",
     description: "Get clear insights with detailed, shareable test results"
   }];
-  return <section ref={ref} className="py-20 px-4 bg-gradient-to-b from-background to-muted/20">
-      <div className="container mx-auto max-w-6xl">
+  return <section ref={ref} className="section-edge relative w-full border-t border-border bg-gradient-to-b from-background to-muted/20 py-20">
+      <div className="section-full mx-auto max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100' : 'opacity-0 translate-y-8'}`}>

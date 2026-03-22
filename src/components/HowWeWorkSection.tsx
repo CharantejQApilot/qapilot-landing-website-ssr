@@ -1,7 +1,7 @@
 const HowWeWorkSection = () => {
   return (
-    <section className="py-16 md:py-24 relative">
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section className="section-edge relative w-full border-t border-border py-16 md:py-24">
+      <div className="section-full mx-auto max-w-screen-xl">
         {/* Two-column layout: Title left, Content right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Left: Title - takes 4 columns, sticky on desktop */}

@@ -32,8 +32,8 @@ export default async function LabsFeaturedSection() {
   }
 
   return (
-    <section className="py-8 md:py-12 relative">
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section className="section-edge relative w-full border-t border-border py-8 md:py-12">
+      <div className="section-full mx-auto max-w-screen-xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Featured <span className="text-primary">Tools</span>

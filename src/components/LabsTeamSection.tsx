@@ -8,8 +8,8 @@ const labsTeam = [
 
 const LabsTeamSection = () => {
   return (
-    <section className="py-10 md:py-14 relative overflow-hidden">
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section className="section-edge relative w-full overflow-hidden border-t border-border py-10 md:py-14">
+      <div className="section-full mx-auto max-w-screen-xl">
         {/* Section Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">

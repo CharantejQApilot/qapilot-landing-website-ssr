@@ -10,6 +10,7 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Careers - Join the QApilot Team",
@@ -51,12 +52,12 @@ export default async function CareersPage() {
   ]);
 
   return (
-    <>
+    <MarketingPageShell background="hero">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
-      <main className="min-h-screen bg-background">
+      <main>
         <CareersHeroSection />
         <OpenPositionsSection
           jobOpenings={jobOpenings}
@@ -65,6 +66,6 @@ export default async function CareersPage() {
         <HowWeWorkSection />
       </main>
       <Footer />
-    </>
+    </MarketingPageShell>
   );
 }

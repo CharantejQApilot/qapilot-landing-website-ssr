@@ -21,16 +21,7 @@ export default function ForReleaseManagerClient() {
     <>
       <main className="min-h-screen" role="main" aria-label="QApilot for Release Managers">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center overflow-hidden" aria-labelledby="rm-hero-title">
-          {/* Background Effects */}
-          <div className="absolute inset-0 glow-bg" />
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 opacity-20">
-            <div className="absolute inset-0 border border-primary/20 rounded-full" />
-            <div className="absolute inset-4 border border-primary/20 rounded-full" />
-            <div className="absolute inset-8 border border-primary/20 rounded-full" />
-            <div className="absolute inset-12 border border-primary/20 rounded-full" />
-          </div>
-
+        <section className="relative flex min-h-screen items-center overflow-hidden section-edge" aria-labelledby="rm-hero-title">
           {/* Abstract Network Grid */}
           <div className="absolute inset-0 opacity-10">
             <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none">
@@ -62,7 +53,7 @@ export default function ForReleaseManagerClient() {
                   For Release Managers
                 </p>
 
-                <h1 id="rm-hero-title" className="text-4xl md:text-5xl lg:text-[3.25rem] xl:text-6xl font-bold tracking-tight text-foreground leading-[1.1] animate-fade-in-up">
+                <h1 id="rm-hero-title" className="font-heading text-4xl font-medium tracking-tight text-foreground animate-fade-in-up md:text-5xl lg:text-[3.25rem] xl:text-6xl leading-[1.1]">
                   Confident Mobile App Releases.{" "}
                   <span className="bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
                     Every Time.
@@ -140,7 +131,7 @@ export default function ForReleaseManagerClient() {
           </div>
         </section>
         {/* Features Section */}
-        <section className="py-24 bg-background relative overflow-hidden" aria-labelledby="rm-features-title">
+        <section className="section-edge relative w-full overflow-hidden border-t border-border bg-background py-24" aria-labelledby="rm-features-title">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent" />
           {/* Subtle dot grid pattern */}
           <div className="absolute inset-0 opacity-[0.05]">
@@ -157,7 +148,7 @@ export default function ForReleaseManagerClient() {
           <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/[0.06] rounded-full blur-[120px]" />
           <div className="absolute bottom-1/3 left-0 w-[400px] h-[400px] bg-primary/[0.06] rounded-full blur-[100px]" />
           <div className="relative z-10">
-            <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+            <div className="section-full mx-auto max-w-screen-xl">
               <div className="text-center mb-20">
                 <h2 id="rm-features-title" className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
                   QApilot Redefines Mobile{" "}
@@ -168,7 +159,7 @@ export default function ForReleaseManagerClient() {
               </div>
             </div>
 
-            <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 space-y-24">
+            <div className="section-full mx-auto max-w-screen-xl space-y-24">
               {/* Feature 1 - Text Left, Image Right */}
               <article className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <div className="space-y-4">
@@ -309,12 +300,12 @@ export default function ForReleaseManagerClient() {
         </section>
 
         {/* What Release Managers Gain Section */}
-        <section className="py-24 bg-background relative overflow-hidden" aria-labelledby="rm-gains-title">
+        <section className="section-edge relative w-full overflow-hidden border-t border-border bg-background py-24" aria-labelledby="rm-gains-title">
           {/* Background effects */}
           <div className="absolute inset-0 bg-gradient-to-t from-primary/[0.03] to-transparent" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/[0.04] rounded-full blur-[150px]" />
 
-          <div className="relative z-10 container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+          <div className="section-full relative z-10 mx-auto max-w-screen-xl">
             <div className="text-center mb-16">
               <h2 id="rm-gains-title" className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
                 What Release Managers{" "}
