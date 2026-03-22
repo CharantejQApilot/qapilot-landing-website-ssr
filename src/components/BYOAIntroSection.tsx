@@ -7,11 +7,11 @@ const BYOAIntroSection = () => {
   const { ref: sectionRef, isVisible } = useScrollAnimation(0.2);
 
   return (
-    <section id="byoa-section" className="relative pt-20 pb-8 px-4 overflow-hidden">
+    <section id="byoa-section" className="section-edge relative w-full overflow-hidden pt-20 pb-8">
 
       <div 
         ref={sectionRef as React.RefObject<HTMLDivElement>}
-        className={`container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000 ${
+        className={`section-full relative z-10 mx-auto max-w-screen-xl transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >

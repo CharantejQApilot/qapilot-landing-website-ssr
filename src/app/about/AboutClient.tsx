@@ -4,10 +4,6 @@ import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
 import YouTubeVideoPlayer from "@/components/YouTubeVideoPlayer";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Lightbulb, Target, Shield, Users, TrendingUp, Bot, Rocket, Activity, Zap, Calendar, MessageSquare, TreePine, Sparkles, Brain, Cog, Handshake, Megaphone } from "lucide-react";
-import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
-import { buildBreadcrumbList } from "@/lib/breadcrumb";
-
 const AboutClient = () => {
   const {
     ref: heroRef,
@@ -15,21 +11,8 @@ const AboutClient = () => {
   } = useScrollAnimation(0.2);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "About", path: PATHS.ABOUT }])) }} />
-      <div className="min-h-screen bg-background dark relative contain-layout">
-        {/* Background Effects */}
-        <div className="absolute inset-0 glow-bg"></div>
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 opacity-20">
-        {/* Concentric circles motif */}
-        <div className="absolute inset-0 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-2 md:inset-4 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-4 md:inset-8 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-6 md:inset-12 border border-primary/20 rounded-full"></div>
-      </div>
-      
-      <div className="relative z-10">
         {/* Hero Section with Animation */}
-        <section className="relative min-h-[80vh] flex items-center justify-center px-4 py-20 overflow-hidden">
+        <section className="section-edge relative flex min-h-[80vh] w-full items-center justify-center overflow-hidden py-20">
           {/* Enhanced Background with SVG Animations */}
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background">
             {/* Animated Grid Pattern */}
@@ -150,7 +133,7 @@ const AboutClient = () => {
             </svg>
           </div>
 
-          <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="section-full relative z-10 mx-auto max-w-screen-xl">
             {/* Main Hero Content */}
             <div className="text-center mb-16">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight text-foreground animate-fade-in-up">
@@ -391,8 +374,8 @@ const AboutClient = () => {
         </section>
 
         {/* How QApilot Started Section */}
-        <section className="px-4 py-16 md:py-24">
-          <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <section className="section-edge w-full border-t border-border py-16 md:py-24">
+          <div className="section-full mx-auto max-w-screen-xl">
             <div ref={heroRef as React.RefObject<HTMLDivElement>} className={`transition-all duration-1000 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12 tracking-tight text-foreground text-center">
                 How <span className="text-primary">QApilot</span> Started
@@ -438,8 +421,8 @@ const AboutClient = () => {
 
 
         {/* Life at QApilot Section */}
-        <section className="px-4 pt-4 pb-8 md:pt-6 md:pb-12 relative overflow-hidden">
-          <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <section className="section-edge relative w-full overflow-hidden border-t border-border pt-4 pb-8 md:pt-6 md:pb-12">
+          <div className="section-full mx-auto max-w-screen-xl">
             {/* Section Title */}
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
@@ -524,8 +507,8 @@ const AboutClient = () => {
         </section>
 
         {/* Meet The Team Section */}
-        <section className="px-4 pt-8 pb-16 md:pt-12 md:pb-24 relative overflow-hidden">
-          <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <section className="section-edge relative w-full overflow-hidden border-t border-border pt-8 pb-16 md:pt-12 md:pb-24">
+          <div className="section-full mx-auto max-w-screen-xl">
             {/* Section Title */}
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
@@ -600,8 +583,6 @@ const AboutClient = () => {
 
 
         <Footer />
-      </div>
-    </div>
     </>
   );
 };

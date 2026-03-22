@@ -378,7 +378,7 @@ const QApilotDifferenceSection = () => {
   ];
 
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
+    <section className="section-edge relative w-full overflow-hidden border-t border-border py-24">
       {/* Enterprise Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/30 to-background">
         <div className="absolute inset-0 opacity-40">
@@ -393,7 +393,7 @@ const QApilotDifferenceSection = () => {
         <div className="absolute bottom-1/4 right-1/4 w-24 h-24 border border-primary/5 rotate-12 rounded-lg animate-pulse delay-1000"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="section-full relative z-10 mx-auto max-w-7xl">
         {/* Section Header */}
         <div 
           ref={titleRef as React.RefObject<HTMLDivElement>}

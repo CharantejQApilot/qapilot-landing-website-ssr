@@ -5,6 +5,7 @@ import ProductJourneySection from "@/components/ProductJourneySection";
 import TestingCoverageSection from "@/components/TestingCoverageSection";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Mobile App Testing Features - Automated QA Platform",
@@ -14,14 +15,12 @@ export const metadata: Metadata = {
 
 export default function ProductPage() {
   return (
-    <div className="min-h-screen bg-background dark relative">
+    <MarketingPageShell background="hero">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Product", path: PATHS.PRODUCT }])) }} />
-      <div className="relative z-10">
-        <ProductHeroSection />
-        <ProductJourneySection />
-        <TestingCoverageSection />
-        <Footer />
-      </div>
-    </div>
+      <ProductHeroSection />
+      <ProductJourneySection />
+      <TestingCoverageSection />
+      <Footer />
+    </MarketingPageShell>
   );
 }

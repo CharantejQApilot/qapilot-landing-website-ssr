@@ -12,6 +12,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 import { extractYouTubeId } from "@/utils/youtube";
 
 const DEFAULT_OG_IMAGE =
@@ -206,7 +207,7 @@ export default async function NewsPostPage({
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <MarketingPageShell background="soft">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -214,8 +215,8 @@ export default async function NewsPostPage({
         }}
       />
 
-      <div className="container mx-auto px-4 py-24">
-        <article className="max-w-6xl mx-auto">
+      <div className="section-edge w-full py-24">
+        <article className="section-full mx-auto max-w-6xl">
           <Link
             href="/news"
             className="inline-flex items-center gap-2 mb-8 -ml-4 text-sm text-muted-foreground hover:text-foreground transition-colors hover:translate-x-1"
@@ -225,7 +226,7 @@ export default async function NewsPostPage({
           </Link>
 
           <header className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-4 leading-tight">
               {newsItem.title}
             </h1>
 
@@ -353,6 +354,6 @@ export default async function NewsPostPage({
         </article>
       </div>
       <Footer />
-    </div>
+    </MarketingPageShell>
   );
 }

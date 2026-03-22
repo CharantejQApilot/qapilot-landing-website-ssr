@@ -3,6 +3,7 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import ForReleaseManagerClient from "./ForReleaseManagerClient";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "QApilot for Release Managers | Mobile Release Confidence & Sign-Off",
@@ -46,12 +47,12 @@ const structuredData = {
 
 export default function ForReleaseManagerPage() {
   return (
-    <>
+    <MarketingPageShell background="hero">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <ForReleaseManagerClient />
-    </>
+    </MarketingPageShell>
   );
 }

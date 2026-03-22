@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Zap, TrendingUp, LayoutGrid, CheckCircle2, Sparkles } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
+import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 
 const ROLLING_WORDS = ["Intelligent", "Autonomous", "Continuous", "Here"];
 const ROLL_WORD_MS = 2600;
@@ -66,23 +67,7 @@ const HeroSection = () => {
       className="relative min-h-screen flex flex-col justify-center section-edge w-full overflow-x-hidden overflow-y-visible lg:h-screen lg:overflow-hidden"
       aria-label="Hero"
     >
-      {/* Clean gradient hero with subtle depth */}
-      <div className="absolute inset-0 bg-hero-gradient pointer-events-none" aria-hidden />
-      <div className="absolute inset-0 bg-hero-diagonal-grid" aria-hidden />
-      <div className="absolute inset-0 bg-hero-grain pointer-events-none" aria-hidden />
-      <div className="hero-vignette" aria-hidden />
-
-      {/* Corner orbs: top-left and bottom-right only */}
-      <span
-        className="hero-corner-orb absolute top-0 left-0 w-64 h-64 rounded-full bg-primary/5"
-        style={{ boxShadow: "0 0 140px 90px hsl(218 65% 28% / 0.1)" }}
-        aria-hidden
-      />
-      <span
-        className="hero-corner-orb absolute bottom-0 right-0 w-56 h-56 rounded-full bg-primary/10"
-        style={{ boxShadow: "0 0 120px 70px hsl(218 65% 28% / 0.18)", animationDelay: "-6s" }}
-        aria-hidden
-      />
+      <MarketingBackground variant="hero" />
 
       {/* Content: 40% left (text), 60% right (GIF) on large screens */}
       <div className="relative z-10 w-full section-full py-10 sm:py-14 md:py-16 lg:py-24 2xl:py-28">

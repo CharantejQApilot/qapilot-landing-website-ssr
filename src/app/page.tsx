@@ -23,7 +23,7 @@ export const revalidate = 120;
 
 export default function IndexPage() {
   return (
-    <div className="min-h-screen relative z-0">
+    <div className="relative z-0 min-h-screen w-full section-edge">
       <main>
         <HeroSection />
         <ClientsSection />

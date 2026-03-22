@@ -35,8 +35,8 @@ const AutoBugFinderSection = () => {
     color: "text-purple-400"
   }];
   const benefits = ["Automatic issue detection after every crawl", "Visual evidence with screenshots & UI metadata", "Actionable fix recommendations for each issue", "Issues mapped to exact screens where they occurred"];
-  return <section id="auto-bug-finder" ref={sectionRef as React.RefObject<HTMLElement>} className="relative py-12 md:py-16">
-      <div className="container mx-auto px-4 md:px-6">
+  return <section id="auto-bug-finder" ref={sectionRef as React.RefObject<HTMLElement>} className="section-edge relative w-full border-t border-border/40 py-12 md:py-16">
+      <div className="section-full mx-auto max-w-screen-xl">
         {/* Section Header */}
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">

@@ -7,6 +7,7 @@ import TableStakesSection from "@/components/TableStakesSection";
 import FeaturedResourcesSection from "@/components/FeaturedResourcesSection";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Enterprise Mobile Testing Solutions - Scale QA Automation",
@@ -16,18 +17,14 @@ export const metadata: Metadata = {
 
 export default function EnterprisePage() {
   return (
-    <>
+    <MarketingPageShell background="hero" contentClassName="contain-layout">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Enterprise", path: PATHS.ENTERPRISE }])) }} />
-      <div className="min-h-screen bg-background dark relative contain-layout">
-        <div className="relative z-10">
-          <EnterpriseHeroSection />
-          <FeaturedResourcesSection />
-          <QApilotDifferenceSection />
-          <TableStakesSection />
-          <TestingModesSection />
-          <Footer />
-        </div>
-      </div>
-    </>
+      <EnterpriseHeroSection />
+      <FeaturedResourcesSection />
+      <QApilotDifferenceSection />
+      <TableStakesSection />
+      <TestingModesSection />
+      <Footer />
+    </MarketingPageShell>
   );
 }

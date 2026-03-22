@@ -498,8 +498,8 @@ const ProductJourneySection = () => {
   ];
 
   return (
-    <section className="pt-8 pb-20 px-4 relative overflow-hidden">
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section className="section-edge relative w-full overflow-hidden border-t border-border bg-background pt-8 pb-20">
+      <div className="section-full mx-auto max-w-screen-xl">
         {/* Section Title */}
         <div 
           ref={titleRef as React.RefObject<HTMLDivElement>}

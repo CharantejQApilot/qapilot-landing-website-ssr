@@ -11,10 +11,7 @@ const CareersHeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[75vh] flex items-center justify-center overflow-hidden pt-20 pb-8">
-      {/* Background Effects */}
-      <div className="absolute inset-0 glow-bg"></div>
-      
+    <section className="section-edge relative flex min-h-[75vh] w-full items-center justify-center overflow-hidden pb-8 pt-20">
       {/* Animated Grid Pattern */}
       <svg 
         className="absolute inset-0 w-full h-full opacity-30" 
@@ -235,7 +232,7 @@ const CareersHeroSection = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
+      <div className="section-full relative z-10 mx-auto py-12 md:py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
@@ -244,15 +241,11 @@ const CareersHeroSection = () => {
           </div>
           
           {/* Main Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+          <h1 className="font-heading text-4xl font-medium leading-tight md:text-5xl lg:text-6xl xl:text-7xl">
             <span className="text-foreground">Help shape what </span>
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-              quality
-            </span>
+            <span className="text-gradient">quality</span>
             <span className="text-foreground"> looks like in an </span>
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-              AI-first world.
-            </span>
+            <span className="text-gradient">AI-first world.</span>
           </h1>
           
           {/* Sub-heading */}
