@@ -22,6 +22,15 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the website.
 
+### Supabase (CMS / blogs / news / careers / admin)
+
+Copy [`.env.example`](.env.example) to `.env.local` and set:
+
+- `NEXT_PUBLIC_SUPABASE_URL` — project URL (e.g. `https://xxxx.supabase.co`)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` — anon public key from **Project Settings → API**
+
+The app reads only these for data access; there is no hardcoded project ref in code. After moving to a new Supabase project, redeploy **Edge Functions** from [`supabase/functions`](supabase/functions) and configure their env vars in the Supabase dashboard.
+
 ### 3. (Optional) Build and run for production
 
 ```bash

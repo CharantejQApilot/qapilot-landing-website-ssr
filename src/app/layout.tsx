@@ -150,11 +150,23 @@ const softwareAppJsonLd = {
   ],
 };
 
+function supabasePreconnectOrigin(): string | null {
+  const raw = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!raw) return null;
+  try {
+    return new URL(raw).origin;
+  } catch {
+    return null;
+  }
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabaseOrigin = supabasePreconnectOrigin();
+
   return (
     <html lang="en">
       <head>
@@ -166,11 +178,13 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preconnect"
-          href="https://jvxdyfgjudycpopepgku.supabase.co"
-          crossOrigin="anonymous"
-        />
+        {supabaseOrigin ? (
+          <link
+            rel="preconnect"
+            href={supabaseOrigin}
+            crossOrigin="anonymous"
+          />
+        ) : null}
         {/* DNS Prefetch for third-party domains */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://js.hsforms.net" />

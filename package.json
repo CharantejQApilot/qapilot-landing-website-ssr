@@ -8,7 +8,8 @@
     "dev:clean": "rm -rf .next && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-admin": "node scripts/create-admin-user.mjs"
   },
   "dependencies": {
     "@fontsource/space-grotesk": "^5.2.10",
