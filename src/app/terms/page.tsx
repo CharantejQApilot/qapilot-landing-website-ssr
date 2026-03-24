@@ -23,9 +23,9 @@ export default async function TermsPage() {
     ? await supabase
         .from("terms_content")
         .select("*")
-        .order("created_at", { ascending: false })
+        .order("created_at", { ascending: false, nullsFirst: false })
         .limit(1)
-        .single()
+        .maybeSingle()
     : { data: null as null };
 
   return (

@@ -88,6 +88,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
   };
 
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
       Underline,

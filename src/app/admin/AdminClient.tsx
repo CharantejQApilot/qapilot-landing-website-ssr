@@ -114,12 +114,16 @@ const AdminClient = () => {
 
       setUser(session.user);
 
-      const { data: roleData } = await supabase
+      const { data: roleData, error: roleError } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id)
         .eq("role", "admin")
-        .single();
+        .maybeSingle();
+
+      if (roleError) {
+        console.error("user_roles check failed:", roleError.message);
+      }
 
       if (!roleData) {
         toast({
@@ -180,9 +184,9 @@ const AdminClient = () => {
       const { data, error } = await supabase
         .from("terms_content")
         .select("*")
-        .order("created_at", { ascending: false })
+        .order("created_at", { ascending: false, nullsFirst: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
@@ -508,9 +512,11 @@ const AdminClient = () => {
           .eq("id", terms.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("terms_content")
-          .insert(termsData);
+        const { error } = await supabase.from("terms_content").insert({
+          id: crypto.randomUUID(),
+          title: termsData.title,
+          content: termsData.content,
+        });
         if (error) throw error;
       }
     },

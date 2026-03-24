@@ -31,6 +31,8 @@ Copy [`.env.example`](.env.example) to `.env.local` and set:
 
 The app reads only these for data access; there is no hardcoded project ref in code. After moving to a new Supabase project, redeploy **Edge Functions** from [`supabase/functions`](supabase/functions) and configure their env vars in the Supabase dashboard.
 
+**Public pages use the anon key (no login).** If content appears in **/admin** but not on the marketing site, add `TO anon, authenticated` on the relevant `SELECT` policies (see migrations under `supabase/migrations/` for blogs, news, `terms_content`, `faqs`, etc.).
+
 ### 3. (Optional) Build and run for production
 
 ```bash
