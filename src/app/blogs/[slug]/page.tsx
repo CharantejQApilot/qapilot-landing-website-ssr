@@ -14,6 +14,9 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 
+/** Avoid static caching; picks up admin edits without redeploy. */
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

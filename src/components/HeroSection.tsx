@@ -5,6 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Play, Zap, TrendingUp, LayoutGrid, CheckCircle2, Sparkles } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import {
+  buildYouTubeHeroEmbedUrl,
+  extractYouTubeId,
+} from "@/utils/youtube";
+
+const HERO_DEMO_VIDEO_URL =
+  "https://youtu.be/t6LU_0g-iLI?si=_JIVSffyszIlQg0C";
+const HERO_DEMO_VIDEO_ID =
+  extractYouTubeId(HERO_DEMO_VIDEO_URL) ?? "t6LU_0g-iLI";
+const HERO_EMBED_SRC = buildYouTubeHeroEmbedUrl(HERO_DEMO_VIDEO_ID);
 
 const ROLLING_WORDS = ["Intelligent", "Autonomous", "Continuous", "Here"];
 const ROLL_WORD_MS = 2600;
@@ -167,10 +177,10 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Right column (60%): product demo GIF with labels and subtle decorations */}
-          <div className="flex items-center justify-center lg:justify-end order-2 min-h-[320px] lg:min-h-0 lg:self-stretch">
-            <div className="relative w-full h-full min-h-[320px] lg:min-h-[65vh] rounded-2xl flex items-center justify-center">
-              {/* Labels on the GIF */}
+          {/* Right column (60%): 16:9 YouTube embed (native aspect, no crop/zoom) + labels */}
+          <div className="flex items-center justify-center lg:justify-end order-2 w-full min-w-0 lg:self-center">
+            <div className="relative w-full max-w-full aspect-video overflow-hidden rounded-2xl bg-black">
+              {/* Labels on the video */}
               <span className="absolute top-4 left-4 z-20 font-heading text-sm font-semibold text-foreground/90 tracking-wide bg-background/80 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-sm">
                 Autonomous Testing
               </span>
@@ -178,7 +188,7 @@ const HeroSection = () => {
                 In Action
               </span>
 
-              {/* Subtle floating icons around the GIF */}
+              {/* Subtle floating icons around the video */}
               <span className="absolute top-12 right-8 z-10 flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary animate-float" aria-hidden style={{ animationDelay: '0s' }}>
                 <CheckCircle2 className="w-4 h-4" />
               </span>
@@ -200,13 +210,16 @@ const HeroSection = () => {
                 <circle cx="5" cy="5" r="2.5" />
               </svg>
 
-              <img
-                src="/Landing%20Website%20Gif%20QApilot.gif"
-                alt="QApilot crawler and testing interface"
-                className="w-full h-full object-contain object-center relative z-0"
-                loading="eager"
-                decoding="async"
-              />
+              {/* Slight scale hides YouTube’s inner pillarbox bars; parent clips overflow */}
+              <div className="absolute inset-0 z-0 overflow-hidden rounded-[inherit]">
+                <iframe
+                  title="QApilot product demo — autonomous testing in action"
+                  src={HERO_EMBED_SRC}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen={false}
+                  className="pointer-events-none absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 origin-center scale-[1.042] border-0 outline-none"
+                />
+              </div>
             </div>
           </div>
         </div>

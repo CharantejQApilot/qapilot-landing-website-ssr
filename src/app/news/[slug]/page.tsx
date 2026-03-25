@@ -18,6 +18,9 @@ import { extractYouTubeId } from "@/utils/youtube";
 const DEFAULT_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
 
+/** Avoid static caching of article HTML; picks up admin edits without redeploy. */
+export const dynamic = "force-dynamic";
+
 interface Backlink {
   id: string;
   header: string;

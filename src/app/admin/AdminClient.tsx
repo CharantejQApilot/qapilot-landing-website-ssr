@@ -103,6 +103,19 @@ const AdminClient = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const mutationErrorText = (err: unknown) => {
+    if (err instanceof Error) return err.message;
+    if (
+      typeof err === "object" &&
+      err !== null &&
+      "message" in err &&
+      typeof (err as { message: unknown }).message === "string"
+    ) {
+      return (err as { message: string }).message;
+    }
+    return "Something went wrong. Try again.";
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -213,6 +226,13 @@ const AdminClient = () => {
         description: "Blog deleted successfully",
       });
     },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not delete blog",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
+    },
   });
 
   const deleteNewsMutation = useMutation({
@@ -227,10 +247,22 @@ const AdminClient = () => {
         description: "News item deleted successfully",
       });
     },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not delete news",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
+    },
   });
 
   const saveNewsMutation = useMutation({
     mutationFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Your session expired. Please sign in again.");
+      }
+
       const newsData = {
         title: newsTitle,
         slug: newsSlug,
@@ -253,13 +285,39 @@ const AdminClient = () => {
       let newsId = editingNewsId;
 
       if (editingNewsId) {
-        const { error } = await supabase
+        const { data: updatedRow, error, status, statusText } = await supabase
           .from("news_updates")
           .update(newsData)
-          .eq("id", editingNewsId);
+          .eq("id", editingNewsId)
+          .select("id")
+          .maybeSingle();
+        console.log("[ADMIN DEBUG] news update response:", { updatedRow, error, status, statusText, editingNewsId });
         if (error) throw error;
+        if (!updatedRow) {
+          throw new Error(
+            `Update silently failed (status ${status}). RLS is blocking the write. Run 20260326000000_fix_all_admin_rls.sql in Supabase SQL Editor.`
+          );
+        }
+
+        const { data: verify } = await supabase
+          .from("news_updates")
+          .select("id, title, content")
+          .eq("id", editingNewsId)
+          .single();
+        console.log("[ADMIN DEBUG] verify after update:", { savedTitle: verify?.title, expectedTitle: newsTitle, match: verify?.title === newsTitle });
+        if (verify && verify.title !== newsTitle) {
+          throw new Error(
+            `Write appeared to succeed but data didn't change. The database may have a BEFORE UPDATE trigger reverting data, or there is a permissions issue.`
+          );
+        }
       } else {
-        const { data, error } = await supabase.from("news_updates").insert(newsData).select("id").single();
+        const newId = crypto.randomUUID();
+        const { data, error, status } = await supabase
+          .from("news_updates")
+          .insert({ ...newsData, id: newId })
+          .select("id")
+          .single();
+        console.log("[ADMIN DEBUG] news insert response:", { data, error, status, newId });
         if (error) throw error;
         newsId = data.id;
       }
@@ -284,6 +342,13 @@ const AdminClient = () => {
         description: editingNewsId ? "News item updated successfully" : "News item created successfully",
       });
       resetNewsForm();
+    },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not save news",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
     },
   });
 
@@ -354,11 +419,20 @@ const AdminClient = () => {
         title: "Success",
         description: "Image uploaded successfully",
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error uploading image:', error);
+      const msg =
+        error instanceof Error
+          ? error.message
+          : typeof error === "object" &&
+              error !== null &&
+              "message" in error &&
+              typeof (error as { message: unknown }).message === "string"
+            ? (error as { message: string }).message
+            : "Failed to upload image";
       toast({
         title: "Error",
-        description: "Failed to upload image",
+        description: msg,
         variant: "destructive",
       });
     } finally {
@@ -463,11 +537,20 @@ const AdminClient = () => {
         title: "Success",
         description: "Logo uploaded successfully",
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error uploading logo:', error);
+      const msg =
+        error instanceof Error
+          ? error.message
+          : typeof error === "object" &&
+              error !== null &&
+              "message" in error &&
+              typeof (error as { message: unknown }).message === "string"
+            ? (error as { message: string }).message
+            : "Failed to upload logo";
       toast({
         title: "Error",
-        description: "Failed to upload logo",
+        description: msg,
         variant: "destructive",
       });
     } finally {
@@ -476,21 +559,26 @@ const AdminClient = () => {
   };
 
   const saveBacklinks = async (newsId: string) => {
-    await supabase.from("news_backlinks").delete().eq("news_id", newsId);
-    
-    const validBacklinks = backlinks.filter(b => b.header && b.logo_url);
-    if (validBacklinks.length > 0) {
-      const { error } = await supabase.from("news_backlinks").insert(
-        validBacklinks.map(b => ({
-          news_id: newsId,
-          header: b.header,
-          logo_url: b.logo_url,
-          description: b.description,
-          link_url: b.link_url || null,
-        }))
-      );
-      if (error) throw error;
-    }
+    const { error: deleteError } = await supabase
+      .from("news_backlinks")
+      .delete()
+      .eq("news_id", newsId);
+    if (deleteError) throw deleteError;
+
+    const validBacklinks = backlinks.filter((b) => b.header && b.logo_url);
+    if (validBacklinks.length === 0) return;
+
+    const { error: insertError } = await supabase.from("news_backlinks").insert(
+      validBacklinks.map((b) => ({
+        id: crypto.randomUUID(),
+        news_id: newsId,
+        header: b.header,
+        logo_url: b.logo_url,
+        description: b.description?.trim() ? b.description : null,
+        link_url: b.link_url?.trim() ? b.link_url : null,
+      }))
+    );
+    if (insertError) throw insertError;
   };
 
   const handleLogout = async () => {
@@ -500,6 +588,11 @@ const AdminClient = () => {
 
   const saveTermsMutation = useMutation({
     mutationFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Your session expired. Please sign in again.");
+      }
+
       const termsData = {
         title: termsTitle,
         content: termsContent,
@@ -527,6 +620,13 @@ const AdminClient = () => {
         description: "Terms & Conditions saved successfully",
       });
     },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not save terms",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
+    },
   });
 
   const generateSlugFromTitle = (title: string) => {
@@ -536,7 +636,7 @@ const AdminClient = () => {
       .replace(/(^-|-$)/g, "");
   };
 
-  if (loading || blogsLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background dark flex items-center justify-center">
         <div className="text-foreground">Loading...</div>
@@ -576,7 +676,13 @@ const AdminClient = () => {
             </div>
             
             <div className="grid gap-4">
-              {blogs && blogs.length > 0 ? (
+              {blogsLoading ? (
+                <Card className="border-border/50 bg-card/95 backdrop-blur">
+                  <CardContent className="p-12 text-center text-muted-foreground">
+                    Loading blogs…
+                  </CardContent>
+                </Card>
+              ) : blogs && blogs.length > 0 ? (
                 blogs.map((blog) => (
                   <Card key={blog.id} className="border-border/50 bg-card/95 backdrop-blur">
                     <CardContent className="p-6">
@@ -640,7 +746,13 @@ const AdminClient = () => {
                 </div>
                 
                 <div className="grid gap-4">
-                  {newsItems && newsItems.length > 0 ? (
+                  {newsLoading ? (
+                    <Card className="border-border/50 bg-card/95 backdrop-blur">
+                      <CardContent className="p-12 text-center text-muted-foreground">
+                        Loading news…
+                      </CardContent>
+                    </Card>
+                  ) : newsItems && newsItems.length > 0 ? (
                     newsItems.map((news) => (
                       <Card key={news.id} className="border-border/50 bg-card/95 backdrop-blur">
                         <CardContent className="p-6">

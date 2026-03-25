@@ -194,7 +194,9 @@ const Header = () => {
               <div className="absolute left-0 top-full z-[9999] mt-2 w-[680px] xl:w-[760px] 2xl:w-[820px] rounded-xl border border-border bg-background shadow-xl p-6 lg:p-8">
                 <div className="grid grid-cols-3 gap-8 lg:gap-10 xl:gap-12">
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                    <div
+                      className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
+                    >
                       By Solution
                     </div>
                     <ul className="space-y-2">
@@ -221,7 +223,9 @@ const Header = () => {
                     </ul>
                   </div>
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                    <div
+                      className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
+                    >
                       By Role
                     </div>
                     <ul className="space-y-2">
@@ -248,7 +252,9 @@ const Header = () => {
                     </ul>
                   </div>
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                    <div
+                      className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
+                    >
                       AI Agents
                     </div>
                     <ul className="space-y-2">
@@ -420,7 +426,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-solution")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} text-foreground hover:bg-secondary rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -451,7 +457,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-role")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} text-foreground hover:bg-secondary rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -482,7 +488,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-agents")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} text-foreground hover:bg-secondary rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
                       >
                         <ChevronRight
                           size={16}
