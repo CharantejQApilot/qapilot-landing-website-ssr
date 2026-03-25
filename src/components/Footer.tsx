@@ -98,7 +98,7 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 2xl:gap-16">
             <div className="flex-1 text-center lg:text-left">
               <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-semibold text-white mb-4">
-                Start Your Journey to Smarter Mobile QA
+                Start Your Journey to Smarter Mobile App QA
               </h2>
               <p className="text-white/40 text-base lg:text-lg 2xl:text-xl max-w-xl 2xl:max-w-2xl">
                 Join thousands of testers who trust QApilot for their Mobile App
