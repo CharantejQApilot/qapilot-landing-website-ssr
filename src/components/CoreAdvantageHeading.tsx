@@ -394,7 +394,7 @@ const CoreAdvantageHeading = () => {
           aria-labelledby={`deliver-tab-${current.id}`}
           className="relative z-[1] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)]"
         >
-          <div className="flex min-h-0 flex-col lg:min-h-[min(72vh,820px)] lg:flex-row">
+          <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
             {/* Left (~62% lg): scenic + screenshot; image first on mobile */}
             <div className="relative isolate min-h-[420px] min-w-0 w-full overflow-hidden bg-background lg:flex-[0_0_62%] lg:min-h-0">
               <CoreCapabilityScenicBackdrop
@@ -404,13 +404,13 @@ const CoreAdvantageHeading = () => {
               />
               <div
                 key={`${current.id}-media`}
-                className="relative z-[2] flex min-h-[420px] w-full items-center justify-center px-[7.5%] py-[6.5%] sm:px-[8%] sm:py-[7%] md:min-h-[520px] md:px-[8.25%] md:py-[7.5%] lg:min-h-full lg:px-[6%] lg:py-8 animate-in fade-in duration-300"
+                className="relative z-[2] flex min-h-[420px] w-full items-center justify-center px-[7.5%] py-[6.5%] sm:px-[8%] sm:py-[7%] md:min-h-[520px] md:px-[8.25%] md:py-[7.5%] lg:min-h-full lg:px-[6%] lg:py-6 xl:py-7 animate-in fade-in duration-300"
               >
                 {current.imageSrc ? (
                   <img
                     src={current.imageSrc}
                     alt={current.imageAlt}
-                    className="relative h-auto max-h-[min(88vh,920px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(90vh,960px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(68vh,720px)] xl:max-h-[min(70vh,760px)]"
+                    className="relative h-auto max-h-[min(88vh,920px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(90vh,960px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(54vh,576px)] xl:max-h-[min(56vh,608px)]"
                     loading="lazy"
                     decoding="async"
                   />

@@ -16,7 +16,7 @@ const metrics: Metric[] = [
   { value: 130, suffix: 'K+', label: 'Test Steps Recorded' },
   { value: 1.7, suffix: 'Mn+', label: 'Test Steps Executed' },
   { value: 1500, suffix: '+', label: 'Critical Bugs Surfaced' },
-  { value: 2400, suffix: '+', label: 'Hours Saved for QA Teams', tooltip: 'Estimated based on time saved through autonomous test generation and recorded test steps.' },
+  { value: 2400, suffix: '+', label: 'Hours Saved for QE Teams', tooltip: 'Estimated based on time saved through autonomous test generation and recorded test steps.' },
 ];
 
 const useCountUp = (end: number, duration: number = 2000, startCounting: boolean) => {

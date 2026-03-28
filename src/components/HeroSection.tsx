@@ -32,7 +32,7 @@ const HERO_METRICS = [
   },
   {
     value: "5×",
-    description: "More Coverage/QA",
+    description: "More Coverage/ Effort",
     icon: TrendingUp,
   },
   {
@@ -139,30 +139,16 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-base md:text-lg xl:text-xl 2xl:text-2xl text-muted-foreground mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-xl">
-              Mobile app release readiness — without the QA bottleneck.
+              Mobile app release readiness — without the QE bottleneck.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-8 sm:mb-12 md:mb-14 lg:mb-16">
+            <div className="mb-8 sm:mb-12 md:mb-14 lg:mb-16">
               <Button
                 onClick={() => openForm()}
                 size="lg"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-8 py-6 rounded-lg text-base 2xl:text-lg 2xl:px-10 2xl:py-7 w-full sm:w-auto"
               >
                 Get Access
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-border text-foreground hover:bg-muted font-medium px-8 py-6 rounded-lg text-base 2xl:text-lg 2xl:px-10 2xl:py-7 w-full sm:w-auto"
-                onClick={() => {
-                  const videoSection = document.querySelector(
-                    '[data-section="video"]'
-                  );
-                  videoSection?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                <Play size={18} className="mr-2" aria-hidden />
-                Watch Demo
               </Button>
             </div>
 

@@ -60,8 +60,8 @@ export const PLATFORM_BY_SOLUTION = [
 /** Platform dropdown: By Role */
 export const PLATFORM_BY_ROLE = [
   { path: PATHS.FOR_RELEASE_MANAGER, label: "Release Manager", icon: "Package" },
-  { path: PATHS.FOR_QA_ENGINEER, label: "QA Engineer", icon: "TestTube2" },
-  { path: PATHS.FOR_QA_LEADER, label: "QA Leader", icon: "Users" },
+  { path: PATHS.FOR_QA_ENGINEER, label: "Quality Engineer", icon: "TestTube2" },
+  { path: PATHS.FOR_QA_LEADER, label: "QE Leader", icon: "Users" },
   { path: PATHS.FOR_PRODUCT_OWNER, label: "Product Owner", icon: "ClipboardList" },
   { path: PATHS.FOR_SRE, label: "Site Reliability Engineer", icon: "Server" },
 ] as const;
