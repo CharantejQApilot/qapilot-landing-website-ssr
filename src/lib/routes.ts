@@ -38,10 +38,11 @@ export const PATHS = {
   COMPARE_VISUAL_TESTING: "#",
   COMPARE_CODE_FIRST: "#",
   OVERVIEW: "/product",
-  AUTONOMOUS_TESTING: "#",
-  INTELLIGENT_BUG_DETECTION: "#",
+  /** Platform → By Solution (linked from home + nav) */
+  AUTONOMOUS_TESTING: "/product",
+  INTELLIGENT_BUG_DETECTION: "/bring-your-own-agent#auto-bug-finder",
   SECURITY_REPORTS: "/bring-your-own-agent#security-reports",
-  AI_SELF_HEALING: "#",
+  AI_SELF_HEALING: "/for-flutter",
   NETWORK_TRACES_METRICS: "#",
 } as const;
 

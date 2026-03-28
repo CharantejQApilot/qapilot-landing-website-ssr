@@ -17,7 +17,7 @@ const VIDEO_ID = "yTw379QdfSo";
 export type VideoSectionVariant = "default" | "embed" | "fullBleed";
 
 interface VideoSectionProps {
-  /** embed: no section chrome (e.g. inside a grid). fullBleed: large autoplay hero below metrics, no heading. */
+  /** embed: no section chrome (e.g. inside a grid). fullBleed: autoplay video below metrics, no heading copy. */
   variant?: VideoSectionVariant;
   /** @deprecated use variant="embed" */
   embedInGrid?: boolean;
@@ -39,6 +39,10 @@ const VideoSection = ({ variant: variantProp, embedInGrid = false }: VideoSectio
   const sectionRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
   const userPausedRef = useRef(false);
+  /** YouTube IFrame API instance — ref avoids stale destroy() on effect cleanup */
+  const ytApiPlayerRef = useRef<{ destroy?: () => void; playVideo?: () => void } | null>(
+    null,
+  );
 
   const activatePlayer = () => {
     if (!isActivated) setIsActivated(true);
@@ -50,80 +54,132 @@ const VideoSection = ({ variant: variantProp, embedInGrid = false }: VideoSectio
 
   useEffect(() => {
     if (!isActivated) return;
+
+    let pauseNudgeTimer: ReturnType<typeof setTimeout> | null = null;
+
     const initializePlayer = () => {
-      if (playerRef.current && window.YT && window.YT.Player) {
-        const ytPlayer = new window.YT.Player(playerRef.current, {
-          height: "100%",
-          width: "100%",
-          videoId: VIDEO_ID,
-          playerVars: {
-            controls: 0,
-            showinfo: 0,
-            rel: 0,
-            modestbranding: 1,
-            fs: 0,
-            cc_load_policy: 0,
-            iv_load_policy: 3,
-            autohide: 1,
-            autoplay: 1,
-            mute: 1,
-            loop: 1,
-            playlist: VIDEO_ID,
-            disablekb: 1,
-            enablejsapi: 1,
-            origin: typeof window !== "undefined" ? window.location.origin : "",
-            playsinline: 1,
-          },
-          events: {
-            onReady: (event: any) => {
-              setPlayer(event.target);
-              setDuration(event.target.getDuration());
-              event.target.mute();
-              event.target.setPlaybackQuality("auto");
-              setTimeout(() => event.target.playVideo(), 100);
-            },
-            onStateChange: (event: any) => {
-              const s = event.data;
-              if (s === window.YT.PlayerState.PLAYING) setIsPlaying(true);
-              else if (s === window.YT.PlayerState.PAUSED) {
-                setIsPlaying(false);
-                if (!userPausedRef.current) {
-                  setTimeout(() => {
-                    if (
-                      event.target.getPlayerState() === window.YT.PlayerState.PAUSED &&
-                      !userPausedRef.current
-                    ) {
-                      event.target.playVideo();
-                    }
-                  }, 1000);
-                }
-              } else if (s === window.YT.PlayerState.ENDED) {
-                event.target.seekTo(0);
-                event.target.playVideo();
-              }
-            },
-            onError: (event: any) => {
-              setTimeout(() => event.target?.playVideo(), 2000);
-            },
-          },
-        });
+      if (!playerRef.current || !window.YT?.Player) return;
+
+      try {
+        ytApiPlayerRef.current?.destroy?.();
+      } catch {
+        /* ignore */
       }
+      ytApiPlayerRef.current = null;
+
+      new window.YT.Player(playerRef.current, {
+        height: "100%",
+        width: "100%",
+        videoId: VIDEO_ID,
+        playerVars: {
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          fs: 0,
+          cc_load_policy: 0,
+          iv_load_policy: 3,
+          autohide: 1,
+          autoplay: 1,
+          mute: 1,
+          loop: 1,
+          playlist: VIDEO_ID,
+          disablekb: 1,
+          enablejsapi: 1,
+          origin: typeof window !== "undefined" ? window.location.origin : "",
+          playsinline: 1,
+        },
+        events: {
+          onReady: (event: any) => {
+            const p = event.target;
+            ytApiPlayerRef.current = p;
+            setPlayer(p);
+            try {
+              setDuration(p.getDuration() || 0);
+            } catch {
+              /* ignore */
+            }
+            p.mute();
+            p.playVideo();
+          },
+          onStateChange: (event: any) => {
+            const target = event.target;
+            const s = event.data;
+            const YT = window.YT;
+            if (s === YT.PlayerState.PLAYING) {
+              setIsPlaying(true);
+              return;
+            }
+            if (s === YT.PlayerState.PAUSED) {
+              setIsPlaying(false);
+              if (userPausedRef.current) return;
+              let t = 0;
+              let d = 0;
+              try {
+                t = target.getCurrentTime();
+                d = target.getDuration();
+              } catch {
+                /* ignore */
+              }
+              // Native loop briefly reports PAUSED at the seam; nudging play here fights YouTube and glitches.
+              if (d > 0 && t > d - 1.1) return;
+
+              if (pauseNudgeTimer) clearTimeout(pauseNudgeTimer);
+              pauseNudgeTimer = setTimeout(() => {
+                pauseNudgeTimer = null;
+                if (userPausedRef.current) return;
+                try {
+                  if (target.getPlayerState() === YT.PlayerState.PAUSED) {
+                    target.playVideo();
+                  }
+                } catch {
+                  /* ignore */
+                }
+              }, 320);
+              return;
+            }
+            // ENDED: do not seekTo(0) — loop + playlist (same video id) already restarts; double-handling stutters.
+          },
+          onError: (event: any) => {
+            setTimeout(() => {
+              try {
+                event.target?.playVideo?.();
+              } catch {
+                /* ignore */
+              }
+            }, 2000);
+          },
+        },
+      });
     };
+
     if (window.YT && window.YT.Player) initializePlayer();
     else if (!window.YT) {
-      const existing = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
+      const existing = document.querySelector(
+        'script[src="https://www.youtube.com/iframe_api"]',
+      );
       if (!existing) {
         const tag = document.createElement("script");
         tag.src = "https://www.youtube.com/iframe_api";
         document.getElementsByTagName("script")[0].parentNode?.insertBefore(
           tag,
-          document.getElementsByTagName("script")[0]
+          document.getElementsByTagName("script")[0],
         );
       }
       window.onYouTubeIframeAPIReady = initializePlayer;
-    } else window.onYouTubeIframeAPIReady = initializePlayer;
+    } else {
+      window.onYouTubeIframeAPIReady = initializePlayer;
+    }
+
     return () => {
-      if (player) player.destroy();
+      if (pauseNudgeTimer) clearTimeout(pauseNudgeTimer);
+      try {
+        ytApiPlayerRef.current?.destroy?.();
+      } catch {
+        /* ignore */
+      }
+      ytApiPlayerRef.current = null;
+      setPlayer(null);
     };
   }, [isActivated]);
 
@@ -273,9 +329,9 @@ const VideoSection = ({ variant: variantProp, embedInGrid = false }: VideoSectio
     return (
       <section
         ref={sectionRef}
-        data-section="video-fullbleed"
+        data-section="video"
         className="relative w-full section-edge overflow-hidden section-cream border-y border-border"
-        aria-label="QApilot product video"
+        aria-label="QApilot product demo video"
       >
         <div className="absolute inset-0 bg-dot-pattern-subtle pointer-events-none" aria-hidden="true" />
         {/* Diagonal lines — opposite tilt vs testimonials (they use +15°) */}
@@ -301,7 +357,7 @@ const VideoSection = ({ variant: variantProp, embedInGrid = false }: VideoSectio
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(videoStructuredData) }}
         />
-        {/* Same horizontal inset as other sections (section-full) */}
+        {/* Same horizontal inset as other sections (section-full); text-free — video only */}
         <div className="section-full relative z-10 py-2 sm:py-3 md:py-4">
           <div className="relative group w-full max-w-full mx-auto bg-black rounded-xl overflow-hidden border border-border/30 shadow-sm">
             <div className="relative w-full aspect-video bg-black">

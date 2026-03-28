@@ -25,8 +25,12 @@ export const getYouTubeThumbnail = (url: string): string | null => {
 /**
  * youtube-nocookie embed URL: autoplay, muted, loop, no controls (GIF-like hero).
  * `playlist` must match `videoId` for loop to work on a single video.
+ * `origin` reduces embed quirks; defaults to production site (override for local dev if needed).
  */
-export function buildYouTubeHeroEmbedUrl(videoId: string): string {
+export function buildYouTubeHeroEmbedUrl(
+  videoId: string,
+  origin: string = "https://qapilot.io",
+): string {
   const params = new URLSearchParams({
     autoplay: "1",
     mute: "1",
@@ -40,6 +44,7 @@ export function buildYouTubeHeroEmbedUrl(videoId: string): string {
     fs: "0",
     iv_load_policy: "3",
     cc_load_policy: "0",
+    ...(origin ? { origin } : {}),
   });
   return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
 }

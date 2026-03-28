@@ -15,6 +15,17 @@ export const useScrollAnimation = (threshold = 0.1) => {
     const currentRef = ref.current;
     if (!currentRef) return;
 
+    // IntersectionObserver often fires asynchronously; if the section is already
+    // in (or near) the viewport, show content immediately so it never stays opacity-0.
+    if (typeof window !== "undefined") {
+      const rect = currentRef.getBoundingClientRect();
+      const margin = 50;
+      const vh = window.innerHeight;
+      if (rect.bottom >= -margin && rect.top <= vh + margin) {
+        setIsVisible(true);
+      }
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

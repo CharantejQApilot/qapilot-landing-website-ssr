@@ -13,6 +13,10 @@ const remotePatterns = [
     protocol: "https",
     hostname: "i.ytimg.com",
   },
+  {
+    protocol: "https",
+    hostname: "images.unsplash.com",
+  },
 ];
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
