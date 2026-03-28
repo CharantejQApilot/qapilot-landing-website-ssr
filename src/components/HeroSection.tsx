@@ -90,7 +90,7 @@ const HeroSection = () => {
       <MarketingBackground variant="hero" />
 
       {/* Content: 40% left (text), 60% right (GIF) on large screens */}
-      <div className="relative z-10 w-full section-full py-10 sm:py-14 md:py-16 lg:py-24 2xl:py-28">
+      <div className="relative z-10 w-full section-full py-10 sm:py-14 md:py-16 lg:py-[4.5rem] 2xl:py-[5.25rem]">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 sm:gap-10 lg:gap-14 xl:gap-16 2xl:gap-20 items-center lg:items-stretch min-h-0 lg:min-h-[70vh]">
           {/* Left column (40%): headline, tagline, CTAs, metrics */}
           <div className="flex flex-col items-start text-left order-1 justify-center">

@@ -1,0 +1,50 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
+import { useHubSpotForm } from "@/hooks/useHubSpotForm";
+import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+
+export function PlatformOverviewHero() {
+  const { openForm } = useHubSpotForm();
+
+  return (
+    <section
+      className="section-edge relative flex min-h-screen w-full flex-col justify-center overflow-x-hidden overflow-y-visible lg:h-screen lg:overflow-hidden"
+      aria-label="Platform overview"
+    >
+      <MarketingBackground variant="hero" />
+
+      {/* Match home hero: full-bleed section + section-full (hero-only atmosphere above) */}
+      <div className="relative z-10 w-full section-full py-10 sm:py-14 md:py-16 lg:py-24 2xl:py-28">
+        <div className="grid min-h-0 grid-cols-1 items-center gap-8 sm:gap-10 lg:min-h-[70vh] lg:grid-cols-[2fr_3fr] lg:items-stretch lg:gap-14 xl:gap-16 2xl:gap-20">
+          <div className="order-1 flex flex-col justify-center text-left">
+            <h1 className="mb-3 font-heading text-[2.0625rem] font-medium leading-[1.35] tracking-tight text-foreground sm:mb-5 sm:text-[2.625rem] md:mb-6 md:text-[2.625rem] lg:text-[3.375rem] xl:text-[4.125rem] 2xl:text-[5.25rem]">
+              Built For <span className="text-primary">Release Readiness</span>
+            </h1>
+            <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg xl:text-xl 2xl:text-2xl">
+              A unified system of capabilities designed to help teams generate coverage, reduce test maintenance,
+              detect critical issues, and validate mobile releases with confidence.
+            </p>
+            <div className="mt-6 sm:mt-8 md:mt-10">
+              <Button
+                type="button"
+                onClick={() => openForm()}
+                size="lg"
+                className="rounded-lg bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:px-10 2xl:py-7 2xl:text-lg"
+              >
+                Book a Demo
+              </Button>
+            </div>
+          </div>
+
+          <div className="order-2 flex min-h-0 w-full min-w-0 items-center justify-center lg:justify-end lg:self-stretch">
+            <div className="w-full min-w-0 max-w-full origin-center scale-[0.82] sm:scale-90 md:scale-[0.88] lg:max-w-none lg:scale-[0.9] xl:scale-[0.93] 2xl:scale-95">
+              <ProductOrbitalVisual desktopContainerClassName="mx-0 ml-auto h-[min(700px,85vh)] w-full max-w-none lg:h-[min(720px,78vh)]" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

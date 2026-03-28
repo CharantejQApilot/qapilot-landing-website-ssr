@@ -39,11 +39,10 @@ export const PATHS = {
   COMPARE_CODE_FIRST: "#",
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
-  AUTONOMOUS_TESTING: "/product",
+  AUTONOMOUS_TESTING: "/product/autonomous-testing",
   INTELLIGENT_BUG_DETECTION: "/bring-your-own-agent#auto-bug-finder",
   SECURITY_REPORTS: "/bring-your-own-agent#security-reports",
   AI_SELF_HEALING: "/for-flutter",
-  NETWORK_TRACES_METRICS: "#",
 } as const;
 
 /** Platform dropdown: By Solution (with icon names for Lucide) */
@@ -54,7 +53,6 @@ export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.FOR_FLUTTER, label: "Flutter Testing", icon: "Smartphone" },
   { path: PATHS.SECURITY_REPORTS, label: "Security Reports", icon: "ShieldCheck" },
   { path: PATHS.AI_SELF_HEALING, label: "AI Self Healing", icon: "RefreshCw" },
-  { path: PATHS.NETWORK_TRACES_METRICS, label: "Network Traces & Device Metrics", icon: "Activity" },
 ] as const;
 
 /** Platform dropdown: By Role */
@@ -72,14 +70,18 @@ export const PLATFORM_AI_AGENTS = [
   { path: PATHS.BRING_YOUR_OWN_AGENT, label: "Bring Your Own Agent (BYOA)", icon: "Bot" },
 ] as const;
 
-/** Resources dropdown (text only, no icons in header) */
+/** Resources dropdown (header: Blogs, Labs, FAQs) */
 export const RESOURCE_NAV_LINKS = [
-  { path: PATHS.ABOUT, label: "About Us" },
-  { path: PATHS.CAREERS, label: "Careers" },
   { path: PATHS.BLOGS, label: "Blogs" },
-  { path: PATHS.NEWS, label: "News & Updates" },
   { path: PATHS.LABS, label: "Labs" },
   { path: PATHS.FAQS, label: "FAQs" },
+] as const;
+
+/** Company dropdown (header: About, Careers, News) */
+export const COMPANY_NAV_LINKS = [
+  { path: PATHS.ABOUT, label: "About Us" },
+  { path: PATHS.CAREERS, label: "Careers" },
+  { path: PATHS.NEWS, label: "News & Updates" },
 ] as const;
 
 /** Compare dropdown (placeholder paths until pages exist) */

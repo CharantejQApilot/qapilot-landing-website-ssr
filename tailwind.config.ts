@@ -127,6 +127,20 @@ export default {
 				'dash': {
 					'0%': { strokeDashoffset: '0' },
 					'100%': { strokeDashoffset: '30' }
+				},
+				/** Quality journey timeline — very light breathing + slow vertical highlight */
+				'journey-spine-pulse': {
+					'0%, 100%': { opacity: '0.9' },
+					'50%': { opacity: '1' }
+				},
+				'journey-spine-sheen': {
+					'0%': { transform: 'translateY(-130%)' },
+					'100%': { transform: 'translateY(330%)' }
+				},
+				/** Flowing dashed paths (quality journey panel decor SVG) */
+				'journey-decor-flow': {
+					'0%': { strokeDashoffset: '0' },
+					'100%': { strokeDashoffset: '-120' }
 				}
 			},
 			animation: {
@@ -139,7 +153,11 @@ export default {
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
 				'shimmer': 'shimmer 8s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
-				'infinite-scroll': 'infinite-scroll 30s linear infinite'
+				'infinite-scroll': 'infinite-scroll 30s linear infinite',
+				'journey-spine-pulse': 'journey-spine-pulse 4.5s ease-in-out infinite',
+				'journey-spine-sheen': 'journey-spine-sheen 7s ease-in-out infinite',
+				'journey-decor-flow': 'journey-decor-flow 10s linear infinite',
+				'journey-decor-flow-slow': 'journey-decor-flow 14s linear infinite'
 			},
 		}
 	},
