@@ -4,7 +4,7 @@
 
 /* QApilot Design Foundation v5 — Harvey, Spur, PlayerZero, TestMu inspired
    Elegant SaaS: clean backgrounds, refined typography, subtle depth
-   Lora headings · Source Sans 3 body · HSL tokens */
+   Space Grotesk headings · Source Sans 3 body · HSL tokens */
 
 @layer base {
   :root {
@@ -144,8 +144,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lora', 'Source Sans 3', Georgia, serif;
-    font-display: swap;
+    font-family: 'Space Grotesk', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: hsl(var(--foreground));
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -559,6 +558,25 @@
   @keyframes dash-flow {
     0% { stroke-dashoffset: 0; }
     100% { stroke-dashoffset: 20; }
+  }
+
+  /* Core advantage scenic panel — slow zoom (TestMu-style mood) */
+  @keyframes scenic-ken-burns {
+    0% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1.12);
+    }
+  }
+  .animate-scenic-ken-burns {
+    animation: scenic-ken-burns 36s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scenic-ken-burns {
+      animation: none;
+      transform: scale(1.08);
+    }
   }
 
   @keyframes float {

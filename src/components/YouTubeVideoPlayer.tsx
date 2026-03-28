@@ -40,86 +40,115 @@ const YouTubeVideoPlayer = ({
   const playerRef = useRef<HTMLDivElement>(null);
   const userPausedRef = useRef(false);
   const playerIdRef = useRef(`youtube-player-${videoId}-${Math.random().toString(36).substr(2, 9)}`);
+  const ytApiPlayerRef = useRef<{ destroy?: () => void } | null>(null);
 
   useEffect(() => {
+    let pauseNudgeTimer: ReturnType<typeof setTimeout> | null = null;
+
     const initializePlayer = () => {
-      if (playerRef.current && window.YT && window.YT.Player) {
-        const ytPlayer = new window.YT.Player(playerRef.current, {
-          height: '100%',
-          width: '100%',
-          videoId: videoId,
-          playerVars: {
-            controls: 0,
-            showinfo: 0,
-            rel: 0,
-            modestbranding: 1,
-            fs: 1,
-            cc_load_policy: 0,
-            iv_load_policy: 3,
-            autohide: 1,
-            autoplay: 1,
-            mute: 1,
-            loop: 1,
-            playlist: videoId,
-            disablekb: 0,
-            enablejsapi: 1,
-            origin: window.location.origin,
-            playsinline: 1
-          },
-          events: {
-            onReady: (event: any) => {
-              setPlayer(event.target);
-              setVideoDuration(event.target.getDuration());
-              event.target.mute();
-              event.target.setPlaybackQuality('auto');
-              setTimeout(() => {
-                event.target.playVideo();
-              }, 100);
-            },
-            onStateChange: (event: any) => {
-              const playerState = event.data;
-              
-              if (playerState === window.YT.PlayerState.PLAYING) {
-                setIsPlaying(true);
-              } else if (playerState === window.YT.PlayerState.PAUSED) {
-                setIsPlaying(false);
-                if (!userPausedRef.current) {
-                  setTimeout(() => {
-                    if (
-                      event.target.getPlayerState() === window.YT.PlayerState.PAUSED &&
-                      !userPausedRef.current
-                    ) {
-                      event.target.playVideo();
-                    }
-                  }, 1000);
-                }
-              } else if (playerState === window.YT.PlayerState.ENDED) {
-                event.target.seekTo(0);
-                event.target.playVideo();
-              }
-            },
-            onError: (event: any) => {
-              console.error('YouTube player error:', event.data);
-              setTimeout(() => {
-                if (event.target) {
-                  event.target.playVideo();
-                }
-              }, 2000);
-            }
-          }
-        });
+      if (!playerRef.current || !window.YT?.Player) return;
+
+      try {
+        ytApiPlayerRef.current?.destroy?.();
+      } catch {
+        /* ignore */
       }
+      ytApiPlayerRef.current = null;
+
+      new window.YT.Player(playerRef.current, {
+        height: "100%",
+        width: "100%",
+        videoId: videoId,
+        playerVars: {
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          fs: 1,
+          cc_load_policy: 0,
+          iv_load_policy: 3,
+          autohide: 1,
+          autoplay: 1,
+          mute: 1,
+          loop: 1,
+          playlist: videoId,
+          disablekb: 0,
+          enablejsapi: 1,
+          origin: window.location.origin,
+          playsinline: 1,
+        },
+        events: {
+          onReady: (event: any) => {
+            const p = event.target;
+            ytApiPlayerRef.current = p;
+            setPlayer(p);
+            setVideoDuration(p.getDuration());
+            p.mute();
+            p.playVideo();
+          },
+          onStateChange: (event: any) => {
+            const target = event.target;
+            const playerState = event.data;
+            const YT = window.YT;
+
+            if (playerState === YT.PlayerState.PLAYING) {
+              setIsPlaying(true);
+              return;
+            }
+            if (playerState === YT.PlayerState.PAUSED) {
+              setIsPlaying(false);
+              if (userPausedRef.current) return;
+              let t = 0;
+              let d = 0;
+              try {
+                t = target.getCurrentTime();
+                d = target.getDuration();
+              } catch {
+                /* ignore */
+              }
+              if (d > 0 && t > d - 1.1) return;
+
+              if (pauseNudgeTimer) clearTimeout(pauseNudgeTimer);
+              pauseNudgeTimer = setTimeout(() => {
+                pauseNudgeTimer = null;
+                if (userPausedRef.current) return;
+                try {
+                  if (target.getPlayerState() === YT.PlayerState.PAUSED) {
+                    target.playVideo();
+                  }
+                } catch {
+                  /* ignore */
+                }
+              }, 320);
+              return;
+            }
+            // ENDED: rely on loop + playlist; avoid seekTo(0) double-restart glitch.
+          },
+          onError: (event: any) => {
+            console.error("YouTube player error:", event.data);
+            setTimeout(() => {
+              try {
+                event.target?.playVideo?.();
+              } catch {
+                /* ignore */
+              }
+            }, 2000);
+          },
+        },
+      });
     };
 
     if (window.YT && window.YT.Player) {
       initializePlayer();
     } else if (!window.YT) {
-      const existingScript = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
-      
+      const existingScript = document.querySelector(
+        'script[src="https://www.youtube.com/iframe_api"]',
+      );
+
       if (!existingScript) {
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        const firstScriptTag = document.getElementsByTagName('script')[0];
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName("script")[0];
         firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
       }
 
@@ -129,9 +158,14 @@ const YouTubeVideoPlayer = ({
     }
 
     return () => {
-      if (player) {
-        player.destroy();
+      if (pauseNudgeTimer) clearTimeout(pauseNudgeTimer);
+      try {
+        ytApiPlayerRef.current?.destroy?.();
+      } catch {
+        /* ignore */
       }
+      ytApiPlayerRef.current = null;
+      setPlayer(null);
     };
   }, [videoId]);
 

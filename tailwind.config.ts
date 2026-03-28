@@ -68,7 +68,7 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Source Sans 3', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-				heading: ['Lora', 'Source Sans 3', 'Georgia', 'serif'],
+				heading: ['Space Grotesk', 'Source Sans 3', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
 			},
 			boxShadow: {
 				'sm': 'var(--shadow-sm)',
