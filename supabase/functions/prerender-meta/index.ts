@@ -26,9 +26,15 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Automate your mobile app testing with QApilot's AI-powered platform. Get instant test coverage for iOS & Android apps. Start testing in minutes, not hours.",
   },
   "/product": {
-    title: "Mobile App Testing Features - Automated QA Platform | QApilot",
+    title:
+      "Mobile Testing Platform for Release Readiness | QApilot",
     description:
-      "Discover QApilot's powerful mobile testing features: automated test generation, visual regression testing, performance monitoring, and seamless CI/CD integration for iOS & Android.",
+      "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one system.",
+  },
+  "/product/autonomous-testing": {
+    title: "Autonomous Mobile App Testing - Agentic QA | QApilot",
+    description:
+      "Experience agentic testing with QApilot: AI crawlers, intelligent agents, and a knowledge graph for autonomous mobile test coverage on iOS and Android.",
   },
   "/enterprise": {
     title:

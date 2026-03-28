@@ -341,6 +341,71 @@
     background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 60%, hsl(var(--foreground) / 0.02) 100%);
   }
 
+  /* Quality journey (product) — hero-style diagonal mesh, slow drift */
+  .bg-journey-mesh-animated {
+    pointer-events: none;
+    background-image:
+      repeating-linear-gradient(
+        105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.04) 0,
+        hsl(var(--foreground) / 0.04) 1px,
+        transparent 1px,
+        transparent 44px
+      ),
+      repeating-linear-gradient(
+        -105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.032) 0,
+        hsl(var(--foreground) / 0.032) 1px,
+        transparent 1px,
+        transparent 44px
+      );
+    background-size: 44px 44px, 44px 44px;
+    mask-image: radial-gradient(ellipse 88% 78% at 48% 45%, black 0%, black 28%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse 88% 78% at 48% 45%, black 0%, black 28%, transparent 72%);
+    animation: journey-mesh-drift 100s linear infinite;
+  }
+
+  @keyframes journey-mesh-drift {
+    0% {
+      background-position: 0 0, 0 0;
+    }
+    100% {
+      background-position: 44px 12px, -44px -12px;
+    }
+  }
+
+  /* Per-step block: fine primary-tinted lines */
+  .bg-journey-step-mesh {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      122deg,
+      transparent,
+      transparent 6px,
+      hsl(var(--primary) / 0.045) 6px,
+      hsl(var(--primary) / 0.045) 7px
+    );
+    background-size: 28px 28px;
+    animation: journey-step-mesh-shift 88s linear infinite;
+  }
+
+  @keyframes journey-step-mesh-shift {
+    to {
+      background-position: 28px 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-journey-mesh-animated,
+    .bg-journey-step-mesh {
+      animation: none;
+    }
+  }
+
   /* Deliver section: flat cream; gradients only at edges (no full-bleed tint) */
   .bg-deliver-section-gradient {
     background-color: hsl(var(--cream));
