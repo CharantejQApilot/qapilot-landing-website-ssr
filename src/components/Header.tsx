@@ -36,7 +36,7 @@ import {
   RESOURCE_NAV_LINKS,
   COMPARE_NAV_LINKS,
 } from "@/lib/routes";
-import { APP_URL, DOCS_URL } from "@/lib/constants";
+import { APP_AUTOMATION_LOGIN_URL, DOCS_URL } from "@/lib/constants";
 
 const PLATFORM_ICONS: Record<string, LucideIcon> = {
   LayoutDashboard,
@@ -373,18 +373,16 @@ const Header = () => {
         </nav>
 
         <div className="hidden lg:flex items-center gap-4 shrink-0">
-          <Button
-            variant="ghost"
-            className="text-base font-medium text-muted-foreground hover:text-foreground"
-            onClick={() => window.open(APP_URL, "_blank")}
-          >
-            Sign In
+          <Button variant="ghost" className="text-base font-medium text-muted-foreground hover:text-foreground" asChild>
+            <a href={APP_AUTOMATION_LOGIN_URL} target="_blank" rel="noopener noreferrer">
+              Log In
+            </a>
           </Button>
           <Button
             className="rounded-lg bg-primary px-6 py-2.5 text-base font-semibold text-primary-foreground hover:bg-primary/90"
             onClick={() => openForm()}
           >
-            Start Testing
+            Get Access
           </Button>
         </div>
 
@@ -607,18 +605,16 @@ const Header = () => {
             </div>
 
             <div className="flex gap-3 pt-4 px-4 border-t border-border mt-2 pt-4">
-              <Button
-                variant="outline"
-                className="flex-1 text-base"
-                onClick={() => window.open(APP_URL, "_blank")}
-              >
-                Sign In
+              <Button variant="outline" className="flex-1 text-base" asChild>
+                <a href={APP_AUTOMATION_LOGIN_URL} target="_blank" rel="noopener noreferrer">
+                  Log In
+                </a>
               </Button>
               <Button
                 className="flex-1 bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
                 onClick={() => openForm()}
               >
-                Start Testing
+                Get Access
               </Button>
             </div>
           </nav>

@@ -8,7 +8,7 @@ const testimonials = [
   },
   {
     text: "QApilot enabled us to create and stabilize priority test flows in a fraction of the time, delivering broader coverage with far less effort. With faster onboarding, lower maintenance overhead, and seamless CI/CD compatibility, it proved to be a scalable and cost-effective automation solution.",
-    label: "QA Lead, Leading Southeast Asian Grocery & Delivery Platform",
+    label: "QE Lead, Leading Southeast Asian Grocery & Delivery Platform",
   },
 ];
 
