@@ -434,11 +434,9 @@ const CoreAdvantageHeading = () => {
 
             {/* Right (~38% lg): hero-style patterns + section copy */}
             <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-t border-border bg-muted px-6 py-8 md:px-8 md:py-10 lg:border-l lg:border-t-0 lg:px-10 lg:py-10">
-              <MarketingBackground variant="hero" />
-              <div
-                className="pointer-events-none absolute inset-0 bg-muted/82 backdrop-blur-[0.5px]"
-                aria-hidden
-              />
+              {/* `soft` only — full `hero` stacks 8× backdrop-filter layers that read as fog over this copy */}
+              <MarketingBackground variant="soft" />
+              <div className="pointer-events-none absolute inset-0 bg-muted/88" aria-hidden />
               <div
                 key={current.id}
                 className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"
