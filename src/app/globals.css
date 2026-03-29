@@ -296,6 +296,14 @@
   }
 
   /* Subtle diagonal grid for hero — strongest in center, fades toward edges */
+  /* Home hero: slightly richer gradient + grid so the fold reads as the main stage */
+  .hero-prominent .bg-hero-gradient {
+    background-image:
+      radial-gradient(ellipse 100% 72% at 50% -8%, hsl(var(--primary) / 0.11) 0%, transparent 58%),
+      radial-gradient(ellipse 82% 52% at 82% 48%, hsl(218 42% 96.5%) 0%, transparent 52%),
+      linear-gradient(180deg, hsl(220 24% 99%) 0%, hsl(220 18% 97.5%) 100%);
+  }
+
   .bg-hero-diagonal-grid {
     background-image:
       repeating-linear-gradient(
@@ -331,6 +339,26 @@
     -webkit-mask-size: 100% 100%;
     -webkit-mask-position: center;
     pointer-events: none;
+  }
+
+  .hero-prominent .bg-hero-diagonal-grid {
+    background-image:
+      repeating-linear-gradient(
+        105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.075) 0,
+        hsl(var(--foreground) / 0.075) 1px,
+        transparent 1px,
+        transparent 48px
+      ),
+      repeating-linear-gradient(
+        -105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.075) 0,
+        hsl(var(--foreground) / 0.075) 1px,
+        transparent 1px,
+        transparent 48px
+      );
   }
 
   /* Soft vignette at hero edges for focus */
