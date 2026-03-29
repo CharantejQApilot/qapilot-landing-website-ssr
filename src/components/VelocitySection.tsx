@@ -1,5 +1,7 @@
 import { Zap, Settings, Link2 } from "lucide-react";
 import ReleaseReadinessFlowSection from "@/components/ReleaseReadinessFlowSection";
+import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const cards = [
   {
@@ -73,13 +75,12 @@ const VelocitySection = () => {
           <div className="relative pl-4 md:pl-5">
             <h2
               id="velocity-heading"
-              className="font-heading text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold text-foreground tracking-tight leading-snug mb-5 md:mb-6"
+              className={cn(marketingSectionH2Class, "text-foreground mb-5 md:mb-6")}
             >
-              Accelerate{" "}
               <span className="text-primary">Engineering Velocity</span>
-              {" "}Without The Manual QE Overhead
+              {" "}Without The QE Overhead
             </h2>
-            <p className="text-muted-foreground text-lg md:text-xl leading-relaxed w-full">
+            <p className={cn(marketingSectionIntroClass, "w-full")}>
               Traditional test automation requires constant maintenance and manual effort. QApilot
               enables engineering teams to validate mobile builds automatically within CI/CD pipelines.
             </p>

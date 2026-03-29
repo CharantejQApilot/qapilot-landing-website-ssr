@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 type MarketingSectionHeaderProps = {
@@ -48,15 +49,14 @@ export function MarketingSectionHeader({
         <h2
           id={id}
           className={cn(
-            "font-heading text-3xl font-bold leading-snug tracking-tight text-foreground md:text-4xl lg:text-5xl 2xl:text-6xl",
+            marketingSectionH2Class,
+            "text-foreground",
             description ? "mb-5 md:mb-6" : undefined,
           )}
         >
           {title}
         </h2>
-        {description ? (
-          <p className="w-full text-lg leading-relaxed text-muted-foreground md:text-xl">{description}</p>
-        ) : null}
+        {description ? <p className={cn("w-full", marketingSectionIntroClass)}>{description}</p> : null}
       </div>
     </header>
   );

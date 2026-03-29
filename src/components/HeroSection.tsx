@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Zap, TrendingUp, LayoutGrid } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { marketingHeroLeadClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const ROLLING_WORDS = ["Intelligent", "Autonomous", "Continuous", "Here"];
 const ROLL_WORD_MS = 2600;
@@ -66,7 +68,7 @@ const HeroSection = () => {
       className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
       aria-label="Hero"
     >
-      <MarketingBackground variant="hero" />
+      <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
 
       <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-1 sm:px-0">
@@ -80,43 +82,46 @@ const HeroSection = () => {
                     : undefined
               }
             >
-              <span className="flex flex-wrap justify-center items-baseline gap-x-[0.25em] gap-y-3">
-                <span className="whitespace-nowrap">The Future Of Quality Is</span>
-                <span className="relative inline-block" aria-live="polite" aria-atomic="true">
-                <span
-                  key={
-                    phase === "rolling"
-                      ? wordIndex
-                      : phase === "entering"
-                        ? "intelligent"
-                        : "here"
-                  }
-                  className={`inline-block ${phase === "entering" ? "" : "animate-hero-word"} ${wordIndex === IS_HERE_INDEX ? "text-hero-here" : "text-primary"}`}
-                >
-                  {ROLLING_WORDS[wordIndex]}
+              {/* Strictly two lines at every breakpoint: line 1 = static phrase, line 2 = rolling word */}
+              <span className="flex flex-col flex-nowrap items-center gap-y-2 sm:gap-y-2.5 md:gap-y-3">
+                <span className="block w-full whitespace-nowrap text-center leading-[inherit]">
+                  The Future Of Quality Is
                 </span>
-                {wordIndex === IS_HERE_INDEX && (
-                  <svg
-                    className="hero-here-underline"
-                    viewBox="0 0 100 20"
-                    preserveAspectRatio="none"
-                    aria-hidden
+                <span className="relative inline-block shrink-0" aria-live="polite" aria-atomic="true">
+                  <span
+                    key={
+                      phase === "rolling"
+                        ? wordIndex
+                        : phase === "entering"
+                          ? "intelligent"
+                          : "here"
+                    }
+                    className={`inline-block ${phase === "entering" ? "" : "animate-hero-word"} ${wordIndex === IS_HERE_INDEX ? "text-hero-here" : "text-primary"}`}
                   >
-                    <defs>
-                      <linearGradient id="hero-underline-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="hsl(var(--primary))" />
-                        <stop offset="100%" stopColor="hsl(205 70% 48%)" />
-                      </linearGradient>
-                    </defs>
-                    <path pathLength="1" d="M 0 14 Q 50 6 100 14" strokeWidth="2.6" />
-                  </svg>
-                )}
+                    {ROLLING_WORDS[wordIndex]}
+                  </span>
+                  {wordIndex === IS_HERE_INDEX && (
+                    <svg
+                      className="hero-here-underline"
+                      viewBox="0 0 100 20"
+                      preserveAspectRatio="none"
+                      aria-hidden
+                    >
+                      <defs>
+                        <linearGradient id="hero-underline-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="hsl(var(--primary))" />
+                          <stop offset="100%" stopColor="hsl(205 70% 48%)" />
+                        </linearGradient>
+                      </defs>
+                      <path pathLength="1" d="M 0 14 Q 50 6 100 14" strokeWidth="2.6" />
+                    </svg>
+                  )}
                 </span>
               </span>
             </div>
           </h1>
 
-          <p className="mx-auto max-w-3xl text-lg text-muted-foreground sm:text-xl md:text-2xl lg:text-2xl 2xl:text-[1.6875rem] mb-8 sm:mb-10 md:mb-11 leading-relaxed">
+          <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl mb-8 sm:mb-10 md:mb-11")}>
             Mobile app release readiness — without the QE bottleneck.
           </p>
 
