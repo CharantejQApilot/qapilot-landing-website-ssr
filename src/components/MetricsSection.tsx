@@ -1,14 +1,11 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Info } from 'lucide-react';
 
 interface Metric {
   value: number;
   suffix: string;
   label: string;
-  tooltip?: string;
 }
 
 const metrics: Metric[] = [
@@ -16,7 +13,7 @@ const metrics: Metric[] = [
   { value: 130, suffix: 'K+', label: 'Test Steps Recorded' },
   { value: 1.7, suffix: 'Mn+', label: 'Test Steps Executed' },
   { value: 1500, suffix: '+', label: 'Critical Bugs Surfaced' },
-  { value: 2400, suffix: '+', label: 'Hours Saved for QE Teams', tooltip: 'Estimated based on time saved through autonomous test generation and recorded test steps.' },
+  { value: 2400, suffix: '+', label: 'Hours Saved for QE Teams' },
 ];
 
 const useCountUp = (end: number, duration: number = 2000, startCounting: boolean) => {
@@ -53,20 +50,6 @@ const MetricCard = ({ metric, startCounting, isLast }: { metric: Metric; startCo
     <div className={`px-4 py-5 sm:px-6 sm:py-8 2xl:px-8 2xl:py-10 min-w-0 ${borderClasses}`}>
       <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-muted-foreground mb-2 sm:mb-3 break-words leading-tight">
         {metric.label}
-        {metric.tooltip && (
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button type="button" className="ml-1 align-super inline-flex cursor-help shrink-0" aria-label="More information">
-                  <Info className="h-3 w-3 text-muted-foreground/50 hover:text-muted-foreground transition-colors" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-xs text-center">
-                <p>{metric.tooltip}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
       </p>
       <div className="font-heading text-2xl sm:text-3xl min-[1280px]:text-5xl 2xl:text-6xl font-semibold text-foreground tracking-tight tabular-nums">
         {isDecimal ? count.toFixed(1) : count.toLocaleString()}{metric.suffix}

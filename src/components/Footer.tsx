@@ -96,13 +96,12 @@ const Footer = () => {
         <div className="absolute inset-0 bg-dot-pattern-subtle opacity-20 pointer-events-none" />
         <div className="section-full relative z-10 py-20 md:py-28 2xl:py-36">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 2xl:gap-16">
-            <div className="flex-1 text-center lg:text-left">
+            <div className="flex-1 w-full min-w-0 text-left">
               <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-semibold text-white mb-4">
-                Start Your Journey to Smarter Mobile App QA
+                Start Your Journey to Smarter Mobile App QE
               </h2>
               <p className="text-white/40 text-base lg:text-lg 2xl:text-xl max-w-xl 2xl:max-w-2xl">
-                Join thousands of testers who trust QApilot for their Mobile App
-                Testing.
+                Rethink how your team approaches mobile testing.
               </p>
             </div>
             <div className="flex-shrink-0">

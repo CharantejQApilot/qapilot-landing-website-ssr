@@ -3,7 +3,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 
 const testimonials = [
   {
-    text: "QApilot helped us automate and stabilize complex mobile banking workflows significantly faster than expected. Its strong Flutter support delivered reliable cross-platform execution from day one, reducing maintenance effort, improving regression stability, and accelerating our mobile release readiness.",
+    text: "Complex mobile banking workflows were brought under reliable, repeatable test coverage much faster than expected. QApilot's Flutter support ensured consistent cross-platform execution from day one, lowering maintenance effort and improving regression stability.",
     label: "Test Lead, Middle East Digital Bank",
   },
   {

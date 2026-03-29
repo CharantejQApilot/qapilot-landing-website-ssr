@@ -972,7 +972,7 @@ const AdminClient = () => {
                           htmlFor="news-featured" 
                           className={`font-normal ${newsPublished ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}`}
                         >
-                          Featured (Show in "What's New?" section on home page)
+                          Featured
                         </Label>
                       </div>
 
