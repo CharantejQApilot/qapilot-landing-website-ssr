@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import ProductHeroSection from "@/components/ProductHeroSection";
-import ProductJourneySection from "@/components/ProductJourneySection";
-import TestingCoverageSection from "@/components/TestingCoverageSection";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
@@ -31,7 +28,7 @@ export const revalidate = 300;
 
 export default function AutonomousTestingPage() {
   return (
-    <MarketingPageShell background="hero">
+    <MarketingPageShell background="hero" contentClassName="contain-layout">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -44,9 +41,11 @@ export default function AutonomousTestingPage() {
           ),
         }}
       />
-      <ProductHeroSection />
-      <ProductJourneySection />
-      <TestingCoverageSection />
+      <main className="mx-auto max-w-4xl px-4 py-24 md:py-32">
+        <h1 className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">
+          Autonomous testing
+        </h1>
+      </main>
       <Footer />
     </MarketingPageShell>
   );

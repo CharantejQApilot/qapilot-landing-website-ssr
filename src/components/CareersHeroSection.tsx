@@ -11,7 +11,7 @@ const CareersHeroSection = () => {
   };
 
   return (
-    <section className="section-edge relative flex min-h-[75vh] w-full items-center justify-center overflow-hidden pb-8 pt-20">
+    <section className="section-edge relative flex min-h-[75vh] w-full items-center justify-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-8 pt-20">
       {/* Animated Grid Pattern */}
       <svg 
         className="absolute inset-0 w-full h-full opacity-30" 
@@ -34,18 +34,13 @@ const CareersHeroSection = () => {
             <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
             <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
           </linearGradient>
-
-          {/* Connection paths for talent flow */}
-          <path id="talent-path-1" d="M 100 400 Q 300 300 500 350 T 900 300" />
-          <path id="talent-path-2" d="M 100 300 Q 400 400 600 350 T 1000 400" />
-          <path id="talent-path-3" d="M 200 500 Q 400 350 600 400 T 1100 350" />
         </defs>
         
         {/* Dot Grid Background */}
         <rect width="100%" height="100%" fill="url(#careersGridPattern)" />
         
         {/* Horizontal Flowing Lines */}
-        {[180, 320, 460, 600].map((y, i) => (
+        {[180, 320, 460, 600].map((y) => (
           <g key={`h-career-${y}`}>
             <line
               x1="0"
@@ -54,15 +49,8 @@ const CareersHeroSection = () => {
               y2={y}
               stroke="url(#careersGradient)"
               strokeWidth="1.5"
-              opacity="0.4"
-            >
-              <animate
-                attributeName="opacity"
-                values="0.2;0.5;0.2"
-                dur={`${5 + i}s`}
-                repeatCount="indefinite"
-              />
-            </line>
+              opacity="0.35"
+            />
           </g>
         ))}
         
@@ -81,29 +69,6 @@ const CareersHeroSection = () => {
           />
         ))}
         
-        {/* Talent Flow Particles - representing people joining */}
-        <circle r="6" fill="hsl(var(--primary))">
-          <animateMotion dur="6s" repeatCount="indefinite" begin="0s">
-            <mpath href="#talent-path-1" />
-          </animateMotion>
-          <animate attributeName="opacity" values="0;1;1;0" dur="6s" repeatCount="indefinite" />
-          <animate attributeName="r" values="4;7;4" dur="6s" repeatCount="indefinite" />
-        </circle>
-
-        <circle r="5" fill="hsl(var(--primary))">
-          <animateMotion dur="7s" repeatCount="indefinite" begin="1.5s">
-            <mpath href="#talent-path-2" />
-          </animateMotion>
-          <animate attributeName="opacity" values="0;1;1;0" dur="7s" repeatCount="indefinite" begin="1.5s" />
-        </circle>
-
-        <circle r="5" fill="hsl(var(--primary))">
-          <animateMotion dur="5.5s" repeatCount="indefinite" begin="3s">
-            <mpath href="#talent-path-3" />
-          </animateMotion>
-          <animate attributeName="opacity" values="0;1;1;0" dur="5.5s" repeatCount="indefinite" begin="3s" />
-        </circle>
-
         {/* Innovation Nodes - representing collaborative points */}
         {[
           { x: 300, y: 250 }, { x: 550, y: 350 }, { x: 800, y: 280 },
@@ -111,7 +76,6 @@ const CareersHeroSection = () => {
           { x: 250, y: 380 }, { x: 600, y: 220 }, { x: 1000, y: 300 }
         ].map((node, i) => (
           <g key={`talent-node-${i}`}>
-            {/* Outer pulsing ring */}
             <circle
               cx={node.x}
               cy={node.y}
@@ -119,39 +83,9 @@ const CareersHeroSection = () => {
               fill="none"
               stroke="hsl(var(--primary))"
               strokeWidth="1"
-              opacity="0.3"
-            >
-              <animate
-                attributeName="r"
-                values="8;16;8"
-                dur={`${3 + (i % 3)}s`}
-                begin={`${i * 0.4}s`}
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="opacity"
-                values="0.5;0.1;0.5"
-                dur={`${3 + (i % 3)}s`}
-                begin={`${i * 0.4}s`}
-                repeatCount="indefinite"
-              />
-            </circle>
-            {/* Core node */}
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r="4"
-              fill="hsl(var(--primary))"
-              opacity="0.7"
-            >
-              <animate
-                attributeName="opacity"
-                values="0.5;1;0.5"
-                dur="2s"
-                begin={`${i * 0.3}s`}
-                repeatCount="indefinite"
-              />
-            </circle>
+              opacity="0.22"
+            />
+            <circle cx={node.x} cy={node.y} r="4" fill="hsl(var(--primary))" opacity="0.75" />
           </g>
         ))}
 
@@ -174,50 +108,43 @@ const CareersHeroSection = () => {
             strokeWidth="1"
             strokeDasharray="4,4"
             opacity="0.25"
-          >
-            <animate
-              attributeName="strokeDashoffset"
-              values="0;8"
-              dur="1s"
-              repeatCount="indefinite"
-            />
-          </line>
+          />
         ))}
       </svg>
       
       {/* Floating talent icons - decorative */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block" style={{ zIndex: 2 }}>
         {/* Top left cluster */}
-        <div className="absolute left-[10%] top-[25%] animate-float" style={{ animationDelay: '0s' }}>
-          <div className="w-14 h-14 rounded-xl bg-card/80 border border-primary/30 flex items-center justify-center shadow-lg backdrop-blur-sm">
+        <div className="absolute left-[10%] top-[25%]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-primary/30 bg-card/90 shadow-lg">
             <Lightbulb className="w-7 h-7 text-primary" />
           </div>
         </div>
         
         {/* Top right */}
-        <div className="absolute right-[15%] top-[20%] animate-float" style={{ animationDelay: '0.5s' }}>
-          <div className="w-16 h-16 rounded-xl bg-card/80 border border-primary/30 flex items-center justify-center shadow-lg backdrop-blur-sm">
+        <div className="absolute right-[15%] top-[20%]">
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-primary/30 bg-card/90 shadow-lg">
             <Rocket className="w-8 h-8 text-primary" />
           </div>
         </div>
         
         {/* Middle left */}
-        <div className="absolute left-[8%] top-[55%] animate-float" style={{ animationDelay: '1s' }}>
-          <div className="w-12 h-12 rounded-xl bg-card/80 border border-primary/30 flex items-center justify-center shadow-lg backdrop-blur-sm">
+        <div className="absolute left-[8%] top-[55%]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-card/90 shadow-lg">
             <Target className="w-6 h-6 text-primary" />
           </div>
         </div>
         
         {/* Bottom right */}
-        <div className="absolute right-[12%] bottom-[25%] animate-float" style={{ animationDelay: '1.5s' }}>
-          <div className="w-14 h-14 rounded-xl bg-card/80 border border-primary/30 flex items-center justify-center shadow-lg backdrop-blur-sm">
+        <div className="absolute right-[12%] bottom-[25%]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-primary/30 bg-card/90 shadow-lg">
             <Sparkles className="w-7 h-7 text-primary" />
           </div>
         </div>
         
         {/* Bottom left */}
-        <div className="absolute left-[18%] bottom-[20%] animate-float" style={{ animationDelay: '2s' }}>
-          <div className="w-12 h-12 rounded-xl bg-card/80 border border-primary/30 flex items-center justify-center shadow-lg backdrop-blur-sm">
+        <div className="absolute left-[18%] bottom-[20%]">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-card/90 shadow-lg">
             <Zap className="w-6 h-6 text-primary" />
           </div>
         </div>
@@ -258,17 +185,14 @@ const CareersHeroSection = () => {
           <div className="pt-10 flex justify-center">
             <button
               onClick={scrollToPositions}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-primary/40 rounded-full hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer"
+              className="group relative inline-flex cursor-pointer items-center gap-3 rounded-full border-2 border-primary/40 bg-transparent px-8 py-4 transition-colors duration-300 hover:border-primary hover:bg-primary/5"
             >
-              {/* Animated ring */}
-              <span className="absolute inset-0 rounded-full border border-primary/20 animate-ping opacity-30" aria-hidden="true" />
-              
-              <span className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+              <span className="text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
                 View Open Positions
               </span>
-              
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <ChevronDown className="w-5 h-5 text-primary animate-bounce" />
+
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
+                <ChevronDown className="h-5 w-5 text-primary" />
               </span>
             </button>
           </div>

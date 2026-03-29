@@ -14,6 +14,11 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 
+/** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
+const ARTICLE_GUTTER =
+  "w-full px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14";
+const ARTICLE_MAX_WIDTH = "mx-auto w-full max-w-7xl";
+
 /** Avoid static caching; picks up admin edits without redeploy. */
 export const dynamic = "force-dynamic";
 
@@ -126,8 +131,8 @@ export default async function BlogPostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
       <MarketingPageShell background="soft">
-          <main className="section-edge w-full py-20">
-            <div className="section-full mx-auto max-w-6xl">
+          <main className="section-edge w-full py-16 md:py-20 lg:py-24">
+            <div className={`${ARTICLE_GUTTER} ${ARTICLE_MAX_WIDTH}`}>
             <Link
               href="/blogs"
               className="inline-flex items-center gap-2 mb-8 text-sm text-muted-foreground hover:text-foreground transition-colors"

@@ -28,7 +28,7 @@ const mobileNodes = [
 
 const LabsHeroSection = () => {
   return (
-    <section className="section-edge relative flex min-h-[70vh] w-full flex-col items-center overflow-hidden pb-0 pt-20">
+    <section className="section-edge relative flex min-h-[70vh] w-full flex-col items-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-0 pt-20">
       {/* Subtle dot grid background */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -105,69 +105,20 @@ const LabsHeroSection = () => {
               { r0: 130, r1: 155, dur: "6s", op0: 0.05, op1: 0.01, sw: 0.5 },
               { r0: 180, r1: 210, dur: "7s", op0: 0.03, op1: 0.005, sw: 0.4 },
             ].map((ring, i) => (
-              <circle key={`ring-${i}`} cx="450" cy="250" r={ring.r0} stroke="hsl(var(--primary))" strokeWidth={ring.sw} fill="none" opacity={ring.op0}>
-                <animate attributeName="r" values={`${ring.r0};${ring.r1};${ring.r0}`} dur={ring.dur} repeatCount="indefinite" />
-                <animate attributeName="opacity" values={`${ring.op0};${ring.op1};${ring.op0}`} dur={ring.dur} repeatCount="indefinite" />
-              </circle>
+              <circle
+                key={`ring-${i}`}
+                cx="450"
+                cy="250"
+                r={(ring.r0 + ring.r1) / 2}
+                stroke="hsl(var(--primary))"
+                strokeWidth={ring.sw}
+                fill="none"
+                opacity={(ring.op0 + ring.op1) / 2}
+              />
             ))}
 
-            {/* Central glow blob */}
-            <circle cx="450" cy="250" r="38" fill="hsl(var(--primary))" opacity="0.07">
-              <animate attributeName="opacity" values="0.05;0.12;0.05" dur="3s" repeatCount="indefinite" />
-              <animate attributeName="r" values="36;42;36" dur="3s" repeatCount="indefinite" />
-            </circle>
-
-            {/* Primary flowing particles along main connections */}
-            {[
-              { path: "#c1", dur: "3.2s", begin: "0s" },
-              { path: "#c2", dur: "2.8s", begin: "0.8s" },
-              { path: "#c3", dur: "3.6s", begin: "1.4s" },
-              { path: "#c4", dur: "3.0s", begin: "2.2s" },
-              { path: "#c5", dur: "3.4s", begin: "0.5s" },
-              { path: "#c6", dur: "3.2s", begin: "1.8s" },
-              { path: "#c7", dur: "3.5s", begin: "0.3s" },
-              { path: "#c8", dur: "3.0s", begin: "2.6s" },
-              { path: "#c9", dur: "3.3s", begin: "1.0s" },
-            ].map((p, i) => (
-              <circle key={`fp-${i}`} r={3.5} fill="hsl(var(--primary))">
-                <animateMotion dur={p.dur} repeatCount="indefinite" begin={p.begin}>
-                  <mpath href={p.path} />
-                </animateMotion>
-                <animate attributeName="opacity" values="0;0.8;0" dur={p.dur} repeatCount="indefinite" begin={p.begin} />
-              </circle>
-            ))}
-
-            {/* Secondary slower, smaller particles */}
-            {[
-              { path: "#c1", dur: "5s", begin: "2s" },
-              { path: "#c3", dur: "5.5s", begin: "0s" },
-              { path: "#c5", dur: "4.8s", begin: "1.5s" },
-              { path: "#c6", dur: "5.2s", begin: "3s" },
-              { path: "#c8", dur: "4.5s", begin: "0.5s" },
-              { path: "#c9", dur: "5s", begin: "2.5s" },
-            ].map((p, i) => (
-              <circle key={`sp-${i}`} r={2} fill="hsl(var(--primary))">
-                <animateMotion dur={p.dur} repeatCount="indefinite" begin={p.begin}>
-                  <mpath href={p.path} />
-                </animateMotion>
-                <animate attributeName="opacity" values="0;0.45;0" dur={p.dur} repeatCount="indefinite" begin={p.begin} />
-              </circle>
-            ))}
-
-            {/* Particles along cross-connections */}
-            {[
-              { path: "#x1", dur: "4s", begin: "0.5s" },
-              { path: "#x3", dur: "4.2s", begin: "1s" },
-              { path: "#x4", dur: "3.8s", begin: "2s" },
-              { path: "#x6", dur: "5s", begin: "0s" },
-            ].map((p, i) => (
-              <circle key={`xp-${i}`} r={2} fill="hsl(var(--primary))">
-                <animateMotion dur={p.dur} repeatCount="indefinite" begin={p.begin}>
-                  <mpath href={p.path} />
-                </animateMotion>
-                <animate attributeName="opacity" values="0;0.35;0" dur={p.dur} repeatCount="indefinite" begin={p.begin} />
-              </circle>
-            ))}
+            {/* Central glow blob (static — avoids SMIL repaint loops) */}
+            <circle cx="450" cy="250" r="39" fill="hsl(var(--primary))" opacity="0.085" />
 
             {/* Ambient sparkle dots — denser fill */}
             {[
@@ -181,9 +132,14 @@ const LabsHeroSection = () => {
               { cx: 250, cy: 100 }, { cx: 670, cy: 430 }, { cx: 810, cy: 250 },
               { cx: 50, cy: 310 }, { cx: 400, cy: 170 }, { cx: 520, cy: 200 },
             ].map((dot, i) => (
-              <circle key={`sd-${i}`} cx={dot.cx} cy={dot.cy} r={i % 3 === 0 ? 2 : 1.2} fill="hsl(var(--primary))" opacity="0.15">
-                <animate attributeName="opacity" values="0.08;0.3;0.08" dur={`${3 + i * 0.4}s`} repeatCount="indefinite" begin={`${i * 0.6}s`} />
-              </circle>
+              <circle
+                key={`sd-${i}`}
+                cx={dot.cx}
+                cy={dot.cy}
+                r={i % 3 === 0 ? 2 : 1.2}
+                fill="hsl(var(--primary))"
+                opacity="0.18"
+              />
             ))}
           </svg>
 
@@ -191,7 +147,7 @@ const LabsHeroSection = () => {
           {desktopNodes.map(({ Icon, x, y, size, delay }, i) => (
             <div
               key={i}
-              className="absolute w-14 h-14 bg-card border border-border rounded-xl flex items-center justify-center shadow-sm hover:shadow-glow transition-all duration-300 hover:scale-110 animate-fade-in"
+              className="absolute flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-card shadow-sm duration-300 animate-fade-in motion-safe:transition-[box-shadow,transform] motion-safe:hover:scale-105 motion-safe:hover:shadow-md"
               style={{ left: x, top: y, animationDelay: delay }}
             >
               <Icon size={size} className="text-primary" />
@@ -200,7 +156,7 @@ const LabsHeroSection = () => {
 
           {/* Central flask */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <div className="w-24 h-24 bg-card border-2 border-primary rounded-2xl flex items-center justify-center shadow-lg animate-pulse-glow">
+            <div className="flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-primary bg-card shadow-lg">
               <FlaskConical className="text-primary w-11 h-11" />
             </div>
           </div>
@@ -232,44 +188,34 @@ const LabsHeroSection = () => {
               { r0: 60, r1: 75, dur: "5s", op: 0.06, sw: 0.5 },
               { r0: 95, r1: 115, dur: "6s", op: 0.04, sw: 0.4 },
             ].map((ring, i) => (
-              <circle key={`mr-${i}`} cx="180" cy="170" r={ring.r0} stroke="hsl(var(--primary))" strokeWidth={ring.sw} fill="none" opacity={ring.op}>
-                <animate attributeName="r" values={`${ring.r0};${ring.r1};${ring.r0}`} dur={ring.dur} repeatCount="indefinite" />
-                <animate attributeName="opacity" values={`${ring.op};${ring.op * 0.2};${ring.op}`} dur={ring.dur} repeatCount="indefinite" />
-              </circle>
+              <circle
+                key={`mr-${i}`}
+                cx="180"
+                cy="170"
+                r={(ring.r0 + ring.r1) / 2}
+                stroke="hsl(var(--primary))"
+                strokeWidth={ring.sw}
+                fill="none"
+                opacity={(ring.op + ring.op * 0.2) / 2}
+              />
             ))}
 
             {/* Central glow */}
-            <circle cx="180" cy="170" r="26" fill="hsl(var(--primary))" opacity="0.06">
-              <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" repeatCount="indefinite" />
-            </circle>
-
-            {/* Flowing particles */}
-            {[
-              { path: "#m1", dur: "3s", begin: "0s" },
-              { path: "#m2", dur: "2.8s", begin: "0.7s" },
-              { path: "#m3", dur: "3.2s", begin: "1.4s" },
-              { path: "#m4", dur: "3s", begin: "2.1s" },
-              { path: "#m5", dur: "2.9s", begin: "0.4s" },
-              { path: "#m6", dur: "3.1s", begin: "1.8s" },
-              { path: "#m7", dur: "3.3s", begin: "1.1s" },
-              { path: "#m8", dur: "3s", begin: "2.5s" },
-            ].map((p, i) => (
-              <circle key={`mp-${i}`} r={2.5} fill="hsl(var(--primary))">
-                <animateMotion dur={p.dur} repeatCount="indefinite" begin={p.begin}>
-                  <mpath href={p.path} />
-                </animateMotion>
-                <animate attributeName="opacity" values="0;0.7;0" dur={p.dur} repeatCount="indefinite" begin={p.begin} />
-              </circle>
-            ))}
+            <circle cx="180" cy="170" r="26" fill="hsl(var(--primary))" opacity="0.07" />
 
             {/* Ambient dots */}
             {[
               { cx: 100, cy: 100 }, { cx: 260, cy: 120 }, { cx: 130, cy: 250 },
               { cx: 240, cy: 240 }, { cx: 80, cy: 220 }, { cx: 290, cy: 150 },
             ].map((dot, i) => (
-              <circle key={`md-${i}`} cx={dot.cx} cy={dot.cy} r={1.2} fill="hsl(var(--primary))" opacity="0.15">
-                <animate attributeName="opacity" values="0.08;0.3;0.08" dur={`${3 + i * 0.5}s`} repeatCount="indefinite" begin={`${i * 0.5}s`} />
-              </circle>
+              <circle
+                key={`md-${i}`}
+                cx={dot.cx}
+                cy={dot.cy}
+                r={1.2}
+                fill="hsl(var(--primary))"
+                opacity="0.18"
+              />
             ))}
           </svg>
 
@@ -286,7 +232,7 @@ const LabsHeroSection = () => {
 
           {/* Mobile central flask */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-fade-in" style={{ animationDelay: "0.35s" }}>
-            <div className="w-16 h-16 bg-card border-2 border-primary rounded-2xl flex items-center justify-center shadow-lg animate-pulse-glow">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary bg-card shadow-lg">
               <FlaskConical size={28} className="text-primary" />
             </div>
           </div>
