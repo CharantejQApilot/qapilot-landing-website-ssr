@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 interface Metric {
   value: number;
@@ -84,7 +86,7 @@ const MetricsSection = () => {
       <div className="section-navy w-full">
         <div className="section-full py-8 sm:py-10 md:py-12 2xl:py-16 relative">
           <div className="absolute inset-0 bg-structured-grid opacity-10 pointer-events-none" />
-          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl min-[1280px]:text-5xl 2xl:text-6xl font-semibold text-center relative z-10 px-2">
+          <h2 className={cn(marketingSectionH2Class, "text-center relative z-10 px-2")}>
             QApilot By The Numbers
           </h2>
         </div>

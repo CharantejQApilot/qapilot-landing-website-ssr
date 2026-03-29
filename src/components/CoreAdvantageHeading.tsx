@@ -5,7 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Network } from "lucide-react";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 
 function CapHighlight({ children }: { children: ReactNode }) {
   return <strong className="font-semibold text-primary">{children}</strong>;
@@ -289,7 +291,7 @@ const CoreAdvantageHeading = () => {
           <div className="relative z-[1] pl-4 md:pl-5">
             <h2
               id="core-advantage-heading"
-              className="font-heading text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold text-foreground tracking-tight leading-snug"
+              className={cn(marketingSectionH2Class, "text-foreground")}
             >
               Deliver Reliable <span className="text-primary">Mobile App</span> Testing
             </h2>
@@ -450,9 +452,7 @@ const CoreAdvantageHeading = () => {
                     {current.label}
                   </h3>
                 </div>
-                <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
-                  {current.description}
-                </p>
+                <p className={marketingSectionIntroClass}>{current.description}</p>
                 <Link
                   href={current.knowMoreHref}
                   target="_blank"

@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const IntegrationsSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -64,7 +66,7 @@ const IntegrationsSection = () => {
           <div className="absolute inset-0 bg-structured-grid opacity-10 pointer-events-none" aria-hidden />
           <h2
             id="integrations-heading"
-            className="font-heading relative z-10 px-3 text-center text-xl font-semibold leading-snug tracking-tight sm:text-2xl md:text-3xl min-[1280px]:text-5xl 2xl:text-6xl"
+            className={cn(marketingSectionH2Class, "relative z-10 px-3 text-center")}
           >
             Works With Your Existing Testing Stack
           </h2>
@@ -75,7 +77,12 @@ const IntegrationsSection = () => {
         <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle" aria-hidden />
 
         <div className="relative z-10 py-12 md:py-16 2xl:py-20">
-          <p className="section-full mb-10 max-w-3xl mx-auto text-center text-base leading-relaxed text-muted-foreground md:mb-12 md:text-lg 2xl:text-xl">
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "section-full mb-10 max-w-3xl mx-auto text-center md:mb-12",
+            )}
+          >
             Connect QApilot with your existing workflow and tools.
           </p>
 
