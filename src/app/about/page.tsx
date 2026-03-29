@@ -24,7 +24,7 @@ export default function AboutPage() {
           )
         }}
       />
-      <MarketingPageShell background="hero" contentClassName="contain-layout">
+      <MarketingPageShell background="none">
         <AboutClient />
       </MarketingPageShell>
     </>

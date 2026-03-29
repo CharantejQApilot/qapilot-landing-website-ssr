@@ -52,7 +52,7 @@ export default async function CareersPage() {
   ]);
 
   return (
-    <MarketingPageShell background="hero">
+    <MarketingPageShell background="none">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}

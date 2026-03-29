@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FileText } from "lucide-react";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
@@ -10,47 +10,160 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 
+const BLOGS_PATH = PATHS.BLOGS;
+const canonicalUrl = `${SITE_BASE_URL}${BLOGS_PATH}`;
+
+const defaultOgImage =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
+
+const BLOG_LIST_SELECT =
+  "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
+
+/** Tighter horizontal rhythm than `section-full` so grids feel closer to edge-to-edge on large displays. */
+const BLOGS_GUTTER =
+  "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
+
+const BLOGS_MAX_WIDTH = "mx-auto max-w-[1920px]";
+
 export const metadata: Metadata = {
   title: "Mobile Testing Blog - Tips, Guides & Best Practices",
   description:
     "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
-  keywords:
-    "mobile testing blog, QA best practices, test automation tips, mobile app testing guides, iOS testing, Android testing",
-  alternates: { canonical: `${SITE_BASE_URL}${PATHS.BLOGS}` },
+  keywords: [
+    "mobile testing blog",
+    "QA best practices",
+    "test automation tips",
+    "mobile app testing guides",
+    "iOS testing",
+    "Android testing",
+  ],
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
+    description:
+      "Expert insights on mobile app testing, QA automation, and test strategy from the QApilot team.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: "QApilot mobile testing platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
+    description:
+      "Expert guides and strategies for mobile app testing and QA automation.",
+    images: [defaultOgImage],
+  },
 };
 
-/** Always fetch from Supabase at request time — avoids empty static HTML from build-time snapshots. */
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
+
+type BlogListRow = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  featured_image: string | null;
+  youtube_url: string | null;
+  author_name: string | null;
+  author_designation: string | null;
+  published_date: string | null;
+  is_featured: boolean | null;
+};
+
+function resolveCardImageUrl(blog: BlogListRow): string | undefined {
+  if (blog.featured_image) return blog.featured_image;
+  if (blog.youtube_url) return getYouTubeThumbnail(blog.youtube_url) ?? undefined;
+  return undefined;
+}
+
+function stripJsonLdContext(node: object): Record<string, unknown> {
+  const o = { ...(node as Record<string, unknown>) };
+  delete o["@context"];
+  return o;
+}
+
+function BlogImagePlaceholder() {
+  return (
+    <div
+      className="flex h-full min-h-[12rem] w-full items-center justify-center bg-muted text-muted-foreground"
+      aria-hidden
+    >
+      <FileText className="h-12 w-12 opacity-40" strokeWidth={1.25} />
+    </div>
+  );
+}
 
 export default async function BlogsPage() {
   const supabase = tryCreateServerSupabaseClient();
   const { data: blogs } = supabase
     ? await supabase
         .from("blogs")
-        .select("*")
+        .select(BLOG_LIST_SELECT)
         .eq("published", true)
         .order("published_date", { ascending: false })
     : { data: null as null };
 
-  const structuredData = [
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: "QApilot Blog",
-      description:
-        "Expert insights on mobile app testing, QA automation, and test strategy.",
-      url: `${SITE_BASE_URL}${PATHS.BLOGS}`,
-      publisher: { "@type": "Organization", name: "QApilot" },
-    },
-    buildBreadcrumbList([
-      { name: "Home", path: PATHS.HOME },
-      { name: "Blogs", path: PATHS.BLOGS },
-    ]),
-  ];
+  const list = (blogs as BlogListRow[] | null) ?? [];
 
-  const featuredBlogs = blogs?.filter((b) => b.is_featured) ?? [];
-  const regularBlogs = blogs?.filter((b) => !b.is_featured) ?? [];
-  const isSingleFeatured = featuredBlogs.length === 1;
+  const itemListElements =
+    list.length > 0
+      ? list.map((b, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: b.title,
+          item: `${SITE_BASE_URL}${BLOGS_PATH}/${b.slug}`,
+        }))
+      : undefined;
+
+  const collectionPage: Record<string, unknown> = {
+    "@type": "CollectionPage",
+    name: "QApilot Blog",
+    description:
+      "Expert insights on mobile app testing, QA automation, and test strategy.",
+    url: canonicalUrl,
+    publisher: { "@type": "Organization", name: "QApilot" },
+  };
+  if (itemListElements) {
+    collectionPage.mainEntity = {
+      "@type": "ItemList",
+      numberOfItems: itemListElements.length,
+      itemListElement: itemListElements,
+    };
+  }
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      collectionPage,
+      stripJsonLdContext(
+        buildBreadcrumbList([
+          { name: "Home", path: PATHS.HOME },
+          { name: "Blogs", path: BLOGS_PATH },
+        ]),
+      ),
+    ],
+  };
+
+  const featuredBlogs = list.filter((b) => b.is_featured);
+  const regularBlogs = list.filter((b) => !b.is_featured);
+  const singleFeatured = featuredBlogs.length === 1;
+
+  /** At `max-w-7xl`, 2 columns → much wider cards than “All posts” (3 columns in same width). */
+  const gridFeatured = singleFeatured
+    ? "mx-auto grid w-full max-w-4xl list-none grid-cols-1 gap-8 sm:gap-10 xl:max-w-5xl"
+    : "mx-auto grid w-full max-w-7xl list-none grid-cols-1 gap-8 sm:gap-10 md:grid-cols-2 md:justify-items-stretch xl:gap-12 [&>li:last-child:nth-child(odd)]:md:col-span-2 [&>li:last-child:nth-child(odd)]:md:max-w-3xl [&>li:last-child:nth-child(odd)]:md:justify-self-center [&>li:last-child:nth-child(odd)]:md:w-full";
+
+  const gridAll =
+    "mx-auto grid w-full max-w-7xl list-none gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3";
 
   return (
     <>
@@ -58,248 +171,221 @@ export default async function BlogsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <MarketingPageShell background="hero">
-          <main className="section-edge w-full py-20">
-            <div className="section-full mx-auto max-w-7xl">
-            <header className="text-center mb-16 animate-fade-in">
-              <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl mb-6">
-                <span className="text-gradient">
-                  Mobile Testing Insights &amp; Best Practices
-                </span>
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Expert guides, tips, and strategies for mobile app testing and
-                QA automation
-              </p>
-            </header>
-
-            {blogs && blogs.length > 0 ? (
-              <>
-                {/* Featured Blogs */}
-                {featuredBlogs.length > 0 && (
-                  <div className="mb-16">
-                    <div className="flex items-center gap-3 mb-8 justify-center">
-                      <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary/50 rounded-full"></div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-gradient">
-                        Featured Posts
-                      </h2>
-                      <div className="h-1 w-12 bg-gradient-to-l from-primary to-primary/50 rounded-full"></div>
-                    </div>
-                    <div
-                      className={
-                        isSingleFeatured
-                          ? "max-w-4xl mx-auto"
-                          : "grid grid-cols-1 lg:grid-cols-2 gap-8"
-                      }
-                    >
-                      {featuredBlogs.map((blog) => (
-                        <Link key={blog.id} href={`/blogs/${blog.slug}`}>
-                          <Card
-                            className={`hover:shadow-xl transition-all duration-300 cursor-pointer h-full border-2 border-primary/20 hover:border-primary/40 overflow-hidden group ${
-                              isSingleFeatured
-                                ? "shadow-2xl border-primary/30"
-                                : ""
-                            }`}
-                          >
-                            {(blog.featured_image || blog.youtube_url) && (
-                              <div
-                                className={`w-full overflow-hidden ${
-                                  isSingleFeatured
-                                    ? "aspect-[21/9]"
-                                    : "aspect-video"
-                                }`}
-                                style={{
-                                  minHeight: isSingleFeatured ? "200px" : "180px",
-                                }}
-                              >
-                                <img
-                                  src={
-                                    blog.featured_image ||
-                                    getYouTubeThumbnail(blog.youtube_url!) ||
-                                    undefined
-                                  }
-                                  alt={`${blog.title} - QApilot Blog`}
-                                  width={isSingleFeatured ? 1200 : 640}
-                                  height={isSingleFeatured ? 514 : 360}
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    aspectRatio: isSingleFeatured
-                                      ? "21/9"
-                                      : "16/9",
-                                  }}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                              </div>
-                            )}
-                            <CardHeader
-                              className={
-                                isSingleFeatured ? "space-y-4 p-8" : "space-y-3"
-                              }
-                            >
-                              <div className="inline-flex items-center gap-2 text-xs font-semibold text-primary">
-                                <span className="relative flex h-2 w-2">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                                </span>
-                                FEATURED
-                              </div>
-                              <CardTitle
-                                className={`line-clamp-2 group-hover:text-primary transition-colors ${
-                                  isSingleFeatured
-                                    ? "text-3xl md:text-4xl lg:text-5xl"
-                                    : "text-2xl md:text-3xl"
-                                }`}
-                              >
-                                {blog.title}
-                              </CardTitle>
-                              {blog.excerpt && (
-                                <CardDescription
-                                  className={`text-base ${
-                                    isSingleFeatured
-                                      ? "line-clamp-4 text-lg"
-                                      : "line-clamp-3"
-                                  }`}
-                                >
-                                  {blog.excerpt}
-                                </CardDescription>
-                              )}
-                            </CardHeader>
-                            <CardContent
-                              className={isSingleFeatured ? "p-8 pt-0" : ""}
-                            >
-                              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                <div>
-                                  {blog.author_name && (
-                                    <p className="font-medium text-foreground">
-                                      {blog.author_name}
-                                    </p>
-                                  )}
-                                  {blog.author_designation && (
-                                    <p>{blog.author_designation}</p>
-                                  )}
-                                </div>
-                                {blog.published_date && (
-                                  <p>
-                                    {format(
-                                      new Date(blog.published_date),
-                                      "MMM dd, yyyy"
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Regular Blogs */}
-                {regularBlogs.length > 0 && (
-                  <div>
-                    {featuredBlogs.length > 0 && (
-                      <div className="flex items-center gap-3 mb-8">
-                        <div className="h-1 w-12 bg-gradient-to-r from-muted to-muted/50 rounded-full"></div>
-                        <h2 className="text-2xl md:text-3xl font-bold">
-                          All Posts
-                        </h2>
-                      </div>
-                    )}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {regularBlogs.map((blog) => (
-                        <Link key={blog.id} href={`/blogs/${blog.slug}`}>
-                          <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
-                            {(blog.featured_image || blog.youtube_url) && (
-                              <div
-                                className="aspect-video w-full overflow-hidden rounded-t-lg"
-                                style={{ minHeight: "180px" }}
-                              >
-                                <img
-                                  src={
-                                    blog.featured_image ||
-                                    getYouTubeThumbnail(blog.youtube_url!) ||
-                                    undefined
-                                  }
-                                  alt={`${blog.title} - QApilot Blog`}
-                                  width={640}
-                                  height={360}
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{ aspectRatio: "16/9" }}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                            )}
-                            <CardHeader>
-                              <CardTitle className="line-clamp-2">
-                                {blog.title}
-                              </CardTitle>
-                              {blog.excerpt && (
-                                <CardDescription className="line-clamp-3">
-                                  {blog.excerpt}
-                                </CardDescription>
-                              )}
-                            </CardHeader>
-                            <CardContent>
-                              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                <div>
-                                  {blog.author_name && (
-                                    <p className="font-medium text-foreground">
-                                      {blog.author_name}
-                                    </p>
-                                  )}
-                                  {blog.author_designation && (
-                                    <p>{blog.author_designation}</p>
-                                  )}
-                                </div>
-                                {blog.published_date && (
-                                  <p>
-                                    {format(
-                                      new Date(blog.published_date),
-                                      "MMM dd, yyyy"
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-20">
-                <div className="w-24 h-24 mb-6 rounded-full bg-primary/10 flex items-center justify-center">
-                  <svg
-                    className="w-12 h-12 text-primary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                    />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-semibold mb-2 text-foreground">
-                  No blog posts yet
-                </h2>
-                <p className="text-muted-foreground">
-                  Check back soon for new content
-                </p>
+      <MarketingPageShell background="none">
+        <main className="relative w-full">
+          <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
+            <div className={`${BLOGS_GUTTER}`}>
+              <div className={`${BLOGS_MAX_WIDTH} py-16 md:py-24 lg:py-28 2xl:py-32`}>
+                <header className="relative mx-auto max-w-6xl text-center sm:max-w-none lg:max-w-7xl">
+                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
+                    QApilot blog
+                  </p>
+                  <h1 className="font-heading font-semibold tracking-[-0.02em] text-[2.5rem] leading-[1.1] sm:text-5xl sm:leading-[1.08] md:text-6xl md:leading-[1.06] lg:text-7xl lg:leading-[1.05] xl:text-[4.25rem] 2xl:text-8xl 2xl:leading-[1.04]">
+                    <span className="text-gradient">
+                      Mobile testing insights &amp; best practices
+                    </span>
+                  </h1>
+                  <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed">
+                    Expert guides, tips, and strategies for mobile app testing and
+                    QA automation.
+                  </p>
+                </header>
               </div>
-            )}
             </div>
-          </main>
-          <Footer />
+          </div>
+
+          <div className={`bg-background ${BLOGS_GUTTER} py-14 md:py-20`}>
+            <div className={`${BLOGS_MAX_WIDTH} bg-dot-pattern-subtle`}>
+              {list.length === 0 ? (
+                <div className="flex flex-col items-center py-24 text-center">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">
+                    <FileText
+                      className="h-10 w-10 text-muted-foreground"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                  </div>
+                  <h2 className="text-2xl font-semibold text-foreground">
+                    No posts yet
+                  </h2>
+                  <p className="mt-2 max-w-md text-muted-foreground">
+                    New articles will appear here soon.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-16 md:gap-20 lg:gap-24">
+                  {featuredBlogs.length > 0 ? (
+                    <section
+                      aria-labelledby="blogs-featured"
+                      className="flex flex-col items-center"
+                    >
+                      <div className="mb-8 flex w-full max-w-3xl flex-col items-center gap-2 text-center md:mb-12">
+                        <h2
+                          id="blogs-featured"
+                          className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+                        >
+                          Featured
+                        </h2>
+                        <p className="text-base text-muted-foreground md:text-lg">
+                          Highlights from the team — start here.
+                        </p>
+                      </div>
+                      <ul className={gridFeatured}>
+                        {featuredBlogs.map((blog, index) => {
+                          const imgSrc = resolveCardImageUrl(blog);
+                          return (
+                            <li key={blog.id}>
+                              <Link
+                                href={`/blogs/${blog.slug}`}
+                                className="group block h-full rounded-2xl border-2 border-primary/15 bg-card shadow-md outline-none ring-offset-background transition-shadow hover:border-primary/25 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-ring"
+                              >
+                                <article className="flex h-full flex-col overflow-hidden rounded-2xl">
+                                  <div className="relative aspect-[16/9] w-full min-h-[200px] shrink-0 bg-muted sm:min-h-[220px] md:aspect-[2/1] md:min-h-[240px]">
+                                    {imgSrc ? (
+                                      <img
+                                        src={imgSrc}
+                                        alt={`${blog.title} — QApilot blog`}
+                                        width={960}
+                                        height={540}
+                                        loading={
+                                          index === 0 ? "eager" : "lazy"
+                                        }
+                                        fetchPriority={
+                                          index === 0 ? "high" : undefined
+                                        }
+                                        decoding="async"
+                                        className="h-full w-full object-cover"
+                                      />
+                                    ) : (
+                                      <BlogImagePlaceholder />
+                                    )}
+                                  </div>
+                                  <div className="flex flex-1 flex-col gap-4 p-7 sm:gap-5 sm:p-9 md:p-10 lg:p-11">
+                                    <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-primary sm:text-sm">
+                                      <span>Featured</span>
+                                      {blog.published_date ? (
+                                        <span className="text-muted-foreground">
+                                          {format(
+                                            new Date(blog.published_date),
+                                            "MMMM d, yyyy",
+                                          )}
+                                        </span>
+                                      ) : null}
+                                    </div>
+                                    <h3 className="font-heading text-xl font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary sm:text-2xl md:text-3xl xl:text-4xl xl:leading-tight">
+                                      {blog.title}
+                                    </h3>
+                                    {blog.excerpt ? (
+                                      <p className="line-clamp-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                                        {blog.excerpt}
+                                      </p>
+                                    ) : null}
+                                    <div className="mt-auto border-t border-border pt-5 text-sm text-muted-foreground md:text-base">
+                                      {blog.author_name ? (
+                                        <p className="font-medium text-foreground">
+                                          {blog.author_name}
+                                        </p>
+                                      ) : null}
+                                      {blog.author_designation ? (
+                                        <p>{blog.author_designation}</p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </article>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </section>
+                  ) : null}
+
+                  {regularBlogs.length > 0 ? (
+                    <section
+                      aria-labelledby="blogs-all"
+                      className="border-t border-border pt-16 md:pt-20"
+                    >
+                      <div className="mb-8 flex flex-col gap-2 md:mb-12">
+                        <h2
+                          id="blogs-all"
+                          className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+                        >
+                          {featuredBlogs.length > 0 ? "All posts" : "Articles"}
+                        </h2>
+                        <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
+                          Browse every published article.
+                        </p>
+                      </div>
+                      <ul className={gridAll}>
+                        {regularBlogs.map((blog) => {
+                          const imgSrc = resolveCardImageUrl(blog);
+                          return (
+                            <li key={blog.id}>
+                              <Link
+                                href={`/blogs/${blog.slug}`}
+                                className="group block h-full rounded-2xl border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+                              >
+                                <article className="flex h-full flex-col overflow-hidden rounded-2xl">
+                                  <div className="relative aspect-[16/9] w-full shrink-0 bg-muted">
+                                    {imgSrc ? (
+                                      <img
+                                        src={imgSrc}
+                                        alt={`${blog.title} — QApilot blog`}
+                                        width={800}
+                                        height={450}
+                                        loading="lazy"
+                                        decoding="async"
+                                        className="h-full w-full object-cover"
+                                      />
+                                    ) : (
+                                      <BlogImagePlaceholder />
+                                    )}
+                                  </div>
+                                  <div className="flex flex-1 flex-col gap-2 p-6 sm:gap-3 sm:p-7 md:p-8">
+                                    {blog.published_date ? (
+                                      <time
+                                        dateTime={blog.published_date}
+                                        className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+                                      >
+                                        {format(
+                                          new Date(blog.published_date),
+                                          "MMM d, yyyy",
+                                        )}
+                                      </time>
+                                    ) : null}
+                                    <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary md:text-xl">
+                                      {blog.title}
+                                    </h3>
+                                    {blog.excerpt ? (
+                                      <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                                        {blog.excerpt}
+                                      </p>
+                                    ) : null}
+                                    <div className="mt-3 text-sm text-muted-foreground">
+                                      {blog.author_name ? (
+                                        <p className="font-medium text-foreground">
+                                          {blog.author_name}
+                                        </p>
+                                      ) : null}
+                                      {blog.author_designation ? (
+                                        <p>{blog.author_designation}</p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </article>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </section>
+                  ) : null}
+                </div>
+              )}
+            </div>
+          </div>
+        </main>
+        <Footer />
       </MarketingPageShell>
     </>
   );

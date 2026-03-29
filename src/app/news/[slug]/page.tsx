@@ -9,11 +9,23 @@ import SafeHtmlContent from "@/components/SafeHtmlContent";
 import SocialEmbed from "@/components/SocialEmbed";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import { format } from "date-fns";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { extractYouTubeId } from "@/utils/youtube";
+
+/** Match blog article: readable column + comfortable side margin. */
+const ARTICLE_GUTTER =
+  "w-full px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14";
+const ARTICLE_MAX_WIDTH = "mx-auto w-full max-w-7xl";
+
+function stripJsonLdContext(node: object): Record<string, unknown> {
+  const o = { ...(node as Record<string, unknown>) };
+  delete o["@context"];
+  return o;
+}
 
 const DEFAULT_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
@@ -64,7 +76,11 @@ export async function generateMetadata({
   return {
     title: newsItem.title,
     description,
-    keywords: "QApilot news, mobile testing updates, QA automation news",
+    keywords: [
+      "QApilot news",
+      "mobile testing updates",
+      "QA automation news",
+    ],
     alternates: {
       canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
     },
@@ -77,6 +93,8 @@ export async function generateMetadata({
       publishedTime: newsItem.published_date || undefined,
       authors: newsItem.author_name ? [newsItem.author_name] : undefined,
       tags: ["Mobile Testing", "QA Automation", "News"],
+      siteName: "QApilot",
+      locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
@@ -209,154 +227,190 @@ export default async function NewsPostPage({
     { name: newsItem.title, path: `${PATHS.NEWS}/${newsItem.slug}` },
   ]);
 
+  const pageJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      stripJsonLdContext(articleStructuredData),
+      stripJsonLdContext(breadcrumbData),
+    ],
+  };
+
   return (
-    <MarketingPageShell background="soft">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([articleStructuredData, breadcrumbData]),
+          __html: JSON.stringify(pageJsonLd),
         }}
       />
-
-      <div className="section-edge w-full py-24">
-        <article className="section-full mx-auto max-w-6xl">
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 mb-8 -ml-4 text-sm text-muted-foreground hover:text-foreground transition-colors hover:translate-x-1"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to News
-          </Link>
-
-          <header className="mb-8">
-            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-4 leading-tight">
-              {newsItem.title}
-            </h1>
-
-            {(newsItem.author_name || newsItem.published_date) && (
-              <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
-                {newsItem.author_name && (
-                  <div>
-                    <span className="font-medium">{newsItem.author_name}</span>
-                    {newsItem.author_designation && (
-                      <span className="text-sm">
-                        {" "}
-                        • {newsItem.author_designation}
-                      </span>
-                    )}
-                  </div>
-                )}
-                {newsItem.published_date && (
-                  <time dateTime={newsItem.published_date} className="text-sm">
-                    {new Date(newsItem.published_date).toLocaleDateString(
-                      "en-US",
-                      { year: "numeric", month: "long", day: "numeric" }
-                    )}
-                  </time>
-                )}
-              </div>
-            )}
-          </header>
-
-          {newsItem.youtube_url && <YouTubeEmbed url={newsItem.youtube_url} />}
-
-          <SafeHtmlContent
-            html={newsItem.content}
-            className="news-content max-w-none"
-          />
-
-          {writer && (
-            <WriterCard
-              name={writer.name}
-              designation={writer.designation}
-              description={writer.description}
-              linkedinUrl={writer.linkedin_url}
-              profileImage={writer.profile_image}
-            />
-          )}
-
-          {newsItem.social_embed_url && (
-            <SocialEmbed
-              url={newsItem.social_embed_url}
-              image={newsItem.social_embed_image || undefined}
-              description={newsItem.social_embed_description || undefined}
-            />
-          )}
-
-          {backlinks.length > 0 && (
-            <nav aria-label="Related organizations" className="mt-12 pt-8 border-t">
-              <div className="flex flex-wrap gap-6 justify-center">
-                {backlinks.map((backlink) => {
-                  const isLink = !!backlink.link_url;
-                  const className = `flex flex-col items-center text-center p-6 rounded-xl bg-card border border-border/50 shadow-sm w-full sm:w-64 ${
-                    isLink
-                      ? "cursor-pointer hover:shadow-md hover:border-primary/30 hover:-translate-y-1 transition-all duration-200"
-                      : ""
-                  }`;
-
-                  const content = (
-                    <>
-                      <div className="mb-4">
-                        <img
-                          src={backlink.logo_url}
-                          alt={`${backlink.header} logo`}
-                          className="h-16 w-auto object-contain"
-                          width={160}
-                          height={64}
-                        />
-                      </div>
-                      <h4 className="font-semibold text-sm text-foreground mb-2">
-                        {backlink.header}
-                      </h4>
-                      {backlink.description && (
-                        <p className="text-sm text-muted-foreground mb-3">
-                          {backlink.description}
-                        </p>
-                      )}
-                      {backlink.link_url && (
-                        <div className="flex items-center gap-1 text-sm text-primary mt-auto">
-                          {backlink.header}{" "}
-                          <ExternalLink className="h-3 w-3" />
-                        </div>
-                      )}
-                    </>
-                  );
-
-                  return isLink ? (
-                    <a
-                      key={backlink.id}
-                      href={backlink.link_url!}
-                      target="_blank"
-                      rel="noopener"
-                      title={backlink.description || backlink.header}
-                      className={className}
-                    >
-                      {content}
-                    </a>
-                  ) : (
-                    <div key={backlink.id} className={className}>
-                      {content}
-                    </div>
-                  );
-                })}
-              </div>
-            </nav>
-          )}
-
-          <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.NEWS} />
-
-          <div className="mt-12 pt-8 border-t">
+      <MarketingPageShell background="soft">
+        <main className="section-edge w-full py-16 md:py-20 lg:py-24">
+          <div className={`${ARTICLE_GUTTER} ${ARTICLE_MAX_WIDTH}`}>
             <Link
               href="/news"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm border border-border rounded-md hover:bg-accent transition-colors"
+              className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to News
             </Link>
+
+            {newsItem.featured_image && !newsItem.youtube_url && (
+              <div className="mb-8 w-full overflow-hidden rounded-lg">
+                <img
+                  src={newsItem.featured_image}
+                  alt={`${newsItem.title} - QApilot News`}
+                  className="h-auto w-full object-contain"
+                  width={1200}
+                  height={630}
+                  loading="eager"
+                  style={{ aspectRatio: "1200/630" }}
+                />
+              </div>
+            )}
+
+            <h1 className="font-heading mb-6 text-4xl font-medium tracking-tight text-gradient md:text-5xl">
+              {newsItem.title}
+            </h1>
+
+            {newsItem.excerpt ? (
+              <p className="mb-8 text-xl text-muted-foreground">
+                {newsItem.excerpt}
+              </p>
+            ) : null}
+
+            {(newsItem.author_name ||
+              newsItem.author_designation ||
+              newsItem.published_date) && (
+              <div className="mb-8 flex items-center gap-4 border-b border-border pb-8">
+                <div>
+                  {newsItem.author_name ? (
+                    <p className="font-semibold text-foreground">
+                      {newsItem.author_name}
+                    </p>
+                  ) : null}
+                  {newsItem.author_designation ? (
+                    <p className="text-sm text-muted-foreground">
+                      {newsItem.author_designation}
+                    </p>
+                  ) : null}
+                </div>
+                {newsItem.published_date ? (
+                  <time
+                    dateTime={newsItem.published_date}
+                    className="ml-auto text-sm text-muted-foreground"
+                  >
+                    {format(
+                      new Date(newsItem.published_date),
+                      "MMMM dd, yyyy",
+                    )}
+                  </time>
+                ) : null}
+              </div>
+            )}
+
+            {newsItem.youtube_url && <YouTubeEmbed url={newsItem.youtube_url} />}
+
+            <SafeHtmlContent
+              html={newsItem.content || ""}
+              className="news-content max-w-none"
+            />
+
+            {writer ? (
+              <WriterCard
+                name={writer.name}
+                designation={writer.designation}
+                description={writer.description}
+                linkedinUrl={writer.linkedin_url}
+                profileImage={writer.profile_image}
+              />
+            ) : null}
+
+            {newsItem.social_embed_url ? (
+              <SocialEmbed
+                url={newsItem.social_embed_url}
+                image={newsItem.social_embed_image || undefined}
+                description={newsItem.social_embed_description || undefined}
+              />
+            ) : null}
+
+            {backlinks.length > 0 ? (
+              <nav
+                aria-label="Related organizations"
+                className="mt-12 border-t border-border pt-8"
+              >
+                <div className="flex flex-wrap justify-center gap-6">
+                  {backlinks.map((backlink) => {
+                    const isLink = !!backlink.link_url;
+                    const className = `flex w-full flex-col items-center rounded-xl border border-border/50 bg-card p-6 text-center shadow-sm sm:w-64 ${
+                      isLink
+                        ? "cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-primary/30 hover:shadow-md"
+                        : ""
+                    }`;
+
+                    const content = (
+                      <>
+                        <div className="mb-4">
+                          <img
+                            src={backlink.logo_url}
+                            alt={`${backlink.header} logo`}
+                            className="h-16 w-auto object-contain"
+                            width={160}
+                            height={64}
+                          />
+                        </div>
+                        <h4 className="mb-2 text-sm font-semibold text-foreground">
+                          {backlink.header}
+                        </h4>
+                        {backlink.description ? (
+                          <p className="mb-3 text-sm text-muted-foreground">
+                            {backlink.description}
+                          </p>
+                        ) : null}
+                        {backlink.link_url ? (
+                          <div className="mt-auto flex items-center gap-1 text-sm text-primary">
+                            {backlink.header}{" "}
+                            <ExternalLink className="h-3 w-3" />
+                          </div>
+                        ) : null}
+                      </>
+                    );
+
+                    return isLink ? (
+                      <a
+                        key={backlink.id}
+                        href={backlink.link_url!}
+                        target="_blank"
+                        rel="noopener"
+                        title={backlink.description || backlink.header}
+                        className={className}
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      <div key={backlink.id} className={className}>
+                        {content}
+                      </div>
+                    );
+                  })}
+                </div>
+              </nav>
+            ) : null}
+
+            <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.NEWS} />
+
+            <div className="mt-12 border-t border-border pt-8">
+              <Link
+                href="/news"
+                className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm transition-colors hover:bg-accent"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to News
+              </Link>
+            </div>
           </div>
-        </article>
-      </div>
-      <Footer />
-    </MarketingPageShell>
+        </main>
+        <Footer />
+      </MarketingPageShell>
+    </>
   );
 }
