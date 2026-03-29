@@ -21,7 +21,7 @@ export const revalidate = 120;
 
 export default function LabsPage() {
   return (
-    <MarketingPageShell background="hero">
+    <MarketingPageShell background="none">
       {/* CollectionPage + BreadcrumbList structured data */}
       <script
         type="application/ld+json"

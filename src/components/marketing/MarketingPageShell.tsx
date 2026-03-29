@@ -4,6 +4,12 @@ import {
   type MarketingBackgroundVariant,
 } from "./MarketingBackground";
 
+/** Passed to `MarketingBackground` when `background="hero"` (e.g. match home hero: no diagonal grid + pixel ripple). */
+export type MarketingHeroBackgroundOptions = {
+  showDiagonalGrid?: boolean;
+  showPixelRipple?: boolean;
+};
+
 type MarketingPageShellProps = {
   children: React.ReactNode;
   /** Full-page atmosphere; use `none` when a child section provides its own stack. */
@@ -11,6 +17,8 @@ type MarketingPageShellProps = {
   className?: string;
   /** Applied to the content wrapper above the background (e.g. contain-layout). */
   contentClassName?: string;
+  /** Only applies when `background="hero"`. */
+  heroBackgroundOptions?: MarketingHeroBackgroundOptions;
 };
 
 /**
@@ -21,6 +29,7 @@ export function MarketingPageShell({
   background = "hero",
   className,
   contentClassName,
+  heroBackgroundOptions,
 }: MarketingPageShellProps) {
   return (
     <div
@@ -30,7 +39,10 @@ export function MarketingPageShell({
       )}
     >
       {background !== "none" ? (
-        <MarketingBackground variant={background} />
+        <MarketingBackground
+          variant={background}
+          {...(background === "hero" ? (heroBackgroundOptions ?? {}) : {})}
+        />
       ) : null}
       <div className={cn("relative z-10", contentClassName)}>{children}</div>
     </div>

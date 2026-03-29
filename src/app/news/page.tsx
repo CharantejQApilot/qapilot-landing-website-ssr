@@ -1,34 +1,103 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FileText } from "lucide-react";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
-import { Card, CardContent } from "@/components/ui/card";
+import { format } from "date-fns";
+import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 
+const NEWS_PATH = PATHS.NEWS;
+const canonicalUrl = `${SITE_BASE_URL}${NEWS_PATH}`;
+
+const defaultOgImage =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
+
+const NEWS_LIST_SELECT =
+  "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
+
+const LIST_GUTTER =
+  "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
+
+const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
+
 export const metadata: Metadata = {
   title: "News & Updates - Mobile Testing Industry News",
   description:
     "Stay updated with the latest news, product updates, and industry insights from QApilot. Learn about new features, partnerships, and mobile testing trends.",
-  keywords:
-    "QApilot news, mobile testing updates, QA automation news, product updates, testing industry news",
-  alternates: { canonical: `${SITE_BASE_URL}${PATHS.NEWS}` },
+  keywords: [
+    "QApilot news",
+    "mobile testing updates",
+    "QA automation news",
+    "product updates",
+    "testing industry news",
+  ],
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "News & Updates - Mobile Testing Industry News | QApilot",
+    description:
+      "Latest announcements, product updates, and insights from QApilot.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: "QApilot mobile testing platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "News & Updates - Mobile Testing Industry News | QApilot",
+    description:
+      "Stay updated with announcements and updates from QApilot.",
+    images: [defaultOgImage],
+  },
 };
 
-/** Always fetch from Supabase at request time — avoids empty static HTML from build-time snapshots. */
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
-interface NewsItem {
+type NewsListRow = {
   id: string;
-  title: string;
   slug: string;
+  title: string;
   excerpt: string | null;
   featured_image: string | null;
+  youtube_url: string | null;
   author_name: string | null;
   author_designation: string | null;
   published_date: string | null;
+  is_featured: boolean | null;
+};
+
+function resolveCardImageUrl(item: NewsListRow): string | undefined {
+  if (item.featured_image) return item.featured_image;
+  if (item.youtube_url) return getYouTubeThumbnail(item.youtube_url) ?? undefined;
+  return undefined;
+}
+
+function stripJsonLdContext(node: object): Record<string, unknown> {
+  const o = { ...(node as Record<string, unknown>) };
+  delete o["@context"];
+  return o;
+}
+
+function NewsImagePlaceholder() {
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground"
+      aria-hidden
+    >
+      <FileText className="h-12 w-12 opacity-40" strokeWidth={1.25} />
+    </div>
+  );
 }
 
 export default async function NewsPage() {
@@ -36,30 +105,62 @@ export default async function NewsPage() {
   const { data } = supabase
     ? await supabase
         .from("news_updates")
-        .select(
-          "id, title, slug, excerpt, featured_image, author_name, author_designation, published_date"
-        )
+        .select(NEWS_LIST_SELECT)
         .eq("published", true)
         .order("published_date", { ascending: false })
     : { data: null as null };
 
-  const newsItems = (data as NewsItem[] | null) ?? [];
+  const list = (data as NewsListRow[] | null) ?? [];
 
-  const structuredData = [
-    {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: "QApilot News & Updates",
-      description:
-        "Stay updated with the latest news, product updates, and industry insights from QApilot.",
-      url: `${SITE_BASE_URL}${PATHS.NEWS}`,
-      publisher: { "@type": "Organization", name: "QApilot" },
-    },
-    buildBreadcrumbList([
-      { name: "Home", path: PATHS.HOME },
-      { name: "News", path: PATHS.NEWS },
-    ]),
-  ];
+  const itemListElements =
+    list.length > 0
+      ? list.map((item, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: item.title,
+          item: `${SITE_BASE_URL}${NEWS_PATH}/${item.slug}`,
+        }))
+      : undefined;
+
+  const collectionPage: Record<string, unknown> = {
+    "@type": "CollectionPage",
+    name: "QApilot News & Updates",
+    description:
+      "Stay updated with the latest news, product updates, and industry insights from QApilot.",
+    url: canonicalUrl,
+    publisher: { "@type": "Organization", name: "QApilot" },
+  };
+  if (itemListElements) {
+    collectionPage.mainEntity = {
+      "@type": "ItemList",
+      numberOfItems: itemListElements.length,
+      itemListElement: itemListElements,
+    };
+  }
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      collectionPage,
+      stripJsonLdContext(
+        buildBreadcrumbList([
+          { name: "Home", path: PATHS.HOME },
+          { name: "News", path: NEWS_PATH },
+        ]),
+      ),
+    ],
+  };
+
+  const featuredNews = list.filter((n) => n.is_featured);
+  const regularNews = list.filter((n) => !n.is_featured);
+  const singleFeatured = featuredNews.length === 1;
+
+  const gridFeatured = singleFeatured
+    ? "mx-auto grid w-full max-w-4xl list-none grid-cols-1 gap-8 sm:gap-10 xl:max-w-5xl"
+    : "mx-auto grid w-full max-w-7xl list-none grid-cols-1 gap-8 sm:gap-10 md:grid-cols-2 md:justify-items-stretch xl:gap-12 [&>li:last-child:nth-child(odd)]:md:col-span-2 [&>li:last-child:nth-child(odd)]:md:max-w-3xl [&>li:last-child:nth-child(odd)]:md:justify-self-center [&>li:last-child:nth-child(odd)]:md:w-full";
+
+  const gridAll =
+    "mx-auto grid w-full max-w-7xl list-none gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3";
 
   return (
     <>
@@ -67,87 +168,220 @@ export default async function NewsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <MarketingPageShell background="hero">
-        <div className="section-edge w-full py-24">
-          <div className="section-full mx-auto max-w-7xl">
-            <header className="mb-12 text-center">
-              <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-4 text-gradient">
-                News &amp; Updates
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Stay up to date with the latest announcements and updates from
-                QApilot
-              </p>
-            </header>
-
-            {newsItems.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {newsItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={`/news/${item.slug}`}
-                    className="group"
-                  >
-                    <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                      {item.featured_image && (
-                        <div className="aspect-video overflow-hidden">
-                          <img
-                            src={item.featured_image}
-                            alt={`${item.title} - QApilot News`}
-                            width={640}
-                            height={360}
-                            loading="lazy"
-                            decoding="async"
-                            style={{ aspectRatio: "16/9" }}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                          />
-                        </div>
-                      )}
-                      <CardContent className="p-6">
-                        <h2 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                          {item.title}
-                        </h2>
-                        {item.excerpt && (
-                          <p className="text-muted-foreground mb-4 line-clamp-3">
-                            {item.excerpt}
-                          </p>
-                        )}
-                        {(item.author_name || item.published_date) && (
-                          <div className="text-sm text-muted-foreground">
-                            {item.author_name && (
-                              <span>
-                                {item.author_name}
-                                {item.author_designation &&
-                                  ` • ${item.author_designation}`}
-                              </span>
-                            )}
-                            {item.published_date && (
-                              <span className="block mt-1">
-                                {new Date(
-                                  item.published_date
-                                ).toLocaleDateString("en-US", {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "numeric",
-                                })}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
+      <MarketingPageShell background="none">
+        <main className="relative w-full">
+          <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
+            <div className={LIST_GUTTER}>
+              <div className={`${LIST_MAX_WIDTH} py-16 md:py-24 lg:py-28 2xl:py-32`}>
+                <header className="relative mx-auto max-w-6xl text-center sm:max-w-none lg:max-w-7xl">
+                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
+                    QApilot news
+                  </p>
+                  <h1 className="font-heading font-semibold tracking-[-0.02em] text-[2.5rem] leading-[1.1] sm:text-5xl sm:leading-[1.08] md:text-6xl md:leading-[1.06] lg:text-7xl lg:leading-[1.05] xl:text-[4.25rem] 2xl:text-8xl 2xl:leading-[1.04]">
+                    <span className="text-gradient">News &amp; updates</span>
+                  </h1>
+                  <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed">
+                    Stay up to date with the latest announcements and updates
+                    from QApilot.
+                  </p>
+                </header>
               </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-xl text-muted-foreground">
-                  No news items available at the moment. Check back soon!
-                </p>
-              </div>
-            )}
+            </div>
           </div>
-        </div>
+
+          <div className={`bg-background ${LIST_GUTTER} py-14 md:py-20`}>
+            <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
+              {list.length === 0 ? (
+                <div className="flex flex-col items-center py-24 text-center">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">
+                    <FileText
+                      className="h-10 w-10 text-muted-foreground"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                  </div>
+                  <h2 className="text-2xl font-semibold text-foreground">
+                    No news yet
+                  </h2>
+                  <p className="mt-2 max-w-md text-muted-foreground">
+                    New updates will appear here soon.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-16 md:gap-20 lg:gap-24">
+                  {featuredNews.length > 0 ? (
+                    <section
+                      aria-labelledby="news-featured"
+                      className="flex flex-col items-center"
+                    >
+                      <div className="mb-8 flex w-full max-w-3xl flex-col items-center gap-2 text-center md:mb-12">
+                        <h2
+                          id="news-featured"
+                          className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+                        >
+                          Featured
+                        </h2>
+                        <p className="text-base text-muted-foreground md:text-lg">
+                          Highlights from the team — start here.
+                        </p>
+                      </div>
+                      <ul className={gridFeatured}>
+                        {featuredNews.map((item, index) => {
+                          const imgSrc = resolveCardImageUrl(item);
+                          return (
+                            <li key={item.id}>
+                              <Link
+                                href={`/news/${item.slug}`}
+                                className="group block h-full rounded-2xl border-2 border-primary/15 bg-card shadow-md outline-none ring-offset-background transition-shadow hover:border-primary/25 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-ring"
+                              >
+                                <article className="flex h-full flex-col overflow-hidden rounded-2xl">
+                                  <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-muted md:aspect-[2/1]">
+                                    {imgSrc ? (
+                                      <img
+                                        src={imgSrc}
+                                        alt={`${item.title} — QApilot news`}
+                                        width={960}
+                                        height={540}
+                                        loading={
+                                          index === 0 ? "eager" : "lazy"
+                                        }
+                                        fetchPriority={
+                                          index === 0 ? "high" : undefined
+                                        }
+                                        decoding="async"
+                                        className="absolute inset-0 h-full w-full object-cover object-center"
+                                      />
+                                    ) : (
+                                      <NewsImagePlaceholder />
+                                    )}
+                                  </div>
+                                  <div className="flex flex-1 flex-col gap-4 p-7 sm:gap-5 sm:p-9 md:p-10 lg:p-11">
+                                    <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-primary sm:text-sm">
+                                      <span>Featured</span>
+                                      {item.published_date ? (
+                                        <span className="text-muted-foreground">
+                                          {format(
+                                            new Date(item.published_date),
+                                            "MMMM d, yyyy",
+                                          )}
+                                        </span>
+                                      ) : null}
+                                    </div>
+                                    <h3 className="font-heading text-xl font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary sm:text-2xl md:text-3xl xl:text-4xl xl:leading-tight">
+                                      {item.title}
+                                    </h3>
+                                    {item.excerpt ? (
+                                      <p className="line-clamp-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                                        {item.excerpt}
+                                      </p>
+                                    ) : null}
+                                    <div className="mt-auto border-t border-border pt-5 text-sm text-muted-foreground md:text-base">
+                                      {item.author_name ? (
+                                        <p className="font-medium text-foreground">
+                                          {item.author_name}
+                                        </p>
+                                      ) : null}
+                                      {item.author_designation ? (
+                                        <p>{item.author_designation}</p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </article>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </section>
+                  ) : null}
+
+                  {regularNews.length > 0 ? (
+                    <section
+                      aria-labelledby="news-all"
+                      className="border-t border-border pt-16 md:pt-20"
+                    >
+                      <div className="mb-8 flex flex-col gap-2 md:mb-12">
+                        <h2
+                          id="news-all"
+                          className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+                        >
+                          {featuredNews.length > 0
+                            ? "All updates"
+                            : "Updates"}
+                        </h2>
+                        <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
+                          Browse every published announcement.
+                        </p>
+                      </div>
+                      <ul className={gridAll}>
+                        {regularNews.map((item) => {
+                          const imgSrc = resolveCardImageUrl(item);
+                          return (
+                            <li key={item.id}>
+                              <Link
+                                href={`/news/${item.slug}`}
+                                className="group block h-full rounded-2xl border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+                              >
+                                <article className="flex h-full flex-col overflow-hidden rounded-2xl">
+                                  <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-muted">
+                                    {imgSrc ? (
+                                      <img
+                                        src={imgSrc}
+                                        alt={`${item.title} — QApilot news`}
+                                        width={800}
+                                        height={450}
+                                        loading="lazy"
+                                        decoding="async"
+                                        className="absolute inset-0 h-full w-full object-cover object-center"
+                                      />
+                                    ) : (
+                                      <NewsImagePlaceholder />
+                                    )}
+                                  </div>
+                                  <div className="flex flex-1 flex-col gap-2 p-6 sm:gap-3 sm:p-7 md:p-8">
+                                    {item.published_date ? (
+                                      <time
+                                        dateTime={item.published_date}
+                                        className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+                                      >
+                                        {format(
+                                          new Date(item.published_date),
+                                          "MMM d, yyyy",
+                                        )}
+                                      </time>
+                                    ) : null}
+                                    <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary md:text-xl">
+                                      {item.title}
+                                    </h3>
+                                    {item.excerpt ? (
+                                      <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                                        {item.excerpt}
+                                      </p>
+                                    ) : null}
+                                    <div className="mt-3 text-sm text-muted-foreground">
+                                      {item.author_name ? (
+                                        <p className="font-medium text-foreground">
+                                          {item.author_name}
+                                        </p>
+                                      ) : null}
+                                      {item.author_designation ? (
+                                        <p>{item.author_designation}</p>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </article>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </section>
+                  ) : null}
+                </div>
+              )}
+            </div>
+          </div>
+        </main>
         <Footer />
       </MarketingPageShell>
     </>

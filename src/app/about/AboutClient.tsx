@@ -12,7 +12,7 @@ const AboutClient = () => {
   return (
     <>
         {/* Hero Section with Animation */}
-        <section className="section-edge relative flex min-h-[80vh] w-full items-center justify-center overflow-hidden py-20">
+        <section className="section-edge relative flex min-h-[80vh] w-full items-center justify-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background py-20">
           {/* Enhanced Background with SVG Animations */}
           <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background">
             {/* Animated Grid Pattern */}
@@ -21,18 +21,6 @@ const AboutClient = () => {
                 <pattern id="heroGrid" width="60" height="60" patternUnits="userSpaceOnUse">
                   <path d="M 60 0 L 0 0 0 60" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.3" />
                 </pattern>
-                {/* Animated gradient for grid sweep */}
-                <linearGradient id="gridSweep" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0">
-                    <animate attributeName="offset" values="-1;1" dur="4s" repeatCount="indefinite" />
-                  </stop>
-                  <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.3">
-                    <animate attributeName="offset" values="-0.5;1.5" dur="4s" repeatCount="indefinite" />
-                  </stop>
-                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0">
-                    <animate attributeName="offset" values="0;2" dur="4s" repeatCount="indefinite" />
-                  </stop>
-                </linearGradient>
               </defs>
               <rect width="100%" height="100%" fill="url(#heroGrid)" />
             </svg>
@@ -40,23 +28,13 @@ const AboutClient = () => {
             {/* Floating Orbs */}
             <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
               {/* Large floating orb - top left */}
-              <circle cx="15%" cy="20%" r="150" fill="url(#orbGradient1)" opacity="0.15">
-                <animate attributeName="cy" values="20%;25%;20%" dur="8s" repeatCount="indefinite" />
-                <animate attributeName="cx" values="15%;18%;15%" dur="10s" repeatCount="indefinite" />
-              </circle>
+              <circle cx="15%" cy="20%" r="150" fill="url(#orbGradient1)" opacity="0.15" />
               {/* Medium orb - bottom right */}
-              <circle cx="85%" cy="70%" r="100" fill="url(#orbGradient2)" opacity="0.12">
-                <animate attributeName="cy" values="70%;65%;70%" dur="7s" repeatCount="indefinite" />
-                <animate attributeName="cx" values="85%;82%;85%" dur="9s" repeatCount="indefinite" />
-              </circle>
+              <circle cx="85%" cy="70%" r="100" fill="url(#orbGradient2)" opacity="0.12" />
               {/* Small orb - center left */}
-              <circle cx="10%" cy="60%" r="60" fill="hsl(var(--primary))" opacity="0.08">
-                <animate attributeName="cy" values="60%;55%;60%" dur="6s" repeatCount="indefinite" />
-              </circle>
+              <circle cx="10%" cy="60%" r="60" fill="hsl(var(--primary))" opacity="0.08" />
               {/* Small orb - top right */}
-              <circle cx="90%" cy="30%" r="80" fill="hsl(var(--primary))" opacity="0.1">
-                <animate attributeName="cy" values="30%;35%;30%" dur="5s" repeatCount="indefinite" />
-              </circle>
+              <circle cx="90%" cy="30%" r="80" fill="hsl(var(--primary))" opacity="0.1" />
               <defs>
                 <radialGradient id="orbGradient1" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
@@ -73,63 +51,27 @@ const AboutClient = () => {
             <svg className="absolute inset-0 w-full h-full opacity-30" xmlns="http://www.w3.org/2000/svg">
               {/* Horizontal line with traveling pulse */}
               <line x1="0" y1="25%" x2="100%" y2="25%" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.2" />
-              <circle r="3" fill="hsl(var(--primary))">
-                <animate attributeName="cx" values="0;100%" dur="6s" repeatCount="indefinite" />
-                <animate attributeName="cy" values="25%;25%" dur="6s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0;0.8;0.8;0" dur="6s" repeatCount="indefinite" />
-              </circle>
-              
-              {/* Diagonal line with pulse */}
+
+              {/* Diagonal line */}
               <line x1="0" y1="80%" x2="40%" y2="50%" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.15" />
-              <circle r="2" fill="hsl(var(--primary))">
-                <animate attributeName="cx" values="0;40%" dur="4s" repeatCount="indefinite" begin="1s" />
-                <animate attributeName="cy" values="80%;50%" dur="4s" repeatCount="indefinite" begin="1s" />
-                <animate attributeName="opacity" values="0;0.6;0.6;0" dur="4s" repeatCount="indefinite" begin="1s" />
-              </circle>
 
               {/* Right diagonal */}
               <line x1="100%" y1="70%" x2="60%" y2="45%" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.15" />
-              <circle r="2" fill="hsl(var(--primary))">
-                <animate attributeName="cx" values="100%;60%" dur="5s" repeatCount="indefinite" begin="2s" />
-                <animate attributeName="cy" values="70%;45%" dur="5s" repeatCount="indefinite" begin="2s" />
-                <animate attributeName="opacity" values="0;0.6;0.6;0" dur="5s" repeatCount="indefinite" begin="2s" />
-              </circle>
 
               {/* Bottom horizontal */}
               <line x1="20%" y1="85%" x2="80%" y2="85%" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.12" />
-              <circle r="2" fill="hsl(var(--primary))">
-                <animate attributeName="cx" values="20%;80%" dur="7s" repeatCount="indefinite" begin="0.5s" />
-                <animate attributeName="cy" values="85%;85%" dur="7s" repeatCount="indefinite" begin="0.5s" />
-                <animate attributeName="opacity" values="0;0.5;0.5;0" dur="7s" repeatCount="indefinite" begin="0.5s" />
-              </circle>
             </svg>
 
             {/* Floating dots/particles */}
             <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20%" cy="40%" r="2" fill="hsl(var(--primary))" opacity="0.4">
-                <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="75%" cy="25%" r="1.5" fill="hsl(var(--primary))" opacity="0.3">
-                <animate attributeName="opacity" values="0.1;0.5;0.1" dur="4s" repeatCount="indefinite" begin="1s" />
-              </circle>
-              <circle cx="40%" cy="75%" r="2" fill="hsl(var(--primary))" opacity="0.35">
-                <animate attributeName="opacity" values="0.15;0.55;0.15" dur="3.5s" repeatCount="indefinite" begin="0.5s" />
-              </circle>
-              <circle cx="85%" cy="55%" r="1.5" fill="hsl(var(--primary))" opacity="0.3">
-                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.5s" repeatCount="indefinite" begin="1.5s" />
-              </circle>
-              <circle cx="5%" cy="70%" r="2" fill="hsl(var(--primary))" opacity="0.25">
-                <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite" begin="2s" />
-              </circle>
-              <circle cx="60%" cy="15%" r="1.5" fill="hsl(var(--primary))" opacity="0.35">
-                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite" begin="0.8s" />
-              </circle>
-              <circle cx="95%" cy="40%" r="2" fill="hsl(var(--primary))" opacity="0.3">
-                <animate attributeName="opacity" values="0.15;0.45;0.15" dur="3.5s" repeatCount="indefinite" begin="1.2s" />
-              </circle>
-              <circle cx="30%" cy="10%" r="1.5" fill="hsl(var(--primary))" opacity="0.25">
-                <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4.5s" repeatCount="indefinite" begin="0.3s" />
-              </circle>
+              <circle cx="20%" cy="40%" r="2" fill="hsl(var(--primary))" opacity="0.35" />
+              <circle cx="75%" cy="25%" r="1.5" fill="hsl(var(--primary))" opacity="0.28" />
+              <circle cx="40%" cy="75%" r="2" fill="hsl(var(--primary))" opacity="0.32" />
+              <circle cx="85%" cy="55%" r="1.5" fill="hsl(var(--primary))" opacity="0.32" />
+              <circle cx="5%" cy="70%" r="2" fill="hsl(var(--primary))" opacity="0.22" />
+              <circle cx="60%" cy="15%" r="1.5" fill="hsl(var(--primary))" opacity="0.32" />
+              <circle cx="95%" cy="40%" r="2" fill="hsl(var(--primary))" opacity="0.28" />
+              <circle cx="30%" cy="10%" r="1.5" fill="hsl(var(--primary))" opacity="0.22" />
             </svg>
           </div>
 
@@ -148,18 +90,6 @@ const AboutClient = () => {
             <div className="relative max-w-5xl mx-auto h-[350px] md:h-[420px] hidden md:block">
               {/* SVG for connections and animations */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 900 420" fill="none">
-                {/* Define paths for data flow */}
-                <defs>
-                  <path id="pathLeft1" d="M 120 140 L 380 200" />
-                  <path id="pathLeft2" d="M 120 280 L 380 220" />
-                  <path id="pathRight1" d="M 520 200 L 780 140" />
-                  <path id="pathRight2" d="M 520 220 L 780 280" />
-                  <path id="pathTop" d="M 300 80 L 450 160" />
-                  <path id="pathTop2" d="M 600 80 L 450 160" />
-                  <path id="pathBottom" d="M 300 340 L 450 260" />
-                  <path id="pathBottom2" d="M 600 340 L 450 260" />
-                </defs>
-
                 {/* Connection lines - straight and modern */}
                 <line x1="120" y1="140" x2="380" y2="200" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.2" />
                 <line x1="120" y1="280" x2="380" y2="220" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.2" />
@@ -170,78 +100,6 @@ const AboutClient = () => {
                 <line x1="300" y1="340" x2="450" y2="260" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.15" />
                 <line x1="600" y1="340" x2="450" y2="260" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.15" />
 
-                {/* Animated data packets flowing to center */}
-                <circle r="4" fill="hsl(var(--primary))">
-                  <animateMotion dur="2s" repeatCount="indefinite" begin="0s">
-                    <mpath href="#pathLeft1" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.9;0.9;0" dur="2s" repeatCount="indefinite" begin="0s" />
-                </circle>
-                
-                <circle r="4" fill="hsl(var(--primary))">
-                  <animateMotion dur="2s" repeatCount="indefinite" begin="0.5s">
-                    <mpath href="#pathLeft2" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.9;0.9;0" dur="2s" repeatCount="indefinite" begin="0.5s" />
-                </circle>
-
-                <circle r="4" fill="hsl(var(--primary))">
-                  <animateMotion dur="2s" repeatCount="indefinite" begin="0.25s">
-                    <mpath href="#pathRight1" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.9;0.9;0" dur="2s" repeatCount="indefinite" begin="0.25s" />
-                </circle>
-                
-                <circle r="4" fill="hsl(var(--primary))">
-                  <animateMotion dur="2s" repeatCount="indefinite" begin="0.75s">
-                    <mpath href="#pathRight2" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.9;0.9;0" dur="2s" repeatCount="indefinite" begin="0.75s" />
-                </circle>
-
-                {/* Corner flows */}
-                <circle r="3" fill="hsl(var(--primary))">
-                  <animateMotion dur="2.5s" repeatCount="indefinite" begin="1s">
-                    <mpath href="#pathTop" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.7;0.7;0" dur="2.5s" repeatCount="indefinite" begin="1s" />
-                </circle>
-
-                <circle r="3" fill="hsl(var(--primary))">
-                  <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.5s">
-                    <mpath href="#pathTop2" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.7;0.7;0" dur="2.5s" repeatCount="indefinite" begin="1.5s" />
-                </circle>
-
-                <circle r="3" fill="hsl(var(--primary))">
-                  <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s">
-                    <mpath href="#pathBottom" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.7;0.7;0" dur="2.5s" repeatCount="indefinite" begin="0.8s" />
-                </circle>
-
-                <circle r="3" fill="hsl(var(--primary))">
-                  <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.3s">
-                    <mpath href="#pathBottom2" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.7;0.7;0" dur="2.5s" repeatCount="indefinite" begin="1.3s" />
-                </circle>
-
-                {/* Secondary slower particles */}
-                <circle r="2" fill="hsl(var(--primary))">
-                  <animateMotion dur="3s" repeatCount="indefinite" begin="1.2s">
-                    <mpath href="#pathLeft1" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.5;0.5;0" dur="3s" repeatCount="indefinite" begin="1.2s" />
-                </circle>
-
-                <circle r="2" fill="hsl(var(--primary))">
-                  <animateMotion dur="3s" repeatCount="indefinite" begin="1.8s">
-                    <mpath href="#pathRight2" />
-                  </animateMotion>
-                  <animate attributeName="opacity" values="0;0.5;0.5;0" dur="3s" repeatCount="indefinite" begin="1.8s" />
-                </circle>
               </svg>
 
               {/* Network Nodes */}
@@ -287,12 +145,11 @@ const AboutClient = () => {
                 {/* Central QApilot Hub */}
                 <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
                   <div className="relative">
-                    <div className="w-28 h-28 bg-card border-2 border-primary rounded-2xl flex items-center justify-center shadow-2xl animate-pulse-glow">
+                    <div className="flex h-28 w-28 items-center justify-center rounded-2xl border-2 border-primary bg-card shadow-2xl">
                       <img src="/lovable-uploads/40829201-8081-41bf-8cf5-1e80143e6a36.png" alt="QApilot" className="h-16 w-16 object-contain" />
                     </div>
                     <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-base font-bold text-primary whitespace-nowrap">QApilot</span>
-                    {/* Outer glow ring */}
-                    <div className="absolute -inset-4 border border-primary/20 rounded-3xl animate-pulse"></div>
+                    <div className="absolute -inset-4 rounded-3xl border border-primary/20" />
                   </div>
                 </div>
 
