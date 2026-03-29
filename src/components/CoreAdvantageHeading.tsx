@@ -1,53 +1,169 @@
 "use client";
 
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Network } from "lucide-react";
+import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { PATHS } from "@/lib/routes";
+
+function CapHighlight({ children }: { children: ReactNode }) {
+  return <strong className="font-semibold text-primary">{children}</strong>;
+}
 
 type TabItem = {
   id: string;
   label: string;
-  description: string;
+  description: ReactNode;
+  knowMoreHref: string;
   imageAlt: string;
   imageSrc?: string;
+  /** Full-bleed scenic photo behind the product shot (Unsplash or same-origin). */
+  scenicBackgroundSrc: string;
+  /** Lighter scrims so the photo stays visible (e.g. very light UI screenshots). */
+  scenicScrim?: "light";
 };
 
 const TABS: TabItem[] = [
   {
     id: "autonomous",
     label: "Autonomous Testing",
-    description:
-      "Placeholder: Describe how QApilot runs critical flows without scripts — you’ll replace this with final copy.",
-    imageAlt: "Autonomous testing",
+    description: (
+      <>
+        Automatically validates <CapHighlight>critical app flows</CapHighlight> without any scripts or setup. From the
+        moment you upload your app, QApilot explores it like a <CapHighlight>real user</CapHighlight> and generates
+        meaningful test coverage, giving <CapHighlight>instant visibility into app health</CapHighlight>.
+      </>
+    ),
+    knowMoreHref: PATHS.AUTONOMOUS_TESTING,
+    imageSrc: "/lovable-uploads/core-advantage-autonomous-testing.png",
+    imageAlt:
+      "QApilot crawler flow showing an app knowledge graph with connected screens, playback controls, and state details for autonomous mobile testing",
+    scenicBackgroundSrc:
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2400&q=80",
   },
   {
     id: "bug-detection",
     label: "Intelligent Bug Detection",
-    description:
-      "Placeholder: Summarize AI-driven regression and anomaly detection — swap in your messaging.",
-    imageAlt: "Intelligent bug detection",
+    description: (
+      <>
+        Autonomously detects <CapHighlight>accessibility gaps</CapHighlight>,{" "}
+        <CapHighlight>action latency issues</CapHighlight>, and <CapHighlight>page load failures</CapHighlight> during
+        execution. It surfaces real user-impacting problems without manual effort, helping teams{" "}
+        <CapHighlight>catch issues early</CapHighlight> and continuously.
+      </>
+    ),
+    knowMoreHref: PATHS.INTELLIGENT_BUG_DETECTION,
+    imageSrc: "/lovable-uploads/core-advantage-intelligent-bug-detection.png",
+    imageAlt:
+      "QApilot Intelligent Bug Detection: mobile emulator with highlighted issues, pages list, and accessibility details including touch targets, contrast, and content descriptions",
+    scenicBackgroundSrc:
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80",
   },
   {
     id: "flutter",
     label: "Flutter Testing",
-    description:
-      "Placeholder: Highlight cross-platform Flutter coverage — text to be provided.",
-    imageAlt: "Flutter testing",
+    description: (
+      <>
+        Built to handle <CapHighlight>Flutter&apos;s hybrid nature</CapHighlight>, QApilot seamlessly switches between{" "}
+        <CapHighlight>native</CapHighlight> and <CapHighlight>Flutter contexts</CapHighlight>. This ensures reliable,
+        end-to-end testing across platforms without breaking flows or requiring custom handling.
+      </>
+    ),
+    knowMoreHref: PATHS.FOR_FLUTTER,
+    imageSrc: "/lovable-uploads/core-advantage-flutter-testing.png",
+    imageAlt:
+      "QApilot Flutter testing workspace: NATIVE_APP context, emulator showing Urgent Care app with Schedule visit, step authoring with Create Step, identifiers, and Page Elements tree with OCR search",
+    scenicBackgroundSrc:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80",
   },
   {
     id: "security",
     label: "Security Reports",
-    description:
-      "Placeholder: Outline security and compliance reporting — replace with real content.",
-    imageAlt: "Security reports",
+    description: (
+      <>
+        Continuously analyzes your app for <CapHighlight>vulnerabilities</CapHighlight> like insecure requests, tracker
+        risks, and configuration issues. Provides <CapHighlight>clear, actionable insights</CapHighlight> to strengthen
+        security before every release.
+      </>
+    ),
+    knowMoreHref: PATHS.SECURITY_REPORTS,
+    imageSrc: "/lovable-uploads/core-advantage-security-reports.png",
+    imageAlt:
+      "QApilot security dashboard: app risk score, severity distribution, tracker detection, manifest and code vulnerability summaries, certificate issues, and dangerous permissions such as fine location",
+    scenicBackgroundSrc:
+      "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=2400&q=80",
+    scenicScrim: "light",
   },
   {
     id: "self-healing",
     label: "AI Self Healing",
-    description:
-      "Placeholder: Explain self-healing tests that adapt to UI changes — final copy coming soon.",
-    imageAlt: "AI self-healing",
+    description: (
+      <>
+        Adapts automatically to UI changes by intelligently updating element references during execution. This reduces{" "}
+        <CapHighlight>flaky tests</CapHighlight> and eliminates the need for constant{" "}
+        <CapHighlight>maintenance</CapHighlight>, keeping your <CapHighlight>test suite stable</CapHighlight> over time.
+      </>
+    ),
+    knowMoreHref: PATHS.AI_SELF_HEALING,
+    imageSrc: "/lovable-uploads/core-advantage-self-healing.png",
+    imageAlt:
+      "QApilot AI self-healing in a completed sanity suite run: AI-assisted step, dialog to update healed XPath for Enter your destination, execution vs recorded phone screenshots, element screenshot, and find-element timeline",
+    scenicBackgroundSrc:
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=80",
   },
 ];
+
+/** Scenic photography + soft scrims so the product screenshot reads clearly (TestMu-style sections). */
+function CoreCapabilityScenicBackdrop({
+  src,
+  panelKey,
+  scrim = "default",
+}: {
+  src: string;
+  panelKey: string;
+  scrim?: "default" | "light";
+}) {
+  const isLight = scrim === "light";
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-background"
+      aria-hidden
+    >
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-[-10%] motion-safe:animate-scenic-ken-burns">
+          <Image
+            key={panelKey}
+            src={src}
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 1200px, 100vw"
+            className="object-cover object-center"
+            priority={false}
+          />
+        </div>
+      </div>
+      {/* Scrims: “light” keeps more of the photo visible for pale, full-width UI shots */}
+      <div
+        className={
+          isLight
+            ? "absolute inset-0 bg-gradient-to-b from-background/[0.02] via-transparent to-background/22"
+            : "absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/40"
+        }
+      />
+      <div
+        className={
+          isLight
+            ? "absolute inset-0 bg-gradient-to-r from-background/[0.04] via-transparent to-background/[0.04]"
+            : "absolute inset-0 bg-gradient-to-r from-background/10 via-transparent to-background/10"
+        }
+      />
+      <div
+        className={isLight ? "absolute inset-0 bg-primary/[0.01]" : "absolute inset-0 bg-primary/[0.02]"}
+      />
+    </div>
+  );
+}
 
 /** Cream section atmosphere aligned with hero: gradients, grid, corner orbs, rings. */
 function DeliverSectionBackgroundDecor() {
@@ -278,40 +394,74 @@ const CoreAdvantageHeading = () => {
           aria-labelledby={`deliver-tab-${current.id}`}
           className="relative z-[1] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)]"
         >
-          <div className="border-b border-border bg-muted px-6 py-8 md:px-10 md:py-10 lg:px-14 lg:py-12">
-            <p
-              key={current.id}
-              className="max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl animate-in fade-in duration-300"
-            >
-              {current.description}
-            </p>
-          </div>
-
-          <div className="relative bg-[hsl(240_85%_6%)]">
-            <div
-              key={current.id}
-              className="relative flex min-h-[280px] w-full items-stretch justify-center md:min-h-[420px] lg:min-h-[min(58vw,680px)] animate-in fade-in duration-300"
-            >
-              {current.imageSrc ? (
-                <img
-                  src={current.imageSrc}
-                  alt={current.imageAlt}
-                  className="h-full w-full max-h-[min(70vh,680px)] object-contain object-center"
-                  loading="lazy"
-                  decoding="async"
-                />
-              ) : (
-                <div className="flex w-full max-w-6xl flex-col items-center justify-center gap-4 p-6 text-center md:p-10 lg:p-14">
-                  <div className="rounded-2xl border border-white/15 bg-[hsl(240_35%_11%)] px-8 py-14 md:py-20">
-                    <p className="font-heading text-lg font-semibold text-white/90 md:text-xl">
-                      {current.imageAlt}
-                    </p>
-                    <p className="mt-2 text-sm text-white/45">
-                      Add <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">imageSrc</code> on this tab
-                    </p>
+          <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
+            {/* Left (~62% lg): scenic + screenshot; image first on mobile */}
+            <div className="relative isolate min-h-[420px] min-w-0 w-full overflow-hidden bg-background lg:flex-[0_0_62%] lg:min-h-0">
+              <CoreCapabilityScenicBackdrop
+                src={current.scenicBackgroundSrc}
+                panelKey={current.id}
+                scrim={current.scenicScrim}
+              />
+              <div
+                key={`${current.id}-media`}
+                className="relative z-[2] flex min-h-[420px] w-full items-center justify-center px-[7.5%] py-[6.5%] sm:px-[8%] sm:py-[7%] md:min-h-[520px] md:px-[8.25%] md:py-[7.5%] lg:min-h-full lg:px-[6%] lg:py-6 xl:py-7 animate-in fade-in duration-300"
+              >
+                {current.imageSrc ? (
+                  <img
+                    src={current.imageSrc}
+                    alt={current.imageAlt}
+                    className="relative h-auto max-h-[min(88vh,920px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(90vh,960px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(54vh,576px)] xl:max-h-[min(56vh,608px)]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="flex w-full max-w-none flex-col items-center justify-center gap-4 py-4 text-center md:py-6">
+                    <div className="w-full max-w-2xl border border-dashed border-white/35 bg-card/85 px-6 py-12 outline outline-1 outline-white/30 [outline-offset:0] backdrop-blur-sm md:px-8 md:py-16">
+                      <p className="font-heading text-lg font-semibold text-foreground md:text-xl">
+                        {current.imageAlt}
+                      </p>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        Add <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono text-foreground">imageSrc</code>{" "}
+                        on this tab
+                      </p>
+                    </div>
                   </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right (~38% lg): hero-style patterns + section copy */}
+            <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-t border-border bg-muted px-6 py-8 md:px-8 md:py-10 lg:border-l lg:border-t-0 lg:px-10 lg:py-10">
+              <MarketingBackground variant="hero" />
+              <div
+                className="pointer-events-none absolute inset-0 bg-muted/82 backdrop-blur-[0.5px]"
+                aria-hidden
+              />
+              <div
+                key={current.id}
+                className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"
+              >
+                <div className="relative pl-4 md:pl-5">
+                  <span
+                    className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-primary md:top-1.5 md:bottom-1.5"
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-heading text-xl font-bold tracking-tight text-foreground md:text-2xl 2xl:text-[1.65rem] leading-snug">
+                    {current.label}
+                  </h3>
                 </div>
-              )}
+                <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
+                  {current.description}
+                </p>
+                <Link
+                  href={current.knowMoreHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+                >
+                  Know more
+                </Link>
+              </div>
             </div>
           </div>
         </div>

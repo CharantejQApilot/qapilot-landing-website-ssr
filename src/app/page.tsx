@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
-import VideoSection from "@/components/VideoSection";
 import VelocitySection from "@/components/VelocitySection";
 import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import ProductShowcaseSection from "@/components/ProductShowcaseSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
-import FeaturedNews from "@/components/FeaturedNews";
 import MetricsSection from "@/components/MetricsSection";
 import Footer from "@/components/Footer";
 
@@ -19,18 +17,16 @@ export const metadata: Metadata = {
 
 export default function IndexPage() {
   return (
-    <div className="min-h-screen relative z-0">
+    <div className="relative z-0 min-h-screen w-full section-edge">
       <main>
         <HeroSection />
         <ClientsSection />
         <MetricsSection />
-        <VideoSection variant="fullBleed" />
         <VelocitySection />
         <CoreAdvantageHeading />
         <ModernFrameworksSection />
         <ProductShowcaseSection />
         <IntegrationsSection />
-        <FeaturedNews />
       </main>
       <Footer />
     </div>

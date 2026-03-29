@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "QApilot for Site Reliability Engineers | Mobile App Reliability",
@@ -9,16 +10,17 @@ export const metadata: Metadata = {
 
 export default function ForSREPage() {
   return (
-    <>
-      <main className="min-h-screen pt-24 pb-16">
-        <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            QApilot for <span className="text-primary">Site Reliability Engineers</span>
+    <MarketingPageShell background="hero">
+      <main className="section-edge w-full py-24">
+        <div className="section-full mx-auto max-w-screen-xl">
+          <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl mb-4">
+            QApilot for{" "}
+            <span className="text-primary">Site Reliability Engineers</span>
           </h1>
           <p className="text-lg text-muted-foreground">Coming soon.</p>
         </div>
       </main>
       <Footer />
-    </>
+    </MarketingPageShell>
   );
 }

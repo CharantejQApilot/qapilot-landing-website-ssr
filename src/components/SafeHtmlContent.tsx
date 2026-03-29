@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import { enhanceContentLinks } from "@/utils/seoLinkEnhancer";
 
 interface SafeHtmlContentProps {
@@ -8,15 +9,15 @@ interface SafeHtmlContentProps {
   className?: string;
 }
 
+/**
+ * Sanitizes on the server (RSC pass) and client with the same engine so SSR HTML
+ * matches hydration and TipTap/CMS HTML is not briefly shown then cleared.
+ */
 export default function SafeHtmlContent({ html, className }: SafeHtmlContentProps) {
-  const [sanitized, setSanitized] = useState(html);
-
-  useEffect(() => {
-    import("dompurify").then((mod) => {
-      const DOMPurify = mod.default;
-      setSanitized(enhanceContentLinks(DOMPurify.sanitize(html)));
-    });
-  }, [html]);
+  const sanitized = useMemo(
+    () => enhanceContentLinks(DOMPurify.sanitize(html || "")),
+    [html]
+  );
 
   return (
     <div

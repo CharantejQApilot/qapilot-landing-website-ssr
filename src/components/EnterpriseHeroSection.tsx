@@ -10,17 +10,7 @@ const EnterpriseHeroSection = () => {
   const handleRequestDemoClick = () => {
     openForm("Request Demo", "Fill out the form below and our team will get in touch to schedule a personalized demo.");
   };
-  return <section className="relative min-h-screen flex items-center justify-center px-4 py-20 pb-8">
-      {/* Background Effects */}
-      <div className="absolute inset-0 glow-bg"></div>
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 opacity-20">
-        {/* Concentric circles motif */}
-        <div className="absolute inset-0 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-4 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-8 border border-primary/20 rounded-full"></div>
-        <div className="absolute inset-12 border border-primary/20 rounded-full"></div>
-      </div>
-
+  return <section className="relative flex min-h-screen items-center justify-center section-edge w-full py-20 pb-8">
       {/* Enterprise Scale Background - Abstract Network Grid */}
       <div className="absolute inset-0 opacity-10">
         <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none">
@@ -47,13 +37,13 @@ const EnterpriseHeroSection = () => {
         </svg>
       </div>
 
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           
           {/* Left Side - Content */}
           <div className="space-y-8">
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground animate-fade-in-up">
+            <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground animate-fade-in-up md:text-5xl lg:text-6xl">
               <span className="text-primary">Enterprise-Grade</span> Mobile App Testing with QApilot
             </h1>
 

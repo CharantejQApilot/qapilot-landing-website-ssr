@@ -9,7 +9,7 @@ const IntegrationsSection = () => {
 
   const integrations = [
     { name: "TestRail", logo: "/lovable-uploads/962197a9-5e99-40b8-8f8c-794b50520d5e.png" },
-    { name: "Jira", logo: "/lovable-uploads/151e5eab-2599-4813-99a9-a025ab5f960a.png" },
+    { name: "Jira", logo: "/lovable-uploads/jira-software-logo.png" },
     { name: "Teams", logo: "/lovable-uploads/bcb4526d-637b-49ba-a92d-b437d33a0516.png" },
     { name: "Slack", logo: "/lovable-uploads/f9ca9bd8-d74c-4852-8fa6-34c1be76aea3.png" },
     { name: "BrowserStack", logo: "/lovable-uploads/445698aa-1a01-42ef-9a78-96903c80c41f.png" },

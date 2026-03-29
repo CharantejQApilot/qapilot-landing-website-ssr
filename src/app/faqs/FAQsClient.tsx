@@ -59,7 +59,7 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
             <AccordionContent className="text-muted-foreground pb-5">
               <SafeHtmlContent
                 html={faq.answer}
-                className="prose prose-sm max-w-none dark:prose-invert"
+                className="prose prose-sm prose-slate max-w-none"
               />
             </AccordionContent>
           </AccordionItem>
@@ -72,7 +72,7 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
     <div className="space-y-10">
       {categories.map((category) => (
         <div key={category}>
-          <h2 className="text-2xl font-semibold text-foreground mb-4">
+          <h2 className="font-heading text-2xl font-semibold text-foreground mb-4">
             {category}
           </h2>
           <Accordion type="single" collapsible className="space-y-4">
@@ -88,7 +88,7 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
                 <AccordionContent className="text-muted-foreground pb-5">
                   <SafeHtmlContent
                     html={faq.answer}
-                    className="prose prose-sm max-w-none dark:prose-invert"
+                    className="prose prose-sm prose-slate max-w-none"
                   />
                 </AccordionContent>
               </AccordionItem>

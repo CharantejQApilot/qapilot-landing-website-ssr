@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import Providers from "./providers";
 import Header from "@/components/Header";
 import NewsBanner from "@/components/NewsBanner";
@@ -149,11 +150,23 @@ const softwareAppJsonLd = {
   ],
 };
 
+function supabasePreconnectOrigin(): string | null {
+  const raw = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!raw) return null;
+  try {
+    return new URL(raw).origin;
+  } catch {
+    return null;
+  }
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabaseOrigin = supabasePreconnectOrigin();
+
   return (
     <html lang="en">
       <head>
@@ -165,26 +178,28 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preconnect"
-          href="https://jvxdyfgjudycpopepgku.supabase.co"
-          crossOrigin="anonymous"
-        />
+        {supabaseOrigin ? (
+          <link
+            rel="preconnect"
+            href={supabaseOrigin}
+            crossOrigin="anonymous"
+          />
+        ) : null}
         {/* DNS Prefetch for third-party domains */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://js.hsforms.net" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
-        {/* Google Fonts: Lora + Source Sans 3 */}
+        {/* Google Fonts: Space Grotesk (headings) + Source Sans 3 (body) */}
         <link
           rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
           as="style"
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
         />
         {/* Preload critical above-the-fold images */}
         <link
@@ -241,9 +256,17 @@ export default function RootLayout({
         </noscript>
 
         <Providers>
-          <NewsBanner />
-          <Header />
-          <div className="relative z-0">{children}</div>
+          <div className="relative z-[1200] w-full bg-background">
+            <Suspense
+              fallback={
+                <div id="news-banner" className="h-[44px] shrink-0" aria-hidden />
+              }
+            >
+              <NewsBanner />
+            </Suspense>
+            <Header />
+          </div>
+          <div className="relative z-0 isolate">{children}</div>
         </Providers>
 
         {/* Google Tag Manager */}

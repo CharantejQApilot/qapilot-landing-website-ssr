@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import SafeHtmlContent from "@/components/SafeHtmlContent";
 import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
@@ -9,6 +9,7 @@ import { ArrowLeft, MapPin, Clock, Building2, ExternalLink } from "lucide-react"
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 interface JobOrganization {
   id: string;
@@ -65,7 +66,10 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    return { title: "Careers | QApilot" };
+  }
 
   let { data: job } = await supabase
     .from("job_openings")
@@ -106,7 +110,10 @@ export default async function JobPostPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    notFound();
+  }
 
   let { data: jobData } = await supabase
     .from("job_openings")
@@ -186,10 +193,11 @@ export default async function JobPostPage({
         }}
       />
 
-      <main className="min-h-screen bg-background">
+      <MarketingPageShell background="soft">
+      <main>
         {/* Hero Section */}
-        <section className="pt-24 pb-12 bg-gradient-to-b from-primary/5 to-background">
-          <div className="container mx-auto px-4">
+        <section className="section-edge w-full bg-gradient-to-b from-primary/5 to-background pt-24 pb-12">
+          <div className="section-full mx-auto max-w-4xl">
             <Link
               href="/careers"
               className="inline-flex items-center gap-2 mb-6 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -208,7 +216,7 @@ export default async function JobPostPage({
                 </span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground md:text-4xl lg:text-5xl mb-4">
                 {job.role}
               </h1>
 
@@ -227,14 +235,14 @@ export default async function JobPostPage({
         </section>
 
         {/* Job Description + Application Form */}
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4">
+        <section className="section-edge w-full border-t border-border py-12 md:py-16">
+          <div className="section-full mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
               {/* Left: Job Description */}
               <div className="lg:col-span-7">
                 <SafeHtmlContent
                   html={job.description}
-                  className="prose prose-lg dark:prose-invert max-w-none
+                  className="prose prose-lg prose-slate max-w-none
                     prose-headings:text-foreground prose-headings:font-bold
                     prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-4
                     prose-li:text-muted-foreground prose-li:mb-2
@@ -307,8 +315,8 @@ export default async function JobPostPage({
           </div>
         </section>
       </main>
-
       <Footer />
+      </MarketingPageShell>
     </>
   );
 }

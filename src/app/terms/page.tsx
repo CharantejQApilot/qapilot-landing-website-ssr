@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import SafeHtmlContent from "@/components/SafeHtmlContent";
 import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -14,32 +15,37 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.TERMS}` },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function TermsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data: termsContent } = await supabase
-    .from("terms_content")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+  const supabase = tryCreateServerSupabaseClient();
+  const { data: termsContent } = supabase
+    ? await supabase
+        .from("terms_content")
+        .select("*")
+        .order("created_at", { ascending: false, nullsFirst: false })
+        .limit(1)
+        .maybeSingle()
+    : { data: null as null };
 
   return (
     <>
-      <div className="min-h-screen bg-background animate-fade-in">
-        <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-          <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-4">
+      <MarketingPageShell background="soft" contentClassName="animate-fade-in">
+        <div className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
+          <div className="section-full mx-auto max-w-4xl py-4">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft size={18} />
               Back
             </Link>
           </div>
         </div>
-        <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+        <div className="section-edge w-full py-12">
+          <div className="section-full mx-auto max-w-4xl">
+          <div className="mb-12 text-center">
+            <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl mb-4">
               {termsContent?.title || "Terms of Service"}
             </h1>
           </div>
@@ -47,12 +53,13 @@ export default async function TermsPage() {
           <div className="max-w-none">
             <SafeHtmlContent
               html={termsContent?.content || ""}
-              className="bg-card rounded-lg border border-border p-6 sm:p-8 lg:p-12 shadow-sm prose prose-slate dark:prose-invert max-w-none"
+              className="prose prose-slate max-w-none rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12"
             />
           </div>
+          </div>
         </div>
-      </div>
-      <Footer />
+        <Footer />
+      </MarketingPageShell>
     </>
   );
 }

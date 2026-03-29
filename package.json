@@ -4,9 +4,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "next dev",
+    "clean": "rm -rf .next",
+    "dev:clean": "rm -rf .next && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-admin": "node scripts/create-admin-user.mjs"
   },
   "dependencies": {
     "@fontsource/space-grotesk": "^5.2.10",
@@ -61,6 +64,7 @@
     "dompurify": "^3.3.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
+    "isomorphic-dompurify": "^2.36.0",
     "lucide-react": "^0.462.0",
     "next": "^14.2.35",
     "next-themes": "^0.3.0",

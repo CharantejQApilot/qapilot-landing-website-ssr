@@ -3,12 +3,12 @@ import { SITE_BASE_URL } from "@/lib/constants";
 
 const testimonials = [
   {
-    text: "QApilot helped us automate and stabilize complex mobile banking workflows significantly faster than expected. Its strong Flutter support delivered reliable cross-platform execution from day one, reducing maintenance effort, improving regression stability, and accelerating our mobile release readiness.",
+    text: "Complex mobile banking workflows were brought under reliable, repeatable test coverage much faster than expected. QApilot's Flutter support ensured consistent cross-platform execution from day one, lowering maintenance effort and improving regression stability.",
     label: "Test Lead, Middle East Digital Bank",
   },
   {
     text: "QApilot enabled us to create and stabilize priority test flows in a fraction of the time, delivering broader coverage with far less effort. With faster onboarding, lower maintenance overhead, and seamless CI/CD compatibility, it proved to be a scalable and cost-effective automation solution.",
-    label: "QA Lead, Leading Southeast Asian Grocery & Delivery Platform",
+    label: "QE Lead, Leading Southeast Asian Grocery & Delivery Platform",
   },
 ];
 

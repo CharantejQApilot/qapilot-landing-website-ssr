@@ -38,8 +38,8 @@ const resources: Resource[] = [
 
 const FeaturedResourcesSection = () => {
   return (
-    <section className="pt-0 pb-0 bg-background relative overflow-hidden">
-      <div className="container mx-auto px-4 max-w-7xl">
+    <section className="section-edge relative w-full overflow-hidden border-t border-border bg-background pt-0 pb-0">
+      <div className="section-full mx-auto max-w-7xl">
         {resources.map((resource, index) => (
           <div
             key={index}

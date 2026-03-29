@@ -117,7 +117,7 @@ const FAQsCMS = () => {
         .eq("id", editingFAQ.id);
 
       if (error) {
-        toast.error("Failed to update FAQ");
+        toast.error(error.message || "Failed to update FAQ");
         console.error(error);
       } else {
         toast.success("FAQ updated successfully");
@@ -136,7 +136,7 @@ const FAQsCMS = () => {
       });
 
       if (error) {
-        toast.error("Failed to create FAQ");
+        toast.error(error.message || "Failed to create FAQ");
         console.error(error);
       } else {
         toast.success("FAQ created successfully");
@@ -152,7 +152,7 @@ const FAQsCMS = () => {
     const { error } = await supabase.from("faqs").delete().eq("id", id);
 
     if (error) {
-      toast.error("Failed to delete FAQ");
+      toast.error(error.message || "Failed to delete FAQ");
       console.error(error);
     } else {
       toast.success("FAQ deleted successfully");
@@ -167,7 +167,7 @@ const FAQsCMS = () => {
       .eq("id", faq.id);
 
     if (error) {
-      toast.error("Failed to update FAQ");
+      toast.error(error.message || "Failed to update FAQ");
       console.error(error);
     } else {
       toast.success(faq.is_published ? "FAQ unpublished" : "FAQ published");

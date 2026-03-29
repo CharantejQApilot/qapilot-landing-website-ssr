@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -12,13 +12,20 @@ import { format } from "date-fns";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
+
+/** Avoid static caching; picks up admin edits without redeploy. */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    return { title: "Blog | QApilot" };
+  }
   const { data: blog } = await supabase
     .from("blogs")
     .select("*")
@@ -68,7 +75,10 @@ export default async function BlogPostPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    notFound();
+  }
 
   const { data: blog } = await supabase
     .from("blogs")
@@ -91,6 +101,18 @@ export default async function BlogPostPage({
     writer = data;
   }
 
+  const { data: relatedPosts, error: relatedPostsError } = await supabase
+    .from("blogs")
+    .select(
+      "id, title, slug, excerpt, featured_image, published_date, youtube_url"
+    )
+    .eq("published", true)
+    .neq("id", blog.id)
+    .order("published_date", { ascending: false })
+    .limit(3);
+
+  const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
+
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
     { name: "Blogs", path: PATHS.BLOGS },
@@ -103,11 +125,9 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
-      <div className="min-h-screen bg-background dark relative">
-        <div className="absolute inset-0 glow-bg"></div>
-
-        <div className="relative z-10">
-          <main className="container mx-auto px-4 py-20 max-w-6xl">
+      <MarketingPageShell background="soft">
+          <main className="section-edge w-full py-20">
+            <div className="section-full mx-auto max-w-6xl">
             <Link
               href="/blogs"
               className="inline-flex items-center gap-2 mb-8 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -130,7 +150,7 @@ export default async function BlogPostPage({
               </div>
             )}
 
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
+            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-6 text-gradient">
               {blog.title}
             </h1>
 
@@ -177,12 +197,11 @@ export default async function BlogPostPage({
               />
             )}
 
-            {blog && <RelatedPosts currentId={blog.id} type="blog" />}
+            <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
+            </div>
           </main>
-
           <Footer />
-        </div>
-      </div>
+      </MarketingPageShell>
     </>
   );
 }

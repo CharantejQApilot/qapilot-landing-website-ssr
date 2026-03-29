@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import FAQsClient from "./FAQsClient";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "FAQs - Frequently Asked Questions",
@@ -15,6 +16,8 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.FAQS}` },
 };
 
+export const dynamic = "force-dynamic";
+
 interface FAQ {
   id: string;
   question: string;
@@ -24,12 +27,14 @@ interface FAQ {
 }
 
 export default async function FAQsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data } = await supabase
-    .from("faqs")
-    .select("*")
-    .eq("is_published", true)
-    .order("display_order", { ascending: true });
+  const supabase = tryCreateServerSupabaseClient();
+  const { data } = supabase
+    ? await supabase
+        .from("faqs")
+        .select("*")
+        .eq("is_published", true)
+        .order("display_order", { ascending: true })
+    : { data: null as null };
 
   const faqs = (data as FAQ[] | null) ?? [];
 
@@ -66,11 +71,11 @@ export default async function FAQsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+      <MarketingPageShell background="soft">
+        <main className="section-edge w-full py-16 md:py-24">
+          <div className="section-full mx-auto max-w-4xl">
+            <div className="mb-12 text-center">
+              <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl mb-4">
                 Frequently Asked{" "}
                 <span className="text-primary">Questions</span>
               </h1>
@@ -79,9 +84,8 @@ export default async function FAQsPage() {
             <FAQsClient faqs={faqs} />
           </div>
         </main>
-
         <Footer />
-      </div>
+      </MarketingPageShell>
     </>
   );
 }

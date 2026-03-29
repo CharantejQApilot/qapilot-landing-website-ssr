@@ -38,11 +38,11 @@ export const PATHS = {
   COMPARE_VISUAL_TESTING: "#",
   COMPARE_CODE_FIRST: "#",
   OVERVIEW: "/product",
-  AUTONOMOUS_TESTING: "#",
-  INTELLIGENT_BUG_DETECTION: "#",
+  /** Platform → By Solution (linked from home + nav) */
+  AUTONOMOUS_TESTING: "/product/autonomous-testing",
+  INTELLIGENT_BUG_DETECTION: "/bring-your-own-agent#auto-bug-finder",
   SECURITY_REPORTS: "/bring-your-own-agent#security-reports",
-  AI_SELF_HEALING: "#",
-  NETWORK_TRACES_METRICS: "#",
+  AI_SELF_HEALING: "/for-flutter",
 } as const;
 
 /** Platform dropdown: By Solution (with icon names for Lucide) */
@@ -53,14 +53,13 @@ export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.FOR_FLUTTER, label: "Flutter Testing", icon: "Smartphone" },
   { path: PATHS.SECURITY_REPORTS, label: "Security Reports", icon: "ShieldCheck" },
   { path: PATHS.AI_SELF_HEALING, label: "AI Self Healing", icon: "RefreshCw" },
-  { path: PATHS.NETWORK_TRACES_METRICS, label: "Network Traces & Device Metrics", icon: "Activity" },
 ] as const;
 
 /** Platform dropdown: By Role */
 export const PLATFORM_BY_ROLE = [
   { path: PATHS.FOR_RELEASE_MANAGER, label: "Release Manager", icon: "Package" },
-  { path: PATHS.FOR_QA_ENGINEER, label: "QA Engineer", icon: "TestTube2" },
-  { path: PATHS.FOR_QA_LEADER, label: "QA Leader", icon: "Users" },
+  { path: PATHS.FOR_QA_ENGINEER, label: "Quality Engineer", icon: "TestTube2" },
+  { path: PATHS.FOR_QA_LEADER, label: "QE Leader", icon: "Users" },
   { path: PATHS.FOR_PRODUCT_OWNER, label: "Product Owner", icon: "ClipboardList" },
   { path: PATHS.FOR_SRE, label: "Site Reliability Engineer", icon: "Server" },
 ] as const;
@@ -71,14 +70,18 @@ export const PLATFORM_AI_AGENTS = [
   { path: PATHS.BRING_YOUR_OWN_AGENT, label: "Bring Your Own Agent (BYOA)", icon: "Bot" },
 ] as const;
 
-/** Resources dropdown (text only, no icons in header) */
+/** Resources dropdown (header: Blogs, Labs, FAQs) */
 export const RESOURCE_NAV_LINKS = [
-  { path: PATHS.ABOUT, label: "About Us" },
-  { path: PATHS.CAREERS, label: "Careers" },
   { path: PATHS.BLOGS, label: "Blogs" },
-  { path: PATHS.NEWS, label: "News & Updates" },
   { path: PATHS.LABS, label: "Labs" },
   { path: PATHS.FAQS, label: "FAQs" },
+] as const;
+
+/** Company dropdown (header: About, Careers, News) */
+export const COMPANY_NAV_LINKS = [
+  { path: PATHS.ABOUT, label: "About Us" },
+  { path: PATHS.CAREERS, label: "Careers" },
+  { path: PATHS.NEWS, label: "News & Updates" },
 ] as const;
 
 /** Compare dropdown (placeholder paths until pages exist) */

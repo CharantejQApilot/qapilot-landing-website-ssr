@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
+import { MarketingPageShell } from "@/components/marketing";
+import { PATHS } from "@/lib/routes";
+import { buildBreadcrumbList } from "@/lib/breadcrumb";
 
 export const metadata: Metadata = {
   title: "About QApilot - AI-Native Mobile App Testing Company",
@@ -8,5 +11,22 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutClient />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "About", path: PATHS.ABOUT },
+            ])
+          )
+        }}
+      />
+      <MarketingPageShell background="hero" contentClassName="contain-layout">
+        <AboutClient />
+      </MarketingPageShell>
+    </>
+  );
 }

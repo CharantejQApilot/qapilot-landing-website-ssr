@@ -106,8 +106,8 @@ const TableStakesSection = () => {
     ];
     return variants[sectionIndex] || variants[0];
   };
-  return <section className="pt-24 pb-0 bg-background" ref={ref}>
-      <div className="container mx-auto px-8">
+  return <section className="section-edge relative w-full border-t border-border bg-background pt-24 pb-0" ref={ref}>
+      <div className="section-full mx-auto max-w-7xl">
         {/* Header */}
         <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">

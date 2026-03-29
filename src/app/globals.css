@@ -4,7 +4,7 @@
 
 /* QApilot Design Foundation v5 — Harvey, Spur, PlayerZero, TestMu inspired
    Elegant SaaS: clean backgrounds, refined typography, subtle depth
-   Lora headings · Source Sans 3 body · HSL tokens */
+   Space Grotesk headings · Source Sans 3 body · HSL tokens */
 
 @layer base {
   :root {
@@ -144,8 +144,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lora', 'Source Sans 3', Georgia, serif;
-    font-display: swap;
+    font-family: 'Space Grotesk', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: hsl(var(--foreground));
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -297,6 +296,14 @@
   }
 
   /* Subtle diagonal grid for hero — strongest in center, fades toward edges */
+  /* Home hero: slightly richer gradient + grid so the fold reads as the main stage */
+  .hero-prominent .bg-hero-gradient {
+    background-image:
+      radial-gradient(ellipse 100% 72% at 50% -8%, hsl(var(--primary) / 0.11) 0%, transparent 58%),
+      radial-gradient(ellipse 82% 52% at 82% 48%, hsl(218 42% 96.5%) 0%, transparent 52%),
+      linear-gradient(180deg, hsl(220 24% 99%) 0%, hsl(220 18% 97.5%) 100%);
+  }
+
   .bg-hero-diagonal-grid {
     background-image:
       repeating-linear-gradient(
@@ -334,12 +341,97 @@
     pointer-events: none;
   }
 
+  .hero-prominent .bg-hero-diagonal-grid {
+    background-image:
+      repeating-linear-gradient(
+        105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.075) 0,
+        hsl(var(--foreground) / 0.075) 1px,
+        transparent 1px,
+        transparent 48px
+      ),
+      repeating-linear-gradient(
+        -105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.075) 0,
+        hsl(var(--foreground) / 0.075) 1px,
+        transparent 1px,
+        transparent 48px
+      );
+  }
+
   /* Soft vignette at hero edges for focus */
   .hero-vignette {
     position: absolute;
     inset: 0;
     pointer-events: none;
     background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 60%, hsl(var(--foreground) / 0.02) 100%);
+  }
+
+  /* Quality journey (product) — hero-style diagonal mesh, slow drift */
+  .bg-journey-mesh-animated {
+    pointer-events: none;
+    background-image:
+      repeating-linear-gradient(
+        105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.04) 0,
+        hsl(var(--foreground) / 0.04) 1px,
+        transparent 1px,
+        transparent 44px
+      ),
+      repeating-linear-gradient(
+        -105deg,
+        transparent 0,
+        hsl(var(--foreground) / 0.032) 0,
+        hsl(var(--foreground) / 0.032) 1px,
+        transparent 1px,
+        transparent 44px
+      );
+    background-size: 44px 44px, 44px 44px;
+    mask-image: radial-gradient(ellipse 88% 78% at 48% 45%, black 0%, black 28%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse 88% 78% at 48% 45%, black 0%, black 28%, transparent 72%);
+    animation: journey-mesh-drift 100s linear infinite;
+  }
+
+  @keyframes journey-mesh-drift {
+    0% {
+      background-position: 0 0, 0 0;
+    }
+    100% {
+      background-position: 44px 12px, -44px -12px;
+    }
+  }
+
+  /* Per-step block: fine primary-tinted lines */
+  .bg-journey-step-mesh {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      122deg,
+      transparent,
+      transparent 6px,
+      hsl(var(--primary) / 0.045) 6px,
+      hsl(var(--primary) / 0.045) 7px
+    );
+    background-size: 28px 28px;
+    animation: journey-step-mesh-shift 88s linear infinite;
+  }
+
+  @keyframes journey-step-mesh-shift {
+    to {
+      background-position: 28px 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-journey-mesh-animated,
+    .bg-journey-step-mesh {
+      animation: none;
+    }
   }
 
   /* Deliver section: flat cream; gradients only at edges (no full-bleed tint) */
@@ -559,6 +651,25 @@
   @keyframes dash-flow {
     0% { stroke-dashoffset: 0; }
     100% { stroke-dashoffset: 20; }
+  }
+
+  /* Core advantage scenic panel — slow zoom (TestMu-style mood) */
+  @keyframes scenic-ken-burns {
+    0% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1.12);
+    }
+  }
+  .animate-scenic-ken-burns {
+    animation: scenic-ken-burns 36s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scenic-ken-burns {
+      animation: none;
+      transform: scale(1.08);
+    }
   }
 
   @keyframes float {

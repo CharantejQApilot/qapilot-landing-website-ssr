@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "News & Updates - Mobile Testing Industry News",
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
     "QApilot news, mobile testing updates, QA automation news, product updates, testing industry news",
   alternates: { canonical: `${SITE_BASE_URL}${PATHS.NEWS}` },
 };
+
+/** Always fetch from Supabase at request time — avoids empty static HTML from build-time snapshots. */
+export const dynamic = "force-dynamic";
 
 interface NewsItem {
   id: string;
@@ -28,14 +32,16 @@ interface NewsItem {
 }
 
 export default async function NewsPage() {
-  const supabase = createServerSupabaseClient();
-  const { data } = await supabase
-    .from("news_updates")
-    .select(
-      "id, title, slug, excerpt, featured_image, author_name, author_designation, published_date"
-    )
-    .eq("published", true)
-    .order("published_date", { ascending: false });
+  const supabase = tryCreateServerSupabaseClient();
+  const { data } = supabase
+    ? await supabase
+        .from("news_updates")
+        .select(
+          "id, title, slug, excerpt, featured_image, author_name, author_designation, published_date"
+        )
+        .eq("published", true)
+        .order("published_date", { ascending: false })
+    : { data: null as null };
 
   const newsItems = (data as NewsItem[] | null) ?? [];
 
@@ -61,11 +67,11 @@ export default async function NewsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-24">
-          <div className="max-w-7xl mx-auto">
+      <MarketingPageShell background="hero">
+        <div className="section-edge w-full py-24">
+          <div className="section-full mx-auto max-w-7xl">
             <header className="mb-12 text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-4 text-gradient">
                 News &amp; Updates
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -143,7 +149,7 @@ export default async function NewsPage() {
           </div>
         </div>
         <Footer />
-      </div>
+      </MarketingPageShell>
     </>
   );
 }

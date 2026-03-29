@@ -42,7 +42,6 @@ const BlogEditorClient = () => {
   const [featuredImageUrl, setFeaturedImageUrl] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [authorDesignation, setAuthorDesignation] = useState("");
-  const [published, setPublished] = useState(false);
   const [isFeatured, setIsFeatured] = useState(false);
   const [isLabsFeatured, setIsLabsFeatured] = useState(false);
   const [publishedDate, setPublishedDate] = useState("");
@@ -108,7 +107,6 @@ const BlogEditorClient = () => {
       setFeaturedImageUrl(existingBlog.featured_image || "");
       setAuthorName(existingBlog.author_name || "");
       setAuthorDesignation(existingBlog.author_designation || "");
-      setPublished(existingBlog.published);
       setIsFeatured(existingBlog.is_featured);
       setIsLabsFeatured((existingBlog as any).is_labs_featured || false);
       setPublishedDate(existingBlog.published_date ? existingBlog.published_date.substring(0, 10) : "");
@@ -136,13 +134,21 @@ const BlogEditorClient = () => {
   };
 
   const saveMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ published: publishedFlag }: { published: boolean }) => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Your session expired. Please sign in again.");
+      }
+
       let imageUrl = featuredImageUrl;
 
       if (featuredImageFile) {
-        setUploading(true);
-        imageUrl = await uploadImage(featuredImageFile);
-        setUploading(false);
+        try {
+          setUploading(true);
+          imageUrl = await uploadImage(featuredImageFile);
+        } finally {
+          setUploading(false);
+        }
       }
 
       const blogData = {
@@ -153,7 +159,7 @@ const BlogEditorClient = () => {
         featured_image: imageUrl || null,
         author_name: authorName || null,
         author_designation: authorDesignation || null,
-        published,
+        published: publishedFlag,
         is_featured: isFeatured,
         is_labs_featured: isLabsFeatured,
         published_date: publishedDate || null,
@@ -162,17 +168,30 @@ const BlogEditorClient = () => {
       };
 
       if (id) {
-        const { error } = await supabase
+        const { data: updatedRow, error, status } = await supabase
           .from("blogs")
           .update(blogData)
-          .eq("id", id);
+          .eq("id", id)
+          .select("id, title")
+          .maybeSingle();
+        console.log("[ADMIN DEBUG] blog update:", { updatedRow, error, status, id });
         if (error) throw error;
+        if (!updatedRow) {
+          throw new Error(
+            `Blog update silently failed (status ${status}). RLS is blocking writes. Run 20260326000000_fix_all_admin_rls.sql in Supabase SQL Editor.`
+          );
+        }
       } else {
-        const { error } = await supabase.from("blogs").insert([blogData]);
+        const { data: insertedRow, error, status } = await supabase
+          .from("blogs")
+          .insert({ ...blogData, id: crypto.randomUUID() })
+          .select("id")
+          .single();
+        console.log("[ADMIN DEBUG] blog insert:", { insertedRow, error, status });
         if (error) throw error;
       }
 
-      if (published) {
+      if (publishedFlag) {
         try {
           await supabase.functions.invoke('ping-sitemap');
           console.log('Search engines notified of new content');
@@ -181,26 +200,34 @@ const BlogEditorClient = () => {
         }
       }
     },
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
       toast({ 
         title: "Success", 
-        description: published ? "Blog published successfully" : "Blog saved as draft" 
+        description: variables.published ? "Blog published successfully" : "Blog saved as draft" 
       });
       router.push("/admin");
     },
-    onError: (error: Error) => {
+    onError: (error: unknown) => {
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === "object" &&
+              error !== null &&
+              "message" in error &&
+              typeof (error as { message: unknown }).message === "string"
+            ? (error as { message: string }).message
+            : "Save failed";
       toast({
         title: "Error",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     },
   });
 
   const handleSaveDraft = () => {
-    setPublished(false);
-    saveMutation.mutate();
+    saveMutation.mutate({ published: false });
   };
 
   const handleContinueToPublish = () => {
@@ -225,8 +252,7 @@ const BlogEditorClient = () => {
       });
       return;
     }
-    setPublished(true);
-    saveMutation.mutate();
+    saveMutation.mutate({ published: true });
   };
 
   if (step === "content") {

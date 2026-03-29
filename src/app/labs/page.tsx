@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import LabsHeroSection from "@/components/LabsHeroSection";
 import LabsFeaturedSection from "@/components/LabsFeaturedSection";
 import WhyLabsSection from "@/components/WhyLabsSection";
@@ -8,6 +9,7 @@ import Footer from "@/components/Footer";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "QApilot Labs - Experiments, Tools & Ideas Shipped Fast",
@@ -15,9 +17,11 @@ export const metadata: Metadata = {
     "QApilot Labs is where we build and ship experiments that explore the edges of AI-native development and testing. Discover tools born from hackathons and real-world needs.",
 };
 
+export const revalidate = 120;
+
 export default function LabsPage() {
   return (
-    <div className="min-h-screen bg-background dark">
+    <MarketingPageShell background="hero">
       {/* CollectionPage + BreadcrumbList structured data */}
       <script
         type="application/ld+json"
@@ -36,12 +40,19 @@ export default function LabsPage() {
         }}
       />
       <LabsHeroSection />
-      <LabsFeaturedSection />
+      <Suspense
+        fallback={
+          <section className="py-8 md:py-12">
+            <div className="section-full mx-auto max-w-screen-xl min-h-[280px]" aria-hidden />
+          </section>
+        }
+      >
+        <LabsFeaturedSection />
+      </Suspense>
       <WhyLabsSection />
       <LabsProcessSection />
       <LabsTeamSection />
-      
       <Footer />
-    </div>
+    </MarketingPageShell>
   );
 }

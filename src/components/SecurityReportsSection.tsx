@@ -35,8 +35,8 @@ const SecurityReportsSection = () => {
   const benefits = ["On-demand security scans per app version", "Integrated directly within your testing workflow", "No separate tools or manual handoffs required", "Accessible from Reports section and App Source view", "Full control over when scans are performed"];
 
   return (
-    <section id="security-reports" className="relative py-20 px-4 overflow-hidden">
-      <div ref={sectionRef as React.RefObject<HTMLDivElement>} className={`container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 relative z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+    <section id="security-reports" className="section-edge relative w-full overflow-hidden border-t border-border/30 py-20">
+      <div ref={sectionRef as React.RefObject<HTMLDivElement>} className={`section-full relative z-10 mx-auto max-w-screen-xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-2 mb-6">

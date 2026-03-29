@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { createServerSupabaseClient } from "@/integrations/supabase/server";
+import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -12,10 +12,14 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { MarketingPageShell } from "@/components/marketing";
 import { extractYouTubeId } from "@/utils/youtube";
 
 const DEFAULT_OG_IMAGE =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
+
+/** Avoid static caching of article HTML; picks up admin edits without redeploy. */
+export const dynamic = "force-dynamic";
 
 interface Backlink {
   id: string;
@@ -30,7 +34,10 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    return { title: "News | QApilot" };
+  }
   const { data: newsItem } = await supabase
     .from("news_updates")
     .select("*")
@@ -85,7 +92,10 @@ export default async function NewsPostPage({
 }: {
   params: { slug: string };
 }) {
-  const supabase = createServerSupabaseClient();
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) {
+    notFound();
+  }
 
   const { data: newsItem } = await supabase
     .from("news_updates")
@@ -116,6 +126,18 @@ export default async function NewsPostPage({
       .eq("news_id", newsItem.id);
     backlinks = (data as Backlink[]) ?? [];
   }
+
+  const { data: relatedPosts, error: relatedPostsError } = await supabase
+    .from("news_updates")
+    .select(
+      "id, title, slug, excerpt, featured_image, published_date, youtube_url"
+    )
+    .eq("published", true)
+    .neq("id", newsItem.id)
+    .order("published_date", { ascending: false })
+    .limit(3);
+
+  const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
 
   const videoId = newsItem.youtube_url
     ? extractYouTubeId(newsItem.youtube_url)
@@ -188,7 +210,7 @@ export default async function NewsPostPage({
   ]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <MarketingPageShell background="soft">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -196,8 +218,8 @@ export default async function NewsPostPage({
         }}
       />
 
-      <div className="container mx-auto px-4 py-24">
-        <article className="max-w-6xl mx-auto">
+      <div className="section-edge w-full py-24">
+        <article className="section-full mx-auto max-w-6xl">
           <Link
             href="/news"
             className="inline-flex items-center gap-2 mb-8 -ml-4 text-sm text-muted-foreground hover:text-foreground transition-colors hover:translate-x-1"
@@ -207,7 +229,7 @@ export default async function NewsPostPage({
           </Link>
 
           <header className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-4 leading-tight">
               {newsItem.title}
             </h1>
 
@@ -321,7 +343,7 @@ export default async function NewsPostPage({
             </nav>
           )}
 
-          <RelatedPosts currentId={newsItem.id} type="news" />
+          <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.NEWS} />
 
           <div className="mt-12 pt-8 border-t">
             <Link
@@ -335,6 +357,6 @@ export default async function NewsPostPage({
         </article>
       </div>
       <Footer />
-    </div>
+    </MarketingPageShell>
   );
 }

@@ -1,7 +1,7 @@
 const WhyLabsSection = () => {
   return (
-    <section className="py-10 md:py-14 relative">
-      <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <section className="section-edge relative w-full border-t border-border py-10 md:py-14">
+      <div className="section-full mx-auto max-w-screen-xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Left: Title */}
           <div className="lg:col-span-4">

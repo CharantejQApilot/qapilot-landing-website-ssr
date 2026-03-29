@@ -1,27 +1,82 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import ProductHeroSection from "@/components/ProductHeroSection";
-import ProductJourneySection from "@/components/ProductJourneySection";
-import TestingCoverageSection from "@/components/TestingCoverageSection";
+import { PlatformOverviewHero } from "@/components/platform-overview/PlatformOverviewHero";
+import { PlatformOverviewProblemSection } from "@/components/platform-overview/PlatformOverviewProblemSection";
+import { PlatformOverviewQualityJourneySection } from "@/components/platform-overview/PlatformOverviewQualityJourneySection";
+import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { SITE_BASE_URL } from "@/lib/constants";
+
+const PRODUCT_PATH = PATHS.PRODUCT;
+const canonicalUrl = `${SITE_BASE_URL}${PRODUCT_PATH}`;
+
+const defaultOgImage =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
 
 export const metadata: Metadata = {
-  title: "Mobile App Testing Features - Automated QA Platform",
+  title: "Mobile Testing Platform for Release Readiness",
   description:
-    "Discover QApilot's powerful mobile testing features: automated test generation, visual regression testing, performance monitoring, and seamless CI/CD integration for iOS & Android.",
+    "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one integrated system.",
+  keywords: [
+    "mobile testing platform",
+    "release readiness",
+    "autonomous mobile testing",
+    "Flutter testing",
+    "mobile QA platform",
+    "test stability",
+    "mobile security testing",
+  ],
+  alternates: {
+    canonical: canonicalUrl,
+  },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "Mobile Testing Platform for Release Readiness | QApilot",
+    description:
+      "Generate coverage, reduce maintenance, detect critical issues, and validate mobile releases with confidence—one platform, built as a system.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: "QApilot mobile testing platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mobile Testing Platform for Release Readiness | QApilot",
+    description:
+      "Unified capabilities for mobile release confidence: coverage, stability, signal quality, Flutter, and risk visibility.",
+    images: [defaultOgImage],
+  },
 };
+
+export const revalidate = 120;
+
+const breadcrumbList = buildBreadcrumbList([
+  { name: "Home", path: PATHS.HOME },
+  { name: "Platform overview", path: PRODUCT_PATH },
+]);
 
 export default function ProductPage() {
   return (
-    <div className="min-h-screen bg-background dark relative">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Product", path: PATHS.PRODUCT }])) }} />
-      <div className="relative z-10">
-        <ProductHeroSection />
-        <ProductJourneySection />
-        <TestingCoverageSection />
-        <Footer />
-      </div>
+    <div className="relative z-0 min-h-screen w-full bg-background section-edge">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbList) }}
+      />
+      <main>
+        <PlatformOverviewHero />
+        <PlatformOverviewProblemSection />
+        <PlatformOverviewQualityJourneySection />
+        <CoreAdvantageHeading />
+      </main>
+      <Footer />
     </div>
   );
 }
