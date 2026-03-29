@@ -1,5 +1,7 @@
 import type { ComponentType } from "react";
 import { Smartphone, Layers, CodeXml, Cpu } from "lucide-react";
+import { marketingEyebrowClass, marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const diagonalFill =
   "repeating-linear-gradient(-45deg, transparent 0, transparent 6px, hsl(var(--foreground) / 0.2) 6px, hsl(var(--foreground) / 0.2) 7px)";
@@ -101,16 +103,14 @@ const ModernFrameworksSection = () => {
         <header className="mb-10 w-full rounded-2xl border border-border bg-muted/20 px-6 py-8 md:mb-12 md:px-10 md:py-10 2xl:px-12 2xl:py-12 relative overflow-hidden shadow-sm">
           <span className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl" aria-hidden />
           <div className="relative pl-4 md:pl-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground mb-3 md:mb-4">
-              Compatibility
-            </p>
+            <p className={marketingEyebrowClass}>Compatibility</p>
             <h2
               id="frameworks-heading"
-              className="font-heading text-2xl font-bold text-foreground tracking-tight leading-snug sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-[3.25rem]"
+              className={cn(marketingSectionH2Class, "text-foreground")}
             >
               Built for <span className="text-primary">Modern Mobile</span> Frameworks
             </h2>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:mt-5 md:text-lg">
+            <p className={cn(marketingSectionIntroClass, "mt-4 max-w-3xl md:mt-5")}>
               QApilot works <strong className="font-semibold text-foreground">post-build</strong> — it validates real
               application behavior on your binaries, independent of how they were built.
             </p>

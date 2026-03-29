@@ -1,5 +1,7 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Fragment } from "react";
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const STEPS = [
   "Upload Build",
@@ -59,9 +61,11 @@ export default function ReleaseReadinessFlowSection({
       >
         <h2
           id="release-readiness-flow-heading"
-          className={`font-heading text-center text-3xl font-bold leading-snug tracking-tight text-foreground md:text-4xl lg:text-5xl 2xl:text-[3.25rem] ${
-            embedded ? "mb-8 md:mb-10" : "mb-10 md:mb-12"
-          }`}
+          className={cn(
+            marketingSectionH2Class,
+            "text-center text-foreground",
+            embedded ? "mb-8 md:mb-10" : "mb-10 md:mb-12",
+          )}
         >
           From Build to <span className="text-primary">Release Readiness</span>
         </h2>
