@@ -40,8 +40,8 @@ export const PATHS = {
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
-  INTELLIGENT_BUG_DETECTION: "/bring-your-own-agent#auto-bug-finder",
-  SECURITY_REPORTS: "/bring-your-own-agent#security-reports",
+  INTELLIGENT_BUG_DETECTION: "/product/intelligent-bug-detection",
+  SECURITY_REPORTS: "/bring-your-own-agent",
   AI_SELF_HEALING: "/for-flutter",
 } as const;
 

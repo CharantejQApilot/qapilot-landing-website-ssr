@@ -1,6 +1,7 @@
 import {
   buildAutonomousWalkthroughLinkHeader,
   buildCoreAdvantageLinkHeader,
+  buildIntelligentBugIssueDetailLinkHeader,
 } from "./src/lib/core-advantage-scenic-urls.mjs";
 
 /** @type {import('next').NextConfig} */
@@ -41,6 +42,7 @@ if (supabaseUrl) {
 
 const coreAdvantageLink = buildCoreAdvantageLinkHeader();
 const autonomousWalkthroughLink = buildAutonomousWalkthroughLinkHeader();
+const intelligentBugIssueDetailLink = buildIntelligentBugIssueDetailLinkHeader();
 
 const nextConfig = {
   images: {
@@ -60,6 +62,10 @@ const nextConfig = {
       {
         source: "/product/autonomous-testing",
         headers: [{ key: "Link", value: autonomousWalkthroughLink }],
+      },
+      {
+        source: "/product/intelligent-bug-detection",
+        headers: [{ key: "Link", value: intelligentBugIssueDetailLink }],
       },
     ];
   },
