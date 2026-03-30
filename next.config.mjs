@@ -1,3 +1,8 @@
+import {
+  buildAutonomousWalkthroughLinkHeader,
+  buildCoreAdvantageLinkHeader,
+} from "./src/lib/core-advantage-scenic-urls.mjs";
+
 /** @type {import('next').NextConfig} */
 
 const remotePatterns = [
@@ -34,9 +39,29 @@ if (supabaseUrl) {
   }
 }
 
+const coreAdvantageLink = buildCoreAdvantageLinkHeader();
+const autonomousWalkthroughLink = buildAutonomousWalkthroughLinkHeader();
+
 const nextConfig = {
   images: {
     remotePatterns,
+  },
+  async headers() {
+    /** Early hints for Core Advantage scenic + default tab screenshot (home + platform overview only). */
+    return [
+      {
+        source: "/",
+        headers: [{ key: "Link", value: coreAdvantageLink }],
+      },
+      {
+        source: "/product",
+        headers: [{ key: "Link", value: coreAdvantageLink }],
+      },
+      {
+        source: "/product/autonomous-testing",
+        headers: [{ key: "Link", value: autonomousWalkthroughLink }],
+      },
+    ];
   },
 };
 
