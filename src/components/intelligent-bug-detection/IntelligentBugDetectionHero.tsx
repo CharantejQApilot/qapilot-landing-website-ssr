@@ -6,13 +6,13 @@ import { MarketingBackground } from "@/components/marketing/MarketingBackground"
 import { marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
-export function AutonomousTestingHero() {
+export function IntelligentBugDetectionHero() {
   const { openForm } = useHubSpotForm();
 
   return (
     <section
       className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
-      aria-label="Autonomous testing for mobile"
+      aria-label="Intelligent bug detection for mobile"
     >
       <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
 
@@ -25,15 +25,14 @@ export function AutonomousTestingHero() {
               "text-balance",
             )}
           >
-            <span className="text-primary">Autonomous</span> Testing for
+            <span className="text-primary">Intelligent Bug Detection</span> for
             <br className="hidden lg:block" aria-hidden="true" />{" "}
             Mobile Applications
           </h1>
 
           <p className={cn(marketingHeroLeadClass, "mx-auto mb-8 max-w-3xl text-balance sm:mb-10 md:mb-11 lg:max-w-4xl")}>
-            QApilot moves testing beyond scripts, record-and-playback, and AI assistance. It explores your app,
-            builds coverage across real user journeys, and continuously adapts as the app evolves — creating a
-            faster path to release readiness.
+            Go beyond pass or fail. QApilot detects accessibility issues, action latency, and page load failures during
+            execution — mapping every issue to the exact screen, interaction, and context where it occurs.
           </p>
 
           <div className="mb-2 sm:mb-4">

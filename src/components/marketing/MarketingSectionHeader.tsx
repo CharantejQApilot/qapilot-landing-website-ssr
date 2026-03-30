@@ -56,7 +56,11 @@ export function MarketingSectionHeader({
         >
           {title}
         </h2>
-        {description ? <p className={cn("w-full", marketingSectionIntroClass)}>{description}</p> : null}
+        {description ? (
+          <div className={cn("w-full space-y-4", marketingSectionIntroClass)}>
+            {typeof description === "string" ? <p>{description}</p> : description}
+          </div>
+        ) : null}
       </div>
     </header>
   );
