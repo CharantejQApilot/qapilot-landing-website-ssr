@@ -19,6 +19,10 @@ export const CORE_ADVANTAGE_FIRST_PRODUCT_IMAGE_PATH =
 export const AUTONOMOUS_WALKTHROUGH_SCENIC_URL =
   "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=2400&q=80";
 
+/** Scenic behind issue-detail video on /product/intelligent-bug-detection (unused elsewhere). */
+export const INTELLIGENT_BUG_ISSUE_DETAIL_SCENIC_URL =
+  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=2400&q=80";
+
 /**
  * RFC 8288 Link header: preconnect + scenic preload for autonomous testing walkthrough block.
  */
@@ -26,6 +30,16 @@ export function buildAutonomousWalkthroughLinkHeader() {
   return [
     "<https://images.unsplash.com>; rel=preconnect",
     `<${AUTONOMOUS_WALKTHROUGH_SCENIC_URL}>; rel=preload; as=image`,
+  ].join(", ");
+}
+
+/**
+ * RFC 8288 Link header: preconnect + scenic preload for intelligent bug detection issue-detail video.
+ */
+export function buildIntelligentBugIssueDetailLinkHeader() {
+  return [
+    "<https://images.unsplash.com>; rel=preconnect",
+    `<${INTELLIGENT_BUG_ISSUE_DETAIL_SCENIC_URL}>; rel=preload; as=image`,
   ].join(", ");
 }
 
