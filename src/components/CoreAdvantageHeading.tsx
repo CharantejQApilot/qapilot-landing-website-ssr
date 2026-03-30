@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Network } from "lucide-react";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { CORE_ADVANTAGE_SCENIC_URLS } from "@/lib/core-advantage-scenic-urls.mjs";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
@@ -41,8 +42,7 @@ const TABS: TabItem[] = [
     imageSrc: "/lovable-uploads/core-advantage-autonomous-testing.png",
     imageAlt:
       "QApilot crawler flow showing an app knowledge graph with connected screens, playback controls, and state details for autonomous mobile testing",
-    scenicBackgroundSrc:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2400&q=80",
+    scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[0],
   },
   {
     id: "bug-detection",
@@ -59,8 +59,7 @@ const TABS: TabItem[] = [
     imageSrc: "/lovable-uploads/core-advantage-intelligent-bug-detection.png",
     imageAlt:
       "QApilot Intelligent Bug Detection: mobile emulator with highlighted issues, pages list, and accessibility details including touch targets, contrast, and content descriptions",
-    scenicBackgroundSrc:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2400&q=80",
+    scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[1],
   },
   {
     id: "flutter",
@@ -76,8 +75,7 @@ const TABS: TabItem[] = [
     imageSrc: "/lovable-uploads/core-advantage-flutter-testing.png",
     imageAlt:
       "QApilot Flutter testing workspace: NATIVE_APP context, emulator showing Urgent Care app with Schedule visit, step authoring with Create Step, identifiers, and Page Elements tree with OCR search",
-    scenicBackgroundSrc:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80",
+    scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[2],
   },
   {
     id: "security",
@@ -93,8 +91,7 @@ const TABS: TabItem[] = [
     imageSrc: "/lovable-uploads/core-advantage-security-reports.png",
     imageAlt:
       "QApilot security dashboard: app risk score, severity distribution, tracker detection, manifest and code vulnerability summaries, certificate issues, and dangerous permissions such as fine location",
-    scenicBackgroundSrc:
-      "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=2400&q=80",
+    scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[3],
     scenicScrim: "light",
   },
   {
@@ -111,8 +108,7 @@ const TABS: TabItem[] = [
     imageSrc: "/lovable-uploads/core-advantage-self-healing.png",
     imageAlt:
       "QApilot AI self-healing in a completed sanity suite run: AI-assisted step, dialog to update healed XPath for Enter your destination, execution vs recorded phone screenshots, element screenshot, and find-element timeline",
-    scenicBackgroundSrc:
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2400&q=80",
+    scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[4],
   },
 ];
 
@@ -121,10 +117,13 @@ function CoreCapabilityScenicBackdrop({
   src,
   panelKey,
   scrim = "default",
+  priority = false,
 }: {
   src: string;
   panelKey: string;
   scrim?: "default" | "light";
+  /** First tab: align with route-level preload + faster LCP for the scenic layer */
+  priority?: boolean;
 }) {
   const isLight = scrim === "light";
   return (
@@ -141,7 +140,8 @@ function CoreCapabilityScenicBackdrop({
             fill
             sizes="(min-width: 1280px) 1200px, 100vw"
             className="object-cover object-center"
-            priority={false}
+            unoptimized
+            priority={priority}
           />
         </div>
       </div>
@@ -403,6 +403,7 @@ const CoreAdvantageHeading = () => {
                 src={current.scenicBackgroundSrc}
                 panelKey={current.id}
                 scrim={current.scenicScrim}
+                priority={active === 0}
               />
               <div
                 key={`${current.id}-media`}
@@ -413,8 +414,9 @@ const CoreAdvantageHeading = () => {
                     src={current.imageSrc}
                     alt={current.imageAlt}
                     className="relative h-auto max-h-[min(88vh,920px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(90vh,960px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(54vh,576px)] xl:max-h-[min(56vh,608px)]"
-                    loading="lazy"
+                    loading={active === 0 ? "eager" : "lazy"}
                     decoding="async"
+                    fetchPriority={active === 0 ? "high" : undefined}
                   />
                 ) : (
                   <div className="flex w-full max-w-none flex-col items-center justify-center gap-4 py-4 text-center md:py-6">
