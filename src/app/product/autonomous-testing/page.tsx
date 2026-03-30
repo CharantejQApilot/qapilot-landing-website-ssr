@@ -1,26 +1,32 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import { PATHS } from "@/lib/routes";
+import { AutonomousTestingAgentsSection } from "@/components/autonomous-testing/AutonomousTestingAgentsSection";
+import { AutonomousTestingDeliverySection } from "@/components/autonomous-testing/AutonomousTestingDeliverySection";
+import { AutonomousTestingEvolutionSection } from "@/components/autonomous-testing/AutonomousTestingEvolutionSection";
+import { AutonomousTestingHero } from "@/components/autonomous-testing/AutonomousTestingHero";
+import { AutonomousTestingReleaseReadinessSection } from "@/components/autonomous-testing/AutonomousTestingReleaseReadinessSection";
+import { AutonomousTestingTeamsSection } from "@/components/autonomous-testing/AutonomousTestingTeamsSection";
+import { AutonomousTestingWhatChangesSection } from "@/components/autonomous-testing/AutonomousTestingWhatChangesSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { MarketingPageShell } from "@/components/marketing";
+import { PATHS } from "@/lib/routes";
 
 export const metadata: Metadata = {
-  title: "Autonomous Mobile App Testing - Agentic QA Platform",
+  title: "Autonomous Testing for Mobile Applications | QApilot",
   description:
-    "Experience agentic testing with QApilot: AI crawlers, intelligent agents, and a knowledge graph for autonomous mobile test coverage on iOS and Android.",
+    "Define autonomous testing for mobile: system-discovered journeys, adaptive coverage, and release readiness. See how QApilot operates beyond scripts and record-and-playback.",
   alternates: {
     canonical: "https://qapilot.io/product/autonomous-testing",
   },
   openGraph: {
-    title: "Autonomous Mobile App Testing - Agentic QA | QApilot",
+    title: "Autonomous Testing for Mobile Applications | QApilot",
     description:
-      "AI crawlers and intelligent agents deliver autonomous mobile test coverage. Explore how QApilot works from upload to insights.",
+      "Coverage discovered, generated, and maintained by the system—so teams move faster from exploration to release confidence.",
     url: "https://qapilot.io/product/autonomous-testing",
   },
   twitter: {
-    title: "Autonomous Mobile App Testing | QApilot",
+    title: "Autonomous Testing for Mobile | QApilot",
     description:
-      "Agentic mobile testing with AI crawlers, intelligent agents, and a knowledge graph for iOS and Android.",
+      "Autonomous mobile testing: exploration, knowledge graph, coverage generation, execution, and continuous adaptation.",
   },
 };
 
@@ -28,7 +34,7 @@ export const revalidate = 300;
 
 export default function AutonomousTestingPage() {
   return (
-    <MarketingPageShell background="hero" contentClassName="contain-layout">
+    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -41,12 +47,16 @@ export default function AutonomousTestingPage() {
           ),
         }}
       />
-      <main className="mx-auto max-w-4xl px-4 py-24 md:py-32">
-        <h1 className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">
-          Autonomous testing
-        </h1>
+      <main>
+        <AutonomousTestingHero />
+        <AutonomousTestingEvolutionSection />
+        <AutonomousTestingWhatChangesSection />
+        <AutonomousTestingDeliverySection />
+        <AutonomousTestingTeamsSection />
+        <AutonomousTestingAgentsSection />
+        <AutonomousTestingReleaseReadinessSection />
       </main>
       <Footer />
-    </MarketingPageShell>
+    </div>
   );
 }
