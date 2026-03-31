@@ -130,14 +130,13 @@ const ModernFrameworksSection = () => {
                   Ship with confidence whether your team uses native toolchains, Flutter, or React Native. One pipeline
                   validates what users actually experience — no framework-specific test harness required.
                 </p>
-                <div className="flex flex-wrap gap-2 md:gap-3">
-                  <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground shadow-sm md:px-3.5 md:text-sm">
-                    Post-build validation
+                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                  <span className="font-semibold text-foreground">Post-build validation</span>
+                  <span className="mx-2 select-none text-muted-foreground/45 md:mx-2.5" aria-hidden>
+                    ·
                   </span>
-                  <span className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary md:px-3.5 md:text-sm">
-                    Framework-agnostic
-                  </span>
-                </div>
+                  <span className="font-semibold text-foreground">Framework-agnostic</span>
+                </p>
               </div>
 
               <div className="flex min-w-0 flex-col gap-2.5 sm:gap-3 md:gap-4">

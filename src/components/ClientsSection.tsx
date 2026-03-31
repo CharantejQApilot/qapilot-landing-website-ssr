@@ -1,16 +1,48 @@
+import type { ReactNode } from "react";
 import { Quote } from "lucide-react";
 import { SITE_BASE_URL } from "@/lib/constants";
+
+function escapeRegExp(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** Split quote into plain / highlighted runs; longer phrases first so shorter substrings don’t steal matches. */
+function testimonialParts(text: string, highlightPhrases: readonly string[]): ReactNode[] {
+  const sorted = [...highlightPhrases].sort((a, b) => b.length - a.length);
+  if (sorted.length === 0) return [text];
+  const re = new RegExp(`(${sorted.map(escapeRegExp).join("|")})`, "gi");
+  const chunks = text.split(re);
+  const lowerSet = new Set(highlightPhrases.map((p) => p.toLowerCase()));
+  return chunks.map((chunk, j) => {
+    if (chunk === "") return null;
+    if (lowerSet.has(chunk.toLowerCase())) {
+      return (
+        <strong key={j} className="font-semibold text-primary">
+          {chunk}
+        </strong>
+      );
+    }
+    return <span key={j}>{chunk}</span>;
+  });
+}
 
 const testimonials = [
   {
     text: "Complex mobile banking workflows were brought under reliable, repeatable test coverage much faster than expected. QApilot's Flutter support ensured consistent cross-platform execution from day one, lowering maintenance effort and improving regression stability.",
     label: "Test Lead, Middle East Digital Bank",
+    highlightPhrases: ["Flutter support", "cross-platform execution", "lowering maintenance"] as const,
   },
   {
     text: "QApilot enabled us to create and stabilize priority test flows in a fraction of the time, delivering broader coverage with far less effort. With faster onboarding, lower maintenance overhead, and seamless CI/CD compatibility, it proved to be a scalable and cost-effective automation solution.",
     label: "QE Lead, Leading Southeast Asian Grocery & Delivery Platform",
+    highlightPhrases: [
+      "broader coverage",
+      "far less effort",
+      "lower maintenance overhead",
+      "CI/CD compatibility",
+    ] as const,
   },
-];
+] as const;
 
 const reviewJsonLd = {
   "@context": "https://schema.org",
@@ -18,7 +50,7 @@ const reviewJsonLd = {
   name: "QApilot",
   applicationCategory: "DeveloperApplication",
   url: SITE_BASE_URL,
-  review: testimonials.map((t) => ({
+  review: testimonials.map((t: (typeof testimonials)[number]) => ({
     "@type": "Review",
     reviewBody: t.text,
     reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
@@ -105,7 +137,7 @@ const ClientsSection = () => {
           </p>
           <h3 className="sr-only">Client Testimonials</h3>
           <div className="flex flex-col gap-4 md:gap-5">
-            {testimonials.map((item, i) => (
+            {testimonials.map((item: (typeof testimonials)[number], i) => (
               <figure
                 key={i}
                 className="relative bg-background border border-border rounded-xl overflow-hidden group w-full"
@@ -121,15 +153,7 @@ const ClientsSection = () => {
                   <Quote className="hidden min-[960px]:block flex-shrink-0 text-primary/20" size={28} aria-hidden="true" />
                   <blockquote itemProp="reviewBody" className="flex-1 min-w-0 w-full">
                     <p className="font-heading text-foreground text-base min-[960px]:text-lg 2xl:text-xl leading-relaxed tracking-tight w-full">
-                      {item.text.split(/(QApilot)/i).map((part, j) =>
-                        part.toLowerCase() === "qapilot" ? (
-                          <strong key={j} className="font-semibold text-primary">
-                            QApilot
-                          </strong>
-                        ) : (
-                          part
-                        )
-                      )}
+                      {testimonialParts(item.text, item.highlightPhrases)}
                     </p>
                   </blockquote>
                   <footer className="flex-shrink-0 pt-4 mt-2 border-t border-border/80 min-[960px]:border-0 min-[960px]:pt-0 min-[960px]:mt-0 min-[960px]:text-right">
