@@ -36,7 +36,7 @@ export function IntelligentBugShiftSection() {
         />
 
         <div className="mx-auto flex max-w-5xl flex-col items-stretch gap-6 md:flex-row md:items-center md:gap-0">
-          <div className="flex-1 rounded-2xl border border-dashed border-border bg-muted/20 p-8 md:rounded-r-none md:border-r-0 md:py-10">
+          <div className="flex-1 rounded-2xl border border-dashed border-border bg-muted/20 p-5 sm:p-8 md:rounded-r-none md:border-r-0 md:py-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Before</p>
             <div className="mt-6 rounded-xl border border-border/80 bg-background/80 p-6 text-left shadow-inner">
               <div className="flex items-center gap-2 text-destructive">
@@ -54,7 +54,7 @@ export function IntelligentBugShiftSection() {
             </div>
           </div>
 
-          <div className="flex-1 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.07] to-background p-8 shadow-[0_24px_60px_-24px_hsl(var(--primary)/0.25)] md:rounded-l-none md:py-10">
+          <div className="flex-1 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.07] to-background p-5 shadow-[0_24px_60px_-24px_hsl(var(--primary)/0.25)] sm:p-8 md:rounded-l-none md:py-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">After</p>
             <div className="mt-6 space-y-4 rounded-xl border border-primary/20 bg-card p-6 text-left shadow-md">
               <div className="flex flex-wrap items-center gap-2">

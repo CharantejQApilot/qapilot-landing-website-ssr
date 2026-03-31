@@ -11,7 +11,7 @@ const CareersHeroSection = () => {
   };
 
   return (
-    <section className="section-edge relative flex min-h-[75vh] w-full items-center justify-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-8 pt-20">
+    <section className="section-edge relative flex min-h-[60vh] w-full items-center justify-center overflow-x-hidden overflow-y-visible border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-8 pt-20 sm:min-h-[75vh]">
       {/* Animated Grid Pattern */}
       <svg 
         className="absolute inset-0 w-full h-full opacity-30" 

@@ -35,7 +35,7 @@ export function AutonomousTestingAgentsSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4">
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-3 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 md:gap-4">
           {CAPABILITIES.map((cap) => (
             <div
               key={cap}

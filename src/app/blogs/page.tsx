@@ -180,7 +180,7 @@ export default async function BlogsPage() {
                   <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
                     QApilot blog
                   </p>
-                  <h1 className="font-heading font-semibold tracking-[-0.02em] text-[2.5rem] leading-[1.1] sm:text-5xl sm:leading-[1.08] md:text-6xl md:leading-[1.06] lg:text-7xl lg:leading-[1.05] xl:text-[4.25rem] 2xl:text-8xl 2xl:leading-[1.04]">
+                  <h1 className="font-heading font-semibold tracking-[-0.02em] text-[2rem] leading-[1.1] sm:text-5xl sm:leading-[1.08] md:text-6xl md:leading-[1.06] lg:text-7xl lg:leading-[1.05] xl:text-[4.25rem] 2xl:text-8xl 2xl:leading-[1.04]">
                     <span className="text-gradient">
                       Mobile testing insights &amp; best practices
                     </span>
@@ -305,14 +305,14 @@ export default async function BlogsPage() {
                       aria-labelledby="blogs-all"
                       className="border-t border-border pt-16 md:pt-20"
                     >
-                      <div className="mb-8 flex flex-col gap-2 md:mb-12">
+                      <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-12">
                         <h2
                           id="blogs-all"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
                         >
                           {featuredBlogs.length > 0 ? "All posts" : "Articles"}
                         </h2>
-                        <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
+                        <p className="mx-auto max-w-2xl text-center text-base text-muted-foreground md:text-lg">
                           Browse every published article.
                         </p>
                       </div>

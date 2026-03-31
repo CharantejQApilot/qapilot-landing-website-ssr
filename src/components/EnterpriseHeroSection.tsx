@@ -38,7 +38,7 @@ const EnterpriseHeroSection = () => {
       </div>
 
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+        <div className="grid grid-cols-1 gap-8 items-center min-h-0 sm:gap-12 sm:min-h-[60vh] lg:grid-cols-2 lg:min-h-[80vh]">
           
           {/* Left Side - Content */}
           <div className="space-y-8">
@@ -239,7 +239,7 @@ const EnterpriseHeroSection = () => {
                 </div>
 
                 {/* Quick Stats */}
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
+                <div className="grid grid-cols-3 gap-2 pt-4 border-t border-border sm:gap-4">
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">847</div>
                     <div className="text-xs text-muted-foreground">Tests Run</div>

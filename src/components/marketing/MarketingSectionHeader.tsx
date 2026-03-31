@@ -29,7 +29,7 @@ export function MarketingSectionHeader({
   return (
     <header
       className={cn(
-        "relative w-full overflow-hidden rounded-2xl border border-border bg-muted/25 px-6 py-8 md:px-10 md:py-10 2xl:px-12 2xl:py-12",
+        "relative w-full overflow-hidden rounded-2xl border border-border bg-muted/25 px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 2xl:px-12 2xl:py-12",
         marginBottomClassName,
         variant === "center" && "pt-10 text-center md:pt-12",
         className,

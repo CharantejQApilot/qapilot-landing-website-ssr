@@ -11,9 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import RichTextEditor from "@/components/RichTextEditor";
 import { ArrowLeft, Save, Upload } from "lucide-react";
-import type { User } from "@supabase/supabase-js";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 
 interface Blog {
   id: string;
@@ -29,10 +28,18 @@ interface Blog {
   author_name: string | null;
   author_designation: string | null;
   youtube_url: string | null;
+  writer_id?: string | null;
+  category: string | null;
+  description: string | null;
+  tags: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  og_image_url: string | null;
+  seo_keywords: string | null;
+  content_format: string | null;
 }
 
 const BlogEditorClient = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [step, setStep] = useState<"content" | "metadata">("content");
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -48,6 +55,16 @@ const BlogEditorClient = () => {
   const [uploading, setUploading] = useState(false);
   const [writerId, setWriterId] = useState<string>("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
+  const [ogImageUrl, setOgImageUrl] = useState("");
+  const [seoKeywords, setSeoKeywords] = useState("");
+  const [publishStatus, setPublishStatus] = useState<"draft" | "published">(
+    "published",
+  );
 
   const router = useRouter();
   const { toast } = useToast();
@@ -64,7 +81,6 @@ const BlogEditorClient = () => {
         return;
       }
 
-      setUser(session.user);
     };
 
     checkAuth();
@@ -108,10 +124,22 @@ const BlogEditorClient = () => {
       setAuthorName(existingBlog.author_name || "");
       setAuthorDesignation(existingBlog.author_designation || "");
       setIsFeatured(existingBlog.is_featured);
-      setIsLabsFeatured((existingBlog as any).is_labs_featured || false);
-      setPublishedDate(existingBlog.published_date ? existingBlog.published_date.substring(0, 10) : "");
+      setIsLabsFeatured((existingBlog as Blog).is_labs_featured || false);
+      setPublishedDate(
+        existingBlog.published_date
+          ? existingBlog.published_date.substring(0, 10)
+          : "",
+      );
       setWriterId(existingBlog.writer_id || "");
       setYoutubeUrl(existingBlog.youtube_url || "");
+      setCategory(existingBlog.category || "");
+      setDescription(existingBlog.description || "");
+      setTags(existingBlog.tags || "");
+      setSeoTitle(existingBlog.seo_title || "");
+      setSeoDescription(existingBlog.seo_description || "");
+      setOgImageUrl(existingBlog.og_image_url || "");
+      setSeoKeywords(existingBlog.seo_keywords || "");
+      setPublishStatus(existingBlog.published ? "published" : "draft");
     }
   }, [existingBlog]);
 
@@ -151,10 +179,17 @@ const BlogEditorClient = () => {
         }
       }
 
+      const cached =
+        id ?
+          (queryClient.getQueryData(["blog", id]) as Blog | undefined)
+        : undefined;
+      const contentFormat =
+        id && cached?.content_format === "html" ? "html" : "markdown";
+
       const blogData = {
         title: title || "Untitled",
         slug: slug || `untitled-${Date.now()}`,
-        excerpt,
+        excerpt: excerpt || null,
         content,
         featured_image: imageUrl || null,
         author_name: authorName || null,
@@ -163,8 +198,16 @@ const BlogEditorClient = () => {
         is_featured: isFeatured,
         is_labs_featured: isLabsFeatured,
         published_date: publishedDate || null,
-        writer_id: (writerId && writerId !== "none") ? writerId : null,
+        writer_id: writerId && writerId !== "none" ? writerId : null,
         youtube_url: youtubeUrl || null,
+        category: category.trim() || null,
+        description: description.trim() || null,
+        tags: tags.trim() || null,
+        seo_title: seoTitle.trim() || null,
+        seo_description: seoDescription.trim() || null,
+        og_image_url: ogImageUrl.trim() || null,
+        seo_keywords: seoKeywords.trim() || null,
+        content_format: contentFormat,
       };
 
       if (id) {
@@ -202,9 +245,11 @@ const BlogEditorClient = () => {
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
-      toast({ 
-        title: "Success", 
-        description: variables.published ? "Blog published successfully" : "Blog saved as draft" 
+      toast({
+        title: "Success",
+        description: variables.published
+          ? "Blog published successfully"
+          : "Blog saved as draft",
       });
       router.push("/admin");
     },
@@ -242,45 +287,44 @@ const BlogEditorClient = () => {
     setStep("metadata");
   };
 
-  const handlePublish = (e: React.FormEvent) => {
+  const handleSaveFromMetadata = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !slug) {
       toast({
         title: "Required Fields",
-        description: "Title and slug are required to publish",
+        description: "Title and slug are required",
         variant: "destructive",
       });
       return;
     }
-    saveMutation.mutate({ published: true });
+    saveMutation.mutate({ published: publishStatus === "published" });
   };
 
   if (step === "content") {
     return (
-      <div className="min-h-screen bg-background dark relative">
-        <div className="absolute inset-0 glow-bg"></div>
-        
-        <div className="relative z-10">
-          <div className="border-b border-border/50 bg-card/95 backdrop-blur sticky top-0 z-20">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-              <Button 
-                variant="ghost" 
+      <AdminPageShell contentClassName="flex min-h-screen flex-col p-0">
+        <div className="flex min-h-screen flex-col">
+          <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+            <div className="container mx-auto flex items-center justify-between px-4 py-4">
+              <Button
+                variant="ghost"
                 onClick={() => router.push("/admin")}
-                className="gap-2"
+                className="gap-2 text-foreground"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="h-4 w-4" />
                 Back to Admin
               </Button>
               <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
+                  className="border-border"
                   onClick={handleSaveDraft}
                   disabled={saveMutation.isPending || uploading}
                 >
-                  <Save className="w-4 h-4 mr-2" />
+                  <Save className="mr-2 h-4 w-4" />
                   Save Draft
                 </Button>
-                <Button 
+                <Button
                   onClick={handleContinueToPublish}
                   disabled={saveMutation.isPending || uploading}
                 >
@@ -290,64 +334,70 @@ const BlogEditorClient = () => {
             </div>
           </div>
 
-          <div className="h-[calc(100vh-80px)] flex flex-col">
-            <div className="container mx-auto px-4 pt-8 pb-4 max-w-5xl">
+          <div className="flex h-[calc(100vh-73px)] flex-col">
+            <div className="container mx-auto max-w-5xl px-4 pb-4 pt-8">
               <Input
                 type="text"
                 placeholder="Blog Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="text-4xl font-bold border-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
+                className="border-none bg-transparent px-0 font-heading text-3xl font-semibold tracking-tight text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 md:text-4xl"
               />
             </div>
-            <div className="flex-1 container mx-auto px-4 pb-8 max-w-5xl overflow-hidden">
-              <RichTextEditor 
-                value={content} 
-                onChange={setContent}
-                placeholder="Start writing your blog post..."
+            <div className="container mx-auto max-w-5xl flex-1 px-4 pb-8">
+              <Label className="mb-2 block text-muted-foreground">
+                Content (Markdown)
+              </Label>
+              <Textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Write in Markdown (headings, lists, links, code fences, etc.)"
+                className="min-h-[min(60vh,520px)] resize-y font-mono text-sm leading-relaxed"
+                spellCheck={false}
               />
             </div>
           </div>
         </div>
-      </div>
+      </AdminPageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background dark relative">
-      <div className="absolute inset-0 glow-bg"></div>
-      
-      <div className="relative z-10">
-        <div className="border-b border-border/50 bg-card/95 backdrop-blur sticky top-0 z-20">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <Button 
-              variant="ghost" 
+    <AdminPageShell contentClassName="flex min-h-screen flex-col p-0">
+      <div className="flex min-h-screen flex-col">
+        <div className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+          <div className="container mx-auto flex items-center justify-between px-4 py-4">
+            <Button
+              variant="ghost"
               onClick={() => setStep("content")}
-              className="gap-2"
+              className="gap-2 text-foreground"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="h-4 w-4" />
               Back to Editor
             </Button>
             <div className="flex gap-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
+                className="border-border"
                 onClick={handleSaveDraft}
                 disabled={saveMutation.isPending || uploading}
               >
-                <Save className="w-4 h-4 mr-2" />
+                <Save className="mr-2 h-4 w-4" />
                 Save Draft
               </Button>
             </div>
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-8 max-w-3xl">
-          <Card className="border-border/50 bg-card/95 backdrop-blur">
+        <div className="container mx-auto max-w-3xl px-4 py-8">
+          <Card className="border border-border bg-card text-card-foreground shadow-sm">
             <CardHeader>
-              <CardTitle>Publish Settings</CardTitle>
+              <CardTitle className="font-heading text-xl text-foreground">
+                Publish settings
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handlePublish} className="space-y-6">
+              <form onSubmit={handleSaveFromMetadata} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="title">Title *</Label>
                   <Input
@@ -370,22 +420,71 @@ const BlogEditorClient = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="excerpt">SEO Meta Description</Label>
+                  <Label htmlFor="status">Status</Label>
+                  <Select
+                    value={publishStatus}
+                    onValueChange={(v) =>
+                      setPublishStatus(v as "draft" | "published")
+                    }
+                  >
+                    <SelectTrigger id="status" className="bg-background">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="z-50 bg-background">
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="published">Published</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="category">Category</Label>
+                  <Input
+                    id="category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    placeholder="e.g. Product, Engineering"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Short summary shown on the article (optional)"
+                    className="min-h-[80px]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="tags">Tags (comma-separated)</Label>
+                  <Input
+                    id="tags"
+                    value={tags}
+                    onChange={(e) => setTags(e.target.value)}
+                    placeholder="flutter, testing, automation"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="excerpt">Excerpt (legacy / optional)</Label>
                   <Textarea
                     id="excerpt"
                     value={excerpt}
                     onChange={(e) => setExcerpt(e.target.value)}
-                    placeholder="Write a compelling meta description for search engines (150-160 characters recommended)"
+                    placeholder="Optional short excerpt (still used if SEO description is empty)"
                     className="min-h-[100px]"
-                    maxLength={160}
+                    maxLength={500}
                   />
                   <p className="text-xs text-muted-foreground">
-                    {excerpt.length}/160 characters
+                    {excerpt.length}/500 characters
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="featured-image">Featured Image</Label>
+                  <Label htmlFor="featured-image">Cover image</Label>
                   <div className="flex gap-2">
                     <Input
                       id="featured-image"
@@ -468,6 +567,50 @@ const BlogEditorClient = () => {
                   </p>
                 </div>
 
+                <div className="space-y-3 border-t border-border pt-6">
+                  <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                    SEO settings
+                  </h3>
+                  <div className="space-y-2">
+                    <Label htmlFor="seo-title">SEO title</Label>
+                    <Input
+                      id="seo-title"
+                      value={seoTitle}
+                      onChange={(e) => setSeoTitle(e.target.value)}
+                      placeholder="Overrides page title and Open Graph title when set"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="seo-description">SEO description</Label>
+                    <Textarea
+                      id="seo-description"
+                      value={seoDescription}
+                      onChange={(e) => setSeoDescription(e.target.value)}
+                      placeholder="Meta description; falls back to excerpt or description"
+                      className="min-h-[88px]"
+                      maxLength={320}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="og-image">OG image URL</Label>
+                    <Input
+                      id="og-image"
+                      value={ogImageUrl}
+                      onChange={(e) => setOgImageUrl(e.target.value)}
+                      placeholder="https://… (falls back to cover image)"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="seo-keywords">Keywords (comma-separated)</Label>
+                    <Input
+                      id="seo-keywords"
+                      value={seoKeywords}
+                      onChange={(e) => setSeoKeywords(e.target.value)}
+                      placeholder="mobile testing, QA, automation"
+                    />
+                  </div>
+                </div>
+
                 <div className="flex gap-6">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -487,13 +630,19 @@ const BlogEditorClient = () => {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button type="submit" disabled={saveMutation.isPending || uploading}>
-                    {uploading ? "Uploading..." : saveMutation.isPending ? "Publishing..." : "Publish"}
+                    {uploading
+                      ? "Uploading…"
+                      : saveMutation.isPending
+                        ? "Saving…"
+                        : publishStatus === "published"
+                          ? "Save & publish"
+                          : "Save draft"}
                   </Button>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
+                  <Button
+                    type="button"
+                    variant="outline"
                     onClick={() => router.push("/admin")}
                   >
                     Cancel
@@ -504,7 +653,7 @@ const BlogEditorClient = () => {
           </Card>
         </div>
       </div>
-    </div>
+    </AdminPageShell>
   );
 };
 

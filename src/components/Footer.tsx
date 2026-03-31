@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 import { DOCS_URL, STATUS_URL } from "@/lib/constants";
 import {
   PLATFORM_BY_SOLUTION,
-  PLATFORM_BY_ROLE,
   PATHS,
 } from "@/lib/routes";
 
@@ -68,7 +67,7 @@ const FooterLink = ({
   external?: boolean;
 }) => {
   const className =
-    "text-sm 2xl:text-base text-white/50 hover:text-white transition-colors";
+    "inline-block min-h-[44px] py-2.5 text-sm leading-tight 2xl:text-base text-white/50 hover:text-white transition-colors";
   if (external || to.startsWith("http"))
     return (
       <a href={to} target="_blank" rel="noopener" className={className}>
@@ -122,25 +121,13 @@ const Footer = () => {
       {/* Footer Links — edge-to-edge */}
       <footer className="section-dark border-t border-white/[0.06] section-edge w-full">
         <div className="section-full py-16 2xl:py-20">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mb-12 items-start justify-items-start">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-12 items-start justify-items-start">
             <div className="min-w-0 w-full">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
                 By Solution
               </h3>
               <ul className="space-y-3">
                 {PLATFORM_BY_SOLUTION.map((item) => (
-                  <li key={item.path + item.label}>
-                    <FooterLink to={item.path}>{item.label}</FooterLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="min-w-0 w-full">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
-                By Role
-              </h3>
-              <ul className="space-y-3">
-                {PLATFORM_BY_ROLE.map((item) => (
                   <li key={item.path + item.label}>
                     <FooterLink to={item.path}>{item.label}</FooterLink>
                   </li>

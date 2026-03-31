@@ -41,8 +41,8 @@ export const PATHS = {
   /** Platform → By Solution (linked from home + nav) */
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
   INTELLIGENT_BUG_DETECTION: "/product/intelligent-bug-detection",
-  SECURITY_REPORTS: "/bring-your-own-agent",
-  AI_SELF_HEALING: "/for-flutter",
+  SECURITY_REPORTS: "/security-reports",
+  AI_SELF_HEALING: "/ai-self-healing",
 } as const;
 
 /** Platform dropdown: By Solution (with icon names for Lucide) */

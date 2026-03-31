@@ -18,16 +18,24 @@ export type Database = {
         Row: {
           author_designation: string | null
           author_name: string | null
+          category: string | null
           content: string | null
+          content_format: string
           created_at: string
+          description: string | null
           excerpt: string | null
           featured_image: string | null
           id: string
           is_featured: boolean
           is_labs_featured: boolean
+          og_image_url: string | null
           published: boolean
           published_date: string | null
+          seo_description: string | null
+          seo_keywords: string | null
+          seo_title: string | null
           slug: string
+          tags: string | null
           title: string
           updated_at: string
           writer_id: string | null
@@ -36,16 +44,24 @@ export type Database = {
         Insert: {
           author_designation?: string | null
           author_name?: string | null
+          category?: string | null
           content?: string | null
+          content_format?: string
           created_at?: string
+          description?: string | null
           excerpt?: string | null
           featured_image?: string | null
           id?: string
           is_featured?: boolean
           is_labs_featured?: boolean
+          og_image_url?: string | null
           published?: boolean
           published_date?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
           slug: string
+          tags?: string | null
           title: string
           updated_at?: string
           writer_id?: string | null
@@ -54,16 +70,24 @@ export type Database = {
         Update: {
           author_designation?: string | null
           author_name?: string | null
+          category?: string | null
           content?: string | null
+          content_format?: string
           created_at?: string
+          description?: string | null
           excerpt?: string | null
           featured_image?: string | null
           id?: string
           is_featured?: boolean
           is_labs_featured?: boolean
+          og_image_url?: string | null
           published?: boolean
           published_date?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
           slug?: string
+          tags?: string | null
           title?: string
           updated_at?: string
           writer_id?: string | null
@@ -235,19 +259,27 @@ export type Database = {
           author_designation: string | null
           author_name: string | null
           banner_text: string | null
+          category: string | null
           content: string
+          content_format: string
           created_at: string
+          description: string | null
           excerpt: string | null
           featured_image: string | null
           id: string
           is_banner: boolean
           is_featured: boolean
+          og_image_url: string | null
           published: boolean
           published_date: string | null
+          seo_description: string | null
+          seo_keywords: string | null
+          seo_title: string | null
           slug: string
           social_embed_description: string | null
           social_embed_image: string | null
           social_embed_url: string | null
+          tags: string | null
           title: string
           updated_at: string
           writer_id: string | null
@@ -257,19 +289,27 @@ export type Database = {
           author_designation?: string | null
           author_name?: string | null
           banner_text?: string | null
+          category?: string | null
           content: string
+          content_format?: string
           created_at?: string
+          description?: string | null
           excerpt?: string | null
           featured_image?: string | null
           id?: string
           is_banner?: boolean
           is_featured?: boolean
+          og_image_url?: string | null
           published?: boolean
           published_date?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
           slug: string
           social_embed_description?: string | null
           social_embed_image?: string | null
           social_embed_url?: string | null
+          tags?: string | null
           title: string
           updated_at?: string
           writer_id?: string | null
@@ -279,19 +319,27 @@ export type Database = {
           author_designation?: string | null
           author_name?: string | null
           banner_text?: string | null
+          category?: string | null
           content?: string
+          content_format?: string
           created_at?: string
+          description?: string | null
           excerpt?: string | null
           featured_image?: string | null
           id?: string
           is_banner?: boolean
           is_featured?: boolean
+          og_image_url?: string | null
           published?: boolean
           published_date?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
           slug?: string
           social_embed_description?: string | null
           social_embed_image?: string | null
           social_embed_url?: string | null
+          tags?: string | null
           title?: string
           updated_at?: string
           writer_id?: string | null

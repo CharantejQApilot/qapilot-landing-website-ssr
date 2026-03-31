@@ -1,45 +1,53 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
- * Optimized scroll animation hook for Core Web Vitals
- * Uses IntersectionObserver for efficient visibility detection
- * Disconnects observer after element becomes visible (single trigger)
+ * Scroll-triggered reveal without post-paint flicker.
+ * - SSR / first paint: treat as in-view (visible) so HTML never flashes hidden→shown above the fold.
+ * - useLayoutEffect runs before the browser paints after hydration: elements strictly below the
+ *   viewport switch to hidden once, then IntersectionObserver reveals them on scroll.
+ * (Using useEffect caused one painted frame at full opacity before hiding — visible flicker.)
  */
 export const useScrollAnimation = (threshold = 0.1) => {
   const ref = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const currentRef = ref.current;
     if (!currentRef) return;
 
-    // IntersectionObserver often fires asynchronously; if the section is already
-    // in (or near) the viewport, show content immediately so it never stays opacity-0.
-    if (typeof window !== "undefined") {
-      const rect = currentRef.getBoundingClientRect();
-      const margin = 50;
-      const vh = window.innerHeight;
-      if (rect.bottom >= -margin && rect.top <= vh + margin) {
-        setIsVisible(true);
-      }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
     }
+
+    const rect = currentRef.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const rootMarginPx = 50;
+
+    if (rect.top <= vh + rootMarginPx) {
+      return;
+    }
+
+    setIsVisible(false);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Disconnect after first visibility to save resources
           observer.disconnect();
         }
       },
-      { 
-        threshold,
-        // Add rootMargin to trigger slightly before element is visible
-        // This provides a smoother animation experience
-        rootMargin: '50px 0px'
-      }
+      { threshold, rootMargin: `${rootMarginPx}px 0px` },
     );
 
     observer.observe(currentRef);

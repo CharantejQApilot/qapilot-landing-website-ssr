@@ -124,7 +124,7 @@ export default function ReleaseReadinessFlowSection({
             aria-hidden
           />
           <div
-            className={`snap-x snap-mandatory overflow-x-auto overflow-y-visible overscroll-x-contain pb-3 pt-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border/80 ${
+            className={`snap-x snap-mandatory overflow-x-auto overflow-y-visible overscroll-x-contain [-webkit-overflow-scrolling:touch] pb-3 pt-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border/80 ${
               embedded
                 ? "px-1 sm:px-2"
                 : "px-6 sm:px-8 md:px-12 lg:px-16"

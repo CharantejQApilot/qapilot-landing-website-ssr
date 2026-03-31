@@ -206,13 +206,17 @@ const FAQsCMS = () => {
   };
 
   if (loading) {
-    return <div className="p-6">Loading FAQs...</div>;
+    return (
+      <div className="p-6 text-muted-foreground">Loading FAQs…</div>
+    );
   }
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">FAQs Management</h2>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+          FAQs
+        </h2>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => handleOpenDialog()}>

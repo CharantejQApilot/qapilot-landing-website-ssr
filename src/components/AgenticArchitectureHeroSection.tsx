@@ -12,7 +12,7 @@ const AgenticArchitectureHeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[80vh] flex items-start md:items-center justify-start md:justify-center overflow-visible pt-40 md:pt-24">
+    <section className="relative min-h-[60vh] flex items-start md:items-center justify-start md:justify-center overflow-visible pt-28 sm:pt-40 sm:min-h-[80vh] md:pt-24">
       {/* Background Effects */}
       <div className="absolute inset-0 glow-bg"></div>
       

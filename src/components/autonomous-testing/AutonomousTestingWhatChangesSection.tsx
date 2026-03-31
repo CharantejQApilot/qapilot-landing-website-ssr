@@ -52,7 +52,7 @@ export function AutonomousTestingWhatChangesSection() {
           {BLOCKS.map((block) => (
             <div
               key={block.from}
-              className="group relative overflow-hidden rounded-2xl border border-border/80 bg-background/80 p-6 shadow-sm backdrop-blur-sm md:p-8"
+              className="group relative overflow-hidden rounded-2xl border border-border/80 bg-background/80 p-5 shadow-sm backdrop-blur-sm sm:p-6 md:p-8"
             >
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <div className="flex flex-col gap-6">

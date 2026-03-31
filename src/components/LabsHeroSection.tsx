@@ -28,7 +28,7 @@ const mobileNodes = [
 
 const LabsHeroSection = () => {
   return (
-    <section className="section-edge relative flex min-h-[70vh] w-full flex-col items-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-0 pt-20">
+    <section className="section-edge relative flex min-h-[60vh] w-full flex-col items-center overflow-x-hidden overflow-y-visible border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-0 pt-20 sm:min-h-[70vh]">
       {/* Subtle dot grid background */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
         <defs>
