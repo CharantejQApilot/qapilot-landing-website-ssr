@@ -7,6 +7,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
 import { useWebVitals } from "@/hooks/useWebVitals";
+import {
+  HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
+  HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
+} from "@/lib/constants";
 import { useState } from "react";
 
 function AppShell({ children }: { children: React.ReactNode }) {
@@ -21,6 +25,8 @@ function AppShell({ children }: { children: React.ReactNode }) {
         onClose={closeForm}
         title={title}
         description={description}
+        formId={HUBSPOT_MAIN_GET_ACCESS_FORM_ID}
+        formName={HUBSPOT_MAIN_GET_ACCESS_FORM_NAME}
       />
     </>
   );

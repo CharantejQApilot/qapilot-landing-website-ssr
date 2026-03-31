@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import DifferentiatorsHeroSection from "@/components/DifferentiatorsHeroSection";
-import { MarketingPageShell } from "@/components/marketing";
+import { AgenticArchitectureAgentLayerSection } from "@/components/agentic-architecture/AgenticArchitectureAgentLayerSection";
+import { AgenticArchitectureContextMattersSection } from "@/components/agentic-architecture/AgenticArchitectureContextMattersSection";
+import { AgenticArchitectureHero } from "@/components/agentic-architecture/AgenticArchitectureHero";
+import { AgenticArchitectureKnowledgeGraphSection } from "@/components/agentic-architecture/AgenticArchitectureKnowledgeGraphSection";
+import { AgenticArchitectureSystemOverviewSection } from "@/components/agentic-architecture/AgenticArchitectureSystemOverviewSection";
+import { AgenticArchitectureWhyMattersSection } from "@/components/agentic-architecture/AgenticArchitectureWhyMattersSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
@@ -9,16 +13,16 @@ import { PATHS } from "@/lib/routes";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AGENTIC_ARCHITECTURE}`;
 
 export const metadata: Metadata = {
-  title: "QApilot's Agentic Architecture | AI Agents",
+  title: "QApilot's Agentic Architecture | AI Agents & Knowledge Graph",
   description:
-    "How QApilot orchestrates specialized agents for exploration, test generation, execution, and issue detection—native agents, your agents, and the QApilot framework as one system.",
+    "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing — context, exploration, and outcomes in one system.",
   alternates: {
     canonical: canonicalUrl,
   },
   openGraph: {
-    title: "QApilot's Agentic Architecture | AI Agents",
+    title: "QApilot's Agentic Architecture | AI Agents & Knowledge Graph",
     description:
-      "See how specialized agents connect through the QApilot framework for autonomous mobile testing.",
+      "Specialized agents, shared context, and the knowledge graph as the foundation — from exploration to coverage and release readiness.",
     url: canonicalUrl,
   },
 };
@@ -33,35 +37,20 @@ const breadcrumbList = buildBreadcrumbList([
 
 export default function AgenticArchitecturePage() {
   return (
-    <MarketingPageShell
-      background="hero"
-      heroBackgroundOptions={{ showDiagonalGrid: false, showPixelRipple: false }}
-    >
+    <div className="relative z-0 min-h-screen w-full bg-background section-edge">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbList) }}
       />
       <main>
-        <DifferentiatorsHeroSection
-          title={
-            <>
-              QApilot&apos;s <span className="text-primary">Agentic Architecture</span>
-            </>
-          }
-          subtitle={
-            <>
-              <p>
-                Autonomous testing is not a single model—it is a <span className="font-semibold text-primary">network of specialized agents</span>{" "}
-                coordinating exploration, coverage, execution, and detection through a shared framework.
-              </p>
-              <p className="text-xl font-semibold text-foreground">
-                Native agents, your agents, and QApilot—wired as one system.
-              </p>
-            </>
-          }
-        />
+        <AgenticArchitectureHero />
+        <AgenticArchitectureWhyMattersSection />
+        <AgenticArchitectureSystemOverviewSection />
+        <AgenticArchitectureKnowledgeGraphSection />
+        <AgenticArchitectureContextMattersSection />
+        <AgenticArchitectureAgentLayerSection />
       </main>
       <Footer />
-    </MarketingPageShell>
+    </div>
   );
 }

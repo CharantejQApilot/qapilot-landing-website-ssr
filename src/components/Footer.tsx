@@ -37,6 +37,12 @@ const toolsLinks = [
   },
 ];
 
+/** Shared footer nav link rhythm (all columns use the same padding + gap). */
+const footerColumnLinkClass =
+  "text-sm leading-normal py-1.5 2xl:text-base text-white/50 hover:text-white transition-colors";
+
+const footerColumnListClass = "flex flex-col gap-1";
+
 const socialLinks = [
   {
     name: "LinkedIn",
@@ -66,8 +72,7 @@ const FooterLink = ({
   children: React.ReactNode;
   external?: boolean;
 }) => {
-  const className =
-    "inline-block min-h-[44px] py-2.5 text-sm leading-tight 2xl:text-base text-white/50 hover:text-white transition-colors";
+  const className = cn("inline-block", footerColumnLinkClass);
   if (external || to.startsWith("http"))
     return (
       <a href={to} target="_blank" rel="noopener" className={className}>
@@ -123,10 +128,10 @@ const Footer = () => {
         <div className="section-full py-16 2xl:py-20">
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-12 items-start justify-items-start">
             <div className="min-w-0 w-full">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 By Solution
               </h3>
-              <ul className="space-y-3">
+              <ul className={footerColumnListClass}>
                 {PLATFORM_BY_SOLUTION.map((item) => (
                   <li key={item.path + item.label}>
                     <FooterLink to={item.path}>{item.label}</FooterLink>
@@ -135,10 +140,10 @@ const Footer = () => {
               </ul>
             </div>
             <div className="min-w-0 w-full">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 Resources
               </h3>
-              <ul className="space-y-3">
+              <ul className={footerColumnListClass}>
                 <li>
                   <FooterLink to={PATHS.BLOGS}>Blogs</FooterLink>
                 </li>
@@ -161,10 +166,10 @@ const Footer = () => {
               </ul>
             </div>
             <div className="min-w-0 w-full">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 Company
               </h3>
-              <ul className="space-y-3">
+              <ul className={footerColumnListClass}>
                 <li>
                   <FooterLink to={PATHS.ABOUT}>About Us</FooterLink>
                 </li>
@@ -177,17 +182,17 @@ const Footer = () => {
               </ul>
             </div>
             <div className="min-w-0 w-full">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 Our Tools
               </h3>
-              <ul className="space-y-3">
+              <ul className={footerColumnListClass}>
                 {toolsLinks.map((tool) => (
                   <li key={tool.name}>
                     <a
                       href={tool.productHuntUrl}
                       target="_blank"
                       rel="noopener"
-                      className="text-sm 2xl:text-base text-white/50 hover:text-white transition-colors"
+                      className={cn("inline-block", footerColumnLinkClass)}
                     >
                       {tool.name}
                     </a>
@@ -196,17 +201,17 @@ const Footer = () => {
               </ul>
             </div>
             <div className="min-w-0 w-full">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-5">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 Follow Us
               </h3>
-              <ul className="space-y-3">
+              <ul className={footerColumnListClass}>
                 {socialLinks.map((social) => (
                   <li key={social.name}>
                     <a
                       href={social.href}
                       target="_blank"
                       rel="noopener"
-                      className="flex items-center gap-2 text-sm 2xl:text-base text-white/50 hover:text-white transition-colors"
+                      className={cn("inline-flex items-center gap-2", footerColumnLinkClass)}
                       aria-label={social.name}
                     >
                       <social.icon size={16} className="shrink-0" />

@@ -14,5 +14,14 @@ export const APP_AUTOMATION_LOGIN_URL =
   "https://app.qapilot.io/automation/index.html";
 export const STATUS_URL = "https://status.qapilot.io";
 
+/**
+ * Main marketing “Get Access” HubSpot form (v2 script + hbspt.forms.create).
+ * Used by the global dialog from Header, Footer, home hero, and platform pages.
+ */
+export const HUBSPOT_NA1_REGION = "na1" as const;
+export const HUBSPOT_NA1_PORTAL_ID = "47284450";
+export const HUBSPOT_MAIN_GET_ACCESS_FORM_ID = "9e1f8740-75cc-4924-a4bd-6b687bd6f6c6";
+export const HUBSPOT_MAIN_GET_ACCESS_FORM_NAME = "Contact Us Dialog";
+
 /** Default favicon / org logo URL for structured data */
 export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/lovable-uploads/favicon.png`;

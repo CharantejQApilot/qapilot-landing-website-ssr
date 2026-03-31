@@ -72,7 +72,14 @@ const HeroSection = () => {
 
       <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-1 sm:px-0">
-          <h1 className={cn(marketingHeroH1Class, "mb-5 sm:mb-6 md:mb-8")}>
+          <h1
+            className={cn(
+              marketingHeroH1Class,
+              "mb-5 sm:mb-6 md:mb-8",
+              /* Fluid size to keep line 1 on one row with nowrap (avoids static phrase wrapping into a third line) */
+              "max-lg:text-[clamp(1.1rem,0.85rem+2.65vw,3.45rem)] max-lg:leading-[1.1]",
+            )}
+          >
             <div
               className={
                 phase === "exiting"
@@ -82,12 +89,12 @@ const HeroSection = () => {
                     : undefined
               }
             >
-              {/* Strictly two lines at every breakpoint: line 1 = static phrase, line 2 = rolling word */}
+              {/* Strictly two lines: line 1 = static phrase (one line from sm up), line 2 = rolling word */}
               <span className="flex flex-col flex-nowrap items-center gap-y-2 sm:gap-y-2.5 md:gap-y-3">
-                <span className="block w-full text-center leading-[inherit]">
+                <span className="block w-full text-center leading-[inherit] whitespace-nowrap px-1">
                   The Future Of Quality Is
                 </span>
-                <span className="relative inline-block shrink-0" aria-live="polite" aria-atomic="true">
+                <span className="relative inline-block shrink-0 whitespace-nowrap" aria-live="polite" aria-atomic="true">
                   <span
                     key={
                       phase === "rolling"
