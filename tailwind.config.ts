@@ -112,6 +112,11 @@ export default {
 					'0%': { opacity: '0', transform: 'translateY(20px)' },
 					'100%': { opacity: '1', transform: 'translateY(0)' }
 				},
+				/** Agentic architecture hero — must stay separate from parent translate(-50%,-50%) */
+				'slide-in-right': {
+					'0%': { opacity: '0', transform: 'translateX(36px)' },
+					'100%': { opacity: '1', transform: 'translateX(0)' }
+				},
 				'shimmer': {
 					'0%': { backgroundPosition: '-200% 0' },
 					'100%': { backgroundPosition: '200% 0' }
@@ -151,6 +156,7 @@ export default {
 				'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
 				'fade-in': 'fade-in 0.6s ease-out',
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
+				'slide-in-right': 'slide-in-right 1s ease-out both',
 				'shimmer': 'shimmer 8s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'infinite-scroll': 'infinite-scroll 30s linear infinite',

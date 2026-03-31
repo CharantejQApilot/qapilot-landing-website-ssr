@@ -128,6 +128,8 @@ const Header = () => {
     path === PATHS.PRODUCT ||
     path.startsWith(`${PATHS.PRODUCT}/`) ||
     path === PATHS.FOR_FLUTTER ||
+    path === PATHS.SECURITY_REPORTS ||
+    path === PATHS.AI_SELF_HEALING ||
     path === PATHS.BRING_YOUR_OWN_AGENT ||
     path === PATHS.AGENTIC_ARCHITECTURE ||
     path === PATHS.FOR_RELEASE_MANAGER ||

@@ -1,24 +1,40 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Footer from "@/components/Footer";
-import { MarketingPageShell } from "@/components/marketing";
-import { Button } from "@/components/ui/button";
+import { BringYourOwnAgentHero } from "@/components/bring-your-own-agent/BringYourOwnAgentHero";
+import {
+  BringYourOwnAgentEnablesSection,
+  BringYourOwnAgentFoundationSection,
+  BringYourOwnAgentHowSection,
+  BringYourOwnAgentPositioningSection,
+  BringYourOwnAgentUsefulSection,
+  BringYourOwnAgentWhySection,
+} from "@/components/bring-your-own-agent/BringYourOwnAgentSections";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
-import { marketingHeroH1Class } from "@/lib/marketing-typography";
-import { cn } from "@/lib/utils";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.BRING_YOUR_OWN_AGENT}`;
 
 export const metadata: Metadata = {
   title: "Bring Your Own Agent (BYOA) | QApilot",
   description:
-    "Extend QApilot with your own agents. Full BYOA documentation and flows are coming soon.",
+    "Integrate your own AI agents into QApilot and use the shared knowledge graph for custom validation, domain workflows, and specialized testing—without breaking the core system.",
+  alternates: {
+    canonical: canonicalUrl,
+  },
+  openGraph: {
+    title: "Bring Your Own Agent (BYOA) | QApilot",
+    description:
+      "Extend QApilot with custom agents that read and write the same knowledge graph context as native agents.",
+    url: canonicalUrl,
+  },
 };
 
 export const revalidate = 300;
 
 export default function BringYourOwnAgentPage() {
   return (
-    <>
+    <div className="relative z-0 min-h-screen w-full bg-background section-edge">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -30,29 +46,16 @@ export default function BringYourOwnAgentPage() {
           ),
         }}
       />
-      <MarketingPageShell background="soft">
-        <main className="section-edge w-full py-24 md:py-28">
-          <div className="section-full mx-auto max-w-2xl text-center">
-            <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary/90">Platform</p>
-            <h1 className={cn(marketingHeroH1Class)}>
-              Bring Your Own <span className="text-primary">Agent</span>
-            </h1>
-            <p className="mx-auto mt-6 text-lg leading-relaxed text-muted-foreground">
-              Plug your own agents into QApilot&apos;s framework. This page is being rebuilt—see how agents fit
-              the architecture today.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-              <Button size="lg" className="rounded-xl px-8 font-semibold" asChild>
-                <Link href={PATHS.AGENTIC_ARCHITECTURE}>QApilot&apos;s Agentic Architecture</Link>
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-xl border-primary/30 px-8 font-semibold" asChild>
-                <Link href={PATHS.PRODUCT}>Platform overview</Link>
-              </Button>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </MarketingPageShell>
-    </>
+      <main>
+        <BringYourOwnAgentHero />
+        <BringYourOwnAgentWhySection />
+        <BringYourOwnAgentFoundationSection />
+        <BringYourOwnAgentHowSection />
+        <BringYourOwnAgentEnablesSection />
+        <BringYourOwnAgentPositioningSection />
+        <BringYourOwnAgentUsefulSection />
+      </main>
+      <Footer />
+    </div>
   );
 }

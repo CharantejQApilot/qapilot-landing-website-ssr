@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import SafeHtmlContent from "@/components/SafeHtmlContent";
+import { cn } from "@/lib/utils";
 
 interface FAQ {
   id: string;
@@ -44,22 +45,25 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
     );
   }
 
+  /* Inset inside the full-bleed card only (page gutters come from `section-full` on the page) */
+  const itemPadding = "px-4 sm:px-6 md:px-10 lg:px-12 xl:px-14";
+
   if (categories.length === 1) {
     return (
-      <Accordion type="single" collapsible className="space-y-4">
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card"
+      >
         {faqs.map((faq) => (
-          <AccordionItem
-            key={faq.id}
-            value={faq.id}
-            className="border border-border rounded-lg px-6 bg-card"
-          >
-            <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline py-5">
+          <AccordionItem key={faq.id} value={faq.id} className={cn("border-0", itemPadding)}>
+            <AccordionTrigger className="text-left text-base font-medium text-foreground hover:no-underline md:text-lg py-5 md:py-6">
               {faq.question}
             </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground pb-5">
+            <AccordionContent className="text-muted-foreground pb-6 md:pb-8 pt-0">
               <SafeHtmlContent
                 html={faq.answer}
-                className="prose prose-sm prose-slate max-w-none"
+                className="prose prose-sm prose-slate max-w-none dark:prose-invert"
               />
             </AccordionContent>
           </AccordionItem>
@@ -69,32 +73,35 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
   }
 
   return (
-    <div className="space-y-10">
-      {categories.map((category) => (
-        <div key={category}>
-          <h2 className="font-heading text-2xl font-semibold text-foreground mb-4">
+    <div className="w-full space-y-12 md:space-y-14">
+      {categories.map((category, catIdx) => (
+        <section key={category} className="w-full" aria-labelledby={`faq-category-${catIdx}`}>
+          <h2
+            id={`faq-category-${catIdx}`}
+            className="font-heading mb-5 border-b border-border pb-3 text-2xl font-semibold text-foreground md:mb-6 md:text-3xl"
+          >
             {category}
           </h2>
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion
+            type="single"
+            collapsible
+            className="w-full divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card"
+          >
             {groupedFAQs[category].map((faq) => (
-              <AccordionItem
-                key={faq.id}
-                value={faq.id}
-                className="border border-border rounded-lg px-6 bg-card"
-              >
-                <AccordionTrigger className="text-left text-foreground font-medium hover:no-underline py-5">
+              <AccordionItem key={faq.id} value={faq.id} className={cn("border-0", itemPadding)}>
+                <AccordionTrigger className="text-left text-base font-medium text-foreground hover:no-underline md:text-lg py-5 md:py-6">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-5">
+                <AccordionContent className="text-muted-foreground pb-6 md:pb-8 pt-0">
                   <SafeHtmlContent
                     html={faq.answer}
-                    className="prose prose-sm prose-slate max-w-none"
+                    className="prose prose-sm prose-slate max-w-none dark:prose-invert"
                   />
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </div>
+        </section>
       ))}
     </div>
   );
