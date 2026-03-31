@@ -21,7 +21,7 @@ export function AgentNetworkCircuitVisual({ className }: AgentNetworkCircuitVisu
     <div className={cn("w-full", className)}>
       <div
         className={cn(
-          "relative mx-auto mb-0 hidden w-full max-w-full overflow-visible md:block",
+          "relative mx-auto mb-0 w-full max-w-full overflow-visible",
           "h-[min(680px,min(72vh,760px))]",
         )}
       >
@@ -296,31 +296,6 @@ export function AgentNetworkCircuitVisual({ className }: AgentNetworkCircuitVisu
                 <line x1="600" y1="150" x2="600" y2="550" stroke="hsl(var(--primary))" strokeWidth="3" className="opacity-50" />
               </svg>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-auto flex justify-center pb-2 pt-6 md:hidden">
-        <div className="flex items-center justify-center space-x-4">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="flex h-14 w-14 items-center justify-center rounded-lg border-2 border-primary/60 bg-card">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-primary">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" />
-              </svg>
-            </div>
-            <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-gradient-to-br from-primary/90 to-primary">
-              <Plug size={20} className="text-primary-foreground" />
-            </div>
-          </div>
-          <div className="text-2xl text-primary">→</div>
-          <div className="relative flex h-20 w-20 items-center justify-center rounded-xl border-2 border-primary bg-card">
-            <svg width="40" height="40" viewBox="0 0 100 100" fill="none" className="text-primary">
-              <rect x="35" y="35" width="30" height="30" stroke="currentColor" strokeWidth="3" fill="currentColor" fillOpacity="0.2" />
-              <line x1="50" y1="35" x2="50" y2="5" stroke="currentColor" strokeWidth="2" />
-              <line x1="50" y1="65" x2="50" y2="95" stroke="currentColor" strokeWidth="2" />
-              <line x1="35" y1="50" x2="5" y2="50" stroke="currentColor" strokeWidth="2" />
-              <line x1="65" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="2" />
-            </svg>
           </div>
         </div>
       </div>

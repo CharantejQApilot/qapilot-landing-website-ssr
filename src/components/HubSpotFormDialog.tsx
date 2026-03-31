@@ -8,6 +8,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
+  HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
+  HUBSPOT_NA1_PORTAL_ID,
+  HUBSPOT_NA1_REGION,
+} from "@/lib/constants";
 
 // Extend the Window interface to include hbspt and dataLayer
 declare global {
@@ -107,8 +113,8 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
   onClose,
   title = "Get Access to QApilot",
   description = "Fill out the form below and we'll get back to you shortly.",
-  formId = "9e1f8740-75cc-4924-a4bd-6b687bd6f6c6",
-  formName = "Contact Us Dialog"
+  formId = HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
+  formName = HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const formInstanceRef = useRef<string | null>(null);
@@ -142,8 +148,8 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
 
       if (window.hbspt?.forms) {
         window.hbspt.forms.create({
-          region: 'na1',
-          portalId: '47284450',
+          region: HUBSPOT_NA1_REGION,
+          portalId: HUBSPOT_NA1_PORTAL_ID,
           formId: formId,
           target: `#${uniqueId}`,
           onFormReady: () => {

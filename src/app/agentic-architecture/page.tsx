@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { AgenticArchitectureAgentLayerSection } from "@/components/agentic-architecture/AgenticArchitectureAgentLayerSection";
 import { AgenticArchitectureContextMattersSection } from "@/components/agentic-architecture/AgenticArchitectureContextMattersSection";
-import { AgenticArchitectureCrawlerFlowSection } from "@/components/agentic-architecture/AgenticArchitectureCrawlerFlowSection";
 import { AgenticArchitectureHero } from "@/components/agentic-architecture/AgenticArchitectureHero";
 import { AgenticArchitectureKnowledgeGraphSection } from "@/components/agentic-architecture/AgenticArchitectureKnowledgeGraphSection";
-import { AgenticArchitectureOutcomeSection } from "@/components/agentic-architecture/AgenticArchitectureOutcomeSection";
 import { AgenticArchitectureSystemOverviewSection } from "@/components/agentic-architecture/AgenticArchitectureSystemOverviewSection";
-import { AgenticArchitectureTogetherSection } from "@/components/agentic-architecture/AgenticArchitectureTogetherSection";
 import { AgenticArchitectureWhyMattersSection } from "@/components/agentic-architecture/AgenticArchitectureWhyMattersSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
@@ -52,9 +49,6 @@ export default function AgenticArchitecturePage() {
         <AgenticArchitectureKnowledgeGraphSection />
         <AgenticArchitectureContextMattersSection />
         <AgenticArchitectureAgentLayerSection />
-        <AgenticArchitectureCrawlerFlowSection />
-        <AgenticArchitectureTogetherSection />
-        <AgenticArchitectureOutcomeSection />
       </main>
       <Footer />
     </div>

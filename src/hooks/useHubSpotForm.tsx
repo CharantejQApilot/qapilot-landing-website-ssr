@@ -12,14 +12,18 @@ export interface HubSpotFormContextType {
 
 const HubSpotFormContext = createContext<HubSpotFormContextType | undefined>(undefined);
 
+const HUBSPOT_DIALOG_DEFAULT_TITLE = "Get Access to QApilot";
+const HUBSPOT_DIALOG_DEFAULT_DESCRIPTION =
+  "Fill out the form below and we'll get back to you shortly.";
+
 export const HubSpotFormProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("Get Access to QApilot");
-  const [description, setDescription] = useState("Fill out the form below and we'll get back to you shortly.");
+  const [title, setTitle] = useState(HUBSPOT_DIALOG_DEFAULT_TITLE);
+  const [description, setDescription] = useState(HUBSPOT_DIALOG_DEFAULT_DESCRIPTION);
 
   const openForm = (customTitle?: string, customDescription?: string) => {
-    if (customTitle) setTitle(customTitle);
-    if (customDescription) setDescription(customDescription);
+    setTitle(customTitle ?? HUBSPOT_DIALOG_DEFAULT_TITLE);
+    setDescription(customDescription ?? HUBSPOT_DIALOG_DEFAULT_DESCRIPTION);
     setIsOpen(true);
   };
 
@@ -39,8 +43,8 @@ const noop = () => {};
 /** Default for SSR when context may not be available (e.g. Next.js prerender). */
 const SSR_DEFAULT: HubSpotFormContextType = {
   isOpen: false,
-  title: "Get Access to QApilot",
-  description: "Fill out the form below and we'll get back to you shortly.",
+  title: HUBSPOT_DIALOG_DEFAULT_TITLE,
+  description: HUBSPOT_DIALOG_DEFAULT_DESCRIPTION,
   openForm: noop,
   closeForm: noop,
 };
