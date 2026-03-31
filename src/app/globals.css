@@ -901,19 +901,6 @@
       min-height: 480px;
     }
   }
-  /* Flutter hero: HubSpot often injects a fixed pixel width — force fluid half-column layout */
-  .flutter-hero-hs-frame,
-  .flutter-hero-hs-frame > * {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box;
-  }
-  .flutter-hero-hs-frame iframe {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-  }
 
   @keyframes slide-down {
     0% { transform: translateY(-100%); opacity: 0; }

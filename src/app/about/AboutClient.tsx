@@ -2,7 +2,6 @@
 import Footer from "@/components/Footer";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
-import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
 import YouTubeVideoPlayer from "@/components/YouTubeVideoPlayer";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Lightbulb, Target, Shield, Users, TrendingUp, Bot, Rocket, Activity, Zap, Calendar, MessageSquare, TreePine, Sparkles, Brain, Cog, Handshake, Megaphone } from "lucide-react";
