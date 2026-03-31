@@ -25,8 +25,13 @@ type MarketingBackgroundProps = {
   className?: string;
   /** When false, omits `bg-hero-diagonal-grid` (e.g. home hero). Default true. */
   showDiagonalGrid?: boolean;
-  /** Halftone ripple — home hero only. Default false. */
+  /** Halftone ripple for `variant="hero"`. Default true. */
   showPixelRipple?: boolean;
+  /**
+   * When false, skips the stacked `backdrop-filter` progressive blur (8 full-viewport layers).
+   * Much cheaper while scrolling; use on the home hero for smoother first paint / scroll.
+   */
+  progressiveBlur?: boolean;
 };
 
 /**
@@ -37,7 +42,8 @@ export function MarketingBackground({
   variant = "hero",
   className,
   showDiagonalGrid = true,
-  showPixelRipple = false,
+  showPixelRipple = true,
+  progressiveBlur = true,
 }: MarketingBackgroundProps) {
   if (variant === "none") return null;
 
@@ -86,16 +92,18 @@ export function MarketingBackground({
           animationDelay: "-6s",
         }}
       />
-      <div className="hero-exalt-progressive-blur">
-        {HERO_EXALT_BLUR_LAYERS.map(({ blurPx, stops }, i) => {
-          const style: CSSProperties = {
-            zIndex: i + 1,
-            ["--hero-exalt-blur" as string]: `blur(${blurPx}px)`,
-            ["--hero-exalt-mask" as string]: exaltBlurMask(stops[0], stops[1], stops[2], stops[3]),
-          };
-          return <div key={i} style={style} />;
-        })}
-      </div>
+      {progressiveBlur ? (
+        <div className="hero-exalt-progressive-blur">
+          {HERO_EXALT_BLUR_LAYERS.map(({ blurPx, stops }, i) => {
+            const style: CSSProperties = {
+              zIndex: i + 1,
+              ["--hero-exalt-blur" as string]: `blur(${blurPx}px)`,
+              ["--hero-exalt-mask" as string]: exaltBlurMask(stops[0], stops[1], stops[2], stops[3]),
+            };
+            return <div key={i} style={style} />;
+          })}
+        </div>
+      ) : null}
       <div className="hero-exalt-top-fade" />
       <div className="hero-vignette z-[10]" />
     </div>

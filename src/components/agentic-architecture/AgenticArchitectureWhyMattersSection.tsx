@@ -25,8 +25,13 @@ export function AgenticArchitectureWhyMattersSection() {
           marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
         />
 
-        <div className="mx-auto max-w-3xl space-y-8">
-          <div className={cn("space-y-4", marketingSectionIntroClass)}>
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center lg:gap-10 xl:max-w-7xl xl:gap-14 2xl:gap-16">
+          <div
+            className={cn(
+              "mx-auto min-w-0 w-full max-w-xl space-y-4 xl:max-w-2xl",
+              marketingSectionIntroClass,
+            )}
+          >
             <p>
               Traditional automation relies on scripts. AI-assisted tools improve creation and maintenance.
             </p>
@@ -34,7 +39,7 @@ export function AgenticArchitectureWhyMattersSection() {
             <p className="text-lg font-semibold text-primary md:text-xl">Agentic systems do.</p>
           </div>
 
-          <div className="rounded-2xl border border-border/80 bg-muted/15 px-5 py-6 md:px-8 md:py-8">
+          <div className="mx-auto min-w-0 w-full max-w-xl rounded-2xl border border-border/80 bg-muted/15 px-5 py-6 text-left md:px-8 md:py-8 xl:max-w-lg xl:px-9 xl:py-9">
             <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               They introduce:
             </p>

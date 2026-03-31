@@ -2,14 +2,23 @@
 
 import { cn } from "@/lib/utils";
 
-const NODES: { cx: number; cy: number; r: number; label: string; emphasis?: boolean }[] = [
-  { cx: 400, cy: 120, r: 28, label: "Screen A", emphasis: true },
-  { cx: 220, cy: 260, r: 22, label: "Flow" },
-  { cx: 580, cy: 240, r: 22, label: "Flow" },
-  { cx: 320, cy: 380, r: 24, label: "Interaction", emphasis: true },
-  { cx: 480, cy: 360, r: 20, label: "State" },
-  { cx: 640, cy: 400, r: 20, label: "Edge" },
-  { cx: 160, cy: 420, r: 18, label: "Screen B" },
+type LabelPlacement = "top" | "bottom" | "left" | "right";
+
+const NODES: {
+  cx: number;
+  cy: number;
+  r: number;
+  label: string;
+  emphasis?: boolean;
+  labelPlacement: LabelPlacement;
+}[] = [
+  { cx: 400, cy: 120, r: 28, label: "Screen A", emphasis: true, labelPlacement: "top" },
+  { cx: 220, cy: 260, r: 22, label: "Flow", labelPlacement: "left" },
+  { cx: 580, cy: 240, r: 22, label: "Flow", labelPlacement: "right" },
+  { cx: 320, cy: 380, r: 24, label: "Interaction", emphasis: true, labelPlacement: "bottom" },
+  { cx: 480, cy: 360, r: 20, label: "State", labelPlacement: "bottom" },
+  { cx: 640, cy: 400, r: 20, label: "Edge", labelPlacement: "right" },
+  { cx: 160, cy: 420, r: 18, label: "Screen B", labelPlacement: "bottom" },
 ];
 
 const EDGES: [number, number][] = [
@@ -21,6 +30,46 @@ const EDGES: [number, number][] = [
   [4, 5],
   [1, 6],
 ];
+
+const LABEL_GAP = 8;
+
+function labelAttrs(
+  n: (typeof NODES)[number],
+): { x: number; y: number; textAnchor: "start" | "middle" | "end"; dominantBaseline: "middle" | "hanging" | "auto" } {
+  const { cx, cy, r, labelPlacement } = n;
+  switch (labelPlacement) {
+    case "top":
+      return {
+        x: cx,
+        y: cy - r - LABEL_GAP,
+        textAnchor: "middle",
+        dominantBaseline: "auto",
+      };
+    case "bottom":
+      return {
+        x: cx,
+        y: cy + r + LABEL_GAP,
+        textAnchor: "middle",
+        dominantBaseline: "hanging",
+      };
+    case "left":
+      return {
+        x: cx - r - LABEL_GAP,
+        y: cy,
+        textAnchor: "end",
+        dominantBaseline: "middle",
+      };
+    case "right":
+      return {
+        x: cx + r + LABEL_GAP,
+        y: cy,
+        textAnchor: "start",
+        dominantBaseline: "middle",
+      };
+    default:
+      return { x: cx, y: cy + r + LABEL_GAP, textAnchor: "middle", dominantBaseline: "hanging" };
+  }
+}
 
 /**
  * Stylized graph: screens, flows, and relationships — complements copy in the knowledge graph section.
@@ -65,35 +114,42 @@ export function AgenticArchitectureKnowledgeGraphVisual({ className }: { classNa
           );
         })}
 
-        {NODES.map((n, i) => (
-          <g key={n.label + i}>
-            <circle
-              cx={n.cx}
-              cy={n.cy}
-              r={n.r + 6}
-              fill="hsl(var(--primary))"
-              className={n.emphasis ? "opacity-[0.14]" : "opacity-[0.06]"}
-            />
-            <circle
-              cx={n.cx}
-              cy={n.cy}
-              r={n.r}
-              fill="hsl(var(--card))"
-              stroke="hsl(var(--primary))"
-              strokeWidth={n.emphasis ? 2.5 : 1.5}
-              className={cn(n.emphasis && "opacity-100")}
-            />
-            <text
-              x={n.cx}
-              y={n.cy + 5}
-              textAnchor="middle"
-              className="fill-foreground text-[11px] font-semibold md:text-[12px]"
-              style={{ fontFamily: "inherit" }}
-            >
-              {n.label}
-            </text>
-          </g>
-        ))}
+        {NODES.map((n, i) => {
+          const la = labelAttrs(n);
+          return (
+            <g key={n.label + i}>
+              <circle
+                cx={n.cx}
+                cy={n.cy}
+                r={n.r + 6}
+                fill="hsl(var(--primary))"
+                className={n.emphasis ? "opacity-[0.14]" : "opacity-[0.06]"}
+              />
+              <circle
+                cx={n.cx}
+                cy={n.cy}
+                r={n.r}
+                fill="hsl(var(--card))"
+                stroke="hsl(var(--primary))"
+                strokeWidth={n.emphasis ? 2.5 : 1.5}
+                className={cn(n.emphasis && "opacity-100")}
+              />
+              <text
+                x={la.x}
+                y={la.y}
+                textAnchor={la.textAnchor}
+                dominantBaseline={la.dominantBaseline}
+                className={cn(
+                  "fill-foreground font-semibold",
+                  n.label === "Interaction" ? "text-[10px] md:text-[11px]" : "text-[11px] md:text-[12px]",
+                )}
+                style={{ fontFamily: "inherit" }}
+              >
+                {n.label}
+              </text>
+            </g>
+          );
+        })}
       </svg>
     </div>
   );

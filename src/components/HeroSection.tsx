@@ -68,7 +68,12 @@ const HeroSection = () => {
       className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
       aria-label="Hero"
     >
-      <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
+      <MarketingBackground
+        variant="hero"
+        showDiagonalGrid={false}
+        showPixelRipple
+        progressiveBlur={false}
+      />
 
       <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-1 sm:px-0">

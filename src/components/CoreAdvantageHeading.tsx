@@ -452,9 +452,9 @@ const CoreAdvantageHeading = () => {
                 key={current.id}
                 className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"
               >
-                <div className="relative pl-4 md:pl-5">
+                <div className="flex items-start gap-3 md:gap-3.5">
                   <span
-                    className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-primary md:top-1.5 md:bottom-1.5"
+                    className="mt-2 size-3 shrink-0 rounded-sm bg-primary md:mt-2.5"
                     aria-hidden="true"
                   />
                   <h3 className="font-heading text-xl font-bold tracking-tight text-foreground md:text-2xl 2xl:text-[1.65rem] leading-snug">
