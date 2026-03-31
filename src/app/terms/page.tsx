@@ -7,6 +7,8 @@ import { ArrowLeft } from "lucide-react";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -45,7 +47,7 @@ export default async function TermsPage() {
         <div className="section-edge w-full py-12">
           <div className="section-full mx-auto max-w-4xl">
           <div className="mb-12 text-center">
-            <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl mb-4">
+            <h1 className={cn(marketingHeroH1Class, "mb-4")}>
               {termsContent?.title || "Terms of Service"}
             </h1>
           </div>

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { marketingHeroLeadClass } from "@/lib/marketing-typography";
+import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 export function SecurityReportsHero() {
@@ -18,13 +18,7 @@ export function SecurityReportsHero() {
 
       <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-3 text-center sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
-          <h1
-            className={cn(
-              "mb-5 w-full font-heading font-semibold leading-[1.12] tracking-[-0.02em] text-foreground sm:mb-6 md:mb-8",
-              "text-[2rem] sm:text-5xl sm:leading-[1.1] md:text-6xl md:leading-[1.08] lg:text-7xl lg:leading-[1.06] xl:text-7xl 2xl:text-8xl 2xl:leading-[1.05]",
-              "text-balance",
-            )}
-          >
+          <h1 className={cn(marketingHeroH1Class, "mb-5 w-full sm:mb-6 md:mb-8 text-balance")}>
             <span className="text-primary">Security Reports</span> That Ship With Your Release
           </h1>
 

@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Activity, Shield, BarChart3, Zap } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const EnterpriseHeroSection = () => {
   const { openForm } = useHubSpotForm();
@@ -43,7 +45,7 @@ const EnterpriseHeroSection = () => {
           {/* Left Side - Content */}
           <div className="space-y-8">
             {/* Headline */}
-            <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground animate-fade-in-up md:text-5xl lg:text-6xl">
+            <h1 className={cn(marketingHeroH1Class, "animate-fade-in-up")}>
               <span className="text-primary">Enterprise-Grade</span> Mobile App Testing with QApilot
             </h1>
 

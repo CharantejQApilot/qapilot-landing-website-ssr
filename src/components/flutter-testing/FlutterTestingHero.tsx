@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HubSpotFormsEmbedFrame } from "@/components/HubSpotFormsEmbedFrame";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const FLUTTER_DEMO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ecb";
@@ -28,13 +29,7 @@ export function FlutterTestingHero() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
               Platform · Flutter
             </p>
-            <h1
-              className={cn(
-                "w-full font-heading font-semibold tracking-[-0.02em] text-foreground",
-                "mb-5 text-balance leading-[1.12] text-[2rem] sm:mb-6 sm:text-5xl sm:leading-[1.1] md:mb-8 md:text-6xl md:leading-[1.08]",
-                "lg:text-7xl lg:leading-[1.06] xl:text-7xl 2xl:text-8xl 2xl:leading-[1.05]",
-              )}
-            >
+            <h1 className={cn(marketingHeroH1Class, "w-full mb-5 text-balance sm:mb-6 md:mb-8")}>
               Flutter Testing That{" "}
               <span className="text-primary">Actually Works</span>
             </h1>

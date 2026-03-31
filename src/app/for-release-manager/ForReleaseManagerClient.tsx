@@ -11,6 +11,8 @@ import releaseDeviceSetup from "@/assets/release-device-setup.png";
 
 const imgSrc = (x: string | { src: string }) => (typeof x === "string" ? x : x.src);
 import crossDevicePhones from "@/assets/cross-device-testing-phones.png";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const releaseDashboard = "/lovable-uploads/qapilot-release-dashboard.png";
 
@@ -53,7 +55,7 @@ export default function ForReleaseManagerClient() {
                   For Release Managers
                 </p>
 
-                <h1 id="rm-hero-title" className="font-heading text-4xl font-medium tracking-tight text-foreground animate-fade-in-up md:text-5xl lg:text-[3.25rem] xl:text-6xl leading-[1.1]">
+                <h1 id="rm-hero-title" className={cn(marketingHeroH1Class, "animate-fade-in-up")}>
                   Confident Mobile App Releases.{" "}
                   <span className="bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
                     Every Time.

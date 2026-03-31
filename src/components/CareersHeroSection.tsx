@@ -1,6 +1,8 @@
 "use client";
 
 import { Users, Rocket, Sparkles, Target, Lightbulb, Zap, ChevronDown } from "lucide-react";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const CareersHeroSection = () => {
   const scrollToPositions = () => {
@@ -168,7 +170,7 @@ const CareersHeroSection = () => {
           </div>
           
           {/* Main Headline */}
-          <h1 className="font-heading text-4xl font-medium leading-tight md:text-5xl lg:text-6xl xl:text-7xl">
+          <h1 className={cn(marketingHeroH1Class)}>
             <span className="text-foreground">Help shape what </span>
             <span className="text-gradient">quality</span>
             <span className="text-foreground"> looks like in an </span>

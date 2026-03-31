@@ -10,6 +10,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 interface JobOrganization {
   id: string;
@@ -216,7 +218,7 @@ export default async function JobPostPage({
                 </span>
               </div>
 
-              <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground md:text-4xl lg:text-5xl mb-4">
+              <h1 className={cn(marketingHeroH1Class, "mb-4")}>
                 {job.role}
               </h1>
 

@@ -13,6 +13,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -172,7 +174,7 @@ export default async function BlogPostPage({
               </div>
             )}
 
-            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-6 text-gradient">
+            <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
               {blog.title}
             </h1>
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Zap, TrendingUp, LayoutGrid } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { marketingHeroLeadClass } from "@/lib/marketing-typography";
+import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const ROLLING_WORDS = ["Intelligent", "Autonomous", "Continuous", "Here"];
@@ -72,7 +72,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-1 sm:px-0">
-          <h1 className="font-heading font-semibold tracking-[-0.02em] text-foreground mb-5 sm:mb-6 md:mb-8 leading-[1.12] text-[2rem] sm:text-5xl sm:leading-[1.1] md:text-6xl md:leading-[1.08] lg:text-7xl lg:leading-[1.06] xl:text-7xl 2xl:text-8xl 2xl:leading-[1.05]">
+          <h1 className={cn(marketingHeroH1Class, "mb-5 sm:mb-6 md:mb-8")}>
             <div
               className={
                 phase === "exiting"

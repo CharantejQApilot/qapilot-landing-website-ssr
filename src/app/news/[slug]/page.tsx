@@ -14,6 +14,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 import { extractYouTubeId } from "@/utils/youtube";
 
 /** Match blog article: readable column + comfortable side margin. */
@@ -281,7 +283,7 @@ export default async function NewsPostPage({
               </div>
             )}
 
-            <h1 className="font-heading mb-6 text-4xl font-medium tracking-tight text-gradient md:text-5xl">
+            <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
               {newsItem.title}
             </h1>
 
