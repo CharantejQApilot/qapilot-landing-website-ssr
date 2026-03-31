@@ -9,6 +9,7 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
 
 const NEWS_PATH = PATHS.NEWS;
 const canonicalUrl = `${SITE_BASE_URL}${NEWS_PATH}`;
@@ -177,7 +178,7 @@ export default async function NewsPage() {
                   <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
                     QApilot news
                   </p>
-                  <h1 className="font-heading font-semibold tracking-[-0.02em] text-[2.5rem] leading-[1.1] sm:text-5xl sm:leading-[1.08] md:text-6xl md:leading-[1.06] lg:text-7xl lg:leading-[1.05] xl:text-[4.25rem] 2xl:text-8xl 2xl:leading-[1.04]">
+                  <h1 className={marketingHeroH1Class}>
                     <span className="text-gradient">News &amp; updates</span>
                   </h1>
                   <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed">
@@ -300,7 +301,7 @@ export default async function NewsPage() {
                       aria-labelledby="news-all"
                       className="border-t border-border pt-16 md:pt-20"
                     >
-                      <div className="mb-8 flex flex-col gap-2 md:mb-12">
+                      <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-12">
                         <h2
                           id="news-all"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
@@ -309,7 +310,7 @@ export default async function NewsPage() {
                             ? "All updates"
                             : "Updates"}
                         </h2>
-                        <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
+                        <p className="mx-auto max-w-2xl text-center text-base text-muted-foreground md:text-lg">
                           Browse every published announcement.
                         </p>
                       </div>

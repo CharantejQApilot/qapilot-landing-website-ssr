@@ -35,7 +35,7 @@ export function IntelligentBugProblemSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 2xl:gap-20">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 2xl:gap-20">
           <div className="max-w-xl lg:pt-0">
             <ul className={cn("list-none space-y-2", marketingSectionIntroClass)}>
               <li>Failures lack context.</li>

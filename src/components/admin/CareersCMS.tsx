@@ -336,16 +336,20 @@ const CareersCMS = () => {
   });
 
   if (orgsLoading || jobsLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return (
+      <div className="py-8 text-center text-muted-foreground">Loading…</div>
+    );
   }
 
   // Job form - initial question
   if (viewMode === 'job-form' && isPartnerJob === null && !editingJobId) {
     return (
-      <Card className="border-border/50 bg-card/95 backdrop-blur">
+      <Card className="border border-border bg-card text-card-foreground shadow-sm">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Add New Job Opening</h2>
+            <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+              Add new job opening
+            </h2>
             <Button variant="ghost" size="icon" onClick={resetJobForm}>
               <X className="w-4 h-4" />
             </Button>
@@ -383,10 +387,12 @@ const CareersCMS = () => {
   // Job form - select organization (for partner jobs)
   if (viewMode === 'job-form' && isPartnerJob === true && !jobOrgId && !editingJobId) {
     return (
-      <Card className="border-border/50 bg-card/95 backdrop-blur">
+      <Card className="border border-border bg-card text-card-foreground shadow-sm">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Select Partner Organization</h2>
+            <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+              Select partner organization
+            </h2>
             <Button variant="ghost" size="icon" onClick={resetJobForm}>
               <X className="w-4 h-4" />
             </Button>
@@ -439,11 +445,11 @@ const CareersCMS = () => {
   // Organization form
   if (viewMode === 'org-form') {
     return (
-      <Card className="border-border/50 bg-card/95 backdrop-blur">
+      <Card className="border border-border bg-card text-card-foreground shadow-sm">
         <CardContent className="p-6 space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">
-              {editingOrgId ? "Edit Organization" : "Create Partner Organization"}
+            <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+              {editingOrgId ? "Edit organization" : "Create partner organization"}
             </h2>
             <Button variant="ghost" size="icon" onClick={resetOrgForm}>
               <X className="w-4 h-4" />
@@ -474,7 +480,7 @@ const CareersCMS = () => {
               {orgLogoUrl && !uploadingOrgLogo && (
                 <div className="mt-2 flex items-center gap-2">
                   <img src={orgLogoUrl} alt="Logo preview" className="w-16 h-16 object-contain rounded border" />
-                  <span className="text-sm text-green-600">✓ Logo uploaded</span>
+                  <span className="text-sm text-primary">✓ Logo uploaded</span>
                 </div>
               )}
             </div>
@@ -520,12 +526,12 @@ const CareersCMS = () => {
     const selectedOrg = organizations?.find(org => org.id === jobOrgId);
     
     return (
-      <Card className="border-border/50 bg-card/95 backdrop-blur">
+      <Card className="border border-border bg-card text-card-foreground shadow-sm">
         <CardContent className="p-6 space-y-6">
           <div className="flex justify-between items-center">
             <div>
-              <h2 className="text-2xl font-bold">
-                {editingJobId ? "Edit Job Opening" : "Create Job Opening"}
+              <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+                {editingJobId ? "Edit job opening" : "Create job opening"}
               </h2>
               {selectedOrg && (
                 <p className="text-sm text-muted-foreground mt-1">
@@ -662,7 +668,7 @@ const CareersCMS = () => {
       </div>
 
       {/* QAPilot Direct Jobs */}
-      <Card className="border-border/50 bg-card/95 backdrop-blur">
+      <Card className="border border-border bg-card text-card-foreground shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-primary" />
@@ -708,7 +714,7 @@ const CareersCMS = () => {
       </Card>
 
       {/* Partner Organizations with Jobs */}
-      <Card className="border-border/50 bg-card/95 backdrop-blur">
+      <Card className="border border-border bg-card text-card-foreground shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building2 className="w-5 h-5 text-primary" />

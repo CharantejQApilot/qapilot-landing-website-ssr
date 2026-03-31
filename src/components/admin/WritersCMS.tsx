@@ -148,7 +148,9 @@ const WritersCMS = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold">Writer Profiles</h2>
+        <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground">
+          Writer profiles
+        </h2>
         {!isEditing && (
           <Button onClick={() => setIsEditing(true)}>
             <Plus className="w-4 h-4 mr-2" />
@@ -158,10 +160,12 @@ const WritersCMS = () => {
       </div>
 
       {isEditing && (
-        <Card className="border-border/50 bg-card/95 backdrop-blur">
+        <Card className="border border-border bg-card text-card-foreground shadow-sm">
           <CardContent className="p-6 space-y-4">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="font-semibold">{editingId ? "Edit Writer" : "New Writer"}</h3>
+              <h3 className="font-semibold text-foreground">
+                {editingId ? "Edit writer" : "New writer"}
+              </h3>
               <Button variant="ghost" size="sm" onClick={resetForm}>
                 <X className="w-4 h-4" />
               </Button>
@@ -253,7 +257,7 @@ const WritersCMS = () => {
       <div className="grid gap-4">
         {writers && writers.length > 0 ? (
           writers.map((writer) => (
-            <Card key={writer.id} className="border-border/50 bg-card/95 backdrop-blur">
+            <Card key={writer.id} className="border border-border bg-card text-card-foreground shadow-sm">
               <CardContent className="p-4 flex items-center justify-between">
                 {writer.profile_image ? (
                   <img src={writer.profile_image} alt={writer.name} className="w-10 h-10 rounded-full object-cover border border-border flex-shrink-0 mr-3" />
@@ -264,7 +268,7 @@ const WritersCMS = () => {
                 )}
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold">{writer.name}</h3>
+                    <h3 className="font-semibold text-foreground">{writer.name}</h3>
                     {writer.linkedin_url && (
                       <a
                         href={writer.linkedin_url}

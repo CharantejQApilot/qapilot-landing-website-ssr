@@ -29,7 +29,6 @@ import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import {
   PATHS,
   PLATFORM_BY_SOLUTION,
-  PLATFORM_BY_ROLE,
   PLATFORM_AI_AGENTS,
   RESOURCE_NAV_LINKS,
   COMPANY_NAV_LINKS,
@@ -52,8 +51,10 @@ const PLATFORM_ICONS: Record<string, LucideIcon> = {
   Bot,
 };
 
-/** Single nav font size for harmony across all menu items */
+/** Dropdowns, mobile drawer, and in-panel links */
 const NAV_TEXT_CLASS = "text-[15px]";
+/** Desktop top bar only — slightly larger than dropdown/mobile */
+const RIBBON_NAV_TEXT_CLASS = "text-[15.75px]";
 
 const NavItem = ({
   to,
@@ -142,22 +143,22 @@ const Header = () => {
   );
 
   const dropdownButtonClass = (active: boolean) =>
-    `font-heading ${NAV_TEXT_CLASS} flex items-center gap-1.5 font-medium transition-colors rounded-md px-3 py-2 -mx-1 ${
+    `font-heading ${RIBBON_NAV_TEXT_CLASS} flex items-center gap-1.5 font-medium transition-colors rounded-md px-3 py-2.5 -mx-1 ${
       active
         ? "text-foreground font-semibold bg-primary/5"
         : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
     }`;
 
   return (
-    <header className="relative z-[1100] w-full border-b border-border bg-background overflow-visible flex flex-col lg:flex-row lg:items-center lg:h-16">
-      {/* Bar: same horizontal padding as other sections (section-full); fixed 4rem height + grid so content is truly centered on mobile and desktop */}
-      <div className="section-full w-full shrink-0 min-w-0 lg:flex-1 flex items-stretch h-16">
-        <div className="flex-1 min-w-0 flex items-center justify-between gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 h-16">
+    <header className="relative z-[1100] w-full border-b border-border bg-background overflow-visible flex flex-col lg:flex-row lg:items-center lg:h-[4.375rem]">
+      {/* Bar: same horizontal padding as other sections (section-full); slightly taller than 4rem for ribbon breathing room */}
+      <div className="section-full w-full shrink-0 min-w-0 lg:flex-1 flex items-stretch h-[4.375rem]">
+        <div className="flex-1 min-w-0 flex items-center justify-between gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 h-[4.375rem]">
           <Link
             href={PATHS.HOME}
-            className="inline-flex items-center justify-center shrink-0 leading-none h-10"
+            className="inline-flex items-center justify-center shrink-0 leading-none h-11"
           >
-            <Logo className="h-7 w-auto block" />
+            <Logo className="h-[1.875rem] w-auto block" />
           </Link>
 
           <nav
@@ -177,16 +178,16 @@ const Header = () => {
             >
               Platform
               <ChevronDown
-                size={14}
+                size={15}
                 className={`transition-transform ${
                   openDropdown === "platform" ? "rotate-180" : ""
                 }`}
               />
             </button>
             {openDropdown === "platform" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 w-[680px] xl:w-[760px] 2xl:w-[820px] rounded-xl border border-border bg-background shadow-xl p-6 lg:p-8">
-                <div className="grid grid-cols-3 gap-8 lg:gap-10 xl:gap-12">
-                  <div>
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background px-7 py-6 shadow-xl sm:px-8 sm:py-7 lg:px-9 lg:py-8">
+                <div className="grid w-max max-w-full grid-cols-2 gap-8 sm:gap-9 lg:gap-10 xl:gap-12">
+                  <div className="min-w-0">
                     <div
                       className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
                     >
@@ -215,36 +216,7 @@ const Header = () => {
                       })}
                     </ul>
                   </div>
-                  <div>
-                    <div
-                      className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
-                    >
-                      By Role
-                    </div>
-                    <ul className="space-y-2">
-                      {PLATFORM_BY_ROLE.map((item) => {
-                        const Icon = PLATFORM_ICONS[item.icon];
-                        return (
-                          <li key={item.path + item.label}>
-                            <NavItem
-                              to={item.path}
-                              isActive={isPathActive(item.path)}
-                              className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-secondary"
-                            >
-                              {Icon && (
-                                <Icon
-                                  size={18}
-                                  className="shrink-0 text-muted-foreground"
-                                />
-                              )}
-                              {item.label}
-                            </NavItem>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  <div>
+                  <div className="min-w-0">
                     <div
                       className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
                     >
@@ -291,20 +263,20 @@ const Header = () => {
             >
               Resources
               <ChevronDown
-                size={14}
+                size={15}
                 className={`transition-transform ${
                   openDropdown === "resources" ? "rotate-180" : ""
                 }`}
               />
             </button>
             {openDropdown === "resources" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 min-w-[14rem] xl:min-w-[16rem] rounded-xl border border-border bg-background shadow-xl py-2 px-1">
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
                 {RESOURCE_NAV_LINKS.map((item) => (
                   <NavItem
                     key={item.path}
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="block px-5 py-3 rounded-lg hover:bg-secondary"
+                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-secondary"
                   >
                     {item.label}
                   </NavItem>
@@ -325,20 +297,20 @@ const Header = () => {
             >
               Company
               <ChevronDown
-                size={14}
+                size={15}
                 className={`transition-transform ${
                   openDropdown === "company" ? "rotate-180" : ""
                 }`}
               />
             </button>
             {openDropdown === "company" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 min-w-[12rem] xl:min-w-[14rem] rounded-xl border border-border bg-background shadow-xl py-2 px-1">
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
                 {COMPANY_NAV_LINKS.map((item) => (
                   <NavItem
                     key={item.path}
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="block px-5 py-3 rounded-lg hover:bg-secondary"
+                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-secondary"
                   >
                     {item.label}
                   </NavItem>
@@ -349,20 +321,24 @@ const Header = () => {
 
           <a
             href={`${DOCS_URL}/`}
-            className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground transition-colors hover:text-foreground`}
+            className={`${RIBBON_NAV_TEXT_CLASS} font-medium text-muted-foreground transition-colors hover:text-foreground`}
           >
             Documentation
           </a>
         </nav>
 
         <div className="hidden lg:flex items-center gap-4 shrink-0">
-          <Button variant="ghost" className="text-base font-medium text-muted-foreground hover:text-foreground" asChild>
+          <Button
+            variant="ghost"
+            className={`${RIBBON_NAV_TEXT_CLASS} h-10 px-3 font-medium text-muted-foreground hover:text-foreground`}
+            asChild
+          >
             <a href={APP_AUTOMATION_LOGIN_URL} target="_blank" rel="noopener noreferrer">
               Log In
             </a>
           </Button>
           <Button
-            className="rounded-lg bg-primary px-6 py-2.5 text-base font-semibold text-primary-foreground hover:bg-primary/90"
+            className={`rounded-lg bg-primary px-6 py-2.5 ${RIBBON_NAV_TEXT_CLASS} font-semibold text-primary-foreground hover:bg-primary/90`}
             onClick={() => openForm()}
           >
             Get Access
@@ -372,7 +348,7 @@ const Header = () => {
           <button
             type="button"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            className="flex items-center justify-center shrink-0 h-10 w-10 min-h-[2.5rem] p-2 text-foreground transition-colors hover:text-primary lg:hidden"
+            className="flex items-center justify-center shrink-0 h-11 w-11 min-h-[2.75rem] min-w-[2.75rem] p-2 text-foreground transition-colors hover:text-primary lg:hidden"
             onClick={() => setIsMobileMenuOpen((o) => !o)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -420,37 +396,6 @@ const Header = () => {
                       {mobileExpanded["platform-solution"] && (
                         <div className="pl-6 space-y-0">
                           {PLATFORM_BY_SOLUTION.map((item) => (
-                            <NavItem
-                              key={item.path + item.label}
-                              to={item.path}
-                              isActive={isPathActive(item.path)}
-                              forceForeground
-                              className="block py-2 px-2 hover:bg-secondary rounded-md"
-                            >
-                              {item.label}
-                            </NavItem>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    {/* By Role */}
-                    <div>
-                      <button
-                        type="button"
-                        onClick={() => toggleMobileSection("platform-role")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
-                      >
-                        <ChevronRight
-                          size={16}
-                          className={`shrink-0 transition-transform ${
-                            mobileExpanded["platform-role"] ? "rotate-90" : ""
-                          }`}
-                        />
-                        By Role
-                      </button>
-                      {mobileExpanded["platform-role"] && (
-                        <div className="pl-6 space-y-0">
-                          {PLATFORM_BY_ROLE.map((item) => (
                             <NavItem
                               key={item.path + item.label}
                               to={item.path}

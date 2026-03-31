@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const ProductHeroSection = () => {
   const { openForm } = useHubSpotForm();
@@ -14,7 +16,7 @@ const ProductHeroSection = () => {
     <section className="relative flex min-h-screen w-full items-center justify-center section-edge py-20 pb-8">
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         <div className="mb-16 text-center">
-          <h1 className="mb-8 font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className={cn(marketingHeroH1Class, "mb-8")}>
             Experience <span className="text-primary">Agentic Testing</span> with QApilot.
           </h1>
 

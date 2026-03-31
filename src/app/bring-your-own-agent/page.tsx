@@ -5,6 +5,8 @@ import { MarketingPageShell } from "@/components/marketing";
 import { Button } from "@/components/ui/button";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Bring Your Own Agent (BYOA) | QApilot",
@@ -32,7 +34,7 @@ export default function BringYourOwnAgentPage() {
         <main className="section-edge w-full py-24 md:py-28">
           <div className="section-full mx-auto max-w-2xl text-center">
             <p className="mb-3 text-sm font-medium uppercase tracking-wider text-primary/90">Platform</p>
-            <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+            <h1 className={cn(marketingHeroH1Class)}>
               Bring Your Own <span className="text-primary">Agent</span>
             </h1>
             <p className="mx-auto mt-6 text-lg leading-relaxed text-muted-foreground">

@@ -189,7 +189,7 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-background border border-border/20 shadow-2xl">
+      <DialogContent className="max-w-2xl max-h-[85vh] max-h-[85dvh] overflow-y-auto bg-background border border-border/20 shadow-2xl">
         <DialogHeader className="space-y-3">
           <DialogTitle className="text-2xl font-bold text-foreground text-center">
             {title}

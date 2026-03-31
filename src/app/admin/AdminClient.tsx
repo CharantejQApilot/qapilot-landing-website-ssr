@@ -20,7 +20,15 @@ import type { User } from "@supabase/supabase-js";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
 
 interface Blog {
   id: string;
@@ -53,8 +61,19 @@ interface NewsUpdate {
   author_name: string | null;
   author_designation: string | null;
   social_embed_url: string | null;
+  social_embed_image?: string | null;
+  social_embed_description?: string | null;
+  youtube_url?: string | null;
   created_at: string;
   updated_at: string;
+  category?: string | null;
+  description?: string | null;
+  tags?: string | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  og_image_url?: string | null;
+  seo_keywords?: string | null;
+  content_format?: string | null;
 }
 
 interface Backlink {
@@ -98,6 +117,16 @@ const AdminClient = () => {
   const [newsPublishedDate, setNewsPublishedDate] = useState<Date | undefined>(undefined);
   
   const [newsYoutubeUrl, setNewsYoutubeUrl] = useState("");
+  const [newsCategory, setNewsCategory] = useState("");
+  const [newsDescription, setNewsDescription] = useState("");
+  const [newsTags, setNewsTags] = useState("");
+  const [newsSeoTitle, setNewsSeoTitle] = useState("");
+  const [newsSeoDescription, setNewsSeoDescription] = useState("");
+  const [newsOgImageUrl, setNewsOgImageUrl] = useState("");
+  const [newsSeoKeywords, setNewsSeoKeywords] = useState("");
+  const [newsContentFormat, setNewsContentFormat] = useState<"html" | "markdown">(
+    "markdown",
+  );
 
   const router = useRouter();
   const { toast } = useToast();
@@ -280,6 +309,14 @@ const AdminClient = () => {
         social_embed_description: newsSocialEmbedDescription || null,
         published_date: newsPublishedDate ? newsPublishedDate.toISOString() : null,
         youtube_url: newsYoutubeUrl || null,
+        category: newsCategory.trim() || null,
+        description: newsDescription.trim() || null,
+        tags: newsTags.trim() || null,
+        seo_title: newsSeoTitle.trim() || null,
+        seo_description: newsSeoDescription.trim() || null,
+        og_image_url: newsOgImageUrl.trim() || null,
+        seo_keywords: newsSeoKeywords.trim() || null,
+        content_format: newsContentFormat,
       };
 
       let newsId = editingNewsId;
@@ -370,10 +407,20 @@ const AdminClient = () => {
     setNewsIsBanner(news.is_banner);
     setNewsBannerText(news.banner_text || "");
     setNewsSocialEmbedUrl(news.social_embed_url || "");
-    setNewsSocialEmbedImage((news as any).social_embed_image || "");
-    setNewsSocialEmbedDescription((news as any).social_embed_description || "");
+    setNewsSocialEmbedImage(news.social_embed_image || "");
+    setNewsSocialEmbedDescription(news.social_embed_description || "");
     setNewsPublishedDate(news.published_date ? new Date(news.published_date) : undefined);
-    setNewsYoutubeUrl((news as any).youtube_url || "");
+    setNewsYoutubeUrl(news.youtube_url || "");
+    setNewsCategory(news.category || "");
+    setNewsDescription(news.description || "");
+    setNewsTags(news.tags || "");
+    setNewsSeoTitle(news.seo_title || "");
+    setNewsSeoDescription(news.seo_description || "");
+    setNewsOgImageUrl(news.og_image_url || "");
+    setNewsSeoKeywords(news.seo_keywords || "");
+    setNewsContentFormat(
+      news.content_format === "html" ? "html" : "markdown",
+    );
     setIsEditingNews(true);
     
     const { data: existingBacklinks } = await supabase
@@ -458,6 +505,14 @@ const AdminClient = () => {
     setNewsSocialEmbedDescription("");
     setNewsPublishedDate(undefined);
     setNewsYoutubeUrl("");
+    setNewsCategory("");
+    setNewsDescription("");
+    setNewsTags("");
+    setNewsSeoTitle("");
+    setNewsSeoDescription("");
+    setNewsOgImageUrl("");
+    setNewsSeoKeywords("");
+    setNewsContentFormat("markdown");
     setBacklinks([]);
     setIsEditingNews(false);
   };
@@ -638,27 +693,32 @@ const AdminClient = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background dark flex items-center justify-center">
-        <div className="text-foreground">Loading...</div>
-      </div>
+      <AdminPageShell contentClassName="flex min-h-[50vh] items-center justify-center px-4">
+        <p className="text-muted-foreground">Loading…</p>
+      </AdminPageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background dark relative">
-      <div className="absolute inset-0 glow-bg"></div>
-
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gradient">Admin Panel</h1>
-          <Button variant="outline" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" />
+    <AdminPageShell contentClassName="px-4 py-8 sm:px-6 md:px-8">
+      <div className="container mx-auto max-w-6xl">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="mb-1 text-xs font-medium uppercase tracking-wider text-primary/90">
+              QApilot
+            </p>
+            <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+              <span className="text-primary">Admin</span> panel
+            </h1>
+          </div>
+          <Button variant="outline" className="shrink-0 border-border" onClick={handleLogout}>
+            <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
         </div>
 
         <Tabs defaultValue="blogs" className="w-full">
-          <TabsList className="mb-8">
+          <TabsList className="mb-8 flex h-auto min-h-10 w-full flex-wrap justify-start gap-1 rounded-xl bg-muted/80 p-1.5">
             <TabsTrigger value="blogs">Blogs</TabsTrigger>
             <TabsTrigger value="news">News & Updates</TabsTrigger>
             <TabsTrigger value="writers">Writers</TabsTrigger>
@@ -677,18 +737,18 @@ const AdminClient = () => {
             
             <div className="grid gap-4">
               {blogsLoading ? (
-                <Card className="border-border/50 bg-card/95 backdrop-blur">
+                <Card className="border border-border bg-card text-card-foreground shadow-sm">
                   <CardContent className="p-12 text-center text-muted-foreground">
                     Loading blogs…
                   </CardContent>
                 </Card>
               ) : blogs && blogs.length > 0 ? (
                 blogs.map((blog) => (
-                  <Card key={blog.id} className="border-border/50 bg-card/95 backdrop-blur">
+                  <Card key={blog.id} className="border border-border bg-card text-card-foreground shadow-sm">
                     <CardContent className="p-6">
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
+                          <h3 className="mb-2 text-xl font-semibold text-foreground">{blog.title}</h3>
                           <p className="text-sm text-muted-foreground mb-2">
                             Slug: {blog.slug}
                           </p>
@@ -726,7 +786,7 @@ const AdminClient = () => {
                   </Card>
                 ))
               ) : (
-                <Card className="border-border/50 bg-card/95 backdrop-blur">
+                <Card className="border border-border bg-card text-card-foreground shadow-sm">
                   <CardContent className="p-12 text-center">
                     <p className="text-muted-foreground">No blog posts yet. Create your first one!</p>
                   </CardContent>
@@ -739,7 +799,12 @@ const AdminClient = () => {
             {!isEditingNews ? (
               <>
                 <div className="flex justify-end mb-4">
-                  <Button onClick={() => setIsEditingNews(true)}>
+                  <Button
+                    onClick={() => {
+                      resetNewsForm();
+                      setIsEditingNews(true);
+                    }}
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     New News Item
                   </Button>
@@ -747,18 +812,18 @@ const AdminClient = () => {
                 
                 <div className="grid gap-4">
                   {newsLoading ? (
-                    <Card className="border-border/50 bg-card/95 backdrop-blur">
+                    <Card className="border border-border bg-card text-card-foreground shadow-sm">
                       <CardContent className="p-12 text-center text-muted-foreground">
                         Loading news…
                       </CardContent>
                     </Card>
                   ) : newsItems && newsItems.length > 0 ? (
                     newsItems.map((news) => (
-                      <Card key={news.id} className="border-border/50 bg-card/95 backdrop-blur">
+                      <Card key={news.id} className="border border-border bg-card text-card-foreground shadow-sm">
                         <CardContent className="p-6">
                           <div className="flex justify-between items-start">
                             <div className="flex-1">
-                              <h3 className="text-xl font-semibold mb-2">{news.title}</h3>
+                              <h3 className="mb-2 text-xl font-semibold text-foreground">{news.title}</h3>
                               <p className="text-sm text-muted-foreground mb-2">
                                 Slug: {news.slug}
                               </p>
@@ -774,7 +839,7 @@ const AdminClient = () => {
                                   </span>
                                 )}
                                 {news.is_banner && (
-                                  <span className="text-xs bg-purple-500/20 text-purple-500 px-2 py-1 rounded">
+                                  <span className="rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
                                     Banner
                                   </span>
                                 )}
@@ -801,7 +866,7 @@ const AdminClient = () => {
                       </Card>
                     ))
                   ) : (
-                    <Card className="border-border/50 bg-card/95 backdrop-blur">
+                    <Card className="border border-border bg-card text-card-foreground shadow-sm">
                       <CardContent className="p-12 text-center">
                         <p className="text-muted-foreground">No news items yet. Create your first one!</p>
                       </CardContent>
@@ -810,10 +875,10 @@ const AdminClient = () => {
                 </div>
               </>
             ) : (
-              <Card className="border-border/50 bg-card/95 backdrop-blur">
+              <Card className="border border-border bg-card text-card-foreground shadow-sm">
                 <CardContent className="p-6 space-y-6">
                   <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-bold">
+                    <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
                       {editingNewsId ? "Edit News Item" : "Create News Item"}
                     </h2>
                     <Button variant="ghost" size="icon" onClick={resetNewsForm}>
@@ -848,33 +913,90 @@ const AdminClient = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="news-excerpt">SEO Meta Description</Label>
+                      <Label htmlFor="news-status">Status</Label>
+                      <Select
+                        value={newsPublished ? "published" : "draft"}
+                        onValueChange={(v) => {
+                          const pub = v === "published";
+                          setNewsPublished(pub);
+                          if (!pub) {
+                            setNewsIsFeatured(false);
+                            setNewsIsBanner(false);
+                          }
+                        }}
+                      >
+                        <SelectTrigger id="news-status" className="bg-background">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="z-50 bg-background">
+                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="published">Published</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="news-category">Category</Label>
+                      <Input
+                        id="news-category"
+                        value={newsCategory}
+                        onChange={(e) => setNewsCategory(e.target.value)}
+                        placeholder="e.g. Product, Company"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="news-description">Description</Label>
+                      <Textarea
+                        id="news-description"
+                        value={newsDescription}
+                        onChange={(e) => setNewsDescription(e.target.value)}
+                        placeholder="Short summary for the article (optional)"
+                        rows={3}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="news-tags">Tags (comma-separated)</Label>
+                      <Input
+                        id="news-tags"
+                        value={newsTags}
+                        onChange={(e) => setNewsTags(e.target.value)}
+                        placeholder="news, product, launch"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="news-excerpt">Excerpt (legacy / optional)</Label>
                       <Textarea
                         id="news-excerpt"
                         value={newsExcerpt}
                         onChange={(e) => setNewsExcerpt(e.target.value)}
-                        placeholder="Write a compelling meta description for search engines (150-160 characters recommended)"
+                        placeholder="Optional; used if SEO description is empty"
                         rows={3}
-                        maxLength={160}
+                        maxLength={500}
                       />
                       <p className="text-xs text-muted-foreground">
-                        {newsExcerpt.length}/160 characters
+                        {newsExcerpt.length}/500 characters
                       </p>
                     </div>
 
-                    <div className="h-[500px] flex flex-col">
-                      <Label className="mb-2">Content * (~500 words)</Label>
-                      <div className="flex-1 overflow-hidden">
-                        <RichTextEditor
-                          value={newsContent}
-                          onChange={setNewsContent}
-                          placeholder="Write your news content here..."
-                        />
-                      </div>
+                    <div>
+                      <Label htmlFor="news-content-md" className="mb-2 block">
+                        Content (Markdown) *
+                      </Label>
+                      <Textarea
+                        id="news-content-md"
+                        value={newsContent}
+                        onChange={(e) => setNewsContent(e.target.value)}
+                        placeholder="Write in Markdown…"
+                        className="min-h-[min(50vh,420px)] font-mono text-sm leading-relaxed"
+                        spellCheck={false}
+                      />
                     </div>
 
                     <div>
-                      <Label htmlFor="news-featured-image">Featured Image</Label>
+                      <Label htmlFor="news-featured-image">Cover image</Label>
                       <Input
                         id="news-featured-image"
                         type="file"
@@ -886,7 +1008,7 @@ const AdminClient = () => {
                         <p className="text-sm text-muted-foreground mt-1">Uploading...</p>
                       )}
                       {newsFeaturedImage && !uploadingFeaturedImage && (
-                        <p className="text-sm text-green-600 mt-1">✓ Image uploaded</p>
+                        <p className="mt-1 text-sm text-primary">✓ Image uploaded</p>
                       )}
                     </div>
 
@@ -943,24 +1065,6 @@ const AdminClient = () => {
                     </div>
 
                     <div className="space-y-3">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="news-published"
-                          checked={newsPublished}
-                          onCheckedChange={(checked) => {
-                            const isChecked = checked as boolean;
-                            setNewsPublished(isChecked);
-                            if (!isChecked) {
-                              setNewsIsFeatured(false);
-                              setNewsIsBanner(false);
-                            }
-                          }}
-                        />
-                        <Label htmlFor="news-published" className="font-normal cursor-pointer">
-                          Published
-                        </Label>
-                      </div>
-
                       <div className="flex items-center space-x-2">
                         <Checkbox
                           id="news-featured"
@@ -1020,6 +1124,50 @@ const AdminClient = () => {
                       </p>
                     </div>
 
+                    <div className="space-y-4 border-t border-border pt-6">
+                      <h3 className="font-heading text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                        SEO settings
+                      </h3>
+                      <div>
+                        <Label htmlFor="news-seo-title">SEO title</Label>
+                        <Input
+                          id="news-seo-title"
+                          value={newsSeoTitle}
+                          onChange={(e) => setNewsSeoTitle(e.target.value)}
+                          placeholder="Overrides page title when set"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="news-seo-description">SEO description</Label>
+                        <Textarea
+                          id="news-seo-description"
+                          value={newsSeoDescription}
+                          onChange={(e) => setNewsSeoDescription(e.target.value)}
+                          placeholder="Meta description"
+                          rows={3}
+                          maxLength={320}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="news-og-image">OG image URL</Label>
+                        <Input
+                          id="news-og-image"
+                          value={newsOgImageUrl}
+                          onChange={(e) => setNewsOgImageUrl(e.target.value)}
+                          placeholder="https://…"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="news-seo-keywords">Keywords (comma-separated)</Label>
+                        <Input
+                          id="news-seo-keywords"
+                          value={newsSeoKeywords}
+                          onChange={(e) => setNewsSeoKeywords(e.target.value)}
+                          placeholder="QApilot, mobile testing, news"
+                        />
+                      </div>
+                    </div>
+
                     <div className="space-y-4 border-t pt-6">
                       <div>
                         <Label className="text-base font-semibold">Social Media Embed (Optional)</Label>
@@ -1037,7 +1185,7 @@ const AdminClient = () => {
                       </div>
 
                       {newsSocialEmbedUrl && newsSocialEmbedUrl.includes('linkedin.com') && (
-                        <div className="space-y-4 ml-4 pl-4 border-l-2 border-[#0A66C2]/30">
+                        <div className="ml-4 space-y-4 border-l-2 border-primary/25 pl-4">
                           <p className="text-sm text-muted-foreground">
                             LinkedIn posts require manual entry of image and description (LinkedIn's API doesn't provide public access to this data)
                           </p>
@@ -1055,7 +1203,7 @@ const AdminClient = () => {
                             )}
                             {newsSocialEmbedImage && !uploadingSocialEmbedImage && (
                               <div className="mt-2">
-                                <p className="text-sm text-green-600 mb-2">✓ Image uploaded</p>
+                                <p className="mb-2 text-sm text-primary">✓ Image uploaded</p>
                                 <img 
                                   src={newsSocialEmbedImage} 
                                   alt="Social embed preview" 
@@ -1093,7 +1241,7 @@ const AdminClient = () => {
                       </div>
 
                       {backlinks.map((backlink, index) => (
-                        <Card key={index} className="border-border/30 bg-background/50">
+                        <Card key={index} className="border border-border bg-muted/30">
                           <CardContent className="p-4 space-y-4">
                             <div className="flex justify-between items-start">
                               <span className="text-sm font-medium text-muted-foreground">
@@ -1137,7 +1285,7 @@ const AdminClient = () => {
                                     alt="Logo preview" 
                                     className="h-8 object-contain"
                                   />
-                                  <span className="text-sm text-green-600">✓ Logo uploaded</span>
+                                  <span className="text-sm text-primary">✓ Logo uploaded</span>
                                 </div>
                               )}
                             </div>
@@ -1202,7 +1350,7 @@ const AdminClient = () => {
           </TabsContent>
 
           <TabsContent value="terms">
-            <Card className="border-border/50 bg-card/95 backdrop-blur">
+            <Card className="border border-border bg-card text-card-foreground shadow-sm">
               <CardContent className="p-6 space-y-6">
                 <div>
                   <Label htmlFor="terms-title">Title</Label>
@@ -1237,7 +1385,7 @@ const AdminClient = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </AdminPageShell>
   );
 };
 

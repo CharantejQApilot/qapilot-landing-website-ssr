@@ -6,6 +6,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "FAQs - Frequently Asked Questions",
@@ -75,7 +77,7 @@ export default async function FAQsPage() {
         <main className="section-edge w-full py-16 md:py-24">
           <div className="section-full mx-auto max-w-4xl">
             <div className="mb-12 text-center">
-              <h1 className="font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl mb-4">
+              <h1 className={cn(marketingHeroH1Class, "mb-4")}>
                 Frequently Asked{" "}
                 <span className="text-primary">Questions</span>
               </h1>

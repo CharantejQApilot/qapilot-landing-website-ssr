@@ -13,6 +13,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -43,24 +45,41 @@ export async function generateMetadata({
   }
 
   const description =
+    (blog as { seo_description?: string | null }).seo_description?.trim() ||
     blog.excerpt ||
+    (blog as { description?: string | null }).description?.trim() ||
     `Read ${blog.title} on the QApilot blog. Expert insights on mobile app testing and QA automation.`;
 
+  const metaTitle =
+    (blog as { seo_title?: string | null }).seo_title?.trim() || blog.title;
+
+  const kw = (blog as { seo_keywords?: string | null }).seo_keywords
+    ?.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const keywordsJoined =
+    kw && kw.length > 0
+      ? kw.join(", ")
+      : "mobile app testing, QA automation, test automation, mobile testing best practices";
+
+  const ogUrl =
+    (blog as { og_image_url?: string | null }).og_image_url?.trim() ||
+    blog.featured_image;
+
   return {
-    title: blog.title,
+    title: metaTitle,
     description,
-    keywords:
-      "mobile app testing, QA automation, test automation, mobile testing best practices",
+    keywords: keywordsJoined,
     alternates: {
       canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
     },
     openGraph: {
       type: "article",
-      title: blog.title,
+      title: metaTitle,
       description,
       url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
-      ...(blog.featured_image && {
-        images: [{ url: blog.featured_image, width: 1200, height: 630 }],
+      ...(ogUrl && {
+        images: [{ url: ogUrl, width: 1200, height: 630 }],
       }),
       publishedTime: blog.published_date || undefined,
       authors: blog.author_name ? [blog.author_name] : undefined,
@@ -68,9 +87,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: blog.title,
+      title: metaTitle,
       description,
-      ...(blog.featured_image && { images: [blog.featured_image] }),
+      ...(ogUrl && { images: [ogUrl] }),
     },
   };
 }
@@ -155,15 +174,40 @@ export default async function BlogPostPage({
               </div>
             )}
 
-            <h1 className="font-heading text-4xl font-medium tracking-tight md:text-5xl mb-6 text-gradient">
+            <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
               {blog.title}
             </h1>
 
-            {blog.excerpt && (
-              <p className="text-xl text-muted-foreground mb-8">
-                {blog.excerpt}
+            {(blog as { description?: string | null }).description?.trim() ||
+            blog.excerpt ? (
+              <p className="mb-8 text-xl text-muted-foreground">
+                {(blog as { description?: string | null }).description?.trim() ||
+                  blog.excerpt}
               </p>
-            )}
+            ) : null}
+
+            {(blog as { category?: string | null }).category?.trim() ||
+            (blog as { tags?: string | null }).tags?.trim() ? (
+              <div className="mb-6 flex flex-wrap gap-2 text-sm">
+                {(blog as { category?: string | null }).category?.trim() ? (
+                  <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
+                    {(blog as { category?: string | null }).category}
+                  </span>
+                ) : null}
+                {(blog as { tags?: string | null }).tags
+                  ?.split(",")
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+              </div>
+            ) : null}
 
             <div className="flex items-center gap-4 mb-8 pb-8 border-b border-border">
               <div>
@@ -190,6 +234,12 @@ export default async function BlogPostPage({
             <SafeHtmlContent
               html={blog.content || ""}
               className="blog-content max-w-none"
+              contentFormat={
+                (blog as { content_format?: string }).content_format ===
+                "markdown"
+                  ? "markdown"
+                  : "html"
+              }
             />
 
             {writer && (
