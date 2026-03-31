@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { HubSpotFormsEmbedFrame } from "@/components/HubSpotFormsEmbedFrame";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
@@ -25,17 +23,17 @@ export function FlutterTestingHero() {
             "xl:gap-x-14 2xl:mx-auto 2xl:max-w-[min(100%,88rem)] 2xl:gap-x-16",
           )}
         >
-          <div className="flex min-w-0 flex-col items-center text-center lg:max-w-none lg:pr-2 xl:pr-4">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
+          <div className="flex min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-2 xl:pr-4">
+            <p className="mb-3 w-full text-left text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
               Platform · Flutter
             </p>
-            <h1 className={cn(marketingHeroH1Class, "w-full mb-5 text-balance sm:mb-6 md:mb-8")}>
+            <h1 className={cn(marketingHeroH1Class, "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8")}>
               Flutter Testing That{" "}
               <span className="text-primary">Actually Works</span>
             </h1>
             <p
               className={cn(
-                "mx-auto mt-0 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg sm:leading-relaxed",
+                "mt-0 max-w-2xl text-left text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg sm:leading-relaxed",
                 "lg:max-w-xl xl:max-w-2xl",
               )}
             >
@@ -46,22 +44,13 @@ export function FlutterTestingHero() {
             </p>
             <p
               className={cn(
-                "mx-auto mt-5 max-w-2xl border-t border-border/50 pt-5 text-sm font-medium leading-relaxed text-muted-foreground sm:text-base",
+                "mt-5 max-w-2xl border-t border-border/50 pt-5 text-left text-sm font-medium leading-relaxed text-muted-foreground sm:text-base",
                 "lg:mt-6 lg:max-w-xl lg:border-border/40 lg:pt-6 xl:max-w-2xl",
               )}
             >
               Built for teams shipping complex Flutter apps across real devices, real user journeys,
               and real release cycles.
             </p>
-            <div className="mt-8 flex justify-center sm:mt-9">
-              <Button
-                size="lg"
-                className="rounded-xl bg-primary px-9 py-6 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/15 sm:px-10 sm:text-lg"
-                asChild
-              >
-                <Link href="#flutter-demo">Book a Demo</Link>
-              </Button>
-            </div>
           </div>
 
           <div
