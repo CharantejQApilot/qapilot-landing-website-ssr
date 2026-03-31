@@ -34,7 +34,7 @@ export function AgenticArchitectureHero() {
                 size="lg"
                 className="rounded-lg bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:px-10 2xl:py-7 2xl:text-lg"
               >
-                Get Access
+                Book a Demo
               </Button>
             </div>
           </div>
