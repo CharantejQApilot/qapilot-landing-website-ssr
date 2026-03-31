@@ -7,8 +7,17 @@ import { Network } from "lucide-react";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { CORE_ADVANTAGE_SCENIC_URLS } from "@/lib/core-advantage-scenic-urls.mjs";
-import { PATHS } from "@/lib/routes";
+import { PATHS, PLATFORM_BY_SOLUTION } from "@/lib/routes";
 import { cn } from "@/lib/utils";
+
+/** Same destinations as Platform → By Solution (excludes Overview). */
+function knowMoreHrefForSolutionLabel(label: string): string {
+  const entry = PLATFORM_BY_SOLUTION.find((i) => i.label === label);
+  if (!entry || entry.path === PATHS.OVERVIEW) {
+    throw new Error(`Missing Platform → By Solution path for capability tab: ${label}`);
+  }
+  return entry.path;
+}
 
 function CapHighlight({ children }: { children: ReactNode }) {
   return <strong className="font-semibold text-primary">{children}</strong>;
@@ -27,7 +36,7 @@ type TabItem = {
   scenicScrim?: "light";
 };
 
-const TABS: TabItem[] = [
+const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
   {
     id: "autonomous",
     label: "Autonomous Testing",
@@ -38,7 +47,6 @@ const TABS: TabItem[] = [
         meaningful test coverage, giving <CapHighlight>instant visibility into app health</CapHighlight>.
       </>
     ),
-    knowMoreHref: PATHS.AUTONOMOUS_TESTING,
     imageSrc: "/lovable-uploads/core-advantage-autonomous-testing.png",
     imageAlt:
       "QApilot crawler flow showing an app knowledge graph with connected screens, playback controls, and state details for autonomous mobile testing",
@@ -55,7 +63,6 @@ const TABS: TabItem[] = [
         <CapHighlight>catch issues early</CapHighlight> and continuously.
       </>
     ),
-    knowMoreHref: PATHS.INTELLIGENT_BUG_DETECTION,
     imageSrc: "/lovable-uploads/core-advantage-intelligent-bug-detection.png",
     imageAlt:
       "QApilot Intelligent Bug Detection: mobile emulator with highlighted issues, pages list, and accessibility details including touch targets, contrast, and content descriptions",
@@ -71,7 +78,6 @@ const TABS: TabItem[] = [
         end-to-end testing across platforms without breaking flows or requiring custom handling.
       </>
     ),
-    knowMoreHref: PATHS.FOR_FLUTTER,
     imageSrc: "/lovable-uploads/core-advantage-flutter-testing.png",
     imageAlt:
       "QApilot Flutter testing workspace: NATIVE_APP context, emulator showing Urgent Care app with Schedule visit, step authoring with Create Step, identifiers, and Page Elements tree with OCR search",
@@ -87,7 +93,6 @@ const TABS: TabItem[] = [
         security before every release.
       </>
     ),
-    knowMoreHref: PATHS.SECURITY_REPORTS,
     imageSrc: "/lovable-uploads/core-advantage-security-reports.png",
     imageAlt:
       "QApilot security dashboard: app risk score, severity distribution, tracker detection, manifest and code vulnerability summaries, certificate issues, and dangerous permissions such as fine location",
@@ -104,13 +109,17 @@ const TABS: TabItem[] = [
         <CapHighlight>maintenance</CapHighlight>, keeping your <CapHighlight>test suite stable</CapHighlight> over time.
       </>
     ),
-    knowMoreHref: PATHS.AI_SELF_HEALING,
     imageSrc: "/lovable-uploads/core-advantage-self-healing.png",
     imageAlt:
       "QApilot AI self-healing in a completed sanity suite run: AI-assisted step, dialog to update healed XPath for Enter your destination, execution vs recorded phone screenshots, element screenshot, and find-element timeline",
     scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[4],
   },
 ];
+
+const TABS: TabItem[] = TAB_DEFINITIONS.map((tab) => ({
+  ...tab,
+  knowMoreHref: knowMoreHrefForSolutionLabel(tab.label),
+}));
 
 /** Scenic photography + soft scrims so the product screenshot reads clearly (TestMu-style sections). */
 function CoreCapabilityScenicBackdrop({
@@ -455,8 +464,6 @@ const CoreAdvantageHeading = () => {
                 <p className={marketingSectionIntroClass}>{current.description}</p>
                 <Link
                   href={current.knowMoreHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
                 >
                   Know more

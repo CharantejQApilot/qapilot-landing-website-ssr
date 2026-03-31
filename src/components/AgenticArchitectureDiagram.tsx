@@ -43,9 +43,12 @@ const AgenticArchitectureDiagram = () => {
         <div className="relative group">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div className="relative bg-card/80 backdrop-blur-sm border border-blue-500/30 rounded-lg p-4 md:p-6 hover:border-blue-500/50 transition-all duration-300 hover:scale-[1.02]">
-            <h3 className="text-sm md:text-lg font-semibold text-foreground text-center mb-3 md:mb-4">
-              Network of AI Agents working together
-            </h3>
+            <div className="mb-3 md:mb-4 text-center">
+              <h3 className="text-sm md:text-lg font-semibold text-foreground">AI Agents</h3>
+              <p className="mt-1 text-[11px] text-muted-foreground md:text-xs">
+                Multiple specialized capabilities, one coordinated layer
+              </p>
+            </div>
             <div className="grid grid-cols-4 md:grid-cols-7 gap-2 md:gap-3">
               {topLayerIcons.map(({ label, Icon }, index) => (
                 <div 
@@ -96,12 +99,15 @@ const AgenticArchitectureDiagram = () => {
         {/* Knowledge Graph Block - Simplified on mobile */}
         <div className="relative group h-full">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-          <div className="relative bg-card/80 backdrop-blur-sm border border-primary/30 rounded-lg p-3 md:p-6 hover:border-primary/50 transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
+          <div className="relative bg-card/80 backdrop-blur-sm border border-primary/40 ring-2 ring-primary/25 ring-offset-2 ring-offset-background rounded-lg p-3 md:p-6 hover:border-primary/50 transition-all duration-300 hover:scale-[1.02] h-full flex flex-col shadow-md shadow-primary/10">
             <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4">
               <div className="p-1.5 md:p-2 bg-primary/20 rounded-lg">
                 <Network className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               </div>
-              <h3 className="text-sm md:text-lg font-semibold text-foreground">The Knowledge Graph</h3>
+              <div>
+                <h3 className="text-sm md:text-lg font-semibold text-foreground">Knowledge Graph</h3>
+                <p className="text-[10px] font-medium text-primary md:text-xs">Core context layer</p>
+              </div>
             </div>
             <div className="flex-1 flex items-center justify-center relative">
               {/* Animated network visualization - smaller on mobile */}
@@ -109,8 +115,7 @@ const AgenticArchitectureDiagram = () => {
                 {/* Central node */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="relative">
-                    <div className="absolute inset-0 animate-pulse bg-primary/30 rounded-full blur-md md:blur-lg"></div>
-                    <div className="absolute inset-0 animate-ping bg-primary/20 rounded-full"></div>
+                    <div className="absolute inset-0 bg-primary/25 rounded-full blur-md md:blur-lg"></div>
                     <Network className="w-10 h-10 md:w-16 md:h-16 text-primary relative z-10 animate-float" />
                   </div>
                 </div>
@@ -161,12 +166,16 @@ const AgenticArchitectureDiagram = () => {
         </div>
       </div>
 
-      {/* Layer 1 - Bottom Layer */}
+      {/* Layer 1 - Bottom Layer — testing lifecycle */}
       <div
-        className={`grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 transition-all duration-700 delay-500 ${
+        className={`transition-all duration-700 delay-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
+        <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:text-xs md:mb-4">
+          Testing lifecycle modules
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {bottomLayerIcons.map(({ label, Icon }, index) => (
           <div key={label} className="relative group" style={{ animationDelay: `${index * 100}ms` }}>
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-lg blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -180,6 +189,7 @@ const AgenticArchitectureDiagram = () => {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
