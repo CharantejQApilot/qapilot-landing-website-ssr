@@ -134,7 +134,7 @@ const HeroSection = () => {
           </h1>
 
           <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl mb-8 sm:mb-10 md:mb-11")}>
-            Mobile app release readiness - without the QE bottleneck.
+            Mobile app release readiness — without the QE bottleneck.
           </p>
 
           <div className="mb-12 sm:mb-14 md:mb-16">
