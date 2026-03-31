@@ -1,0 +1,277 @@
+"use client";
+
+import { useCallback, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import PhoneInput from "@/components/PhoneInput";
+import { MARKETING_LEAD_DESIGNATIONS, marketingLeadSchema } from "@/lib/forms/marketing-lead";
+
+function readHubSpotUtk(): string | undefined {
+  if (typeof document === "undefined") return undefined;
+  const row = document.cookie.split("; ").find((r) => r.startsWith("hubspotutk="));
+  if (!row) return undefined;
+  const v = row.slice("hubspotutk=".length);
+  return v ? decodeURIComponent(v) : undefined;
+}
+
+export type MarketingLeadFormProps = {
+  apiPath: string;
+  /** HubSpot `context.pageName` */
+  pageName: string;
+  submitButtonLabel?: string;
+  /** Prefix for input `id`s / `htmlFor` (avoid duplicates when multiple forms exist). */
+  fieldIdPrefix: string;
+  onSuccess?: () => void;
+  className?: string;
+};
+
+export function MarketingLeadForm({
+  apiPath,
+  pageName,
+  submitButtonLabel = "Submit",
+  fieldIdPrefix,
+  onSuccess,
+  className,
+}: MarketingLeadFormProps) {
+  const [firstname, setFirstname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [formKey, setFormKey] = useState(0);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const clientSchema = useMemo(
+    () =>
+      marketingLeadSchema.pick({
+        firstname: true,
+        email: true,
+        phone: true,
+        company: true,
+        designation: true,
+      }),
+    [],
+  );
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("idle");
+    setFieldErrors({});
+
+    const payload = {
+      firstname,
+      email,
+      phone,
+      company,
+      designation: designation || undefined,
+    };
+
+    const result = clientSchema.safeParse(payload);
+    if (!result.success) {
+      const err: Record<string, string> = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path[0];
+        if (typeof key === "string" && !err[key]) err[key] = issue.message;
+      }
+      setFieldErrors(err);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const body = {
+        ...result.data,
+        pageUri: typeof window !== "undefined" ? window.location.href : "",
+        pageName,
+        hutk: readHubSpotUtk(),
+      };
+
+      const res = await fetch(apiPath, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        if (res.status === 422) {
+          const data = (await res.json()) as { fields?: Record<string, string[]> };
+          const next: Record<string, string> = {};
+          if (data.fields) {
+            for (const [k, msgs] of Object.entries(data.fields)) {
+              if (msgs?.[0]) next[k] = msgs[0];
+            }
+          }
+          setFieldErrors(next);
+        }
+        throw new Error("submit failed");
+      }
+
+      setStatus("success");
+      setFirstname("");
+      setEmail("");
+      setPhone("");
+      setCompany("");
+      setDesignation("");
+      setFormKey((k) => k + 1);
+      onSuccess?.();
+    } catch {
+      setStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const clearFieldError = useCallback((name: string) => {
+    setFieldErrors((prev) => {
+      if (!prev[name]) return prev;
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+  }, []);
+
+  const pid = (name: string) => `${fieldIdPrefix}-${name}`;
+
+  return (
+    <div className={className}>
+      <div className="space-y-4">
+        {status === "success" && (
+          <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-3 py-2 text-sm text-green-700 dark:text-green-400">
+            Thank you! We&apos;ll be in touch soon.
+          </div>
+        )}
+        {status === "error" && (
+          <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            Something went wrong. Please try again.
+          </div>
+        )}
+
+        <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
+          <div>
+            <label htmlFor={pid("firstname")} className="mb-1.5 block text-sm font-medium text-foreground">
+              Full name <span className="text-destructive">*</span>
+            </label>
+            <input
+              id={pid("firstname")}
+              name="firstname"
+              type="text"
+              autoComplete="name"
+              maxLength={100}
+              value={firstname}
+              onChange={(e) => {
+                setFirstname(e.target.value);
+                clearFieldError("firstname");
+              }}
+              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
+                fieldErrors.firstname ? "border-destructive" : "border-border"
+              }`}
+              placeholder="Your full name"
+            />
+            {fieldErrors.firstname && (
+              <p className="mt-1 text-xs text-destructive">{fieldErrors.firstname}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor={pid("email")} className="mb-1.5 block text-sm font-medium text-foreground">
+              Email <span className="text-destructive">*</span>
+            </label>
+            <input
+              id={pid("email")}
+              name="email"
+              type="email"
+              autoComplete="email"
+              maxLength={255}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearFieldError("email");
+              }}
+              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
+                fieldErrors.email ? "border-destructive" : "border-border"
+              }`}
+              placeholder="you@example.com"
+            />
+            {fieldErrors.email && <p className="mt-1 text-xs text-destructive">{fieldErrors.email}</p>}
+          </div>
+
+          <div>
+            <span className="mb-1.5 block text-sm font-medium text-foreground">
+              Phone <span className="text-destructive">*</span>
+            </span>
+            <PhoneInput
+              key={formKey}
+              value={phone}
+              onChange={(v) => {
+                setPhone(v);
+                clearFieldError("phone");
+              }}
+              placeholder="Phone number"
+            />
+            {fieldErrors.phone && <p className="mt-1 text-xs text-destructive">{fieldErrors.phone}</p>}
+          </div>
+
+          <div>
+            <label htmlFor={pid("company")} className="mb-1.5 block text-sm font-medium text-foreground">
+              Company <span className="text-destructive">*</span>
+            </label>
+            <input
+              id={pid("company")}
+              name="company"
+              type="text"
+              autoComplete="organization"
+              maxLength={100}
+              value={company}
+              onChange={(e) => {
+                setCompany(e.target.value);
+                clearFieldError("company");
+              }}
+              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
+                fieldErrors.company ? "border-destructive" : "border-border"
+              }`}
+              placeholder="Company name"
+            />
+            {fieldErrors.company && (
+              <p className="mt-1 text-xs text-destructive">{fieldErrors.company}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor={pid("designation")} className="mb-1.5 block text-sm font-medium text-foreground">
+              Designation <span className="text-destructive">*</span>
+            </label>
+            <select
+              id={pid("designation")}
+              name="designation"
+              required
+              value={designation}
+              onChange={(e) => {
+                setDesignation(e.target.value);
+                clearFieldError("designation");
+              }}
+              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
+                fieldErrors.designation ? "border-destructive" : "border-border"
+              }`}
+            >
+              <option value="">Select designation</option>
+              {MARKETING_LEAD_DESIGNATIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            {fieldErrors.designation && (
+              <p className="mt-1 text-xs text-destructive">{fieldErrors.designation}</p>
+            )}
+          </div>
+
+          <Button type="submit" disabled={isSubmitting} className="w-full rounded-full font-semibold">
+            {isSubmitting ? "Submitting…" : submitButtonLabel}
+          </Button>
+        </form>
+      </div>
+    </div>
+  );
+}

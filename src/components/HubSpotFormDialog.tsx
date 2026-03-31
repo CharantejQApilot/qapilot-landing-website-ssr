@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { MarketingLeadForm } from "@/components/MarketingLeadForm";
 import {
   HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
   HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
@@ -15,7 +16,9 @@ import {
   HUBSPOT_NA1_REGION,
 } from "@/lib/constants";
 
-// Extend the Window interface to include hbspt and dataLayer
+/** Careers “general application” dialog — still uses HubSpot v2 embed (different fields). */
+const HUBSPOT_EMBED_ONLY_CAREERS_FORM_ID = "702b653d-94c3-4949-b431-45f7a6d035c4";
+
 declare global {
   interface Window {
     hbspt?: {
@@ -43,29 +46,24 @@ interface HubSpotFormDialogProps {
   formName?: string;
 }
 
-// Load HubSpot script once globally
 let hubspotScriptLoaded = false;
 let hubspotScriptLoading = false;
 const hubspotLoadCallbacks: (() => void)[] = [];
 
 const loadHubSpotScript = (): Promise<void> => {
   return new Promise((resolve) => {
-    // Already loaded
     if (window.hbspt?.forms) {
       resolve();
       return;
     }
 
-    // Already loading, queue callback
     if (hubspotScriptLoading) {
       hubspotLoadCallbacks.push(resolve);
       return;
     }
 
-    // Check for existing script
     const existingScript = document.querySelector('script[src*="js.hsforms.net/forms/v2.js"]');
     if (existingScript) {
-      // Poll for hbspt to be ready
       const poll = setInterval(() => {
         if (window.hbspt?.forms) {
           clearInterval(poll);
@@ -77,33 +75,30 @@ const loadHubSpotScript = (): Promise<void> => {
       return;
     }
 
-    // Load new script
     hubspotScriptLoading = true;
-    const script = document.createElement('script');
-    script.src = 'https://js.hsforms.net/forms/v2.js';
+    const script = document.createElement("script");
+    script.src = "https://js.hsforms.net/forms/v2.js";
     script.async = true;
-    
+
     script.onload = () => {
-      // Poll until hbspt is available (script loads async)
       const poll = setInterval(() => {
         if (window.hbspt?.forms) {
           clearInterval(poll);
           hubspotScriptLoaded = true;
           hubspotScriptLoading = false;
           resolve();
-          // Resolve all queued callbacks
-          hubspotLoadCallbacks.forEach(cb => cb());
+          hubspotLoadCallbacks.forEach((cb) => cb());
           hubspotLoadCallbacks.length = 0;
         }
       }, 50);
       setTimeout(() => clearInterval(poll), 10000);
     };
-    
+
     script.onerror = () => {
       hubspotScriptLoading = false;
-      console.error('Failed to load HubSpot script');
+      console.error("Failed to load HubSpot script");
     };
-    
+
     document.head.appendChild(script);
   });
 };
@@ -119,9 +114,26 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const formInstanceRef = useRef<string | null>(null);
   const isCreatingFormRef = useRef(false);
+  const [dialogSession, setDialogSession] = useState(0);
+
+  const useEmbed = formId === HUBSPOT_EMBED_ONLY_CAREERS_FORM_ID;
+
+  useEffect(() => {
+    if (isOpen) {
+      setDialogSession((n) => n + 1);
+    }
+  }, [isOpen]);
+
+  const pushFormSubmitAnalytics = useCallback(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "hubspotFormSubmit",
+      formId,
+      formName,
+    });
+  }, [formId, formName]);
 
   const createForm = useCallback(async () => {
-    // Prevent duplicate form creation
     if (isCreatingFormRef.current) return;
     if (formInstanceRef.current === formId) return;
     if (!containerRef.current) return;
@@ -131,18 +143,15 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
     try {
       await loadHubSpotScript();
 
-      // Double-check container still exists and form not already created
       if (!containerRef.current || formInstanceRef.current === formId) {
         isCreatingFormRef.current = false;
         return;
       }
 
-      // Clear container safely
       while (containerRef.current.firstChild) {
         containerRef.current.removeChild(containerRef.current.firstChild);
       }
 
-      // Generate unique ID for this form instance
       const uniqueId = `hs-form-${formId.slice(0, 8)}-${Date.now()}`;
       containerRef.current.id = uniqueId;
 
@@ -157,59 +166,62 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
             isCreatingFormRef.current = false;
           },
           onFormSubmit: () => {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-              event: "hubspotFormSubmit",
-              formId: formId,
-              formName: formName
-            });
-          }
+            pushFormSubmitAnalytics();
+          },
         });
       }
     } catch (error) {
-      console.error('Error creating HubSpot form:', error);
+      console.error("Error creating HubSpot form:", error);
       isCreatingFormRef.current = false;
     }
-  }, [formId, formName]);
+  }, [formId, pushFormSubmitAnalytics]);
 
-  // Handle form creation when dialog opens
   useEffect(() => {
-    if (!isOpen) {
-      // Reset state when dialog closes
+    if (!useEmbed || !isOpen) {
       formInstanceRef.current = null;
       isCreatingFormRef.current = false;
       return;
     }
 
-    // Small delay to ensure dialog DOM is ready
     const timer = setTimeout(createForm, 100);
     return () => clearTimeout(timer);
-  }, [isOpen, createForm]);
+  }, [isOpen, createForm, useEmbed]);
 
-  // Handle dialog state change
-  const handleOpenChange = useCallback((open: boolean) => {
-    if (!open) {
-      onClose();
-    }
-  }, [onClose]);
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        onClose();
+      }
+    },
+    [onClose],
+  );
+
+  const pageTitle =
+    typeof document !== "undefined" ? document.title || "QApilot" : "QApilot";
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] max-h-[85dvh] overflow-y-auto bg-background border border-border/20 shadow-2xl">
         <DialogHeader className="space-y-3">
-          <DialogTitle className="text-2xl font-bold text-foreground text-center">
-            {title}
-          </DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-foreground text-center">{title}</DialogTitle>
           <DialogDescription className="text-muted-foreground text-center text-base">
             {description}
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="mt-2">
-          <div 
-            ref={containerRef}
-            className="hs-form-frame"
-          />
+          {useEmbed ? (
+            <div ref={containerRef} className="hs-form-frame" />
+          ) : (
+            <MarketingLeadForm
+              key={dialogSession}
+              apiPath="/api/hubspot/get-access"
+              pageName={pageTitle}
+              submitButtonLabel="Submit"
+              fieldIdPrefix="hs-dialog-lead"
+              onSuccess={pushFormSubmitAnalytics}
+            />
+          )}
         </div>
       </DialogContent>
     </Dialog>

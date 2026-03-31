@@ -1,11 +1,9 @@
 "use client";
 
-import { HubSpotFormsEmbedFrame } from "@/components/HubSpotFormsEmbedFrame";
+import { FlutterHeroLeadForm } from "@/components/flutter-testing/FlutterHeroLeadForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
-
-const FLUTTER_DEMO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ecb";
 
 export function FlutterTestingHero() {
   return (
@@ -66,17 +64,14 @@ export function FlutterTestingHero() {
             >
               <div className="relative z-[1] space-y-1.5 pb-5 sm:pb-6">
                 <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-                  See QApilot on Your Flutter App
+                  Test Your Flutter App on QApilot
                 </h2>
                 <p className="max-w-prose text-sm leading-snug text-muted-foreground sm:text-[0.9375rem]">
                   Share a few details—we&apos;ll show you a tailored walkthrough.
                 </p>
               </div>
               <div className="relative z-[1] min-h-0 min-w-0 flex-1 rounded-xl border border-border/40 bg-background/70 p-3 sm:p-4 md:p-5">
-                <HubSpotFormsEmbedFrame
-                  formId={FLUTTER_DEMO_FORM_ID}
-                  className="flutter-hero-hs-frame"
-                />
+                <FlutterHeroLeadForm />
               </div>
             </div>
           </div>
