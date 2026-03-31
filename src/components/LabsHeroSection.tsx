@@ -1,4 +1,6 @@
 import { FlaskConical, Lightbulb, Wrench, Rocket, Zap, Code, Bug, Cpu, Sparkles, TestTube } from "lucide-react";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 // Desktop nodes positioned around the center (450,250 in viewBox) using percentage positions
 // Larger sizes, well-spaced constellation
@@ -28,7 +30,7 @@ const mobileNodes = [
 
 const LabsHeroSection = () => {
   return (
-    <section className="section-edge relative flex min-h-[70vh] w-full flex-col items-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-0 pt-20">
+    <section className="section-edge relative flex min-h-[60vh] w-full flex-col items-center overflow-x-hidden overflow-y-visible border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-0 pt-20 sm:min-h-[70vh]">
       {/* Subtle dot grid background */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -56,7 +58,7 @@ const LabsHeroSection = () => {
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         {/* Header text */}
         <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground animate-fade-in sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl mb-4">
+          <h1 className={cn(marketingHeroH1Class, "animate-fade-in mb-4 sm:mb-6")}>
             Experiments. Tools.{" "}
             <span className="text-primary">Ideas shipped fast.</span>
           </h1>

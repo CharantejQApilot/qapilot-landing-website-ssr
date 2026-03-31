@@ -1,7 +1,10 @@
 import {
+  buildAiSelfHealingReportLinkHeader,
   buildAutonomousWalkthroughLinkHeader,
   buildCoreAdvantageLinkHeader,
+  buildFlutterTestingVideoLinkHeader,
   buildIntelligentBugIssueDetailLinkHeader,
+  buildSecurityReportDeepDiveLinkHeader,
 } from "./src/lib/core-advantage-scenic-urls.mjs";
 
 /** @type {import('next').NextConfig} */
@@ -43,6 +46,9 @@ if (supabaseUrl) {
 const coreAdvantageLink = buildCoreAdvantageLinkHeader();
 const autonomousWalkthroughLink = buildAutonomousWalkthroughLinkHeader();
 const intelligentBugIssueDetailLink = buildIntelligentBugIssueDetailLinkHeader();
+const flutterTestingVideoLink = buildFlutterTestingVideoLinkHeader();
+const securityReportDeepDiveLink = buildSecurityReportDeepDiveLinkHeader();
+const aiSelfHealingReportLink = buildAiSelfHealingReportLinkHeader();
 
 const nextConfig = {
   images: {
@@ -66,6 +72,18 @@ const nextConfig = {
       {
         source: "/product/intelligent-bug-detection",
         headers: [{ key: "Link", value: intelligentBugIssueDetailLink }],
+      },
+      {
+        source: "/for-flutter",
+        headers: [{ key: "Link", value: flutterTestingVideoLink }],
+      },
+      {
+        source: "/security-reports",
+        headers: [{ key: "Link", value: securityReportDeepDiveLink }],
+      },
+      {
+        source: "/ai-self-healing",
+        headers: [{ key: "Link", value: aiSelfHealingReportLink }],
       },
     ];
   },

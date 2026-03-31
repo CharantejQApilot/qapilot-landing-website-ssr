@@ -172,12 +172,21 @@
       scroll-behavior: auto !important;
     }
   }
+
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+    .h-screen {
+      height: -webkit-fill-available;
+    }
+  }
 }
 
 @layer utilities {
   /* ── Edge-to-edge section utility ── */
   .section-full {
-    @apply w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28;
+    @apply w-full px-4 sm:px-6 md:px-12 lg:px-16 xl:px-20 2xl:px-28;
   }
 
   /* ── Section background variants ── */
@@ -195,6 +204,7 @@
 
   /* Same look as `bg-muted/20` on page background, fully opaque (e.g. Deliver header on cream) */
   .bg-section-header {
+    background-color: hsl(var(--muted) / 0.2);
     background-color: color-mix(in srgb, hsl(var(--muted)) 20%, hsl(var(--background)) 80%);
   }
 
@@ -666,6 +676,7 @@
   .hero-exalt-center-ripple {
     /* Moderate radius: fades within upper hero, not full-bleed */
     --hero-ripple-diameter: min(max(118vw, 88vh), 1680px);
+    --hero-ripple-diameter: min(max(118vw, 88dvh), 1680px);
     position: absolute;
     left: 50%;
     top: min(38%, 280px);
@@ -862,6 +873,47 @@
   .hubspot-form-container .hs-richtext p { color: hsl(var(--foreground)) !important; }
   .hubspot-form-container .hs-fieldtype-checkbox label,
   .hubspot-form-container .hs-fieldtype-radio label { color: hsl(var(--foreground)) !important; }
+
+  /* HubSpot forms/embed (portal script + .hs-form-frame) */
+  .hubspot-forms-embed-frame {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .hubspot-forms-embed-frame iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 320px;
+    border: 0 !important;
+    border-radius: 0.75rem;
+    background: transparent;
+    box-sizing: border-box;
+  }
+  @media (min-width: 640px) {
+    .hubspot-forms-embed-frame iframe {
+      min-height: 380px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .hubspot-forms-embed-frame iframe {
+      min-height: 480px;
+    }
+  }
+  /* Flutter hero: HubSpot often injects a fixed pixel width — force fluid half-column layout */
+  .flutter-hero-hs-frame,
+  .flutter-hero-hs-frame > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  .flutter-hero-hs-frame iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
 
   @keyframes slide-down {
     0% { transform: translateY(-100%); opacity: 0; }

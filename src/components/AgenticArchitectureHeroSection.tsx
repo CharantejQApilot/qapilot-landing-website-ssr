@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import AgenticArchitectureDiagram from "./AgenticArchitectureDiagram";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const AgenticArchitectureHeroSection = () => {
   const { openForm } = useHubSpotForm();
@@ -12,7 +14,7 @@ const AgenticArchitectureHeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-[80vh] flex items-start md:items-center justify-start md:justify-center overflow-visible pt-40 md:pt-24">
+    <section className="relative min-h-[60vh] flex items-start md:items-center justify-start md:justify-center overflow-visible pt-28 sm:pt-40 sm:min-h-[80vh] md:pt-24">
       {/* Background Effects */}
       <div className="absolute inset-0 glow-bg"></div>
       
@@ -154,7 +156,7 @@ const AgenticArchitectureHeroSection = () => {
         <div className="flex flex-col gap-6 md:gap-12 lg:grid lg:grid-cols-2 items-center">
           {/* Left Side - Content */}
           <div className="order-1 lg:order-none z-20 space-y-4 md:space-y-6 animate-fade-in text-center lg:text-left">
-            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold leading-tight">
+            <h1 className={cn(marketingHeroH1Class)}>
               <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
                 Agentic Workforce
               </span>

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Zap, TrendingUp, LayoutGrid } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { marketingHeroLeadClass } from "@/lib/marketing-typography";
+import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const ROLLING_WORDS = ["Intelligent", "Autonomous", "Continuous", "Here"];
@@ -72,7 +72,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-1 sm:px-0">
-          <h1 className="font-heading font-semibold tracking-[-0.02em] text-foreground mb-5 sm:mb-6 md:mb-8 leading-[1.12] text-[2.5rem] sm:text-5xl sm:leading-[1.1] md:text-6xl md:leading-[1.08] lg:text-7xl lg:leading-[1.06] xl:text-7xl 2xl:text-8xl 2xl:leading-[1.05]">
+          <h1 className={cn(marketingHeroH1Class, "mb-5 sm:mb-6 md:mb-8")}>
             <div
               className={
                 phase === "exiting"
@@ -84,7 +84,7 @@ const HeroSection = () => {
             >
               {/* Strictly two lines at every breakpoint: line 1 = static phrase, line 2 = rolling word */}
               <span className="flex flex-col flex-nowrap items-center gap-y-2 sm:gap-y-2.5 md:gap-y-3">
-                <span className="block w-full whitespace-nowrap text-center leading-[inherit]">
+                <span className="block w-full text-center leading-[inherit]">
                   The Future Of Quality Is
                 </span>
                 <span className="relative inline-block shrink-0" aria-live="polite" aria-atomic="true">
@@ -129,7 +129,7 @@ const HeroSection = () => {
             <Button
               onClick={() => openForm()}
               size="lg"
-              className="bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20 font-semibold rounded-xl px-10 py-7 text-lg sm:px-12 sm:py-7 sm:text-xl 2xl:px-14 2xl:py-8 2xl:text-xl transition-shadow"
+              className="bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20 font-semibold rounded-xl px-8 py-5 text-base sm:px-10 sm:py-7 sm:text-lg md:text-xl 2xl:px-14 2xl:py-8 2xl:text-xl transition-shadow"
             >
               Get Access
             </Button>
@@ -167,7 +167,7 @@ const HeroSection = () => {
                 return (
                   <div
                     key={metric.value}
-                    className="grid min-w-0 grid-cols-[auto_1fr] grid-rows-subgrid row-span-2 gap-x-3 gap-y-1"
+                    className="grid min-w-0 grid-cols-[auto_1fr] gap-x-3 gap-y-1"
                   >
                     <div className="row-span-2 flex items-start justify-center pt-0.5">
                       <span

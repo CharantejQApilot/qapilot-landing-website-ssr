@@ -4,3 +4,4 @@ export { MarketingPageShell } from "./MarketingPageShell";
 export type { MarketingHeroBackgroundOptions } from "./MarketingPageShell";
 export { MarketingSectionHeader } from "./MarketingSectionHeader";
 export { HashScrollOnMount } from "./HashScrollOnMount";
+export { ScenicFramedImage } from "./ScenicFramedImage";

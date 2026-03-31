@@ -14,6 +14,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 import { extractYouTubeId } from "@/utils/youtube";
 
 /** Match blog article: readable column + comfortable side margin. */
@@ -62,8 +64,12 @@ export async function generateMetadata({
   }
 
   const description =
+    newsItem.seo_description?.trim() ||
     newsItem.excerpt ||
+    newsItem.description?.trim() ||
     `Read ${newsItem.title} on QApilot News. Latest updates on AI-powered mobile app testing.`;
+
+  const metaTitle = newsItem.seo_title?.trim() || newsItem.title;
 
   const videoId = newsItem.youtube_url
     ? extractYouTubeId(newsItem.youtube_url)
@@ -71,34 +77,43 @@ export async function generateMetadata({
   const videoThumbnail = videoId
     ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
     : null;
-  const ogImage = newsItem.featured_image || videoThumbnail || DEFAULT_OG_IMAGE;
+  const ogImage =
+    newsItem.og_image_url?.trim() ||
+    newsItem.featured_image ||
+    videoThumbnail ||
+    DEFAULT_OG_IMAGE;
+
+  const kw = newsItem.seo_keywords
+    ?.split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const keywordTags =
+    kw && kw.length > 0
+      ? kw
+      : ["QApilot news", "mobile testing updates", "QA automation news"];
 
   return {
-    title: newsItem.title,
+    title: metaTitle,
     description,
-    keywords: [
-      "QApilot news",
-      "mobile testing updates",
-      "QA automation news",
-    ],
+    keywords: keywordTags,
     alternates: {
       canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
     },
     openGraph: {
       type: "article",
-      title: newsItem.title,
+      title: metaTitle,
       description,
       url: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
       images: [{ url: ogImage, width: 1200, height: 630 }],
       publishedTime: newsItem.published_date || undefined,
       authors: newsItem.author_name ? [newsItem.author_name] : undefined,
-      tags: ["Mobile Testing", "QA Automation", "News"],
+      tags: keywordTags,
       siteName: "QApilot",
       locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: newsItem.title,
+      title: metaTitle,
       description,
       images: [ogImage],
     },
@@ -268,14 +283,36 @@ export default async function NewsPostPage({
               </div>
             )}
 
-            <h1 className="font-heading mb-6 text-4xl font-medium tracking-tight text-gradient md:text-5xl">
+            <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
               {newsItem.title}
             </h1>
 
-            {newsItem.excerpt ? (
+            {newsItem.description?.trim() || newsItem.excerpt ? (
               <p className="mb-8 text-xl text-muted-foreground">
-                {newsItem.excerpt}
+                {newsItem.description?.trim() || newsItem.excerpt}
               </p>
+            ) : null}
+
+            {newsItem.category?.trim() || newsItem.tags?.trim() ? (
+              <div className="mb-6 flex flex-wrap gap-2 text-sm">
+                {newsItem.category?.trim() ? (
+                  <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
+                    {newsItem.category}
+                  </span>
+                ) : null}
+                {newsItem.tags
+                  ?.split(",")
+                  .map((t) => t.trim())
+                  .filter(Boolean)
+                  .map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+              </div>
             ) : null}
 
             {(newsItem.author_name ||
@@ -313,6 +350,9 @@ export default async function NewsPostPage({
             <SafeHtmlContent
               html={newsItem.content || ""}
               className="news-content max-w-none"
+              contentFormat={
+                newsItem.content_format === "markdown" ? "markdown" : "html"
+              }
             />
 
             {writer ? (

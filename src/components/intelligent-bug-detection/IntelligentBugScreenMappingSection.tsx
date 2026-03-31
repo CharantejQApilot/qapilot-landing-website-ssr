@@ -61,7 +61,7 @@ export function IntelligentBugScreenMappingSection() {
             </ul>
           </div>
 
-          <div className="p-6 md:p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             <div className="mb-4 flex items-center justify-between gap-4 border-b border-border/60 pb-4">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Selected screen</p>

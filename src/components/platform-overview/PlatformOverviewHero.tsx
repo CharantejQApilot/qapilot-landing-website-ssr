@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 export function PlatformOverviewHero() {
   const { openForm } = useHubSpotForm();
@@ -19,7 +21,7 @@ export function PlatformOverviewHero() {
       <div className="relative z-10 w-full section-full py-10 sm:py-14 md:py-16 lg:py-24 2xl:py-28">
         <div className="grid min-h-0 grid-cols-1 items-center gap-8 sm:gap-10 lg:min-h-[70vh] lg:grid-cols-[2fr_3fr] lg:items-stretch lg:gap-14 xl:gap-16 2xl:gap-20">
           <div className="order-1 flex flex-col justify-center text-left">
-            <h1 className="mb-3 font-heading text-[2.0625rem] font-medium leading-[1.35] tracking-tight text-foreground sm:mb-5 sm:text-[2.625rem] md:mb-6 md:text-[2.625rem] lg:text-[3.375rem] xl:text-[4.125rem] 2xl:text-[5.25rem]">
+            <h1 className={cn(marketingHeroH1Class, "mb-3 sm:mb-5 md:mb-6")}>
               Built For <span className="text-primary">Release Readiness</span>
             </h1>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg xl:text-xl 2xl:text-2xl">

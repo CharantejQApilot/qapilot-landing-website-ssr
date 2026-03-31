@@ -1,6 +1,8 @@
 "use client";
 
 import { Users, Rocket, Sparkles, Target, Lightbulb, Zap, ChevronDown } from "lucide-react";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const CareersHeroSection = () => {
   const scrollToPositions = () => {
@@ -11,7 +13,7 @@ const CareersHeroSection = () => {
   };
 
   return (
-    <section className="section-edge relative flex min-h-[75vh] w-full items-center justify-center overflow-hidden border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-8 pt-20">
+    <section className="section-edge relative flex min-h-[60vh] w-full items-center justify-center overflow-x-hidden overflow-y-visible border-b border-border bg-gradient-to-b from-primary-light/40 via-background to-background pb-8 pt-20 sm:min-h-[75vh]">
       {/* Animated Grid Pattern */}
       <svg 
         className="absolute inset-0 w-full h-full opacity-30" 
@@ -168,7 +170,7 @@ const CareersHeroSection = () => {
           </div>
           
           {/* Main Headline */}
-          <h1 className="font-heading text-4xl font-medium leading-tight md:text-5xl lg:text-6xl xl:text-7xl">
+          <h1 className={cn(marketingHeroH1Class)}>
             <span className="text-foreground">Help shape what </span>
             <span className="text-gradient">quality</span>
             <span className="text-foreground"> looks like in an </span>

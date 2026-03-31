@@ -5,6 +5,8 @@ import { useId } from "react";
 import { Button } from "@/components/ui/button";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { Plug } from "lucide-react";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 export type AgentNetworkHeroProps = {
   title: ReactNode;
@@ -34,7 +36,7 @@ function DifferentiatorsHeroSection({
     <section className="relative flex min-h-screen items-center justify-center section-edge w-full py-20 pb-8">
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         <div className="mb-0 text-center">
-          <h1 className="mb-8 font-heading text-4xl font-medium tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h1 className={cn(marketingHeroH1Class, "mb-8")}>
             {title}
           </h1>
 

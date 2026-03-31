@@ -1,5 +1,7 @@
 "use client";
 import Footer from "@/components/Footer";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
 import YouTubeVideoPlayer from "@/components/YouTubeVideoPlayer";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
@@ -78,7 +80,7 @@ const AboutClient = () => {
           <div className="section-full relative z-10 mx-auto max-w-screen-xl">
             {/* Main Hero Content */}
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight text-foreground animate-fade-in-up">
+              <h1 className={cn(marketingHeroH1Class, "mb-8 animate-fade-in-up")}>
                 Building Quality for an <span className="text-primary">AI-First World</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
