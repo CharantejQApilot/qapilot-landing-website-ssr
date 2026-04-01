@@ -278,25 +278,18 @@ export default function RootLayout({
           })(window,document,'script','dataLayer','GTM-D8GSMN6Q');`}
         </Script>
 
-        {/* Google Analytics (gtag.js) */}
+        {/* Google tag (gtag.js) — GA4 recommended install; sends default page_view */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YVK0J06RCR"
           strategy="afterInteractive"
         />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`window.dataLayer = window.dataLayer || [];
+        <Script id="google-analytics-gtag" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-YVK0J06RCR', { 'send_page_view': false });
-          if ('requestIdleCallback' in window) {
-            requestIdleCallback(function() {
-              gtag('event', 'page_view');
-            }, { timeout: 2000 });
-          } else {
-            setTimeout(function() {
-              gtag('event', 'page_view');
-            }, 1000);
-          }`}
+          gtag('config', 'G-YVK0J06RCR');
+          `}
         </Script>
       </body>
     </html>
