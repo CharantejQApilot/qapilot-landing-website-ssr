@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 
 function PromoBannerLink({
@@ -28,34 +29,39 @@ function PromoBannerLink({
 
 /** Top promo banner from Supabase — server-rendered for crawlers. News takes precedence over blogs. */
 export default async function NewsBanner() {
+  noStore();
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) return null;
 
-  const { data: bannerNews } = await supabase
+  // Use limit(1) + first row — NOT maybeSingle(): multiple is_banner rows would make PostgREST
+  // return an error and hide the banner entirely.
+  const { data: newsRows } = await supabase
     .from("news_updates")
     .select("slug, banner_text")
     .eq("published", true)
     .eq("is_banner", true)
     .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .limit(1);
 
-  if (bannerNews?.slug && bannerNews.banner_text) {
-    return <PromoBannerLink href={`/news/${bannerNews.slug}`} text={bannerNews.banner_text} />;
+  const bannerNews = newsRows?.[0];
+  const newsText = bannerNews?.banner_text?.trim();
+  if (bannerNews?.slug && newsText) {
+    return <PromoBannerLink href={`/news/${bannerNews.slug}`} text={newsText} />;
   }
 
-  const { data: bannerBlog } = await supabase
+  const { data: blogRows } = await supabase
     .from("blogs")
     .select("slug, banner_text")
     .eq("published", true)
     .eq("is_banner", true)
     .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    .limit(1);
 
-  if (!bannerBlog?.slug || !bannerBlog.banner_text) {
+  const bannerBlog = blogRows?.[0];
+  const blogText = bannerBlog?.banner_text?.trim();
+  if (!bannerBlog?.slug || !blogText) {
     return null;
   }
 
-  return <PromoBannerLink href={`/blogs/${bannerBlog.slug}`} text={bannerBlog.banner_text} />;
+  return <PromoBannerLink href={`/blogs/${bannerBlog.slug}`} text={blogText} />;
 }
