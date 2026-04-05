@@ -8,6 +8,9 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
+import { defaultOpenGraphImage } from "@/lib/seo";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.FAQS}`;
 
 export const metadata: Metadata = {
   title: "FAQs - Frequently Asked Questions",
@@ -15,7 +18,23 @@ export const metadata: Metadata = {
     "Find answers to frequently asked questions about QApilot's AI-powered testing platform, features, pricing, and support.",
   keywords:
     "QApilot FAQ, automated testing questions, AI testing FAQ, QA automation help",
-  alternates: { canonical: `${SITE_BASE_URL}${PATHS.FAQS}` },
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "FAQs - Frequently Asked Questions | QApilot",
+    description:
+      "Answers about QApilot’s AI-powered mobile testing platform, features, and support.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FAQs | QApilot",
+    description: "Frequently asked questions about QApilot mobile testing.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
 };
 
 export const dynamic = "force-dynamic";

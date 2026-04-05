@@ -171,21 +171,35 @@ const HubSpotEmbedForm = ({
       }
       .hs-input {
         width: 100% !important;
-        padding: 0.75rem !important;
+        height: 2.5rem !important;
+        box-sizing: border-box !important;
+        padding: 0.5rem 0.75rem !important;
         border: 1px solid hsl(var(--border)) !important;
-        border-radius: 0.5rem !important;
+        border-radius: 0.375rem !important;
         background-color: hsl(var(--background)) !important;
         color: hsl(var(--foreground)) !important;
         font-size: 0.875rem !important;
-        transition: border-color 0.2s ease-in-out !important;
+        line-height: 1.25rem !important;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+        transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+      }
+      .hs-input::placeholder {
+        color: hsl(var(--muted-foreground)) !important;
+        opacity: 1 !important;
       }
       .hs-input:focus {
         outline: none !important;
-        border-color: hsl(var(--primary)) !important;
-        box-shadow: 0 0 0 2px hsl(var(--primary) / 0.1) !important;
+        border-color: hsl(var(--ring)) !important;
+        box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)) !important;
       }
       select.hs-input {
         cursor: pointer !important;
+      }
+      textarea.hs-input {
+        height: auto !important;
+        min-height: 5rem !important;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
       }
       .hs-form-required {
         color: hsl(var(--destructive)) !important;

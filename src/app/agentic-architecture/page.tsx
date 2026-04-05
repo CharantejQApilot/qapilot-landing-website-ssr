@@ -9,6 +9,7 @@ import { AgenticArchitectureWhyMattersSection } from "@/components/agentic-archi
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AGENTIC_ARCHITECTURE}`;
 
@@ -24,6 +25,16 @@ export const metadata: Metadata = {
     description:
       "Specialized agents, shared context, and the knowledge graph as the foundation — from exploration to coverage and release readiness.",
     url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QApilot's Agentic Architecture | QApilot",
+    description:
+      "Agents, knowledge graph, and continuous learning for autonomous mobile testing.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

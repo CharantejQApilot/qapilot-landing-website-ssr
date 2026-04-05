@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import PhoneInput from './PhoneInput';
-import { z } from 'zod';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import PhoneInput from "@/components/PhoneInput";
+import {
+  marketingFormControlClass,
+  marketingFormFieldErrorClass,
+  marketingFormLabelClass,
+} from "@/lib/forms/marketing-form-classes";
+import { cn } from "@/lib/utils";
+import { z } from "zod";
 
 const formSchema = z.object({
   fullname: z.string().trim().min(1, "Full name is required").max(100, "Name must be less than 100 characters"),
@@ -148,7 +154,7 @@ const FlutterContactForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="fullname" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="fullname" className={marketingFormLabelClass}>
             Full Name *
           </label>
           <input
@@ -159,16 +165,16 @@ const FlutterContactForm = () => {
             maxLength={100}
             value={formData.fullname}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${validationErrors.fullname ? 'border-destructive' : 'border-border'}`}
+            className={marketingFormControlClass({ invalid: !!validationErrors.fullname })}
             placeholder="Enter your full name"
           />
           {validationErrors.fullname && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.fullname}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.fullname}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="email" className={marketingFormLabelClass}>
             Work Email *
           </label>
           <input
@@ -179,16 +185,16 @@ const FlutterContactForm = () => {
             maxLength={255}
             value={formData.email}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${validationErrors.email ? 'border-destructive' : 'border-border'}`}
+            className={marketingFormControlClass({ invalid: !!validationErrors.email })}
             placeholder="you@company.com"
           />
           {validationErrors.email && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.email}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.email}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="phone" className={marketingFormLabelClass}>
             Phone Number *
           </label>
           <PhoneInput
@@ -206,12 +212,12 @@ const FlutterContactForm = () => {
             placeholder="Phone number"
           />
           {validationErrors.phone && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.phone}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.phone}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="company" className={marketingFormLabelClass}>
             Company Name *
           </label>
           <input
@@ -222,16 +228,16 @@ const FlutterContactForm = () => {
             maxLength={100}
             value={formData.company}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${validationErrors.company ? 'border-destructive' : 'border-border'}`}
+            className={marketingFormControlClass({ invalid: !!validationErrors.company })}
             placeholder="Your company name"
           />
           {validationErrors.company && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.company}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.company}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="designation" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="designation" className={marketingFormLabelClass}>
             Designation *
           </label>
           <select
@@ -240,7 +246,13 @@ const FlutterContactForm = () => {
             required
             value={formData.designation}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${validationErrors.designation ? 'border-destructive' : 'border-border'}`}
+            className={cn(
+              marketingFormControlClass({
+                invalid: !!validationErrors.designation,
+                selectPlaceholder: !formData.designation,
+              }),
+              "cursor-pointer",
+            )}
           >
             <option value="">Select your designation</option>
             <option value="Developer">Developer</option>
@@ -253,12 +265,12 @@ const FlutterContactForm = () => {
             <option value="Others">Others</option>
           </select>
           {validationErrors.designation && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.designation}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.designation}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="linkedin_url" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="linkedin_url" className={marketingFormLabelClass}>
             LinkedIn URL
           </label>
           <input
@@ -267,16 +279,16 @@ const FlutterContactForm = () => {
             name="linkedin_url"
             value={formData.linkedin_url}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${validationErrors.linkedin_url ? 'border-destructive' : 'border-border'}`}
+            className={marketingFormControlClass({ invalid: !!validationErrors.linkedin_url })}
             placeholder="https://linkedin.com/in/yourprofile"
           />
           {validationErrors.linkedin_url && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.linkedin_url}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.linkedin_url}</p>
           )}
         </div>
 
         <div>
-          <label htmlFor="app_link" className="block text-sm font-medium text-foreground mb-2">
+          <label htmlFor="app_link" className={marketingFormLabelClass}>
             App Link
           </label>
           <input
@@ -285,11 +297,11 @@ const FlutterContactForm = () => {
             name="app_link"
             value={formData.app_link}
             onChange={handleInputChange}
-            className={`w-full px-3 py-2 border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${validationErrors.app_link ? 'border-destructive' : 'border-border'}`}
+            className={marketingFormControlClass({ invalid: !!validationErrors.app_link })}
             placeholder="Link to your Flutter app"
           />
           {validationErrors.app_link && (
-            <p className="mt-1 text-sm text-destructive">{validationErrors.app_link}</p>
+            <p className={marketingFormFieldErrorClass}>{validationErrors.app_link}</p>
           )}
         </div>
 

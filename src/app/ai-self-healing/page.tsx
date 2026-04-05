@@ -13,9 +13,11 @@ import {
 } from "@/components/ai-self-healing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 const path = PATHS.AI_SELF_HEALING;
-const canonicalUrl = `https://qapilot.io${path}`;
+const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 export const metadata: Metadata = {
   title: "AI Self-Healing Tests | QApilot",
@@ -29,6 +31,16 @@ export const metadata: Metadata = {
     description:
       "Tests that fix themselves: transparent healing, human approval for locators, and execution reports you can trust.",
     url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Self-Healing Tests | QApilot",
+    description:
+      "Keep mobile tests stable with multi-layer healing, approvals, and full report visibility.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

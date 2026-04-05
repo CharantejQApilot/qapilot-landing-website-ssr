@@ -26,15 +26,21 @@ const ProductShowcaseSection = () => {
         </header>
 
         <div className="relative border border-border rounded-2xl overflow-hidden bg-background">
+          {/* Arcade embed — responsive 16:9-style wrapper */}
           <div
             className="relative w-full"
-            style={{ paddingBottom: "calc(57.88888888888889% + 41px)", height: 0, minHeight: "400px" }}
+            style={{
+              paddingBottom: "calc(57.8889% + 41px)",
+              height: 0,
+              width: "100%",
+            }}
           >
             <iframe
-              src="https://demo.arcade.software/x3NLaq1qHaQD5B4JZPIm?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
-              title="QApilot Autonomous Smoke Test Demo"
-              className="absolute top-0 left-0 w-full h-full"
-              frameBorder="0"
+              src="https://demo.arcade.software/JxLpXPUuOXd4ad9mwlC9?embed&embed_mobile=tab&embed_desktop=inline&squared=true&show_copy_link=true"
+              title="QApilot"
+              className="absolute left-0 top-0 h-full w-full"
+              frameBorder={0}
+              loading="lazy"
               allowFullScreen
               allow="clipboard-write"
               style={{ colorScheme: "light" }}

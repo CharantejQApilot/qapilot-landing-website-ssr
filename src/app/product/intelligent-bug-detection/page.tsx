@@ -9,9 +9,11 @@ import { IntelligentBugScreenMappingSection } from "@/components/intelligent-bug
 import { IntelligentBugShiftSection } from "@/components/intelligent-bug-detection/IntelligentBugShiftSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 const path = PATHS.INTELLIGENT_BUG_DETECTION;
-const canonicalUrl = `https://qapilot.io${path}`;
+const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 export const metadata: Metadata = {
   title: "Intelligent Bug Detection for Mobile Applications | QApilot",
@@ -25,11 +27,16 @@ export const metadata: Metadata = {
     description:
       "Actionable issue intelligence: categories, screen mapping, screenshots, metadata, and corrective guidance for stronger release readiness.",
     url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
   },
   twitter: {
+    card: "summary_large_image",
     title: "Intelligent Bug Detection for Mobile | QApilot",
     description:
       "Detect meaningful patterns during crawl and execution—not just failures—with context teams can act on.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

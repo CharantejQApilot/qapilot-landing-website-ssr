@@ -37,6 +37,8 @@ interface Blog {
   og_image_url: string | null;
   seo_keywords: string | null;
   content_format: string | null;
+  is_banner?: boolean;
+  banner_text?: string | null;
 }
 
 const BlogEditorClient = () => {
@@ -65,6 +67,8 @@ const BlogEditorClient = () => {
   const [publishStatus, setPublishStatus] = useState<"draft" | "published">(
     "published",
   );
+  const [isBlogBanner, setIsBlogBanner] = useState(false);
+  const [blogBannerText, setBlogBannerText] = useState("");
 
   const router = useRouter();
   const { toast } = useToast();
@@ -140,6 +144,8 @@ const BlogEditorClient = () => {
       setOgImageUrl(existingBlog.og_image_url || "");
       setSeoKeywords(existingBlog.seo_keywords || "");
       setPublishStatus(existingBlog.published ? "published" : "draft");
+      setIsBlogBanner(Boolean((existingBlog as Blog).is_banner));
+      setBlogBannerText((existingBlog as Blog).banner_text || "");
     }
   }, [existingBlog]);
 
@@ -179,12 +185,8 @@ const BlogEditorClient = () => {
         }
       }
 
-      const cached =
-        id ?
-          (queryClient.getQueryData(["blog", id]) as Blog | undefined)
-        : undefined;
       const contentFormat =
-        id && cached?.content_format === "html" ? "html" : "markdown";
+        id && existingBlog?.content_format === "html" ? "html" : "markdown";
 
       const blogData = {
         title: title || "Untitled",
@@ -208,6 +210,11 @@ const BlogEditorClient = () => {
         og_image_url: ogImageUrl.trim() || null,
         seo_keywords: seoKeywords.trim() || null,
         content_format: contentFormat,
+        is_banner: publishedFlag && isBlogBanner,
+        banner_text:
+          publishedFlag && isBlogBanner && blogBannerText.trim()
+            ? blogBannerText.trim()
+            : null,
       };
 
       if (id) {
@@ -271,8 +278,35 @@ const BlogEditorClient = () => {
     },
   });
 
-  const handleSaveDraft = () => {
-    saveMutation.mutate({ published: false });
+  const validateBannerForPublish = (published: boolean) => {
+    if (published && isBlogBanner && !blogBannerText.trim()) {
+      toast({
+        title: "Banner text required",
+        description: "Add banner text or turn off the home page banner option.",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  /** Content step: always persist as draft. Metadata step: respect Status (header save must match the form). */
+  const handleStickySave = () => {
+    if (step === "content") {
+      saveMutation.mutate({ published: false });
+      return;
+    }
+    if (!title.trim() || !slug.trim()) {
+      toast({
+        title: "Required fields",
+        description: "Add a title and slug before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+    const published = publishStatus === "published";
+    if (!validateBannerForPublish(published)) return;
+    saveMutation.mutate({ published });
   };
 
   const handleContinueToPublish = () => {
@@ -297,7 +331,9 @@ const BlogEditorClient = () => {
       });
       return;
     }
-    saveMutation.mutate({ published: publishStatus === "published" });
+    const published = publishStatus === "published";
+    if (!validateBannerForPublish(published)) return;
+    saveMutation.mutate({ published });
   };
 
   if (step === "content") {
@@ -318,11 +354,11 @@ const BlogEditorClient = () => {
                 <Button
                   variant="outline"
                   className="border-border"
-                  onClick={handleSaveDraft}
+                  onClick={handleStickySave}
                   disabled={saveMutation.isPending || uploading}
                 >
                   <Save className="mr-2 h-4 w-4" />
-                  Save Draft
+                  Save draft
                 </Button>
                 <Button
                   onClick={handleContinueToPublish}
@@ -379,11 +415,11 @@ const BlogEditorClient = () => {
               <Button
                 variant="outline"
                 className="border-border"
-                onClick={handleSaveDraft}
+                onClick={handleStickySave}
                 disabled={saveMutation.isPending || uploading}
               >
                 <Save className="mr-2 h-4 w-4" />
-                Save Draft
+                {publishStatus === "published" ? "Save & publish" : "Save draft"}
               </Button>
             </div>
           </div>
@@ -423,9 +459,13 @@ const BlogEditorClient = () => {
                   <Label htmlFor="status">Status</Label>
                   <Select
                     value={publishStatus}
-                    onValueChange={(v) =>
-                      setPublishStatus(v as "draft" | "published")
-                    }
+                    onValueChange={(v) => {
+                      const next = v as "draft" | "published";
+                      setPublishStatus(next);
+                      if (next === "draft") {
+                        setIsBlogBanner(false);
+                      }
+                    }}
                   >
                     <SelectTrigger id="status" className="bg-background">
                       <SelectValue />
@@ -628,6 +668,42 @@ const BlogEditorClient = () => {
                     />
                     <Label htmlFor="labs-featured">Labs Featured</Label>
                   </div>
+                </div>
+
+                <div className="space-y-3 border-t border-border pt-6">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="blog-home-banner"
+                      checked={isBlogBanner}
+                      disabled={publishStatus !== "published"}
+                      onCheckedChange={(checked) => setIsBlogBanner(checked as boolean)}
+                    />
+                    <Label
+                      htmlFor="blog-home-banner"
+                      className={
+                        publishStatus === "published"
+                          ? "cursor-pointer font-normal"
+                          : "cursor-not-allowed font-normal opacity-50"
+                      }
+                    >
+                      Home page banner (sticky bar above header; only when published)
+                    </Label>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    If a news item is also marked as banner, the news banner is shown instead. Use one
+                    blog banner at a time for predictable messaging.
+                  </p>
+                  {isBlogBanner && publishStatus === "published" && (
+                    <div>
+                      <Label htmlFor="blog-banner-text">Banner text *</Label>
+                      <Input
+                        id="blog-banner-text"
+                        value={blogBannerText}
+                        onChange={(e) => setBlogBannerText(e.target.value)}
+                        placeholder="New on the blog: …"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-wrap gap-2">

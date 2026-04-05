@@ -54,6 +54,15 @@ const nextConfig = {
   images: {
     remotePatterns,
   },
+  async redirects() {
+    return [
+      {
+        source: "/favicon.ico",
+        destination: "/primary-favicon.svg",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     /** Early hints for Core Advantage scenic + default tab screenshot (home + platform overview only). */
     return [
