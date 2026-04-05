@@ -4,6 +4,12 @@ import { useCallback, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import PhoneInput from "@/components/PhoneInput";
 import { MARKETING_LEAD_DESIGNATIONS, marketingLeadSchema } from "@/lib/forms/marketing-lead";
+import {
+  marketingFormControlClass,
+  marketingFormFieldErrorClass,
+  marketingFormLabelClass,
+} from "@/lib/forms/marketing-form-classes";
+import { cn } from "@/lib/utils";
 
 function readHubSpotUtk(): string | undefined {
   if (typeof document === "undefined") return undefined;
@@ -150,7 +156,7 @@ export function MarketingLeadForm({
 
         <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
           <div>
-            <label htmlFor={pid("firstname")} className="mb-1.5 block text-sm font-medium text-foreground">
+            <label htmlFor={pid("firstname")} className={marketingFormLabelClass}>
               Full name <span className="text-destructive">*</span>
             </label>
             <input
@@ -164,18 +170,16 @@ export function MarketingLeadForm({
                 setFirstname(e.target.value);
                 clearFieldError("firstname");
               }}
-              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
-                fieldErrors.firstname ? "border-destructive" : "border-border"
-              }`}
+              className={marketingFormControlClass({ invalid: !!fieldErrors.firstname })}
               placeholder="Your full name"
             />
             {fieldErrors.firstname && (
-              <p className="mt-1 text-xs text-destructive">{fieldErrors.firstname}</p>
+              <p className={marketingFormFieldErrorClass}>{fieldErrors.firstname}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor={pid("email")} className="mb-1.5 block text-sm font-medium text-foreground">
+            <label htmlFor={pid("email")} className={marketingFormLabelClass}>
               Email <span className="text-destructive">*</span>
             </label>
             <input
@@ -189,16 +193,14 @@ export function MarketingLeadForm({
                 setEmail(e.target.value);
                 clearFieldError("email");
               }}
-              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
-                fieldErrors.email ? "border-destructive" : "border-border"
-              }`}
+              className={marketingFormControlClass({ invalid: !!fieldErrors.email })}
               placeholder="you@example.com"
             />
-            {fieldErrors.email && <p className="mt-1 text-xs text-destructive">{fieldErrors.email}</p>}
+            {fieldErrors.email && <p className={marketingFormFieldErrorClass}>{fieldErrors.email}</p>}
           </div>
 
           <div>
-            <span className="mb-1.5 block text-sm font-medium text-foreground">
+            <span className={marketingFormLabelClass}>
               Phone <span className="text-destructive">*</span>
             </span>
             <PhoneInput
@@ -210,11 +212,11 @@ export function MarketingLeadForm({
               }}
               placeholder="Phone number"
             />
-            {fieldErrors.phone && <p className="mt-1 text-xs text-destructive">{fieldErrors.phone}</p>}
+            {fieldErrors.phone && <p className={marketingFormFieldErrorClass}>{fieldErrors.phone}</p>}
           </div>
 
           <div>
-            <label htmlFor={pid("company")} className="mb-1.5 block text-sm font-medium text-foreground">
+            <label htmlFor={pid("company")} className={marketingFormLabelClass}>
               Company <span className="text-destructive">*</span>
             </label>
             <input
@@ -228,18 +230,16 @@ export function MarketingLeadForm({
                 setCompany(e.target.value);
                 clearFieldError("company");
               }}
-              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
-                fieldErrors.company ? "border-destructive" : "border-border"
-              }`}
+              className={marketingFormControlClass({ invalid: !!fieldErrors.company })}
               placeholder="Company name"
             />
             {fieldErrors.company && (
-              <p className="mt-1 text-xs text-destructive">{fieldErrors.company}</p>
+              <p className={marketingFormFieldErrorClass}>{fieldErrors.company}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor={pid("designation")} className="mb-1.5 block text-sm font-medium text-foreground">
+            <label htmlFor={pid("designation")} className={marketingFormLabelClass}>
               Designation <span className="text-destructive">*</span>
             </label>
             <select
@@ -251,9 +251,13 @@ export function MarketingLeadForm({
                 setDesignation(e.target.value);
                 clearFieldError("designation");
               }}
-              className={`w-full rounded-md border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0 ${
-                fieldErrors.designation ? "border-destructive" : "border-border"
-              }`}
+              className={cn(
+                marketingFormControlClass({
+                  invalid: !!fieldErrors.designation,
+                  selectPlaceholder: !designation,
+                }),
+                "cursor-pointer",
+              )}
             >
               <option value="">Select designation</option>
               {MARKETING_LEAD_DESIGNATIONS.map((opt) => (
@@ -263,7 +267,7 @@ export function MarketingLeadForm({
               ))}
             </select>
             {fieldErrors.designation && (
-              <p className="mt-1 text-xs text-destructive">{fieldErrors.designation}</p>
+              <p className={marketingFormFieldErrorClass}>{fieldErrors.designation}</p>
             )}
           </div>
 

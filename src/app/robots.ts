@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 
 function supabaseBase(): string | null {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
@@ -27,7 +28,13 @@ export default function robots(): MetadataRoute.Robots {
   }
 
   return {
-    rules: { userAgent: "*", allow: "/" },
+    rules: [
+      { userAgent: "*", allow: "/" },
+      {
+        userAgent: "Googlebot-Image",
+        disallow: [PARTNER_LOGOS_PATH_PREFIX],
+      },
+    ],
     sitemap: sitemaps,
   };
 }

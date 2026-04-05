@@ -80,7 +80,7 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
     ),
     imageSrc: "/lovable-uploads/core-advantage-flutter-testing.png",
     imageAlt:
-      "QApilot Flutter testing workspace: NATIVE_APP context, emulator showing Urgent Care app with Schedule visit, step authoring with Create Step, identifiers, and Page Elements tree with OCR search",
+      "QApilot Flutter testing workspace: NATIVE_APP context, Urgent Care app in the emulator with clinic cards, Actions panel with Create Step and step text, selected element identifiers with Verify links, and Steps panel with Write a Step",
     scenicBackgroundSrc: CORE_ADVANTAGE_SCENIC_URLS[2],
   },
   {

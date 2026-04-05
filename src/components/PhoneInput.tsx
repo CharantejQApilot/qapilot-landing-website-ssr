@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { ChevronDown } from "lucide-react";
+import { marketingFormControlClass } from "@/lib/forms/marketing-form-classes";
+import { cn } from "@/lib/utils";
 
 interface Country {
   code: string;
@@ -143,18 +145,20 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
   );
 
   return (
-    <div className={`relative ${className}`}>
-      <div className="flex">
+    <div className={cn("relative w-full", className)}>
+      <div className="flex h-10 w-full items-stretch overflow-hidden rounded-md border border-input bg-background shadow-sm ring-offset-background transition-shadow focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         {/* Country Code Dropdown */}
-        <div className="relative">
+        <div className="relative shrink-0">
           <button
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-2 px-3 py-2 border border-r-0 border-border rounded-l-md bg-background text-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors min-w-[100px]"
+            className="inline-flex h-full min-w-[100px] items-center gap-2 border-0 border-r border-input bg-transparent px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
           >
-            <span className="text-lg">{selectedCountry.flag}</span>
-            <span className="text-sm font-medium">{selectedCountry.dialCode}</span>
-            <ChevronDown className={`h-4 w-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            <span className="text-lg leading-none">{selectedCountry.flag}</span>
+            <span className="tabular-nums">{selectedCountry.dialCode}</span>
+            <ChevronDown
+              className={cn("h-4 w-4 shrink-0 transition-transform", isDropdownOpen && "rotate-180")}
+            />
           </button>
 
           {/* Dropdown Menu */}
@@ -166,7 +170,7 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
                   placeholder="Search countries..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 />
               </div>
               <div className="max-h-48 overflow-y-auto">
@@ -197,7 +201,10 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 px-3 py-2 border border-border rounded-r-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+          className={cn(
+            marketingFormControlClass({ fullWidth: false }),
+            "rounded-none border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
+          )}
         />
       </div>
 

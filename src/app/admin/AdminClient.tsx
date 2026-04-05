@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Trash2, Edit, LogOut, Plus, Save, X, Link, CalendarIcon } from "lucide-react";
+import { Trash2, Edit, LogOut, Plus, Save, X, Link, CalendarIcon, FileJson } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
 import CareersCMS from "@/components/admin/CareersCMS";
 import FAQsCMS from "@/components/admin/FAQsCMS";
@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
+import { parseBlogImportJson } from "@/lib/admin/blog-json-import";
 
 interface Blog {
   id: string;
@@ -39,6 +40,7 @@ interface Blog {
   featured_image: string | null;
   published: boolean;
   is_featured: boolean;
+  is_banner?: boolean;
   published_date: string | null;
   author_name: string | null;
   author_designation: string | null;
@@ -131,6 +133,7 @@ const AdminClient = () => {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const blogJsonFileInputRef = useRef<HTMLInputElement>(null);
 
   const mutationErrorText = (err: unknown) => {
     if (err instanceof Error) return err.message;
@@ -261,6 +264,53 @@ const AdminClient = () => {
         description: mutationErrorText(err),
         variant: "destructive",
       });
+    },
+  });
+
+  const importBlogJsonMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Your session expired. Please sign in again.");
+      }
+
+      const text = await file.text();
+      const parsed = parseBlogImportJson(text);
+      if (parsed.ok === false) {
+        throw new Error(parsed.errors.join(" "));
+      }
+      const row = parsed.row;
+
+      const newId = crypto.randomUUID();
+      const { data, error } = await supabase
+        .from("blogs")
+        .insert({ ...row, id: newId })
+        .select("id")
+        .single();
+
+      if (error) throw error;
+      return data as { id: string };
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
+      toast({
+        title: "Draft created",
+        description: "Blog imported from JSON. Open it to review and publish when ready.",
+      });
+      if (blogJsonFileInputRef.current) {
+        blogJsonFileInputRef.current.value = "";
+      }
+      router.push(`/admin/editor/${data.id}`);
+    },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not import blog JSON",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
+      if (blogJsonFileInputRef.current) {
+        blogJsonFileInputRef.current.value = "";
+      }
     },
   });
 
@@ -728,11 +778,37 @@ const AdminClient = () => {
           </TabsList>
 
           <TabsContent value="blogs">
-            <div className="flex justify-end mb-4">
-              <Button onClick={() => router.push("/admin/editor")}>
-                <Plus className="w-4 h-4 mr-2" />
-                New Blog
-              </Button>
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-muted-foreground">
+                Create a post in the editor, or import a JSON file to add a draft in one step.
+              </p>
+              <div className="flex flex-wrap justify-end gap-2">
+                <input
+                  ref={blogJsonFileInputRef}
+                  type="file"
+                  accept="application/json,.json"
+                  className="sr-only"
+                  aria-label="Import blog from JSON file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) importBlogJsonMutation.mutate(file);
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="border-border"
+                  disabled={importBlogJsonMutation.isPending}
+                  onClick={() => blogJsonFileInputRef.current?.click()}
+                >
+                  <FileJson className="mr-2 h-4 w-4" />
+                  {importBlogJsonMutation.isPending ? "Importing…" : "Import JSON draft"}
+                </Button>
+                <Button onClick={() => router.push("/admin/editor")}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  New Blog
+                </Button>
+              </div>
             </div>
             
             <div className="grid gap-4">
@@ -761,6 +837,11 @@ const AdminClient = () => {
                             {blog.is_featured && (
                               <span className="text-xs bg-orange/20 text-orange px-2 py-1 rounded">
                                 Featured
+                              </span>
+                            )}
+                            {blog.published && blog.is_banner && (
+                              <span className="rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
+                                Banner
                               </span>
                             )}
                           </div>

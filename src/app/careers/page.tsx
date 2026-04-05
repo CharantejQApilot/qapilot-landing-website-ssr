@@ -11,6 +11,9 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import { MarketingPageShell } from "@/components/marketing";
+import { defaultOpenGraphImage } from "@/lib/seo";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.CAREERS}`;
 
 export const metadata: Metadata = {
   title: "Careers - Join the QApilot Team",
@@ -18,7 +21,24 @@ export const metadata: Metadata = {
     "Join the QApilot team. Help shape what quality looks like in an AI-first world. Explore career opportunities in AI-powered quality assurance.",
   keywords:
     "QApilot careers, QA automation jobs, AI testing jobs, software testing careers",
-  alternates: { canonical: `${SITE_BASE_URL}${PATHS.CAREERS}` },
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "Careers - Join the QApilot Team | QApilot",
+    description:
+      "Career opportunities in AI-powered mobile testing and quality assurance.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Careers at QApilot",
+    description:
+      "Join the team building AI-native mobile testing and release readiness.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
 };
 
 /** Server-render job listings for crawlers (full copy + links in HTML). */

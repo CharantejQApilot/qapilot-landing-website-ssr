@@ -1,0 +1,32 @@
+{
+  "slug": "ios-accessibility-testing",
+  "category": "ios-automation",
+  "title": "Accessibility Testing for iOS Apps",
+  "description": "Ensure your iOS apps are accessible to all users with automated and manual accessibility testing strategies.",
+  "content": "## Why Accessibility Matters\n\nOver 1 billion people worldwide have some form of disability. Accessible apps reach more users and are often required by law.\n\n## iOS Accessibility Features\n\n- VoiceOver (screen reader)\n- Dynamic Type (text sizing)\n- Reduce Motion\n- High Contrast\n- Switch Control\n\n## Automated Testing\n\n```swift\nfunc testAccessibility() throws {\n    let app = XCUIApplication()\n    app.launch()\n\n    try app.performAccessibilityAudit()\n}\n```\n\n## Manual Testing Checklist\n\n- [ ] All interactive elements have labels\n- [ ] Images have descriptive alt text\n- [ ] Color is not the only indicator\n- [ ] Touch targets are at least 44x44 points\n- [ ] Content is readable with Dynamic Type\n- [ ] App works with VoiceOver enabled\n\n## Best Practices\n\n1. Set accessibility labels and hints\n2. Use semantic elements\n3. Support Dynamic Type\n4. Test with VoiceOver regularly\n5. Use Accessibility Inspector in Xcode",
+  "author": "QA Pilot Team",
+  "tags": [
+    "accessibility",
+    "ios",
+    "voiceover",
+    "a11y"
+  ],
+  "image": "https://qapilotlabs.s3.us-east-1.amazonaws.com/qapilotlabs/images/ai-generated/1774875121680-b7fceb34-c6a3-4908-894c-d224398d9795.webp",
+  "status": "qapilot",
+  "seo": {
+    "title": "iOS Accessibility Testing Guide",
+    "description": "Comprehensive guide to accessibility testing for iOS applications.",
+    "ogImage": null,
+    "keywords": [
+      "ios accessibility",
+      "voiceover",
+      "a11y testing"
+    ]
+  },
+  "recommendations": {
+    "articlesMode": "auto",
+    "articleIds": [],
+    "toolsMode": "auto",
+    "toolSlugs": []
+  }
+}

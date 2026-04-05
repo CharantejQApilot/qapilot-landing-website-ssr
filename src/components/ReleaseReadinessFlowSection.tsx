@@ -1,4 +1,3 @@
-import { ChevronDown, ChevronRight } from "lucide-react";
 import { Fragment } from "react";
 import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -82,9 +81,7 @@ export default function ReleaseReadinessFlowSection({
               <Fragment key={label}>
                 {index > 0 ? (
                   <li className="list-none" aria-hidden="true">
-                    <div className="flex justify-center py-1.5 text-muted-foreground/40">
-                      <ChevronDown className="h-4 w-4" strokeWidth={2} />
-                    </div>
+                    <div className="h-3" />
                   </li>
                 ) : null}
                 <li className="list-none">
@@ -144,13 +141,8 @@ export default function ReleaseReadinessFlowSection({
                           className="flex list-none items-start justify-center pt-[9px]"
                           aria-hidden="true"
                         >
-                          <div className="flex w-10 shrink-0 items-center px-0.5 sm:w-12">
-                            <span className="h-px min-w-[2px] flex-1 bg-border/80" />
-                            <ChevronRight
-                              className="h-4 w-4 shrink-0 text-muted-foreground/45"
-                              strokeWidth={2}
-                            />
-                            <span className="h-px min-w-[2px] flex-1 bg-border/80" />
+                          <div className="flex w-10 shrink-0 items-center self-center px-0.5 sm:w-12">
+                            <span className="h-px min-h-px w-full min-w-[2px] bg-border/80" />
                           </div>
                         </li>
                       ) : null}
@@ -187,13 +179,8 @@ export default function ReleaseReadinessFlowSection({
                       className="relative z-[1] flex min-h-0 min-w-0 list-none flex-1 flex-row items-start justify-center pt-[9px]"
                       aria-hidden="true"
                     >
-                      <div className="flex min-w-0 max-w-[3.5rem] flex-1 items-center gap-0 px-0.5 2xl:max-w-[4.5rem]">
-                        <span className="h-px min-w-[2px] flex-1 bg-border/80" />
-                        <ChevronRight
-                          className="h-4 w-4 shrink-0 text-muted-foreground/45"
-                          strokeWidth={2}
-                        />
-                        <span className="h-px min-w-[2px] flex-1 bg-border/80" />
+                      <div className="flex min-w-0 max-w-[3.5rem] flex-1 items-center px-0.5 2xl:max-w-[4.5rem]">
+                        <span className="h-px min-h-px min-w-[2px] flex-1 bg-border/80" />
                       </div>
                     </li>
                   ) : null}

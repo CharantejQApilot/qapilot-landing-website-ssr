@@ -1,14 +1,35 @@
 import type { Metadata } from "next";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import ForReleaseManagerClient from "./ForReleaseManagerClient";
 import { MarketingPageShell } from "@/components/marketing";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_RELEASE_MANAGER}`;
 
 export const metadata: Metadata = {
   title: "QApilot for Release Managers | Mobile Release Confidence & Sign-Off",
   description:
     "Transform mobile release sign-off from uncertainty into confidence. QApilot provides unified release intelligence, autonomous test coverage, security reports, accessibility testing, and cross-device validation for mobile release managers.",
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "QApilot for Release Managers | Mobile Release Confidence & Sign-Off",
+    description:
+      "Unified release intelligence, autonomous coverage, and cross-device validation for mobile sign-off.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QApilot for Release Managers | QApilot",
+    description:
+      "Mobile release confidence with autonomous testing and unified quality intelligence.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
 };
 
 const breadcrumbList = buildBreadcrumbList([

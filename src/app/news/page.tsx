@@ -7,15 +7,13 @@ import { format } from "date-fns";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 
 const NEWS_PATH = PATHS.NEWS;
 const canonicalUrl = `${SITE_BASE_URL}${NEWS_PATH}`;
-
-const defaultOgImage =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
 
 const NEWS_LIST_SELECT =
   "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
@@ -45,21 +43,14 @@ export const metadata: Metadata = {
       "Latest announcements, product updates, and insights from QApilot.",
     siteName: "QApilot",
     locale: "en_US",
-    images: [
-      {
-        url: defaultOgImage,
-        width: 1200,
-        height: 630,
-        alt: "QApilot mobile testing platform",
-      },
-    ],
+    images: [defaultOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "News & Updates - Mobile Testing Industry News | QApilot",
     description:
       "Stay updated with announcements and updates from QApilot.",
-    images: [defaultOgImage],
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

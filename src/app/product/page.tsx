@@ -7,12 +7,10 @@ import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 const PRODUCT_PATH = PATHS.PRODUCT;
 const canonicalUrl = `${SITE_BASE_URL}${PRODUCT_PATH}`;
-
-const defaultOgImage =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
 
 export const metadata: Metadata = {
   title: "Mobile Testing Platform for Release Readiness",
@@ -38,21 +36,14 @@ export const metadata: Metadata = {
       "Generate coverage, reduce maintenance, detect critical issues, and validate mobile releases with confidence—one platform, built as a system.",
     siteName: "QApilot",
     locale: "en_US",
-    images: [
-      {
-        url: defaultOgImage,
-        width: 1200,
-        height: 630,
-        alt: "QApilot mobile testing platform",
-      },
-    ],
+    images: [defaultOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mobile Testing Platform for Release Readiness | QApilot",
     description:
       "Unified capabilities for mobile release confidence: coverage, stability, signal quality, Flutter, and risk visibility.",
-    images: [defaultOgImage],
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

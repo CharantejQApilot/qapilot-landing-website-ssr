@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Quote } from "lucide-react";
-import { SITE_BASE_URL } from "@/lib/constants";
+import { QA_PILOT_PUBLIC_TESTIMONIALS } from "@/lib/qapilot-testimonials";
+import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 
 function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -26,62 +27,24 @@ function testimonialParts(text: string, highlightPhrases: readonly string[]): Re
   });
 }
 
-const testimonials = [
-  {
-    text: "Complex mobile banking workflows were brought under reliable, repeatable test coverage much faster than expected. QApilot's Flutter support ensured consistent cross-platform execution from day one, lowering maintenance effort and improving regression stability.",
-    label: "Test Lead, Middle East Digital Bank",
-    highlightPhrases: ["Flutter support", "cross-platform execution", "lowering maintenance"] as const,
-  },
-  {
-    text: "QApilot enabled us to create and stabilize priority test flows in a fraction of the time, delivering broader coverage with far less effort. With faster onboarding, lower maintenance overhead, and seamless CI/CD compatibility, it proved to be a scalable and cost-effective automation solution.",
-    label: "QE Lead, Leading Southeast Asian Grocery & Delivery Platform",
-    highlightPhrases: [
-      "broader coverage",
-      "far less effort",
-      "lower maintenance overhead",
-      "CI/CD compatibility",
-    ] as const,
-  },
-] as const;
-
-const reviewJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "QApilot",
-  applicationCategory: "DeveloperApplication",
-  url: SITE_BASE_URL,
-  review: testimonials.map((t: (typeof testimonials)[number]) => ({
-    "@type": "Review",
-    reviewBody: t.text,
-    reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-    author: { "@type": "Person", name: t.label },
-  })),
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5",
-    reviewCount: String(testimonials.length),
-    bestRating: "5",
-  },
-};
+const testimonials = QA_PILOT_PUBLIC_TESTIMONIALS;
 
 const ClientsSection = () => {
   const clients = [
-    { name: "Orange Group", logo: "/lovable-uploads/orange-group-logo.png", url: "https://www.orange.com/en", visualScale: 1.15 },
-    { name: "WIO Bank", logo: "/lovable-uploads/wio-bank-logo.png", url: "https://wio.io/", visualScale: 1.28 },
-    { name: "Royal Enfield", logo: "/lovable-uploads/royal-enfield-logo.png", url: "https://www.royalenfield.com/in/en/home/", visualScale: 1.15 },
-    { name: "Indosat Ooredoo", logo: "/lovable-uploads/indosat-logo.png", url: "https://im3.id/portal/en/indexpersonal", visualScale: 1 },
-    { name: "Zessta", logo: "/lovable-uploads/zessta-logo.svg", url: "https://zessta.com/", visualScale: 0.72 },
-    { name: "mySherpas", logo: "/lovable-uploads/mysherpas-logo.svg", url: "https://www.mypaisaa.com/", visualScale: 0.72 },
-    { name: "GrowSari", logo: "/lovable-uploads/growsari-logo.webp", url: "https://growsari.com/", visualScale: 1.36 },
-    { name: "Qwipo", logo: "/lovable-uploads/qwipo-new-logo.png", url: "https://qwipo.com/", visualScale: 1.36 },
+    { name: "Orange Group", logo: `${PARTNER_LOGOS_PATH_PREFIX}orange-group-logo.png`, url: "https://www.orange.com/en", visualScale: 1.15 },
+    { name: "WIO Bank", logo: `${PARTNER_LOGOS_PATH_PREFIX}wio-bank-logo.png`, url: "https://wio.io/", visualScale: 1.28 },
+    { name: "Royal Enfield", logo: `${PARTNER_LOGOS_PATH_PREFIX}royal-enfield-logo.png`, url: "https://www.royalenfield.com/in/en/home/", visualScale: 1.15 },
+    { name: "Indosat Ooredoo", logo: `${PARTNER_LOGOS_PATH_PREFIX}indosat-logo.png`, url: "https://im3.id/portal/en/indexpersonal", visualScale: 1 },
+    { name: "Zessta", logo: `${PARTNER_LOGOS_PATH_PREFIX}zessta-logo.svg`, url: "https://zessta.com/", visualScale: 0.72 },
+    { name: "mySherpas", logo: `${PARTNER_LOGOS_PATH_PREFIX}mysherpas-logo.svg`, url: "https://www.mypaisaa.com/", visualScale: 0.72 },
+    { name: "GrowSari", logo: `${PARTNER_LOGOS_PATH_PREFIX}growsari-logo.webp`, url: "https://growsari.com/", visualScale: 1.36 },
+    { name: "Qwipo", logo: `${PARTNER_LOGOS_PATH_PREFIX}qwipo-new-logo.png`, url: "https://qwipo.com/", visualScale: 1.36 },
   ];
 
   const marqueeItems = [...clients, ...clients];
 
   return (
     <section className="relative overflow-hidden section-edge" aria-labelledby="clients-heading">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewJsonLd) }} />
-
       {/* Clients marquee — black background, white text, logos in original colour */}
       <div className="py-12 2xl:py-16 border border-white/30 bg-[#04041C]">
         <div className="section-full mb-10">
@@ -106,7 +69,7 @@ const ClientsSection = () => {
                 <img
                   src={client.logo}
                   alt={`${client.name} logo`}
-                  loading="eager"
+                  loading="lazy"
                   decoding="async"
                   className="h-8 md:h-12 w-auto max-w-[120px] md:max-w-[160px] object-contain"
                   style={{ transform: `scale(${client.visualScale})`, transformOrigin: "center" }}

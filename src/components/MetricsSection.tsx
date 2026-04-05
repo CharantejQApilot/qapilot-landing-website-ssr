@@ -49,7 +49,9 @@ const MetricCard = ({ metric, startCounting, isLast }: { metric: Metric; startCo
     : '';
 
   return (
-    <div className={`px-4 py-5 sm:px-6 sm:py-8 2xl:px-8 2xl:py-10 min-w-0 ${borderClasses}`}>
+    <div
+      className={`px-4 py-5 text-center sm:px-6 sm:py-8 2xl:px-8 2xl:py-10 min-w-0 ${borderClasses}`}
+    >
       <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-muted-foreground mb-2 sm:mb-3 break-words leading-tight">
         {metric.label}
       </p>
