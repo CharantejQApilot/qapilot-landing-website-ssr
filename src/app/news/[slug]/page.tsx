@@ -12,6 +12,10 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
+import {
+  DEFAULT_SHARE_IMAGE_URL,
+  defaultOpenGraphImage,
+} from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
@@ -28,9 +32,6 @@ function stripJsonLdContext(node: object): Record<string, unknown> {
   delete o["@context"];
   return o;
 }
-
-const DEFAULT_OG_IMAGE =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
 
 /** Avoid static caching of article HTML; picks up admin edits without redeploy. */
 export const dynamic = "force-dynamic";
@@ -81,7 +82,7 @@ export async function generateMetadata({
     newsItem.og_image_url?.trim() ||
     newsItem.featured_image ||
     videoThumbnail ||
-    DEFAULT_OG_IMAGE;
+    DEFAULT_SHARE_IMAGE_URL;
 
   const kw = newsItem.seo_keywords
     ?.split(",")
@@ -104,7 +105,11 @@ export async function generateMetadata({
       title: metaTitle,
       description,
       url: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
-      images: [{ url: ogImage, width: 1200, height: 630 }],
+      images: [
+        ogImage === DEFAULT_SHARE_IMAGE_URL
+          ? defaultOpenGraphImage
+          : { url: ogImage, width: 1200, height: 630, alt: metaTitle },
+      ],
       publishedTime: newsItem.published_date || undefined,
       authors: newsItem.author_name ? [newsItem.author_name] : undefined,
       tags: keywordTags,
@@ -182,7 +187,7 @@ export default async function NewsPostPage({
     ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
     : null;
   const effectiveOgImage =
-    newsItem.featured_image || videoThumbnail || DEFAULT_OG_IMAGE;
+    newsItem.featured_image || videoThumbnail || DEFAULT_SHARE_IMAGE_URL;
 
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",

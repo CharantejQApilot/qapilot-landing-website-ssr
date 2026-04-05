@@ -862,11 +862,19 @@
   .hubspot-form-container .hs-form { @apply space-y-4; }
   .hubspot-form-container .hs-form-field { @apply mb-4; }
   .hubspot-form-container .hs-form-field label { @apply block text-sm font-medium mb-2; color: hsl(var(--foreground)) !important; }
-  .hubspot-form-container .hs-input { @apply w-full px-3 py-2 border border-input bg-background rounded-md shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2; color: hsl(var(--foreground)) !important; }
-  .hubspot-form-container .hs-input[type="text"],
-  .hubspot-form-container .hs-input[type="email"],
-  .hubspot-form-container .hs-input[type="tel"] { @apply h-10; }
-  .hubspot-form-container textarea.hs-input { @apply min-h-[80px]; resize: vertical; }
+  .hubspot-form-container .hs-input {
+    @apply h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    color: hsl(var(--foreground)) !important;
+  }
+  .hubspot-form-container .hs-input::placeholder {
+    color: hsl(var(--muted-foreground)) !important;
+    opacity: 1 !important;
+  }
+  .hubspot-form-container select.hs-input {
+    @apply h-10 cursor-pointer py-2 text-sm;
+    color: hsl(var(--foreground)) !important;
+  }
+  .hubspot-form-container textarea.hs-input { @apply min-h-[80px] h-auto py-3; resize: vertical; }
   .hubspot-form-container .hs-submit .hs-button { @apply w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2; }
   .hubspot-form-container .hs-error-msg { @apply text-sm text-destructive; }
   .hubspot-form-container .hs-richtext,

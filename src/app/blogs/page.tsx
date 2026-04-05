@@ -7,15 +7,13 @@ import { format } from "date-fns";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 
 const BLOGS_PATH = PATHS.BLOGS;
 const canonicalUrl = `${SITE_BASE_URL}${BLOGS_PATH}`;
-
-const defaultOgImage =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
 
 const BLOG_LIST_SELECT =
   "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
@@ -47,21 +45,14 @@ export const metadata: Metadata = {
       "Expert insights on mobile app testing, QA automation, and test strategy from the QApilot team.",
     siteName: "QApilot",
     locale: "en_US",
-    images: [
-      {
-        url: defaultOgImage,
-        width: 1200,
-        height: 630,
-        alt: "QApilot mobile testing platform",
-      },
-    ],
+    images: [defaultOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
     description:
       "Expert guides and strategies for mobile app testing and QA automation.",
-    images: [defaultOgImage],
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

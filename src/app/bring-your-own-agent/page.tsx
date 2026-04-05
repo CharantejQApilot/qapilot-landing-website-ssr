@@ -12,6 +12,7 @@ import {
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.BRING_YOUR_OWN_AGENT}`;
 
@@ -27,6 +28,16 @@ export const metadata: Metadata = {
     description:
       "Extend QApilot with custom agents that read and write the same knowledge graph context as native agents.",
     url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bring Your Own Agent (BYOA) | QApilot",
+    description:
+      "Custom agents on the same knowledge graph as QApilot’s native testing agents.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

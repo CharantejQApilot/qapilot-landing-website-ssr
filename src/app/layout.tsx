@@ -4,6 +4,9 @@ import { Suspense } from "react";
 import Providers from "./providers";
 import Header from "@/components/Header";
 import NewsBanner from "@/components/NewsBanner";
+import { defaultOpenGraphImage } from "@/lib/seo";
+import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
+import { SITE_BASE_URL } from "@/lib/constants";
 import "./globals.css";
 import "./App.css";
 
@@ -32,21 +35,24 @@ export const metadata: Metadata = {
     "mobile CI/CD",
   ],
   authors: [{ name: "QApilot" }],
-  robots: { index: true, follow: true },
-  alternates: { canonical: "https://qapilot.io/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
-    url: "https://qapilot.io/",
+    url: SITE_BASE_URL,
     title: "QApilot - AI-Powered Mobile App Testing & QA Automation",
     description:
       "Automate your mobile app testing with AI. Get instant test coverage for iOS & Android. Reduce testing time by 80%. Start free today.",
-    images: [
-      {
-        url: "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
+    images: [defaultOpenGraphImage],
     siteName: "QApilot",
     locale: "en_US",
   },
@@ -59,95 +65,12 @@ export const metadata: Metadata = {
       "Automate mobile app testing with AI. Instant test coverage for iOS & Android. Start free today.",
     images: [
       {
-        url: "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png",
-        alt: "QApilot dashboard showing automated test results for mobile apps",
+        url: defaultOpenGraphImage.url,
+        alt: defaultOpenGraphImage.alt,
       },
     ],
   },
-  icons: {
-    icon: "/lovable-uploads/favicon.png",
-  },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "QApilot",
-  alternateName: "QApilot",
-  legalName: "Digitral Private Limited",
-  url: "https://qapilot.io",
-  logo: "https://qapilot.io/lovable-uploads/favicon.png",
-  foundingDate: "2024",
-  founders: [
-    { "@type": "Person", name: "Aditya Challa" },
-    { "@type": "Person", name: "Chaitanya Devalapally" },
-  ],
-  address: {
-    "@type": "PostalAddress",
-    streetAddress:
-      "2nd Floor, Skyview 10, The Skyview, Sy No. 83/1, Raidurgam, Hitech City Main Road",
-    addressLocality: "Hyderabad",
-    addressRegion: "Telangana",
-    postalCode: "500081",
-    addressCountry: "IN",
-  },
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "Customer Support",
-    email: "support@qapilot.com",
-  },
-  description:
-    "QApilot is an AI-native autonomous testing platform for mobile applications. It provides zero-touch sanity testing, script-free automation, and comprehensive test coverage for mobile apps with seamless CI/CD integration.",
-  numberOfEmployees: { "@type": "QuantitativeValue", value: "11-50" },
-  sameAs: [
-    "https://github.com/qapilothq",
-    "https://www.linkedin.com/company/qapilot",
-    "https://x.com/QApilot",
-    "https://www.youtube.com/@QApilot",
-  ],
-  keywords: [
-    "Mobile App Testing",
-    "AI Test Automation",
-    "No-Code Testing",
-    "Autonomous Testing",
-    "QA Automation",
-    "Flutter Testing",
-    "Mobile Testing Platform",
-    "CI/CD Integration",
-    "iOS Testing",
-    "Android Testing",
-  ],
-  areaServed: "Worldwide",
-};
-
-const softwareAppJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "QApilot",
-  applicationCategory: "DeveloperApplication",
-  operatingSystem: "Web, iOS, Android",
-  description:
-    "AI-powered autonomous mobile app testing platform with zero-touch sanity testing, intelligent crawlers, and knowledge graph technology.",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-    description: "Free trial available",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "150",
-  },
-  featureList: [
-    "Zero-touch sanity testing",
-    "AI-powered test generation",
-    "Cross-platform iOS and Android support",
-    "Knowledge graph technology",
-    "CI/CD integration",
-    "Visual regression testing",
-    "Real device testing",
-  ],
+  /* Favicons: `src/app/icon.svg` + `apple-icon.svg` (same as `public/primary-favicon.svg`) */
 };
 
 function supabasePreconnectOrigin(): string | null {
@@ -230,17 +153,11 @@ export default function RootLayout({
           href="https://www.google-analytics.com"
           crossOrigin="anonymous"
         />
-        {/* Structured Data */}
+        {/* Structured Data: Organization + SoftwareApplication (incl. reviews) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(softwareAppJsonLd),
+            __html: JSON.stringify(rootSchemaGraphJsonLd),
           }}
         />
       </head>

@@ -7,8 +7,10 @@ const corsHeaders = {
 };
 
 const SITE = "https://qapilot.io";
-const DEFAULT_OG_IMAGE =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/qmZ74W3JXPUdsN29WhrBqHpo6EE3/social-images/social-1758225607247-graph3.png";
+/** Keep in sync with `DEFAULT_SHARE_IMAGE_URL` in `src/lib/seo.ts` */
+const DEFAULT_OG_IMAGE = `${SITE}/og/default-share.png`;
+const DEFAULT_OG_IMAGE_WIDTH = "993";
+const DEFAULT_OG_IMAGE_HEIGHT = "545";
 
 // ── Static page metadata (mirrors SEOHead props in each page) ──────────────
 interface PageMeta {
@@ -139,6 +141,11 @@ function buildHtml(meta: {
   const escaped = (s: string) =>
     s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+  const [imgW, imgH] =
+    meta.image === DEFAULT_OG_IMAGE
+      ? [DEFAULT_OG_IMAGE_WIDTH, DEFAULT_OG_IMAGE_HEIGHT]
+      : ["1200", "630"];
+
   const articleTags =
     meta.ogType === "article" && meta.publishedDate
       ? `<meta property="article:published_time" content="${escaped(meta.publishedDate)}" />
@@ -159,8 +166,8 @@ function buildHtml(meta: {
   <meta property="og:title" content="${escaped(meta.title)}" />
   <meta property="og:description" content="${escaped(meta.description)}" />
   <meta property="og:image" content="${escaped(meta.image)}" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="${imgW}" />
+  <meta property="og:image:height" content="${imgH}" />
   <meta property="og:site_name" content="QApilot" />
   ${articleTags}
 

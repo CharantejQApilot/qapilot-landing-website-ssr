@@ -211,7 +211,7 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
 
         <div className="mt-2">
           {useEmbed ? (
-            <div ref={containerRef} className="hs-form-frame" />
+            <div ref={containerRef} className="hubspot-form-container hs-form-frame" />
           ) : (
             <MarketingLeadForm
               key={dialogSession}

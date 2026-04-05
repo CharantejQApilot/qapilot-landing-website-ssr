@@ -9,12 +9,31 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
+import { defaultOpenGraphImage } from "@/lib/seo";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.TERMS}`;
 
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "Read QApilot's Terms of Service. Learn about the terms and conditions governing the use of our AI-powered testing platform.",
-  alternates: { canonical: `${SITE_BASE_URL}${PATHS.TERMS}` },
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "Terms of Service | QApilot",
+    description:
+      "Terms and conditions governing the use of the QApilot AI-powered testing platform.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service | QApilot",
+    description: "QApilot Terms of Service and platform use conditions.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
 };
 
 export const dynamic = "force-dynamic";

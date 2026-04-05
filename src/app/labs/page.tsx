@@ -8,13 +8,34 @@ import LabsTeamSection from "@/components/LabsTeamSection";
 import Footer from "@/components/Footer";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.LABS}`;
 
 export const metadata: Metadata = {
   title: "QApilot Labs - Experiments, Tools & Ideas Shipped Fast",
   description:
     "QApilot Labs is where we build and ship experiments that explore the edges of AI-native development and testing. Discover tools born from hackathons and real-world needs.",
+  alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: "QApilot Labs - Experiments, Tools & Ideas Shipped Fast",
+    description:
+      "Experiments and tools that explore the edges of AI-native development and testing.",
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QApilot Labs - Experiments, Tools & Ideas Shipped Fast",
+    description:
+      "Discover tools and ideas shipped fast from hackathons and real-world needs.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
 };
 
 export const revalidate = 120;

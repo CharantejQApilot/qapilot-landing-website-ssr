@@ -12,9 +12,11 @@ import {
 } from "@/components/security-reports";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 const path = PATHS.SECURITY_REPORTS;
-const canonicalUrl = `https://qapilot.io${path}`;
+const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 export const metadata: Metadata = {
   title: "Security Reports for Mobile Applications | QApilot",
@@ -28,6 +30,16 @@ export const metadata: Metadata = {
     description:
       "Surface vulnerabilities during mobile testing with structured reports teams can act on before release.",
     url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Security Reports for Mobile | QApilot",
+    description:
+      "Security insights alongside functional mobile testing—permissions, network, storage, and risk visibility.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

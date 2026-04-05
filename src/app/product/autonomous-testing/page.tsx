@@ -9,24 +9,33 @@ import { AutonomousTestingTeamsSection } from "@/components/autonomous-testing/A
 import { AutonomousTestingWhatChangesSection } from "@/components/autonomous-testing/AutonomousTestingWhatChangesSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
+
+const canonicalUrl = `${SITE_BASE_URL}${PATHS.AUTONOMOUS_TESTING}`;
 
 export const metadata: Metadata = {
   title: "Autonomous Testing for Mobile Applications | QApilot",
   description:
     "Define autonomous testing for mobile: system-discovered journeys, adaptive coverage, and release readiness. See how QApilot operates beyond scripts and record-and-playback.",
   alternates: {
-    canonical: "https://qapilot.io/product/autonomous-testing",
+    canonical: canonicalUrl,
   },
   openGraph: {
     title: "Autonomous Testing for Mobile Applications | QApilot",
     description:
       "Coverage discovered, generated, and maintained by the system—so teams move faster from exploration to release confidence.",
-    url: "https://qapilot.io/product/autonomous-testing",
+    url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
   },
   twitter: {
+    card: "summary_large_image",
     title: "Autonomous Testing for Mobile | QApilot",
     description:
       "Autonomous mobile testing: exploration, knowledge graph, coverage generation, execution, and continuous adaptation.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 

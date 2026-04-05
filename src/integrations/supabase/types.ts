@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           author_designation: string | null
           author_name: string | null
+          banner_text: string | null
           category: string | null
           content: string | null
           content_format: string
@@ -26,6 +27,7 @@ export type Database = {
           excerpt: string | null
           featured_image: string | null
           id: string
+          is_banner: boolean
           is_featured: boolean
           is_labs_featured: boolean
           og_image_url: string | null
@@ -44,6 +46,7 @@ export type Database = {
         Insert: {
           author_designation?: string | null
           author_name?: string | null
+          banner_text?: string | null
           category?: string | null
           content?: string | null
           content_format?: string
@@ -52,6 +55,7 @@ export type Database = {
           excerpt?: string | null
           featured_image?: string | null
           id?: string
+          is_banner?: boolean
           is_featured?: boolean
           is_labs_featured?: boolean
           og_image_url?: string | null
@@ -70,6 +74,7 @@ export type Database = {
         Update: {
           author_designation?: string | null
           author_name?: string | null
+          banner_text?: string | null
           category?: string | null
           content?: string | null
           content_format?: string
@@ -78,6 +83,7 @@ export type Database = {
           excerpt?: string | null
           featured_image?: string | null
           id?: string
+          is_banner?: boolean
           is_featured?: boolean
           is_labs_featured?: boolean
           og_image_url?: string | null

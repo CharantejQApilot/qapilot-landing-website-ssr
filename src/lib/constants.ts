@@ -26,5 +26,5 @@ export const HUBSPOT_MAIN_GET_ACCESS_FORM_NAME = "Contact Us Dialog";
 /** Flutter `/for-flutter` hero form (HubSpot Forms API). */
 export const HUBSPOT_FLUTTER_HERO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ecb";
 
-/** Default favicon / org logo URL for structured data */
-export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/lovable-uploads/favicon.png`;
+/** Organization logo for JSON-LD (matches public/QApilotLogo.svg; not og:image). */
+export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/QApilotLogo.svg`;
