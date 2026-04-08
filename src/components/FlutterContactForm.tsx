@@ -10,6 +10,7 @@ import {
 } from "@/lib/forms/marketing-form-classes";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
+import { getCleanAttributionPayloadForHubSpot } from "@/lib/attribution";
 
 const formSchema = z.object({
   fullname: z.string().trim().min(1, "Full name is required").max(100, "Name must be less than 100 characters"),
@@ -81,6 +82,10 @@ const FlutterContactForm = () => {
       
       const validatedData = result.data;
       
+      const attributionFields = Object.entries(getCleanAttributionPayloadForHubSpot()).map(
+        ([name, value]) => ({ name, value }),
+      );
+
       const hubspotData = {
         fields: [
           { name: "fullname", value: validatedData.fullname },
@@ -88,13 +93,14 @@ const FlutterContactForm = () => {
           { name: "phone", value: validatedData.phone },
           { name: "company", value: validatedData.company },
           { name: "designation", value: validatedData.designation },
-          { name: "linkedin_url", value: validatedData.linkedin_url || '' },
-          { name: "app_link", value: validatedData.app_link || '' }
+          { name: "linkedin_url", value: validatedData.linkedin_url || "" },
+          { name: "app_link", value: validatedData.app_link || "" },
+          ...attributionFields,
         ],
         context: {
           pageUri: window.location.href,
-          pageName: "QAPilot Flutter Testing Platform"
-        }
+          pageName: "QAPilot Flutter Testing Platform",
+        },
       };
 
       const response = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`, {

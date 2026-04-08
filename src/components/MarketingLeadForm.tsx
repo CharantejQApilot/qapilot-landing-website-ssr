@@ -10,6 +10,7 @@ import {
   marketingFormLabelClass,
 } from "@/lib/forms/marketing-form-classes";
 import { cn } from "@/lib/utils";
+import { getCleanAttributionPayloadForHubSpot } from "@/lib/attribution";
 
 function readHubSpotUtk(): string | undefined {
   if (typeof document === "undefined") return undefined;
@@ -92,6 +93,7 @@ export function MarketingLeadForm({
         pageUri: typeof window !== "undefined" ? window.location.href : "",
         pageName,
         hutk: readHubSpotUtk(),
+        ...getCleanAttributionPayloadForHubSpot(),
       };
 
       const res = await fetch(apiPath, {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HubSpotFormProvider, useHubSpotForm } from "@/hooks/useHubSpotForm";
@@ -11,7 +12,7 @@ import {
   HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
   HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
 } from "@/lib/constants";
-import { useState } from "react";
+import AttributionTracker from "@/components/AttributionTracker";
 
 function AppShell({ children }: { children: React.ReactNode }) {
   const { isOpen, title, description, closeForm } = useHubSpotForm();
@@ -49,6 +50,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Suspense fallback={null}>
+        <AttributionTracker />
+      </Suspense>
       <TooltipProvider>
         <HubSpotFormProvider>
           <Toaster />

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { marketingLeadSchema } from "@/lib/forms/marketing-lead";
+import { marketingLeadWithAttributionSchema } from "@/lib/forms/marketing-lead";
 import { submitMarketingLeadToHubSpot } from "@/lib/hubspot/marketing-lead-submit";
 import { HUBSPOT_FLUTTER_HERO_FORM_ID, HUBSPOT_NA1_PORTAL_ID } from "@/lib/constants";
 
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const parsed = marketingLeadSchema.safeParse(json);
+  const parsed = marketingLeadWithAttributionSchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json(
       { error: "Validation failed", fields: parsed.error.flatten().fieldErrors },

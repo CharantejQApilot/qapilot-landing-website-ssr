@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ATTRIBUTION_PAYLOAD_FIELD_NAMES } from "@/lib/attribution";
 
 /** CRM values for HubSpot contact property `designation` (main + Flutter marketing forms). */
 export const MARKETING_LEAD_DESIGNATIONS = [
@@ -49,3 +50,19 @@ export const marketingLeadSchema = z.object({
 });
 
 export type MarketingLeadInput = z.infer<typeof marketingLeadSchema>;
+
+const attributionFieldShape = Object.fromEntries(
+  ATTRIBUTION_PAYLOAD_FIELD_NAMES.map((name) => [
+    name,
+    z.string().trim().max(4000).optional(),
+  ]),
+) as Record<string, z.ZodOptional<z.ZodString>>;
+
+/** Core lead fields plus optional HubSpot attribution properties (only non-empty sent from client). */
+export const marketingLeadWithAttributionSchema = marketingLeadSchema.merge(
+  z.object(attributionFieldShape),
+);
+
+export type MarketingLeadWithAttributionInput = z.infer<
+  typeof marketingLeadWithAttributionSchema
+>;
