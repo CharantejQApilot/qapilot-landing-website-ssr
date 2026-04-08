@@ -146,13 +146,22 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
 
   return (
     <div className={cn("relative w-full", className)}>
-      <div className="flex h-10 w-full items-stretch overflow-hidden rounded-md border border-input bg-background shadow-sm ring-offset-background transition-shadow focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      {/* Backdrop before z-50 field so the menu stacks above it and stays clickable */}
+      {isDropdownOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          aria-hidden
+          onClick={() => setIsDropdownOpen(false)}
+        />
+      )}
+      <div className="relative z-50">
+        <div className="flex h-10 w-full items-stretch rounded-md border border-input bg-background shadow-sm ring-offset-background transition-shadow focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         {/* Country Code Dropdown */}
         <div className="relative shrink-0">
           <button
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="inline-flex h-full min-w-[100px] items-center gap-2 border-0 border-r border-input bg-transparent px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
+            className="inline-flex h-full min-w-[100px] items-center gap-2 rounded-l-[calc(0.375rem-1px)] border-0 border-r border-input bg-transparent px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
           >
             <span className="text-lg leading-none">{selectedCountry.flag}</span>
             <span className="tabular-nums">{selectedCountry.dialCode}</span>
@@ -163,7 +172,7 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
 
           {/* Dropdown Menu */}
           {isDropdownOpen && (
-            <div className="absolute top-full left-0 mt-1 w-80 bg-background border border-border rounded-md shadow-lg z-50 max-h-60 overflow-hidden">
+            <div className="absolute top-full left-0 z-50 mt-1 w-80 max-h-60 overflow-hidden rounded-md border border-border bg-background shadow-lg">
               <div className="p-2 border-b border-border">
                 <input
                   type="text"
@@ -203,18 +212,11 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
           placeholder={placeholder}
           className={cn(
             marketingFormControlClass({ fullWidth: false }),
-            "rounded-none border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
+            "rounded-none rounded-r-[calc(0.375rem-1px)] border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
           )}
         />
+        </div>
       </div>
-
-      {/* Click outside to close dropdown */}
-      {isDropdownOpen && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setIsDropdownOpen(false)}
-        />
-      )}
     </div>
   );
 };
