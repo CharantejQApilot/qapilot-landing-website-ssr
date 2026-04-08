@@ -7,8 +7,8 @@ export const ORG_LOGO_WIDTH = 100;
 export const ORG_LOGO_HEIGHT = 100;
 
 /**
- * Tab favicon: `src/app/icon.svg`, Apple: `src/app/apple-icon.svg`, static copy:
- * `public/primary-favicon.svg`.
+ * Tab favicon: `public/favicon.ico` + `public/primary-favicon.svg`, Apple:
+ * `src/app/apple-icon.svg` (also `public/primary-favicon.svg`).
  */
 
 /**

@@ -70,7 +70,13 @@ export const metadata: Metadata = {
       },
     ],
   },
-  /* Favicons: `src/app/icon.svg` + `apple-icon.svg` (same as `public/primary-favicon.svg`) */
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/primary-favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.svg",
+  },
 };
 
 function supabasePreconnectOrigin(): string | null {
