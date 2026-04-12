@@ -1,79 +1,75 @@
 import type { Metadata } from "next";
+import Footer from "@/components/Footer";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import ForReleaseManagerClient from "./ForReleaseManagerClient";
-import { MarketingPageShell } from "@/components/marketing";
+import { ForReleaseManagerHero } from "./ForReleaseManagerHero";
+import { ForReleaseManagerSections } from "./ForReleaseManagerSections";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_RELEASE_MANAGER}`;
 
 export const metadata: Metadata = {
-  title: "QApilot for Release Managers | Mobile Release Confidence & Sign-Off",
+  title: "Release Confidence for Release Managers | QApilot",
   description:
-    "Transform mobile release sign-off from uncertainty into confidence. QApilot provides unified release intelligence, autonomous test coverage, security reports, accessibility testing, and cross-device validation for mobile release managers.",
+    "Ship faster with clearer go / no-go decisions. QApilot reduces pre-launch uncertainty with faster validation, clearer quality signals, and scalable release readiness testing.",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",
     url: canonicalUrl,
-    title: "QApilot for Release Managers | Mobile Release Confidence & Sign-Off",
+    title: "Release Confidence for Release Managers | QApilot",
     description:
-      "Unified release intelligence, autonomous coverage, and cross-device validation for mobile sign-off.",
+      "Structured readiness signals, faster validation, and resilient mobile testing for confident release sign-off.",
     siteName: "QApilot",
     locale: "en_US",
     images: [defaultOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "QApilot for Release Managers | QApilot",
+    title: "Release Confidence for Release Managers | QApilot",
     description:
-      "Mobile release confidence with autonomous testing and unified quality intelligence.",
+      "Clearer go / no-go decisions and scalable release readiness testing for mobile launches.",
     images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };
 
 const breadcrumbList = buildBreadcrumbList([
   { name: "Home", path: PATHS.HOME },
-  { name: "For Release Managers", path: PATHS.FOR_RELEASE_MANAGER },
+  { name: "Platform overview", path: PATHS.PRODUCT },
+  { name: "Release Manager", path: PATHS.FOR_RELEASE_MANAGER },
 ]);
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "QApilot for Release Managers",
+  name: "Release Confidence for Release Managers",
   description:
-    "Transform mobile release sign-off from uncertainty into confidence. QApilot provides unified release intelligence, autonomous test coverage, and real-time quality insights for mobile release managers.",
-  url: `${SITE_BASE_URL}${PATHS.FOR_RELEASE_MANAGER}`,
+    "How QApilot helps Release Managers reduce uncertainty before mobile launches through faster validation, clearer quality signals, and scalable release readiness testing.",
+  url: canonicalUrl,
   mainEntity: {
     "@type": "SoftwareApplication",
     name: "QApilot",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "iOS, Android",
     description:
-      "AI-powered mobile app testing platform for release managers providing autonomous testing, intelligent bug detection, security reports, accessibility testing, and cross-device testing.",
+      "AI-native mobile testing platform with autonomous testing, intelligent bug detection, reporting, and release readiness signals.",
     offers: {
       "@type": "Offer",
       category: "Mobile App Testing",
     },
-    featureList: [
-      "Autonomous sanity testing for mobile apps",
-      "Intelligent bug detection with crash and regression analysis",
-      "Mobile app security vulnerability reports",
-      "Accessibility compliance testing with WCAG standards",
-      "Cross-device and cross-OS testing in parallel",
-    ],
   },
   breadcrumb: breadcrumbList,
 };
 
 export default function ForReleaseManagerPage() {
   return (
-    <MarketingPageShell background="hero">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      <ForReleaseManagerClient />
-    </MarketingPageShell>
+    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <main>
+        <ForReleaseManagerHero />
+        <ForReleaseManagerSections />
+      </main>
+      <Footer />
+    </div>
   );
 }

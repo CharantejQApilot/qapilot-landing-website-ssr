@@ -9,8 +9,11 @@ import { cn } from "@/lib/utils";
 const EnterpriseHeroSection = () => {
   const { openForm } = useHubSpotForm();
   
-  const handleRequestDemoClick = () => {
-    openForm("Request Demo", "Fill out the form below and our team will get in touch to schedule a personalized demo.");
+  const handleBookDemoClick = () => {
+    openForm(
+      "Book a Demo",
+      "Fill out the form below and our team will get in touch to schedule a personalized demo.",
+    );
   };
   return <section className="relative flex min-h-screen items-center justify-center section-edge w-full py-20 pb-8">
       {/* Enterprise Scale Background - Abstract Network Grid */}
@@ -86,10 +89,10 @@ const EnterpriseHeroSection = () => {
             animationDelay: '0.6s'
           }}>
             <Button 
-              onClick={handleRequestDemoClick}
+              onClick={handleBookDemoClick}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full text-lg hover:scale-105 transition-all duration-300 hover:shadow-glow relative overflow-hidden"
             >
-              <span className="relative z-10">Request Demo</span>
+              <span className="relative z-10">Book a Demo</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shine_2s_ease-in-out_infinite] transform skew-x-12"></div>
               </Button>
             </div>
@@ -104,7 +107,13 @@ const EnterpriseHeroSection = () => {
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-border">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                    <img src="/lovable-uploads/40829201-8081-41bf-8cf5-1e80143e6a36.png" alt="QApilot" className="h-5 w-5 object-contain" />
+                    <img
+                      src="/lovable-uploads/40829201-8081-41bf-8cf5-1e80143e6a36.png"
+                      alt="QApilot"
+                      width={20}
+                      height={20}
+                      className="h-5 w-5 object-contain"
+                    />
                   </div>
                   <span className="font-semibold text-foreground">QApilot Enterprise</span>
                 </div>

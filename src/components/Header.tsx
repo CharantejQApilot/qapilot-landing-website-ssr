@@ -1,94 +1,41 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import {
-  Menu,
-  X,
-  ChevronDown,
-  ChevronRight,
-  LayoutDashboard,
-  Sparkles,
-  Bug,
-  Smartphone,
-  ShieldCheck,
-  RefreshCw,
-  Package,
-  TestTube2,
-  Users,
-  ClipboardList,
-  Server,
-  Workflow,
-  Bot,
-  LucideIcon,
-} from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
+import { NavItem } from "@/components/header/HeaderNavItem";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import {
   PATHS,
   PLATFORM_BY_SOLUTION,
+  PLATFORM_BY_ROLE,
   PLATFORM_AI_AGENTS,
   RESOURCE_NAV_LINKS,
   COMPANY_NAV_LINKS,
 } from "@/lib/routes";
 import { APP_AUTOMATION_LOGIN_URL, DOCS_URL } from "@/lib/constants";
 
-const PLATFORM_ICONS: Record<string, LucideIcon> = {
-  LayoutDashboard,
-  Sparkles,
-  Bug,
-  Smartphone,
-  ShieldCheck,
-  RefreshCw,
-  Package,
-  TestTube2,
-  Users,
-  ClipboardList,
-  Server,
-  Workflow,
-  Bot,
-};
+const HeaderDesktopPlatformMenu = dynamic(
+  () => import("@/components/header/HeaderDesktopPlatformMenu"),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="absolute left-0 top-full z-[9999] mt-2 min-h-[240px] w-[min(860px,calc(100vw-2rem))] rounded-xl border border-border bg-background px-7 py-6 shadow-xl sm:px-8 sm:py-7"
+        aria-hidden
+      />
+    ),
+  },
+);
 
 /** Dropdowns, mobile drawer, and in-panel links */
 const NAV_TEXT_CLASS = "text-[15px]";
 /** Desktop top bar only — slightly larger than dropdown/mobile */
 const RIBBON_NAV_TEXT_CLASS = "text-[15.75px]";
-
-const NavItem = ({
-  to,
-  children,
-  isActive,
-  className = "",
-  forceForeground = false,
-}: {
-  to: string;
-  children: React.ReactNode;
-  isActive?: boolean;
-  className?: string;
-  /** Use foreground color by default (e.g. top-level mobile items) */
-  forceForeground?: boolean;
-}) => {
-  const baseClass =
-    `${NAV_TEXT_CLASS} font-medium transition-colors hover:text-foreground ` +
-    (forceForeground ? "text-foreground" : "text-muted-foreground");
-  const activeClass = isActive
-    ? "text-foreground font-semibold bg-primary/5"
-    : "";
-  if (to.startsWith("#")) {
-    return (
-      <a href={to} className={`${baseClass} ${activeClass} ${className}`}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <Link href={to} className={`${baseClass} ${activeClass} ${className}`}>
-      {children}
-    </Link>
-  );
-};
 
 const Header = () => {
   const pathname = usePathname();
@@ -186,70 +133,9 @@ const Header = () => {
                 }`}
               />
             </button>
-            {openDropdown === "platform" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background px-7 py-6 shadow-xl sm:px-8 sm:py-7 lg:px-9 lg:py-8">
-                <div className="grid w-max max-w-full grid-cols-2 gap-8 sm:gap-9 lg:gap-10 xl:gap-12">
-                  <div className="min-w-0">
-                    <div
-                      className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
-                    >
-                      By Solution
-                    </div>
-                    <ul className="space-y-2">
-                      {PLATFORM_BY_SOLUTION.map((item) => {
-                        const Icon = PLATFORM_ICONS[item.icon];
-                        return (
-                          <li key={item.path + item.label}>
-                            <NavItem
-                              to={item.path}
-                              isActive={isPathActive(item.path)}
-                              className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-secondary"
-                            >
-                              {Icon && (
-                                <Icon
-                                  size={18}
-                                  className="shrink-0 text-muted-foreground"
-                                />
-                              )}
-                              {item.label}
-                            </NavItem>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  <div className="min-w-0">
-                    <div
-                      className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
-                    >
-                      AI Agents
-                    </div>
-                    <ul className="space-y-2">
-                      {PLATFORM_AI_AGENTS.map((item) => {
-                        const Icon = PLATFORM_ICONS[item.icon];
-                        return (
-                          <li key={item.path + item.label}>
-                            <NavItem
-                              to={item.path}
-                              isActive={isPathActive(item.path)}
-                              className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-secondary"
-                            >
-                              {Icon && (
-                                <Icon
-                                  size={18}
-                                  className="shrink-0 text-muted-foreground"
-                                />
-                              )}
-                              {item.label}
-                            </NavItem>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            )}
+            {openDropdown === "platform" ? (
+              <HeaderDesktopPlatformMenu isPathActive={isPathActive} />
+            ) : null}
           </div>
 
           {/* Resources — first among secondary nav */}
@@ -343,7 +229,7 @@ const Header = () => {
             className={`rounded-lg bg-primary px-6 py-2.5 ${RIBBON_NAV_TEXT_CLASS} font-semibold text-primary-foreground hover:bg-primary/90`}
             onClick={() => openForm()}
           >
-            Get Access
+            Book a Demo
           </Button>
         </div>
 
@@ -398,6 +284,37 @@ const Header = () => {
                       {mobileExpanded["platform-solution"] && (
                         <div className="pl-6 space-y-0">
                           {PLATFORM_BY_SOLUTION.map((item) => (
+                            <NavItem
+                              key={item.path + item.label}
+                              to={item.path}
+                              isActive={isPathActive(item.path)}
+                              forceForeground
+                              className="block py-2 px-2 hover:bg-secondary rounded-md"
+                            >
+                              {item.label}
+                            </NavItem>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    {/* By Role */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => toggleMobileSection("platform-role")}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                      >
+                        <ChevronRight
+                          size={16}
+                          className={`shrink-0 transition-transform ${
+                            mobileExpanded["platform-role"] ? "rotate-90" : ""
+                          }`}
+                        />
+                        By Role
+                      </button>
+                      {mobileExpanded["platform-role"] && (
+                        <div className="pl-6 space-y-0">
+                          {PLATFORM_BY_ROLE.map((item) => (
                             <NavItem
                               key={item.path + item.label}
                               to={item.path}
@@ -528,7 +445,7 @@ const Header = () => {
                 className="flex-1 bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
                 onClick={() => openForm()}
               >
-                Get Access
+                Book a Demo
               </Button>
             </div>
           </nav>

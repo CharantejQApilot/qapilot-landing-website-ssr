@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Suspense } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HubSpotFormProvider, useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { Toaster } from "@/components/ui/toaster";
@@ -34,22 +33,8 @@ function AppShell({ children }: { children: React.ReactNode }) {
 }
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 1000 * 60 * 5,
-            gcTime: 1000 * 60 * 10,
-            retry: 1,
-            refetchOnWindowFocus: false,
-          },
-        },
-      })
-  );
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <Suspense fallback={null}>
         <AttributionTracker />
       </Suspense>
@@ -60,6 +45,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           <AppShell>{children}</AppShell>
         </HubSpotFormProvider>
       </TooltipProvider>
-    </QueryClientProvider>
+    </>
   );
 }

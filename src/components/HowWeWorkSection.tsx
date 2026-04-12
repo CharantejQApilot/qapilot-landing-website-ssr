@@ -1,52 +1,52 @@
+import { MarketingSectionHeader } from "@/components/marketing";
+import { marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
+
 const HowWeWorkSection = () => {
   return (
-    <section className="section-edge relative w-full border-t border-border py-16 md:py-24">
-      <div className="section-full mx-auto max-w-screen-xl">
-        {/* Two-column layout: Title left, Content right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          {/* Left: Title - takes 4 columns, sticky on desktop */}
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-                How We <span className="text-primary">Work</span>
-              </h2>
-              <div className="mt-6 w-16 h-1 bg-primary rounded-full"></div>
-            </div>
-          </div>
-          
-          {/* Right: Content - takes 8 columns with clean hierarchy */}
-          <div className="lg:col-span-8">
-            {/* Primary statement with left accent */}
-            <div className="relative pl-6 border-l-2 border-primary mb-10">
-              <p className="text-2xl md:text-3xl font-semibold text-foreground leading-snug">
-                Our culture is intentionally simple.
-              </p>
-            </div>
-            
-            {/* Main paragraph */}
-            <p className="text-lg text-muted-foreground leading-relaxed mb-10">
-              We keep things low on ceremony and high on ownership. People take responsibility, step in where needed, and focus on outcomes over roles.
+    <section
+      className="section-edge relative w-full border-t border-border/60 bg-background"
+      aria-labelledby="how-we-work-heading"
+    >
+      <div className="section-full py-14 md:py-20 2xl:py-24">
+        <MarketingSectionHeader
+          id="how-we-work-heading"
+          title={
+            <>
+              How We <span className="text-primary">Work</span>
+            </>
+          }
+          description="Low on ceremony, high on ownership—with clear ownership and outcomes over rigid roles."
+          marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+        />
+
+        <div className="max-w-4xl space-y-8">
+          <div className="relative border-l-2 border-primary pl-6">
+            <p className="text-xl font-semibold leading-snug text-foreground md:text-2xl">
+              Our culture is intentionally simple.
             </p>
-            
-            {/* Highlights - horizontal flow with subtle visual distinction */}
-            <div className="flex flex-wrap gap-3 mb-10">
-              <span className="inline-flex items-center bg-primary/10 text-foreground font-medium px-4 py-2 rounded-full text-sm border border-primary/20">
-                Engineers pitch in on demos
+          </div>
+
+          <p className={cn(marketingSectionIntroClass, "!text-foreground/90")}>
+            People take responsibility, step in where needed, and focus on outcomes over roles.
+          </p>
+
+          <div className="flex flex-wrap gap-3">
+            {["Engineers pitch in on demos", "Marketers understand the product", "Everyone ships"].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-foreground"
+              >
+                {label}
               </span>
-              <span className="inline-flex items-center bg-primary/10 text-foreground font-medium px-4 py-2 rounded-full text-sm border border-primary/20">
-                Marketers understand the product
-              </span>
-              <span className="inline-flex items-center bg-primary/10 text-foreground font-medium px-4 py-2 rounded-full text-sm border border-primary/20">
-                Everyone ships
-              </span>
-            </div>
-            
-            {/* Closing statement - clear hierarchy with emphasis */}
-            <div className="bg-card/30 border border-border/30 rounded-2xl p-6 md:p-8">
-              <p className="text-xl md:text-2xl text-foreground leading-relaxed">
-                We take the work seriously, <span className="text-primary font-bold">ourselves, not so much.</span>
-              </p>
-            </div>
+            ))}
+          </div>
+
+          <div className="rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8">
+            <p className="text-lg leading-relaxed text-foreground md:text-xl">
+              We take the work seriously,{" "}
+              <span className="font-bold text-primary">ourselves, not so much.</span>
+            </p>
           </div>
         </div>
       </div>

@@ -1,0 +1,235 @@
+import {
+  AlertTriangle,
+  Clock,
+  Eye,
+  Layers,
+  type LucideIcon,
+  Repeat,
+  Smartphone,
+} from "lucide-react";
+import { MarketingSectionHeader } from "@/components/marketing";
+import { marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
+
+const CHALLENGE_ITEMS: { title: string; icon: LucideIcon }[] = [
+  { title: "High maintenance automation suites", icon: Layers },
+  { title: "Flaky tests that teams stop trusting", icon: AlertTriangle },
+  { title: "Slow regression cycles before releases", icon: Clock },
+  { title: "Growing device / OS fragmentation", icon: Smartphone },
+  { title: "Limited release visibility", icon: Eye },
+  { title: "Too much effort spent maintaining tests", icon: Repeat },
+];
+
+const STACK_ITEMS = [
+  "CI/CD pipelines",
+  "Jira workflows",
+  "Cloud device providers",
+  "Existing automation investments",
+  "Manual QA processes",
+  "Brownfield engineering environments",
+];
+
+type Outcome = {
+  title: string;
+  body: string;
+  capabilities: string[];
+};
+
+const OUTCOMES: Outcome[] = [
+  {
+    title: "Reduce Test Maintenance Overhead",
+    body: "UI changes and unstable locators create constant upkeep. QApilot uses intelligent healing and resilient execution to reduce breakage and lower maintenance effort.",
+    capabilities: ["AI Self Healing"],
+  },
+  {
+    title: "Expand Coverage Without Expanding Team Size",
+    body: "Manual scripting slows coverage growth. QApilot autonomously explores the app and generates usable sanity coverage faster.",
+    capabilities: ["Autonomous Testing"],
+  },
+  {
+    title: "Improve Release Confidence Before Every Launch",
+    body: "Passing tests alone do not guarantee readiness. QApilot detects broken flows, latency issues, and quality risks before production.",
+    capabilities: ["Intelligent Bug Detection", "Security Reports"],
+  },
+  {
+    title: "Accelerate Debugging and RCA",
+    body: "Failures waste time when evidence is missing. QApilot captures logs, screenshots, network traces, and device metrics for faster diagnosis.",
+    capabilities: ["Reporting", "Network Traces", "Device Metrics"],
+  },
+  {
+    title: "Support Modern Mobile Architectures Like Flutter",
+    body: "Legacy tools often struggle with Flutter apps. QApilot is purpose-built for mobile environments and supports Flutter workflows reliably.",
+    capabilities: ["Flutter Testing"],
+  },
+  {
+    title: "Create Better Quality Signals Across Teams",
+    body: "Turn noisy test outputs into clearer readiness signals for engineering, product, and release stakeholders.",
+    capabilities: ["Reporting"],
+  },
+];
+
+export function ForQALeaderSections() {
+  return (
+    <>
+      <section
+        className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
+        aria-labelledby="qe-challenge-heading"
+      >
+        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+          <MarketingSectionHeader
+            id="qe-challenge-heading"
+            title={
+              <>
+                The Challenge Facing <span className="text-primary">QE Leaders</span>
+              </>
+            }
+            description={
+              <p>
+                Quality engineering teams are expected to move faster, test more, and block fewer releases — often
+                without additional headcount.
+              </p>
+            }
+            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+          />
+
+          <p className={cn(marketingSectionIntroClass, "mb-8 font-medium text-foreground/90 md:mb-10")}>
+            But traditional testing stacks create drag:
+          </p>
+
+          <ul className="grid gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
+            {CHALLENGE_ITEMS.map(({ title, icon: Icon }) => (
+              <li
+                key={title}
+                className={cn(
+                  "relative flex gap-4 overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-7",
+                  "motion-safe:hover:border-primary/25 motion-safe:hover:shadow-md",
+                )}
+              >
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/10"
+                  aria-hidden
+                >
+                  <Icon className="h-5 w-5" strokeWidth={2} />
+                </span>
+                <span className="min-w-0 self-center text-base font-medium leading-snug text-foreground md:text-lg">
+                  {title}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section
+        className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
+        aria-labelledby="qe-outcomes-heading"
+      >
+        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+          <MarketingSectionHeader
+            id="qe-outcomes-heading"
+            title={
+              <>
+                Outcomes <span className="text-primary">QE Leaders</span> Care About
+              </>
+            }
+            marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
+          />
+
+          <div className="grid gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
+            {OUTCOMES.map((outcome) => (
+              <article
+                key={outcome.title}
+                className={cn(
+                  "relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8",
+                  "motion-safe:hover:border-primary/30",
+                )}
+              >
+                <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary/90" aria-hidden />
+                <div className="pl-4 md:pl-5">
+                  <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                    {outcome.title}
+                  </h3>
+                  <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {outcome.capabilities.map((cap) => (
+                      <span
+                        key={cap}
+                        className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
+                      >
+                        {cap}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
+        aria-labelledby="qe-stack-heading"
+      >
+        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+          <MarketingSectionHeader
+            id="qe-stack-heading"
+            title={
+              <>
+                Works With Your <span className="text-primary">Existing Stack</span>
+              </>
+            }
+            description={<p>QApilot fits into enterprise environments without rip-and-replace.</p>}
+            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+          />
+
+          <ul className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+            {STACK_ITEMS.map((item) => (
+              <li
+                key={item}
+                className={cn(
+                  "flex gap-3 rounded-2xl border border-border/80 bg-card/80 px-4 py-3.5 shadow-sm backdrop-blur-sm md:px-5 md:py-4",
+                  "motion-safe:hover:border-primary/25",
+                )}
+              >
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className={cn(marketingSectionIntroClass, "mt-8 max-w-3xl")}>
+            Adopt progressively while preserving current workflows.
+          </p>
+        </div>
+      </section>
+
+      <section
+        className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background"
+        aria-labelledby="qe-why-heading"
+      >
+        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+          <MarketingSectionHeader
+            id="qe-why-heading"
+            title={
+              <>
+                Why QE Leaders Choose <span className="text-primary">QApilot</span>
+              </>
+            }
+            description={
+              <>
+                <p>
+                  Because quality engineering should improve release velocity — not become the bottleneck.
+                </p>
+                <p>
+                  QApilot helps QE leaders move from maintenance-heavy testing operations to scalable mobile release
+                  readiness.
+                </p>
+              </>
+            }
+            marginBottomClassName="mb-0"
+          />
+        </div>
+      </section>
+    </>
+  );
+}

@@ -5,6 +5,16 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+/** Marketing site origin; set `SITE_BASE_URL` secret for staging/preview. */
+function siteBaseUrl(): string {
+  const raw = Deno.env.get('SITE_BASE_URL')?.trim() ?? 'https://qapilot.io'
+  try {
+    return new URL(raw).origin
+  } catch {
+    return 'https://qapilot.io'
+  }
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -44,13 +54,15 @@ Deno.serve(async (req) => {
     // Create a map of org IDs to website URLs
     const orgMap = new Map(organizations?.map(org => [org.id, org.website_url]) || [])
 
+    const base = siteBaseUrl()
+
     // Generate XML sitemap with job entries
     const urlEntries = jobs?.map(job => {
       const orgWebsite = job.organization_id ? orgMap.get(job.organization_id) : null
       
       // Base URL entry
       let entry = `  <url>
-    <loc>https://qapilot.io/careers/${job.slug}</loc>
+    <loc>${base}/careers/${job.slug}</loc>
     <lastmod>${new Date(job.updated_at).toISOString().split('T')[0]}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { unstable_noStore as noStore } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 
 function PromoBannerLink({
@@ -27,14 +27,14 @@ function PromoBannerLink({
   );
 }
 
-/** Top promo banner from Supabase — server-rendered for crawlers. News takes precedence over blogs. */
-export default async function NewsBanner() {
-  noStore();
+type PromoPayload =
+  | { kind: "news"; slug: string; text: string }
+  | { kind: "blog"; slug: string; text: string };
+
+async function fetchPromoBanner(): Promise<PromoPayload | null> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) return null;
 
-  // Use limit(1) + first row — NOT maybeSingle(): multiple is_banner rows would make PostgREST
-  // return an error and hide the banner entirely.
   const { data: newsRows } = await supabase
     .from("news_updates")
     .select("slug, banner_text")
@@ -46,7 +46,7 @@ export default async function NewsBanner() {
   const bannerNews = newsRows?.[0];
   const newsText = bannerNews?.banner_text?.trim();
   if (bannerNews?.slug && newsText) {
-    return <PromoBannerLink href={`/news/${bannerNews.slug}`} text={newsText} />;
+    return { kind: "news", slug: bannerNews.slug, text: newsText };
   }
 
   const { data: blogRows } = await supabase
@@ -63,5 +63,20 @@ export default async function NewsBanner() {
     return null;
   }
 
-  return <PromoBannerLink href={`/blogs/${bannerBlog.slug}`} text={blogText} />;
+  return { kind: "blog", slug: bannerBlog.slug, text: blogText };
+}
+
+const getCachedPromoBanner = unstable_cache(fetchPromoBanner, ["site-promo-banner"], {
+  revalidate: 120,
+  tags: ["promo-banner"],
+});
+
+/** Top promo banner from Supabase — server-rendered; cached 120s to reduce TTFB vs per-request noStore. */
+export default async function NewsBanner() {
+  const payload = await getCachedPromoBanner();
+  if (!payload) return null;
+
+  const href =
+    payload.kind === "news" ? `/news/${payload.slug}` : `/blogs/${payload.slug}`;
+  return <PromoBannerLink href={href} text={payload.text} />;
 }

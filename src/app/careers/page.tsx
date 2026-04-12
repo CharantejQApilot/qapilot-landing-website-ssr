@@ -10,7 +10,6 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
-import { MarketingPageShell } from "@/components/marketing";
 import { defaultOpenGraphImage } from "@/lib/seo";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.CAREERS}`;
@@ -68,24 +67,22 @@ export default async function CareersPage() {
 
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
+    { name: "Platform overview", path: PATHS.PRODUCT },
     { name: "Careers", path: PATHS.CAREERS },
   ]);
 
   return (
-    <MarketingPageShell background="none">
+    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
       />
       <main>
         <CareersHeroSection />
-        <OpenPositionsSection
-          jobOpenings={jobOpenings}
-          organizations={organizations}
-        />
+        <OpenPositionsSection jobOpenings={jobOpenings} organizations={organizations} />
         <HowWeWorkSection />
       </main>
       <Footer />
-    </MarketingPageShell>
+    </div>
   );
 }

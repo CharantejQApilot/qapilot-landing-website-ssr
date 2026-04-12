@@ -106,7 +106,7 @@ const loadHubSpotScript = (): Promise<void> => {
 const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
   isOpen,
   onClose,
-  title = "Get Access to QApilot",
+  title = "Book a Demo",
   description = "Fill out the form below and we'll get back to you shortly.",
   formId = HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
   formName = HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,

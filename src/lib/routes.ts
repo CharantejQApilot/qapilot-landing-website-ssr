@@ -55,12 +55,12 @@ export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.AI_SELF_HEALING, label: "AI Self Healing", icon: "RefreshCw" },
 ] as const;
 
-/** Platform dropdown: By Role */
+/** Platform dropdown: By Role (order matches nav) */
 export const PLATFORM_BY_ROLE = [
-  { path: PATHS.FOR_RELEASE_MANAGER, label: "Release Manager", icon: "Package" },
-  { path: PATHS.FOR_QA_ENGINEER, label: "Quality Engineer", icon: "TestTube2" },
   { path: PATHS.FOR_QA_LEADER, label: "QE Leader", icon: "Users" },
-  { path: PATHS.FOR_PRODUCT_OWNER, label: "Product Owner", icon: "ClipboardList" },
+  { path: PATHS.FOR_RELEASE_MANAGER, label: "Release Manager", icon: "Package" },
+  { path: PATHS.FOR_QA_ENGINEER, label: "Quality Assurance Engineer", icon: "TestTube2" },
+  { path: PATHS.FOR_PRODUCT_OWNER, label: "Product Manager", icon: "ClipboardList" },
   { path: PATHS.FOR_SRE, label: "Site Reliability Engineer", icon: "Server" },
 ] as const;
 
