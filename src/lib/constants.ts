@@ -15,7 +15,7 @@ export const APP_AUTOMATION_LOGIN_URL =
 export const STATUS_URL = "https://status.qapilot.io";
 
 /**
- * Main marketing “Get Access / Book a demo” HubSpot form (Forms API via `/api/hubspot/get-access`).
+ * Main marketing “Book a Demo” HubSpot form (Forms API via `/api/hubspot/get-access`).
  * Used by the global dialog from Header, Footer, home hero, and platform pages.
  */
 export const HUBSPOT_NA1_REGION = "na1" as const;

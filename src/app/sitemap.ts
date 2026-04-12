@@ -1,9 +1,12 @@
 import type { MetadataRoute } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
-import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 
-/** Regenerate periodically; blog slugs merged from Supabase when configured. */
+/**
+ * Static marketing URLs only. Individual `/blogs/:slug` URLs live in the Edge
+ * `sitemap-posts` function (image/video sitemap extensions) — see
+ * `sitemap-index.xml` and `robots.ts`.
+ */
 export const revalidate = 3600;
 
 const staticPages: MetadataRoute.Sitemap = [
@@ -83,61 +86,44 @@ const staticPages: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
     priority: 0.8,
   },
+  // Platform → By Role (paths must match PLATFORM_BY_ROLE in routes.ts; titles/descriptions also in prerender-meta)
+  {
+    url: `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`,
+    changeFrequency: "monthly",
+    priority: 0.82,
+  },
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_RELEASE_MANAGER}`,
     changeFrequency: "monthly",
-    priority: 0.8,
+    priority: 0.82,
   },
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_QA_ENGINEER}`,
     changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
+    priority: 0.82,
   },
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_PRODUCT_OWNER}`,
     changeFrequency: "monthly",
-    priority: 0.8,
+    priority: 0.82,
   },
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_SRE}`,
     changeFrequency: "monthly",
-    priority: 0.8,
+    priority: 0.82,
   },
   {
     url: `${SITE_BASE_URL}${PATHS.TERMS}`,
     changeFrequency: "yearly",
     priority: 0.3,
   },
+  {
+    url: `${SITE_BASE_URL}${PATHS.TERMS_CONDITIONS}`,
+    changeFrequency: "yearly",
+    priority: 0.3,
+  },
 ];
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = tryCreateServerSupabaseClient();
-  const blogEntries: MetadataRoute.Sitemap = [];
-
-  if (supabase) {
-    const { data } = await supabase
-      .from("blogs")
-      .select("slug, published_date")
-      .eq("published", true)
-      .order("published_date", { ascending: false });
-
-    for (const row of data ?? []) {
-      if (!row.slug) continue;
-      blogEntries.push({
-        url: `${SITE_BASE_URL}${PATHS.BLOGS}/${row.slug}`,
-        lastModified: row.published_date
-          ? new Date(row.published_date)
-          : undefined,
-        changeFrequency: "weekly",
-        priority: 0.75,
-      });
-    }
-  }
-
-  return [...staticPages, ...blogEntries];
+export default function sitemap(): MetadataRoute.Sitemap {
+  return staticPages;
 }

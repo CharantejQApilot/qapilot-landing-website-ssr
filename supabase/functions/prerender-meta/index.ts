@@ -12,7 +12,7 @@ const DEFAULT_OG_IMAGE = `${SITE}/og/default-share.png`;
 const DEFAULT_OG_IMAGE_WIDTH = "993";
 const DEFAULT_OG_IMAGE_HEIGHT = "545";
 
-// ── Static page metadata (mirrors SEOHead props in each page) ──────────────
+// ── Static page metadata (keep titles/descriptions aligned with Next.js `metadata` on each route) ──
 interface PageMeta {
   title: string;
   description: string;
@@ -85,29 +85,29 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Find answers to frequently asked questions about QApilot's AI-powered testing platform, features, pricing, and support.",
   },
   "/for-release-manager": {
-    title: "QApilot for Release Managers | Mobile Release Confidence & Sign-Off",
+    title: "Release Confidence for Release Managers | QApilot",
     description:
-      "Transform mobile release sign-off from uncertainty into confidence. QApilot provides unified release intelligence, autonomous test coverage, security reports, accessibility testing, and cross-device validation for mobile release managers.",
+      "Ship faster with clearer go / no-go decisions. QApilot reduces pre-launch uncertainty with faster validation, clearer quality signals, and scalable release readiness testing.",
   },
   "/for-qa-engineer": {
-    title: "QApilot for QA Engineers | AI-Powered Mobile Testing Automation",
+    title: "Better Testing for Quality Assurance Engineers | QApilot",
     description:
-      "Accelerate mobile QA with AI-powered autonomous testing. QApilot helps QA engineers automate test generation, detect bugs intelligently, and achieve comprehensive coverage.",
+      "Spend less time maintaining tests and more time improving quality. Create coverage faster, debug quicker, and reduce brittle mobile automation with QApilot.",
   },
   "/for-qa-leader": {
-    title: "QApilot for QA Leaders | Scale Mobile Testing Operations",
+    title: "Release Readiness for QE Leader | QApilot",
     description:
-      "Scale your mobile QA operations with QApilot. Get unified visibility, autonomous test coverage, and data-driven insights to lead quality confidently.",
+      "Scale quality engineering without scaling complexity. Reduce test maintenance, improve release confidence, and expand mobile coverage with autonomous, AI-native testing.",
   },
   "/for-product-owner": {
-    title: "QApilot for Product Owners | Mobile App Quality Visibility",
+    title: "Faster Releases for Product Managers | QApilot",
     description:
-      "Get real-time visibility into mobile app quality. QApilot helps product owners make confident release decisions with unified quality dashboards and insights.",
+      "Launch with confidence and fewer post-release surprises. Improve release readiness, shorten validation cycles, and surface mobile issues before users do.",
   },
   "/for-sre": {
-    title: "QApilot for SREs | Mobile App Reliability & Performance Testing",
+    title: "Release Reliability for SRE Teams | QApilot",
     description:
-      "Ensure mobile app reliability with QApilot. SREs get proactive crash detection, performance monitoring, and automated regression testing for iOS and Android.",
+      "Reduce production risk before it reaches users. Surface mobile quality risks early, strengthen pre-release signals, and cut incidents from bad launches.",
   },
   "/terms": {
     title: "Terms of Service | QApilot",

@@ -5,6 +5,16 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+/** Marketing site origin; set `SITE_BASE_URL` secret for staging/preview. */
+function siteBaseUrl(): string {
+  const raw = Deno.env.get('SITE_BASE_URL')?.trim() ?? 'https://qapilot.io'
+  try {
+    return new URL(raw).origin
+  } catch {
+    return 'https://qapilot.io'
+  }
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -36,6 +46,8 @@ Deno.serve(async (req) => {
       return match ? match[1] : null
     }
 
+    const base = siteBaseUrl()
+
     // Generate XML sitemap with image and video extensions
     const urlEntries = blogs?.map(blog => {
       let imageTag = ''
@@ -62,7 +74,7 @@ Deno.serve(async (req) => {
       }
 
       return `  <url>
-    <loc>https://qapilot.io/blogs/${blog.slug}</loc>
+    <loc>${base}/blogs/${blog.slug}</loc>
     <lastmod>${new Date(blog.updated_at).toISOString().split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>${imageTag}${videoTag}

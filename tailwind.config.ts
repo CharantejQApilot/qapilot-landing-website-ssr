@@ -67,8 +67,8 @@ export default {
 				orange: 'hsl(var(--orange))'
 			},
 			fontFamily: {
-				sans: ['Source Sans 3', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-				heading: ['Space Grotesk', 'Source Sans 3', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+				sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+				heading: ['var(--font-heading)', 'var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
 			},
 			boxShadow: {
 				'sm': 'var(--shadow-sm)',

@@ -14,28 +14,12 @@ import Link from "next/link";
 import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { DOCS_URL, STATUS_URL } from "@/lib/constants";
+import { MOBILE_AGENTS_TRENDING_LABS_TOOLS } from "@/lib/mobile-agents-labs-tools";
 import {
+  PLATFORM_BY_ROLE,
   PLATFORM_BY_SOLUTION,
   PATHS,
 } from "@/lib/routes";
-
-const toolsLinks = [
-  {
-    name: "Heal My Prompt",
-    productHuntUrl:
-      "https://www.producthunt.com/products/healmyprompt?launch=heal-my-prompt",
-  },
-  {
-    name: "Price My Agent",
-    productHuntUrl:
-      "https://www.producthunt.com/products/price-my-agent?launch=price-my-agent",
-  },
-  {
-    name: "Tools For Agent",
-    productHuntUrl:
-      "https://www.producthunt.com/products/tools-for-agent-2?launch=tools-for-agent-2",
-  },
-];
 
 /** Shared footer nav link rhythm (all columns use the same padding + gap). */
 const footerColumnLinkClass =
@@ -116,7 +100,7 @@ const Footer = () => {
                 size="lg"
                 className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-lg 2xl:text-lg 2xl:px-10 2xl:py-7"
               >
-                Get Access →
+                Book a Demo →
               </Button>
             </div>
           </div>
@@ -126,13 +110,25 @@ const Footer = () => {
       {/* Footer Links — edge-to-edge */}
       <footer className="section-dark border-t border-white/[0.06] section-edge w-full">
         <div className="section-full py-16 2xl:py-20">
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-12 items-start justify-items-start">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mb-12 items-start justify-items-start">
             <div className="min-w-0 w-full">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 By Solution
               </h3>
               <ul className={footerColumnListClass}>
                 {PLATFORM_BY_SOLUTION.map((item) => (
+                  <li key={item.path + item.label}>
+                    <FooterLink to={item.path}>{item.label}</FooterLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="min-w-0 w-full">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
+                By Role
+              </h3>
+              <ul className={footerColumnListClass}>
+                {PLATFORM_BY_ROLE.map((item) => (
                   <li key={item.path + item.label}>
                     <FooterLink to={item.path}>{item.label}</FooterLink>
                   </li>
@@ -183,19 +179,14 @@ const Footer = () => {
             </div>
             <div className="min-w-0 w-full">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
-                Our Tools
+                QApilot Labs
               </h3>
               <ul className={footerColumnListClass}>
-                {toolsLinks.map((tool) => (
-                  <li key={tool.name}>
-                    <a
-                      href={tool.productHuntUrl}
-                      target="_blank"
-                      rel="noopener"
-                      className={cn("inline-block", footerColumnLinkClass)}
-                    >
+                {MOBILE_AGENTS_TRENDING_LABS_TOOLS.map((tool) => (
+                  <li key={tool.href}>
+                    <FooterLink to={tool.href} external>
                       {tool.name}
-                    </a>
+                    </FooterLink>
                   </li>
                 ))}
               </ul>

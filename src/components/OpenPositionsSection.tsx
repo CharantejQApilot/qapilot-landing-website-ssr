@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
+import { MarketingSectionHeader } from "@/components/marketing";
+import { cn } from "@/lib/utils";
 
 export interface JobOrganization {
   id: string;
@@ -53,10 +55,7 @@ interface OpenPositionsSectionProps {
 }
 
 /** Job listings are server-fetched and passed in so HTML is crawlable; dialog stays client-only. */
-const OpenPositionsSection = ({
-  jobOpenings,
-  organizations,
-}: OpenPositionsSectionProps) => {
+const OpenPositionsSection = ({ jobOpenings, organizations }: OpenPositionsSectionProps) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const qapilotJobs = jobOpenings.filter((job) => !job.organization_id);
@@ -72,36 +71,42 @@ const OpenPositionsSection = ({
   const orgsWithJobs = organizations.filter((org) => orgJobsMap.has(org.id));
 
   const JobCard = ({ position }: { position: JobOpening }) => (
-    <div className="group bg-card border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div
+      className={cn(
+        "group relative flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 shadow-sm backdrop-blur-sm transition-colors md:flex-row md:items-center md:justify-between",
+        "motion-safe:hover:border-primary/30 motion-safe:hover:shadow-md",
+      )}
+    >
+      <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary/90" aria-hidden />
+      <div className="flex flex-1 flex-col gap-4 p-6 pl-5 md:flex-row md:items-center md:justify-between md:pl-6 md:pr-4">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">
+            <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
               {position.department}
             </span>
           </div>
-          <h4 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
+          <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-primary md:text-xl">
             {position.role}
-          </h4>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <MapPin className="w-4 h-4" />
+          </h3>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-4 w-4 shrink-0" aria-hidden />
               {position.location}
             </span>
-            <span className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-4 w-4 shrink-0" aria-hidden />
               {getEmploymentTypeLabel(position.employment_type)}
             </span>
           </div>
         </div>
 
-        <Link href={`/careers/${position.slug || position.id}`}>
+        <Link href={`/careers/${position.slug || position.id}`} className="shrink-0 md:pl-4">
           <Button
             variant="outline"
-            className="group/btn border-primary/30 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            className="w-full border-primary/30 transition-colors hover:bg-primary hover:text-primary-foreground md:w-auto"
           >
             Know More
-            <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
           </Button>
         </Link>
       </div>
@@ -110,40 +115,41 @@ const OpenPositionsSection = ({
 
   return (
     <>
-      <section id="open-positions" className="section-edge relative w-full border-t border-border py-16 md:py-24">
-        <div className="section-full relative z-10 mx-auto">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Open <span className="text-primary">Positions</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Find your next opportunity and help us revolutionize software
-              quality assurance.
-            </p>
-          </div>
+      <section
+        id="open-positions"
+        className="section-edge relative w-full border-t border-border/60 bg-background"
+        aria-labelledby="open-positions-heading"
+      >
+        <div className="section-full py-14 md:py-20 2xl:py-24">
+          <MarketingSectionHeader
+            id="open-positions-heading"
+            title={
+              <>
+                Open <span className="text-primary">Positions</span>
+              </>
+            }
+            description="Find your next opportunity and help us revolutionize software quality assurance."
+            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+          />
 
           {qapilotJobs.length > 0 ? (
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-4">
-                {qapilotJobs.map((position) => (
-                  <JobCard key={position.id} position={position} />
-                ))}
-              </div>
-            </div>
+            <ul className="mx-auto flex max-w-4xl flex-col gap-4 md:gap-5">
+              {qapilotJobs.map((position) => (
+                <li key={position.id}>
+                  <JobCard position={position} />
+                </li>
+              ))}
+            </ul>
           ) : (
-            <div className="text-center py-8">
-              <p className="text-muted-foreground">
-                No QAPilot positions available at the moment.
-              </p>
-            </div>
+            <p className="py-8 text-center text-muted-foreground">No QApilot positions available at the moment.</p>
           )}
 
-          <div className="text-center mt-12">
-            <p className="text-muted-foreground mb-4">
-              Don&apos;t see a role that fits? We&apos;re always looking for
-              talented people.
+          <div className="mx-auto mt-12 max-w-4xl text-center">
+            <p className="mb-4 text-muted-foreground">
+              Don&apos;t see a role that fits? We&apos;re always looking for talented people.
             </p>
             <Button
+              type="button"
               onClick={() => setIsFormOpen(true)}
               variant="outline"
               className="border-primary/30 hover:bg-primary hover:text-primary-foreground"
@@ -156,59 +162,58 @@ const OpenPositionsSection = ({
 
       {orgsWithJobs.map((org) => {
         const orgJobs = orgJobsMap.get(org.id) || [];
+        const headingId = `org-positions-${org.id}`;
 
         return (
           <section
             key={org.id}
-            className="section-edge relative w-full border-t border-border/30 py-16 md:py-24"
+            className="section-edge relative w-full border-t border-border/60 bg-background"
+            aria-labelledby={headingId}
           >
-            <div className="section-full mx-auto">
-              <div className="text-center mb-12 md:mb-16">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                  {org.name}
-                </h2>
-                {org.description && (
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    {org.description}
-                  </p>
-                )}
-              </div>
+            <div className="section-full py-14 md:py-20 2xl:py-24">
+              <MarketingSectionHeader
+                id={headingId}
+                title={org.name}
+                description={org.description ?? undefined}
+                marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+              />
 
-              <div className="max-w-4xl mx-auto space-y-4">
+              <ul className="mx-auto flex max-w-4xl flex-col gap-4 md:gap-5">
                 {orgJobs.map((position) => (
-                  <JobCard key={position.id} position={position} />
+                  <li key={position.id}>
+                    <JobCard position={position} />
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="flex justify-center mt-12">
-                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-card/50 border border-border/50 backdrop-blur-sm">
-                  <span className="text-sm text-muted-foreground">
-                    In partnership with
-                  </span>
+              <div className="mt-12 flex justify-center">
+                <div className="inline-flex items-center gap-3 rounded-full border border-border/80 bg-card/80 px-6 py-3 shadow-sm backdrop-blur-sm">
+                  <span className="text-sm text-muted-foreground">In partnership with</span>
                   {org.logo_url ? (
                     <img
                       src={org.logo_url}
-                      alt={org.name}
-                      className="h-6 md:h-8 object-contain"
+                      alt={`${org.name} logo`}
+                      className="h-6 object-contain md:h-8"
                       width={120}
                       height={32}
                     />
                   ) : (
-                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-muted flex items-center justify-center">
-                      <Building2 className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted">
+                      <Building2 className="h-4 w-4 text-muted-foreground" aria-hidden />
                     </div>
                   )}
-                  {org.website_url && (
+                  {org.website_url ? (
                     <a
                       href={org.website_url}
                       target="_blank"
-                      rel="noopener"
-                      className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 hover:bg-primary hover:text-primary-foreground text-primary transition-all duration-300"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
                       title={`Visit ${org.name} website`}
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                      <span className="sr-only">Visit {org.name} (opens in a new tab)</span>
                     </a>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>

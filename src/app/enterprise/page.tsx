@@ -5,6 +5,7 @@ import EnterpriseHeroSection from "@/components/EnterpriseHeroSection";
 import QApilotDifferenceSection from "@/components/QApilotDifferenceSection";
 import TableStakesSection from "@/components/TableStakesSection";
 import FeaturedResourcesSection from "@/components/FeaturedResourcesSection";
+import { getFeaturedResourcesCtaLinks } from "@/lib/featured-resources-ctas";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
@@ -37,12 +38,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EnterprisePage() {
+export default async function EnterprisePage() {
+  const featuredCtaLinks = await getFeaturedResourcesCtaLinks();
   return (
     <MarketingPageShell background="hero" contentClassName="contain-layout">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Enterprise", path: PATHS.ENTERPRISE }])) }} />
       <EnterpriseHeroSection />
-      <FeaturedResourcesSection />
+      <FeaturedResourcesSection ctaLinks={featuredCtaLinks} />
       <QApilotDifferenceSection />
       <TableStakesSection />
       <TestingModesSection />

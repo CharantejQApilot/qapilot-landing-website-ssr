@@ -51,7 +51,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
-    return { title: "News | QApilot" };
+    notFound();
   }
   const { data: newsItem } = await supabase
     .from("news_updates")
@@ -61,7 +61,7 @@ export async function generateMetadata({
     .single();
 
   if (!newsItem) {
-    return { title: "News Item Not Found" };
+    notFound();
   }
 
   const description =

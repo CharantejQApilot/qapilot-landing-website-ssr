@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const ProductHeroSection = () => {
   const { openForm } = useHubSpotForm();
 
-  const handleGetAccessClick = () => {
+  const handleBookDemoClick = () => {
     openForm();
   };
   return (
@@ -41,10 +41,10 @@ const ProductHeroSection = () => {
 
                 <div className="flex-shrink-0 animate-fade-in" style={{ animationDelay: "2.4s" }}>
                   <Button
-                    onClick={handleGetAccessClick}
+                    onClick={handleBookDemoClick}
                     className="relative overflow-hidden rounded-full bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-glow"
                   >
-                    <span className="relative z-10">Get Access</span>
+                    <span className="relative z-10">Book a Demo</span>
                     <div className="absolute inset-0 -translate-x-full skew-x-12 transform bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shine_2s_ease-in-out_infinite]" />
                   </Button>
                 </div>
