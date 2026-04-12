@@ -7,6 +7,7 @@ import NewsBanner from "@/components/NewsBanner";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import "./App.css";
 
@@ -97,16 +98,9 @@ export default function RootLayout({
   const supabaseOrigin = supabasePreconnectOrigin();
 
   return (
-    <html lang="en">
+    <html lang="en" className={`${fontHeading.variable} ${fontSans.variable}`}>
       <head>
         <meta httpEquiv="content-language" content="en-US" />
-        {/* Preconnect to critical origins */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         {supabaseOrigin ? (
           <link
             rel="preconnect"
@@ -120,29 +114,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
-        {/* Google Fonts: Space Grotesk (headings) + Source Sans 3 (body) */}
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-          as="style"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-        />
-        {/* Preload critical above-the-fold images */}
-        <link
-          rel="preload"
-          as="image"
-          href="/lovable-uploads/7513a5a6-39e6-4ba3-9460-2a7acb675540.png"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/lovable-uploads/40829201-8081-41bf-8cf5-1e80143e6a36.png"
-          fetchPriority="high"
-        />
         {/* Preconnect to third-party origins */}
         <link
           rel="preconnect"
@@ -201,12 +172,12 @@ export default function RootLayout({
           })(window,document,'script','dataLayer','GTM-D8GSMN6Q');`}
         </Script>
 
-        {/* Google tag (gtag.js) — GA4 recommended install; sends default page_view */}
+        {/* GA4 direct tag — deferred vs GTM so first interactions stay lighter (Web Vitals still queue once gtag loads) */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YVK0J06RCR"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics-gtag" strategy="afterInteractive">
+        <Script id="google-analytics-gtag" strategy="lazyOnload">
           {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}

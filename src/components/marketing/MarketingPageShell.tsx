@@ -8,6 +8,8 @@ import {
 export type MarketingHeroBackgroundOptions = {
   showDiagonalGrid?: boolean;
   showPixelRipple?: boolean;
+  /** When false, skips stacked viewport blur layers (matches home hero). */
+  progressiveBlur?: boolean;
 };
 
 type MarketingPageShellProps = {

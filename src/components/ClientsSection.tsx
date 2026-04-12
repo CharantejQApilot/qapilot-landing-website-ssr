@@ -69,6 +69,8 @@ const ClientsSection = () => {
                 <img
                   src={client.logo}
                   alt={`${client.name} logo`}
+                  width={160}
+                  height={48}
                   loading="lazy"
                   decoding="async"
                   className="h-8 md:h-12 w-auto max-w-[120px] md:max-w-[160px] object-contain"

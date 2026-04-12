@@ -1,47 +1,44 @@
+import { MarketingSectionHeader } from "@/components/marketing";
+import { marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
+
 const WhyLabsSection = () => {
   return (
-    <section className="section-edge relative w-full border-t border-border py-10 md:py-14">
-      <div className="section-full mx-auto max-w-screen-xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          {/* Left: Title */}
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-                Why QApilot <span className="text-primary">Labs</span> Exists
-              </h2>
-              <div className="mt-6 w-16 h-1 bg-primary rounded-full"></div>
-            </div>
-          </div>
-
-          {/* Right: Content */}
-          <div className="lg:col-span-8">
-            {/* Primary statement */}
-            <div className="relative pl-6 border-l-2 border-primary mb-10">
-              <p className="text-2xl md:text-3xl font-semibold text-foreground leading-snug">
-                Building AI systems isn't just about automation or scale. It's about making good decisions early.
+    <section
+      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
+      aria-labelledby="labs-why-heading"
+    >
+      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <MarketingSectionHeader
+          id="labs-why-heading"
+          title={
+            <>
+              Why QApilot <span className="text-primary">Labs</span> Exists
+            </>
+          }
+          description={
+            <>
+              <p className="text-xl font-semibold leading-snug !text-foreground md:text-2xl">
+                Building AI systems isn&apos;t just about automation or scale. It&apos;s about making good decisions
+                early.
               </p>
-            </div>
-
-            {/* Description */}
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Through QApilot Labs, we:
-            </p>
-
-            {/* Bullet points */}
-            <div className="space-y-4">
-              {[
-                "Experiment without product constraints,",
-                "Learn from real user feedback,",
-                "And stay close to how builders actually work.",
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2.5 shrink-0"></div>
-                  <p className="text-lg text-muted-foreground leading-relaxed">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+              <p>Through QApilot Labs, we:</p>
+              <ul className="list-none space-y-3 pl-0">
+                {[
+                  "Experiment without product constraints,",
+                  "Learn from real user feedback,",
+                  "And stay close to how builders actually work.",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                    <span className={cn(marketingSectionIntroClass, "font-medium text-foreground/90")}>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          }
+          marginBottomClassName="mb-0"
+        />
       </div>
     </section>
   );

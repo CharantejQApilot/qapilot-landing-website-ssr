@@ -5,6 +5,16 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+/** Marketing site origin; set `SITE_BASE_URL` secret for staging/preview. */
+function siteBaseUrl(): string {
+  const raw = Deno.env.get('SITE_BASE_URL')?.trim() ?? 'https://qapilot.io';
+  try {
+    return new URL(raw).origin;
+  } catch {
+    return 'https://qapilot.io';
+  }
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -34,9 +44,8 @@ Deno.serve(async (req) => {
       return match ? match[1] : null;
     };
 
-    // Build URL entries
-    const baseUrl = 'https://qapilot.io';
-    const urlEntries = newsItems.map(item => {
+    const baseUrl = siteBaseUrl();
+    const urlEntries = (newsItems ?? []).map(item => {
       let imageTag = '';
       if (item.featured_image) {
         imageTag = '\n    <image:image>' +

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import LabsHeroSection from "@/components/LabsHeroSection";
-import LabsFeaturedSection from "@/components/LabsFeaturedSection";
+import LabsMobileAgentsToolsSection from "@/components/LabsMobileAgentsToolsSection";
 import WhyLabsSection from "@/components/WhyLabsSection";
 import LabsProcessSection from "@/components/LabsProcessSection";
 import LabsTeamSection from "@/components/LabsTeamSection";
@@ -10,7 +9,6 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { MarketingPageShell } from "@/components/marketing";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.LABS}`;
 
@@ -42,8 +40,7 @@ export const revalidate = 120;
 
 export default function LabsPage() {
   return (
-    <MarketingPageShell background="none">
-      {/* CollectionPage + BreadcrumbList structured data */}
+    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -51,29 +48,28 @@ export default function LabsPage() {
             {
               "@context": "https://schema.org",
               "@type": "CollectionPage",
-              "name": "QApilot Labs",
-              "description": "Experiments, tools, and ideas shipped fast. Projects born from hackathons and real-world needs.",
-              "url": `${SITE_BASE_URL}${PATHS.LABS}`,
-              "publisher": { "@type": "Organization", "name": "QApilot" }
+              name: "QApilot Labs",
+              description:
+                "Experiments, tools, and ideas shipped fast. Projects born from hackathons and real-world needs.",
+              url: `${SITE_BASE_URL}${PATHS.LABS}`,
+              publisher: { "@type": "Organization", name: "QApilot" },
             },
-            buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Labs", path: PATHS.LABS }])
-          ])
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "Platform overview", path: PATHS.PRODUCT },
+              { name: "Labs", path: PATHS.LABS },
+            ]),
+          ]),
         }}
       />
-      <LabsHeroSection />
-      <Suspense
-        fallback={
-          <section className="py-8 md:py-12">
-            <div className="section-full mx-auto max-w-screen-xl min-h-[280px]" aria-hidden />
-          </section>
-        }
-      >
-        <LabsFeaturedSection />
-      </Suspense>
-      <WhyLabsSection />
-      <LabsProcessSection />
-      <LabsTeamSection />
+      <main>
+        <LabsHeroSection />
+        <LabsMobileAgentsToolsSection />
+        <WhyLabsSection />
+        <LabsProcessSection />
+        <LabsTeamSection />
+      </main>
       <Footer />
-    </MarketingPageShell>
+    </div>
   );
 }

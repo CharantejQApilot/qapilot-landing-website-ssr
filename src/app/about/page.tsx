@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
-import { MarketingPageShell } from "@/components/marketing";
+import Footer from "@/components/Footer";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
@@ -34,21 +34,23 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <>
+    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
+              { name: "Platform overview", path: PATHS.PRODUCT },
               { name: "About", path: PATHS.ABOUT },
-            ])
-          )
+            ]),
+          ),
         }}
       />
-      <MarketingPageShell background="none">
+      <main>
         <AboutClient />
-      </MarketingPageShell>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 }

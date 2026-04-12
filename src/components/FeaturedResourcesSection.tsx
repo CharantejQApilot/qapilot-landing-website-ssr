@@ -13,30 +13,39 @@ interface Resource {
   highlightWord?: string;
 }
 
-const resources: Resource[] = [
-  {
-    header: "Deep Links: Jump Straight to What Matters.",
-    subtext: "Navigate complex app flows in seconds.",
-    text: "QApilot's DeepLinks let you test any screen directly - authentication, installs, or web-to-app journeys, without the clicks in between.",
-    cta: "Explore DeepLinks",
-    ctaLink: "/blogs/deep-links-jump-straight-to-what-matters",
-    illustration: "/lovable-uploads/deeplinks-illustration.jpg",
-    reverse: false,
-    highlightWord: "Deep Links"
-  },
-  {
-    header: "Debug Mode: Precision in Every Step.",
-    subtext: "Run, pause, and inspect test cases in real time.",
-    text: "With Debug Mode, you can trace failures, view screenshots, and analyze step-level data for faster, deeper insight, all inside QApilot.",
-    cta: "Explore Debug Mode",
-    ctaLink: "/blogs/debug-mode-precision-in-every-step",
-    illustration: "/lovable-uploads/debug-mode-illustration.jpg",
-    reverse: true,
-    highlightWord: "Debug Mode"
-  },
-];
+function resourcesWithCtas(
+  ctaLinks: readonly [string, string],
+): Resource[] {
+  return [
+    {
+      header: "Deep Links: Jump Straight to What Matters.",
+      subtext: "Navigate complex app flows in seconds.",
+      text: "QApilot's DeepLinks let you test any screen directly - authentication, installs, or web-to-app journeys, without the clicks in between.",
+      cta: "Explore DeepLinks",
+      ctaLink: ctaLinks[0],
+      illustration: "/lovable-uploads/deeplinks-illustration.jpg",
+      reverse: false,
+      highlightWord: "Deep Links",
+    },
+    {
+      header: "Debug Mode: Precision in Every Step.",
+      subtext: "Run, pause, and inspect test cases in real time.",
+      text: "With Debug Mode, you can trace failures, view screenshots, and analyze step-level data for faster, deeper insight, all inside QApilot.",
+      cta: "Explore Debug Mode",
+      ctaLink: ctaLinks[1],
+      illustration: "/lovable-uploads/debug-mode-illustration.jpg",
+      reverse: true,
+      highlightWord: "Debug Mode",
+    },
+  ];
+}
 
-const FeaturedResourcesSection = () => {
+export default function FeaturedResourcesSection({
+  ctaLinks,
+}: {
+  ctaLinks: readonly [string, string];
+}) {
+  const resources = resourcesWithCtas(ctaLinks);
   return (
     <section className="section-edge relative w-full overflow-hidden border-t border-border bg-background pt-0 pb-0">
       <div className="section-full mx-auto max-w-7xl">
@@ -255,6 +264,4 @@ const FeaturedResourcesSection = () => {
       </div>
     </section>
   );
-};
-
-export default FeaturedResourcesSection;
+}

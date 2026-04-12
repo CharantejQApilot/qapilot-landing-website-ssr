@@ -1,10 +1,14 @@
-import { Lightbulb, Users, Rocket, ArrowRight } from "lucide-react";
+import { Lightbulb, Rocket, Users } from "lucide-react";
+import { MarketingSectionHeader } from "@/components/marketing";
+import { marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { cn } from "@/lib/utils";
 
 const steps = [
   {
     icon: Lightbulb,
     title: "Hackathon / Side Project",
-    description: "An idea sparks during a hackathon, a weekend experiment, or a conversation about what's missing in our workflow.",
+    description:
+      "An idea sparks during a hackathon, a weekend experiment, or a conversation about what's missing in our workflow.",
   },
   {
     icon: Users,
@@ -16,42 +20,45 @@ const steps = [
     title: "Shipped as a Tool",
     description: "The best experiments graduate into standalone tools that anyone can use. Built fast, iterated openly.",
   },
-];
+] as const;
 
 const LabsProcessSection = () => {
   return (
-    <section className="section-edge relative w-full border-t border-border py-10 md:py-14">
-      <div className="section-full mx-auto max-w-screen-xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            How Labs Projects <span className="text-primary">Start</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            From spark to shipped. Every tool follows the same path.
-          </p>
-        </div>
+    <section
+      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
+      aria-labelledby="labs-process-heading"
+    >
+      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <MarketingSectionHeader
+          id="labs-process-heading"
+          title={
+            <>
+              How Labs Projects <span className="text-primary">Start</span>
+            </>
+          }
+          description={<p>From spark to shipped. Every tool follows the same path.</p>}
+          marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4 items-start">
-          {steps.map((step, index) => (
-            <div key={index} className="relative flex flex-col items-center">
-              <div
-                className="bg-card border border-border rounded-2xl p-8 text-center hover:shadow-glow transition-all duration-300 w-full animate-fade-in"
-                style={{ animationDelay: `${index * 0.15}s` }}
-              >
-                <div className="w-14 h-14 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center mx-auto mb-5">
-                  <step.icon size={28} className="text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">{step.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-              </div>
-
-              {/* Arrow between cards (desktop only) */}
-              {index < steps.length - 1 && (
-                <div className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10">
-                  <ArrowRight size={20} className="text-primary/40" />
-                </div>
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6 lg:gap-8">
+          {steps.map((step) => (
+            <article
+              key={step.title}
+              className={cn(
+                "relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 text-center shadow-sm backdrop-blur-sm md:p-8",
+                "motion-safe:hover:border-primary/30 motion-safe:hover:shadow-md",
               )}
-            </div>
+            >
+              <div className="flex flex-col items-center">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
+                  <step.icon className="h-7 w-7 text-primary" strokeWidth={1.5} aria-hidden />
+                </div>
+                <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground md:text-xl">
+                  {step.title}
+                </h3>
+                <p className={cn(marketingSectionIntroClass, "mt-4 text-center")}>{step.description}</p>
+              </div>
+            </article>
           ))}
         </div>
       </div>

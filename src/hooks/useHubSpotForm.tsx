@@ -12,7 +12,7 @@ export interface HubSpotFormContextType {
 
 const HubSpotFormContext = createContext<HubSpotFormContextType | undefined>(undefined);
 
-const HUBSPOT_DIALOG_DEFAULT_TITLE = "Get Access to QApilot";
+const HUBSPOT_DIALOG_DEFAULT_TITLE = "Book a Demo";
 const HUBSPOT_DIALOG_DEFAULT_DESCRIPTION =
   "Fill out the form below and we'll get back to you shortly.";
 

@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
+import { PATHS } from "@/lib/routes";
 
 export default function TermsConditionsPage() {
-  redirect("/terms");
+  permanentRedirect(PATHS.TERMS);
 }
