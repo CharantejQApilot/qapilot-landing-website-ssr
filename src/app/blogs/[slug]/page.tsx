@@ -5,7 +5,7 @@ import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
-import SafeHtmlContent from "@/components/SafeHtmlContent";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
 import { format } from "date-fns";
@@ -231,15 +231,17 @@ export default async function BlogPostPage({
 
             {blog.youtube_url && <YouTubeEmbed url={blog.youtube_url} />}
 
-            <SafeHtmlContent
-              html={blog.content || ""}
+            <div
               className="blog-content max-w-none"
-              contentFormat={
-                (blog as { content_format?: string }).content_format ===
-                "markdown"
-                  ? "markdown"
-                  : "html"
-              }
+              dangerouslySetInnerHTML={{
+                __html: sanitizeRichText(
+                  blog.content || "",
+                  (blog as { content_format?: string }).content_format ===
+                    "markdown"
+                    ? "markdown"
+                    : "html",
+                ),
+              }}
             />
 
             {writer && (

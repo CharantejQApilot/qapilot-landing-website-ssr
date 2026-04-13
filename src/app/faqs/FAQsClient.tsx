@@ -6,13 +6,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import SafeHtmlContent from "@/components/SafeHtmlContent";
 import { cn } from "@/lib/utils";
 
 interface FAQ {
   id: string;
   question: string;
   answer: string;
+  /** Pre-sanitized on the server for static HTML (avoids large client RSC payloads). */
+  answerHtml: string;
   category: string | null;
   display_order: number;
 }
@@ -61,9 +62,9 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
               {faq.question}
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground pb-6 md:pb-8 pt-0">
-              <SafeHtmlContent
-                html={faq.answer}
+              <div
                 className="prose prose-sm prose-slate max-w-none dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: faq.answerHtml }}
               />
             </AccordionContent>
           </AccordionItem>
@@ -93,9 +94,9 @@ export default function FAQsClient({ faqs }: FAQsClientProps) {
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground pb-6 md:pb-8 pt-0">
-                  <SafeHtmlContent
-                    html={faq.answer}
+                  <div
                     className="prose prose-sm prose-slate max-w-none dark:prose-invert"
+                    dangerouslySetInnerHTML={{ __html: faq.answerHtml }}
                   />
                 </AccordionContent>
               </AccordionItem>

@@ -5,7 +5,7 @@ import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
-import SafeHtmlContent from "@/components/SafeHtmlContent";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import SocialEmbed from "@/components/SocialEmbed";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -352,12 +352,14 @@ export default async function NewsPostPage({
 
             {newsItem.youtube_url && <YouTubeEmbed url={newsItem.youtube_url} />}
 
-            <SafeHtmlContent
-              html={newsItem.content || ""}
+            <div
               className="news-content max-w-none"
-              contentFormat={
-                newsItem.content_format === "markdown" ? "markdown" : "html"
-              }
+              dangerouslySetInnerHTML={{
+                __html: sanitizeRichText(
+                  newsItem.content || "",
+                  newsItem.content_format === "markdown" ? "markdown" : "html",
+                ),
+              }}
             />
 
             {writer ? (

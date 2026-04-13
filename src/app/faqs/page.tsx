@@ -9,6 +9,7 @@ import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FAQS}`;
 
@@ -57,14 +58,18 @@ export default async function FAQsPage() {
         .order("display_order", { ascending: true })
     : { data: null as null };
 
-  const faqs = (data as FAQ[] | null) ?? [];
+  const faqsRaw = (data as FAQ[] | null) ?? [];
+  const faqs = faqsRaw.map((faq) => ({
+    ...faq,
+    answerHtml: sanitizeRichText(faq.answer, "html"),
+  }));
 
   const faqStructuredData =
-    faqs.length > 0
+    faqsRaw.length > 0
       ? {
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
+          mainEntity: faqsRaw.map((faq) => ({
             "@type": "Question",
             name: faq.question,
             acceptedAnswer: {

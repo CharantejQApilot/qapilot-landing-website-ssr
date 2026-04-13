@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
-import SafeHtmlContent from "@/components/SafeHtmlContent";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import HubSpotEmbedForm from "@/components/HubSpotEmbedForm";
 import { ArrowLeft, MapPin, Clock, Building2, ExternalLink } from "lucide-react";
 import { PATHS } from "@/lib/routes";
@@ -244,8 +244,7 @@ export default async function JobPostPage({
           <div className="section-full py-14 md:py-20 2xl:py-24">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-7">
-                <SafeHtmlContent
-                  html={job.description}
+                <div
                   className="prose prose-lg max-w-none prose-slate
                     prose-headings:font-heading prose-headings:font-bold prose-headings:text-foreground
                     prose-p:mb-4 prose-p:leading-relaxed prose-p:text-muted-foreground
@@ -255,6 +254,9 @@ export default async function JobPostPage({
                     prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                     [&_br]:mb-4 [&_br]:block [&_br]:content-['']
                     [&>*]:mb-4 [&>*:last-child]:mb-0"
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeRichText(job.description, "html"),
+                  }}
                 />
 
                 {organization ? (

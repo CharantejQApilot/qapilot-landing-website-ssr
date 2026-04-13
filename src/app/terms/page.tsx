@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
-import SafeHtmlContent from "@/components/SafeHtmlContent";
+import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
 import { PATHS } from "@/lib/routes";
@@ -72,9 +72,11 @@ export default async function TermsPage() {
           </div>
 
           <div className="max-w-none">
-            <SafeHtmlContent
-              html={termsContent?.content || ""}
+            <div
               className="prose prose-slate max-w-none rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeRichText(termsContent?.content || "", "html"),
+              }}
             />
           </div>
           </div>
