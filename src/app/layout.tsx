@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Suspense } from "react";
 import Providers from "./providers";
 import Header from "@/components/Header";
-import NewsBanner from "@/components/NewsBanner";
+import SitePromoBanner from "@/components/SitePromoBanner";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
 import { SITE_BASE_URL } from "@/lib/constants";
@@ -151,13 +150,7 @@ export default function RootLayout({
 
         <Providers>
           <div className="relative z-[1200] w-full bg-background">
-            <Suspense
-              fallback={
-                <div id="news-banner" className="h-[44px] shrink-0" aria-hidden />
-              }
-            >
-              <NewsBanner />
-            </Suspense>
+            <SitePromoBanner />
             <Header />
           </div>
           <div className="relative z-0 isolate">{children}</div>
