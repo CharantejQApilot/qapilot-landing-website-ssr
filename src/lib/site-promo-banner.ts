@@ -1,11 +1,11 @@
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
-import { NewsBannerPromo } from "@/components/NewsBannerPromo";
 
-type PromoPayload =
+export type SitePromoPayload =
   | { kind: "news"; slug: string; text: string }
   | { kind: "blog"; slug: string; text: string };
 
-async function fetchPromoBanner(): Promise<PromoPayload | null> {
+/** Shared by `/api/site-promo` and any server code that needs the active promo row. */
+export async function fetchSitePromoBanner(): Promise<SitePromoPayload | null> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) return null;
 
@@ -38,19 +38,4 @@ async function fetchPromoBanner(): Promise<PromoPayload | null> {
   }
 
   return { kind: "blog", slug: bannerBlog.slug, text: blogText };
-}
-
-/** Top promo banner from Supabase — server-fetched; thin client shell avoids self-`Link` RSC issues on Vercel. */
-export default async function NewsBanner() {
-  let payload: PromoPayload | null = null;
-  try {
-    payload = await fetchPromoBanner();
-  } catch (err) {
-    console.error("[NewsBanner] Failed to load promo banner", err);
-  }
-  if (!payload) return null;
-
-  const href =
-    payload.kind === "news" ? `/news/${payload.slug}` : `/blogs/${payload.slug}`;
-  return <NewsBannerPromo href={href} text={payload.text} />;
 }
