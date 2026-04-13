@@ -1,0 +1,10 @@
+# QApilot — ai.txt (machine-readable pointers for AI crawlers)
+# Canonical site: https://qapilot.io
+# Structured product & company context for LLMs (llms.txt standard):
+# https://qapilot.io/llms.txt
+
+Contact: https://qapilot.io/about
+Sitemap: https://qapilot.io/sitemap-index.xml
+
+# Optional: documentation (separate subdomain)
+Documentation: https://docs.qapilot.io/
