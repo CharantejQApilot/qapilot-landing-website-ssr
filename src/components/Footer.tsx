@@ -20,6 +20,7 @@ import {
   PLATFORM_BY_SOLUTION,
   PATHS,
 } from "@/lib/routes";
+import { FooterSummariseWithAI } from "@/components/footer/FooterSummariseWithAI";
 
 /** Shared footer nav link rhythm (all columns use the same padding + gap). */
 const footerColumnLinkClass =
@@ -213,6 +214,8 @@ const Footer = () => {
               </ul>
             </div>
           </div>
+
+          <FooterSummariseWithAI />
 
           <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-white/30">
