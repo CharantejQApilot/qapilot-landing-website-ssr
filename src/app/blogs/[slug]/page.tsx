@@ -24,6 +24,21 @@ const ARTICLE_MAX_WIDTH = "mx-auto w-full max-w-7xl";
 /** ISR: avoids `force-dynamic` + RSC streaming edge cases on some hosts; tune if CMS must be hotter. */
 export const revalidate = 120;
 
+/** Prebuild published posts so production can serve HTML from the prerender cache (fewer serverless RSC failures). */
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("blogs")
+    .select("slug")
+    .eq("published", true);
+  if (error || !data) return [];
+  return data
+    .map((row) => row.slug)
+    .filter((slug): slug is string => typeof slug === "string" && slug.length > 0)
+    .map((slug) => ({ slug }));
+}
+
 export async function generateMetadata({
   params,
 }: {
