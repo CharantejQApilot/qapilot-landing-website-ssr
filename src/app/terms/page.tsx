@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 export default async function TermsPage() {
   const supabase = tryCreateServerSupabaseClient();

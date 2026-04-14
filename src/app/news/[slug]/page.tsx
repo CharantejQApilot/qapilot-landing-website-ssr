@@ -9,7 +9,7 @@ import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import SocialEmbed from "@/components/SocialEmbed";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { format } from "date-fns";
+import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import {
@@ -33,8 +33,7 @@ function stripJsonLdContext(node: object): Record<string, unknown> {
   return o;
 }
 
-/** Avoid static caching of article HTML; picks up admin edits without redeploy. */
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 interface Backlink {
   id: string;
@@ -255,6 +254,8 @@ export default async function NewsPostPage({
     ],
   };
 
+  const publishedLabel = formatPublishedDate(newsItem.published_date);
+
   return (
     <>
       <script
@@ -336,15 +337,12 @@ export default async function NewsPostPage({
                     </p>
                   ) : null}
                 </div>
-                {newsItem.published_date ? (
+                {publishedLabel ? (
                   <time
-                    dateTime={newsItem.published_date}
+                    dateTime={newsItem.published_date ?? undefined}
                     className="ml-auto text-sm text-muted-foreground"
                   >
-                    {format(
-                      new Date(newsItem.published_date),
-                      "MMMM dd, yyyy",
-                    )}
+                    {publishedLabel}
                   </time>
                 ) : null}
               </div>
