@@ -8,7 +8,7 @@ import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
-import { format } from "date-fns";
+import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
@@ -21,8 +21,8 @@ const ARTICLE_GUTTER =
   "w-full px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14";
 const ARTICLE_MAX_WIDTH = "mx-auto w-full max-w-7xl";
 
-/** Avoid static caching; picks up admin edits without redeploy. */
-export const dynamic = "force-dynamic";
+/** ISR: avoids `force-dynamic` + RSC streaming edge cases on some hosts; tune if CMS must be hotter. */
+export const revalidate = 120;
 
 export async function generateMetadata({
   params,
@@ -143,6 +143,8 @@ export default async function BlogPostPage({
     { name: blog.title, path: `${PATHS.BLOGS}/${blog.slug}` },
   ]);
 
+  const publishedLabel = formatPublishedDate(blog.published_date);
+
   return (
     <>
       <script
@@ -222,11 +224,11 @@ export default async function BlogPostPage({
                   </p>
                 )}
               </div>
-              {blog.published_date && (
+              {publishedLabel ? (
                 <span className="text-sm text-muted-foreground ml-auto">
-                  {format(new Date(blog.published_date), "MMMM dd, yyyy")}
+                  {publishedLabel}
                 </span>
-              )}
+              ) : null}
             </div>
 
             {blog.youtube_url && <YouTubeEmbed url={blog.youtube_url} />}

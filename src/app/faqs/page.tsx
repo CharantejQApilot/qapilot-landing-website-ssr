@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 interface FAQ {
   id: string;
