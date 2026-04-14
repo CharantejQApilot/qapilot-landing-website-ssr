@@ -35,6 +35,20 @@ function stripJsonLdContext(node: object): Record<string, unknown> {
 
 export const revalidate = 120;
 
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("news_updates")
+    .select("slug")
+    .eq("published", true);
+  if (error || !data) return [];
+  return data
+    .map((row) => row.slug)
+    .filter((slug): slug is string => typeof slug === "string" && slug.length > 0)
+    .map((slug) => ({ slug }));
+}
+
 interface Backlink {
   id: string;
   header: string;
