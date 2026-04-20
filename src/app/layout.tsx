@@ -9,6 +9,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import "./App.css";
+import WebMcpRegister from "@/components/WebMcpRegister";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qapilot.io"),
@@ -149,6 +150,7 @@ export default function RootLayout({
         </noscript>
 
         <Providers>
+          <WebMcpRegister />
           <div className="relative z-[1200] w-full bg-background">
             <SitePromoBanner />
             <Header />
