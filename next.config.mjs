@@ -57,14 +57,18 @@ const nextConfig = {
     remotePatterns,
   },
   async headers() {
-    /** Early hints for Core Advantage scenic + default tab screenshot (home + platform overview only). */
+    /**
+     * `/` do not bundle Core Advantage image `preload` hints here: those pull many large
+     * Unsplash URLs immediately and hurt mobile LCP/INP. Agent discovery (RFC 8288) stays.
+     * Core Advantage preloads remain on `/product` where that block is primary.
+     */
     return [
       {
         source: "/",
         headers: [
           {
             key: "Link",
-            value: [coreAdvantageLink, agentDiscoveryLink].join(", "),
+            value: agentDiscoveryLink,
           },
         ],
       },
