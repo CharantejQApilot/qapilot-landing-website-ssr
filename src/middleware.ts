@@ -1,6 +1,5 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { getHomePageMarkdown } from "@/lib/agent-readiness/home-markdown";
 
 function wantsMarkdown(accept: string | null): boolean {
   if (!accept) return false;
@@ -10,7 +9,7 @@ function wantsMarkdown(accept: string | null): boolean {
     .includes("text/markdown");
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   if (request.method !== "GET") {
     return NextResponse.next();
   }
@@ -25,6 +24,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  const { getHomePageMarkdown } = await import("@/lib/agent-readiness/home-markdown");
   const body = getHomePageMarkdown();
   const approxTokens = Math.ceil(body.length / 4);
   return new NextResponse(body, {

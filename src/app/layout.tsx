@@ -9,7 +9,11 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import "./App.css";
-import WebMcpRegister from "@/components/WebMcpRegister";
+import dynamic from "next/dynamic";
+
+const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qapilot.io"),
@@ -114,17 +118,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
-        {/* Preconnect to third-party origins */}
-        <link
-          rel="preconnect"
-          href="https://alb.reddit.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://www.redditstatic.com"
-          crossOrigin="anonymous"
-        />
+        {/* Preconnect GA (lazyOnload); omit Reddit until a tag needs it — reduces early connection contention. */}
         <link
           rel="preconnect"
           href="https://www.google-analytics.com"
@@ -158,8 +152,8 @@ export default function RootLayout({
           <div className="relative z-0 isolate">{children}</div>
         </Providers>
 
-        {/* Google Tag Manager */}
-        <Script id="gtm" strategy="afterInteractive">
+        {/* GTM deferred to reduce main-thread work during first input (INP); still loads this navigation */}
+        <Script id="gtm" strategy="lazyOnload">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=

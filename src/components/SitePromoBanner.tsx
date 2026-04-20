@@ -27,17 +27,29 @@ export default function SitePromoBanner() {
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch("/api/site-promo", { cache: "no-store" });
-        const data = (await res.json()) as SitePromoPayload | null;
-        if (!cancelled) setPayload(data ?? null);
-      } catch {
-        if (!cancelled) setPayload(null);
-      }
-    })();
+    const run = () => {
+      void (async () => {
+        try {
+          const res = await fetch("/api/site-promo", { cache: "no-store" });
+          const data = (await res.json()) as SitePromoPayload | null;
+          if (!cancelled) setPayload(data ?? null);
+        } catch {
+          if (!cancelled) setPayload(null);
+        }
+      })();
+    };
+    /** Defer after first paint so promo fetch does not contend with LCP / first interaction. */
+    if (typeof requestIdleCallback !== "undefined") {
+      const id = requestIdleCallback(run, { timeout: 2500 });
+      return () => {
+        cancelled = true;
+        cancelIdleCallback(id);
+      };
+    }
+    const t = window.setTimeout(run, 1);
     return () => {
       cancelled = true;
+      window.clearTimeout(t);
     };
   }, []);
 

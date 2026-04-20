@@ -2,7 +2,8 @@ import { Space_Grotesk, Source_Sans_3 } from "next/font/google";
 
 export const fontHeading = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  /** Omit 300 — unused on site; fewer font files improves first paint. */
+  weight: ["400", "500", "600", "700"],
   variable: "--font-heading",
   display: "swap",
 });
