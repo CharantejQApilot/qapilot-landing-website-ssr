@@ -6,6 +6,7 @@ import {
   buildIntelligentBugIssueDetailLinkHeader,
   buildSecurityReportDeepDiveLinkHeader,
 } from "./src/lib/core-advantage-scenic-urls.mjs";
+import { buildAgentDiscoveryLinkHeader } from "./src/lib/agent-discovery-link-header.mjs";
 
 /** @type {import('next').NextConfig} */
 
@@ -49,6 +50,7 @@ const intelligentBugIssueDetailLink = buildIntelligentBugIssueDetailLinkHeader()
 const flutterTestingVideoLink = buildFlutterTestingVideoLinkHeader();
 const securityReportDeepDiveLink = buildSecurityReportDeepDiveLinkHeader();
 const aiSelfHealingReportLink = buildAiSelfHealingReportLinkHeader();
+const agentDiscoveryLink = buildAgentDiscoveryLinkHeader();
 
 const nextConfig = {
   images: {
@@ -59,7 +61,12 @@ const nextConfig = {
     return [
       {
         source: "/",
-        headers: [{ key: "Link", value: coreAdvantageLink }],
+        headers: [
+          {
+            key: "Link",
+            value: [coreAdvantageLink, agentDiscoveryLink].join(", "),
+          },
+        ],
       },
       {
         source: "/product",
