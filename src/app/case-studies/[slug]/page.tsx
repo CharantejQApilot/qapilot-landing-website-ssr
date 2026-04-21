@@ -15,6 +15,11 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
+import { resolveSlugParam } from "@/lib/app-router-params";
+import {
+  absoluteUrlForOpenGraph,
+  normalizeArticlePublishedTime,
+} from "@/lib/share-metadata";
 
 /** Match the /blogs article gutter so the two layouts feel identical. */
 const ARTICLE_GUTTER =
@@ -42,20 +47,21 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     notFound();
   }
-  const { data: caseStudy } = await supabase
+  const slug = await resolveSlugParam(params);
+  const { data: caseStudy, error } = await supabase
     .from("case_studies")
     .select("*")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .eq("published", true)
-    .single();
+    .maybeSingle();
 
-  if (!caseStudy) {
+  if (error || !caseStudy) {
     notFound();
   }
 
@@ -77,9 +83,13 @@ export async function generateMetadata({
       ? kw.join(", ")
       : "QApilot case study, mobile testing case study, QA automation outcomes";
 
-  const ogUrl =
+  const ogRaw =
     (caseStudy as { og_image_url?: string | null }).og_image_url?.trim() ||
     caseStudy.featured_image;
+  const ogAbsolute = absoluteUrlForOpenGraph(ogRaw);
+  const publishedTime = normalizeArticlePublishedTime(
+    caseStudy.published_date,
+  );
 
   return {
     title: metaTitle,
@@ -93,10 +103,10 @@ export async function generateMetadata({
       title: metaTitle,
       description,
       url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
-      ...(ogUrl && {
-        images: [{ url: ogUrl, width: 1200, height: 630 }],
+      ...(ogAbsolute && {
+        images: [{ url: ogAbsolute, width: 1200, height: 630 }],
       }),
-      publishedTime: caseStudy.published_date || undefined,
+      ...(publishedTime ? { publishedTime } : {}),
       authors: caseStudy.author_name ? [caseStudy.author_name] : undefined,
       tags: ["Case Study", "Mobile Testing", "QA Automation"],
     },
@@ -104,7 +114,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: metaTitle,
       description,
-      ...(ogUrl && { images: [ogUrl] }),
+      ...(ogAbsolute && { images: [ogAbsolute] }),
     },
   };
 }
@@ -112,21 +122,22 @@ export async function generateMetadata({
 export default async function CaseStudyPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }) {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     notFound();
   }
 
-  const { data: caseStudy } = await supabase
+  const slug = await resolveSlugParam(params);
+  const { data: caseStudy, error: caseStudyError } = await supabase
     .from("case_studies")
     .select("*")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .eq("published", true)
-    .single();
+    .maybeSingle();
 
-  if (!caseStudy) {
+  if (caseStudyError || !caseStudy) {
     notFound();
   }
 
@@ -136,7 +147,7 @@ export default async function CaseStudyPostPage({
       .from("writers")
       .select("*")
       .eq("id", caseStudy.writer_id)
-      .single();
+      .maybeSingle();
     writer = data;
   }
 
@@ -177,7 +188,11 @@ export default async function CaseStudyPostPage({
               Back to Case Studies
             </Link>
 
-            {caseStudy.featured_image && !caseStudy.youtube_url && (
+            {caseStudy.featured_image &&
+            !(
+              typeof caseStudy.youtube_url === "string" &&
+              caseStudy.youtube_url.trim().length > 0
+            ) ? (
               <div className="w-full overflow-hidden rounded-lg mb-8">
                 <img
                   src={caseStudy.featured_image}
@@ -189,7 +204,7 @@ export default async function CaseStudyPostPage({
                   style={{ aspectRatio: "1200/630" }}
                 />
               </div>
-            )}
+            ) : null}
 
             <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
               {caseStudy.title}
@@ -246,22 +261,29 @@ export default async function CaseStudyPostPage({
               ) : null}
             </div>
 
-            {caseStudy.youtube_url && <YouTubeEmbed url={caseStudy.youtube_url} />}
+            {typeof caseStudy.youtube_url === "string" &&
+            caseStudy.youtube_url.trim() ? (
+              <YouTubeEmbed url={caseStudy.youtube_url.trim()} />
+            ) : null}
 
             <div
               className="blog-content max-w-none"
               dangerouslySetInnerHTML={{
                 __html: sanitizeRichText(
                   caseStudy.content || "",
-                  (caseStudy as { content_format?: string }).content_format ===
-                    "markdown"
+                  String(
+                    (caseStudy as { content_format?: string | null })
+                      .content_format ?? "",
+                  ).toLowerCase() === "markdown"
                     ? "markdown"
                     : "html",
                 ),
               }}
             />
 
-            {writer && (
+            {writer &&
+            typeof writer.name === "string" &&
+            writer.name.trim().length > 0 ? (
               <WriterCard
                 name={writer.name}
                 designation={writer.designation}
@@ -269,7 +291,7 @@ export default async function CaseStudyPostPage({
                 linkedinUrl={writer.linkedin_url}
                 profileImage={writer.profile_image}
               />
-            )}
+            ) : null}
 
             <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.CASE_STUDIES} />
             </div>

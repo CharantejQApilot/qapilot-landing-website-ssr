@@ -74,6 +74,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
   },
+  "/case-studies": {
+    title: "Case Studies - Customer Stories & Outcomes | QApilot",
+    description:
+      "Real-world results from teams using QApilot to ship faster with fewer regressions. Customer stories, outcomes, and lessons from mobile QA programs.",
+  },
   /** Canonical listing path (matches `PATHS.NEWS` in the Next app). */
   "/news": {
     title: "News & Updates - Mobile Testing Industry News | QApilot",
@@ -294,6 +299,49 @@ Deno.serve(async (req) => {
           trimStr(row.excerpt) ||
           trimStr(row.description) ||
           `Read ${baseTitle || "this post"} on the QApilot blog.`;
+        const image = blogShareImage(row);
+        const html = buildHtml({
+          title: pageTitle,
+          description,
+          url: canonicalUrl,
+          image,
+          ogType: "article",
+          author: (trimStr(row.author_name) || "QApilot") as string,
+          publishedDate: trimStr(row.published_date) || undefined,
+        });
+        return new Response(html, {
+          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+        });
+      }
+    } catch {
+      // fall through to fallback
+    }
+  }
+
+  // /case-studies/:slug (same CMS shape as blogs; OG image selection matches Next.js generateMetadata)
+  const caseStudyMatch = path.match(/^\/case-studies\/(.+)$/);
+  if (caseStudyMatch) {
+    try {
+      const slug = caseStudyMatch[1];
+      const { data, error } = await supabase
+        .from("case_studies")
+        .select(
+          "title, excerpt, description, featured_image, og_image_url, seo_title, seo_description, author_name, published_date, youtube_url",
+        )
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+
+      if (!error && data) {
+        const row = data as unknown as Record<string, unknown>;
+        const seoTitle = trimStr(row.seo_title);
+        const baseTitle = trimStr(row.title);
+        const pageTitle = seoTitle || legacyArticleTitle(baseTitle);
+        const description =
+          trimStr(row.seo_description) ||
+          trimStr(row.excerpt) ||
+          trimStr(row.description) ||
+          `Read ${baseTitle || "this case study"} on QApilot — customer outcomes from mobile QA programs.`;
         const image = blogShareImage(row);
         const html = buildHtml({
           title: pageTitle,

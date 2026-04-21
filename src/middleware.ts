@@ -36,7 +36,8 @@ async function fetchPrerenderMetaHtml(pathname: string): Promise<string | null> 
 }
 
 export async function middleware(request: NextRequest) {
-  if (request.method !== "GET") {
+  /** Link-preview crawlers may use HEAD; treat like GET for prerender + avoid accidental 500 fallthrough. */
+  if (request.method !== "GET" && request.method !== "HEAD") {
     return NextResponse.next();
   }
 
