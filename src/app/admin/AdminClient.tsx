@@ -48,6 +48,23 @@ interface Blog {
   updated_at: string;
 }
 
+interface CaseStudy {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string | null;
+  featured_image: string | null;
+  published: boolean;
+  is_featured: boolean;
+  is_banner?: boolean;
+  published_date: string | null;
+  author_name: string | null;
+  author_designation: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 interface NewsUpdate {
   id: string;
   title: string;
@@ -133,6 +150,7 @@ const AdminClient = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const blogJsonFileInputRef = useRef<HTMLInputElement>(null);
+  const caseStudyJsonFileInputRef = useRef<HTMLInputElement>(null);
 
   const mutationErrorText = (err: unknown) => {
     if (err instanceof Error) return err.message;
@@ -204,6 +222,20 @@ const AdminClient = () => {
 
       if (error) throw error;
       return data as Blog[];
+    },
+    enabled: isAdmin,
+  });
+
+  const { data: caseStudies, isLoading: caseStudiesLoading } = useQuery({
+    queryKey: ["admin-case-studies"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("case_studies")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      return data as CaseStudy[];
     },
     enabled: isAdmin,
   });
@@ -309,6 +341,75 @@ const AdminClient = () => {
       });
       if (blogJsonFileInputRef.current) {
         blogJsonFileInputRef.current.value = "";
+      }
+    },
+  });
+
+  const deleteCaseStudyMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("case_studies").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-case-studies"] });
+      toast({
+        title: "Success",
+        description: "Case study deleted successfully",
+      });
+    },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not delete case study",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
+    },
+  });
+
+  const importCaseStudyJsonMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Your session expired. Please sign in again.");
+      }
+
+      const text = await file.text();
+      const parsed = parseBlogImportJson(text);
+      if (parsed.ok === false) {
+        throw new Error(parsed.errors.join(" "));
+      }
+      const row = parsed.row;
+
+      const newId = crypto.randomUUID();
+      const { data, error } = await supabase
+        .from("case_studies")
+        .insert({ ...row, id: newId })
+        .select("id")
+        .single();
+
+      if (error) throw error;
+      return data as { id: string };
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["admin-case-studies"] });
+      toast({
+        title: "Draft created",
+        description:
+          "Case study imported from JSON. Open it to review and publish when ready.",
+      });
+      if (caseStudyJsonFileInputRef.current) {
+        caseStudyJsonFileInputRef.current.value = "";
+      }
+      router.push(`/admin/case-studies-editor/${data.id}`);
+    },
+    onError: (err: unknown) => {
+      toast({
+        title: "Could not import case study JSON",
+        description: mutationErrorText(err),
+        variant: "destructive",
+      });
+      if (caseStudyJsonFileInputRef.current) {
+        caseStudyJsonFileInputRef.current.value = "";
       }
     },
   });
@@ -440,6 +541,10 @@ const AdminClient = () => {
 
   const handleEditBlog = (blogId: string) => {
     router.push(`/admin/editor/${blogId}`);
+  };
+
+  const handleEditCaseStudy = (caseStudyId: string) => {
+    router.push(`/admin/case-studies-editor/${caseStudyId}`);
   };
 
   const handleEditNews = async (news: NewsUpdate) => {
@@ -723,6 +828,7 @@ const AdminClient = () => {
         <Tabs defaultValue="blogs" className="w-full">
           <TabsList className="mb-8 flex h-auto min-h-10 w-full flex-wrap justify-start gap-1 rounded-xl bg-muted/80 p-1.5">
             <TabsTrigger value="blogs">Blogs</TabsTrigger>
+            <TabsTrigger value="case-studies">Case Studies</TabsTrigger>
             <TabsTrigger value="news">News & Updates</TabsTrigger>
             <TabsTrigger value="writers">Writers</TabsTrigger>
             <TabsTrigger value="careers">Careers</TabsTrigger>
@@ -823,6 +929,105 @@ const AdminClient = () => {
                 <Card className="border border-border bg-card text-card-foreground shadow-sm">
                   <CardContent className="p-12 text-center">
                     <p className="text-muted-foreground">No blog posts yet. Create your first one!</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="case-studies">
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-muted-foreground">
+                Create a case study in the editor, or import a JSON file to add a draft in one step.
+              </p>
+              <div className="flex flex-wrap justify-end gap-2">
+                <input
+                  ref={caseStudyJsonFileInputRef}
+                  type="file"
+                  accept="application/json,.json"
+                  className="sr-only"
+                  aria-label="Import case study from JSON file"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) importCaseStudyJsonMutation.mutate(file);
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="border-border"
+                  disabled={importCaseStudyJsonMutation.isPending}
+                  onClick={() => caseStudyJsonFileInputRef.current?.click()}
+                >
+                  <FileJson className="mr-2 h-4 w-4" />
+                  {importCaseStudyJsonMutation.isPending ? "Importing…" : "Import JSON draft"}
+                </Button>
+                <Button onClick={() => router.push("/admin/case-studies-editor")}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  New Case Study
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              {caseStudiesLoading ? (
+                <Card className="border border-border bg-card text-card-foreground shadow-sm">
+                  <CardContent className="p-12 text-center text-muted-foreground">
+                    Loading case studies…
+                  </CardContent>
+                </Card>
+              ) : caseStudies && caseStudies.length > 0 ? (
+                caseStudies.map((caseStudy) => (
+                  <Card key={caseStudy.id} className="border border-border bg-card text-card-foreground shadow-sm">
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <h3 className="mb-2 text-xl font-semibold text-foreground">{caseStudy.title}</h3>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            Slug: {caseStudy.slug}
+                          </p>
+                          <div className="flex gap-2">
+                            {caseStudy.published && (
+                              <span className="text-xs bg-primary/20 text-primary px-2 py-1 rounded">
+                                Published
+                              </span>
+                            )}
+                            {caseStudy.is_featured && (
+                              <span className="text-xs bg-orange/20 text-orange px-2 py-1 rounded">
+                                Featured
+                              </span>
+                            )}
+                            {caseStudy.published && caseStudy.is_banner && (
+                              <span className="rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">
+                                Banner
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleEditCaseStudy(caseStudy.id)}
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            onClick={() => deleteCaseStudyMutation.mutate(caseStudy.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <Card className="border border-border bg-card text-card-foreground shadow-sm">
+                  <CardContent className="p-12 text-center">
+                    <p className="text-muted-foreground">No case studies yet. Create your first one!</p>
                   </CardContent>
                 </Card>
               )}

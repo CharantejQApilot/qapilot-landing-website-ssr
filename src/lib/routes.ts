@@ -13,6 +13,13 @@ export const PATHS = {
   ABOUT: "/about",
   BLOGS: "/blogs",
   BLOG_POST: "/blogs/:slug",
+  /**
+   * Case studies live under Resources but are intentionally hidden from the
+   * navigation menu for now (still reachable by direct URL or external links).
+   * Add to RESOURCE_NAV_LINKS when ready to surface in the header dropdown.
+   */
+  CASE_STUDIES: "/case-studies",
+  CASE_STUDY_POST: "/case-studies/:slug",
   NEWS: "/news",
   NEWS_POST: "/news/:slug",
   AUTH: "/auth",
