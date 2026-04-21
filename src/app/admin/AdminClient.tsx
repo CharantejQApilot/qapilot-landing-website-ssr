@@ -106,7 +106,6 @@ const AdminClient = () => {
   const [newsIsFeatured, setNewsIsFeatured] = useState(false);
   const [newsIsBanner, setNewsIsBanner] = useState(false);
   const [newsBannerText, setNewsBannerText] = useState("");
-  const [uploadingFeaturedImage, setUploadingFeaturedImage] = useState(false);
   
   const [backlinks, setBacklinks] = useState<Backlink[]>([]);
   const [uploadingBacklinkLogo, setUploadingBacklinkLogo] = useState<number | null>(null);
@@ -488,52 +487,6 @@ const AdminClient = () => {
       })));
     } else {
       setBacklinks([]);
-    }
-  };
-
-  const handleFeaturedImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setUploadingFeaturedImage(true);
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `news/${fileName}`;
-
-      const { error: uploadError, data } = await supabase.storage
-        .from('blog-images')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('blog-images')
-        .getPublicUrl(filePath);
-
-      setNewsFeaturedImage(publicUrl);
-      toast({
-        title: "Success",
-        description: "Image uploaded successfully",
-      });
-    } catch (error: unknown) {
-      console.error('Error uploading image:', error);
-      const msg =
-        error instanceof Error
-          ? error.message
-          : typeof error === "object" &&
-              error !== null &&
-              "message" in error &&
-              typeof (error as { message: unknown }).message === "string"
-            ? (error as { message: string }).message
-            : "Failed to upload image";
-      toast({
-        title: "Error",
-        description: msg,
-        variant: "destructive",
-      });
-    } finally {
-      setUploadingFeaturedImage(false);
     }
   };
 
@@ -1077,20 +1030,30 @@ const AdminClient = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="news-featured-image">Cover image</Label>
+                      <Label htmlFor="news-featured-image-url">Cover image URL</Label>
                       <Input
-                        id="news-featured-image"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFeaturedImageUpload}
-                        disabled={uploadingFeaturedImage}
+                        id="news-featured-image-url"
+                        value={newsFeaturedImage}
+                        onChange={(e) => setNewsFeaturedImage(e.target.value)}
+                        placeholder="https://qapilotlabs.s3.us-east-1.amazonaws.com/…/image.webp"
+                        autoComplete="off"
                       />
-                      {uploadingFeaturedImage && (
-                        <p className="text-sm text-muted-foreground mt-1">Uploading...</p>
-                      )}
-                      {newsFeaturedImage && !uploadingFeaturedImage && (
-                        <p className="mt-1 text-sm text-primary">✓ Image uploaded</p>
-                      )}
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Use a hosted URL (for example S3) for the card and article header. Large PNGs
+                        should not be uploaded to site storage here.
+                      </p>
+                      {newsFeaturedImage.trim().startsWith("http") ? (
+                        <div className="mt-3 overflow-hidden rounded-md border border-border bg-muted/30 p-2">
+                          <img
+                            src={newsFeaturedImage.trim()}
+                            alt="Cover preview"
+                            className="mx-auto max-h-40 w-auto object-contain"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = "none";
+                            }}
+                          />
+                        </div>
+                      ) : null}
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4">
