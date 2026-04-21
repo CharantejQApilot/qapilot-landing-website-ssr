@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowLeft, Save } from "lucide-react";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
 
-interface Blog {
+interface CaseStudy {
   id: string;
   title: string;
   slug: string;
@@ -41,7 +41,7 @@ interface Blog {
   banner_text?: string | null;
 }
 
-const BlogEditorClient = () => {
+const CaseStudyEditorClient = () => {
   const [step, setStep] = useState<"content" | "metadata">("content");
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -65,8 +65,8 @@ const BlogEditorClient = () => {
   const [publishStatus, setPublishStatus] = useState<"draft" | "published">(
     "published",
   );
-  const [isBlogBanner, setIsBlogBanner] = useState(false);
-  const [blogBannerText, setBlogBannerText] = useState("");
+  const [isCaseStudyBanner, setIsCaseStudyBanner] = useState(false);
+  const [caseStudyBannerText, setCaseStudyBannerText] = useState("");
 
   const router = useRouter();
   const { toast } = useToast();
@@ -77,29 +77,28 @@ const BlogEditorClient = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      
+
       if (!session) {
         router.push("/auth");
         return;
       }
-
     };
 
     checkAuth();
   }, [router]);
 
-  const { data: existingBlog } = useQuery({
-    queryKey: ["blog", id],
+  const { data: existingCaseStudy } = useQuery({
+    queryKey: ["case-study", id],
     queryFn: async () => {
       if (!id) return null;
       const { data, error } = await supabase
-        .from("blogs")
+        .from("case_studies")
         .select("*")
         .eq("id", id)
         .single();
 
       if (error) throw error;
-      return data as Blog & { writer_id: string | null; youtube_url: string | null };
+      return data as CaseStudy & { writer_id: string | null; youtube_url: string | null };
     },
     enabled: !!id,
   });
@@ -117,35 +116,35 @@ const BlogEditorClient = () => {
   });
 
   useEffect(() => {
-    if (existingBlog) {
-      setTitle(existingBlog.title);
-      setSlug(existingBlog.slug);
-      setContent(existingBlog.content || "");
-      setExcerpt(existingBlog.excerpt || "");
-      setFeaturedImageUrl(existingBlog.featured_image || "");
-      setAuthorName(existingBlog.author_name || "");
-      setAuthorDesignation(existingBlog.author_designation || "");
-      setIsFeatured(existingBlog.is_featured);
-      setIsLabsFeatured((existingBlog as Blog).is_labs_featured || false);
+    if (existingCaseStudy) {
+      setTitle(existingCaseStudy.title);
+      setSlug(existingCaseStudy.slug);
+      setContent(existingCaseStudy.content || "");
+      setExcerpt(existingCaseStudy.excerpt || "");
+      setFeaturedImageUrl(existingCaseStudy.featured_image || "");
+      setAuthorName(existingCaseStudy.author_name || "");
+      setAuthorDesignation(existingCaseStudy.author_designation || "");
+      setIsFeatured(existingCaseStudy.is_featured);
+      setIsLabsFeatured((existingCaseStudy as CaseStudy).is_labs_featured || false);
       setPublishedDate(
-        existingBlog.published_date
-          ? existingBlog.published_date.substring(0, 10)
+        existingCaseStudy.published_date
+          ? existingCaseStudy.published_date.substring(0, 10)
           : "",
       );
-      setWriterId(existingBlog.writer_id || "");
-      setYoutubeUrl(existingBlog.youtube_url || "");
-      setCategory(existingBlog.category || "");
-      setDescription(existingBlog.description || "");
-      setTags(existingBlog.tags || "");
-      setSeoTitle(existingBlog.seo_title || "");
-      setSeoDescription(existingBlog.seo_description || "");
-      setOgImageUrl(existingBlog.og_image_url || "");
-      setSeoKeywords(existingBlog.seo_keywords || "");
-      setPublishStatus(existingBlog.published ? "published" : "draft");
-      setIsBlogBanner(Boolean((existingBlog as Blog).is_banner));
-      setBlogBannerText((existingBlog as Blog).banner_text || "");
+      setWriterId(existingCaseStudy.writer_id || "");
+      setYoutubeUrl(existingCaseStudy.youtube_url || "");
+      setCategory(existingCaseStudy.category || "");
+      setDescription(existingCaseStudy.description || "");
+      setTags(existingCaseStudy.tags || "");
+      setSeoTitle(existingCaseStudy.seo_title || "");
+      setSeoDescription(existingCaseStudy.seo_description || "");
+      setOgImageUrl(existingCaseStudy.og_image_url || "");
+      setSeoKeywords(existingCaseStudy.seo_keywords || "");
+      setPublishStatus(existingCaseStudy.published ? "published" : "draft");
+      setIsCaseStudyBanner(Boolean((existingCaseStudy as CaseStudy).is_banner));
+      setCaseStudyBannerText((existingCaseStudy as CaseStudy).banner_text || "");
     }
-  }, [existingBlog]);
+  }, [existingCaseStudy]);
 
   const saveMutation = useMutation({
     mutationFn: async ({ published: publishedFlag }: { published: boolean }) => {
@@ -157,9 +156,9 @@ const BlogEditorClient = () => {
       const imageUrl = featuredImageUrl.trim();
 
       const contentFormat =
-        id && existingBlog?.content_format === "html" ? "html" : "markdown";
+        id && existingCaseStudy?.content_format === "html" ? "html" : "markdown";
 
-      const blogData = {
+      const caseStudyData = {
         title: title || "Untitled",
         slug: slug || `untitled-${Date.now()}`,
         excerpt: excerpt || null,
@@ -181,34 +180,34 @@ const BlogEditorClient = () => {
         og_image_url: ogImageUrl.trim() || null,
         seo_keywords: seoKeywords.trim() || null,
         content_format: contentFormat,
-        is_banner: publishedFlag && isBlogBanner,
+        is_banner: publishedFlag && isCaseStudyBanner,
         banner_text:
-          publishedFlag && isBlogBanner && blogBannerText.trim()
-            ? blogBannerText.trim()
+          publishedFlag && isCaseStudyBanner && caseStudyBannerText.trim()
+            ? caseStudyBannerText.trim()
             : null,
       };
 
       if (id) {
         const { data: updatedRow, error, status } = await supabase
-          .from("blogs")
-          .update(blogData)
+          .from("case_studies")
+          .update(caseStudyData)
           .eq("id", id)
           .select("id, title")
           .maybeSingle();
-        console.log("[ADMIN DEBUG] blog update:", { updatedRow, error, status, id });
+        console.log("[ADMIN DEBUG] case study update:", { updatedRow, error, status, id });
         if (error) throw error;
         if (!updatedRow) {
           throw new Error(
-            `Blog update silently failed (status ${status}). RLS is blocking writes. Run 20260326000000_fix_all_admin_rls.sql in Supabase SQL Editor.`
+            `Case study update silently failed (status ${status}). RLS is blocking writes. Run 20260422120000_case_studies_cms.sql in Supabase SQL Editor.`
           );
         }
       } else {
         const { data: insertedRow, error, status } = await supabase
-          .from("blogs")
-          .insert({ ...blogData, id: crypto.randomUUID() })
+          .from("case_studies")
+          .insert({ ...caseStudyData, id: crypto.randomUUID() })
           .select("id")
           .single();
-        console.log("[ADMIN DEBUG] blog insert:", { insertedRow, error, status });
+        console.log("[ADMIN DEBUG] case study insert:", { insertedRow, error, status });
         if (error) throw error;
       }
 
@@ -222,12 +221,12 @@ const BlogEditorClient = () => {
       }
     },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
+      queryClient.invalidateQueries({ queryKey: ["admin-case-studies"] });
       toast({
         title: "Success",
         description: variables.published
-          ? "Blog published successfully"
-          : "Blog saved as draft",
+          ? "Case study published successfully"
+          : "Case study saved as draft",
       });
       router.push("/admin");
     },
@@ -250,7 +249,7 @@ const BlogEditorClient = () => {
   });
 
   const validateBannerForPublish = (published: boolean) => {
-    if (published && isBlogBanner && !blogBannerText.trim()) {
+    if (published && isCaseStudyBanner && !caseStudyBannerText.trim()) {
       toast({
         title: "Banner text required",
         description: "Add banner text or turn off the home page banner option.",
@@ -345,7 +344,7 @@ const BlogEditorClient = () => {
             <div className="container mx-auto max-w-5xl px-4 pb-4 pt-8">
               <Input
                 type="text"
-                placeholder="Blog Title"
+                placeholder="Case Study Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="border-none bg-transparent px-0 font-heading text-3xl font-semibold tracking-tight text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 md:text-4xl"
@@ -421,7 +420,7 @@ const BlogEditorClient = () => {
                     id="slug"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    placeholder="blog-post-url-slug"
+                    placeholder="case-study-url-slug"
                     required
                   />
                 </div>
@@ -434,7 +433,7 @@ const BlogEditorClient = () => {
                       const next = v as "draft" | "published";
                       setPublishStatus(next);
                       if (next === "draft") {
-                        setIsBlogBanner(false);
+                        setIsCaseStudyBanner(false);
                       }
                     }}
                   >
@@ -454,7 +453,7 @@ const BlogEditorClient = () => {
                     id="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    placeholder="e.g. Product, Engineering"
+                    placeholder="e.g. Customer Story, Industry"
                   />
                 </div>
 
@@ -475,7 +474,7 @@ const BlogEditorClient = () => {
                     id="tags"
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
-                    placeholder="flutter, testing, automation"
+                    placeholder="fintech, mobile, automation"
                   />
                 </div>
 
@@ -562,7 +561,7 @@ const BlogEditorClient = () => {
                     placeholder="https://www.youtube.com/watch?v=..."
                   />
                   <p className="text-xs text-muted-foreground">
-                    Paste a YouTube URL to embed the video at the top of the blog post
+                    Paste a YouTube URL to embed the video at the top of the case study
                   </p>
                 </div>
 
@@ -605,7 +604,7 @@ const BlogEditorClient = () => {
                       id="seo-keywords"
                       value={seoKeywords}
                       onChange={(e) => setSeoKeywords(e.target.value)}
-                      placeholder="mobile testing, QA, automation"
+                      placeholder="case study, customer story, QA"
                     />
                   </div>
                 </div>
@@ -617,7 +616,7 @@ const BlogEditorClient = () => {
                       checked={isFeatured}
                       onCheckedChange={(checked) => setIsFeatured(checked as boolean)}
                     />
-                    <Label htmlFor="featured">Featured Post</Label>
+                    <Label htmlFor="featured">Featured Case Study</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -632,13 +631,13 @@ const BlogEditorClient = () => {
                 <div className="space-y-3 border-t border-border pt-6">
                   <div className="flex items-center space-x-2">
                     <Checkbox
-                      id="blog-home-banner"
-                      checked={isBlogBanner}
+                      id="case-study-home-banner"
+                      checked={isCaseStudyBanner}
                       disabled={publishStatus !== "published"}
-                      onCheckedChange={(checked) => setIsBlogBanner(checked as boolean)}
+                      onCheckedChange={(checked) => setIsCaseStudyBanner(checked as boolean)}
                     />
                     <Label
-                      htmlFor="blog-home-banner"
+                      htmlFor="case-study-home-banner"
                       className={
                         publishStatus === "published"
                           ? "cursor-pointer font-normal"
@@ -649,17 +648,17 @@ const BlogEditorClient = () => {
                     </Label>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    If a news item is also marked as banner, the news banner is shown instead. Use one
-                    blog banner at a time for predictable messaging.
+                    If a news or blog item is also marked as banner, the news banner takes precedence.
+                    Use one banner at a time for predictable messaging.
                   </p>
-                  {isBlogBanner && publishStatus === "published" && (
+                  {isCaseStudyBanner && publishStatus === "published" && (
                     <div>
-                      <Label htmlFor="blog-banner-text">Banner text *</Label>
+                      <Label htmlFor="case-study-banner-text">Banner text *</Label>
                       <Input
-                        id="blog-banner-text"
-                        value={blogBannerText}
-                        onChange={(e) => setBlogBannerText(e.target.value)}
-                        placeholder="New on the blog: …"
+                        id="case-study-banner-text"
+                        value={caseStudyBannerText}
+                        onChange={(e) => setCaseStudyBannerText(e.target.value)}
+                        placeholder="New case study: …"
                       />
                     </div>
                   )}
@@ -690,4 +689,4 @@ const BlogEditorClient = () => {
   );
 };
 
-export default BlogEditorClient;
+export default CaseStudyEditorClient;
