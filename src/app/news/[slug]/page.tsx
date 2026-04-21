@@ -57,6 +57,14 @@ interface Backlink {
   link_url: string | null;
 }
 
+function splitCommaList(value: unknown): string[] {
+  if (typeof value !== "string" || !value.trim()) return [];
+  return value
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -66,14 +74,14 @@ export async function generateMetadata({
   if (!supabase) {
     notFound();
   }
-  const { data: newsItem } = await supabase
+  const { data: newsItem, error } = await supabase
     .from("news_updates")
     .select("*")
     .eq("slug", params.slug)
     .eq("published", true)
-    .single();
+    .maybeSingle();
 
-  if (!newsItem) {
+  if (error || !newsItem) {
     notFound();
   }
 
@@ -93,49 +101,60 @@ export async function generateMetadata({
     : null;
   const ogImage =
     newsItem.og_image_url?.trim() ||
-    newsItem.featured_image ||
+    newsItem.featured_image?.trim() ||
     videoThumbnail ||
     DEFAULT_SHARE_IMAGE_URL;
 
-  const kw = newsItem.seo_keywords
-    ?.split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const keywordTags =
-    kw && kw.length > 0
-      ? kw
-      : ["QApilot news", "mobile testing updates", "QA automation news"];
+  const kw = splitCommaList(newsItem.seo_keywords);
+  const keywordsJoined =
+    kw.length > 0
+      ? kw.join(", ")
+      : "QApilot news, mobile testing updates, QA automation news";
 
-  return {
-    title: metaTitle,
-    description,
-    keywords: keywordTags,
-    alternates: {
-      canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
-    },
-    openGraph: {
-      type: "article",
+  /**
+   * Avoid fixed width/height on arbitrary CMS image URLs: Next can probe remote
+   * images during metadata resolution; very large PNGs (e.g. multi‑MB S3 assets)
+   * have caused 500s on serverless.
+   */
+  try {
+    return {
       title: metaTitle,
       description,
-      url: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
-      images: [
-        ogImage === DEFAULT_SHARE_IMAGE_URL
-          ? defaultOpenGraphImage
-          : { url: ogImage, width: 1200, height: 630, alt: metaTitle },
-      ],
-      publishedTime: newsItem.published_date || undefined,
-      authors: newsItem.author_name ? [newsItem.author_name] : undefined,
-      tags: keywordTags,
-      siteName: "QApilot",
-      locale: "en_US",
-    },
-    twitter: {
-      card: "summary_large_image",
+      keywords: keywordsJoined,
+      alternates: {
+        canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+      },
+      openGraph: {
+        type: "article",
+        title: metaTitle,
+        description,
+        url: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+        images: [
+          ogImage === DEFAULT_SHARE_IMAGE_URL
+            ? defaultOpenGraphImage
+            : { url: ogImage, alt: metaTitle },
+        ],
+        publishedTime: newsItem.published_date || undefined,
+        authors: newsItem.author_name ? [newsItem.author_name] : undefined,
+        siteName: "QApilot",
+        locale: "en_US",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: metaTitle,
+        description,
+        images: [ogImage],
+      },
+    };
+  } catch {
+    return {
       title: metaTitle,
       description,
-      images: [ogImage],
-    },
-  };
+      alternates: {
+        canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+      },
+    };
+  }
 }
 
 export default async function NewsPostPage({
@@ -148,14 +167,14 @@ export default async function NewsPostPage({
     notFound();
   }
 
-  const { data: newsItem } = await supabase
+  const { data: newsItem, error: newsError } = await supabase
     .from("news_updates")
     .select("*")
     .eq("slug", params.slug)
     .eq("published", true)
-    .single();
+    .maybeSingle();
 
-  if (!newsItem) {
+  if (newsError || !newsItem) {
     notFound();
   }
 
@@ -165,7 +184,7 @@ export default async function NewsPostPage({
       .from("writers")
       .select("*")
       .eq("id", newsItem.writer_id)
-      .single();
+      .maybeSingle();
     writer = data;
   }
 
@@ -313,18 +332,15 @@ export default async function NewsPostPage({
               </p>
             ) : null}
 
-            {newsItem.category?.trim() || newsItem.tags?.trim() ? (
+            {newsItem.category?.trim() ||
+            (typeof newsItem.tags === "string" && newsItem.tags.trim()) ? (
               <div className="mb-6 flex flex-wrap gap-2 text-sm">
                 {newsItem.category?.trim() ? (
                   <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
                     {newsItem.category}
                   </span>
                 ) : null}
-                {newsItem.tags
-                  ?.split(",")
-                  .map((t) => t.trim())
-                  .filter(Boolean)
-                  .map((tag) => (
+                {splitCommaList(newsItem.tags).map((tag) => (
                     <span
                       key={tag}
                       className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
@@ -374,7 +390,7 @@ export default async function NewsPostPage({
               }}
             />
 
-            {writer ? (
+            {writer && typeof writer.name === "string" && writer.name.trim() ? (
               <WriterCard
                 name={writer.name}
                 designation={writer.designation}
