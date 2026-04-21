@@ -31,9 +31,11 @@ const RelatedPosts = ({ posts, basePath }: RelatedPostsProps) => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {posts.map((post) => {
+          const yt =
+            typeof post.youtube_url === "string" ? post.youtube_url : null;
           const imageSrc =
             post.featured_image ||
-            (post.youtube_url ? getYouTubeThumbnail(post.youtube_url) : null);
+            (yt ? getYouTubeThumbnail(yt) : null);
 
           return (
             <Link
