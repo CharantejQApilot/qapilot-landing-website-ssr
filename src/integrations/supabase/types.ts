@@ -109,6 +109,101 @@ export type Database = {
           },
         ]
       }
+      case_studies: {
+        Row: {
+          author_designation: string | null
+          author_name: string | null
+          banner_text: string | null
+          category: string | null
+          content: string | null
+          content_format: string
+          created_at: string
+          description: string | null
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          is_banner: boolean
+          is_featured: boolean
+          is_labs_featured: boolean
+          og_image_url: string | null
+          published: boolean
+          published_date: string | null
+          seo_description: string | null
+          seo_keywords: string | null
+          seo_title: string | null
+          slug: string
+          tags: string | null
+          title: string
+          updated_at: string
+          writer_id: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          author_designation?: string | null
+          author_name?: string | null
+          banner_text?: string | null
+          category?: string | null
+          content?: string | null
+          content_format?: string
+          created_at?: string
+          description?: string | null
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          is_banner?: boolean
+          is_featured?: boolean
+          is_labs_featured?: boolean
+          og_image_url?: string | null
+          published?: boolean
+          published_date?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug: string
+          tags?: string | null
+          title: string
+          updated_at?: string
+          writer_id?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          author_designation?: string | null
+          author_name?: string | null
+          banner_text?: string | null
+          category?: string | null
+          content?: string | null
+          content_format?: string
+          created_at?: string
+          description?: string | null
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          is_banner?: boolean
+          is_featured?: boolean
+          is_labs_featured?: boolean
+          og_image_url?: string | null
+          published?: boolean
+          published_date?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug?: string
+          tags?: string | null
+          title?: string
+          updated_at?: string
+          writer_id?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_studies_writer_id_fkey"
+            columns: ["writer_id"]
+            isOneToOne: false
+            referencedRelation: "writers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       faqs: {
         Row: {
           answer: string
