@@ -9,11 +9,62 @@ function wantsMarkdown(accept: string | null): boolean {
     .includes("text/markdown");
 }
 
+/**
+ * Link-preview / social crawlers that should not run the Next.js RSC stack.
+ * Intentionally excludes general search crawlers (e.g. Googlebot) so SEO HTML stays normal.
+ */
+const SOCIAL_PREVIEW_UA =
+  /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|Pinterest|vkShare|Embedly|Quora Link Preview|redditbot/i;
+
+function isSocialPreviewUserAgent(ua: string | null): boolean {
+  if (!ua) return false;
+  return SOCIAL_PREVIEW_UA.test(ua);
+}
+
+async function fetchPrerenderMetaHtml(pathname: string): Promise<string | null> {
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!base || !key) return null;
+  const path = pathname.replace(/\/+$/, "") || "/";
+  const url = `${base.replace(/\/+$/, "")}/functions/v1/prerender-meta?path=${encodeURIComponent(path)}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${key}` },
+    cache: "no-store",
+  });
+  if (!res.ok) return null;
+  return await res.text();
+}
+
 export async function middleware(request: NextRequest) {
   if (request.method !== "GET") {
     return NextResponse.next();
   }
-  if (request.nextUrl.pathname !== "/") {
+
+  const pathname = request.nextUrl.pathname;
+
+  /** Social / chat link expanders: serve OG HTML from Supabase `prerender-meta` (same idea as blogs). */
+  if (
+    isSocialPreviewUserAgent(request.headers.get("user-agent")) &&
+    !request.headers.has("RSC") &&
+    !request.headers.has("Next-Router-State-Tree")
+  ) {
+    try {
+      const html = await fetchPrerenderMetaHtml(pathname);
+      if (html) {
+        return new NextResponse(html, {
+          status: 200,
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        });
+      }
+    } catch {
+      // Fall through to Next (e.g. function not deployed or network error).
+    }
+  }
+
+  if (pathname !== "/") {
     return NextResponse.next();
   }
   /** Let React Server Components / router internals through (not public markdown). */
@@ -38,5 +89,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: [
+    "/",
+    "/((?!api/|_next/|favicon\\.ico|\\.well-known/|.*\\.(?:ico|png|jpg|jpeg|gif|webp|svg|avif|woff2?|xml|json|txt)$).*)",
+  ],
 };

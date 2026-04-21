@@ -74,6 +74,12 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
   },
+  /** Canonical listing path (matches `PATHS.NEWS` in the Next app). */
+  "/news": {
+    title: "News & Updates - Mobile Testing Industry News | QApilot",
+    description:
+      "Stay updated with the latest news, product updates, and industry insights from QApilot. Learn about new features, partnerships, and mobile testing trends.",
+  },
   "/news-updates": {
     title: "News & Updates - Mobile Testing Industry News | QApilot",
     description:
@@ -129,6 +135,39 @@ function extractYouTubeId(url: string): string | null {
   return null;
 }
 
+function trimStr(v: unknown): string {
+  return typeof v === "string" ? v.trim() : "";
+}
+
+/** Matches `blogs/[slug]` generateMetadata image selection (no YouTube fallback in OG URL). */
+function blogShareImage(row: Record<string, unknown>): string {
+  const og = trimStr(row.og_image_url);
+  const feat = trimStr(row.featured_image);
+  if (og) return og;
+  if (feat) return feat;
+  return DEFAULT_OG_IMAGE;
+}
+
+/** Matches `news/[slug]` generateMetadata image selection. */
+function newsShareImage(row: Record<string, unknown>): string {
+  const og = trimStr(row.og_image_url);
+  const feat = trimStr(row.featured_image);
+  const yt = trimStr(row.youtube_url);
+  if (og) return og;
+  if (feat) return feat;
+  if (yt) {
+    const vid = extractYouTubeId(yt);
+    if (vid) return `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
+  }
+  return DEFAULT_OG_IMAGE;
+}
+
+/** Legacy display title when `seo_title` is unset (align with older prerender behavior). */
+function legacyArticleTitle(rawTitle: string): string {
+  if (!rawTitle) return "QApilot";
+  return rawTitle.includes("QApilot") ? rawTitle : `${rawTitle} | QApilot`;
+}
+
 function buildHtml(meta: {
   title: string;
   description: string;
@@ -141,15 +180,17 @@ function buildHtml(meta: {
   const escaped = (s: string) =>
     s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  const [imgW, imgH] =
+  /** Avoid declaring wrong dimensions for arbitrary CMS images (many crawlers ignore these). */
+  const dimensionTags =
     meta.image === DEFAULT_OG_IMAGE
-      ? [DEFAULT_OG_IMAGE_WIDTH, DEFAULT_OG_IMAGE_HEIGHT]
-      : ["1200", "630"];
+      ? `<meta property="og:image:width" content="${DEFAULT_OG_IMAGE_WIDTH}" />
+  <meta property="og:image:height" content="${DEFAULT_OG_IMAGE_HEIGHT}" />`
+      : "";
 
   const articleTags =
     meta.ogType === "article" && meta.publishedDate
       ? `<meta property="article:published_time" content="${escaped(meta.publishedDate)}" />
-    <meta property="article:author" content="${escaped(meta.author || "QApilot")}" />`
+  <meta property="article:author" content="${escaped(meta.author || "QApilot")}" />`
       : "";
 
   return `<!DOCTYPE html>
@@ -166,8 +207,7 @@ function buildHtml(meta: {
   <meta property="og:title" content="${escaped(meta.title)}" />
   <meta property="og:description" content="${escaped(meta.description)}" />
   <meta property="og:image" content="${escaped(meta.image)}" />
-  <meta property="og:image:width" content="${imgW}" />
-  <meta property="og:image:height" content="${imgH}" />
+  ${dimensionTags}
   <meta property="og:site_name" content="QApilot" />
   ${articleTags}
 
@@ -212,108 +252,141 @@ Deno.serve(async (req) => {
     });
   }
 
-  // 2. Dynamic routes — need Supabase
-  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !serviceRoleKey) {
+    const fallbackHtml = buildHtml({
+      title: "QApilot - AI-Powered Mobile App Testing & QA Automation",
+      description:
+        "Automate your mobile app testing with QApilot's AI-powered platform. Get instant test coverage for iOS & Android apps.",
+      url: canonicalUrl,
+      image: DEFAULT_OG_IMAGE,
+      ogType: "website",
+    });
+    return new Response(fallbackHtml, {
+      headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+    });
+  }
+
   const supabase = createClient(supabaseUrl, serviceRoleKey);
 
   // /blogs/:slug
   const blogMatch = path.match(/^\/blogs\/(.+)$/);
   if (blogMatch) {
-    const slug = blogMatch[1];
-    const { data } = await supabase
-      .from("blogs")
-      .select("title, excerpt, featured_image, author_name, published_date, youtube_url")
-      .eq("slug", slug)
-      .eq("published", true)
-      .single();
+    try {
+      const slug = blogMatch[1];
+      const { data, error } = await supabase
+        .from("blogs")
+        .select(
+          "title, excerpt, description, featured_image, og_image_url, seo_title, seo_description, author_name, published_date, youtube_url",
+        )
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
 
-    if (data) {
-      let image = data.featured_image || DEFAULT_OG_IMAGE;
-      if (!data.featured_image && data.youtube_url) {
-        const vid = extractYouTubeId(data.youtube_url);
-        if (vid) image = `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
+      if (!error && data) {
+        const row = data as unknown as Record<string, unknown>;
+        const seoTitle = trimStr(row.seo_title);
+        const baseTitle = trimStr(row.title);
+        const pageTitle = seoTitle || legacyArticleTitle(baseTitle);
+        const description =
+          trimStr(row.seo_description) ||
+          trimStr(row.excerpt) ||
+          trimStr(row.description) ||
+          `Read ${baseTitle || "this post"} on the QApilot blog.`;
+        const image = blogShareImage(row);
+        const html = buildHtml({
+          title: pageTitle,
+          description,
+          url: canonicalUrl,
+          image,
+          ogType: "article",
+          author: (trimStr(row.author_name) || "QApilot") as string,
+          publishedDate: trimStr(row.published_date) || undefined,
+        });
+        return new Response(html, {
+          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+        });
       }
-      const title = data.title.includes("QApilot")
-        ? data.title
-        : `${data.title} | QApilot`;
-      const html = buildHtml({
-        title,
-        description: data.excerpt || data.title,
-        url: canonicalUrl,
-        image,
-        ogType: "article",
-        author: data.author_name || "QApilot",
-        publishedDate: data.published_date || undefined,
-      });
-      return new Response(html, {
-        headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-      });
+    } catch {
+      // fall through to fallback
     }
   }
 
-  // /news/:slug  (news-updates uses /news/ in routes)
+  // /news/:slug
   const newsMatch = path.match(/^\/news\/(.+)$/);
   if (newsMatch) {
-    const slug = newsMatch[1];
-    const { data } = await supabase
-      .from("news_updates")
-      .select("title, excerpt, featured_image, author_name, published_date, youtube_url")
-      .eq("slug", slug)
-      .eq("published", true)
-      .single();
+    try {
+      const slug = newsMatch[1];
+      const { data, error } = await supabase
+        .from("news_updates")
+        .select(
+          "title, excerpt, description, featured_image, og_image_url, seo_title, seo_description, author_name, published_date, youtube_url",
+        )
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
 
-    if (data) {
-      let image = data.featured_image || DEFAULT_OG_IMAGE;
-      if (!data.featured_image && data.youtube_url) {
-        const vid = extractYouTubeId(data.youtube_url);
-        if (vid) image = `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
+      if (!error && data) {
+        const row = data as unknown as Record<string, unknown>;
+        const seoTitle = trimStr(row.seo_title);
+        const baseTitle = trimStr(row.title);
+        const pageTitle = seoTitle || legacyArticleTitle(baseTitle);
+        const description =
+          trimStr(row.seo_description) ||
+          trimStr(row.excerpt) ||
+          trimStr(row.description) ||
+          `Read ${baseTitle || "this update"} on QApilot News.`;
+        const image = newsShareImage(row);
+        const html = buildHtml({
+          title: pageTitle,
+          description,
+          url: canonicalUrl,
+          image,
+          ogType: "article",
+          author: (trimStr(row.author_name) || "QApilot") as string,
+          publishedDate: trimStr(row.published_date) || undefined,
+        });
+        return new Response(html, {
+          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+        });
       }
-      const title = data.title.includes("QApilot")
-        ? data.title
-        : `${data.title} | QApilot`;
-      const html = buildHtml({
-        title,
-        description: data.excerpt || data.title,
-        url: canonicalUrl,
-        image,
-        ogType: "article",
-        author: data.author_name || "QApilot",
-        publishedDate: data.published_date || undefined,
-      });
-      return new Response(html, {
-        headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-      });
+    } catch {
+      // fall through to fallback
     }
   }
 
   // /careers/:slug
   const jobMatch = path.match(/^\/careers\/(.+)$/);
   if (jobMatch) {
-    const slug = jobMatch[1];
-    const { data } = await supabase
-      .from("job_openings")
-      .select("role, department, location, employment_type")
-      .eq("slug", slug)
-      .eq("published", true)
-      .single();
+    try {
+      const slug = jobMatch[1];
+      const { data, error } = await supabase
+        .from("job_openings")
+        .select("role, department, location, employment_type")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
 
-    if (data) {
-      const empType = data.employment_type
-        .replace("_", " ")
-        .replace(/\b\w/g, (c: string) => c.toUpperCase());
-      const title = `${data.role} - ${data.department} | QApilot Careers`;
-      const description = `${empType} position in ${data.department} at QApilot. Location: ${data.location}. Join us and help shape what quality looks like in an AI-first world.`;
-      const html = buildHtml({
-        title,
-        description,
-        url: canonicalUrl,
-        image: DEFAULT_OG_IMAGE,
-        ogType: "website",
-      });
-      return new Response(html, {
-        headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-      });
+      if (!error && data) {
+        const empType = data.employment_type
+          .replace("_", " ")
+          .replace(/\b\w/g, (c: string) => c.toUpperCase());
+        const title = `${data.role} - ${data.department} | QApilot Careers`;
+        const description = `${empType} position in ${data.department} at QApilot. Location: ${data.location}. Join us and help shape what quality looks like in an AI-first world.`;
+        const html = buildHtml({
+          title,
+          description,
+          url: canonicalUrl,
+          image: DEFAULT_OG_IMAGE,
+          ogType: "website",
+        });
+        return new Response(html, {
+          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+        });
+      }
+    } catch {
+      // fall through to fallback
     }
   }
 
