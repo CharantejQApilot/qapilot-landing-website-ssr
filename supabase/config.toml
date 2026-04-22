@@ -1,4 +1,9 @@
-project_id = "zgstnkahlofjoewvylxq"
+## Production Supabase project (matches `NEXT_PUBLIC_SUPABASE_URL` /
+## `NEXT_PUBLIC_SUPABASE_PROJECT_ID` used by Next.js + the middleware).
+## Earlier this pointed at a different project ref, which meant
+## `supabase functions deploy …` from this repo silently went to the wrong
+## project and the live `prerender-meta` / sitemap functions stayed stale.
+project_id = "jvxdyfgjudycpopepgku"
 
 [functions.sitemap-posts]
 verify_jwt = false
