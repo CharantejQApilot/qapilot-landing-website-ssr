@@ -91,32 +91,52 @@ export async function generateMetadata({
     caseStudy.published_date,
   );
 
-  return {
-    title: metaTitle,
-    description,
-    keywords: keywordsJoined,
-    alternates: {
-      canonical: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
-    },
-    openGraph: {
-      type: "article",
+  /**
+   * Avoid declaring fixed `width`/`height` on arbitrary CMS OG image URLs.
+   * Next can probe remote images during metadata resolution; multi‑MB S3 PNGs
+   * have caused 500s on serverless ISR for newly published items not in the
+   * prerender cache. Same pattern as /news/[slug] which has been stable.
+   * The whole return is wrapped in try/catch so a metadata hiccup never
+   * cascades to a /500.
+   */
+  try {
+    return {
       title: metaTitle,
       description,
-      url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
-      ...(ogAbsolute && {
-        images: [{ url: ogAbsolute, width: 1200, height: 630 }],
-      }),
-      ...(publishedTime ? { publishedTime } : {}),
-      authors: caseStudy.author_name ? [caseStudy.author_name] : undefined,
-      tags: ["Case Study", "Mobile Testing", "QA Automation"],
-    },
-    twitter: {
-      card: "summary_large_image",
+      keywords: keywordsJoined,
+      alternates: {
+        canonical: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
+      },
+      openGraph: {
+        type: "article",
+        title: metaTitle,
+        description,
+        url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
+        ...(ogAbsolute
+          ? { images: [{ url: ogAbsolute, alt: metaTitle }] }
+          : {}),
+        ...(publishedTime ? { publishedTime } : {}),
+        authors: caseStudy.author_name ? [caseStudy.author_name] : undefined,
+        siteName: "QApilot",
+        locale: "en_US",
+        tags: ["Case Study", "Mobile Testing", "QA Automation"],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: metaTitle,
+        description,
+        ...(ogAbsolute ? { images: [ogAbsolute] } : {}),
+      },
+    };
+  } catch {
+    return {
       title: metaTitle,
       description,
-      ...(ogAbsolute && { images: [ogAbsolute] }),
-    },
-  };
+      alternates: {
+        canonical: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
+      },
+    };
+  }
 }
 
 export default async function CaseStudyPostPage({
