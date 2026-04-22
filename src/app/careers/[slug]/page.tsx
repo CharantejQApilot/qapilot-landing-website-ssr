@@ -63,6 +63,20 @@ const getEmploymentTypeSchema = (type: string) => {
   }
 };
 
+/**
+ * Returns minimal "Not found" metadata if the row is missing instead of calling
+ * `notFound()` from inside `generateMetadata`. Throwing `NEXT_NOT_FOUND` from
+ * metadata in a dynamic ISR route on Vercel has been observed to escalate to
+ * Next's generic /500 page rather than the proper /404. We let the page handler
+ * decide the HTTP status — that path reliably renders a 404 via the
+ * segment-level `not-found.tsx`.
+ */
+const NOT_FOUND_METADATA: Metadata = {
+  title: "Job opening not found",
+  description: "We couldn't find that QApilot job opening.",
+  robots: { index: false, follow: false },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -70,7 +84,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
-    notFound();
+    return NOT_FOUND_METADATA;
   }
 
   let { data: job } = await supabase
@@ -91,7 +105,7 @@ export async function generateMetadata({
   }
 
   if (!job) {
-    notFound();
+    return NOT_FOUND_METADATA;
   }
 
   const typedJob = job as JobOpening;

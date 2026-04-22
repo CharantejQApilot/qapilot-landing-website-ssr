@@ -44,6 +44,21 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
     .map((slug) => ({ slug }));
 }
 
+/**
+ * Returns minimal "Not found" metadata if the row is missing instead of calling
+ * `notFound()` from inside `generateMetadata`. Throwing `NEXT_NOT_FOUND` from
+ * metadata while a sibling `error.tsx` boundary exists has been observed to
+ * escalate to Next's generic /500 page on Vercel rather than the proper /404
+ * (related to vercel/next.js#65013). We let the page handler decide the HTTP
+ * status — that path reliably renders a 404 via the segment-level
+ * `not-found.tsx`.
+ */
+const NOT_FOUND_METADATA: Metadata = {
+  title: "Article not found",
+  description: "We couldn't find that QApilot blog post.",
+  robots: { index: false, follow: false },
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -51,7 +66,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
-    notFound();
+    return NOT_FOUND_METADATA;
   }
   const slug = await resolveSlugParam(params);
   const { data: blog, error } = await supabase
@@ -62,7 +77,7 @@ export async function generateMetadata({
     .maybeSingle();
 
   if (error || !blog) {
-    notFound();
+    return NOT_FOUND_METADATA;
   }
 
   const description =
