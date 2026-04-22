@@ -10,60 +10,33 @@ function wantsMarkdown(accept: string | null): boolean {
 }
 
 /**
- * Link-preview / social crawlers that should not run the Next.js RSC stack.
- * Intentionally excludes general search crawlers (e.g. Googlebot) so SEO HTML stays normal.
+ * Previously this middleware short-circuited social-preview crawlers
+ * (LinkedInBot / facebookexternalhit / Twitterbot / etc.) to a Supabase
+ * `prerender-meta` edge function. That existed as a defensive workaround
+ * back when serverless RSC cold starts were occasionally 500-ing on
+ * `/blogs/[slug]`, `/case-studies/[slug]`, `/news/[slug]`.
+ *
+ * Those routes are now hardened with `generateStaticParams` (build-time
+ * prerender), `revalidate = 120` (ISR), and `generateMetadata` wrapped in
+ * try/catch. The Next.js metadata pipeline produces the canonical OG /
+ * Twitter tags for every article — including custom CMS images, titles,
+ * descriptions and `article:published_time`.
+ *
+ * The Supabase fallback was actively *wrong* whenever the deployed edge
+ * function fell behind this repo (e.g. case studies looked like the generic
+ * QApilot website preview because the deployed prerender-meta predated the
+ * `/case-studies/:slug` handler). Crawlers were getting stale metadata even
+ * though Next.js was rendering the right thing.
+ *
+ * We now let Next.js answer crawler requests directly. Source-of-truth lives
+ * in each route's `generateMetadata`, which can never silently drift.
  */
-const SOCIAL_PREVIEW_UA =
-  /facebookexternalhit|Facebot|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|TelegramBot|SkypeUriPreview|Pinterest|vkShare|Embedly|Quora Link Preview|redditbot/i;
-
-function isSocialPreviewUserAgent(ua: string | null): boolean {
-  if (!ua) return false;
-  return SOCIAL_PREVIEW_UA.test(ua);
-}
-
-async function fetchPrerenderMetaHtml(pathname: string): Promise<string | null> {
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!base || !key) return null;
-  const path = pathname.replace(/\/+$/, "") || "/";
-  const url = `${base.replace(/\/+$/, "")}/functions/v1/prerender-meta?path=${encodeURIComponent(path)}`;
-  const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${key}` },
-    cache: "no-store",
-  });
-  if (!res.ok) return null;
-  return await res.text();
-}
-
 export async function middleware(request: NextRequest) {
-  /** Link-preview crawlers may use HEAD; treat like GET for prerender + avoid accidental 500 fallthrough. */
   if (request.method !== "GET" && request.method !== "HEAD") {
     return NextResponse.next();
   }
 
   const pathname = request.nextUrl.pathname;
-
-  /** Social / chat link expanders: serve OG HTML from Supabase `prerender-meta` (same idea as blogs). */
-  if (
-    isSocialPreviewUserAgent(request.headers.get("user-agent")) &&
-    !request.headers.has("RSC") &&
-    !request.headers.has("Next-Router-State-Tree")
-  ) {
-    try {
-      const html = await fetchPrerenderMetaHtml(pathname);
-      if (html) {
-        return new NextResponse(html, {
-          status: 200,
-          headers: {
-            "Content-Type": "text/html; charset=utf-8",
-            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-          },
-        });
-      }
-    } catch {
-      // Fall through to Next (e.g. function not deployed or network error).
-    }
-  }
 
   if (pathname !== "/") {
     return NextResponse.next();
