@@ -89,32 +89,52 @@ export async function generateMetadata({
   const ogAbsolute = absoluteUrlForOpenGraph(ogRaw);
   const publishedTime = normalizeArticlePublishedTime(blog.published_date);
 
-  return {
-    title: metaTitle,
-    description,
-    keywords: keywordsJoined,
-    alternates: {
-      canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
-    },
-    openGraph: {
-      type: "article",
+  /**
+   * Avoid declaring fixed `width`/`height` on arbitrary CMS OG image URLs.
+   * Next can probe remote images during metadata resolution; multi‑MB S3 PNGs
+   * have caused 500s on serverless ISR for newly published items not in the
+   * prerender cache. Same pattern as /news/[slug] which has been stable.
+   * The whole return is wrapped in try/catch so a metadata hiccup never
+   * cascades to a /500.
+   */
+  try {
+    return {
       title: metaTitle,
       description,
-      url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
-      ...(ogAbsolute && {
-        images: [{ url: ogAbsolute, width: 1200, height: 630 }],
-      }),
-      ...(publishedTime ? { publishedTime } : {}),
-      authors: blog.author_name ? [blog.author_name] : undefined,
-      tags: ["Mobile Testing", "QA Automation", "Test Automation"],
-    },
-    twitter: {
-      card: "summary_large_image",
+      keywords: keywordsJoined,
+      alternates: {
+        canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+      },
+      openGraph: {
+        type: "article",
+        title: metaTitle,
+        description,
+        url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+        ...(ogAbsolute
+          ? { images: [{ url: ogAbsolute, alt: metaTitle }] }
+          : {}),
+        ...(publishedTime ? { publishedTime } : {}),
+        authors: blog.author_name ? [blog.author_name] : undefined,
+        siteName: "QApilot",
+        locale: "en_US",
+        tags: ["Mobile Testing", "QA Automation", "Test Automation"],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: metaTitle,
+        description,
+        ...(ogAbsolute ? { images: [ogAbsolute] } : {}),
+      },
+    };
+  } catch {
+    return {
       title: metaTitle,
       description,
-      ...(ogAbsolute && { images: [ogAbsolute] }),
-    },
-  };
+      alternates: {
+        canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+      },
+    };
+  }
 }
 
 export default async function BlogPostPage({
