@@ -8,6 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { getAdminAccessState } from "@/lib/admin/admin-auth";
+import {
+  clearAdminAccessCookie,
+  setAdminAccessCookie,
+} from "@/lib/admin/session-cookie";
 
 const authSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }),
@@ -22,16 +27,22 @@ const AuthClient = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
+    const routeForSession = async () => {
+      const access = await getAdminAccessState(supabase);
+      if (access.status === "ok") {
+        setAdminAccessCookie(access.session.access_token);
         router.push("/admin");
+      } else if (access.status === "forbidden") {
+        setAdminAccessCookie(access.session.access_token);
+        router.push("/");
+      } else {
+        clearAdminAccessCookie();
       }
-    });
+    };
+    routeForSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        router.push("/admin");
-      }
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      void routeForSession();
     });
 
     return () => subscription.unsubscribe();
@@ -51,7 +62,7 @@ const AuthClient = () => {
     }
 
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: validation.data.email,
       password: validation.data.password,
     });
@@ -62,6 +73,9 @@ const AuthClient = () => {
         description: error.message,
         variant: "destructive",
       });
+    }
+    if (!error && data.session?.access_token) {
+      setAdminAccessCookie(data.session.access_token);
     }
     setLoading(false);
   };

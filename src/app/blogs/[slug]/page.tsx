@@ -10,7 +10,7 @@ import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
+import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
@@ -201,6 +201,27 @@ export default async function BlogPostPage({
     { name: "Blogs", path: PATHS.BLOGS },
     { name: blog.title, path: `${PATHS.BLOGS}/${blog.slug}` },
   ]);
+  const articlePublishedTime = normalizeArticlePublishedTime(blog.published_date);
+  const articleStructuredData: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: blog.title,
+    url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+    ...(blog.excerpt ? { description: blog.excerpt } : {}),
+    ...(articlePublishedTime ? { datePublished: articlePublishedTime } : {}),
+    publisher: {
+      "@type": "Organization",
+      name: "QApilot",
+      logo: { "@type": "ImageObject", url: DEFAULT_LOGO_URL },
+    },
+    ...(blog.author_name
+      ? { author: { "@type": "Person", name: blog.author_name } }
+      : {}),
+  };
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [articleStructuredData, breadcrumbData],
+  };
 
   const publishedLabel = formatPublishedDate(blog.published_date);
 
@@ -208,7 +229,7 @@ export default async function BlogPostPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
       />
       <MarketingPageShell background="soft">
           <main className="section-edge w-full py-16 md:py-20 lg:py-24">
@@ -288,9 +309,12 @@ export default async function BlogPostPage({
                 )}
               </div>
               {publishedLabel ? (
-                <span className="text-sm text-muted-foreground ml-auto">
+                <time
+                  dateTime={blog.published_date ?? undefined}
+                  className="text-sm text-muted-foreground ml-auto"
+                >
                   {publishedLabel}
-                </span>
+                </time>
               ) : null}
             </div>
 
