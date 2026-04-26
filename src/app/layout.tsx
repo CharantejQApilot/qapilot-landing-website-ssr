@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import SitePromoBanner from "@/components/SitePromoBanner";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
-import { SITE_BASE_URL } from "@/lib/constants";
+import { HUBSPOT_NA1_PORTAL_ID, SITE_BASE_URL } from "@/lib/constants";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import "./App.css";
@@ -115,6 +115,7 @@ export default function RootLayout({
         {/* DNS Prefetch for third-party domains */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://js.hsforms.net" />
+        <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
@@ -174,6 +175,13 @@ export default function RootLayout({
           gtag('config', 'G-YVK0J06RCR');
           `}
         </Script>
+
+        {/* HubSpot tracking + Conversations (chat flows); afterInteractive keeps first paint light */}
+        <Script
+          id="hs-script-loader"
+          src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
