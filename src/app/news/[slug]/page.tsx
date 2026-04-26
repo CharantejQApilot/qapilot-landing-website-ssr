@@ -21,6 +21,11 @@ import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { extractYouTubeId } from "@/utils/youtube";
+import { resolveSlugParam } from "@/lib/app-router-params";
+import {
+  absoluteUrlForOpenGraph,
+  normalizeArticlePublishedTime,
+} from "@/lib/share-metadata";
 
 /** Match blog article: readable column + comfortable side margin. */
 const ARTICLE_GUTTER =
@@ -83,16 +88,17 @@ const NOT_FOUND_METADATA: Metadata = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     return NOT_FOUND_METADATA;
   }
+  const slug = await resolveSlugParam(params);
   const { data: newsItem, error } = await supabase
     .from("news_updates")
     .select("*")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();
 
@@ -119,6 +125,8 @@ export async function generateMetadata({
     newsItem.featured_image?.trim() ||
     videoThumbnail ||
     DEFAULT_SHARE_IMAGE_URL;
+  const ogAbsolute = absoluteUrlForOpenGraph(ogImage) ?? DEFAULT_SHARE_IMAGE_URL;
+  const publishedTime = normalizeArticlePublishedTime(newsItem.published_date);
 
   const kw = splitCommaList(newsItem.seo_keywords);
   const keywordsJoined =
@@ -143,13 +151,13 @@ export async function generateMetadata({
         type: "article",
         title: metaTitle,
         description,
-        url: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+        url: `${SITE_BASE_URL}${PATHS.NEWS}/${slug}`,
         images: [
-          ogImage === DEFAULT_SHARE_IMAGE_URL
+          ogAbsolute === DEFAULT_SHARE_IMAGE_URL
             ? defaultOpenGraphImage
-            : { url: ogImage, alt: metaTitle },
+            : { url: ogAbsolute, alt: metaTitle },
         ],
-        publishedTime: newsItem.published_date || undefined,
+        ...(publishedTime ? { publishedTime } : {}),
         authors: newsItem.author_name ? [newsItem.author_name] : undefined,
         siteName: "QApilot",
         locale: "en_US",
@@ -158,7 +166,7 @@ export async function generateMetadata({
         card: "summary_large_image",
         title: metaTitle,
         description,
-        images: [ogImage],
+        images: [ogAbsolute],
       },
     };
   } catch {
@@ -175,17 +183,18 @@ export async function generateMetadata({
 export default async function NewsPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }) {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     notFound();
   }
+  const slug = await resolveSlugParam(params);
 
   const { data: newsItem, error: newsError } = await supabase
     .from("news_updates")
     .select("*")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();
 

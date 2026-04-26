@@ -93,7 +93,7 @@ ${urlEntries}
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+        'Cache-Control': 'public, max-age=300',
       },
     })
   } catch (error) {

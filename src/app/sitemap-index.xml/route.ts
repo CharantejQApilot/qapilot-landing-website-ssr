@@ -34,6 +34,9 @@ export function GET() {
       `  <sitemap>`,
       `    <loc>${sb}/functions/v1/sitemap-jobs</loc>`,
       `  </sitemap>`,
+      `  <sitemap>`,
+      `    <loc>${sb}/functions/v1/sitemap-case-studies</loc>`,
+      `  </sitemap>`,
     );
   }
   lines.push(`</sitemapindex>`);
@@ -41,7 +44,7 @@ export function GET() {
   return new Response(lines.join("\n"), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
     },
   });
 }
