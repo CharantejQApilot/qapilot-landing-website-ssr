@@ -10,7 +10,7 @@ import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
+import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
@@ -203,6 +203,27 @@ export default async function CaseStudyPostPage({
     { name: "Case Studies", path: PATHS.CASE_STUDIES },
     { name: caseStudy.title, path: `${PATHS.CASE_STUDIES}/${caseStudy.slug}` },
   ]);
+  const articlePublishedTime = normalizeArticlePublishedTime(caseStudy.published_date);
+  const articleStructuredData: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: caseStudy.title,
+    url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
+    ...(caseStudy.excerpt ? { description: caseStudy.excerpt } : {}),
+    ...(articlePublishedTime ? { datePublished: articlePublishedTime } : {}),
+    publisher: {
+      "@type": "Organization",
+      name: "QApilot",
+      logo: { "@type": "ImageObject", url: DEFAULT_LOGO_URL },
+    },
+    ...(caseStudy.author_name
+      ? { author: { "@type": "Person", name: caseStudy.author_name } }
+      : {}),
+  };
+  const caseStudyJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [articleStructuredData, breadcrumbData],
+  };
 
   const publishedLabel = formatPublishedDate(caseStudy.published_date);
 
@@ -210,7 +231,7 @@ export default async function CaseStudyPostPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudyJsonLd) }}
       />
       <MarketingPageShell background="soft">
           <main className="section-edge w-full py-16 md:py-20 lg:py-24">
@@ -290,9 +311,12 @@ export default async function CaseStudyPostPage({
                 )}
               </div>
               {publishedLabel ? (
-                <span className="text-sm text-muted-foreground ml-auto">
+                <time
+                  dateTime={caseStudy.published_date ?? undefined}
+                  className="text-sm text-muted-foreground ml-auto"
+                >
                   {publishedLabel}
-                </span>
+                </time>
               ) : null}
             </div>
 

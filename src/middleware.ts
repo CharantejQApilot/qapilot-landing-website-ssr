@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { ADMIN_ACCESS_COOKIE } from "@/lib/admin/constants";
 
 function wantsMarkdown(accept: string | null): boolean {
   if (!accept) return false;
@@ -32,11 +33,28 @@ function wantsMarkdown(accept: string | null): boolean {
  * in each route's `generateMetadata`, which can never silently drift.
  */
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  if (pathname.startsWith("/admin")) {
+    const token = request.cookies.get(ADMIN_ACCESS_COOKIE)?.value;
+    if (!token) {
+      return NextResponse.redirect(new URL("/auth", request.url));
+    }
+
+    const adminStatus = await verifyAdminAccessToken(token);
+    if (adminStatus === "ok") {
+      return NextResponse.next();
+    }
+
+    const redirectTo = adminStatus === "forbidden" ? "/" : "/auth";
+    const response = NextResponse.redirect(new URL(redirectTo, request.url));
+    response.cookies.delete(ADMIN_ACCESS_COOKIE);
+    return response;
+  }
+
   if (request.method !== "GET" && request.method !== "HEAD") {
     return NextResponse.next();
   }
-
-  const pathname = request.nextUrl.pathname;
 
   if (pathname !== "/") {
     return NextResponse.next();
@@ -60,6 +78,41 @@ export async function middleware(request: NextRequest) {
       "Cache-Control": "public, max-age=0, must-revalidate",
     },
   });
+}
+
+async function verifyAdminAccessToken(
+  token: string,
+): Promise<"ok" | "forbidden" | "unauthenticated"> {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (!supabaseUrl || !anonKey) return "unauthenticated";
+
+  const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    headers: {
+      apikey: anonKey,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!userRes.ok) return "unauthenticated";
+
+  const user = (await userRes.json()) as { id?: string };
+  if (!user.id) return "unauthenticated";
+
+  const roleRes = await fetch(
+    `${supabaseUrl}/rest/v1/user_roles?select=role&user_id=eq.${encodeURIComponent(
+      user.id,
+    )}&role=eq.admin&limit=1`,
+    {
+      headers: {
+        apikey: anonKey,
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (!roleRes.ok) return "forbidden";
+
+  const rows = (await roleRes.json()) as Array<{ role: string }>;
+  return rows.length > 0 ? "ok" : "forbidden";
 }
 
 export const config = {

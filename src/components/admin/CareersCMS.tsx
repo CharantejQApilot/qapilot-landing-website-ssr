@@ -24,6 +24,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { validatePublishedJob } from "@/lib/admin/publish-validation";
 
 interface JobOrganization {
   id: string;
@@ -185,6 +186,19 @@ const CareersCMS = () => {
   // Save job mutation
   const saveJobMutation = useMutation({
     mutationFn: async () => {
+      if (jobPublished) {
+        const publishErrors = validatePublishedJob({
+          role: jobRole,
+          slug: jobSlug || generateSlug(jobRole),
+          department: jobDepartment,
+          location: jobLocation,
+          description: jobDescription,
+        });
+        if (publishErrors.length > 0) {
+          throw new Error(publishErrors[0]);
+        }
+      }
+
       const jobData = {
         organization_id: jobOrgId,
         role: jobRole,
@@ -205,6 +219,15 @@ const CareersCMS = () => {
       } else {
         const { error } = await supabase.from("job_openings").insert(jobData);
         if (error) throw error;
+      }
+
+      if (jobPublished) {
+        try {
+          await supabase.functions.invoke("ping-sitemap");
+          console.log("Search engines notified of new job content");
+        } catch (error) {
+          console.error("Failed to ping search engines for jobs:", error);
+        }
       }
     },
     onSuccess: () => {

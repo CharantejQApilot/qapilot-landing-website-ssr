@@ -13,6 +13,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Save } from "lucide-react";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
+import { validatePublishedContent } from "@/lib/admin/publish-validation";
+import { getAdminAccessState } from "@/lib/admin/admin-auth";
+import {
+  clearAdminAccessCookie,
+  setAdminAccessCookie,
+} from "@/lib/admin/session-cookie";
 
 interface CaseStudy {
   id: string;
@@ -76,16 +82,26 @@ const CaseStudyEditorClient = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (!session) {
+      const access = await getAdminAccessState(supabase);
+      if (access.status === "unauthenticated") {
+        clearAdminAccessCookie();
         router.push("/auth");
         return;
       }
+      if (access.status === "forbidden") {
+        toast({
+          title: "Access Denied",
+          description: "You don't have admin privileges",
+          variant: "destructive",
+        });
+        router.push("/");
+        return;
+      }
+      setAdminAccessCookie(access.session.access_token);
     };
 
     checkAuth();
-  }, [router]);
+  }, [router, toast]);
 
   const { data: existingCaseStudy } = useQuery({
     queryKey: ["case-study", id],
@@ -186,6 +202,21 @@ const CaseStudyEditorClient = () => {
             ? caseStudyBannerText.trim()
             : null,
       };
+
+      if (publishedFlag) {
+        const publishErrors = validatePublishedContent({
+          title,
+          slug,
+          content,
+          seoTitle,
+          seoDescription,
+          ogImageUrl,
+          featuredImageUrl,
+        });
+        if (publishErrors.length > 0) {
+          throw new Error(publishErrors[0]);
+        }
+      }
 
       if (id) {
         const { data: updatedRow, error, status } = await supabase
@@ -570,7 +601,7 @@ const CaseStudyEditorClient = () => {
                     SEO settings
                   </h3>
                   <div className="space-y-2">
-                    <Label htmlFor="seo-title">SEO title</Label>
+                    <Label htmlFor="seo-title">SEO title (required for publish)</Label>
                     <Input
                       id="seo-title"
                       value={seoTitle}
@@ -579,7 +610,7 @@ const CaseStudyEditorClient = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="seo-description">SEO description</Label>
+                    <Label htmlFor="seo-description">SEO description (required for publish)</Label>
                     <Textarea
                       id="seo-description"
                       value={seoDescription}
@@ -590,7 +621,7 @@ const CaseStudyEditorClient = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="og-image">OG image URL</Label>
+                    <Label htmlFor="og-image">OG image URL (or cover image required for publish)</Label>
                     <Input
                       id="og-image"
                       value={ogImageUrl}

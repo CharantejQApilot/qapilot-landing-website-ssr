@@ -12,6 +12,12 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
+import { resolveSlugParam } from "@/lib/app-router-params";
+import {
+  absoluteUrlForOpenGraph,
+  normalizeArticlePublishedTime,
+} from "@/lib/share-metadata";
+import { defaultOpenGraphImage } from "@/lib/seo";
 
 interface JobOrganization {
   id: string;
@@ -36,6 +42,7 @@ interface JobOpening {
 }
 
 const CAREERS_FORM_ID = "702b653d-94c3-4949-b431-45f7a6d035c4";
+const JOBS_LIST_SELECT = "id, slug";
 
 const getEmploymentTypeLabel = (type: string) => {
   switch (type) {
@@ -63,6 +70,30 @@ const getEmploymentTypeSchema = (type: string) => {
   }
 };
 
+function addDaysIso(value: string | null | undefined, days: number): string | undefined {
+  if (!value) return undefined;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return undefined;
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString();
+}
+
+export const revalidate = 120;
+
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const supabase = tryCreateServerSupabaseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("job_openings")
+    .select(JOBS_LIST_SELECT)
+    .eq("published", true);
+  if (error || !data) return [];
+  return data
+    .flatMap((row) => [row.slug, row.id])
+    .filter((slug): slug is string => typeof slug === "string" && slug.length > 0)
+    .map((slug) => ({ slug }));
+}
+
 /**
  * Returns minimal "Not found" metadata if the row is missing instead of calling
  * `notFound()` from inside `generateMetadata`. Throwing `NEXT_NOT_FOUND` from
@@ -80,17 +111,18 @@ const NOT_FOUND_METADATA: Metadata = {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     return NOT_FOUND_METADATA;
   }
+  const slug = await resolveSlugParam(params);
 
   let { data: job } = await supabase
     .from("job_openings")
     .select("*")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();
 
@@ -98,7 +130,7 @@ export async function generateMetadata({
     const { data } = await supabase
       .from("job_openings")
       .select("*")
-      .eq("id", params.slug)
+      .eq("id", slug)
       .eq("published", true)
       .maybeSingle();
     job = data;
@@ -110,13 +142,35 @@ export async function generateMetadata({
 
   const typedJob = job as JobOpening;
   const description = `Join us as a ${typedJob.role} in ${typedJob.department}. ${typedJob.location}. ${getEmploymentTypeLabel(typedJob.employment_type)} position at QApilot.`;
+  const canonicalPath = `${PATHS.CAREERS}/${typedJob.slug || typedJob.id}`;
+  const canonicalUrl = `${SITE_BASE_URL}${canonicalPath}`;
+  const ogImage = absoluteUrlForOpenGraph(DEFAULT_LOGO_URL);
+  const publishedTime = normalizeArticlePublishedTime(typedJob.created_at);
 
   return {
     title: `${typedJob.role} - ${typedJob.department}`,
     description,
     keywords: `${typedJob.role}, ${typedJob.department}, QApilot careers, ${typedJob.location} jobs, ${getEmploymentTypeLabel(typedJob.employment_type)}`,
     alternates: {
-      canonical: `${SITE_BASE_URL}${PATHS.CAREERS}/${typedJob.slug || typedJob.id}`,
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      type: "article",
+      title: `${typedJob.role} - ${typedJob.department}`,
+      description,
+      url: canonicalUrl,
+      images: ogImage
+        ? [{ url: ogImage, alt: `${typedJob.role} at QApilot` }]
+        : [defaultOpenGraphImage],
+      ...(publishedTime ? { publishedTime } : {}),
+      siteName: "QApilot",
+      locale: "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${typedJob.role} - ${typedJob.department}`,
+      description,
+      images: ogImage ? [ogImage] : [defaultOpenGraphImage.url],
     },
   };
 }
@@ -124,17 +178,18 @@ export async function generateMetadata({
 export default async function JobPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }) {
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     notFound();
   }
+  const slug = await resolveSlugParam(params);
 
   let { data: jobData } = await supabase
     .from("job_openings")
     .select("*")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();
 
@@ -142,7 +197,7 @@ export default async function JobPostPage({
     const { data } = await supabase
       .from("job_openings")
       .select("*")
-      .eq("id", params.slug)
+      .eq("id", slug)
       .eq("published", true)
       .maybeSingle();
     jobData = data;
@@ -165,6 +220,8 @@ export default async function JobPostPage({
   }
 
   const canonicalUrl = `${SITE_BASE_URL}${PATHS.CAREERS}/${job.slug || job.id}`;
+  const datePosted = normalizeArticlePublishedTime(job.created_at);
+  const validThrough = addDaysIso(job.updated_at, 90);
 
   const jobPostingData = {
     "@context": "https://schema.org",
@@ -172,10 +229,8 @@ export default async function JobPostPage({
     url: canonicalUrl,
     title: job.role,
     description: job.description.replace(/<[^>]*>/g, ""),
-    datePosted: job.created_at,
-    validThrough: new Date(
-      new Date(job.updated_at).getTime() + 90 * 24 * 60 * 60 * 1000
-    ).toISOString(),
+    ...(datePosted ? { datePosted } : {}),
+    ...(validThrough ? { validThrough } : {}),
     employmentType: getEmploymentTypeSchema(job.employment_type),
     jobLocation: {
       "@type": "Place",

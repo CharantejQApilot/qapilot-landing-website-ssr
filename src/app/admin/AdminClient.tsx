@@ -30,6 +30,12 @@ import {
 import { cn } from "@/lib/utils";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { parseBlogImportJson } from "@/lib/admin/blog-json-import";
+import { validatePublishedContent } from "@/lib/admin/publish-validation";
+import { getAdminAccessState } from "@/lib/admin/admin-auth";
+import {
+  clearAdminAccessCookie,
+  setAdminAccessCookie,
+} from "@/lib/admin/session-cookie";
 
 interface Blog {
   id: string;
@@ -167,27 +173,13 @@ const AdminClient = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
+      const access = await getAdminAccessState(supabase);
+
+      if (access.status === "unauthenticated") {
         router.push("/auth");
         return;
       }
-
-      setUser(session.user);
-
-      const { data: roleData, error: roleError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      if (roleError) {
-        console.error("user_roles check failed:", roleError.message);
-      }
-
-      if (!roleData) {
+      if (access.status === "forbidden") {
         toast({
           title: "Access Denied",
           description: "You don't have admin privileges",
@@ -197,6 +189,8 @@ const AdminClient = () => {
         return;
       }
 
+      setAdminAccessCookie(access.session.access_token);
+      setUser(access.session.user);
       setIsAdmin(true);
       setLoading(false);
     };
@@ -205,6 +199,7 @@ const AdminClient = () => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
+        clearAdminAccessCookie();
         router.push("/auth");
       }
     });
@@ -468,6 +463,21 @@ const AdminClient = () => {
         seo_keywords: newsSeoKeywords.trim() || null,
         content_format: newsContentFormat,
       };
+
+      if (newsPublished) {
+        const publishErrors = validatePublishedContent({
+          title: newsTitle,
+          slug: newsSlug,
+          content: newsContent,
+          seoTitle: newsSeoTitle,
+          seoDescription: newsSeoDescription,
+          ogImageUrl: newsOgImageUrl,
+          featuredImageUrl: newsFeaturedImage,
+        });
+        if (publishErrors.length > 0) {
+          throw new Error(publishErrors[0]);
+        }
+      }
 
       let newsId = editingNewsId;
 
@@ -745,6 +755,7 @@ const AdminClient = () => {
   };
 
   const handleLogout = async () => {
+    clearAdminAccessCookie();
     await supabase.auth.signOut();
     router.push("/auth");
   };
@@ -1378,7 +1389,7 @@ const AdminClient = () => {
                         SEO settings
                       </h3>
                       <div>
-                        <Label htmlFor="news-seo-title">SEO title</Label>
+                        <Label htmlFor="news-seo-title">SEO title (required for publish)</Label>
                         <Input
                           id="news-seo-title"
                           value={newsSeoTitle}
@@ -1387,7 +1398,7 @@ const AdminClient = () => {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="news-seo-description">SEO description</Label>
+                        <Label htmlFor="news-seo-description">SEO description (required for publish)</Label>
                         <Textarea
                           id="news-seo-description"
                           value={newsSeoDescription}
@@ -1398,7 +1409,7 @@ const AdminClient = () => {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="news-og-image">OG image URL</Label>
+                        <Label htmlFor="news-og-image">OG image URL (or cover image required for publish)</Label>
                         <Input
                           id="news-og-image"
                           value={newsOgImageUrl}
