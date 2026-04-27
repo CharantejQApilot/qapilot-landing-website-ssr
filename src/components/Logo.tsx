@@ -6,13 +6,13 @@ interface LogoProps {
   alt?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ 
-  className = "h-7 sm:h-8 w-auto",
-  alt = "QApilot - AI-Powered Mobile App Testing"
+const Logo: React.FC<LogoProps> = ({
+  className = "h-6 w-auto sm:h-7 md:h-8",
+  alt = "QApilot - AI-Powered Mobile App Testing",
 }) => {
   const src = typeof logoImg === "string" ? logoImg : (logoImg as { src: string }).src;
   return (
-    <img 
+    <img
       src={src}
       alt={alt}
       width={140}
@@ -20,8 +20,8 @@ const Logo: React.FC<LogoProps> = ({
       loading="eager"
       decoding="sync"
       fetchPriority="high"
-      className={`${className} max-h-9 object-contain object-left`}
-      style={{ objectFit: 'contain' }}
+      className={`${className} max-h-full object-contain object-left`}
+      style={{ objectFit: "contain" }}
     />
   );
 };
