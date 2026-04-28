@@ -20,6 +20,16 @@ import {
   absoluteUrlForOpenGraph,
   normalizeArticlePublishedTime,
 } from "@/lib/share-metadata";
+import {
+  asString,
+  asTrimmedString,
+  commaSeparatedList,
+  firstNonEmptyString,
+} from "@/lib/cms-values";
+import {
+  logMetadataFallback,
+  summarizeUnknownError,
+} from "@/lib/server-telemetry";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -64,11 +74,17 @@ export async function generateMetadata({
 }: {
   params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const slug = await resolveSlugParam(params);
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
+    logMetadataFallback({
+      route: "/blogs/[slug]",
+      contentType: "blogs",
+      slug,
+      reason: "supabase-unavailable",
+    });
     return NOT_FOUND_METADATA;
   }
-  const slug = await resolveSlugParam(params);
   const { data: blog, error } = await supabase
     .from("blogs")
     .select("*")
@@ -76,31 +92,46 @@ export async function generateMetadata({
     .eq("published", true)
     .maybeSingle();
 
+  if (error) {
+    logMetadataFallback({
+      route: "/blogs/[slug]",
+      contentType: "blogs",
+      slug,
+      reason: "query-error",
+      details: {
+        message: error.message,
+        code: error.code,
+      },
+    });
+  }
+
   if (error || !blog) {
     return NOT_FOUND_METADATA;
   }
 
+  const baseTitle = firstNonEmptyString(blog.title) ?? "QApilot blog";
   const description =
-    (blog as { seo_description?: string | null }).seo_description?.trim() ||
-    blog.excerpt ||
-    (blog as { description?: string | null }).description?.trim() ||
-    `Read ${blog.title} on the QApilot blog. Expert insights on mobile app testing and QA automation.`;
+    firstNonEmptyString(
+      (blog as { seo_description?: unknown }).seo_description,
+      blog.excerpt,
+      (blog as { description?: unknown }).description,
+    ) ??
+    `Read ${baseTitle} on the QApilot blog. Expert insights on mobile app testing and QA automation.`;
 
   const metaTitle =
-    (blog as { seo_title?: string | null }).seo_title?.trim() || blog.title;
+    firstNonEmptyString((blog as { seo_title?: unknown }).seo_title, blog.title) ??
+    baseTitle;
 
-  const kw = (blog as { seo_keywords?: string | null }).seo_keywords
-    ?.split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const kw = commaSeparatedList((blog as { seo_keywords?: unknown }).seo_keywords);
   const keywordsJoined =
-    kw && kw.length > 0
+    kw.length > 0
       ? kw.join(", ")
       : "mobile app testing, QA automation, test automation, mobile testing best practices";
 
-  const ogRaw =
-    (blog as { og_image_url?: string | null }).og_image_url?.trim() ||
-    blog.featured_image;
+  const ogRaw = firstNonEmptyString(
+    (blog as { og_image_url?: unknown }).og_image_url,
+    blog.featured_image,
+  );
   const ogAbsolute = absoluteUrlForOpenGraph(ogRaw);
   const publishedTime = normalizeArticlePublishedTime(blog.published_date);
 
@@ -141,7 +172,14 @@ export async function generateMetadata({
         ...(ogAbsolute ? { images: [ogAbsolute] } : {}),
       },
     };
-  } catch {
+  } catch (error) {
+    logMetadataFallback({
+      route: "/blogs/[slug]",
+      contentType: "blogs",
+      slug,
+      reason: "metadata-build-error",
+      details: summarizeUnknownError(error),
+    });
     return {
       title: metaTitle,
       description,
@@ -224,6 +262,19 @@ export default async function BlogPostPage({
   };
 
   const publishedLabel = formatPublishedDate(blog.published_date);
+  const descriptionText = firstNonEmptyString(
+    (blog as { description?: unknown }).description,
+    blog.excerpt,
+  );
+  const category = asTrimmedString((blog as { category?: unknown }).category);
+  const tags = commaSeparatedList((blog as { tags?: unknown }).tags);
+  const youtubeUrl = asTrimmedString(blog.youtube_url);
+  const contentFormat =
+    asTrimmedString((blog as { content_format?: unknown }).content_format).toLowerCase() ===
+    "markdown"
+      ? "markdown"
+      : "html";
+  const content = asString(blog.content);
 
   return (
     <>
@@ -243,10 +294,7 @@ export default async function BlogPostPage({
             </Link>
 
             {blog.featured_image &&
-            !(
-              typeof blog.youtube_url === "string" &&
-              blog.youtube_url.trim().length > 0
-            ) ? (
+            !youtubeUrl ? (
               <div className="w-full overflow-hidden rounded-lg mb-8">
                 <img
                   src={blog.featured_image}
@@ -264,34 +312,27 @@ export default async function BlogPostPage({
               {blog.title}
             </h1>
 
-            {(blog as { description?: string | null }).description?.trim() ||
-            blog.excerpt ? (
+            {descriptionText ? (
               <p className="mb-8 text-xl text-muted-foreground">
-                {(blog as { description?: string | null }).description?.trim() ||
-                  blog.excerpt}
+                {descriptionText}
               </p>
             ) : null}
 
-            {(blog as { category?: string | null }).category?.trim() ||
-            (blog as { tags?: string | null }).tags?.trim() ? (
+            {category || tags.length > 0 ? (
               <div className="mb-6 flex flex-wrap gap-2 text-sm">
-                {(blog as { category?: string | null }).category?.trim() ? (
+                {category ? (
                   <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                    {(blog as { category?: string | null }).category}
+                    {category}
                   </span>
                 ) : null}
-                {(blog as { tags?: string | null }).tags
-                  ?.split(",")
-                  .map((t) => t.trim())
-                  .filter(Boolean)
-                  .map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             ) : null}
 
@@ -318,22 +359,14 @@ export default async function BlogPostPage({
               ) : null}
             </div>
 
-            {typeof blog.youtube_url === "string" &&
-            blog.youtube_url.trim() ? (
-              <YouTubeEmbed url={blog.youtube_url.trim()} />
-            ) : null}
+            {youtubeUrl ? <YouTubeEmbed url={youtubeUrl} /> : null}
 
             <div
               className="blog-content max-w-none"
               dangerouslySetInnerHTML={{
                 __html: sanitizeRichText(
-                  blog.content || "",
-                  String(
-                    (blog as { content_format?: string | null })
-                      .content_format ?? "",
-                  ).toLowerCase() === "markdown"
-                    ? "markdown"
-                    : "html",
+                  content,
+                  contentFormat,
                 ),
               }}
             />

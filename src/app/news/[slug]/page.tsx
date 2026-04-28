@@ -26,6 +26,16 @@ import {
   absoluteUrlForOpenGraph,
   normalizeArticlePublishedTime,
 } from "@/lib/share-metadata";
+import {
+  asString,
+  asTrimmedString,
+  commaSeparatedList,
+  firstNonEmptyString,
+} from "@/lib/cms-values";
+import {
+  logMetadataFallback,
+  summarizeUnknownError,
+} from "@/lib/server-telemetry";
 
 /** Match blog article: readable column + comfortable side margin. */
 const ARTICLE_GUTTER =
@@ -62,14 +72,6 @@ interface Backlink {
   link_url: string | null;
 }
 
-function splitCommaList(value: unknown): string[] {
-  if (typeof value !== "string" || !value.trim()) return [];
-  return value
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
 /**
  * Returns minimal "Not found" metadata if the row is missing instead of calling
  * `notFound()` from inside `generateMetadata`. Throwing `NEXT_NOT_FOUND` from
@@ -90,11 +92,17 @@ export async function generateMetadata({
 }: {
   params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const slug = await resolveSlugParam(params);
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
+    logMetadataFallback({
+      route: "/news/[slug]",
+      contentType: "news_updates",
+      slug,
+      reason: "supabase-unavailable",
+    });
     return NOT_FOUND_METADATA;
   }
-  const slug = await resolveSlugParam(params);
   const { data: newsItem, error } = await supabase
     .from("news_updates")
     .select("*")
@@ -102,33 +110,48 @@ export async function generateMetadata({
     .eq("published", true)
     .maybeSingle();
 
+  if (error) {
+    logMetadataFallback({
+      route: "/news/[slug]",
+      contentType: "news_updates",
+      slug,
+      reason: "query-error",
+      details: {
+        message: error.message,
+        code: error.code,
+      },
+    });
+  }
+
   if (error || !newsItem) {
     return NOT_FOUND_METADATA;
   }
 
+  const baseTitle = firstNonEmptyString(newsItem.title) ?? "QApilot news";
   const description =
-    newsItem.seo_description?.trim() ||
-    newsItem.excerpt ||
-    newsItem.description?.trim() ||
-    `Read ${newsItem.title} on QApilot News. Latest updates on AI-powered mobile app testing.`;
+    firstNonEmptyString(
+      newsItem.seo_description,
+      newsItem.excerpt,
+      newsItem.description,
+    ) ??
+    `Read ${baseTitle} on QApilot News. Latest updates on AI-powered mobile app testing.`;
 
-  const metaTitle = newsItem.seo_title?.trim() || newsItem.title;
-
-  const videoId = newsItem.youtube_url
-    ? extractYouTubeId(newsItem.youtube_url)
-    : null;
+  const metaTitle = firstNonEmptyString(newsItem.seo_title, newsItem.title) ?? baseTitle;
+  const youtubeUrl = asTrimmedString(newsItem.youtube_url);
+  const videoId = youtubeUrl ? extractYouTubeId(youtubeUrl) : null;
   const videoThumbnail = videoId
     ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
     : null;
-  const ogImage =
-    newsItem.og_image_url?.trim() ||
-    newsItem.featured_image?.trim() ||
-    videoThumbnail ||
-    DEFAULT_SHARE_IMAGE_URL;
+  const ogImage = firstNonEmptyString(
+    newsItem.og_image_url,
+    newsItem.featured_image,
+    videoThumbnail,
+    DEFAULT_SHARE_IMAGE_URL,
+  );
   const ogAbsolute = absoluteUrlForOpenGraph(ogImage) ?? DEFAULT_SHARE_IMAGE_URL;
   const publishedTime = normalizeArticlePublishedTime(newsItem.published_date);
 
-  const kw = splitCommaList(newsItem.seo_keywords);
+  const kw = commaSeparatedList(newsItem.seo_keywords);
   const keywordsJoined =
     kw.length > 0
       ? kw.join(", ")
@@ -169,7 +192,14 @@ export async function generateMetadata({
         images: [ogAbsolute],
       },
     };
-  } catch {
+  } catch (error) {
+    logMetadataFallback({
+      route: "/news/[slug]",
+      contentType: "news_updates",
+      slug,
+      reason: "metadata-build-error",
+      details: summarizeUnknownError(error),
+    });
     return {
       title: metaTitle,
       description,
@@ -233,17 +263,21 @@ export default async function NewsPostPage({
 
   const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
 
-  const videoId = newsItem.youtube_url
-    ? extractYouTubeId(newsItem.youtube_url)
-    : null;
+  const youtubeUrl = asTrimmedString(newsItem.youtube_url);
+  const videoId = youtubeUrl ? extractYouTubeId(youtubeUrl) : null;
   const videoEmbedUrl = videoId
     ? `https://www.youtube.com/embed/${videoId}`
     : null;
   const videoThumbnail = videoId
     ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
     : null;
+  const featuredImage = firstNonEmptyString(newsItem.featured_image);
   const effectiveOgImage =
-    newsItem.featured_image || videoThumbnail || DEFAULT_SHARE_IMAGE_URL;
+    firstNonEmptyString(newsItem.featured_image, videoThumbnail, DEFAULT_SHARE_IMAGE_URL) ??
+    DEFAULT_SHARE_IMAGE_URL;
+  const leadDescription = firstNonEmptyString(newsItem.description, newsItem.excerpt);
+  const category = firstNonEmptyString(newsItem.category);
+  const tags = commaSeparatedList(newsItem.tags);
 
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -287,7 +321,7 @@ export default async function NewsPostPage({
             description: newsItem.excerpt || newsItem.title,
             thumbnailUrl: videoThumbnail,
             embedUrl: videoEmbedUrl,
-            contentUrl: newsItem.youtube_url,
+            contentUrl: youtubeUrl,
             ...(newsItem.published_date
               ? { uploadDate: newsItem.published_date }
               : {}),
@@ -332,10 +366,10 @@ export default async function NewsPostPage({
               Back to News
             </Link>
 
-            {newsItem.featured_image && !newsItem.youtube_url && (
+            {featuredImage && !youtubeUrl && (
               <div className="mb-8 w-full overflow-hidden rounded-lg">
                 <img
-                  src={newsItem.featured_image}
+                  src={featuredImage}
                   alt={`${newsItem.title} - QApilot News`}
                   className="h-auto w-full object-contain"
                   width={1200}
@@ -350,21 +384,16 @@ export default async function NewsPostPage({
               {newsItem.title}
             </h1>
 
-            {newsItem.description?.trim() || newsItem.excerpt ? (
-              <p className="mb-8 text-xl text-muted-foreground">
-                {newsItem.description?.trim() || newsItem.excerpt}
-              </p>
-            ) : null}
+            {leadDescription ? <p className="mb-8 text-xl text-muted-foreground">{leadDescription}</p> : null}
 
-            {newsItem.category?.trim() ||
-            (typeof newsItem.tags === "string" && newsItem.tags.trim()) ? (
+            {category || tags.length > 0 ? (
               <div className="mb-6 flex flex-wrap gap-2 text-sm">
-                {newsItem.category?.trim() ? (
+                {category ? (
                   <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                    {newsItem.category}
+                    {category}
                   </span>
                 ) : null}
-                {splitCommaList(newsItem.tags).map((tag) => (
+                {tags.map((tag) => (
                     <span
                       key={tag}
                       className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
@@ -402,14 +431,16 @@ export default async function NewsPostPage({
               </div>
             )}
 
-            {newsItem.youtube_url && <YouTubeEmbed url={newsItem.youtube_url} />}
+            {youtubeUrl ? <YouTubeEmbed url={youtubeUrl} /> : null}
 
             <div
               className="news-content max-w-none"
               dangerouslySetInnerHTML={{
                 __html: sanitizeRichText(
-                  newsItem.content || "",
-                  newsItem.content_format === "markdown" ? "markdown" : "html",
+                  asString(newsItem.content),
+                  asTrimmedString(newsItem.content_format).toLowerCase() === "markdown"
+                    ? "markdown"
+                    : "html",
                 ),
               }}
             />
