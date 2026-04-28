@@ -10,6 +10,7 @@ import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { asString, firstNonEmptyString } from "@/lib/cms-values";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.TERMS}`;
 
@@ -49,6 +50,9 @@ export default async function TermsPage() {
         .maybeSingle()
     : { data: null as null };
 
+  const title = firstNonEmptyString(termsContent?.title) ?? "Terms of Service";
+  const content = asString(termsContent?.content);
+
   return (
     <>
       <MarketingPageShell background="soft" contentClassName="animate-fade-in">
@@ -67,7 +71,7 @@ export default async function TermsPage() {
           <div className="section-full mx-auto max-w-4xl">
           <div className="mb-12 text-center">
             <h1 className={cn(marketingHeroH1Class, "mb-4")}>
-              {termsContent?.title || "Terms of Service"}
+              {title}
             </h1>
           </div>
 
@@ -75,7 +79,7 @@ export default async function TermsPage() {
             <div
               className="prose prose-slate max-w-none rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12"
               dangerouslySetInnerHTML={{
-                __html: sanitizeRichText(termsContent?.content || "", "html"),
+                __html: sanitizeRichText(content, "html"),
               }}
             />
           </div>

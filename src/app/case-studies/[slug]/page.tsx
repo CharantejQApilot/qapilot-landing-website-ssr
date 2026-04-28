@@ -20,6 +20,16 @@ import {
   absoluteUrlForOpenGraph,
   normalizeArticlePublishedTime,
 } from "@/lib/share-metadata";
+import {
+  asString,
+  asTrimmedString,
+  commaSeparatedList,
+  firstNonEmptyString,
+} from "@/lib/cms-values";
+import {
+  logMetadataFallback,
+  summarizeUnknownError,
+} from "@/lib/server-telemetry";
 
 /** Match the /blogs article gutter so the two layouts feel identical. */
 const ARTICLE_GUTTER =
@@ -64,11 +74,17 @@ export async function generateMetadata({
 }: {
   params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const slug = await resolveSlugParam(params);
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
+    logMetadataFallback({
+      route: "/case-studies/[slug]",
+      contentType: "case_studies",
+      slug,
+      reason: "supabase-unavailable",
+    });
     return NOT_FOUND_METADATA;
   }
-  const slug = await resolveSlugParam(params);
   const { data: caseStudy, error } = await supabase
     .from("case_studies")
     .select("*")
@@ -76,31 +92,50 @@ export async function generateMetadata({
     .eq("published", true)
     .maybeSingle();
 
+  if (error) {
+    logMetadataFallback({
+      route: "/case-studies/[slug]",
+      contentType: "case_studies",
+      slug,
+      reason: "query-error",
+      details: {
+        message: error.message,
+        code: error.code,
+      },
+    });
+  }
+
   if (error || !caseStudy) {
     return NOT_FOUND_METADATA;
   }
 
+  const baseTitle = firstNonEmptyString(caseStudy.title) ?? "QApilot case study";
   const description =
-    (caseStudy as { seo_description?: string | null }).seo_description?.trim() ||
-    caseStudy.excerpt ||
-    (caseStudy as { description?: string | null }).description?.trim() ||
-    `Read ${caseStudy.title} — a QApilot customer story on shipping mobile apps with AI-driven testing.`;
+    firstNonEmptyString(
+      (caseStudy as { seo_description?: unknown }).seo_description,
+      caseStudy.excerpt,
+      (caseStudy as { description?: unknown }).description,
+    ) ??
+    `Read ${baseTitle} - a QApilot customer story on shipping mobile apps with AI-driven testing.`;
 
   const metaTitle =
-    (caseStudy as { seo_title?: string | null }).seo_title?.trim() || caseStudy.title;
+    firstNonEmptyString(
+      (caseStudy as { seo_title?: unknown }).seo_title,
+      caseStudy.title,
+    ) ?? baseTitle;
 
-  const kw = (caseStudy as { seo_keywords?: string | null }).seo_keywords
-    ?.split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const kw = commaSeparatedList(
+    (caseStudy as { seo_keywords?: unknown }).seo_keywords,
+  );
   const keywordsJoined =
-    kw && kw.length > 0
+    kw.length > 0
       ? kw.join(", ")
       : "QApilot case study, mobile testing case study, QA automation outcomes";
 
-  const ogRaw =
-    (caseStudy as { og_image_url?: string | null }).og_image_url?.trim() ||
-    caseStudy.featured_image;
+  const ogRaw = firstNonEmptyString(
+    (caseStudy as { og_image_url?: unknown }).og_image_url,
+    caseStudy.featured_image,
+  );
   const ogAbsolute = absoluteUrlForOpenGraph(ogRaw);
   const publishedTime = normalizeArticlePublishedTime(
     caseStudy.published_date,
@@ -143,7 +178,14 @@ export async function generateMetadata({
         ...(ogAbsolute ? { images: [ogAbsolute] } : {}),
       },
     };
-  } catch {
+  } catch (error) {
+    logMetadataFallback({
+      route: "/case-studies/[slug]",
+      contentType: "case_studies",
+      slug,
+      reason: "metadata-build-error",
+      details: summarizeUnknownError(error),
+    });
     return {
       title: metaTitle,
       description,
@@ -226,6 +268,20 @@ export default async function CaseStudyPostPage({
   };
 
   const publishedLabel = formatPublishedDate(caseStudy.published_date);
+  const descriptionText = firstNonEmptyString(
+    (caseStudy as { description?: unknown }).description,
+    caseStudy.excerpt,
+  );
+  const category = asTrimmedString((caseStudy as { category?: unknown }).category);
+  const tags = commaSeparatedList((caseStudy as { tags?: unknown }).tags);
+  const youtubeUrl = asTrimmedString(caseStudy.youtube_url);
+  const contentFormat =
+    asTrimmedString(
+      (caseStudy as { content_format?: unknown }).content_format,
+    ).toLowerCase() === "markdown"
+      ? "markdown"
+      : "html";
+  const content = asString(caseStudy.content);
 
   return (
     <>
@@ -245,10 +301,7 @@ export default async function CaseStudyPostPage({
             </Link>
 
             {caseStudy.featured_image &&
-            !(
-              typeof caseStudy.youtube_url === "string" &&
-              caseStudy.youtube_url.trim().length > 0
-            ) ? (
+            !youtubeUrl ? (
               <div className="w-full overflow-hidden rounded-lg mb-8">
                 <img
                   src={caseStudy.featured_image}
@@ -266,34 +319,27 @@ export default async function CaseStudyPostPage({
               {caseStudy.title}
             </h1>
 
-            {(caseStudy as { description?: string | null }).description?.trim() ||
-            caseStudy.excerpt ? (
+            {descriptionText ? (
               <p className="mb-8 text-xl text-muted-foreground">
-                {(caseStudy as { description?: string | null }).description?.trim() ||
-                  caseStudy.excerpt}
+                {descriptionText}
               </p>
             ) : null}
 
-            {(caseStudy as { category?: string | null }).category?.trim() ||
-            (caseStudy as { tags?: string | null }).tags?.trim() ? (
+            {category || tags.length > 0 ? (
               <div className="mb-6 flex flex-wrap gap-2 text-sm">
-                {(caseStudy as { category?: string | null }).category?.trim() ? (
+                {category ? (
                   <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                    {(caseStudy as { category?: string | null }).category}
+                    {category}
                   </span>
                 ) : null}
-                {(caseStudy as { tags?: string | null }).tags
-                  ?.split(",")
-                  .map((t) => t.trim())
-                  .filter(Boolean)
-                  .map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             ) : null}
 
@@ -320,22 +366,14 @@ export default async function CaseStudyPostPage({
               ) : null}
             </div>
 
-            {typeof caseStudy.youtube_url === "string" &&
-            caseStudy.youtube_url.trim() ? (
-              <YouTubeEmbed url={caseStudy.youtube_url.trim()} />
-            ) : null}
+            {youtubeUrl ? <YouTubeEmbed url={youtubeUrl} /> : null}
 
             <div
               className="blog-content max-w-none"
               dangerouslySetInnerHTML={{
                 __html: sanitizeRichText(
-                  caseStudy.content || "",
-                  String(
-                    (caseStudy as { content_format?: string | null })
-                      .content_format ?? "",
-                  ).toLowerCase() === "markdown"
-                    ? "markdown"
-                    : "html",
+                  content,
+                  contentFormat,
                 ),
               }}
             />

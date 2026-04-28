@@ -10,6 +10,7 @@ import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
+import { asString } from "@/lib/cms-values";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FAQS}`;
 
@@ -61,7 +62,7 @@ export default async function FAQsPage() {
   const faqsRaw = (data as FAQ[] | null) ?? [];
   const faqs = faqsRaw.map((faq) => ({
     ...faq,
-    answerHtml: sanitizeRichText(faq.answer, "html"),
+    answerHtml: sanitizeRichText(asString(faq.answer), "html"),
   }));
 
   const faqStructuredData =
@@ -74,7 +75,7 @@ export default async function FAQsPage() {
             name: faq.question,
             acceptedAnswer: {
               "@type": "Answer",
-              text: faq.answer.replace(/<[^>]*>/g, ""),
+              text: asString(faq.answer).replace(/<[^>]*>/g, ""),
             },
           })),
         }
