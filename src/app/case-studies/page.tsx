@@ -3,7 +3,6 @@ import Link from "next/link";
 import { FileText } from "lucide-react";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
-import { format } from "date-fns";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
@@ -11,6 +10,7 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { formatPublishedDate } from "@/lib/format-published";
 
 const CASE_STUDIES_PATH = PATHS.CASE_STUDIES;
 const canonicalUrl = `${SITE_BASE_URL}${CASE_STUDIES_PATH}`;
@@ -224,6 +224,10 @@ export default async function CaseStudiesPage() {
                       <ul className={gridFeatured}>
                         {featuredItems.map((item, index) => {
                           const imgSrc = resolveCardImageUrl(item);
+                          const featuredDateLabel = formatPublishedDate(
+                            item.published_date,
+                            "MMMM d, yyyy",
+                          );
                           return (
                             <li key={item.id}>
                               <Link
@@ -254,12 +258,9 @@ export default async function CaseStudiesPage() {
                                   <div className="flex flex-1 flex-col gap-4 p-7 sm:gap-5 sm:p-9 md:p-10 lg:p-11">
                                     <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-wide text-primary sm:text-sm">
                                       <span>Featured</span>
-                                      {item.published_date ? (
+                                      {featuredDateLabel ? (
                                         <span className="text-muted-foreground">
-                                          {format(
-                                            new Date(item.published_date),
-                                            "MMMM d, yyyy",
-                                          )}
+                                          {featuredDateLabel}
                                         </span>
                                       ) : null}
                                     </div>
@@ -310,6 +311,10 @@ export default async function CaseStudiesPage() {
                       <ul className={gridAll}>
                         {regularItems.map((item) => {
                           const imgSrc = resolveCardImageUrl(item);
+                          const regularDateLabel = formatPublishedDate(
+                            item.published_date,
+                            "MMM d, yyyy",
+                          );
                           return (
                             <li key={item.id}>
                               <Link
@@ -333,15 +338,12 @@ export default async function CaseStudiesPage() {
                                     )}
                                   </div>
                                   <div className="flex flex-1 flex-col gap-2 p-6 sm:gap-3 sm:p-7 md:p-8">
-                                    {item.published_date ? (
+                                    {regularDateLabel ? (
                                       <time
                                         dateTime={item.published_date}
                                         className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
                                       >
-                                        {format(
-                                          new Date(item.published_date),
-                                          "MMM d, yyyy",
-                                        )}
+                                        {regularDateLabel}
                                       </time>
                                     ) : null}
                                     <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary md:text-xl">

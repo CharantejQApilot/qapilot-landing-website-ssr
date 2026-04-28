@@ -18,6 +18,7 @@ import {
   normalizeArticlePublishedTime,
 } from "@/lib/share-metadata";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { logMetadataFallback } from "@/lib/server-telemetry";
 
 interface JobOrganization {
   id: string;
@@ -113,26 +114,59 @@ export async function generateMetadata({
 }: {
   params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const slug = await resolveSlugParam(params);
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
+    logMetadataFallback({
+      route: "/careers/[slug]",
+      contentType: "job_openings",
+      slug,
+      reason: "supabase-unavailable",
+    });
     return NOT_FOUND_METADATA;
   }
-  const slug = await resolveSlugParam(params);
 
-  let { data: job } = await supabase
+  let { data: job, error: jobBySlugError } = await supabase
     .from("job_openings")
     .select("*")
     .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();
 
+  if (jobBySlugError) {
+    logMetadataFallback({
+      route: "/careers/[slug]",
+      contentType: "job_openings",
+      slug,
+      reason: "query-error",
+      details: {
+        query: "slug",
+        message: jobBySlugError.message,
+        code: jobBySlugError.code,
+      },
+    });
+  }
+
   if (!job) {
-    const { data } = await supabase
+    const { data, error: jobByIdError } = await supabase
       .from("job_openings")
       .select("*")
       .eq("id", slug)
       .eq("published", true)
       .maybeSingle();
+    if (jobByIdError) {
+      logMetadataFallback({
+        route: "/careers/[slug]",
+        contentType: "job_openings",
+        slug,
+        reason: "query-error",
+        details: {
+          query: "id",
+          message: jobByIdError.message,
+          code: jobByIdError.code,
+        },
+      });
+    }
     job = data;
   }
 
