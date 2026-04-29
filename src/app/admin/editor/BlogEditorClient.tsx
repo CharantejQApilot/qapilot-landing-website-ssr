@@ -250,9 +250,34 @@ const BlogEditorClient = () => {
           console.error('Failed to ping search engines:', error);
         }
       }
+
+      return { savedSlug: blogData.slug as string };
     },
-    onSuccess: (_data, variables) => {
+    onSuccess: async (result, variables) => {
       queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
+
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const savedSlug = result?.savedSlug;
+      if (token && savedSlug) {
+        try {
+          const paths = ["/blogs", `/blogs/${savedSlug}`, "/"];
+          const res = await fetch("/api/revalidate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ paths }),
+          });
+          if (!res.ok) {
+            console.warn("[BlogEditor] ISR revalidate failed:", res.status);
+          }
+        } catch (e) {
+          console.warn("[BlogEditor] ISR revalidate error:", e);
+        }
+      }
+
       toast({
         title: "Success",
         description: variables.published
