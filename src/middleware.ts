@@ -11,6 +11,30 @@ function wantsMarkdown(accept: string | null): boolean {
     .includes("text/markdown");
 }
 
+function isSocialCrawler(userAgent: string | null): boolean {
+  if (!userAgent) return false;
+  const ua = userAgent.toLowerCase();
+  return [
+    "linkedinbot",
+    "twitterbot",
+    "facebookexternalhit",
+    "slackbot",
+    "discordbot",
+    "whatsapp",
+    "telegrambot",
+    "skypeuripreview",
+  ].some((token) => ua.includes(token));
+}
+
+function isSocialPreviewPath(pathname: string): boolean {
+  return (
+    pathname.startsWith("/blogs/") ||
+    pathname.startsWith("/news/") ||
+    pathname.startsWith("/case-studies/") ||
+    pathname.startsWith("/careers/")
+  );
+}
+
 /**
  * Previously this middleware short-circuited social-preview crawlers
  * (LinkedInBot / facebookexternalhit / Twitterbot / etc.) to a Supabase
@@ -35,6 +59,7 @@ function wantsMarkdown(accept: string | null): boolean {
  */
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const userAgent = request.headers.get("user-agent");
 
   if (pathname.startsWith("/admin")) {
     const token = request.cookies.get(ADMIN_ACCESS_COOKIE)?.value;
@@ -55,6 +80,13 @@ export async function middleware(request: NextRequest) {
 
   if (request.method !== "GET" && request.method !== "HEAD") {
     return NextResponse.next();
+  }
+
+  if (isSocialCrawler(userAgent) && isSocialPreviewPath(pathname)) {
+    const rewritten = request.nextUrl.clone();
+    rewritten.pathname = "/api/social-preview";
+    rewritten.searchParams.set("path", pathname);
+    return NextResponse.rewrite(rewritten);
   }
 
   if (pathname !== "/") {
