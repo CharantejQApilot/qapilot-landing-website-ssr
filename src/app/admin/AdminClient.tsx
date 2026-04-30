@@ -36,6 +36,10 @@ import {
   clearAdminAccessCookie,
   setAdminAccessCookie,
 } from "@/lib/admin/session-cookie";
+import {
+  revalidatePublicPaths,
+  withCommonCachePaths,
+} from "@/lib/admin/revalidate-client";
 
 interface Blog {
   id: string;
@@ -273,12 +277,18 @@ const AdminClient = () => {
   }, [terms]);
 
   const deleteBlogMutation = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, slug }: { id: string; slug: string }) => {
       const { error } = await supabase.from("blogs").delete().eq("id", id);
       if (error) throw error;
+      return { slug };
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths(["/", "/blogs", result?.slug ? `/blogs/${result.slug}` : ""]),
+      );
       toast({
         title: "Success",
         description: "Blog deleted successfully",
@@ -341,12 +351,22 @@ const AdminClient = () => {
   });
 
   const deleteCaseStudyMutation = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, slug }: { id: string; slug: string }) => {
       const { error } = await supabase.from("case_studies").delete().eq("id", id);
       if (error) throw error;
+      return { slug };
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       queryClient.invalidateQueries({ queryKey: ["admin-case-studies"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths([
+          "/",
+          "/case-studies",
+          result?.slug ? `/case-studies/${result.slug}` : "",
+        ]),
+      );
       toast({
         title: "Success",
         description: "Case study deleted successfully",
@@ -410,12 +430,18 @@ const AdminClient = () => {
   });
 
   const deleteNewsMutation = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, slug }: { id: string; slug: string }) => {
       const { error } = await supabase.from("news_updates").delete().eq("id", id);
       if (error) throw error;
+      return { slug };
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       queryClient.invalidateQueries({ queryKey: ["admin-news"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths(["/", "/news", result?.slug ? `/news/${result.slug}` : ""]),
+      );
       toast({
         title: "Success",
         description: "News item deleted successfully",
@@ -480,6 +506,10 @@ const AdminClient = () => {
       }
 
       let newsId = editingNewsId;
+      const previousSlug =
+        editingNewsId && newsItems
+          ? newsItems.find((item) => item.id === editingNewsId)?.slug ?? null
+          : null;
 
       if (editingNewsId) {
         const { data: updatedRow, error, status, statusText } = await supabase
@@ -531,9 +561,24 @@ const AdminClient = () => {
           console.error('Failed to ping search engines:', error);
         }
       }
+      return {
+        savedSlug: newsData.slug as string,
+        previousSlug,
+      };
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       queryClient.invalidateQueries({ queryKey: ["admin-news"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (token) {
+        const paths = withCommonCachePaths([
+          "/",
+          "/news",
+          result?.savedSlug ? `/news/${result.savedSlug}` : "",
+          result?.previousSlug ? `/news/${result.previousSlug}` : "",
+        ]);
+        await revalidatePublicPaths(token, paths);
+      }
       toast({
         title: "Success",
         description: editingNewsId ? "News item updated successfully" : "News item created successfully",
@@ -787,8 +832,13 @@ const AdminClient = () => {
         if (error) throw error;
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["admin-terms"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths(["/terms"]),
+      );
       toast({
         title: "Success",
         description: "Terms & Conditions saved successfully",
@@ -927,7 +977,7 @@ const AdminClient = () => {
                           <Button
                             variant="destructive"
                             size="icon"
-                            onClick={() => deleteBlogMutation.mutate(blog.id)}
+                            onClick={() => deleteBlogMutation.mutate({ id: blog.id, slug: blog.slug })}
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -1026,7 +1076,12 @@ const AdminClient = () => {
                           <Button
                             variant="destructive"
                             size="icon"
-                            onClick={() => deleteCaseStudyMutation.mutate(caseStudy.id)}
+                            onClick={() =>
+                              deleteCaseStudyMutation.mutate({
+                                id: caseStudy.id,
+                                slug: caseStudy.slug,
+                              })
+                            }
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -1106,7 +1161,12 @@ const AdminClient = () => {
                               <Button
                                 variant="destructive"
                                 size="icon"
-                                onClick={() => deleteNewsMutation.mutate(news.id)}
+                                onClick={() =>
+                                  deleteNewsMutation.mutate({
+                                    id: news.id,
+                                    slug: news.slug,
+                                  })
+                                }
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>

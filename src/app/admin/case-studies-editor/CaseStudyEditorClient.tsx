@@ -19,6 +19,10 @@ import {
   clearAdminAccessCookie,
   setAdminAccessCookie,
 } from "@/lib/admin/session-cookie";
+import {
+  revalidatePublicPaths,
+  withCommonCachePaths,
+} from "@/lib/admin/revalidate-client";
 
 interface CaseStudy {
   id: string;
@@ -250,9 +254,23 @@ const CaseStudyEditorClient = () => {
           console.error('Failed to ping search engines:', error);
         }
       }
+      return { savedSlug: caseStudyData.slug as string };
     },
-    onSuccess: (_data, variables) => {
+    onSuccess: async (result, variables) => {
       queryClient.invalidateQueries({ queryKey: ["admin-case-studies"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      const savedSlug = result?.savedSlug;
+      if (token && savedSlug) {
+        const previousSlug = existingCaseStudy?.slug;
+        const paths = withCommonCachePaths([
+          "/",
+          "/case-studies",
+          `/case-studies/${savedSlug}`,
+          previousSlug ? `/case-studies/${previousSlug}` : "",
+        ]);
+        await revalidatePublicPaths(token, paths);
+      }
       toast({
         title: "Success",
         description: variables.published

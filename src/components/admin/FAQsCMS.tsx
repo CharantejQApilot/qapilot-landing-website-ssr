@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import {
+  revalidatePublicPaths,
+  withCommonCachePaths,
+} from "@/lib/admin/revalidate-client";
 
 interface FAQ {
   id: string;
@@ -120,6 +124,11 @@ const FAQsCMS = () => {
         toast.error(error.message || "Failed to update FAQ");
         console.error(error);
       } else {
+        const { data: { session } } = await supabase.auth.getSession();
+        await revalidatePublicPaths(
+          session?.access_token,
+          withCommonCachePaths(["/faqs"]),
+        );
         toast.success("FAQ updated successfully");
         handleCloseDialog();
         fetchFAQs();
@@ -139,6 +148,11 @@ const FAQsCMS = () => {
         toast.error(error.message || "Failed to create FAQ");
         console.error(error);
       } else {
+        const { data: { session } } = await supabase.auth.getSession();
+        await revalidatePublicPaths(
+          session?.access_token,
+          withCommonCachePaths(["/faqs"]),
+        );
         toast.success("FAQ created successfully");
         handleCloseDialog();
         fetchFAQs();
@@ -155,6 +169,11 @@ const FAQsCMS = () => {
       toast.error(error.message || "Failed to delete FAQ");
       console.error(error);
     } else {
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths(["/faqs"]),
+      );
       toast.success("FAQ deleted successfully");
       fetchFAQs();
     }
@@ -170,6 +189,11 @@ const FAQsCMS = () => {
       toast.error(error.message || "Failed to update FAQ");
       console.error(error);
     } else {
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths(["/faqs"]),
+      );
       toast.success(faq.is_published ? "FAQ unpublished" : "FAQ published");
       fetchFAQs();
     }
@@ -201,6 +225,11 @@ const FAQsCMS = () => {
     if (hasError) {
       toast.error("Failed to reorder FAQs");
     } else {
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths(["/faqs"]),
+      );
       fetchFAQs();
     }
   };

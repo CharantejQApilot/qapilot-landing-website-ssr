@@ -15,11 +15,19 @@ const ALLOWED_PREFIXES = [
   "/case-studies",
   "/careers",
 ] as const;
+const ALLOWED_EXACT_PATHS = new Set([
+  "/",
+  "/faqs",
+  "/terms",
+  "/sitemap.xml",
+  "/sitemap-index.xml",
+  "/robots.txt",
+]);
 
 function isAllowedMarketingPath(path: string): boolean {
   if (typeof path !== "string" || !path.startsWith("/")) return false;
   if (path.includes("..") || path.includes("//")) return false;
-  if (path === "/") return true;
+  if (ALLOWED_EXACT_PATHS.has(path)) return true;
   return ALLOWED_PREFIXES.some(
     (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );

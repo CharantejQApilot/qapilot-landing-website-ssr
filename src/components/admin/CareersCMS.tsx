@@ -25,6 +25,10 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { validatePublishedJob } from "@/lib/admin/publish-validation";
+import {
+  revalidatePublicPaths,
+  withCommonCachePaths,
+} from "@/lib/admin/revalidate-client";
 
 interface JobOrganization {
   id: string;
@@ -170,12 +174,21 @@ const CareersCMS = () => {
 
   // Delete job mutation
   const deleteJobMutation = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ id, slug }: { id: string; slug: string | null }) => {
       const { error } = await supabase.from("job_openings").delete().eq("id", id);
       if (error) throw error;
+      return { slug };
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       queryClient.invalidateQueries({ queryKey: ["admin-job-openings"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session?.access_token,
+        withCommonCachePaths([
+          "/careers",
+          result?.slug ? `/careers/${result.slug}` : "",
+        ]),
+      );
       toast({ title: "Success", description: "Job opening deleted successfully" });
     },
     onError: (error: any) => {
@@ -186,6 +199,10 @@ const CareersCMS = () => {
   // Save job mutation
   const saveJobMutation = useMutation({
     mutationFn: async () => {
+      const previousSlug =
+        editingJobId && jobOpenings
+          ? jobOpenings.find((job) => job.id === editingJobId)?.slug ?? null
+          : null;
       if (jobPublished) {
         const publishErrors = validatePublishedJob({
           role: jobRole,
@@ -229,9 +246,24 @@ const CareersCMS = () => {
           console.error("Failed to ping search engines for jobs:", error);
         }
       }
+      return {
+        savedSlug: jobData.slug as string,
+        previousSlug,
+      };
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
       queryClient.invalidateQueries({ queryKey: ["admin-job-openings"] });
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        await revalidatePublicPaths(
+          session.access_token,
+          withCommonCachePaths([
+            "/careers",
+            result?.savedSlug ? `/careers/${result.savedSlug}` : "",
+            result?.previousSlug ? `/careers/${result.previousSlug}` : "",
+          ]),
+        );
+      }
       toast({
         title: "Success",
         description: editingJobId ? "Job opening updated successfully" : "Job opening created successfully",
@@ -723,7 +755,13 @@ const CareersCMS = () => {
                     <Button variant="outline" size="icon" onClick={() => handleEditJob(job)}>
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button variant="destructive" size="icon" onClick={() => deleteJobMutation.mutate(job.id)}>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() =>
+                        deleteJobMutation.mutate({ id: job.id, slug: job.slug })
+                      }
+                    >
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
@@ -808,7 +846,16 @@ const CareersCMS = () => {
                                   <Button variant="outline" size="sm" onClick={() => handleEditJob(job)}>
                                     <Edit className="w-3 h-3" />
                                   </Button>
-                                  <Button variant="destructive" size="sm" onClick={() => deleteJobMutation.mutate(job.id)}>
+                                  <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    onClick={() =>
+                                      deleteJobMutation.mutate({
+                                        id: job.id,
+                                        slug: job.slug,
+                                      })
+                                    }
+                                  >
                                     <Trash2 className="w-3 h-3" />
                                   </Button>
                                 </div>
