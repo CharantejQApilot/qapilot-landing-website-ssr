@@ -1,5 +1,5 @@
-import DOMPurify from "isomorphic-dompurify";
 import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 import { enhanceContentLinks } from "@/utils/seoLinkEnhancer";
 
 marked.setOptions({ gfm: true, breaks: true });
@@ -8,6 +8,46 @@ export type RichTextFormat = "html" | "markdown";
 
 /** Guard serverless OOM on pathological CMS payloads (still rare for normal posts). */
 const MAX_SANITIZE_INPUT_CHARS = 900_000;
+const SANITIZER_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+    "img",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
+    "pre",
+    "code",
+    "blockquote",
+    "hr",
+    "br",
+    "span",
+  ]),
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    a: ["href", "name", "target", "rel", "title"],
+    img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
+    "*": ["class", "id", "style"],
+  },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  allowedStyles: {
+    "*": {
+      color: [/^.*$/],
+      "background-color": [/^.*$/],
+      "text-align": [/^left$/, /^right$/, /^center$/, /^justify$/],
+      "font-weight": [/^.*$/],
+      "font-style": [/^.*$/],
+      "text-decoration": [/^.*$/],
+    },
+  },
+};
 
 /**
  * CMS HTML / markdown → sanitized HTML for `dangerouslySetInnerHTML`.
@@ -24,9 +64,9 @@ export function sanitizeRichText(
   try {
     if (contentFormat === "markdown") {
       const raw = marked.parse(source, { async: false }) as string;
-      return enhanceContentLinks(DOMPurify.sanitize(raw));
+      return enhanceContentLinks(sanitizeHtml(raw, SANITIZER_OPTIONS));
     }
-    return enhanceContentLinks(DOMPurify.sanitize(source));
+    return enhanceContentLinks(sanitizeHtml(source, SANITIZER_OPTIONS));
   } catch {
     return "";
   }

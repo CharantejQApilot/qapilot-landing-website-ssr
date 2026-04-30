@@ -19,6 +19,10 @@ import {
   clearAdminAccessCookie,
   setAdminAccessCookie,
 } from "@/lib/admin/session-cookie";
+import {
+  revalidatePublicPaths,
+  withCommonCachePaths,
+} from "@/lib/admin/revalidate-client";
 
 interface Blog {
   id: string;
@@ -260,22 +264,14 @@ const BlogEditorClient = () => {
       const token = session?.access_token;
       const savedSlug = result?.savedSlug;
       if (token && savedSlug) {
-        try {
-          const paths = ["/blogs", `/blogs/${savedSlug}`, "/"];
-          const res = await fetch("/api/revalidate", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ paths }),
-          });
-          if (!res.ok) {
-            console.warn("[BlogEditor] ISR revalidate failed:", res.status);
-          }
-        } catch (e) {
-          console.warn("[BlogEditor] ISR revalidate error:", e);
-        }
+        const previousSlug = existingBlog?.slug;
+        const paths = withCommonCachePaths([
+          "/",
+          "/blogs",
+          `/blogs/${savedSlug}`,
+          previousSlug ? `/blogs/${previousSlug}` : "",
+        ]);
+        await revalidatePublicPaths(token, paths);
       }
 
       toast({
