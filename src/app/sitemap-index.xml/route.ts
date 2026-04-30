@@ -44,7 +44,7 @@ export function GET() {
   return new Response(lines.join("\n"), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
+      "Cache-Control": "public, max-age=0, s-maxage=30, stale-while-revalidate=30",
     },
   });
 }
