@@ -6,6 +6,7 @@ const EXACT_PATHS = new Set([
   "/",
   "/faqs",
   "/terms",
+  "/privacy",
   "/sitemap.xml",
   "/sitemap-index.xml",
   "/robots.txt",

@@ -224,7 +224,13 @@ const Footer = () => {
             <div className="text-sm text-white/30">
               Copyright © {new Date().getFullYear()} | Powered by QApilot
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-6">
+              <Link
+                href={PATHS.PRIVACY}
+                className="text-sm text-white/30 hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </Link>
               <Link
                 href={PATHS.TERMS}
                 className="text-sm text-white/30 hover:text-white transition-colors"

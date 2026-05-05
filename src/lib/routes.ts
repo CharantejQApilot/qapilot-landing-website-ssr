@@ -27,6 +27,8 @@ export const PATHS = {
   ADMIN_EDITOR: "/admin/editor",
   ADMIN_EDITOR_ID: "/admin/editor/:id",
   TERMS: "/terms",
+  /** Static privacy policy (legal). */
+  PRIVACY: "/privacy",
   TERMS_CONDITIONS: "/terms-conditions",
   CAREERS: "/careers",
   JOB_POST: "/careers/:slug",
