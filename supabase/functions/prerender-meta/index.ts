@@ -125,6 +125,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Read QApilot's Terms of Service. Learn about the terms and conditions governing the use of our AI-powered testing platform.",
   },
+  "/privacy": {
+    title: "Privacy Policy | QApilot",
+    description:
+      "Read QApilot's Privacy Policy. Learn how we collect, use, and protect personal data when you use our site and services.",
+  },
 };
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
