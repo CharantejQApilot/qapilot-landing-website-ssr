@@ -47,66 +47,19 @@ const ALL_CLIENTS: ClientLogo[] = [
   { name: "Qwipo", logo: `${PARTNER_LOGOS_PATH_PREFIX}qwipo-new-logo.png`, url: "https://qwipo.com/", visualScale: 1.36 },
 ];
 
-/** Featured row order: Wio, Orange, Royal Enfield — static, larger treatment */
-const FEATURED_NAMES = ["WIO Bank", "Orange Group", "Royal Enfield"] as const;
-
 const ClientsSection = () => {
-  const featuredClients = FEATURED_NAMES.map((name) => {
-    const c = ALL_CLIENTS.find((x) => x.name === name);
-    if (!c) throw new Error(`Missing client logo: ${name}`);
-    return c;
-  });
-
-  const carouselClients = ALL_CLIENTS.filter((c) => !(FEATURED_NAMES as readonly string[]).includes(c.name));
-
-  const marqueeItems = [...carouselClients, ...carouselClients];
+  const marqueeItems = [...ALL_CLIENTS, ...ALL_CLIENTS];
 
   return (
     <section className="relative overflow-hidden section-edge" aria-labelledby="clients-heading">
-      {/* Clients — featured strip (static) + marquee for remaining logos */}
+      {/* Clients logos marquee */}
       <div className="py-12 2xl:py-16 border border-white/30 bg-[#04041C]">
         <div className="section-full mb-8 md:mb-10 2xl:mb-12">
           <h2 id="clients-heading" className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white text-center">
             Trusted by Industry Leaders
           </h2>
         </div>
-
-        {/* Spotlight partners — larger logos, fixed (does not scroll with marquee) */}
-        <div className="relative z-30 px-4 sm:px-6">
-          <div className="mx-auto max-w-4xl">
-            <div className="grid grid-cols-3 gap-3 sm:gap-8 md:gap-12 lg:gap-16 items-center justify-items-center rounded-2xl border border-white/15 bg-white/[0.04] px-3 py-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:px-8 sm:py-8 md:py-10">
-              {featuredClients.map((client) => (
-                <a
-                  key={client.name}
-                  href={client.url}
-                  target="_blank"
-                  rel="noopener"
-                  className="flex w-full max-w-[200px] items-center justify-center py-2 sm:py-3 transition-opacity hover:opacity-90"
-                >
-                  <img
-                    src={client.logo}
-                    alt={`${client.name} logo`}
-                    width={200}
-                    height={64}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-9 w-auto max-h-[42px] max-w-[min(100%,160px)] object-contain sm:h-14 sm:max-h-[56px] md:h-16 md:max-h-[72px] md:max-w-[200px] lg:h-[4.25rem] lg:max-h-none"
-                    style={{ transform: `scale(${client.visualScale})`, transformOrigin: "center" }}
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="relative z-10 mx-auto mt-8 max-w-5xl px-6 md:mt-10"
-          aria-hidden="true"
-        >
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-        </div>
-
-        <div className="relative z-10 mt-8 w-full md:mt-10" aria-label="Additional client logos">
+        <div className="relative z-10 w-full" aria-label="Client logos">
           <div className="absolute left-0 top-0 bottom-0 z-20 w-16 bg-gradient-to-r from-[#04041C] to-transparent pointer-events-none sm:w-24 md:w-40" />
           <div className="absolute right-0 top-0 bottom-0 z-20 w-16 bg-gradient-to-l from-[#04041C] to-transparent pointer-events-none sm:w-24 md:w-40" />
 
