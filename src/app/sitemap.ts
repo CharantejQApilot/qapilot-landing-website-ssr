@@ -123,6 +123,11 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.3,
   },
   {
+    url: `${SITE_BASE_URL}${PATHS.PRIVACY}`,
+    changeFrequency: "yearly",
+    priority: 0.3,
+  },
+  {
     url: `${SITE_BASE_URL}${PATHS.TERMS_CONDITIONS}`,
     changeFrequency: "yearly",
     priority: 0.3,
