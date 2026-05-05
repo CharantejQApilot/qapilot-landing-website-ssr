@@ -88,9 +88,15 @@ const MetricsSection = () => {
       <div className="section-navy w-full">
         <div className="section-full py-8 sm:py-10 md:py-12 2xl:py-16 relative">
           <div className="absolute inset-0 bg-structured-grid opacity-10 pointer-events-none" />
-          <h2 className={cn(marketingSectionH2Class, "text-center relative z-10 px-2")}>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-center text-primary-foreground/60 mb-3 md:mb-4 relative z-10">
+            At scale
+          </p>
+          <h2 className={cn(marketingSectionH2Class, "text-center relative z-10 px-2 mb-4 md:mb-5")}>
             QApilot By The Numbers
           </h2>
+          <p className="relative z-10 mx-auto w-full min-w-0 max-w-none px-3 text-center text-base leading-relaxed md:text-lg 2xl:text-xl">
+            A live snapshot of platform activity—every step the system generates, runs, and surfaces to keep teams moving.
+          </p>
         </div>
       </div>
 

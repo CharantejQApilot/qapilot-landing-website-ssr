@@ -77,6 +77,7 @@ export function ForProductOwnerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="pm-challenge-heading"
+            eyebrow="The challenge"
             title={
               <>
                 The Challenge Facing <span className="text-primary">Product Managers</span>
@@ -125,11 +126,13 @@ export function ForProductOwnerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="pm-outcomes-heading"
+            eyebrow="Outcomes"
             title={
               <>
                 Outcomes <span className="text-primary">Product Managers</span> Care About
               </>
             }
+            description="Clear readiness signals and faster validation loops keep roadmap cadence tied to real quality."
             marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
           />
 
@@ -172,6 +175,7 @@ export function ForProductOwnerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="pm-built-heading"
+            eyebrow="Delivery"
             title={
               <>
                 Built for <span className="text-primary">Product Delivery</span> Rhythm
@@ -205,17 +209,13 @@ export function ForProductOwnerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="pm-why-heading"
+            eyebrow="Why QApilot"
             title={
               <>
                 Why Product Managers Choose <span className="text-primary">QApilot</span>
               </>
             }
-            description={
-              <>
-                <p>Because product velocity only matters when releases work.</p>
-                <p>QApilot helps Product Managers ship faster with stronger confidence.</p>
-              </>
-            }
+            description="Because product velocity only matters when releases work—QApilot helps Product Managers ship faster with stronger confidence."
             marginBottomClassName="mb-0"
           />
         </div>

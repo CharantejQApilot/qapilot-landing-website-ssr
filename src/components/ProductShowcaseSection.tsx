@@ -18,9 +18,8 @@ const ProductShowcaseSection = () => {
             >
               QApilot <span className="text-primary">In Action</span>
             </h2>
-            <p className={cn(marketingSectionIntroClass, "max-w-3xl")}>
-              See QApilot in action on this interactive demo. Experience the power of AI-native quality assurance
-              firsthand.
+            <p className={cn(marketingSectionIntroClass, "w-full min-w-0 max-w-none")}>
+              See QApilot in action in this interactive demo—experience AI-native quality assurance without installing anything.
             </p>
           </div>
         </header>

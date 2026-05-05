@@ -76,6 +76,7 @@ export function ForReleaseManagerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="rm-challenge-heading"
+            eyebrow="The challenge"
             title={
               <>
                 The Challenge Facing <span className="text-primary">Release Managers</span>
@@ -122,11 +123,13 @@ export function ForReleaseManagerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="rm-outcomes-heading"
+            eyebrow="Outcomes"
             title={
               <>
                 Outcomes <span className="text-primary">Release Managers</span> Care About
               </>
             }
+            description="Structured readiness and resilient automation replace guessing during every launch window."
             marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
           />
 
@@ -169,6 +172,7 @@ export function ForReleaseManagerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="rm-release-ops-heading"
+            eyebrow="Release ops"
             title={
               <>
                 Fits Into <span className="text-primary">Existing Release Operations</span>
@@ -204,17 +208,13 @@ export function ForReleaseManagerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="rm-why-heading"
+            eyebrow="Why QApilot"
             title={
               <>
                 Why Release Managers Choose <span className="text-primary">QApilot</span>
               </>
             }
-            description={
-              <>
-                <p>Because releases should be delayed only by real risk — not unclear testing signals.</p>
-                <p>QApilot helps Release Managers move faster with stronger confidence.</p>
-              </>
-            }
+            description="Because releases should be delayed only by real risk—not unclear testing signals—QApilot helps Release Managers move faster with stronger confidence."
             marginBottomClassName="mb-0"
           />
         </div>

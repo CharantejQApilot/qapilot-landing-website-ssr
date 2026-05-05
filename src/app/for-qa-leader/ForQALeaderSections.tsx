@@ -78,6 +78,7 @@ export function ForQALeaderSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qe-challenge-heading"
+            eyebrow="The challenge"
             title={
               <>
                 The Challenge Facing <span className="text-primary">QE Leaders</span>
@@ -127,11 +128,13 @@ export function ForQALeaderSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qe-outcomes-heading"
+            eyebrow="Outcomes"
             title={
               <>
                 Outcomes <span className="text-primary">QE Leaders</span> Care About
               </>
             }
+            description="What changes when autonomous exploration, healing, and structured signals replace brittle script-only automation."
             marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
           />
 
@@ -174,6 +177,7 @@ export function ForQALeaderSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qe-stack-heading"
+            eyebrow="Your stack"
             title={
               <>
                 Works With Your <span className="text-primary">Existing Stack</span>
@@ -210,22 +214,13 @@ export function ForQALeaderSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qe-why-heading"
+            eyebrow="Why QApilot"
             title={
               <>
                 Why QE Leaders Choose <span className="text-primary">QApilot</span>
               </>
             }
-            description={
-              <>
-                <p>
-                  Because quality engineering should improve release velocity — not become the bottleneck.
-                </p>
-                <p>
-                  QApilot helps QE leaders move from maintenance-heavy testing operations to scalable mobile release
-                  readiness.
-                </p>
-              </>
-            }
+            description="Because quality engineering should improve release velocity—not become the bottleneck—QApilot helps leaders move from maintenance-heavy operations to scalable mobile release readiness."
             marginBottomClassName="mb-0"
           />
         </div>
