@@ -100,11 +100,13 @@ export function BringYourOwnAgentWhySection() {
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader
           id="byoa-why-heading"
+          eyebrow="Extensibility"
           title={
             <>
               Built for <span className="text-primary">Extensibility</span>
             </>
           }
+          description="Domain rules, custom checks, and org-specific workflows deserve a first-class path—without fragmenting your testing system."
           marginBottomClassName="mb-10 md:mb-14 2xl:mb-16"
         />
 
@@ -161,11 +163,13 @@ export function BringYourOwnAgentFoundationSection() {
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader
           id="byoa-foundation-heading"
+          eyebrow="Shared context"
           title={
             <>
               Powered by the <span className="text-primary">Knowledge Graph</span>
             </>
           }
+          description="One evolving map of screens, flows, and behavior keeps native and custom agents aligned with how your app actually works."
           marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
         />
 
@@ -225,7 +229,9 @@ export function BringYourOwnAgentHowSection() {
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader
           id="byoa-how-heading"
+          eyebrow="Architecture"
           title="How It Fits Into the System"
+          description="External agents plug into the same pipelines—read graph state, act on builds, and write results where teams already look."
           marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
         />
 
@@ -267,6 +273,7 @@ export function BringYourOwnAgentEnablesSection() {
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader
           id="byoa-enables-heading"
+          eyebrow="Coverage"
           title={
             <>
               Extend Testing for Your <span className="text-primary">Use Cases</span>
@@ -306,11 +313,13 @@ export function BringYourOwnAgentPositioningSection() {
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader
           id="byoa-positioning-heading"
+          eyebrow="Principles"
           title={
             <>
               Flexible, <span className="text-primary">Without Losing Structure</span>
             </>
           }
+          description="BYOA augments the platform—exploration, graph, and native agents stay authoritative while extensions specialize where you need them."
           marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
         />
 
@@ -357,6 +366,9 @@ export function BringYourOwnAgentUsefulSection() {
       <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-[0.12]" aria-hidden />
 
       <div className="section-full relative z-10">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/55 md:mb-4">
+          Examples
+        </p>
         <h2
           id="byoa-useful-heading"
           className={cn(marketingSectionH2Class, "mb-3 max-w-4xl text-primary-foreground md:mb-4")}

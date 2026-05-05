@@ -1,7 +1,6 @@
 import { Zap, Settings, Link2 } from "lucide-react";
 import ReleaseReadinessFlowSection from "@/components/ReleaseReadinessFlowSection";
-import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
-import { cn } from "@/lib/utils";
+import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const cards = [
   {
@@ -70,22 +69,16 @@ const VelocitySection = () => {
       aria-labelledby="velocity-heading"
     >
       <div className="section-full pt-10 md:pt-14 2xl:pt-16 pb-2 sm:pb-3 md:pb-4 2xl:pb-4">
-        <header className="w-full mb-10 md:mb-12 2xl:mb-14 rounded-2xl border border-border bg-muted/25 px-6 py-8 md:px-10 md:py-10 2xl:px-12 2xl:py-12 relative overflow-hidden">
-          <span className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl" aria-hidden="true" />
-          <div className="relative pl-4 md:pl-5">
-            <h2
-              id="velocity-heading"
-              className={cn(marketingSectionH2Class, "text-foreground mb-5 md:mb-6")}
-            >
-              <span className="text-primary">Engineering Velocity</span>
-              {" "}Without The QE Overhead
-            </h2>
-            <p className={cn(marketingSectionIntroClass, "w-full")}>
-              Traditional test automation requires constant maintenance and manual effort. QApilot
-              enables engineering teams to validate mobile builds automatically within CI/CD pipelines.
-            </p>
-          </div>
-        </header>
+        <MarketingSectionHeader
+          id="velocity-heading"
+          eyebrow="Velocity"
+          title={
+            <>
+              <span className="text-primary">Engineering Velocity</span> Without The QE Overhead
+            </>
+          }
+          description="Traditional test automation requires constant maintenance and manual effort. QApilot enables engineering teams to validate mobile builds automatically within CI/CD pipelines."
+        />
 
         <ReleaseReadinessFlowSection embedded />
 

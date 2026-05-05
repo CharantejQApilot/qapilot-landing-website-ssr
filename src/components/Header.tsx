@@ -209,7 +209,7 @@ const Header = () => {
 
           <a
             href={`${DOCS_URL}/`}
-            className={`${RIBBON_NAV_TEXT_CLASS} font-medium text-muted-foreground transition-colors hover:text-foreground`}
+            className={`font-heading ${RIBBON_NAV_TEXT_CLASS} font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md px-3 py-2.5 -mx-1`}
           >
             Documentation
           </a>
@@ -428,7 +428,7 @@ const Header = () => {
 
               <a
                 href={`${DOCS_URL}/`}
-                className={`flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                className={`font-heading flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
               >
                 <span className="w-[18px] shrink-0" aria-hidden />
                 Documentation

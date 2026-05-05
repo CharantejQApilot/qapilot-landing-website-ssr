@@ -1,9 +1,15 @@
 import { type ReactNode } from "react";
-import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import {
+  marketingEyebrowClass,
+  marketingSectionH2Class,
+  marketingSectionIntroClass,
+} from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 type MarketingSectionHeaderProps = {
   id: string;
+  /** Small caps label above the title (same pattern as the Compatibility section). */
+  eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   /** Default matches VelocitySection: left rail + muted panel */
@@ -14,10 +20,11 @@ type MarketingSectionHeaderProps = {
 
 /**
  * Section title treatment used on the home page (e.g. VelocitySection):
- * rounded panel, primary left rail, bold heading + optional subcopy.
+ * rounded panel, primary left rail, eyebrow + bold heading + subcopy.
  */
 export function MarketingSectionHeader({
   id,
+  eyebrow,
   title,
   description,
   variant = "rail",
@@ -25,6 +32,13 @@ export function MarketingSectionHeader({
   marginBottomClassName = "mb-10 md:mb-12 2xl:mb-14",
 }: MarketingSectionHeaderProps) {
   const isRail = variant === "rail";
+
+  const introBlock =
+    typeof description === "string" ? (
+      <p className={cn(marketingSectionIntroClass, "mt-4 w-full min-w-0 max-w-none md:mt-5")}>{description}</p>
+    ) : (
+      description
+    );
 
   return (
     <header
@@ -43,23 +57,28 @@ export function MarketingSectionHeader({
           aria-hidden
         />
       )}
-      <div
-        className={cn("relative", isRail ? "pl-4 md:pl-5" : "px-2")}
-      >
+      <div className={cn("relative", isRail ? "pl-4 md:pl-5" : "px-2")}>
+        {eyebrow ? (
+          <p className={cn(marketingEyebrowClass, variant === "center" && "mx-auto max-w-4xl text-center")}>{eyebrow}</p>
+        ) : null}
         <h2
           id={id}
           className={cn(
             marketingSectionH2Class,
             "text-foreground",
-            description ? "mb-5 md:mb-6" : undefined,
+            eyebrow || description ? "mb-0" : undefined,
           )}
         >
           {title}
         </h2>
         {description ? (
-          <div className={cn("w-full space-y-4", marketingSectionIntroClass)}>
-            {typeof description === "string" ? <p>{description}</p> : description}
-          </div>
+          typeof description === "string" ? (
+            introBlock
+          ) : (
+            <div className={cn(marketingSectionIntroClass, "mt-4 w-full min-w-0 max-w-none space-y-4 md:mt-5")}>
+              {description}
+            </div>
+          )
         ) : null}
       </div>
     </header>

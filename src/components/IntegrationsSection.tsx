@@ -1,4 +1,4 @@
-import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 
@@ -45,12 +45,18 @@ const IntegrationsSection = () => {
       <div className="section-navy w-full">
         <div className="section-full relative py-8 sm:py-10 md:py-12 2xl:py-16">
           <div className="absolute inset-0 bg-structured-grid opacity-10 pointer-events-none" aria-hidden />
+          <p className="relative z-10 mb-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/60 md:mb-4">
+            Ecosystem
+          </p>
           <h2
             id="integrations-heading"
-            className={cn(marketingSectionH2Class, "relative z-10 px-3 text-center")}
+            className={cn(marketingSectionH2Class, "relative z-10 mb-4 px-3 text-center md:mb-5")}
           >
             Works With Your Existing Testing Stack
           </h2>
+          <p className="relative z-10 mx-auto w-full min-w-0 max-w-none px-3 text-center text-base leading-relaxed md:text-lg 2xl:text-xl">
+            Connect QApilot with the tools your team already uses for planning, communication, and device execution.
+          </p>
         </div>
       </div>
 
@@ -58,15 +64,6 @@ const IntegrationsSection = () => {
         <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle" aria-hidden />
 
         <div className="relative z-10 py-12 md:py-16 2xl:py-20">
-          <p
-            className={cn(
-              marketingSectionIntroClass,
-              "section-full mb-10 max-w-3xl mx-auto text-center md:mb-12",
-            )}
-          >
-            Connect QApilot with your existing workflow and tools.
-          </p>
-
           <div className="relative w-full overflow-hidden">
             {/* CSS marquee: same pattern as client logos — no rAF / setState (avoids scroll jank) */}
             <div className="flex w-max motion-safe:animate-[infinite-scroll_52s_linear_infinite] motion-reduce:animate-none hover:motion-safe:[animation-play-state:paused] will-change-transform">

@@ -5,10 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Network } from "lucide-react";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
+import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { CORE_ADVANTAGE_SCENIC_URLS } from "@/lib/core-advantage-scenic-urls.mjs";
 import { PATHS, PLATFORM_BY_SOLUTION } from "@/lib/routes";
-import { cn } from "@/lib/utils";
 
 /** Same destinations as Platform → By Solution (excludes Overview). */
 function knowMoreHrefForSolutionLabel(label: string): string {
@@ -295,17 +295,18 @@ const CoreAdvantageHeading = () => {
       <DeliverSectionBackgroundDecor />
 
       <div className="section-full relative z-10 pt-10 md:pt-14 2xl:pt-16 pb-16 md:pb-20 2xl:pb-24">
-        <header className="relative mb-8 w-full overflow-hidden rounded-2xl border border-border bg-section-header px-6 py-8 shadow-sm md:mb-10 md:px-10 md:py-10 2xl:mb-12 2xl:px-12 2xl:py-12">
-          <span className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl" aria-hidden="true" />
-          <div className="relative z-[1] pl-4 md:pl-5">
-            <h2
-              id="core-advantage-heading"
-              className={cn(marketingSectionH2Class, "text-foreground")}
-            >
+        <MarketingSectionHeader
+          id="core-advantage-heading"
+          eyebrow="Platform"
+          title={
+            <>
               Deliver Reliable <span className="text-primary">Mobile App</span> Testing
-            </h2>
-          </div>
-        </header>
+            </>
+          }
+          description="From autonomous exploration to security and self-healing, QApilot unifies the capabilities your team needs to ship mobile quality with less manual effort."
+          className="border border-border bg-section-header shadow-sm"
+          marginBottomClassName="mb-8 md:mb-10 2xl:mb-12"
+        />
 
         {/* Crawler card — same navy as QApilot By The Numbers banner */}
         <article className="section-navy relative z-[1] w-full overflow-hidden rounded-xl border border-white/15 shadow-md">

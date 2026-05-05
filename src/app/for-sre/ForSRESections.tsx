@@ -77,6 +77,7 @@ export function ForSRESections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="sre-challenge-heading"
+            eyebrow="The challenge"
             title={
               <>
                 The Challenge Facing <span className="text-primary">SRE Teams</span>
@@ -123,11 +124,13 @@ export function ForSRESections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="sre-outcomes-heading"
+            eyebrow="Outcomes"
             title={
               <>
                 Outcomes <span className="text-primary">SRE Teams</span> Care About
               </>
             }
+            description="Stronger pre-release signals and faster evidence shorten the path from code to confident deploy."
             marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
           />
 
@@ -170,6 +173,7 @@ export function ForSRESections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="sre-built-heading"
+            eyebrow="Operations"
             title={
               <>
                 Built for <span className="text-primary">Reliability Operations</span>
@@ -203,17 +207,13 @@ export function ForSRESections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="sre-why-heading"
+            eyebrow="Why QApilot"
             title={
               <>
                 Why SRE Teams Choose <span className="text-primary">QApilot</span>
               </>
             }
-            description={
-              <>
-                <p>Because reliability starts before production.</p>
-                <p>QApilot helps SRE teams reduce operational risk through stronger mobile release readiness.</p>
-              </>
-            }
+            description="Because reliability starts before production—QApilot helps SRE teams reduce operational risk through stronger mobile release readiness."
             marginBottomClassName="mb-0"
           />
         </div>

@@ -29,42 +29,95 @@ function testimonialParts(text: string, highlightPhrases: readonly string[]): Re
 
 const testimonials = QA_PILOT_PUBLIC_TESTIMONIALS;
 
-const ClientsSection = () => {
-  const clients = [
-    { name: "Orange Group", logo: `${PARTNER_LOGOS_PATH_PREFIX}orange-group-logo.png`, url: "https://www.orange.com/en", visualScale: 1.15 },
-    { name: "WIO Bank", logo: `${PARTNER_LOGOS_PATH_PREFIX}wio-bank-logo.png`, url: "https://wio.io/", visualScale: 1.28 },
-    { name: "Royal Enfield", logo: `${PARTNER_LOGOS_PATH_PREFIX}royal-enfield-logo.png`, url: "https://www.royalenfield.com/in/en/home/", visualScale: 1.15 },
-    { name: "Indosat Ooredoo", logo: `${PARTNER_LOGOS_PATH_PREFIX}indosat-logo.png`, url: "https://im3.id/portal/en/indexpersonal", visualScale: 1 },
-    { name: "Zessta", logo: `${PARTNER_LOGOS_PATH_PREFIX}zessta-logo.svg`, url: "https://zessta.com/", visualScale: 0.72 },
-    { name: "mySherpas", logo: `${PARTNER_LOGOS_PATH_PREFIX}mysherpas-logo.svg`, url: "https://www.mypaisaa.com/", visualScale: 0.72 },
-    { name: "GrowSari", logo: `${PARTNER_LOGOS_PATH_PREFIX}growsari-logo.webp`, url: "https://growsari.com/", visualScale: 1.36 },
-    { name: "Qwipo", logo: `${PARTNER_LOGOS_PATH_PREFIX}qwipo-new-logo.png`, url: "https://qwipo.com/", visualScale: 1.36 },
-  ];
+type ClientLogo = {
+  name: string;
+  logo: string;
+  url: string;
+  visualScale: number;
+};
 
-  const marqueeItems = [...clients, ...clients];
+const ALL_CLIENTS: ClientLogo[] = [
+  { name: "Orange Group", logo: `${PARTNER_LOGOS_PATH_PREFIX}orange-group-logo.png`, url: "https://www.orange.com/en", visualScale: 1.15 },
+  { name: "WIO Bank", logo: `${PARTNER_LOGOS_PATH_PREFIX}wio-bank-logo.png`, url: "https://wio.io/", visualScale: 1.28 },
+  { name: "Royal Enfield", logo: `${PARTNER_LOGOS_PATH_PREFIX}royal-enfield-logo.png`, url: "https://www.royalenfield.com/in/en/home/", visualScale: 1.15 },
+  { name: "Indosat Ooredoo", logo: `${PARTNER_LOGOS_PATH_PREFIX}indosat-logo.png`, url: "https://im3.id/portal/en/indexpersonal", visualScale: 1 },
+  { name: "Zessta", logo: `${PARTNER_LOGOS_PATH_PREFIX}zessta-logo.svg`, url: "https://zessta.com/", visualScale: 0.72 },
+  { name: "mySherpas", logo: `${PARTNER_LOGOS_PATH_PREFIX}mysherpas-logo.svg`, url: "https://www.mypaisaa.com/", visualScale: 0.72 },
+  { name: "GrowSari", logo: `${PARTNER_LOGOS_PATH_PREFIX}growsari-logo.webp`, url: "https://growsari.com/", visualScale: 1.36 },
+  { name: "Qwipo", logo: `${PARTNER_LOGOS_PATH_PREFIX}qwipo-new-logo.png`, url: "https://qwipo.com/", visualScale: 1.36 },
+];
+
+/** Featured row order: Wio, Orange, Royal Enfield — static, larger treatment */
+const FEATURED_NAMES = ["WIO Bank", "Orange Group", "Royal Enfield"] as const;
+
+const ClientsSection = () => {
+  const featuredClients = FEATURED_NAMES.map((name) => {
+    const c = ALL_CLIENTS.find((x) => x.name === name);
+    if (!c) throw new Error(`Missing client logo: ${name}`);
+    return c;
+  });
+
+  const carouselClients = ALL_CLIENTS.filter((c) => !(FEATURED_NAMES as readonly string[]).includes(c.name));
+
+  const marqueeItems = [...carouselClients, ...carouselClients];
 
   return (
     <section className="relative overflow-hidden section-edge" aria-labelledby="clients-heading">
-      {/* Clients marquee — black background, white text, logos in original colour */}
+      {/* Clients — featured strip (static) + marquee for remaining logos */}
       <div className="py-12 2xl:py-16 border border-white/30 bg-[#04041C]">
-        <div className="section-full mb-10">
+        <div className="section-full mb-8 md:mb-10 2xl:mb-12">
           <h2 id="clients-heading" className="font-heading text-sm font-semibold uppercase tracking-[0.2em] text-white text-center">
             Trusted by Industry Leaders
           </h2>
         </div>
 
-        <div className="relative w-full" aria-label="Client logos">
-          <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-[#04041C] to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-[#04041C] to-transparent z-10 pointer-events-none" />
+        {/* Spotlight partners — larger logos, fixed (does not scroll with marquee) */}
+        <div className="relative z-30 px-4 sm:px-6">
+          <div className="mx-auto max-w-4xl">
+            <div className="grid grid-cols-3 gap-3 sm:gap-8 md:gap-12 lg:gap-16 items-center justify-items-center rounded-2xl border border-white/15 bg-white/[0.04] px-3 py-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:px-8 sm:py-8 md:py-10">
+              {featuredClients.map((client) => (
+                <a
+                  key={client.name}
+                  href={client.url}
+                  target="_blank"
+                  rel="noopener"
+                  className="flex w-full max-w-[200px] items-center justify-center py-2 sm:py-3 transition-opacity hover:opacity-90"
+                >
+                  <img
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    width={200}
+                    height={64}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-9 w-auto max-h-[42px] max-w-[min(100%,160px)] object-contain sm:h-14 sm:max-h-[56px] md:h-16 md:max-h-[72px] md:max-w-[200px] lg:h-[4.25rem] lg:max-h-none"
+                    style={{ transform: `scale(${client.visualScale})`, transformOrigin: "center" }}
+                  />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
 
-          <div className="flex animate-infinite-scroll hover:[animation-play-state:paused] w-max">
+        <div
+          className="relative z-10 mx-auto mt-8 max-w-5xl px-6 md:mt-10"
+          aria-hidden="true"
+        >
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+        </div>
+
+        <div className="relative z-10 mt-8 w-full md:mt-10" aria-label="Additional client logos">
+          <div className="absolute left-0 top-0 bottom-0 z-20 w-16 bg-gradient-to-r from-[#04041C] to-transparent pointer-events-none sm:w-24 md:w-40" />
+          <div className="absolute right-0 top-0 bottom-0 z-20 w-16 bg-gradient-to-l from-[#04041C] to-transparent pointer-events-none sm:w-24 md:w-40" />
+
+          <div className="flex animate-infinite-scroll hover:[animation-play-state:paused] w-max pt-1">
             {marqueeItems.map((client, index) => (
               <a
-                key={index}
+                key={`${client.name}-${index}`}
                 href={client.url}
                 target="_blank"
                 rel="noopener"
-                className="flex-shrink-0 mx-8 md:mx-12 2xl:mx-16 flex items-center justify-center h-16 md:h-20 w-32 md:w-40 2xl:w-48"
+                className="flex-shrink-0 mx-6 sm:mx-8 md:mx-12 2xl:mx-16 flex items-center justify-center h-14 md:h-20 w-28 sm:w-32 md:w-40 2xl:w-48"
               >
                 <img
                   src={client.logo}
@@ -73,7 +126,7 @@ const ClientsSection = () => {
                   height={48}
                   loading="lazy"
                   decoding="async"
-                  className="h-8 md:h-12 w-auto max-w-[120px] md:max-w-[160px] object-contain"
+                  className="h-7 sm:h-8 md:h-12 w-auto max-w-[110px] sm:max-w-[120px] md:max-w-[160px] object-contain opacity-90"
                   style={{ transform: `scale(${client.visualScale})`, transformOrigin: "center" }}
                 />
               </a>

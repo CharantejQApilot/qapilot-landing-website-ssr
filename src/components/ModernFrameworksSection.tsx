@@ -110,9 +110,9 @@ const ModernFrameworksSection = () => {
             >
               Built for <span className="text-primary">Modern Mobile</span> Frameworks
             </h2>
-            <p className={cn(marketingSectionIntroClass, "mt-4 max-w-3xl md:mt-5")}>
-              QApilot works <strong className="font-semibold text-foreground">post-build</strong> — it validates real
-              application behavior on your binaries, independent of how they were built.
+            <p className={cn(marketingSectionIntroClass, "mt-4 w-full min-w-0 max-w-none md:mt-5")}>
+              QApilot works <strong className="font-semibold text-foreground">post-build</strong>
+              {"\u00A0"}— it validates real application behavior on your binaries, independent of how they were built.
             </p>
           </div>
         </header>
