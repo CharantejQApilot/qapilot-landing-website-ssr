@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import Link from "next/link";
-import { marketingSectionH2Class } from "@/lib/marketing-typography";
+import { marketingEyebrowClass, marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { DOCS_URL, STATUS_URL } from "@/lib/constants";
 import { MOBILE_AGENTS_TRENDING_LABS_TOOLS } from "@/lib/mobile-agents-labs-tools";
@@ -88,10 +88,13 @@ const Footer = () => {
         <div className="section-full relative z-10 py-20 md:py-28 2xl:py-36">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 2xl:gap-16">
             <div className="flex-1 w-full min-w-0 text-left">
+              <p className={cn(marketingEyebrowClass, "text-primary-foreground/50 mb-3 md:mb-4")}>
+                Get started
+              </p>
               <h2 className={cn(marketingSectionH2Class, "text-white mb-4")}>
                 Start Your Journey to Smarter Mobile App QE
               </h2>
-              <p className="text-white/40 text-base leading-relaxed md:text-lg 2xl:text-xl max-w-xl 2xl:max-w-2xl">
+              <p className="w-full min-w-0 max-w-none text-base leading-relaxed text-white/40 md:text-lg 2xl:text-xl">
                 Rethink how your team approaches mobile testing.
               </p>
             </div>

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { marketingSectionH2Class } from "@/lib/marketing-typography";
+import { marketingEyebrowClass, marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -58,16 +58,23 @@ export default function ReleaseReadinessFlowSection({
             : "section-full relative py-12 md:py-14 2xl:py-16"
         }
       >
-        <h2
-          id="release-readiness-flow-heading"
-          className={cn(
-            marketingSectionH2Class,
-            "text-center text-foreground",
-            embedded ? "mb-8 md:mb-10" : "mb-10 md:mb-12",
-          )}
-        >
-          From Build to <span className="text-primary">Release Readiness</span>
-        </h2>
+        <header className={embedded ? "mb-8 md:mb-10" : "mb-10 md:mb-12"}>
+          <p className={cn(marketingEyebrowClass, "text-center")}>Pipeline</p>
+          <h2
+            id="release-readiness-flow-heading"
+            className={cn(marketingSectionH2Class, "mb-0 text-center text-foreground")}
+          >
+            From Build to <span className="text-primary">Release Readiness</span>
+          </h2>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mx-auto mt-4 w-full min-w-0 max-w-none px-2 text-center md:mt-5",
+            )}
+          >
+            Trace every stage from build upload to release sign-off—structured visibility so teams always know where quality stands.
+          </p>
+        </header>
 
         {/* Small screens: vertical pipeline (no cards); rail lives outside <ol> for valid HTML */}
         <div className="relative mx-auto max-w-lg md:hidden">

@@ -77,6 +77,7 @@ export function ForQAEngineerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qa-eng-challenge-heading"
+            eyebrow="The challenge"
             title={
               <>
                 The Challenge Facing <span className="text-primary">Quality Assurance Engineers</span>
@@ -125,11 +126,13 @@ export function ForQAEngineerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qa-eng-outcomes-heading"
+            eyebrow="Outcomes"
             title={
               <>
                 Outcomes <span className="text-primary">Quality Assurance Engineers</span> Care About
               </>
             }
+            description="Healing, autonomous coverage, and evidence-rich runs change what a QA engineer can deliver in a single sprint."
             marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
           />
 
@@ -172,6 +175,7 @@ export function ForQAEngineerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qa-eng-built-heading"
+            eyebrow="Day-to-day"
             title={
               <>
                 Built for How <span className="text-primary">Engineers</span> Actually Work
@@ -207,17 +211,13 @@ export function ForQAEngineerSections() {
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
           <MarketingSectionHeader
             id="qa-eng-why-heading"
+            eyebrow="Why QApilot"
             title={
               <>
                 Why QA Engineers Choose <span className="text-primary">QApilot</span>
               </>
             }
-            description={
-              <>
-                <p>Because engineers should spend time improving product quality — not babysitting brittle tests.</p>
-                <p>QApilot helps QA Engineers move faster with less friction.</p>
-              </>
-            }
+            description="Because engineers should spend time improving product quality—not babysitting brittle tests—QApilot helps QA Engineers move faster with less friction."
             marginBottomClassName="mb-0"
           />
         </div>

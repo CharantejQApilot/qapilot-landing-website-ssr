@@ -119,6 +119,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
+        <link rel="dns-prefetch" href="https://ddwl4m2hdecbv.cloudfront.net" />
         {/* Preconnect GA (lazyOnload); omit Reddit until a tag needs it — reduces early connection contention. */}
         <link
           rel="preconnect"
@@ -187,6 +188,11 @@ export default function RootLayout({
           src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
           strategy="afterInteractive"
         />
+
+        {/* RB2B company identification — beforeInteractive injects into document head */}
+        <Script id="reb2b-loader" strategy="beforeInteractive">
+          {`!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("9NMMZHRD91NW");`}
+        </Script>
       </body>
     </html>
   );
