@@ -1,22 +1,22 @@
-import { Zap, TrendingUp, LayoutGrid } from "lucide-react";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import HomeHeroInteractive from "@/components/HomeHeroInteractive";
+import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 
-const HERO_METRICS = [
+const HERO_LOGOS = [
   {
-    value: "Zero Touch",
-    description: "Sanity testing",
-    icon: Zap,
+    name: "WIO Bank",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}wio-bank-logo.png`,
+    url: "https://wio.io/",
   },
   {
-    value: "5×",
-    description: "More Coverage/ Effort",
-    icon: TrendingUp,
+    name: "Orange Group",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}orange-group-logo.png`,
+    url: "https://www.orange.com/en",
   },
   {
-    value: "100%",
-    description: "Visibility",
-    icon: LayoutGrid,
+    name: "Royal Enfield",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}royal-enfield-logo.png`,
+    url: "https://www.royalenfield.com/in/en/home/",
   },
 ];
 
@@ -37,57 +37,27 @@ export default function HeroSection() {
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center px-1 sm:px-0">
           <HomeHeroInteractive />
 
-          <div
-            className="w-full max-w-2xl border-t border-border/80 pt-12 sm:max-w-3xl sm:pt-14 md:pt-16"
-            aria-label="Key outcomes"
-          >
-            <div className="grid grid-cols-1 gap-10 sm:hidden">
-              {HERO_METRICS.map((metric) => {
-                const Icon = metric.icon;
-                return (
-                  <div key={metric.value} className="flex flex-col items-center gap-3 text-center">
-                    <span
-                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/10"
-                      aria-hidden
-                    >
-                      <Icon className="h-5 w-5" strokeWidth={2} />
-                    </span>
-                    <div>
-                      <p className="font-heading text-2xl font-semibold leading-tight tracking-tight text-foreground">
-                        {metric.value}
-                      </p>
-                      <p className="mt-1.5 text-base leading-snug text-muted-foreground">{metric.description}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="hidden sm:mx-auto sm:grid sm:w-full sm:max-w-3xl sm:grid-cols-3 sm:grid-rows-[auto_auto] sm:gap-x-8 sm:gap-y-1 md:gap-x-12">
-              {HERO_METRICS.map((metric) => {
-                const Icon = metric.icon;
-                return (
-                  <div
-                    key={metric.value}
-                    className="grid min-w-0 grid-cols-[auto_1fr] gap-x-3 gap-y-1"
-                  >
-                    <div className="row-span-2 flex items-start justify-center pt-0.5">
-                      <span
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/10 md:h-12 md:w-12"
-                        aria-hidden
-                      >
-                        <Icon className="h-4 w-4 md:h-5 md:w-5" strokeWidth={2} />
-                      </span>
-                    </div>
-                    <p className="col-start-2 row-start-1 self-start text-left font-heading text-2xl font-semibold leading-none tracking-tight text-foreground md:text-3xl">
-                      {metric.value}
-                    </p>
-                    <p className="col-start-2 row-start-2 self-start text-left text-sm leading-snug text-muted-foreground md:text-base">
-                      {metric.description}
-                    </p>
-                  </div>
-                );
-              })}
+          <div className="w-full max-w-2xl border-t border-border/80 pt-7 sm:max-w-3xl sm:pt-9 md:pt-11">
+            <div className="mx-auto grid w-full grid-cols-3 items-center justify-items-center gap-3 px-2 py-3 sm:gap-6 sm:px-4 sm:py-4">
+              {HERO_LOGOS.map((logo) => (
+                <a
+                  key={logo.name}
+                  href={logo.url}
+                  target="_blank"
+                  rel="noopener"
+                  className="flex w-full max-w-[210px] items-center justify-center py-2 transition-opacity hover:opacity-90"
+                >
+                  <img
+                    src={logo.logo}
+                    alt={`${logo.name} logo`}
+                    width={248}
+                    height={80}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-12 w-auto max-h-[56px] max-w-[min(100%,182px)] object-contain sm:h-16 sm:max-h-[72px] sm:max-w-[198px]"
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </div>
