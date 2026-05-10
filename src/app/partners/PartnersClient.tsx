@@ -20,7 +20,11 @@ import {
   marketingHeroLeadClass,
   marketingSectionIntroClass,
 } from "@/lib/marketing-typography";
-import { PARTNERS, resolvePartnerLogoSrc } from "@/lib/partners-data";
+import {
+  DEFAULT_PARTNER_LOGO_CLASS,
+  PARTNERS,
+  resolvePartnerLogoSrc,
+} from "@/lib/partners-data";
 import { cn } from "@/lib/utils";
 
 const valueChips = [
@@ -181,14 +185,19 @@ const PartnersClient = () => {
           <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-6">
             {PARTNERS.map((partner) => {
               const logoSrc = resolvePartnerLogoSrc(partner.logo);
+              const logoSizeClass = partner.logoClassName ?? DEFAULT_PARTNER_LOGO_CLASS;
               const cardInner = (
                 <>
-                  <div className="mb-6 flex h-20 w-full items-center justify-center rounded-xl border border-border/60 bg-background/80 px-4 py-3">
+                  <div className="mb-6 flex h-20 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/80 px-4 py-3">
                     <img
                       src={logoSrc}
                       alt={`${partner.name} logo`}
                       loading="lazy"
-                      className="max-h-12 w-auto max-w-[14rem] object-contain"
+                      decoding="async"
+                      className={cn(
+                        "h-auto w-auto object-contain",
+                        logoSizeClass,
+                      )}
                     />
                   </div>
                   <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
