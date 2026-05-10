@@ -87,7 +87,7 @@ const Header = () => {
   const isResourcesActive = [PATHS.BLOGS, PATHS.LABS, PATHS.FAQS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
-  const isCompanyActive = [PATHS.ABOUT, PATHS.CAREERS, PATHS.NEWS].some(
+  const isCompanyActive = [PATHS.ABOUT, PATHS.CAREERS, PATHS.PARTNERS, PATHS.NEWS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
 
@@ -105,9 +105,10 @@ const Header = () => {
         <div className="flex-1 min-w-0 flex items-center justify-between gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 h-[4.375rem]">
           <Link
             href={PATHS.HOME}
-            className="inline-flex items-center justify-center shrink-0 leading-none h-9 sm:h-10 lg:h-11"
+            className="inline-flex min-w-0 shrink items-center leading-none"
+            aria-label="QApilot home"
           >
-            <Logo className="h-5 w-auto sm:h-[1.375rem] md:h-6 lg:h-[1.6875rem] xl:h-[1.875rem] 2xl:h-8 block" />
+            <Logo className="block h-[1.125rem] w-auto max-w-[58vw] sm:h-[1.375rem] sm:max-w-[42vw] md:h-6 md:max-w-[28vw] lg:h-[1.6875rem] lg:max-w-none xl:h-[1.875rem] 2xl:h-8" />
           </Link>
 
           <nav

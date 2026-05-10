@@ -120,6 +120,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
         <link rel="dns-prefetch" href="https://ddwl4m2hdecbv.cloudfront.net" />
+        <link rel="dns-prefetch" href="https://app.factors.ai" />
+        <link rel="dns-prefetch" href="https://api.factors.ai" />
         {/* Preconnect GA (lazyOnload); omit Reddit until a tag needs it — reduces early connection contention. */}
         <link
           rel="preconnect"
@@ -136,6 +138,12 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `window[(function(_n9C,_VO){var _mjCWq='';for(var _QSrkp5=0;_QSrkp5<_n9C.length;_QSrkp5++){var _Niki=_n9C[_QSrkp5].charCodeAt();_Niki-=_VO;_Niki+=61;_mjCWq==_mjCWq;_VO>8;_Niki!=_QSrkp5;_Niki%=94;_Niki+=33;_mjCWq+=String.fromCharCode(_Niki)}return _mjCWq})(atob('XEtSdHFsZ2V2TWd7'), 2)] = '4c6a0a75e01777461860';     var zi = document.createElement('script');     (zi.type = 'text/javascript'),     (zi.async = true),     (zi.src = (function(_AE4,_dd){var _YokOA='';for(var _eydbHi=0;_eydbHi<_AE4.length;_eydbHi++){_7aB5!=_eydbHi;_YokOA==_YokOA;var _7aB5=_AE4[_eydbHi].charCodeAt();_7aB5-=_dd;_7aB5+=61;_dd>8;_7aB5%=94;_7aB5+=33;_YokOA+=String.fromCharCode(_7aB5)}return _YokOA})(atob('MT09OTxhVlYzPFVDMlQ8LDsyOT08VSw4NlZDMlQ9KjBVMzw='), 39)),     document.readyState === 'complete'?document.body.appendChild(zi):     window.addEventListener('load', function(){         document.body.appendChild(zi)     });`,
+          }}
+        />
+        {/* Factors AI tracking — installed on every page to capture visitor analytics */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.faitracker=window.faitracker||function(){this.q=[];var t=new CustomEvent("FAITRACKER_QUEUED_EVENT");return this.init=function(t,e,a){this.TOKEN=t,this.INIT_PARAMS=e,this.INIT_CALLBACK=a,window.dispatchEvent(new CustomEvent("FAITRACKER_INIT_EVENT"))},this.call=function(){var e={k:"",a:[]};if(arguments&&arguments.length>=1){for(var a=1;a<arguments.length;a++)e.a.push(arguments[a]);e.k=arguments[0]}this.q.push(e),window.dispatchEvent(t)},this.message=function(){window.addEventListener("message",function(t){"faitracker"===t.data.origin&&this.call("message",t.data.type,t.data.message)})},this.message(),this.init("n6j67ljo4qxjwgnvo5ilzjd4b2qsic2v",{host:"https://api.factors.ai"}),this}(),function(){var t=document.createElement("script");t.type="text/javascript",t.src="https://app.factors.ai/assets/factors.js",t.async=!0,(d=document.getElementsByTagName("script")[0]).parentNode.insertBefore(t,d)}();`,
           }}
         />
       </head>

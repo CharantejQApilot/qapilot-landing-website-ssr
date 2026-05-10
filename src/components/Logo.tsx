@@ -6,6 +6,12 @@ interface LogoProps {
   alt?: string;
 }
 
+/**
+ * Width/height attrs MUST match the actual image file (250x35) so the browser
+ * computes `aspect-ratio` correctly for `width: auto` + fixed-height callers.
+ * Mismatched attrs cause the layout box to size at the wrong ratio, which is
+ * what created the header overlap on small screens.
+ */
 const Logo: React.FC<LogoProps> = ({
   className = "h-6 w-auto sm:h-7 md:h-8",
   alt = "QApilot - AI-Powered Mobile App Testing",
@@ -15,12 +21,12 @@ const Logo: React.FC<LogoProps> = ({
     <img
       src={src}
       alt={alt}
-      width={140}
-      height={36}
+      width={250}
+      height={35}
       loading="eager"
       decoding="sync"
       fetchPriority="high"
-      className={`${className} max-h-full object-contain object-left`}
+      className={`${className} max-h-full max-w-full w-auto object-contain object-left`}
       style={{ objectFit: "contain" }}
     />
   );

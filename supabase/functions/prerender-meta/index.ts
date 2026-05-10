@@ -59,6 +59,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Join the QApilot team. Help shape what quality looks like in an AI-first world. Explore career opportunities in AI-powered quality assurance.",
   },
+  "/partners": {
+    title: "Partners - Services-as-Software for Mobile QE | QApilot",
+    description:
+      "QApilot partners with consulting and technology firms to deliver Services-as-Software for mobile quality engineering — AI-native, outcomes-led testing that scales beyond manual effort.",
+  },
   "/for-flutter": {
     title: "Flutter App Testing - AI-Native Testing Platform | QApilot",
     description:
