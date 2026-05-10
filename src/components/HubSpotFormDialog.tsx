@@ -44,6 +44,8 @@ interface HubSpotFormDialogProps {
   description?: string;
   formId?: string;
   formName?: string;
+  /** API route used for the in-house Forms API submission flow (non-embed). */
+  apiPath?: string;
 }
 
 let hubspotScriptLoaded = false;
@@ -110,6 +112,7 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
   description = "Fill out the form below and we'll get back to you shortly.",
   formId = HUBSPOT_MAIN_GET_ACCESS_FORM_ID,
   formName = HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
+  apiPath = "/api/hubspot/get-access",
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const formInstanceRef = useRef<string | null>(null);
@@ -215,7 +218,7 @@ const HubSpotFormDialog: React.FC<HubSpotFormDialogProps> = ({
           ) : (
             <MarketingLeadForm
               key={dialogSession}
-              apiPath="/api/hubspot/get-access"
+              apiPath={apiPath}
               pageName={pageTitle}
               submitButtonLabel="Submit"
               fieldIdPrefix="hs-dialog-lead"
