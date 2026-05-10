@@ -144,6 +144,13 @@ export default function RootLayout({
             __html: `window.faitracker=window.faitracker||function(){this.q=[];var t=new CustomEvent("FAITRACKER_QUEUED_EVENT");return this.init=function(t,e,a){this.TOKEN=t,this.INIT_PARAMS=e,this.INIT_CALLBACK=a,window.dispatchEvent(new CustomEvent("FAITRACKER_INIT_EVENT"))},this.call=function(){var e={k:"",a:[]};if(arguments&&arguments.length>=1){for(var a=1;a<arguments.length;a++)e.a.push(arguments[a]);e.k=arguments[0]}this.q.push(e),window.dispatchEvent(t)},this.message=function(){window.addEventListener("message",function(t){"faitracker"===t.data.origin&&this.call("message",t.data.type,t.data.message)})},this.message(),this.init("n6j67ljo4qxjwgnvo5ilzjd4b2qsic2v",{host:"https://api.factors.ai"}),this}(),function(){var t=document.createElement("script");t.type="text/javascript",t.src="https://app.factors.ai/assets/factors.js",t.async=!0,(d=document.getElementsByTagName("script")[0]).parentNode.insertBefore(t,d)}();`,
           }}
         />
+        <script
+          id="vtag-ai-js"
+          async
+          src="https://r2.leadsy.ai/tag.js"
+          data-pid="B6CCj6R02ALsaXgt"
+          data-version="062024"
+        />
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}
