@@ -36,19 +36,19 @@ const valueChips = [
 
 const sasPillars = [
   {
-    title: "Outcomes, not effort",
+    title: "Outcomes, Not Effort",
     description:
       "Engagements anchored to measurable QE outcomes such as release readiness, regression coverage, and time-to-feedback, instead of billable hours and script counts.",
     Icon: Target,
   },
   {
-    title: "Software where services used to be",
+    title: "Software Where Services Used To Be",
     description:
       "Routine, predictable testing work moves into AI-native software. Partners focus on strategy, judgment, and the customer outcomes humans do best.",
     Icon: Sparkles,
   },
   {
-    title: "A service + software ecosystem",
+    title: "A Service + Software Ecosystem",
     description:
       "QApilot's platform pairs with our partners' delivery muscle, so enterprises adopt Service-as-Software for mobile app testing without rebuilding their teams.",
     Icon: Handshake,
@@ -57,22 +57,22 @@ const sasPillars = [
 
 const partnerBenefits = [
   {
-    title: "Dedicated partner management",
+    title: "Dedicated Partner Management",
     description: "A named partner manager and solution engineer to support every engagement end-to-end.",
     Icon: Handshake,
   },
   {
-    title: "Co-marketing & enablement",
+    title: "Co-Marketing & Enablement",
     description: "Joint webinars, case studies, and campaign collateral that put your QA practice front and centre.",
     Icon: Megaphone,
   },
   {
-    title: "Training & certification",
+    title: "Training & Certification",
     description: "Role-based onboarding, hands-on labs, and certification paths for your QE practitioners.",
     Icon: BookOpen,
   },
   {
-    title: "Listing on QApilot website",
+    title: "Listing On QApilot Website",
     description: "Featured placement on this page and in customer conversations as a recommended QApilot partner.",
     Icon: Users,
   },
@@ -102,7 +102,7 @@ const PartnersClient = () => {
               Partners Powering <span className="text-primary">Smarter Mobile QE</span>
             </h1>
             <p className="mb-6 font-heading text-base font-semibold tracking-tight text-primary sm:mb-7 sm:text-lg md:mb-8 md:text-xl">
-              Service-as-Software for mobile app testing
+              Service-as-Software For Mobile App Testing
             </p>
             <p
               className={cn(
@@ -140,7 +140,7 @@ const PartnersClient = () => {
             id="partners-sas-heading"
             title={
               <>
-                What <span className="text-primary">Service-as-Software</span> means for mobile app testing
+                What <span className="text-primary">Service-as-Software</span> Means For Mobile App Testing
               </>
             }
             description="Mobile app testing has long been delivered as a service: scripts, manual coverage, and people-heavy maintenance. With QApilot, our partners deliver it as software that is automated, outcomes-led, and built to scale."
@@ -175,7 +175,7 @@ const PartnersClient = () => {
             id="partners-grid-heading"
             title={
               <>
-                Meet our <span className="text-primary">partners</span>
+                Meet Our <span className="text-primary">Partners</span>
               </>
             }
             description="A growing ecosystem of services and technology partners helping teams put AI-native mobile testing into practice."
@@ -252,24 +252,14 @@ const PartnersClient = () => {
         aria-labelledby="partners-cta-heading"
       >
         <div className="section-full py-14 md:py-20 2xl:py-24">
-          <div className="relative mb-10 w-full overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/[0.07] via-card/90 to-card/80 px-6 py-8 shadow-md backdrop-blur-sm sm:px-8 sm:py-10 md:mb-12 md:px-12 md:py-12 2xl:mb-14">
-            <span className="absolute bottom-0 left-0 top-0 w-1.5 bg-primary" aria-hidden />
-            <div className="relative pl-4 md:pl-6">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/80 md:mb-4">
-                Become a partner
-              </p>
-              <h2
-                id="partners-cta-heading"
-                className="font-heading text-2xl font-bold leading-tight tracking-tight text-foreground md:text-3xl lg:text-4xl"
-              >
-                Build the next chapter of mobile QE with us
-              </h2>
-              <p className={cn(marketingSectionIntroClass, "mt-4 max-w-3xl text-pretty md:text-lg")}>
-                Join a growing ecosystem of consulting and technology partners delivering Service-as-Software for
-                mobile app testing, together with QApilot.
-              </p>
-            </div>
-          </div>
+          <MarketingSectionHeader
+            id="partners-cta-heading"
+            eyebrow="Become A Partner"
+            title="Build The Next Chapter Of Mobile QE With Us"
+            description="Join a growing ecosystem of consulting and technology partners delivering Service-as-Software for mobile app testing, together with QApilot."
+            className="border-primary/25 bg-gradient-to-br from-primary/[0.07] via-card/90 to-card/80 shadow-md backdrop-blur-sm"
+            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+          />
 
           <ul className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mb-12 md:gap-5 lg:grid-cols-4 2xl:mb-14">
             {partnerBenefits.map(({ title, description, Icon }) => (
