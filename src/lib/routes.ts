@@ -48,8 +48,8 @@ export const PATHS = {
   NOT_FOUND: "/not-found",
   // Placeholder paths (no page yet)
   CUSTOMERS: "#",
-  COMPARE_APPIUM: "#",
-  COMPARE_WEB_FIRST: "#",
+  COMPARE_APPIUM: "/compare/qapilot-vs-appium",
+  COMPARE_WEB_FIRST: "/compare/qapilot-vs-web-first-automation-tools",
   COMPARE_VISUAL_TESTING: "#",
   COMPARE_CODE_FIRST: "#",
   OVERVIEW: "/product",

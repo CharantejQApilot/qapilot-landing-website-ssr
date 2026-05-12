@@ -56,6 +56,40 @@ const nextConfig = {
   images: {
     remotePatterns,
   },
+  async redirects() {
+    return [
+      {
+        source: "/platform/autonomous-testing",
+        destination: "/product/autonomous-testing",
+        permanent: true,
+      },
+      {
+        source: "/platform/ai-self-healing",
+        destination: "/ai-self-healing",
+        permanent: true,
+      },
+      {
+        source: "/platform/intelligent-bug-detection",
+        destination: "/product/intelligent-bug-detection",
+        permanent: true,
+      },
+      {
+        source: "/solutions/flutter-testing",
+        destination: "/for-flutter",
+        permanent: true,
+      },
+      {
+        source: "/book-demo",
+        destination: "/for-flutter#flutter-demo",
+        permanent: false,
+      },
+      {
+        source: "/compare/qapilot-vs-appium",
+        destination: "/compare/qapilot-vs-web-first-automation-tools",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     /**
      * `/` do not bundle Core Advantage image `preload` hints here: those pull many large

@@ -96,6 +96,11 @@ const staticPages: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
     priority: 0.8,
   },
+  {
+    url: `${SITE_BASE_URL}${PATHS.COMPARE_WEB_FIRST}`,
+    changeFrequency: "monthly",
+    priority: 0.78,
+  },
   // Platform → By Role (paths must match PLATFORM_BY_ROLE in routes.ts; titles/descriptions also in prerender-meta)
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`,
