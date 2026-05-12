@@ -20,7 +20,7 @@ export default function HomeHeroInteractive() {
         <span className="flex flex-col items-center gap-y-1.5 sm:gap-y-2 md:gap-y-2.5">
           <span className="block whitespace-nowrap px-1 leading-[inherit]">
               When Your App Is <span className="text-hero-here">Mobile-first</span>,
-          </span>
+            </span>
             <span className="block whitespace-nowrap px-1 leading-[inherit]">Your Testing Should Be Too.</span>
         </span>
       </h1>
