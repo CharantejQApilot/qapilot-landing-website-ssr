@@ -1,6 +1,7 @@
 import qualizealLogo from "@/assets/qualizeal-logo.png";
 import kairosLogo from "@/assets/kairos-logo.png";
 import feujiLogo from "@/assets/feuji-logo.png";
+import qapitolLogo from "@/assets/qapitol-logo.png";
 
 /**
  * Static partner directory rendered on `/partners`.
@@ -24,6 +25,8 @@ export interface Partner {
    * file has extra transparent padding or the mark is still visually off.
    */
   logoClassName?: string;
+  /** Optional logo well (e.g. dark background for marks designed on black). */
+  logoFrameClassName?: string;
 }
 
 export const PARTNERS: readonly Partner[] = [
@@ -31,25 +34,32 @@ export const PARTNERS: readonly Partner[] = [
     name: "QualiZeal",
     logo: qualizealLogo,
     description:
-      "AI-native digital quality engineering partner delivering mobile app testing, test automation, performance, and accessibility services for 70+ global enterprises across 12+ industries.",
+      "AI-native digital quality engineering partner delivering testing, automation, performance, and accessibility services for global enterprises.",
     url: "https://qualizeal.com/",
   },
   {
     name: "Kairos Technologies",
     logo: kairosLogo,
     description:
-      "Digital engineering and quality assurance partner with proprietary AI-powered testing platforms, delivering mobile app testing, smart regression, and end-to-end automation for enterprises worldwide.",
+      "Digital engineering and QA partner helping enterprises modernize mobile testing, smart regression, and end-to-end automation.",
     url: "https://www.kairostech.com/",
   },
   {
     name: "Feuji",
     logo: feujiLogo,
     description:
-      "AI-led digital transformation and IT services partner delivering rapid application development, testing, and quality engineering across cloud, data, and cybersecurity for 50+ enterprises worldwide.",
+      "AI-led digital transformation and IT services partner delivering application development, testing, cloud, data, and cybersecurity services.",
     url: "https://www.feuji.com/",
     // This source includes substantial transparent padding around the mark.
     // Higher max-height compensates so the visible logo matches Kairos size.
     logoClassName: "max-h-16 max-w-[9rem]",
+  },
+  {
+    name: "Qapitol QA",
+    logo: qapitolLogo,
+    description:
+      "Strategic digital assurance partner spanning consulting, test automation, continuous testing, and IP-led frameworks like UTAF and FLEET—from scaled execution to AI-ready quality engineering for enterprises.",
+    url: "https://www.qapitol.com/",
   },
 ] as const;
 
