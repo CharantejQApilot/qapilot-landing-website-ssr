@@ -125,26 +125,6 @@ const portfolioPills = [
   "POC-led Customer Expansion",
 ] as const;
 
-const platformItems = [
-  "AI-Native Crawler",
-  "Context-Aware Agents",
-  "Self-Healing Automation",
-  "Cross-Device Execution",
-  "Actionable Reporting",
-  "Flexible Workflows",
-] as const;
-
-const programBenefits = [
-  "Dedicated Partner Support",
-  "Custom Agentic Demos",
-  "POC Support",
-  "Co-Marketing",
-  "Enablement & Training",
-  "Website Listing",
-  "Sales Support",
-  "Solution Engineering Support",
-] as const;
-
 const partnerMarqueeCardClass = cn(
   "shrink-0",
   // Below lg: one comfortable card width in the viewport
@@ -459,62 +439,6 @@ const PartnersClient = () => {
               </span>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section
-        className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
-        aria-labelledby="platform-layer-heading"
-      >
-        <div className="section-full">
-          <MarketingSectionHeader
-            id="platform-layer-heading"
-            title={
-              <>
-                The Platform Layer Behind Your <span className="text-primary">Mobile QA Offering</span>
-              </>
-            }
-            marginBottomClassName="mb-8 md:mb-10"
-          />
-
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
-            {platformItems.map((label) => (
-              <li
-                key={label}
-                className="flex items-center justify-center rounded-xl border border-border/60 bg-card/80 px-3 py-3 text-center text-xs font-semibold leading-snug text-foreground shadow-sm sm:text-sm md:py-4"
-              >
-                {label}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section
-        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/15 to-background py-12 md:py-16 2xl:py-20"
-        aria-labelledby="program-benefits-heading"
-      >
-        <div className="section-full">
-          <MarketingSectionHeader
-            id="program-benefits-heading"
-            title={
-              <>
-                Partner Program <span className="text-primary">Benefits</span>
-              </>
-            }
-            marginBottomClassName="mb-8 md:mb-10"
-          />
-
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
-            {programBenefits.map((label) => (
-              <li
-                key={label}
-                className="flex items-center justify-center rounded-xl border border-border/60 bg-card/85 px-2 py-3 text-center text-xs font-semibold text-foreground shadow-sm sm:text-sm md:py-4"
-              >
-                {label}
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
