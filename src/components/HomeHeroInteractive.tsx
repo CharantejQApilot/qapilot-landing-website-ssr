@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
+import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 export default function HomeHeroInteractive() {
@@ -25,8 +27,15 @@ export default function HomeHeroInteractive() {
         </span>
       </h1>
 
-      <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl mb-8 sm:mb-10 md:mb-11")}>
-        Mobile app release readiness — without the QE bottleneck.
+      <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl mb-8 text-center sm:mb-10 md:mb-11")}>
+        <Link
+          href={PATHS.COMPARE_WEB_FIRST}
+          className="inline-block text-muted-foreground transition-colors hover:text-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
+        >
+          <span className="font-semibold text-primary underline decoration-primary/55 underline-offset-[0.2em] hover:decoration-primary">
+            Your mobile app isn&apos;t a smaller browser screen.
+          </span>
+        </Link>
       </p>
 
       <div className="mb-12 sm:mb-14 md:mb-16">

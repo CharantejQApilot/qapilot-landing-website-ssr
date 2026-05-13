@@ -9,25 +9,25 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.PARTNERS}`;
 
 export const metadata: Metadata = {
-  title: "Partners - Service-as-Software for Mobile App Testing | QApilot",
+  title: "Become a Partner | QApilot",
   description:
-    "QApilot partners with consulting and technology firms to deliver Service-as-Software for mobile app testing: AI-native, outcomes-led quality engineering that scales beyond manual effort.",
+    "Partner with QApilot: join consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",
     url: canonicalUrl,
-    title: "Partners - Service-as-Software for Mobile App Testing | QApilot",
+    title: "Become a Partner | QApilot",
     description:
-      "QApilot partners with consulting and technology firms to deliver Service-as-Software for mobile app testing: AI-native, outcomes-led quality engineering that scales beyond manual effort.",
+      "Join a growing ecosystem of partners helping teams put AI-native mobile testing and release readiness into practice—together with QApilot.",
     siteName: "QApilot",
     locale: "en_US",
     images: [defaultOpenGraphImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Partners - Service-as-Software for Mobile App Testing | QApilot",
+    title: "Become a Partner | QApilot",
     description:
-      "QApilot partners with consulting and technology firms to deliver Service-as-Software for mobile app testing: AI-native, outcomes-led quality engineering that scales beyond manual effort.",
+      "Consulting and technology partners delivering AI-native mobile testing and release readiness with QApilot.",
     images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };

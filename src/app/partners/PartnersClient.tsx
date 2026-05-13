@@ -3,13 +3,18 @@
 import { useState } from "react";
 import {
   ArrowUpRight,
-  BookOpen,
+  Bot,
+  Brain,
+  Building2,
+  ClipboardList,
+  Cpu,
   Handshake,
-  Megaphone,
+  Layers,
   Rocket,
+  ShieldCheck,
+  Smartphone,
   Sparkles,
-  Target,
-  Users,
+  TestTube2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
@@ -18,8 +23,10 @@ import { HUBSPOT_PARTNERS_FORM_ID } from "@/lib/constants";
 import {
   marketingHeroH1Class,
   marketingHeroLeadClass,
+  marketingSectionH2Class,
   marketingSectionIntroClass,
 } from "@/lib/marketing-typography";
+import type { Partner } from "@/lib/partners-data";
 import {
   DEFAULT_PARTNER_LOGO_CLASS,
   PARTNERS,
@@ -27,103 +34,334 @@ import {
 } from "@/lib/partners-data";
 import { cn } from "@/lib/utils";
 
-const valueChips = [
-  { label: "Outcomes-led", Icon: Target },
-  { label: "AI-native delivery", Icon: Sparkles },
-  { label: "Scalable on demand", Icon: Rocket },
-  { label: "Service + software ecosystem", Icon: Handshake },
-] as const;
-
-const sasPillars = [
+const opportunitySteps = [
   {
-    title: "Outcomes, Not Effort",
-    description:
-      "Engagements anchored to measurable QE outcomes such as release readiness, regression coverage, and time-to-feedback, instead of billable hours and script counts.",
-    Icon: Target,
+    key: "land",
+    title: "Land",
+    body: "Win with high-friction mobile use cases like regression, Flutter testing, or release validation.",
+    Icon: Rocket,
   },
   {
-    title: "Software Where Services Used To Be",
-    description:
-      "Routine, predictable testing work moves into AI-native software. Partners focus on strategy, judgment, and the customer outcomes humans do best.",
+    key: "prove",
+    title: "Prove",
+    body: "Show faster test creation, reduced maintenance, and stronger coverage through a focused POC.",
+    Icon: ShieldCheck,
+  },
+  {
+    key: "expand",
+    title: "Expand",
+    body: "Grow into QA framework modernization, AI services, and broader quality transformation.",
     Icon: Sparkles,
   },
+] as const;
+
+const whyChooseCards = [
   {
-    title: "A Service + Software Ecosystem",
-    description:
-      "QApilot's platform pairs with our partners' delivery muscle, so enterprises adopt Service-as-Software for mobile app testing without rebuilding their teams.",
+    title: "Mobile-first platform",
+    body: "Built for real mobile complexity, not retrofitted from web automation.",
+    Icon: Smartphone,
+  },
+  {
+    title: "Agentic AI advantage",
+    body: "Bring autonomous testing, self-healing, and AI agents into customer conversations.",
+    Icon: Bot,
+  },
+  {
+    title: "Partner-led delivery",
+    body: "You own the customer relationship. QApilot powers the platform layer.",
     Icon: Handshake,
   },
 ] as const;
 
-const partnerBenefits = [
+const partnerTypeCards = [
   {
-    title: "Dedicated Partner Management",
-    description: "A named partner manager and solution engineer to support every engagement end-to-end.",
-    Icon: Handshake,
+    title: "System Integrator Partners",
+    body: "Embed QApilot into enterprise modernization programs and help customers connect mobile QA with their wider engineering, DevOps, and release workflows.",
+    Icon: Building2,
   },
   {
-    title: "Co-Marketing & Enablement",
-    description: "Joint webinars, case studies, and campaign collateral that put your QA practice front and centre.",
-    Icon: Megaphone,
+    title: "Testing / QE Services Partners",
+    body: "Use QApilot to deliver faster mobile automation, stronger regression coverage, Flutter testing, and release-readiness programs without scaling manual effort.",
+    Icon: TestTube2,
   },
   {
-    title: "Training & Certification",
-    description: "Role-based onboarding, hands-on labs, and certification paths for your QE practitioners.",
-    Icon: BookOpen,
-  },
-  {
-    title: "Listing On QApilot Website",
-    description: "Featured placement on this page and in customer conversations as a recommended QApilot partner.",
-    Icon: Users,
+    title: "AI Consulting Partners",
+    body: "Bring a practical agentic AI use case to customers through autonomous test creation, context-aware agents, self-healing automation, and measurable QA outcomes.",
+    Icon: Brain,
   },
 ] as const;
+
+const revenueCards = [
+  {
+    title: "Automation Backlog",
+    body: "Accelerate mobile test creation without heavy scripting.",
+    Icon: ClipboardList,
+  },
+  {
+    title: "Flutter Coverage",
+    body: "Serve customers struggling with Flutter, native, and web-view transitions.",
+    Icon: Layers,
+  },
+  {
+    title: "Release Validation",
+    body: "Continuously test critical journeys before every release.",
+    Icon: Rocket,
+  },
+  {
+    title: "AI Transformation",
+    body: "Add a practical agentic AI story to QA modernization programs.",
+    Icon: Cpu,
+  },
+] as const;
+
+const portfolioPills = [
+  "Test Automation Implementation",
+  "QA Framework Modernization",
+  "AI Services & Consulting",
+  "Flutter Testing Services",
+  "Release Readiness Programs",
+  "Regression Testing at Scale",
+  "Mobile App Quality Audits",
+  "POC-led Customer Expansion",
+] as const;
+
+const platformItems = [
+  "AI-Native Crawler",
+  "Context-Aware Agents",
+  "Self-Healing Automation",
+  "Cross-Device Execution",
+  "Actionable Reporting",
+  "Flexible Workflows",
+] as const;
+
+const programBenefits = [
+  "Dedicated Partner Support",
+  "Custom Agentic Demos",
+  "POC Support",
+  "Co-Marketing",
+  "Enablement & Training",
+  "Website Listing",
+  "Sales Support",
+  "Solution Engineering Support",
+] as const;
+
+const partnerMarqueeCardClass = cn(
+  "shrink-0",
+  // Below lg: one comfortable card width in the viewport
+  "w-[min(20rem,calc(100vw-2.5rem))] sm:min-w-0",
+  // lg+: ~⅓ of visible width minus two inter-card gaps (gap-5 = 1.25rem) and horizontal padding (section-full + inset)
+  "lg:w-[calc((100vw-13rem-2.5rem)/3)]",
+  "xl:w-[calc((100vw-15rem-2.5rem)/3)]",
+  "2xl:w-[calc((100vw-19rem-2.5rem)/3)]",
+  "flex min-h-[280px] flex-col rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm backdrop-blur-sm md:p-6",
+  "bg-gradient-to-b from-card to-muted/10",
+);
+
+function PartnersMarqueeCard({ partner, decorative }: { partner: Partner; decorative: boolean }) {
+  const logoSrc = resolvePartnerLogoSrc(partner.logo);
+  const logoSizeClass = partner.logoClassName ?? DEFAULT_PARTNER_LOGO_CLASS;
+  return (
+    <article className={partnerMarqueeCardClass}>
+      <div
+        className={cn(
+          "mb-5 flex h-16 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/80 px-3 py-2",
+          partner.logoFrameClassName,
+        )}
+      >
+        <img
+          src={logoSrc}
+          alt={decorative ? "" : `${partner.name} logo`}
+          loading="lazy"
+          decoding="async"
+          className={cn("h-auto w-auto object-contain", logoSizeClass)}
+        />
+      </div>
+      <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">{partner.name}</h3>
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{partner.description}</p>
+      {partner.url ? (
+        decorative ? (
+          <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary/70">
+            Learn more
+            <ArrowUpRight className="h-4 w-4" aria-hidden />
+          </span>
+        ) : (
+          <a
+            href={partner.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+          >
+            Learn more
+            <ArrowUpRight className="h-4 w-4" aria-hidden />
+            <span className="sr-only"> ({partner.name}, opens in new tab)</span>
+          </a>
+        )
+      ) : null}
+    </article>
+  );
+}
 
 const PartnersClient = () => {
   const [isPartnerFormOpen, setIsPartnerFormOpen] = useState(false);
 
+  const openForm = () => setIsPartnerFormOpen(true);
+
   return (
     <>
       <section
-        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
+        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/40"
         aria-label="Partners hero"
         aria-labelledby="partners-hero-title"
       >
         <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple={false} progressiveBlur={false} />
-        <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
-          <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-3 text-center sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
+        <div className="relative z-10 section-full py-14 sm:py-16 md:py-20 lg:py-24 2xl:py-28">
+          <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
             <h1
               id="partners-hero-title"
               className={cn(
                 marketingHeroH1Class,
-                "mb-4 w-full text-balance sm:mb-5 md:mb-6",
+                "mb-5 w-full text-balance sm:mb-6",
                 "max-lg:text-[clamp(1.35rem,0.95rem+2.4vw,3.45rem)] max-lg:leading-[1.12]",
               )}
             >
-              Partners Powering <span className="text-primary">Smarter Mobile QE</span>
+              Build The Next Chapter Of{" "}
+              <span className="text-primary">Mobile QE</span> With Us
             </h1>
-            <p className="mb-6 font-heading text-base font-semibold tracking-tight text-primary sm:mb-7 sm:text-lg md:mb-8 md:text-xl">
-              Service-as-Software For Mobile App Testing
-            </p>
             <p
               className={cn(
                 marketingHeroLeadClass,
-                "mx-auto mb-10 max-w-3xl text-balance sm:mb-11 md:mb-12 lg:max-w-4xl",
+                "mx-auto mb-10 max-w-3xl text-balance text-muted-foreground sm:mb-11",
               )}
             >
-              Together with our partners, QApilot delivers mobile quality engineering as software: outcomes-led,
-              AI-native, and built to scale beyond manual effort.
+              Help customers move from brittle mobile automation to AI-native release readiness. QApilot gives
+              partners a mobile-first platform to land faster, expand wider, and bring agentic AI into every QA
+              conversation.
             </p>
+            <Button
+              type="button"
+              onClick={openForm}
+              size="lg"
+              className="bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:text-lg"
+            >
+              Become a Partner
+            </Button>
+          </div>
+        </div>
+      </section>
 
-            <ul className="grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-              {valueChips.map(({ label, Icon }) => (
-                <li
-                  key={label}
-                  className="flex items-center gap-3 rounded-2xl border border-border/80 bg-card/80 p-3 shadow-sm backdrop-blur-sm sm:p-4"
+      <section
+        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/25 via-background to-background py-12 md:py-16 2xl:py-20"
+        aria-labelledby="partner-opportunity-heading"
+      >
+        <div className="section-full">
+          <MarketingSectionHeader
+            id="partner-opportunity-heading"
+            variant="center"
+            title={
+              <>
+                Land Mobile. <span className="text-primary">Expand QA.</span>
+              </>
+            }
+            description="Start with one painful mobile testing problem. Expand into automation, QA modernization, AI consulting, and release readiness."
+            marginBottomClassName="mb-8 md:mb-10"
+          />
+
+          <div className="grid w-full gap-5 md:grid-cols-3 md:gap-6">
+            {opportunitySteps.map((step, index) => (
+              <article
+                key={step.key}
+                className={cn(
+                  "relative overflow-hidden rounded-2xl border border-border/70 bg-card/90 p-6 shadow-md backdrop-blur-sm md:p-7",
+                  "before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/[0.06] before:to-transparent",
+                )}
+              >
+                <span
+                  className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-xs font-semibold tabular-nums text-primary md:right-6 md:top-6"
+                  aria-hidden
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-muted/30">
-                    <Icon className="h-5 w-5 text-primary" aria-hidden />
-                  </div>
-                  <span className="text-left text-sm font-medium text-foreground">{label}</span>
+                  {index + 1}
+                </span>
+                <div className="relative pr-10">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+                    <step.Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+                  </span>
+                  <h3 className="mt-4 font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{step.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
+        aria-labelledby="partners-carousel-heading why-partners-heading"
+      >
+        <div className="section-full">
+          <MarketingSectionHeader
+            id="partners-carousel-heading"
+            title={
+              <>
+                Partners Building <span className="text-primary">With QApilot</span>
+              </>
+            }
+            description="Consulting, QA, and digital engineering partners bringing AI-native mobile testing to enterprise customers."
+            marginBottomClassName="mb-8 md:mb-10"
+          />
+
+          <div className="group relative w-full overflow-hidden px-1 sm:px-4 md:px-8 lg:px-10">
+            <div
+              className={cn(
+                "flex w-max gap-0",
+                "motion-safe:animate-[infinite-scroll_48s_linear_infinite] motion-reduce:animate-none",
+                "motion-safe:will-change-transform",
+                "group-hover:motion-safe:[animation-play-state:paused]",
+              )}
+              role="presentation"
+            >
+              <div className="flex gap-4 md:gap-5">
+                {PARTNERS.map((partner) => (
+                  <PartnersMarqueeCard key={partner.name} partner={partner} decorative={false} />
+                ))}
+              </div>
+              <div className="flex gap-4 md:gap-5" aria-hidden="true">
+                {PARTNERS.map((partner) => (
+                  <PartnersMarqueeCard key={`${partner.name}-dup`} partner={partner} decorative />
+                ))}
+              </div>
+            </div>
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-background to-transparent sm:w-14 md:w-20"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-background to-transparent sm:w-14 md:w-20"
+              aria-hidden
+            />
+          </div>
+
+          <div className="mt-12 border-t border-border/40 pt-10 md:mt-14 md:pt-12">
+            <h2 id="why-partners-heading" className="sr-only">
+              Why partners choose QApilot
+            </h2>
+            <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
+              {whyChooseCards.map(({ title, body, Icon }) => (
+                <li
+                  key={title}
+                  className={cn(
+                    "rounded-2xl border border-border/55 p-5 shadow-sm backdrop-blur-sm md:p-6",
+                    "bg-gradient-to-b from-muted/45 to-muted/15",
+                    "ring-1 ring-border/30",
+                  )}
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
+                    <Icon className="h-5 w-5" strokeWidth={1.4} aria-hidden />
+                  </span>
+                  <h3 className="mt-4 font-heading text-lg font-semibold tracking-tight text-foreground">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{body}</p>
                 </li>
               ))}
             </ul>
@@ -132,34 +370,34 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-t border-border/60 bg-background"
-        aria-labelledby="partners-sas-heading"
+        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-background to-muted/15 py-12 md:py-16 2xl:py-20"
+        aria-labelledby="partner-types-heading"
       >
-        <div className="section-full py-14 md:py-20 2xl:py-24">
+        <div className="section-full">
           <MarketingSectionHeader
-            id="partners-sas-heading"
+            id="partner-types-heading"
             title={
               <>
-                What <span className="text-primary">Service-as-Software</span> Means For Mobile App Testing
+                Built for Different <span className="text-primary">Partner Motions</span>
               </>
             }
-            description="Mobile app testing has long been delivered as a service: scripts, manual coverage, and people-heavy maintenance. With QApilot, our partners deliver it as software that is automated, outcomes-led, and built to scale."
-            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+            description="Whether you lead transformation, own QA delivery, or advise enterprises on AI adoption, QApilot gives you a mobile-first platform to turn agentic testing into customer outcomes."
+            marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
-            {sasPillars.map(({ title, description, Icon }) => (
+          <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
+            {partnerTypeCards.map(({ title, body, Icon }) => (
               <li
                 key={title}
-                className="flex h-full items-start gap-3 rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm backdrop-blur-sm md:p-6"
+                className="rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm md:p-6"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15 md:h-11 md:w-11">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-heading text-base font-semibold text-foreground md:text-lg">{title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground md:text-[0.95rem]">{description}</p>
-                </div>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/[0.07] text-primary">
+                  <Icon className="h-5 w-5" strokeWidth={1.4} aria-hidden />
+                </span>
+                <h3 className="mt-4 font-heading text-base font-semibold leading-snug text-foreground md:text-lg">
+                  {title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
               </li>
             ))}
           </ul>
@@ -167,127 +405,141 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-t border-border/60 bg-gradient-to-b from-muted/[0.12] via-background to-background"
-        aria-labelledby="partners-grid-heading"
+        className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
+        aria-labelledby="revenue-heading"
       >
-        <div className="section-full py-14 md:py-20 2xl:py-24">
+        <div className="section-full">
           <MarketingSectionHeader
-            id="partners-grid-heading"
+            id="revenue-heading"
             title={
               <>
-                Meet Our <span className="text-primary">Partners</span>
+                Turn Customer QA Pain Into <span className="text-primary">Partner Revenue</span>
               </>
             }
-            description="A growing ecosystem of services and technology partners helping teams put AI-native mobile testing into practice."
-            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+            marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-6">
-            {PARTNERS.map((partner) => {
-              const logoSrc = resolvePartnerLogoSrc(partner.logo);
-              const logoSizeClass = partner.logoClassName ?? DEFAULT_PARTNER_LOGO_CLASS;
-              const cardInner = (
-                <>
-                  <div className="mb-6 flex h-20 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/80 px-4 py-3">
-                    <img
-                      src={logoSrc}
-                      alt={`${partner.name} logo`}
-                      loading="lazy"
-                      decoding="async"
-                      className={cn(
-                        "h-auto w-auto object-contain",
-                        logoSizeClass,
-                      )}
-                    />
-                  </div>
-                  <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
-                    {partner.name}
-                  </h3>
-                  <p className={cn(marketingSectionIntroClass, "mt-3 flex-1 text-pretty text-sm md:text-base")}>
-                    {partner.description}
-                  </p>
-                  {partner.url ? (
-                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-                      Learn more
-                      <ArrowUpRight className="h-4 w-4" aria-hidden />
-                      <span className="sr-only"> about {partner.name} (opens in a new tab)</span>
-                    </span>
-                  ) : null}
-                </>
-              );
-
-              const cardClass = cn(
-                "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8",
-                "transition-colors motion-safe:hover:border-primary/30 motion-safe:hover:shadow-md",
-              );
-
-              return (
-                <li key={partner.name} className="h-full">
-                  {partner.url ? (
-                    <a
-                      href={partner.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cardClass}
-                      aria-label={`${partner.name} - opens in a new tab`}
-                    >
-                      <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary/80" aria-hidden />
-                      <div className="relative flex h-full flex-col pl-3 md:pl-4">{cardInner}</div>
-                    </a>
-                  ) : (
-                    <article className={cardClass}>
-                      <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary/80" aria-hidden />
-                      <div className="relative flex h-full flex-col pl-3 md:pl-4">{cardInner}</div>
-                    </article>
-                  )}
-                </li>
-              );
-            })}
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {revenueCards.map(({ title, body, Icon }) => (
+              <li
+                key={title}
+                className="rounded-xl border border-border/65 bg-card/80 p-4 shadow-sm md:p-5"
+              >
+                <Icon className="h-5 w-5 text-primary" strokeWidth={1.4} aria-hidden />
+                <h3 className="mt-3 font-heading text-base font-semibold text-foreground">{title}</h3>
+                <p className="mt-1.5 text-sm text-muted-foreground">{body}</p>
+              </li>
+            ))}
           </ul>
         </div>
       </section>
 
       <section
-        className="section-edge w-full border-t border-border/60 bg-gradient-to-b from-primary/[0.04] via-background to-background"
-        aria-labelledby="partners-cta-heading"
+        className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20"
+        aria-labelledby="portfolio-heading"
       >
-        <div className="section-full py-14 md:py-20 2xl:py-24">
+        <div className="section-full">
           <MarketingSectionHeader
-            id="partners-cta-heading"
-            eyebrow="Become A Partner"
-            title="Build The Next Chapter Of Mobile QE With Us"
-            description="Join a growing ecosystem of consulting and technology partners delivering Service-as-Software for mobile app testing, together with QApilot."
-            className="border-primary/25 bg-gradient-to-br from-primary/[0.07] via-card/90 to-card/80 shadow-md backdrop-blur-sm"
-            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+            id="portfolio-heading"
+            title={
+              <>
+                Where QApilot Fits Into Your <span className="text-primary">Services Portfolio</span>
+              </>
+            }
+            marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <ul className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mb-12 md:gap-5 lg:grid-cols-4 2xl:mb-14">
-            {partnerBenefits.map(({ title, description, Icon }) => (
-              <li
-                key={title}
-                className="flex h-full items-start gap-3 rounded-2xl border border-border/70 bg-card/80 p-4 shadow-sm backdrop-blur-sm md:p-5"
+          <div className="flex flex-wrap justify-center gap-2 md:gap-2.5">
+            {portfolioPills.map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center rounded-full border border-border/70 bg-card/90 px-4 py-2 text-center text-xs font-medium text-foreground shadow-sm sm:text-sm"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15 md:h-11 md:w-11">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-heading text-base font-semibold text-foreground md:text-lg">{title}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground md:text-[0.95rem]">
-                    {description}
-                  </p>
-                </div>
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
+        aria-labelledby="platform-layer-heading"
+      >
+        <div className="section-full">
+          <MarketingSectionHeader
+            id="platform-layer-heading"
+            title={
+              <>
+                The Platform Layer Behind Your <span className="text-primary">Mobile QA Offering</span>
+              </>
+            }
+            marginBottomClassName="mb-8 md:mb-10"
+          />
+
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
+            {platformItems.map((label) => (
+              <li
+                key={label}
+                className="flex items-center justify-center rounded-xl border border-border/60 bg-card/80 px-3 py-3 text-center text-xs font-semibold leading-snug text-foreground shadow-sm sm:text-sm md:py-4"
+              >
+                {label}
               </li>
             ))}
           </ul>
+        </div>
+      </section>
 
-          <div className="flex justify-center">
-            <Button
-              onClick={() => setIsPartnerFormOpen(true)}
-              size="lg"
-              className="bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:text-lg"
-            >
-              Become a Partner →
-            </Button>
+      <section
+        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/15 to-background py-12 md:py-16 2xl:py-20"
+        aria-labelledby="program-benefits-heading"
+      >
+        <div className="section-full">
+          <MarketingSectionHeader
+            id="program-benefits-heading"
+            title={
+              <>
+                Partner Program <span className="text-primary">Benefits</span>
+              </>
+            }
+            marginBottomClassName="mb-8 md:mb-10"
+          />
+
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-4">
+            {programBenefits.map((label) => (
+              <li
+                key={label}
+                className="flex items-center justify-center rounded-xl border border-border/60 bg-card/85 px-2 py-3 text-center text-xs font-semibold text-foreground shadow-sm sm:text-sm md:py-4"
+              >
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section
+        className="section-edge w-full border-t border-primary/15 bg-gradient-to-b from-primary/[0.08] via-primary/[0.04] to-background py-12 md:py-16 2xl:py-20"
+        aria-labelledby="final-cta-heading"
+      >
+        <div className="section-full">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 id="final-cta-heading" className={cn(marketingSectionH2Class, "text-foreground")}>
+              Build Your Agentic Mobile QA Practice <span className="text-primary">With QApilot</span>
+            </h2>
+            <p className={cn(marketingSectionIntroClass, "mx-auto mt-4 max-w-xl text-pretty")}>
+              Land with mobile testing. Expand into QA modernization, AI services, and release readiness.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <Button
+                type="button"
+                onClick={openForm}
+                size="lg"
+                className="bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:text-lg"
+              >
+                Become a Partner
+              </Button>
+            </div>
           </div>
         </div>
       </section>
