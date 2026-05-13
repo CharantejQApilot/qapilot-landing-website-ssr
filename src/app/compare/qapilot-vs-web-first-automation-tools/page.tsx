@@ -13,39 +13,6 @@ import BookDemoCtaButton from "./BookDemoCtaButton";
 const path = PATHS.COMPARE_WEB_FIRST;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
-const faqItems = [
-  {
-    question: "Is QApilot a replacement for web automation tools?",
-    answer:
-      "No. QApilot is built for mobile app testing. If your product is primarily web-first, web automation tools may still be the right fit. If your mobile app is business-critical, QApilot is designed for that use case.",
-  },
-  {
-    question: "Why not use a web-first tool with mobile support?",
-    answer:
-      "That can work for simple flows. The challenge starts when teams need reliable coverage across real devices, app states, native screens, hybrid views, Flutter screens, gestures, permissions, and frequent releases.",
-  },
-  {
-    question: "What makes QApilot mobile-first?",
-    answer:
-      "QApilot is designed around mobile app realities: APK and IPA workflows, real device execution, autonomous mobile crawling, gestures, permissions, pop-ups, app states, framework complexity, network traces, device metrics, and mobile-specific reporting.",
-  },
-  {
-    question: "How is QApilot's self-healing different?",
-    answer:
-      "QApilot's self-healing is guided by mobile app context, not just locator recovery. It can use screen context, journey history, element metadata, screenshots, hierarchy, and surrounding actions to understand what changed.",
-  },
-  {
-    question: "Does QApilot support Flutter apps?",
-    answer:
-      "Yes. Flutter testing is one of the areas where QApilot's mobile-first approach matters most, especially when traditional automation struggles with framework-specific complexity.",
-  },
-  {
-    question: "Can teams still control and edit tests in QApilot?",
-    answer:
-      "Yes. QApilot is autonomous, but not a black box. Teams can review, edit, record, guide, and rerun flows. The goal is to reduce repetitive effort while keeping testers in control.",
-  },
-] as const;
-
 const comparisonRows = [
   ["Core design", "Built for browser automation", "Built for mobile app testing"],
   ["Mobile support", "Added through extensions, wrappers, or integrations", "Native focus from day one"],
@@ -145,30 +112,19 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default function QApilotVsWebFirstComparisonPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
-  const structuredData = [
-    buildBreadcrumbList([
-      { name: "Home", path: PATHS.HOME },
-      { name: "QApilot vs Web-First Automation Tools", path },
-    ]),
-    faqSchema,
-  ];
-
   return (
     <div className="relative z-0 min-h-screen w-full section-edge bg-background">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "QApilot vs Web-First Automation Tools", path },
+            ]),
+          ),
+        }}
+      />
 
       <main>
         <section
@@ -177,17 +133,21 @@ export default function QApilotVsWebFirstComparisonPage() {
         >
           <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
           <div className="relative z-10 section-full py-12 sm:py-14 md:py-16 lg:py-20 2xl:py-24">
-            <div className="mx-auto max-w-5xl text-center">
+            <div className="mx-auto max-w-6xl text-center">
               <div className="min-w-0">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
                   QApilot vs Web-First Automation Tools
                 </p>
                 <h1 id="compare-web-first-hero" className={cn(marketingHeroH1Class, "mb-5 text-balance sm:mb-6 md:mb-8")}>
-                  When Your App Is <span className="text-primary">Mobile-first</span>, Your Testing Should Be
-                  <span className="text-primary"> Too</span>.
+                  <span className="block sm:inline">
+                    Most <span className="text-primary">&ldquo;mobile&rdquo;</span> testing tools are web tools
+                    <br className="sm:hidden" /> with an <span className="text-primary">extra tab</span>.
+                  </span>{" "}
+                  <span className="text-primary">We&apos;re not.</span>
                 </h1>
                 <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl text-pretty")}>
-                  Most automation tools were built for browsers first. Mobile support came later.
+                  QApilot vs web-first automation tools: built for native apps, real devices, and release-ready
+                  journeys—not browser automation extended sideways.
                 </p>
                 <div className="mt-8 flex justify-center">
                   <BookDemoCtaButton />
@@ -250,8 +210,8 @@ export default function QApilotVsWebFirstComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-              <article className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm">
+            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+              <article className="border-b border-border/60 p-6 md:border-b-0 md:border-r md:p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Web</p>
                 <h3 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                   Structure defines behavior
@@ -260,13 +220,16 @@ export default function QApilotVsWebFirstComparisonPage() {
                   On the web, DOM hierarchy, selectors, and browser events give automation tools a stable
                   foundation, so tools can often recover when a locator changes.
                 </p>
-                <p className="mt-4 rounded-lg border border-border/60 bg-muted/40 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
-                  Locator shifts from <code>email</code> to an updated selector path. The platform can
-                  often infer the change and continue.
-                </p>
+                <aside className="mt-5 border-l-2 border-foreground/15 pl-4">
+                  <p className="text-xs leading-relaxed text-muted-foreground md:text-sm">
+                    <span className="font-medium text-foreground/80">Example: </span>
+                    Locator shifts from <code className="rounded bg-muted/80 px-1 py-0.5 text-[0.7rem]">email</code>{" "}
+                    to an updated selector path. The platform can often infer the change and continue.
+                  </p>
+                </aside>
               </article>
 
-              <article className="rounded-2xl border border-primary/30 bg-primary/[0.08] p-6 shadow-sm">
+              <article className="p-6 md:bg-primary/[0.04] md:p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Mobile</p>
                 <h3 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                   Behavior defines structure
@@ -275,16 +238,20 @@ export default function QApilotVsWebFirstComparisonPage() {
                   In mobile apps, intent is expressed through gestures, sequences, app states, permissions,
                   and device behavior, and element metadata is often sparse or inconsistent.
                 </p>
-                <p className="mt-4 rounded-lg border border-primary/30 bg-background/70 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
-                  If reliable accessibility IDs, resource IDs, or XPath-friendly attributes are missing,
-                  locator-based healing has less context to work with.
-                </p>
+                <aside className="mt-5 border-l-2 border-primary/50 pl-4">
+                  <p className="text-xs leading-relaxed text-muted-foreground md:text-sm">
+                    <span className="font-medium text-foreground/80">Example: </span>
+                    If reliable accessibility IDs, resource IDs, or XPath-friendly attributes are missing,
+                    locator-based healing has less context to work with.
+                  </p>
+                </aside>
               </article>
             </div>
 
-            <div className="mt-8 rounded-2xl border border-primary/35 bg-primary/[0.07] px-6 py-5">
+            <div className="mt-8 border-l-4 border-primary bg-muted/20 px-5 py-5 md:px-6 md:py-6">
               <p className="font-heading text-xl font-semibold tracking-tight text-foreground">
-                Mobile self-healing needs more than locator recovery. It needs app context.
+                Mobile self-healing needs more than locator recovery.{" "}
+                <span className="text-primary">It needs app context.</span>
               </p>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                 Healing cannot depend on selectors alone. It must understand the screen, journey, nearby
@@ -371,37 +338,31 @@ export default function QApilotVsWebFirstComparisonPage() {
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <div className="overflow-x-auto rounded-2xl border border-border/70 bg-card/85 shadow-sm">
-              <table className="w-full min-w-[760px] border-collapse">
-                <thead className="bg-muted/50">
-                  <tr>
-                    <th className="border-b border-border/70 px-4 py-3 text-left text-sm font-semibold text-foreground">
-                      Area
-                    </th>
-                    <th className="border-b border-border/70 px-4 py-3 text-left text-sm font-semibold text-foreground">
-                      Web-first automation tools
-                    </th>
-                    <th className="border-b border-border/70 px-4 py-3 text-left text-sm font-semibold text-foreground">
-                      QApilot
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonRows.map((row) => (
-                    <tr key={row[0]} className="align-top">
-                      <td className="border-b border-border/50 px-4 py-3 text-sm font-medium text-foreground">
-                        {row[0]}
-                      </td>
-                      <td className="border-b border-border/50 px-4 py-3 text-sm text-muted-foreground">
-                        {row[1]}
-                      </td>
-                      <td className="border-b border-border/50 px-4 py-3 text-sm text-muted-foreground">
-                        {row[2]}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="grid gap-4 md:gap-5">
+              {comparisonRows.map(([area, webFirst, qapilot]) => (
+                <article
+                  key={area}
+                  className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm"
+                >
+                  <div className="border-b border-border/60 bg-muted/35 px-4 py-3 sm:px-5">
+                    <p className="font-heading text-sm font-semibold tracking-tight text-foreground md:text-base">
+                      {area}
+                    </p>
+                  </div>
+                  <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
+                    <div className="p-4 sm:p-5 md:p-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                        Web-first automation tools
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{webFirst}</p>
+                    </div>
+                    <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">QApilot</p>
+                      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">{qapilot}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -445,20 +406,20 @@ export default function QApilotVsWebFirstComparisonPage() {
               }
               marginBottomClassName="mb-8 md:mb-10"
             />
-            <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-              <article className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-border/60 bg-muted/15 md:grid md:grid-cols-2">
+              <div className="border-b border-border/50 p-6 md:border-b-0 md:border-r md:p-8">
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
-                  Why this matters
+                  Why <span className="text-primary">this matters</span>
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                   For mobile-first businesses, the app is where users onboard, pay, book, subscribe, and
                   build trust. Failures in KYC, checkout, booking, transfers, or retries are release risks,
                   not minor test misses.
                 </p>
-              </article>
-              <article className="rounded-2xl border border-primary/30 bg-primary/[0.08] p-6 shadow-sm">
+              </div>
+              <div className="p-6 md:bg-primary/[0.04] md:p-8">
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
-                  When QApilot is the better fit
+                  When QApilot is the <span className="text-primary">better fit</span>
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                   QApilot is built for teams shipping mobile apps frequently across Android and iOS, dealing
@@ -466,24 +427,7 @@ export default function QApilotVsWebFirstComparisonPage() {
                   quality affects revenue, trust, compliance, or velocity, a mobile-first test platform is
                   the better foundation.
                 </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-edge w-full border-b border-border/50 bg-foreground py-12 text-background md:py-16 2xl:py-20">
-          <div className="section-full">
-            <h2 className="font-heading text-3xl font-semibold tracking-tight md:text-5xl">
-              The <span className="text-primary">shift</span>
-            </h2>
-            <div className="mt-7 space-y-3 text-lg leading-relaxed text-background/85 md:text-2xl">
-              <p>Web-first automation asks:</p>
-              <p className="font-heading text-xl text-background md:text-3xl">&quot;Can this step run?&quot;</p>
-              <p>QApilot asks:</p>
-              <p className="font-heading text-xl text-background md:text-3xl">
-                &quot;Is this mobile journey ready for release?&quot;
-              </p>
-              <p>That is the difference between running tests and building release confidence.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -499,30 +443,6 @@ export default function QApilotVsWebFirstComparisonPage() {
             </p>
             <div className="mt-8 flex justify-center">
               <BookDemoCtaButton />
-            </div>
-          </div>
-        </section>
-
-        <section className="section-edge w-full py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
-            <MarketingSectionHeader
-              id="faqs"
-              title={
-                <>
-                  <span className="text-primary">FAQs</span>
-                </>
-              }
-              marginBottomClassName="mb-8 md:mb-10"
-            />
-            <div className="space-y-4">
-              {faqItems.map((faq) => (
-                <details key={faq.question} className="group rounded-xl border border-border/70 bg-card/75 p-5">
-                  <summary className="cursor-pointer list-none font-heading text-lg font-semibold text-foreground">
-                    {faq.question}
-                  </summary>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{faq.answer}</p>
-                </details>
-              ))}
             </div>
           </div>
         </section>
