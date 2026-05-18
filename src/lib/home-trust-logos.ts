@@ -37,7 +37,7 @@ export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
     name: "Zessta",
     logo: `${PARTNER_LOGOS_PATH_PREFIX}zessta-logo.png`,
     url: "https://zessta.com/",
-    visualScale: 1.95,
+    visualScale: 0.8,
   },
   {
     name: "mySherpas",
@@ -55,6 +55,6 @@ export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
     name: "Qwipo",
     logo: `${PARTNER_LOGOS_PATH_PREFIX}qwipo-logo.png`,
     url: "https://qwipo.com/",
-    visualScale: 1.42,
+    visualScale: 1,
   },
 ];
