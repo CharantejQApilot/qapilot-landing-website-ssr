@@ -200,6 +200,10 @@
     background-color: hsl(var(--cream));
   }
 
+  .section-testimonials {
+    background-color: hsl(220 14% 94%);
+  }
+
   /* Same look as `bg-muted/20` on page background, fully opaque (e.g. Deliver header on cream) */
   .bg-section-header {
     background-color: hsl(var(--muted) / 0.2);
