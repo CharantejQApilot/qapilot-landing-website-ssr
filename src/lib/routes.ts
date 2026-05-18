@@ -13,6 +13,10 @@ export const PATHS = {
   ABOUT: "/about",
   BLOGS: "/blogs",
   BLOG_POST: "/blogs/:slug",
+  QA_GUIDE: "/qa-guide",
+  QA_GUIDE_CLUSTER: "/qa-guide/:cluster",
+  QA_GUIDE_POST: "/qa-guide/:cluster/:slug",
+  SEO_DRAFTS: "/seo-drafts",
   /**
    * Case studies live under Resources but are intentionally hidden from the
    * navigation menu for now (still reachable by direct URL or external links).
@@ -83,6 +87,7 @@ export const PLATFORM_AI_AGENTS = [
 /** Resources dropdown (header: Blogs, Labs, FAQs) */
 export const RESOURCE_NAV_LINKS = [
   { path: PATHS.BLOGS, label: "Blogs" },
+  { path: PATHS.QA_GUIDE, label: "QA Guide" },
   { path: PATHS.LABS, label: "Labs" },
   { path: PATHS.FAQS, label: "FAQs" },
 ] as const;

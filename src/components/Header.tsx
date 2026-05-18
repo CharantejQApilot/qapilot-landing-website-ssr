@@ -84,7 +84,7 @@ const Header = () => {
     path === PATHS.FOR_QA_LEADER ||
     path === PATHS.FOR_PRODUCT_OWNER ||
     path === PATHS.FOR_SRE;
-  const isResourcesActive = [PATHS.BLOGS, PATHS.LABS, PATHS.FAQS].some(
+  const isResourcesActive = [PATHS.BLOGS, PATHS.QA_GUIDE, PATHS.LABS, PATHS.FAQS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
   const isCompanyActive = [PATHS.ABOUT, PATHS.CAREERS, PATHS.PARTNERS, PATHS.NEWS].some(
