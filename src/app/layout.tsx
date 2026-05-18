@@ -102,7 +102,7 @@ export default function RootLayout({
   const supabaseOrigin = supabasePreconnectOrigin();
 
   return (
-    <html lang="en" className={`${fontHeading.variable} ${fontSans.variable}`}>
+    <html lang="en" className={`${fontHeading.variable} ${fontSans.variable} scroll-smooth`}>
       <head>
         <meta httpEquiv="content-language" content="en-US" />
         {supabaseOrigin ? (
