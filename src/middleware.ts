@@ -31,7 +31,8 @@ function isSocialPreviewPath(pathname: string): boolean {
     pathname.startsWith("/blogs/") ||
     pathname.startsWith("/news/") ||
     pathname.startsWith("/case-studies/") ||
-    pathname.startsWith("/careers/")
+    pathname.startsWith("/careers/") ||
+    pathname.startsWith("/qa-guide/")
   );
 }
 

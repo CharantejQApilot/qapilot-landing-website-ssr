@@ -7,8 +7,17 @@ import { notFound } from "next/navigation";
 export async function resolveSlugParam(
   params: { slug?: string } | Promise<{ slug?: string }>,
 ): Promise<string> {
+  return resolveParam(params, "slug");
+}
+
+export async function resolveParam<T extends string>(
+  params:
+    | Partial<Record<T, string | undefined>>
+    | Promise<Partial<Record<T, string | undefined>>>,
+  key: T,
+): Promise<string> {
   const resolved = await Promise.resolve(params);
-  const slug = resolved.slug;
-  if (typeof slug !== "string" || !slug.trim()) notFound();
-  return slug.trim();
+  const value = resolved[key];
+  if (typeof value !== "string" || !value.trim()) notFound();
+  return value.trim();
 }

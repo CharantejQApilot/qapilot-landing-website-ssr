@@ -204,6 +204,125 @@ export type Database = {
           },
         ]
       }
+      qa_guide_topic_clusters: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          slug: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          slug: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      qa_guides: {
+        Row: {
+          author_name: string | null
+          content: string | null
+          content_format: string
+          created_at: string
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          intent: string | null
+          internal_link_suggestions: Json
+          meta_robots: string
+          og_image_url: string | null
+          previous_url_path: string | null
+          published_date: string | null
+          quality_checks: Json
+          seo_description: string | null
+          seo_keywords: string | null
+          seo_title: string | null
+          slug: string
+          source: Json
+          status: string
+          tags: string | null
+          tier: string
+          title: string
+          topic_cluster: string
+          updated_at: string
+          url_path: string
+        }
+        Insert: {
+          author_name?: string | null
+          content?: string | null
+          content_format?: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          intent?: string | null
+          internal_link_suggestions?: Json
+          meta_robots?: string
+          og_image_url?: string | null
+          previous_url_path?: string | null
+          published_date?: string | null
+          quality_checks?: Json
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug: string
+          source?: Json
+          status?: string
+          tags?: string | null
+          tier?: string
+          title: string
+          topic_cluster: string
+          updated_at?: string
+          url_path: string
+        }
+        Update: {
+          author_name?: string | null
+          content?: string | null
+          content_format?: string
+          created_at?: string
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          intent?: string | null
+          internal_link_suggestions?: Json
+          meta_robots?: string
+          og_image_url?: string | null
+          previous_url_path?: string | null
+          published_date?: string | null
+          quality_checks?: Json
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug?: string
+          source?: Json
+          status?: string
+          tags?: string | null
+          tier?: string
+          title?: string
+          topic_cluster?: string
+          updated_at?: string
+          url_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qa_guides_topic_cluster_fkey"
+            columns: ["topic_cluster"]
+            isOneToOne: false
+            referencedRelation: "qa_guide_topic_clusters"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       faqs: {
         Row: {
           answer: string

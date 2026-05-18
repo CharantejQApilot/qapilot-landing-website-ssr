@@ -15,6 +15,7 @@ import { Trash2, Edit, LogOut, Plus, Save, X, Link, CalendarIcon, FileJson } fro
 import RichTextEditor from "@/components/RichTextEditor";
 import CareersCMS from "@/components/admin/CareersCMS";
 import FAQsCMS from "@/components/admin/FAQsCMS";
+import QaGuidesCMS from "@/components/admin/QaGuidesCMS";
 import WritersCMS from "@/components/admin/WritersCMS";
 import type { User } from "@supabase/supabase-js";
 import { format } from "date-fns";
@@ -891,6 +892,7 @@ const AdminClient = () => {
             <TabsTrigger value="blogs">Blogs</TabsTrigger>
             <TabsTrigger value="case-studies">Case Studies</TabsTrigger>
             <TabsTrigger value="news">News & Updates</TabsTrigger>
+            <TabsTrigger value="qa-guides">QA Guide</TabsTrigger>
             <TabsTrigger value="writers">Writers</TabsTrigger>
             <TabsTrigger value="careers">Careers</TabsTrigger>
             <TabsTrigger value="faqs">FAQs</TabsTrigger>
@@ -1655,6 +1657,10 @@ const AdminClient = () => {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+
+          <TabsContent value="qa-guides">
+            <QaGuidesCMS />
           </TabsContent>
 
           <TabsContent value="writers">
