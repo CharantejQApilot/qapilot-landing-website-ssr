@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import {
-  ArrowUpRight,
   Bot,
   Brain,
   Building2,
@@ -125,60 +124,42 @@ const portfolioPills = [
   "POC-led Customer Expansion",
 ] as const;
 
-const partnerMarqueeCardClass = cn(
-  "shrink-0",
-  // Below lg: one comfortable card width in the viewport
-  "w-[min(20rem,calc(100vw-2.5rem))] sm:min-w-0",
-  // lg+: ~⅓ of visible width minus two inter-card gaps (gap-5 = 1.25rem) and horizontal padding (section-full + inset)
-  "lg:w-[calc((100vw-13rem-2.5rem)/3)]",
-  "xl:w-[calc((100vw-15rem-2.5rem)/3)]",
-  "2xl:w-[calc((100vw-19rem-2.5rem)/3)]",
-  "flex min-h-[280px] flex-col rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm backdrop-blur-sm md:p-6",
-  "bg-gradient-to-b from-card to-muted/10",
+const partnerLogoTileClass = cn(
+  "flex h-20 w-full items-center justify-center rounded-xl border border-border/60 bg-background/80 px-4 py-3",
+  "transition-colors hover:border-border hover:bg-background",
 );
 
-function PartnersMarqueeCard({ partner, decorative }: { partner: Partner; decorative: boolean }) {
+function PartnersLogoTile({ partner }: { partner: Partner }) {
   const logoSrc = resolvePartnerLogoSrc(partner.logo);
   const logoSizeClass = partner.logoClassName ?? DEFAULT_PARTNER_LOGO_CLASS;
-  return (
-    <article className={partnerMarqueeCardClass}>
-      <div
-        className={cn(
-          "mb-5 flex h-16 w-full items-center justify-center overflow-hidden rounded-xl border border-border/60 bg-background/80 px-3 py-2",
-          partner.logoFrameClassName,
-        )}
-      >
-        <img
-          src={logoSrc}
-          alt={decorative ? "" : `${partner.name} logo`}
-          loading="lazy"
-          decoding="async"
-          className={cn("h-auto w-auto object-contain", logoSizeClass)}
-        />
-      </div>
-      <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">{partner.name}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{partner.description}</p>
-      {partner.url ? (
-        decorative ? (
-          <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary/70">
-            Learn more
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
-          </span>
-        ) : (
-          <a
-            href={partner.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
-          >
-            Learn more
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
-            <span className="sr-only"> ({partner.name}, opens in new tab)</span>
-          </a>
-        )
-      ) : null}
-    </article>
+
+  const logoWell = (
+    <div className={cn(partnerLogoTileClass, partner.logoFrameClassName)}>
+      <img
+        src={logoSrc}
+        alt={`${partner.name} logo`}
+        loading="lazy"
+        decoding="async"
+        className={cn("h-auto w-auto object-contain", logoSizeClass)}
+      />
+    </div>
   );
+
+  if (partner.url) {
+    return (
+      <a
+        href={partner.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        {logoWell}
+        <span className="sr-only">{partner.name} (opens in new tab)</span>
+      </a>
+    );
+  }
+
+  return logoWell;
 }
 
 const PartnersClient = () => {
@@ -278,11 +259,11 @@ const PartnersClient = () => {
 
       <section
         className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
-        aria-labelledby="partners-carousel-heading why-partners-heading"
+        aria-labelledby="partners-logos-heading why-partners-heading"
       >
         <div className="section-full">
           <MarketingSectionHeader
-            id="partners-carousel-heading"
+            id="partners-logos-heading"
             title={
               <>
                 Partners Building <span className="text-primary">With QApilot</span>
@@ -292,36 +273,17 @@ const PartnersClient = () => {
             marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <div className="group relative w-full overflow-hidden px-1 sm:px-4 md:px-8 lg:px-10">
-            <div
-              className={cn(
-                "flex w-max gap-0",
-                "motion-safe:animate-[infinite-scroll_48s_linear_infinite] motion-reduce:animate-none",
-                "motion-safe:will-change-transform",
-                "group-hover:motion-safe:[animation-play-state:paused]",
-              )}
-              role="presentation"
-            >
-              <div className="flex gap-4 md:gap-5">
-                {PARTNERS.map((partner) => (
-                  <PartnersMarqueeCard key={partner.name} partner={partner} decorative={false} />
-                ))}
-              </div>
-              <div className="flex gap-4 md:gap-5" aria-hidden="true">
-                {PARTNERS.map((partner) => (
-                  <PartnersMarqueeCard key={`${partner.name}-dup`} partner={partner} decorative />
-                ))}
-              </div>
-            </div>
-            <div
-              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-background to-transparent sm:w-14 md:w-20"
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-background to-transparent sm:w-14 md:w-20"
-              aria-hidden
-            />
-          </div>
+          <ul
+            className="mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:gap-5 md:grid-cols-4 md:gap-6"
+            aria-label="Partner logos"
+          >
+            {PARTNERS.map((partner) => (
+              <li key={partner.name}>
+                <PartnersLogoTile partner={partner} />
+              </li>
+            ))}
+          </ul>
+
 
           <div className="mt-12 border-t border-border/40 pt-10 md:mt-14 md:pt-12">
             <h2 id="why-partners-heading" className="sr-only">

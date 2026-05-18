@@ -32,11 +32,6 @@ export const PATHS = {
   TERMS_CONDITIONS: "/terms-conditions",
   CAREERS: "/careers",
   JOB_POST: "/careers/:slug",
-  /**
-   * Partners page is intentionally hidden from the navigation menu for now
-   * (still reachable by direct URL or external links). Add to
-   * `COMPANY_NAV_LINKS` when ready to surface in the header dropdown.
-   */
   PARTNERS: "/partners",
   FAQS: "/faqs",
   LABS: "/labs",
@@ -92,9 +87,10 @@ export const RESOURCE_NAV_LINKS = [
   { path: PATHS.FAQS, label: "FAQs" },
 ] as const;
 
-/** Company dropdown (header: About, Careers, News). Partners is intentionally hidden — still reachable by direct URL. */
+/** Company dropdown (header: About, Partners, Careers, News) */
 export const COMPANY_NAV_LINKS = [
   { path: PATHS.ABOUT, label: "About Us" },
+  { path: PATHS.PARTNERS, label: "Partners" },
   { path: PATHS.CAREERS, label: "Careers" },
   { path: PATHS.NEWS, label: "News & Updates" },
 ] as const;
