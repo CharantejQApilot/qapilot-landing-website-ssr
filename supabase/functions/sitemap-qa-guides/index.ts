@@ -32,7 +32,10 @@ Deno.serve(async (req) => {
       .eq("status", "published")
       .order("published_date", { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+      console.error("qa_guides query error:", error);
+      throw new Error(error.message ?? JSON.stringify(error));
+    }
 
     const base = siteBaseUrl();
 
@@ -70,8 +73,10 @@ ${urlEntries}
       },
     });
   } catch (error) {
-    console.error("Error generating QA guides sitemap:", error);
-    return new Response(JSON.stringify({ error: String(error) }), {
+    const message =
+      error instanceof Error ? error.message : JSON.stringify(error);
+    console.error("Error generating QA guides sitemap:", message);
+    return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
