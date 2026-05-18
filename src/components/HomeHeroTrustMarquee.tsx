@@ -15,8 +15,11 @@ function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?:
       tabIndex={decorative ? -1 : undefined}
       className={cn(
         "flex shrink-0 items-center justify-center",
-        "mx-7 h-[4.2rem] w-[8.4rem] sm:mx-9 sm:h-[4.8rem] sm:w-[9.6rem] md:mx-14 md:h-24 md:w-48",
-        "lg:mx-6 lg:h-14 lg:w-28 lg:sm:mx-8 lg:sm:h-16 lg:sm:w-32 lg:md:mx-12 lg:md:h-20 lg:md:w-40 lg:2xl:mx-16 lg:2xl:w-48",
+        // Horizontal gap between logos — fixed across breakpoints
+        "mx-6 sm:mx-8 md:mx-12 lg:mx-12 xl:mx-14 2xl:mx-16",
+        // Cell height grows with viewport (never shrinks at lg)
+        "h-14 sm:h-16 md:h-[4.25rem] lg:h-[4.75rem] xl:h-20 2xl:h-[5.25rem]",
+        "w-28 sm:w-32 md:w-40 lg:w-44 xl:w-48 2xl:w-52",
       )}
     >
       <img
@@ -27,9 +30,10 @@ function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?:
         loading="lazy"
         decoding="async"
         className={cn(
-          "w-auto object-contain opacity-90",
-          "h-[2.1rem] max-w-[132px] sm:h-[2.4rem] sm:max-w-[144px] md:h-[3.6rem] md:max-w-[192px]",
-          "lg:h-7 lg:max-w-[110px] lg:sm:h-8 lg:sm:max-w-[120px] lg:md:h-12 lg:md:max-w-[160px]",
+          "h-auto w-auto max-h-full object-contain opacity-90",
+          // Logo mark scales up at each breakpoint (mobile → desktop)
+          "max-w-[6.5rem] sm:max-w-[7.5rem] md:max-w-[9.5rem] lg:max-w-[11rem] xl:max-w-[12.5rem] 2xl:max-w-[14rem]",
+          "h-7 sm:h-8 md:h-10 lg:h-12 xl:h-14 2xl:h-16",
         )}
         style={{ transform: `scale(${logo.visualScale})`, transformOrigin: "center" }}
       />
@@ -44,7 +48,7 @@ export function HomeHeroTrustMarquee({ className }: HomeHeroTrustMarqueeProps) {
     <div
       className={cn(
         "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2",
-        "pb-16 sm:pb-20 md:pb-24 lg:pb-8 xl:pb-10 2xl:pb-12",
+        "pb-2 sm:pb-3 md:pb-2 lg:pb-0 xl:pb-0 2xl:pb-0",
         className,
       )}
       aria-label="Trusted by industry leaders"

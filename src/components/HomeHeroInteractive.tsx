@@ -15,7 +15,7 @@ export default function HomeHeroInteractive() {
       <h1
         className={cn(
           marketingHeroH1Class,
-          "mb-7 text-center sm:mb-9 md:mb-11",
+          "mb-11 text-center sm:mb-14 md:mb-16",
           "max-lg:text-[clamp(1.35rem,1.05rem+3vw,4.15rem)] max-lg:leading-[1.12]",
         )}
       >
@@ -30,7 +30,7 @@ export default function HomeHeroInteractive() {
       <p
         className={cn(
           marketingHeroLeadClass,
-          "mx-auto mb-10 max-w-3xl text-center sm:mb-12 md:mb-14",
+          "mx-auto mb-14 max-w-3xl text-center sm:mb-16 md:mb-20",
           "max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-[1.875rem] max-lg:leading-relaxed",
         )}
       >
@@ -44,7 +44,7 @@ export default function HomeHeroInteractive() {
         </Link>
       </p>
 
-      <div className="mb-5 sm:mb-6 md:mb-7">
+      <div className="mb-0">
         <Button
           type="button"
           onClick={() => openForm()}
