@@ -1,7 +1,14 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-const DYNAMIC_PREFIXES = ["/blogs", "/news", "/case-studies", "/careers"] as const;
+const DYNAMIC_PREFIXES = [
+  "/blogs",
+  "/news",
+  "/case-studies",
+  "/careers",
+  "/qa-guide",
+  "/seo-drafts",
+] as const;
 const EXACT_PATHS = new Set([
   "/",
   "/faqs",
@@ -75,6 +82,20 @@ function derivePaths(payload: DbWebhookPayload): string[] {
       const previousSlug = asNonEmptyString(oldRecord?.slug);
       if (currentSlug) paths.add(`/case-studies/${currentSlug}`);
       if (previousSlug) paths.add(`/case-studies/${previousSlug}`);
+      break;
+    }
+    case "qa_guides": {
+      paths.add("/qa-guide");
+      const cluster = asNonEmptyString(record?.topic_cluster);
+      const prevCluster = asNonEmptyString(oldRecord?.topic_cluster);
+      const currentSlug = asNonEmptyString(record?.slug);
+      const previousSlug = asNonEmptyString(oldRecord?.slug);
+      if (cluster) paths.add(`/qa-guide/${cluster}`);
+      if (prevCluster) paths.add(`/qa-guide/${prevCluster}`);
+      if (cluster && currentSlug) paths.add(`/qa-guide/${cluster}/${currentSlug}`);
+      if (prevCluster && previousSlug) paths.add(`/qa-guide/${prevCluster}/${previousSlug}`);
+      if (currentSlug) paths.add(`/seo-drafts/${currentSlug}`);
+      if (previousSlug) paths.add(`/seo-drafts/${previousSlug}`);
       break;
     }
     case "job_openings": {

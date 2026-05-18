@@ -37,6 +37,9 @@ export function GET() {
       `  <sitemap>`,
       `    <loc>${sb}/functions/v1/sitemap-case-studies</loc>`,
       `  </sitemap>`,
+      `  <sitemap>`,
+      `    <loc>${sb}/functions/v1/sitemap-qa-guides</loc>`,
+      `  </sitemap>`,
     );
   }
   lines.push(`</sitemapindex>`);

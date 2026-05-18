@@ -1,0 +1,282 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { ArrowLeft, Rocket, Save } from "lucide-react";
+import { AdminPageShell } from "@/components/admin/AdminPageShell";
+import { getAdminAccessState } from "@/lib/admin/admin-auth";
+import {
+  clearAdminAccessCookie,
+  setAdminAccessCookie,
+} from "@/lib/admin/session-cookie";
+import {
+  revalidatePublicPaths,
+  withCommonCachePaths,
+} from "@/lib/admin/revalidate-client";
+import { validatePublishedContent } from "@/lib/admin/publish-validation";
+import { applyTierTransition } from "@/lib/qa-guide/promote";
+import { draftUrlPath, publishedUrlPath } from "@/lib/qa-guide/urls";
+import { PATHS } from "@/lib/routes";
+
+export default function QaGuideEditorClient() {
+  const router = useRouter();
+  const params = useParams();
+  const id = params?.id as string;
+  const { toast } = useToast();
+
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [topicCluster, setTopicCluster] = useState("");
+  const [excerpt, setExcerpt] = useState("");
+  const [content, setContent] = useState("");
+  const [featuredImage, setFeaturedImage] = useState("");
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
+  const [authorName, setAuthorName] = useState("");
+
+  useEffect(() => {
+    const check = async () => {
+      const access = await getAdminAccessState(supabase);
+      if (access.status !== "ok") {
+        clearAdminAccessCookie();
+        router.push(access.status === "forbidden" ? "/" : "/auth");
+        return;
+      }
+      setAdminAccessCookie(access.session.access_token);
+    };
+    check();
+  }, [router]);
+
+  const { data: guide, isLoading } = useQuery({
+    queryKey: ["qa-guide", id],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("qa_guides").select("*").eq("id", id).single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: Boolean(id),
+  });
+
+  const { data: clusters } = useQuery({
+    queryKey: ["qa-guide-clusters"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("qa_guide_topic_clusters")
+        .select("slug, title")
+        .order("display_order");
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    if (!guide) return;
+    setTitle(guide.title);
+    setSlug(guide.slug);
+    setTopicCluster(guide.topic_cluster);
+    setExcerpt(guide.excerpt ?? "");
+    setContent(guide.content ?? "");
+    setFeaturedImage(guide.featured_image ?? "");
+    setSeoTitle(guide.seo_title ?? "");
+    setSeoDescription(guide.seo_description ?? "");
+    setAuthorName(guide.author_name ?? "");
+  }, [guide]);
+
+  const saveMutation = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase
+        .from("qa_guides")
+        .update({
+          title,
+          slug,
+          topic_cluster: topicCluster,
+          excerpt: excerpt || null,
+          content,
+          featured_image: featuredImage || null,
+          seo_title: seoTitle || null,
+          seo_description: seoDescription || null,
+          author_name: authorName || null,
+          og_image_url: featuredImage || null,
+        })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast({ title: "Saved" });
+    },
+    onError: (e: Error) => {
+      toast({ title: "Save failed", description: e.message, variant: "destructive" });
+    },
+  });
+
+  const publishMutation = useMutation({
+    mutationFn: async () => {
+      const errors = validatePublishedContent({
+        title,
+        slug,
+        content,
+        seoTitle,
+        seoDescription,
+        featuredImageUrl: featuredImage,
+        ogImageUrl: featuredImage,
+      });
+      if (errors.length > 0) throw new Error(errors[0]);
+
+      await saveMutation.mutateAsync();
+
+      if (!guide) throw new Error("Guide not loaded");
+      const transition = applyTierTransition(
+        {
+          slug: guide.slug,
+          topic_cluster: topicCluster,
+          url_path: guide.url_path,
+        },
+        { tier: "index_worthy", topic_cluster: topicCluster },
+      );
+
+      const { error } = await supabase.from("qa_guides").update(transition).eq("id", id);
+      if (error) throw error;
+
+      const { data: session } = await supabase.auth.getSession();
+      await revalidatePublicPaths(
+        session.session?.access_token,
+        withCommonCachePaths([
+          PATHS.QA_GUIDE,
+          `${PATHS.QA_GUIDE}/${topicCluster}`,
+          publishedUrlPath(topicCluster, slug),
+          draftUrlPath(slug),
+        ]),
+      );
+    },
+    onSuccess: () => {
+      toast({
+        title: "Published",
+        description: "Live, indexable, and in the sitemap.",
+      });
+      router.push("/admin");
+    },
+    onError: (e: Error) => {
+      toast({ title: "Publish failed", description: e.message, variant: "destructive" });
+    },
+  });
+
+  if (isLoading || !guide) {
+    return (
+      <AdminPageShell>
+        <p className="p-8 text-muted-foreground">Loading…</p>
+      </AdminPageShell>
+    );
+  }
+
+  const qc = (guide.quality_checks ?? {}) as Record<string, unknown>;
+  const isDraft = guide.tier === "draft";
+
+  return (
+    <AdminPageShell>
+      <div className="mx-auto max-w-4xl space-y-6 p-6">
+        <Button variant="ghost" onClick={() => router.push("/admin")}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to admin
+        </Button>
+
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h1 className="text-2xl font-bold">Edit QA Guide</h1>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+              <Save className="mr-2 h-4 w-4" />
+              Save
+            </Button>
+            {isDraft ? (
+              <Button onClick={() => publishMutation.mutate()} disabled={publishMutation.isPending}>
+                <Rocket className="mr-2 h-4 w-4" />
+                Publish
+              </Button>
+            ) : (
+              <span className="rounded bg-green-500/15 px-3 py-2 text-sm text-green-800 dark:text-green-200">
+                Published
+              </span>
+            )}
+          </div>
+        </div>
+
+        {Object.keys(qc).length > 0 ? (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Quality checks (from automation)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <pre className="max-h-48 overflow-auto rounded bg-muted p-3 text-xs">
+                {JSON.stringify(qc, null, 2)}
+              </pre>
+            </CardContent>
+          </Card>
+        ) : null}
+
+        <Card>
+          <CardContent className="space-y-4 pt-6">
+            <div className="space-y-2">
+              <Label htmlFor="title">Title</Label>
+              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="slug">Slug</Label>
+                <Input id="slug" value={slug} onChange={(e) => setSlug(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="cluster">Topic cluster</Label>
+                <select
+                  id="cluster"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={topicCluster}
+                  onChange={(e) => setTopicCluster(e.target.value)}
+                  disabled={!isDraft}
+                >
+                  {(clusters ?? []).map((c) => (
+                    <option key={c.slug} value={c.slug}>
+                      {c.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="excerpt">Excerpt</Label>
+              <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="content">Content (Markdown)</Label>
+              <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={16} className="font-mono text-sm" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="image">Featured image URL</Label>
+              <Input id="image" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="seoTitle">SEO title</Label>
+                <Input id="seoTitle" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="author">Author</Label>
+                <Input id="author" value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+              </div>
+              </div>
+            <div className="space-y-2">
+              <Label htmlFor="seoDesc">SEO description</Label>
+              <Textarea id="seoDesc" value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AdminPageShell>
+  );
+}

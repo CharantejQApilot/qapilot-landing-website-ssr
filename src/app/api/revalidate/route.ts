@@ -14,6 +14,8 @@ const ALLOWED_PREFIXES = [
   "/news",
   "/case-studies",
   "/careers",
+  "/qa-guide",
+  "/seo-drafts",
 ] as const;
 const ALLOWED_EXACT_PATHS = new Set([
   "/",
