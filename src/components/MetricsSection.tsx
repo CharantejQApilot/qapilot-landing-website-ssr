@@ -18,6 +18,14 @@ const metrics: Metric[] = [
   { value: 2400, suffix: '+', label: 'Hours Saved for QE Teams' },
 ];
 
+function formatFinal(metric: Metric): string {
+  const isDecimal = metric.value % 1 !== 0;
+  const formatted = isDecimal
+    ? metric.value.toFixed(1)
+    : metric.value.toLocaleString();
+  return `${formatted}${metric.suffix}`;
+}
+
 const useCountUp = (end: number, duration: number = 2000, startCounting: boolean) => {
   const [count, setCount] = useState(0);
   const isDecimal = end % 1 !== 0;
@@ -36,13 +44,16 @@ const useCountUp = (end: number, duration: number = 2000, startCounting: boolean
     };
     animationFrame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrame);
-  }, [end, duration, startCounting]);
+  }, [end, duration, startCounting, isDecimal]);
   return count;
 };
 
 const MetricCard = ({ metric, startCounting, isLast }: { metric: Metric; startCounting: boolean; isLast: boolean }) => {
   const count = useCountUp(metric.value, 2000, startCounting);
   const isDecimal = metric.value % 1 !== 0;
+  const display = startCounting
+    ? `${isDecimal ? count.toFixed(1) : count.toLocaleString()}${metric.suffix}`
+    : formatFinal(metric);
   /* 5 columns only from 1280px so labels + numbers fit on one line; below that 1 or 2 cols */
   const borderClasses = !isLast
     ? 'border-b border-border min-[1280px]:border-b-0 sm:border-r border-border'
@@ -56,7 +67,7 @@ const MetricCard = ({ metric, startCounting, isLast }: { metric: Metric; startCo
         {metric.label}
       </p>
       <div className="font-heading text-2xl sm:text-3xl min-[1280px]:text-5xl 2xl:text-6xl font-semibold text-foreground tracking-tight tabular-nums">
-        {isDecimal ? count.toFixed(1) : count.toLocaleString()}{metric.suffix}
+        {display}
       </div>
     </div>
   );

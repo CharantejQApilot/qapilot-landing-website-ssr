@@ -27,13 +27,6 @@ export const metadata: Metadata = {
   title: "News & Updates - Mobile Testing Industry News",
   description:
     "Stay updated with the latest news, product updates, and industry insights from QApilot. Learn about new features, partnerships, and mobile testing trends.",
-  keywords: [
-    "QApilot news",
-    "mobile testing updates",
-    "QA automation news",
-    "product updates",
-    "testing industry news",
-  ],
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",

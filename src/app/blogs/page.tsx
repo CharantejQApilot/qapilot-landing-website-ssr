@@ -28,14 +28,6 @@ export const metadata: Metadata = {
   title: "Mobile Testing Blog - Tips, Guides & Best Practices",
   description:
     "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
-  keywords: [
-    "mobile testing blog",
-    "QA best practices",
-    "test automation tips",
-    "mobile app testing guides",
-    "iOS testing",
-    "Android testing",
-  ],
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",

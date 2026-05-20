@@ -184,7 +184,6 @@ export async function generateMetadata({
   return {
     title: `${typedJob.role} - ${typedJob.department}`,
     description,
-    keywords: `${typedJob.role}, ${typedJob.department}, QApilot careers, ${typedJob.location} jobs, ${getEmploymentTypeLabel(typedJob.employment_type)}`,
     alternates: {
       canonical: canonicalUrl,
     },

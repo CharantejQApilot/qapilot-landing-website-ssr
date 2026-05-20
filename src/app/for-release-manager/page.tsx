@@ -10,7 +10,7 @@ import { ForReleaseManagerSections } from "./ForReleaseManagerSections";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_RELEASE_MANAGER}`;
 
 export const metadata: Metadata = {
-  title: "Release Confidence for Release Managers | QApilot",
+  title: "Release Confidence for Release Managers",
   description:
     "Ship faster with clearer go / no-go decisions. QApilot reduces pre-launch uncertainty with faster validation, clearer quality signals, and scalable release readiness testing.",
   alternates: { canonical: canonicalUrl },

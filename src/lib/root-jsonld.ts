@@ -94,8 +94,14 @@ const softwareApplication = {
   },
 };
 
-/** Single graph: Organization + SoftwareApplication (with reviews), avoids duplicate SoftwareApplication scripts. */
+const webSite = {
+  "@type": "WebSite",
+  name: "QApilot",
+  url: SITE_BASE_URL,
+};
+
+/** Single graph: Organization + WebSite + SoftwareApplication (with reviews). */
 export const rootSchemaGraphJsonLd = {
   "@context": "https://schema.org",
-  "@graph": [organization, softwareApplication],
+  "@graph": [organization, webSite, softwareApplication],
 };

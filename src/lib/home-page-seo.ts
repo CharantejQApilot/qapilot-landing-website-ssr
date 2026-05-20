@@ -2,22 +2,21 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 
 /** Single source for home `metadata` + JSON-LD (avoid og:image vs schema drift). */
-export const HOME_PAGE_TITLE =
-  "QApilot - AI-Powered Mobile App Testing & QA Automation | iOS & Android";
+export const HOME_PAGE_TITLE = "QApilot — AI Mobile App Testing & QA Automation";
 
 export const HOME_PAGE_DESCRIPTION =
-  "Automate your mobile app testing with QApilot's AI-powered platform. Get instant test coverage for iOS & Android apps. Start testing in minutes, not hours. Try free today.";
+  "Automate mobile app testing with QApilot. AI-powered iOS and Android coverage in minutes. Start your free trial today.";
 
 export const HOME_PAGE_OG_TITLE =
-  "QApilot - AI-Powered Mobile App Testing & QA Automation";
+  "QApilot — AI Mobile App Testing & QA Automation";
 
 export const HOME_PAGE_OG_DESCRIPTION =
-  "Automate your mobile app testing with AI. Get instant test coverage for iOS & Android. Reduce testing time by 80%. Start free today.";
+  "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.";
 
-export const HOME_PAGE_TWITTER_TITLE = "QApilot - AI-Powered Mobile App Testing";
+export const HOME_PAGE_TWITTER_TITLE = "QApilot — AI Mobile App Testing";
 
 export const HOME_PAGE_TWITTER_DESCRIPTION =
-  "Automate mobile app testing with AI. Instant test coverage for iOS & Android. Start free today.";
+  "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.";
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
 

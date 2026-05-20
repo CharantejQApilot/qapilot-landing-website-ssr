@@ -9,7 +9,7 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.PARTNERS}`;
 
 export const metadata: Metadata = {
-  title: "Become a Partner | QApilot",
+  title: "Become a Partner",
   description:
     "Partner with QApilot: join consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
   alternates: { canonical: canonicalUrl },

@@ -10,7 +10,7 @@ import { ForQALeaderSections } from "./ForQALeaderSections";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`;
 
 export const metadata: Metadata = {
-  title: "Release Readiness for QE Leader | QApilot",
+  title: "Release Readiness for QE Leader",
   description:
     "Scale quality engineering without scaling complexity. Reduce test maintenance, improve release confidence, and expand mobile coverage with autonomous, AI-native testing.",
   alternates: { canonical: canonicalUrl },
