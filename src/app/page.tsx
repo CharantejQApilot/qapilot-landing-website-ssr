@@ -23,7 +23,7 @@ import {
 const canonicalUrl = `${SITE_BASE_URL}/`;
 
 export const metadata: Metadata = {
-  title: HOME_PAGE_TITLE,
+  title: { absolute: HOME_PAGE_TITLE },
   description: HOME_PAGE_DESCRIPTION,
   alternates: { canonical: canonicalUrl },
   openGraph: {

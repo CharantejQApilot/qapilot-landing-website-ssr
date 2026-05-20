@@ -122,12 +122,6 @@ export async function generateMetadata({
     firstNonEmptyString((blog as { seo_title?: unknown }).seo_title, blog.title) ??
     baseTitle;
 
-  const kw = commaSeparatedList((blog as { seo_keywords?: unknown }).seo_keywords);
-  const keywordsJoined =
-    kw.length > 0
-      ? kw.join(", ")
-      : "mobile app testing, QA automation, test automation, mobile testing best practices";
-
   const ogRaw = firstNonEmptyString(
     (blog as { og_image_url?: unknown }).og_image_url,
     blog.featured_image,
@@ -147,7 +141,6 @@ export async function generateMetadata({
     return {
       title: metaTitle,
       description,
-      keywords: keywordsJoined,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
       },

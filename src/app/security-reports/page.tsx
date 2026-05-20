@@ -19,7 +19,7 @@ const path = PATHS.SECURITY_REPORTS;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 export const metadata: Metadata = {
-  title: "Security Reports for Mobile Applications | QApilot",
+  title: "Security Reports for Mobile Applications",
   description:
     "Automated security insights alongside functional testing: permissions, network, storage, trackers, and release-ready risk visibility.",
   alternates: {

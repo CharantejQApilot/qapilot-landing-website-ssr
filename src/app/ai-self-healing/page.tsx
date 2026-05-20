@@ -20,7 +20,7 @@ const path = PATHS.AI_SELF_HEALING;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 export const metadata: Metadata = {
-  title: "AI Self-Healing Tests | QApilot",
+  title: "AI Self-Healing Tests",
   description:
     "Automatically recover from UI changes and keep mobile tests stable—multi-layer healing, real-time execution, approvals, and full report visibility.",
   alternates: {

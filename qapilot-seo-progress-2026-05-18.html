@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QApilot SEO — Progress Report (2026-05-18)</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.55; }
+  h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+  h2 { margin-top: 36px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3 { margin-top: 24px; color: #333; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+  th, td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f5f5f5; }
+  code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-size: 13px; }
+  ul, ol { margin: 8px 0 16px 24px; }
+  li { margin-bottom: 4px; }
+  .meta { color: #666; font-size: 14px; }
+  .summary { background: #fff8e1; padding: 12px 16px; border-left: 4px solid #f5a623; margin: 16px 0; }
+  .good { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 12px 16px; margin: 16px 0; }
+  .critical { background: #ffeaea; border-left: 4px solid #d0021b; padding: 12px 16px; margin: 16px 0; }
+  .footer-note { color: #666; font-size: 13px; margin-top: 32px; border-top: 1px solid #eee; padding-top: 16px; }
+  .status-pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-right: 6px; }
+  .status-fixed { background: #e8f5e9; color: #2e7d32; }
+  .status-open { background: #ffeaea; color: #c62828; }
+  .status-new { background: #e3f2fd; color: #1565c0; }
+</style>
+</head>
+<body>
+
+<h1>QApilot SEO — Progress Report</h1>
+<p class="meta">Site: qapilot.io · Re-audit date: 2026-05-18 · Baseline: 2026-05-13 (consolidated audit) · Elapsed: 5 days</p>
+
+<div class="summary">
+<strong>Bottom line:</strong> One critical fix shipped — <code>/for-flutter</code> metadata is restored. The other four criticals from the 2026-05-13 audit are still open. One net-new SEO landing page was launched (<code>/compare/qapilot-vs-web-first-automation-tools</code>), but it ships with four broken internal links. Editorial cadence on the blog remains strong. The Week-1 mechanical fixes from the original execution plan are mostly unshipped, which means the longer content sprint is being built on top of a still-broken foundation.
+</div>
+
+<h2>1. Fixed since last audit</h2>
+
+<div class="good">
+<span class="status-pill status-fixed">FIXED</span> <strong><code>/for-flutter</code> metadata block restored.</strong> Description, OG title, OG description, OG image, Twitter card, Twitter description, and canonical are now all present and correctly populated. This was the single highest-impact landing-page fix and it is done. Confidence: high.
+</div>
+
+<div class="good">
+<span class="status-pill status-new">SHIPPED</span> <strong>New <code>/compare/qapilot-vs-web-first-automation-tools</code> page is live.</strong> First page in the <code>/compare/*</code> namespace. Clear positioning, a clean comparison table, and the homepage hero CTA ("Your mobile app isn't a smaller browser screen") routes here. The page's title does <em>not</em> exhibit the duplicate-suffix bug — suggesting the title template was fixed for new pages but never re-applied to existing routes.
+</div>
+
+<div class="good">
+<span class="status-pill status-new">SHIPPED</span> <strong>Editorial cadence remains strong.</strong> Since 2026-05-04 the blog has added "Why Your Agent Passes Every Check But Still Fails in Production" (2026-05-05) and surfaces a "Trust as a Design Constraint" post in related-content blocks. The 3,500-word Flutter QA guide is still live and indexable.
+</div>
+
+<h2>2. Still outstanding — critical</h2>
+
+<div class="critical">
+<span class="status-pill status-open">STILL OPEN</span> <strong>Duplicate <code>| QApilot | QApilot</code> title suffix.</strong> Re-verified on:
+<ul>
+  <li><code>/for-flutter</code> → <code>Flutter Testing That Actually Works | QApilot | QApilot</code></li>
+  <li><code>/for-qa-leader</code> → <code>Release Readiness for QE Leader | QApilot | QApilot</code></li>
+  <li><code>/product/autonomous-testing</code> → <code>Autonomous Testing for Mobile Applications | QApilot | QApilot</code></li>
+</ul>
+The new <code>/compare</code> page renders cleanly, so the template was patched selectively. The remaining routes need a full rebuild or per-page title strings need their trailing <code>| QApilot</code> stripped.
+</div>
+
+<div class="critical">
+<span class="status-pill status-open">STILL OPEN</span> <strong><code>/faqs</code> is still a blank page.</strong> No title, no description, no body returned in the SSR HTML. Same failure mode as 2026-05-13. P0 for AI-assistant answer eligibility and Google rich results.
+</div>
+
+<div class="critical">
+<span class="status-pill status-open">STILL OPEN</span> <strong>Homepage stats counters still render <code>0K+</code> in the HTML.</strong> All five hero metrics (Test Steps Generated, Test Steps Recorded, Test Steps Executed, Critical Bugs Surfaced, Hours Saved) are <code>0K+ / 0K+ / 0.0Mn+ / 0+ / 0+</code>. Counter-up animation isn't pre-rendered, so Googlebot sees zeros.
+</div>
+
+<div class="critical">
+<span class="status-pill status-open">STILL OPEN</span> <strong>No JSON-LD detected on any sampled page.</strong> No <code>Organization</code>, <code>WebSite</code>, <code>SoftwareApplication</code>, <code>BreadcrumbList</code>, <code>Article</code>, or <code>FAQPage</code> markup. The Flutter blog post has seven Q&amp;As perfectly structured for <code>FAQPage</code> — still unused. Confidence: moderate (validate directly with the Rich Results Test).
+</div>
+
+<h2>3. Still outstanding — warnings</h2>
+
+<table>
+  <tr><th>Item</th><th>Status</th><th>Notes</th></tr>
+  <tr><td>Homepage title (target 50–60 chars)</td><td>Open</td><td>71 chars: "QApilot - AI-Powered Mobile App Testing &amp; QA Automation | iOS &amp; Android"</td></tr>
+  <tr><td>Homepage description (target ≤ 155 chars)</td><td>Open</td><td>~170 chars: "Automate your mobile app testing with QApilot's AI-powered platform…"</td></tr>
+  <tr><td>Homepage H1 typo</td><td>Open</td><td>"Mobile-first,Your Testing" — still missing space after comma</td></tr>
+  <tr><td><code>meta keywords</code> tag</td><td>Open</td><td>Still present sitewide with identical boilerplate string; leaks intent, no SEO value</td></tr>
+  <tr><td>2400px hotlinked Unsplash hero images</td><td>Open</td><td>Homepage, <code>/for-flutter</code>, <code>/product/autonomous-testing</code> — LCP risk, no alt</td></tr>
+  <tr><td><code>robots.txt</code> / <code>sitemap.xml</code> / <code>llms.txt</code></td><td>Not verified</td><td>Could not fetch in this run due to provenance restrictions in the scheduled-task sandbox — recommend a manual check</td></tr>
+</table>
+
+<h2>4. Content gaps — pages not yet built</h2>
+
+<table>
+  <tr><th>Page</th><th>Priority (per 2026-05-13)</th><th>Detected at qapilot.io?</th></tr>
+  <tr><td><code>/alternatives/sauce-labs</code></td><td>P0</td><td>No, not linked from footer or nav</td></tr>
+  <tr><td><code>/alternatives/browserstack</code></td><td>P0</td><td>No</td></tr>
+  <tr><td><code>/alternatives/appium</code></td><td>P0</td><td>No</td></tr>
+  <tr><td><code>/for-ios</code></td><td>P0</td><td>No</td></tr>
+  <tr><td><code>/for-android</code></td><td>P0</td><td>No</td></tr>
+  <tr><td><code>/for-react-native</code></td><td>P0</td><td>No</td></tr>
+  <tr><td><code>/integrations/jira</code> (and others)</td><td>P0</td><td>No — homepage still uses the logo carousel only</td></tr>
+  <tr><td><code>/compare/qapilot-vs-testsigma</code></td><td>P1</td><td>No</td></tr>
+  <tr><td><code>/compare/qapilot-vs-maestro</code></td><td>P1</td><td>No</td></tr>
+  <tr><td><code>/compare/qapilot-vs-web-first-automation-tools</code></td><td>—</td><td><strong>Yes — net new</strong></td></tr>
+</table>
+
+<h2>5. New issues found</h2>
+
+<div class="critical">
+<strong>Broken internal links on the new <code>/compare/qapilot-vs-web-first-automation-tools</code> page.</strong> The "Explore related capabilities" block points to four paths that do not exist:
+<ul>
+  <li><code>/platform/autonomous-testing</code> — actual path is <code>/product/autonomous-testing</code></li>
+  <li><code>/platform/ai-self-healing</code> — actual path is <code>/ai-self-healing</code></li>
+  <li><code>/platform/intelligent-bug-detection</code> — actual path is <code>/product/intelligent-bug-detection</code></li>
+  <li><code>/solutions/flutter-testing</code> — actual path is <code>/for-flutter</code></li>
+</ul>
+Four broken links on the only fresh SEO landing page is a self-inflicted wound. Fix this week.
+</div>
+
+<ul>
+  <li><strong>Title-template fix is partial.</strong> New pages render correctly; existing pages still carry the duplicate suffix. Either a stale build is serving old pages, or per-page title strings on older routes were never edited. Verify Next.js is rebuilding every route, not just new ones.</li>
+  <li><strong><code>og:type</code> missing on <code>/for-flutter</code>.</strong> Other role pages declare <code>og:type: website</code>; the Flutter page omits it. Template inconsistency.</li>
+  <li><strong><code>meta keywords</code> on <code>/for-flutter</code> is still the generic homepage keyword string</strong> rather than Flutter-specific terms. Either remove keywords entirely (recommended) or differentiate per page.</li>
+</ul>
+
+<h2>6. Suggested focus for next 30 days (through 2026-06-17)</h2>
+
+<ol>
+  <li><strong>Ship the title-template fix to every existing route.</strong> One config change plus a full rebuild. It should have shipped on day one. Every sub-page is currently wasting CTR.</li>
+  <li><strong>Fix <code>/faqs</code>.</strong> Pre-render the content or replace with a static fallback. P0 for AI-assistant eligibility.</li>
+  <li><strong>Pre-render the homepage stats numbers.</strong> Replace <code>0K+</code> defaults with the actual figures in the SSR output — single-component change.</li>
+  <li><strong>Patch the four broken internal links</strong> on <code>/compare/qapilot-vs-web-first-automation-tools</code>.</li>
+  <li><strong>Paste <code>Organization</code> + <code>WebSite</code> JSON-LD into the root layout.</strong> The blocks were delivered in <code>qapilot-seo-followup-2026-05-13.md</code>. Validate at <code>search.google.com/test/rich-results</code> before deploy.</li>
+  <li><strong>Build <code>/alternatives/sauce-labs</code> and <code>/alternatives/browserstack</code>.</strong> Highest-intent commercial queries in the category — the two most likely to convert RFP shortlist appearances within a quarter.</li>
+  <li><strong>Clone the Flutter landing into <code>/for-ios</code> and <code>/for-android</code>.</strong> Template exists; copy is the only blocker.</li>
+  <li><strong>Remove the <code>meta keywords</code> tag sitewide.</strong></li>
+</ol>
+
+<div class="summary">
+<strong>Verdict on 30-day delta:</strong> modest. One important fix (Flutter metadata) and one net-new asset (a compare page) — but the Week-1 mechanical fixes from the original execution order remain mostly unshipped. Close the Week-1 list as this sprint's primary priority before any further content investment.
+</div>
+
+<p class="footer-note">
+Audited pages this run: <code>qapilot.io</code> (homepage), <code>/for-flutter</code>, <code>/faqs</code>, <code>/product/autonomous-testing</code>, <code>/for-qa-leader</code>, <code>/blogs</code>, <code>/blogs/flutter-app-testing-guide-cross-platform-mobile-teams</code>, <code>/compare/qapilot-vs-web-first-automation-tools</code>.<br>
+Pages confirmed missing from site graph: <code>/alternatives/sauce-labs</code>, <code>/alternatives/browserstack</code>, <code>/alternatives/appium</code>, <code>/for-ios</code>, <code>/for-android</code>, <code>/for-react-native</code>, <code>/integrations/jira</code>.<br>
+Not directly verified: <code>/robots.txt</code>, <code>/sitemap.xml</code>, <code>/llms.txt</code> — recommend a manual fetch before the next audit.<br>
+Companion files: <code>qapilot-seo-consolidated-2026-05-13.html</code>, <code>qapilot-seo-audit-2026-05-13.md</code>, <code>qapilot-seo-followup-2026-05-13.md</code>, <code>qapilot-competitor-analysis-2026-05-13.md</code>.
+</p>
+
+</body>
+</html>

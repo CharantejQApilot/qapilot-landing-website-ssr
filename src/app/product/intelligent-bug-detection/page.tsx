@@ -16,7 +16,7 @@ const path = PATHS.INTELLIGENT_BUG_DETECTION;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 export const metadata: Metadata = {
-  title: "Intelligent Bug Detection for Mobile Applications | QApilot",
+  title: "Intelligent Bug Detection for Mobile Applications",
   description:
     "Go beyond pass or fail. QApilot detects accessibility, latency, and load issues during execution—mapped to exact screens with evidence, severity, and fix guidance.",
   alternates: {

@@ -18,27 +18,11 @@ const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
 export const metadata: Metadata = {
   metadataBase: new URL("https://qapilot.io"),
   title: {
-    default: "QApilot - AI-Powered Mobile App Testing & QA Automation | iOS & Android",
+    default: "QApilot — AI Mobile App Testing & QA Automation",
     template: "%s | QApilot",
   },
   description:
-    "Automate your mobile app testing with QApilot's AI-powered platform. Get instant test coverage for iOS & Android apps. Start testing in minutes, not hours. Try free today.",
-  keywords: [
-    "mobile app testing",
-    "automated testing",
-    "QA automation",
-    "iOS testing",
-    "Android testing",
-    "test automation platform",
-    "mobile testing tools",
-    "automated QA",
-    "quality assurance",
-    "continuous integration",
-    "test coverage",
-    "regression testing",
-    "app quality",
-    "mobile CI/CD",
-  ],
+    "Automate mobile app testing with QApilot. AI-powered iOS and Android coverage in minutes. Start your free trial today.",
   authors: [{ name: "QApilot" }],
   robots: {
     index: true,
@@ -54,9 +38,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE_BASE_URL,
-    title: "QApilot - AI-Powered Mobile App Testing & QA Automation",
+    title: "QApilot — AI Mobile App Testing & QA Automation",
     description:
-      "Automate your mobile app testing with AI. Get instant test coverage for iOS & Android. Reduce testing time by 80%. Start free today.",
+      "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.",
     images: [defaultOpenGraphImage],
     siteName: "QApilot",
     locale: "en_US",
@@ -65,9 +49,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@QApilot",
     creator: "@QApilot",
-    title: "QApilot - AI-Powered Mobile App Testing",
+    title: "QApilot — AI Mobile App Testing",
     description:
-      "Automate mobile app testing with AI. Instant test coverage for iOS & Android. Start free today.",
+      "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.",
     images: [
       {
         url: defaultOpenGraphImage.url,

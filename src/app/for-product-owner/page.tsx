@@ -10,7 +10,7 @@ import { ForProductOwnerSections } from "./ForProductOwnerSections";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_PRODUCT_OWNER}`;
 
 export const metadata: Metadata = {
-  title: "Faster Releases for Product Managers | QApilot",
+  title: "Faster Releases for Product Managers",
   description:
     "Launch with confidence and fewer post-release surprises. Improve release readiness, shorten validation cycles, and surface mobile issues before users do.",
   alternates: { canonical: canonicalUrl },

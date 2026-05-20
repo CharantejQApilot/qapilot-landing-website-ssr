@@ -10,7 +10,7 @@ import { ForSRESections } from "./ForSRESections";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_SRE}`;
 
 export const metadata: Metadata = {
-  title: "Release Reliability for SRE Teams | QApilot",
+  title: "Release Reliability for SRE Teams",
   description:
     "Reduce production risk before it reaches users. Surface mobile quality risks early, strengthen pre-release signals, and cut incidents from bad launches.",
   alternates: { canonical: canonicalUrl },

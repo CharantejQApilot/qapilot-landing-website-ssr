@@ -16,13 +16,14 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_FLUTTER}`;
 
 export const metadata: Metadata = {
-  title: "Flutter Testing That Actually Works | QApilot",
+  title: "Flutter Testing That Actually Works",
   description:
     "QApilot runs Flutter, native, and webview in one flow—AI element discovery, low-maintenance tests, and release-ready coverage on real devices.",
   alternates: {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: "Flutter Testing That Actually Works | QApilot",
     description:
       "Built for real apps, devices, and complexity. Cross-context execution, AI discovery, and autonomous risk detection.",
