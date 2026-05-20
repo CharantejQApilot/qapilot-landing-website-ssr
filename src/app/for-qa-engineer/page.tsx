@@ -10,7 +10,7 @@ import { ForQAEngineerSections } from "./ForQAEngineerSections";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_QA_ENGINEER}`;
 
 export const metadata: Metadata = {
-  title: "Better Testing for Quality Assurance Engineers | QApilot",
+  title: "Better Testing for Quality Assurance Engineers",
   description:
     "Spend less time maintaining tests and more time improving quality. Create coverage faster, debug quicker, and reduce brittle mobile automation with QApilot.",
   alternates: { canonical: canonicalUrl },

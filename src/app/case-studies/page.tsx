@@ -28,13 +28,6 @@ export const metadata: Metadata = {
   title: "Case Studies - Customer Stories & Outcomes",
   description:
     "Real-world results from teams using QApilot to ship faster with fewer regressions. Customer stories, outcomes, and lessons from mobile QA programs.",
-  keywords: [
-    "QApilot case studies",
-    "mobile testing case studies",
-    "QA automation customer stories",
-    "test automation results",
-    "mobile app testing outcomes",
-  ],
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",

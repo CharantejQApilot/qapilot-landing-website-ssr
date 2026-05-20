@@ -16,15 +16,6 @@ export const metadata: Metadata = {
   title: "Mobile Testing Platform for Release Readiness",
   description:
     "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one integrated system.",
-  keywords: [
-    "mobile testing platform",
-    "release readiness",
-    "autonomous mobile testing",
-    "Flutter testing",
-    "mobile QA platform",
-    "test stability",
-    "mobile security testing",
-  ],
   alternates: {
     canonical: canonicalUrl,
   },

@@ -124,14 +124,6 @@ export async function generateMetadata({
       caseStudy.title,
     ) ?? baseTitle;
 
-  const kw = commaSeparatedList(
-    (caseStudy as { seo_keywords?: unknown }).seo_keywords,
-  );
-  const keywordsJoined =
-    kw.length > 0
-      ? kw.join(", ")
-      : "QApilot case study, mobile testing case study, QA automation outcomes";
-
   const ogRaw = firstNonEmptyString(
     (caseStudy as { og_image_url?: unknown }).og_image_url,
     caseStudy.featured_image,
@@ -153,7 +145,6 @@ export async function generateMetadata({
     return {
       title: metaTitle,
       description,
-      keywords: keywordsJoined,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${caseStudy.slug}`,
       },

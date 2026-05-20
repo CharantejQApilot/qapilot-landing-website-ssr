@@ -18,8 +18,6 @@ export const metadata: Metadata = {
   title: "Careers - Join the QApilot Team",
   description:
     "Join the QApilot team. Help shape what quality looks like in an AI-first world. Explore career opportunities in AI-powered quality assurance.",
-  keywords:
-    "QApilot careers, QA automation jobs, AI testing jobs, software testing careers",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",

@@ -151,12 +151,6 @@ export async function generateMetadata({
   const ogAbsolute = absoluteUrlForOpenGraph(ogImage) ?? DEFAULT_SHARE_IMAGE_URL;
   const publishedTime = normalizeArticlePublishedTime(newsItem.published_date);
 
-  const kw = commaSeparatedList(newsItem.seo_keywords);
-  const keywordsJoined =
-    kw.length > 0
-      ? kw.join(", ")
-      : "QApilot news, mobile testing updates, QA automation news";
-
   /**
    * Avoid fixed width/height on arbitrary CMS image URLs: Next can probe remote
    * images during metadata resolution; very large PNGs (e.g. multi‑MB S3 assets)
@@ -166,7 +160,6 @@ export async function generateMetadata({
     return {
       title: metaTitle,
       description,
-      keywords: keywordsJoined,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
       },

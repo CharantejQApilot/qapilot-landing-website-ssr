@@ -15,7 +15,7 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AUTONOMOUS_TESTING}`;
 
 export const metadata: Metadata = {
-  title: "Autonomous Testing for Mobile Applications | QApilot",
+  title: "Autonomous Testing for Mobile Applications",
   description:
     "Define autonomous testing for mobile: system-discovered journeys, adaptive coverage, and release readiness. See how QApilot operates beyond scripts and record-and-playback.",
   alternates: {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
-import FAQsClient from "./FAQsClient";
+import FAQsList from "./FAQsList";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import { asString } from "@/lib/cms-values";
+import { FALLBACK_FAQS } from "@/lib/faqs-fallback";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.FAQS}`;
 
@@ -18,8 +19,6 @@ export const metadata: Metadata = {
   title: "FAQs - Frequently Asked Questions",
   description:
     "Find answers to frequently asked questions about QApilot's AI-powered testing platform, features, pricing, and support.",
-  keywords:
-    "QApilot FAQ, automated testing questions, AI testing FAQ, QA automation help",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",
@@ -59,37 +58,35 @@ export default async function FAQsPage() {
         .order("display_order", { ascending: true })
     : { data: null as null };
 
-  const faqsRaw = (data as FAQ[] | null) ?? [];
-  const faqs = faqsRaw.map((faq) => ({
-    ...faq,
+  const cmsFaqs = (data as FAQ[] | null) ?? [];
+  const sourceFaqs = cmsFaqs.length > 0 ? cmsFaqs : FALLBACK_FAQS;
+
+  const faqs = sourceFaqs.map((faq) => ({
+    id: faq.id,
+    question: faq.question,
+    category: faq.category,
     answerHtml: sanitizeRichText(asString(faq.answer), "html"),
   }));
 
-  const faqStructuredData =
-    faqsRaw.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqsRaw.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: asString(faq.answer).replace(/<[^>]*>/g, ""),
-            },
-          })),
-        }
-      : null;
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: sourceFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: asString(faq.answer).replace(/<[^>]*>/g, ""),
+      },
+    })),
+  };
 
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
     { name: "FAQs", path: PATHS.FAQS },
   ]);
 
-  const structuredData = [
-    breadcrumbData,
-    ...(faqStructuredData ? [faqStructuredData] : []),
-  ];
+  const structuredData = [breadcrumbData, faqStructuredData];
 
   return (
     <>
@@ -108,7 +105,7 @@ export default async function FAQsPage() {
               </h1>
             </header>
 
-            <FAQsClient faqs={faqs} />
+            <FAQsList faqs={faqs} />
           </div>
         </main>
         <Footer />

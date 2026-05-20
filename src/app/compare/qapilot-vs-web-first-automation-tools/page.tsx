@@ -75,18 +75,6 @@ export const metadata: Metadata = {
   title: "QApilot vs Web-First Automation Tools | Mobile-First App Testing",
   description:
     "Web-first automation tools were built for browsers, then extended to mobile. QApilot is built mobile-first, helping teams test native, hybrid, and Flutter apps with better coverage, lower maintenance, and faster release confidence.",
-  keywords: [
-    "QApilot vs web-first automation tools",
-    "mobile-first testing",
-    "mobile app test automation",
-    "mobile automation testing",
-    "web-first testing tools",
-    "mobile app release readiness",
-    "AI-native mobile testing",
-    "Flutter testing automation",
-    "self-healing mobile tests",
-    "mobile test automation platform",
-  ],
   alternates: {
     canonical: canonicalUrl,
   },
@@ -306,19 +294,19 @@ export default function QApilotVsWebFirstComparisonPage() {
 
             <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">
               Explore related capabilities:{" "}
-              <Link href="/platform/autonomous-testing" className="text-primary hover:underline">
+              <Link href={PATHS.AUTONOMOUS_TESTING} className="text-primary hover:underline">
                 autonomous testing
               </Link>
               ,{" "}
-              <Link href="/platform/ai-self-healing" className="text-primary hover:underline">
+              <Link href={PATHS.AI_SELF_HEALING} className="text-primary hover:underline">
                 AI self-healing
               </Link>
               ,{" "}
-              <Link href="/platform/intelligent-bug-detection" className="text-primary hover:underline">
+              <Link href={PATHS.INTELLIGENT_BUG_DETECTION} className="text-primary hover:underline">
                 intelligent bug detection
               </Link>
               , and{" "}
-              <Link href="/solutions/flutter-testing" className="text-primary hover:underline">
+              <Link href={PATHS.FOR_FLUTTER} className="text-primary hover:underline">
                 Flutter testing automation
               </Link>
               .
