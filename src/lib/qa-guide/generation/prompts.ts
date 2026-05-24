@@ -45,13 +45,13 @@ Output **ONLY** one strict JSON object — no preamble, no markdown fences, no c
 
 # CRITICAL RULES (violate any → set quality_checks.overall_recommendation to "DISCARD")
 
-1. **Length:** \`content_markdown\` must be **1,500–2,000 words** (target ~1,750). Count before returning; stay within band — dense and practical, not padded.
+1. **Length:** \`content_markdown\` must be **2,200–2,800 words** (target ~2,500). Count before returning. If under 2,200, add another H2 with a detailed mobile scenario — never pad with filler.
 2. **Mobile-only focus:** Every section must serve **mobile app** teams (iOS, Android, Flutter/React Native mobile, store releases, on-device testing). Do not drift into generic backend, web E2E, or desktop QA unless directly comparing to mobile.
 3. **Structure:** **5–8 H2 sections** before FAQ, plus a **FAQ** (4–5 H3 questions) and a **closing bridge H2** that mentions QApilot in the title. Include at least one **H3** subsection under a major H2.
 4. **QApilot grounding:** Read ALL provided QApilot site excerpts. Weave **verified** product capabilities in **at least 2 sections** (including the bridge). In \`quality_checks.qapilot_grounding\`, quote 3–5 short phrases from the site text you relied on.
 5. **Closing bridge:** Final H2 ties the topic to QApilot using **only** excerpt-verified capabilities. **120–220 words.** Title must include "QApilot". May include 1 of your 2–3 internal links here.
 6. **Internal links (2–3 total):** Embed **2 or 3** inline markdown links to qapilot.io URLs from the candidate list (spread across the article; descriptive anchors). List them in \`internal_link_suggestions\` (same URLs). Do not exceed 3.
-7. **External links (2–3 total):** Embed **2 or 3** inline markdown links to **authoritative non-qapilot.io** resources highly relevant to the topic — e.g. Apple/Android developer docs, official tool docs (Appium, Maestro, XCTest, Espresso), OWASP Mobile, store guidelines. No competitor homepages, no affiliate spam, no broken-looking URLs. List in \`external_link_suggestions\`. Do not exceed 3.
+7. **External links (2–3 total, REQUIRED in body):** You MUST include **2 or 3** inline markdown links in \`content_markdown\` using this exact format: \`[anchor text](https://full-url)\`. Use **authoritative** non-qapilot.io URLs (Apple/Android developer docs, Appium, Maestro, XCTest, Espresso, OWASP Mobile, Flutter testing docs). Also populate \`external_link_suggestions\` with the same URLs. Plain URLs without markdown brackets do NOT count. Example: \`See [Apple's TestFlight guide](https://developer.apple.com/testflight/) for beta distribution.\`
 8. **Information gain:** Include **≥2** of: (a) named mobile-QA methodology/framework you define, (b) worked mobile release example with numbers/timeline, (c) comparison table of mobile approaches/tools, (d) decision matrix. List in \`quality_checks.information_gain\`.
 9. **Structured elements:** At least **two** of: comparison table (≥3×3), numbered process (≥5 steps), action checklist (≥6 items with verbs), risk matrix. List in \`quality_checks.structured_elements\`.
 10. **Mobile specificity:** Use **≥6** distinct mobile-app-testing terms (TestFlight, Play Console, XCTest, Espresso, Appium, Detox, Maestro, device farm, flaky test, regression on builds, ANR, etc.). List in \`quality_checks.mobile_specificity\`.
@@ -158,5 +158,13 @@ ${BANNED_PHRASES_PROMPT_LIST}
 
 # TASK
 
-Write the full article as one JSON object per the system prompt. Target **1,500–2,000 words** in content_markdown. Every section must be about **mobile app testing**. Include **2–3** qapilot.io internal links and **2–3** external authoritative links. Output only JSON.`;
+# EXTERNAL LINK EXAMPLES (use 2–3 like these IN the article body)
+
+- [Apple TestFlight](https://developer.apple.com/testflight/)
+- [Android testing fundamentals](https://developer.android.com/training/testing)
+- [Appium documentation](https://appium.io/docs/en/latest/)
+
+# TASK
+
+Write the full article as one JSON object per the system prompt. Target **2,200–2,800 words**. Every section must be about **mobile app testing**. You MUST include **2–3** \`[anchor](https://...)\` links to qapilot.io AND **2–3** to external authoritative sites inside \`content_markdown\`. Output only JSON.`;
 }
