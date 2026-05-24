@@ -4,7 +4,10 @@ import { createDraftQaGuide } from "@/lib/qa-guide/create-draft";
 import { slugifyTitle } from "@/lib/qa-guide/cms-api";
 import { uploadQaGuideCover } from "@/lib/qa-guide/upload-cover";
 import { fetchCompetitorText } from "@/lib/qa-guide/generation/fetch-competitors";
-import { fetchQapilotSiteContext } from "@/lib/qa-guide/generation/fetch-site-context";
+import {
+  fetchQapilotSiteContext,
+  formatBrandPagesForPrompt,
+} from "@/lib/qa-guide/generation/fetch-site-context";
 import { generateArticle, getOpenAITextModel } from "@/lib/qa-guide/generation/generate-article";
 import { generateCoverImagePng } from "@/lib/qa-guide/generation/generate-cover";
 import {
@@ -52,11 +55,11 @@ export async function runGenerationPipeline(
       }
     }
 
-    const ctx = await fetchQapilotSiteContext();
+    const ctx = await fetchQapilotSiteContext(item.topic_cluster);
     await appendQueueLog(
       supabase,
       queueId,
-      `site context: ${ctx.homepage_text.length} chars homepage, ${ctx.internal_link_candidates.length} internal URLs`,
+      `site context: homepage ${ctx.homepage_text.length} chars, ${ctx.brand_pages.length} product pages, ${ctx.peer_guide_excerpts.length} peer guides, ${ctx.internal_link_candidates.length} link candidates`,
     );
 
     const runId = new Date().toISOString().slice(0, 10);
@@ -68,8 +71,11 @@ export async function runGenerationPipeline(
       intent: item.intent,
       secondary_keywords: item.secondary_keywords ?? [],
       target_audience: item.target_audience,
+      editorial_notes: item.notes,
       competitor_texts: competitorTexts,
       qapilot_homepage: ctx.homepage_text,
+      qapilot_brand_pages: formatBrandPagesForPrompt(ctx.brand_pages),
+      qapilot_peer_guides: formatBrandPagesForPrompt(ctx.peer_guide_excerpts),
       qapilot_internal_urls: ctx.internal_link_candidates,
       run_id: runId,
     });
@@ -120,6 +126,7 @@ export async function runGenerationPipeline(
         model: getOpenAITextModel(),
         provider: "openai",
         competitor_urls: competitorUrls,
+        external_link_suggestions: article.external_link_suggestions ?? [],
       },
     });
 

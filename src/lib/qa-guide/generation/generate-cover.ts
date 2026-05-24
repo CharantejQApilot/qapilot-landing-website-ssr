@@ -19,6 +19,8 @@ export async function generateCoverImagePng(prompt: string): Promise<Uint8Array>
     );
   }
 
+  const coverPrompt = `${prompt.trim()} Style: professional editorial hero image for a mobile QA engineering blog on qapilot.io. Modern, clean, no logos, no text overlays, no stock-photo clichés.`;
+
   const res = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: {
@@ -27,7 +29,7 @@ export async function generateCoverImagePng(prompt: string): Promise<Uint8Array>
     },
     body: JSON.stringify({
       model,
-      prompt,
+      prompt: coverPrompt,
       n: 1,
       size: model === "dall-e-3" ? "1792x1024" : "1024x1024",
       response_format: "b64_json",

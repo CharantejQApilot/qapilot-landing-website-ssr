@@ -4,13 +4,35 @@ const USER_AGENT = "qapilot-content-automation/1.0 (+https://qapilot.io)";
 
 const INTERNAL_PATH_PREFIXES = ["/qa-guide/", "/blogs/", "/product/", "/case-studies/", "/news/"];
 
+/** Marketing/product pages scraped for grounded QApilot copy (path only). */
+const BRAND_CONTEXT_PATHS = [
+  "/",
+  "/product",
+  "/product/autonomous-testing",
+  "/product/intelligent-bug-detection",
+  "/for-flutter",
+] as const;
+
+const MAX_HOME_CHARS = 10_000;
+const MAX_BRAND_PAGE_CHARS = 6_000;
+const MAX_PEER_GUIDE_CHARS = 4_000;
+const MAX_PEER_GUIDES = 2;
+
+export type BrandPageExcerpt = {
+  url: string;
+  path: string;
+  text: string;
+};
+
 export type QapilotSiteContext = {
   homepage_text: string;
+  brand_pages: BrandPageExcerpt[];
+  peer_guide_excerpts: BrandPageExcerpt[];
   internal_link_candidates: string[];
   warnings: string[];
 };
 
-function stripHtmlToText(html: string, maxLen = 8000): string {
+function stripHtmlToText(html: string, maxLen: number): string {
   let cleaned = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
   cleaned = cleaned.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
   const text = cleaned.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -52,18 +74,52 @@ async function fetchText(url: string): Promise<string | null> {
   }
 }
 
-export async function fetchQapilotSiteContext(): Promise<QapilotSiteContext> {
+async function fetchPageExcerpt(
+  path: string,
+  maxChars: number,
+): Promise<BrandPageExcerpt | null> {
+  const normalizedPath = path === "/" ? "/" : path.replace(/\/$/, "");
+  const url =
+    normalizedPath === "/"
+      ? `${SITE_BASE_URL}/`
+      : `${SITE_BASE_URL}${normalizedPath.startsWith("/") ? normalizedPath : `/${normalizedPath}`}`;
+
+  const html = await fetchText(url);
+  if (!html) return null;
+
+  const text = stripHtmlToText(html, maxChars);
+  if (!text) return null;
+
+  return { url, path: normalizedPath, text };
+}
+
+export async function fetchQapilotSiteContext(
+  topicCluster?: string,
+): Promise<QapilotSiteContext> {
   const out: QapilotSiteContext = {
     homepage_text: "",
+    brand_pages: [],
+    peer_guide_excerpts: [],
     internal_link_candidates: [],
     warnings: [],
   };
 
-  const homepageHtml = await fetchText(SITE_BASE_URL);
-  if (homepageHtml) {
-    out.homepage_text = stripHtmlToText(homepageHtml);
+  const homepage = await fetchPageExcerpt("/", MAX_HOME_CHARS);
+  if (homepage) {
+    out.homepage_text = homepage.text;
+    if (homepage.path !== "/") {
+      out.brand_pages.push(homepage);
+    }
   } else {
     out.warnings.push("homepage fetch failed");
+  }
+
+  const brandFetches = BRAND_CONTEXT_PATHS.filter((p) => p !== "/").map((path) =>
+    fetchPageExcerpt(path, MAX_BRAND_PAGE_CHARS),
+  );
+  const brandResults = await Promise.all(brandFetches);
+  for (const page of brandResults) {
+    if (page) out.brand_pages.push(page);
   }
 
   const indexXml = await fetchText(`${SITE_BASE_URL}/sitemap-index.xml`);
@@ -97,7 +153,9 @@ export async function fetchQapilotSiteContext(): Promise<QapilotSiteContext> {
       while ((m = hrefRe.exec(hubHtml)) !== null) {
         const href = m[1];
         if (!href) continue;
-        const full = href.startsWith("http") ? href : `${SITE_BASE_URL}${href.startsWith("/") ? "" : "/"}${href}`;
+        const full = href.startsWith("http")
+          ? href
+          : `${SITE_BASE_URL}${href.startsWith("/") ? "" : "/"}${href}`;
         if (isInternalCandidate(full) && !seen.has(full)) {
           seen.add(full);
           out.internal_link_candidates.push(full);
@@ -105,6 +163,26 @@ export async function fetchQapilotSiteContext(): Promise<QapilotSiteContext> {
       }
     } else {
       out.warnings.push("qa-guide hub fallback failed");
+    }
+  }
+
+  const clusterSlug = topicCluster?.trim();
+  const peerCandidates = clusterSlug
+    ? out.internal_link_candidates.filter((u) =>
+        u.includes(`/qa-guide/${clusterSlug}/`),
+      )
+    : out.internal_link_candidates.filter((u) => u.includes("/qa-guide/"));
+
+  for (const peerUrl of peerCandidates.slice(0, MAX_PEER_GUIDES)) {
+    const html = await fetchText(peerUrl);
+    if (!html) continue;
+    const text = stripHtmlToText(html, MAX_PEER_GUIDE_CHARS);
+    if (!text) continue;
+    try {
+      const path = new URL(peerUrl).pathname;
+      out.peer_guide_excerpts.push({ url: peerUrl, path, text });
+    } catch {
+      out.peer_guide_excerpts.push({ url: peerUrl, path: peerUrl, text });
     }
   }
 
@@ -118,4 +196,14 @@ export function normalizeLinkPath(url: string): string {
   } catch {
     return url.replace("https://qapilot.io", "").replace(/\/$/, "") || "/";
   }
+}
+
+export function formatBrandPagesForPrompt(pages: BrandPageExcerpt[]): string {
+  if (pages.length === 0) return "(no additional product pages fetched)";
+  return pages
+    .map(
+      (p, i) =>
+        `### Page ${i + 1}: ${p.url}\n${p.text}`,
+    )
+    .join("\n\n");
 }
