@@ -52,3 +52,7 @@ Set `QA_GUIDE_GENERATION_SECRET` and `SITE_BASE_URL` on the Supabase `qa-guide-g
 Table: `qa_guide_generation_queue` (see `supabase/migrations/20260524120000_qa_guide_generation_queue.sql`).
 
 Legacy automation: `POST /api/posts` + `CMS_API_TOKEN` (see `contentpipeline/`).
+
+## Security
+
+If a Gemini API key was ever committed (e.g. in `claudeplan/README.md`), **rotate it** in [Google AI Studio](https://aistudio.google.com/apikey), revoke the old key, and set the new value only in `.env.local` / Vercel secrets. If the key was pushed to GitHub, resolve the GitGuardian incident and consider rewriting history or accepting the leak is mitigated by rotation.

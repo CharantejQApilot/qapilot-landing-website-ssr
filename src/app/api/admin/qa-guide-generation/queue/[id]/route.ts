@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServiceSupabaseClient } from "@/integrations/supabase/service";
+import { createAdminSupabaseClient } from "@/lib/admin/create-admin-supabase";
 import { requireAdminRequest } from "@/lib/admin/require-admin-request";
 import {
   parseSecondaryKeywords,
@@ -15,9 +15,12 @@ export async function GET(request: NextRequest, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const supabase = createServiceSupabaseClient();
+  const supabase = createAdminSupabaseClient(request);
   if (!supabase) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { error: "Supabase not configured. Set SUPABASE_SERVICE_ROLE_KEY or sign in as admin." },
+      { status: 503 },
+    );
   }
 
   const { data, error } = await supabase
@@ -41,9 +44,12 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const supabase = createServiceSupabaseClient();
+  const supabase = createAdminSupabaseClient(request);
   if (!supabase) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { error: "Supabase not configured. Set SUPABASE_SERVICE_ROLE_KEY or sign in as admin." },
+      { status: 503 },
+    );
   }
 
   const { data: existing } = await supabase
@@ -110,9 +116,12 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const supabase = createServiceSupabaseClient();
+  const supabase = createAdminSupabaseClient(request);
   if (!supabase) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { error: "Supabase not configured. Set SUPABASE_SERVICE_ROLE_KEY or sign in as admin." },
+      { status: 503 },
+    );
   }
 
   const hard = request.nextUrl.searchParams.get("hard") === "true";

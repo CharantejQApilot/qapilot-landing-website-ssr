@@ -74,9 +74,9 @@ The pipeline runs as a **background job** triggered by `POST /admin/api/content-
 Add to your CMS env:
 
 ```
-ANTHROPIC_API_KEY=sk-ant-...          # from console.anthropic.com
+ANTHROPIC_API_KEY=sk-ant-...          # from console.anthropic.com (optional if using Gemini for text)
 ANTHROPIC_MODEL=claude-sonnet-4-6
-GEMINI_API_KEY=AIzaSyDZ944AQPFFP17uuJExHw6sUuoBbuTBVw4
+GEMINI_API_KEY=your-key-from-google-ai-studio
 GEMINI_IMAGE_MODEL=gemini-3-pro-image-preview
 ```
 
