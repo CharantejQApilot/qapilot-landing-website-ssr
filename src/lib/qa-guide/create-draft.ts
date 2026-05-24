@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, Json } from "@/integrations/supabase/types";
 import { seoKeywordsFromPayload, slugifyTitle, tagsFromPayload } from "@/lib/qa-guide/cms-api";
+import { prefillQaGuidePublishFields } from "@/lib/qa-guide/publish-prefill";
 import { buildDraftInsertFields } from "@/lib/qa-guide/promote";
 
 type QaGuideInsert = Database["public"]["Tables"]["qa_guides"]["Insert"];
@@ -46,13 +47,22 @@ export async function createDraftQaGuide(
   const seo = input.seo ?? {};
   const draftFields = buildDraftInsertFields(slug, topicCluster);
   const content = input.content_markdown ?? input.content_html ?? "";
+  const excerpt =
+    input.excerpt?.trim() ?? seo.meta_description?.trim() ?? null;
+  const publishFields = prefillQaGuidePublishFields({
+    title,
+    excerpt,
+    seo_title: seo.meta_title,
+    seo_description: seo.meta_description,
+    content,
+  });
 
   const row: QaGuideInsert = {
     title,
     slug,
     topic_cluster: topicCluster,
     intent: input.intent?.trim() ?? null,
-    excerpt: input.excerpt?.trim() ?? seo.meta_description?.trim() ?? null,
+    excerpt: excerpt ?? publishFields.seo_description,
     content,
     content_format: input.content_markdown ? "markdown" : "html",
     featured_image: input.cover_image_url?.trim() ?? null,
@@ -63,8 +73,8 @@ export async function createDraftQaGuide(
     url_path: draftFields.url_path,
     meta_robots: draftFields.meta_robots,
     published_date: draftFields.published_date ?? undefined,
-    seo_title: seo.meta_title?.trim() ?? title,
-    seo_description: seo.meta_description?.trim() ?? null,
+    seo_title: publishFields.seo_title,
+    seo_description: publishFields.seo_description,
     seo_keywords: seoKeywordsFromPayload(seo.primary_keyword, seo.secondary_keywords),
     og_image_url: input.cover_image_url?.trim() ?? null,
     quality_checks: (input.quality_checks ?? {}) as Json,

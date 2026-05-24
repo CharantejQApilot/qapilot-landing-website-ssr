@@ -61,6 +61,23 @@ export function validatePublishedContent(input: PublishValidationInput): string[
   return errors;
 }
 
+/** QA guides: text blogs — SEO title + description only (no cover/OG required). */
+export function validateQaGuideForPublish(input: PublishValidationInput): string[] {
+  const errors: string[] = [];
+
+  if (!hasText(input.title)) errors.push("Title is required before publishing.");
+  if (!hasText(input.slug)) errors.push("Slug is required before publishing.");
+  if (!hasText(input.content)) errors.push("Content is required before publishing.");
+  if (!hasText(input.seoTitle)) {
+    errors.push("SEO title is required before publishing.");
+  }
+  if (!hasText(input.seoDescription)) {
+    errors.push("SEO description is required before publishing.");
+  }
+
+  return errors;
+}
+
 export function validatePublishedJob(input: JobPublishValidationInput): string[] {
   const errors: string[] = [];
   if (!hasText(input.role)) errors.push("Role is required before publishing.");

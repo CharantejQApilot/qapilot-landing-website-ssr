@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Edit, ExternalLink, Rocket, Trash2 } from "lucide-react";
+import { formatErrorMessage } from "@/lib/admin/error-message";
+import { validateQaGuideForPublish } from "@/lib/admin/publish-validation";
+import { prefillQaGuidePublishFields } from "@/lib/qa-guide/publish-prefill";
 import {
   revalidatePublicPaths,
   withCommonCachePaths,
@@ -54,12 +57,55 @@ export default function QaGuidesCMS() {
   const handlePublish = async (guide: QaGuideRow) => {
     setPublishingId(guide.id);
     try {
-      const transition = applyTierTransition(guide, { tier: "index_worthy" });
-      const { error } = await supabase
+      const { data: row, error: fetchError } = await supabase
         .from("qa_guides")
-        .update(transition)
-        .eq("id", guide.id);
+        .select(
+          "id, title, slug, topic_cluster, tier, status, url_path, content, excerpt, seo_title, seo_description, featured_image, og_image_url",
+        )
+        .eq("id", guide.id)
+        .single();
+
+      if (fetchError) throw fetchError;
+      if (!row) throw new Error("Guide not found");
+
+      const publishFields = prefillQaGuidePublishFields({
+        title: row.title,
+        excerpt: row.excerpt,
+        seo_title: row.seo_title,
+        seo_description: row.seo_description,
+        content: row.content,
+      });
+
+      const publishErrors = validateQaGuideForPublish({
+        title: row.title,
+        slug: row.slug,
+        content: row.content ?? "",
+        seoTitle: publishFields.seo_title,
+        seoDescription: publishFields.seo_description,
+      });
+      if (publishErrors.length > 0) {
+        throw new Error(publishErrors[0]);
+      }
+
+      const transition = applyTierTransition(row, { tier: "index_worthy" });
+
+      const { data: updated, error } = await supabase
+        .from("qa_guides")
+        .update({
+          ...transition,
+          seo_title: publishFields.seo_title,
+          seo_description: publishFields.seo_description,
+        })
+        .eq("id", guide.id)
+        .select("id")
+        .single();
+
       if (error) throw error;
+      if (!updated) {
+        throw new Error(
+          "Publish did not apply. Confirm you are signed in as an admin.",
+        );
+      }
 
       const { data: session } = await supabase.auth.getSession();
       const paths = withCommonCachePaths([
@@ -76,9 +122,10 @@ export default function QaGuidesCMS() {
       });
       fetchGuides();
     } catch (e) {
+      console.error("[QaGuidesCMS] publish failed", e);
       toast({
         title: "Publish failed",
-        description: e instanceof Error ? e.message : "Unknown error",
+        description: formatErrorMessage(e),
         variant: "destructive",
       });
     } finally {
@@ -104,9 +151,9 @@ export default function QaGuidesCMS() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
-        Automation creates drafts at <code>/seo-drafts/…</code>. One{" "}
-        <strong>Publish</strong> action makes the guide public, indexable, and adds it to the
-        sitemap.
+        Automation creates drafts at <code>/seo-drafts/…</code>.{" "}
+        <strong>Publish</strong> makes the guide public (SEO title and description are filled
+        automatically; cover image is optional).
       </p>
       {guides.length === 0 ? (
         <p className="text-muted-foreground">No guides yet.</p>
