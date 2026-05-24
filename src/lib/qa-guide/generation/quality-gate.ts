@@ -42,8 +42,8 @@ export const BANNED_PHRASES = [
   "best practices abound",
 ];
 
-const MIN_WORDS = 1400;
-const MAX_WORDS = 2150;
+const MIN_WORDS = 2000;
+const MAX_WORDS = 3200;
 const MIN_H2_SECTIONS = 5;
 const MIN_QAPILOT_MENTIONS = 3;
 const MIN_INLINE_QAPILOT_LINKS = 2;
@@ -121,7 +121,7 @@ export function runQualityGate(
   const fails: string[] = [];
 
   if (wordCount < MIN_WORDS || wordCount > MAX_WORDS) {
-    fails.push(`word_count=${wordCount} not in [${MIN_WORDS},${MAX_WORDS}] (~1500–2000 target)`);
+    fails.push(`word_count=${wordCount} not in [${MIN_WORDS},${MAX_WORDS}] (~2200–2800 target)`);
   }
 
   const h2Re = /^##\s+(.+)$/gm;

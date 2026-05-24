@@ -8,6 +8,8 @@ import {
   fetchQapilotSiteContext,
   formatBrandPagesForPrompt,
 } from "@/lib/qa-guide/generation/fetch-site-context";
+import { expandArticleIfShort } from "@/lib/qa-guide/generation/expand-article-if-short";
+import { ensureArticleLinks } from "@/lib/qa-guide/generation/ensure-article-links";
 import { generateArticle, getOpenAITextModel } from "@/lib/qa-guide/generation/generate-article";
 import { generateCoverImagePng } from "@/lib/qa-guide/generation/generate-cover";
 import {
@@ -82,17 +84,35 @@ export async function runGenerationPipeline(
 
     await appendQueueLog(supabase, queueId, `article generated: "${article.title}"`);
 
-    const qc = runQualityGate(article, ctx.internal_link_candidates);
-    article.quality_checks = qc;
+    let enriched = ensureArticleLinks(article, {
+      topic_cluster: item.topic_cluster,
+      primary_keyword: item.primary_keyword,
+      intent: item.intent,
+      internal_link_candidates: ctx.internal_link_candidates,
+    });
+    await appendQueueLog(supabase, queueId, "injected internal/external links if missing");
+
+    enriched = await expandArticleIfShort(enriched);
+    const expandedWords = (enriched.content_markdown ?? "").split(/\s+/).filter(Boolean).length;
+    await appendQueueLog(supabase, queueId, `word count after expand pass: ${expandedWords}`);
+
+    const qc = runQualityGate(enriched, ctx.internal_link_candidates);
+    enriched.quality_checks = qc;
     const recommendation = String(qc.overall_recommendation ?? "REVIEW");
     await appendQueueLog(supabase, queueId, `quality gate: ${recommendation}`);
 
-    const slug = (article.slug?.trim() || slugifyTitle(article.title)).slice(0, 80);
+    if (recommendation === "DISCARD") {
+      const failures = qc.server_side_failures;
+      const detail = Array.isArray(failures) ? failures.join("; ") : "quality_checks failed";
+      throw new Error(`Draft did not pass quality gate: ${detail}`);
+    }
+
+    const slug = (enriched.slug?.trim() || slugifyTitle(enriched.title)).slice(0, 80);
     let coverUrl: string | null = null;
 
-    if (article.image_prompt?.trim()) {
+    if (enriched.image_prompt?.trim()) {
       try {
-        const png = await generateCoverImagePng(article.image_prompt);
+        const png = await generateCoverImagePng(enriched.image_prompt);
         const uploaded = await uploadQaGuideCover(supabase, png, slug);
         coverUrl = uploaded.url;
         await appendQueueLog(supabase, queueId, `cover image uploaded (${png.length} bytes)`);
@@ -103,22 +123,22 @@ export async function runGenerationPipeline(
     }
 
     const guide = await createDraftQaGuide(supabase, {
-      title: article.title,
+      title: enriched.title,
       slug,
       topic_cluster: item.topic_cluster,
       intent: item.intent,
-      excerpt: article.excerpt ?? article.meta_description,
-      content_markdown: article.content_markdown,
+      excerpt: enriched.excerpt ?? enriched.meta_description,
+      content_markdown: enriched.content_markdown,
       cover_image_url: coverUrl,
-      tags: article.tags,
+      tags: enriched.tags,
       seo: {
-        meta_title: article.meta_title,
-        meta_description: article.meta_description,
-        primary_keyword: article.primary_keyword ?? item.primary_keyword,
+        meta_title: enriched.meta_title,
+        meta_description: enriched.meta_description,
+        primary_keyword: enriched.primary_keyword ?? item.primary_keyword,
         secondary_keywords:
-          article.secondary_keywords ?? item.secondary_keywords ?? [],
+          enriched.secondary_keywords ?? item.secondary_keywords ?? [],
       },
-      internal_link_suggestions: article.internal_link_suggestions,
+      internal_link_suggestions: enriched.internal_link_suggestions,
       quality_checks: qc,
       source: {
         tool: "admin-generation",
@@ -126,7 +146,7 @@ export async function runGenerationPipeline(
         model: getOpenAITextModel(),
         provider: "openai",
         competitor_urls: competitorUrls,
-        external_link_suggestions: article.external_link_suggestions ?? [],
+        external_link_suggestions: enriched.external_link_suggestions ?? [],
       },
     });
 
