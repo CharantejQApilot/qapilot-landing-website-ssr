@@ -1,27 +1,5 @@
 "use client";
 
-async function adminFetch<T>(
-  token: string,
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
-  const res = await fetch(path, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-      ...(init?.headers ?? {}),
-    },
-  });
-  const data = (await res.json().catch(() => ({}))) as T & { error?: string };
-  if (!res.ok) {
-    throw new Error(
-      (data as { error?: string }).error ?? `Request failed (${res.status})`,
-    );
-  }
-  return data;
-}
-
 export type GenerationQueueItem = {
   id: string;
   status: string;
@@ -45,76 +23,40 @@ export type GenerationQueueItem = {
   run_log: string[];
 };
 
-export async function listGenerationQueue(
-  token: string,
-  params?: { status?: string; q?: string },
-): Promise<GenerationQueueItem[]> {
-  const sp = new URLSearchParams();
-  if (params?.status && params.status !== "all") sp.set("status", params.status);
-  if (params?.q) sp.set("q", params.q);
-  const qs = sp.toString();
-  const data = await adminFetch<{ items: GenerationQueueItem[] }>(
-    token,
-    `/api/admin/qa-guide-generation/queue${qs ? `?${qs}` : ""}`,
-  );
-  return data.items;
-}
+export type GenerationRunResult = {
+  queue_id: string;
+  guide_id?: string;
+  status?: string;
+  error?: string;
+};
 
-export async function getGenerationQueueItem(
+async function adminPostRun(
   token: string,
-  id: string,
-): Promise<GenerationQueueItem> {
-  return adminFetch<GenerationQueueItem>(
-    token,
-    `/api/admin/qa-guide-generation/queue/${id}`,
-  );
-}
-
-export async function createGenerationQueueItem(
-  token: string,
-  body: Record<string, unknown>,
-): Promise<GenerationQueueItem> {
-  return adminFetch<GenerationQueueItem>(token, `/api/admin/qa-guide-generation/queue`, {
+  path: string,
+): Promise<GenerationRunResult> {
+  const res = await fetch(path, {
     method: "POST",
-    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
+  const data = (await res.json().catch(() => ({}))) as GenerationRunResult;
+  if (!res.ok) {
+    throw new Error(data.error ?? `Request failed (${res.status})`);
+  }
+  return data;
 }
 
-export async function updateGenerationQueueItem(
-  token: string,
-  id: string,
-  body: Record<string, unknown>,
-): Promise<GenerationQueueItem> {
-  return adminFetch<GenerationQueueItem>(
-    token,
-    `/api/admin/qa-guide-generation/queue/${id}`,
-    { method: "PATCH", body: JSON.stringify(body) },
-  );
-}
-
-export async function skipGenerationQueueItem(token: string, id: string): Promise<void> {
-  await adminFetch(token, `/api/admin/qa-guide-generation/queue/${id}`, {
-    method: "DELETE",
-  });
-}
-
-export async function runGenerationNext(token: string): Promise<{ queue_id: string }> {
-  return adminFetch<{ queue_id: string }>(
-    token,
-    `/api/admin/qa-guide-generation/queue/run-next`,
-    { method: "POST" },
-  );
+export async function runGenerationNext(token: string): Promise<GenerationRunResult> {
+  return adminPostRun(token, "/api/admin/qa-guide-generation/queue/run-next");
 }
 
 export async function runGenerationById(
   token: string,
   id: string,
   force = false,
-): Promise<{ queue_id: string }> {
+): Promise<GenerationRunResult> {
   const qs = force ? "?force=true" : "";
-  return adminFetch<{ queue_id: string }>(
-    token,
-    `/api/admin/qa-guide-generation/queue/${id}/run${qs}`,
-    { method: "POST" },
-  );
+  return adminPostRun(token, `/api/admin/qa-guide-generation/queue/${id}/run${qs}`);
 }
