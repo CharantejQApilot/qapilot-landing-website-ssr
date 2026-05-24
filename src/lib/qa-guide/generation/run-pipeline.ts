@@ -145,7 +145,9 @@ export async function triggerGenerationWorker(queueId: string): Promise<void> {
   if (process.env.QA_GUIDE_GENERATION_INLINE === "true") {
     const supabase = (await import("@/integrations/supabase/service")).createServiceSupabaseClient();
     if (!supabase) {
-      throw new Error("Supabase service role not configured");
+      throw new Error(
+        "SUPABASE_SERVICE_ROLE_KEY is not set. Add it to .env.local (same Supabase project as NEXT_PUBLIC_SUPABASE_URL).",
+      );
     }
     void runGenerationPipeline(supabase, queueId);
     return;
