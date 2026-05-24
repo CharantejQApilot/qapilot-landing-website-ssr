@@ -21,7 +21,9 @@ import {
   revalidatePublicPaths,
   withCommonCachePaths,
 } from "@/lib/admin/revalidate-client";
-import { validatePublishedContent } from "@/lib/admin/publish-validation";
+import { formatErrorMessage } from "@/lib/admin/error-message";
+import { validateQaGuideForPublish } from "@/lib/admin/publish-validation";
+import { prefillQaGuidePublishFields } from "@/lib/qa-guide/publish-prefill";
 import { applyTierTransition } from "@/lib/qa-guide/promote";
 import { draftUrlPath, publishedUrlPath } from "@/lib/qa-guide/urls";
 import { PATHS } from "@/lib/routes";
@@ -119,14 +121,20 @@ export default function QaGuideEditorClient() {
 
   const publishMutation = useMutation({
     mutationFn: async () => {
-      const errors = validatePublishedContent({
+      const publishFields = prefillQaGuidePublishFields({
+        title,
+        excerpt,
+        seo_title: seoTitle,
+        seo_description: seoDescription,
+        content,
+      });
+
+      const errors = validateQaGuideForPublish({
         title,
         slug,
         content,
-        seoTitle,
-        seoDescription,
-        featuredImageUrl: featuredImage,
-        ogImageUrl: featuredImage,
+        seoTitle: publishFields.seo_title,
+        seoDescription: publishFields.seo_description,
       });
       if (errors.length > 0) throw new Error(errors[0]);
 
@@ -142,8 +150,22 @@ export default function QaGuideEditorClient() {
         { tier: "index_worthy", topic_cluster: topicCluster },
       );
 
-      const { error } = await supabase.from("qa_guides").update(transition).eq("id", id);
+      const { data: updated, error } = await supabase
+        .from("qa_guides")
+        .update({
+          ...transition,
+          seo_title: publishFields.seo_title,
+          seo_description: publishFields.seo_description,
+        })
+        .eq("id", id)
+        .select("id")
+        .single();
       if (error) throw error;
+      if (!updated) {
+        throw new Error(
+          "Publish did not apply. Confirm you are signed in as an admin.",
+        );
+      }
 
       const { data: session } = await supabase.auth.getSession();
       await revalidatePublicPaths(
@@ -163,8 +185,13 @@ export default function QaGuideEditorClient() {
       });
       router.push("/admin");
     },
-    onError: (e: Error) => {
-      toast({ title: "Publish failed", description: e.message, variant: "destructive" });
+    onError: (e: unknown) => {
+      console.error("[QaGuideEditor] publish failed", e);
+      toast({
+        title: "Publish failed",
+        description: formatErrorMessage(e),
+        variant: "destructive",
+      });
     },
   });
 
@@ -257,12 +284,12 @@ export default function QaGuideEditorClient() {
               <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={16} className="font-mono text-sm" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="image">Featured image URL</Label>
+              <Label htmlFor="image">Featured image URL (optional)</Label>
               <Input id="image" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="seoTitle">SEO title</Label>
+                <Label htmlFor="seoTitle">SEO title (auto-filled from title if empty)</Label>
                 <Input id="seoTitle" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
               </div>
               <div className="space-y-2">
@@ -271,7 +298,7 @@ export default function QaGuideEditorClient() {
               </div>
               </div>
             <div className="space-y-2">
-              <Label htmlFor="seoDesc">SEO description</Label>
+              <Label htmlFor="seoDesc">SEO description (auto-filled from excerpt if empty)</Label>
               <Textarea id="seoDesc" value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} />
             </div>
           </CardContent>
