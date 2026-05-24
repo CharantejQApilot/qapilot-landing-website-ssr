@@ -14,15 +14,4 @@ export type QueueCreateBody = {
 
 export type QueuePatchBody = Partial<QueueCreateBody>;
 
-export function parseSecondaryKeywords(input: unknown): string[] {
-  if (Array.isArray(input)) {
-    return input.map(String).map((s) => s.trim()).filter(Boolean);
-  }
-  if (typeof input === "string" && input.trim()) {
-    return input
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-  }
-  return [];
-}
+export { parseSecondaryKeywords } from "@/lib/admin/parse-secondary-keywords";

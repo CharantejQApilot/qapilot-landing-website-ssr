@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServiceSupabaseClient } from "@/integrations/supabase/service";
+import { createAdminSupabaseClient } from "@/lib/admin/create-admin-supabase";
 import { requireAdminRequest } from "@/lib/admin/require-admin-request";
 import { claimNextPendingQueueRow } from "@/lib/qa-guide/generation/queue-db";
 import { triggerGenerationWorker } from "@/lib/qa-guide/generation/run-pipeline";
@@ -10,9 +10,12 @@ export async function POST(request: NextRequest) {
   const denied = await requireAdminRequest(request);
   if (denied) return denied;
 
-  const supabase = createServiceSupabaseClient();
+  const supabase = createAdminSupabaseClient(request);
   if (!supabase) {
-    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { error: "Supabase not configured. Set SUPABASE_SERVICE_ROLE_KEY or sign in as admin." },
+      { status: 503 },
+    );
   }
 
   const row = await claimNextPendingQueueRow(supabase);

@@ -17,13 +17,10 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { parseSecondaryKeywords } from "@/lib/admin/parse-secondary-keywords";
 import {
-  createGenerationQueueItem,
-  getGenerationQueueItem,
-  listGenerationQueue,
   runGenerationById,
   runGenerationNext,
-  skipGenerationQueueItem,
   type GenerationQueueItem,
 } from "@/lib/admin/qa-guide-generation-client";
 import { ExternalLink, Loader2, Play, Plus, RefreshCw } from "lucide-react";
@@ -102,38 +99,53 @@ export default function QaGuideGenerationAdmin() {
   }, []);
 
   const loadQueue = useCallback(async () => {
-    if (!token) return;
     setLoading(true);
     try {
-      const rows = await listGenerationQueue(token, {
-        status: statusFilter,
-        q: search.trim() || undefined,
-      });
-      setItems(rows);
+      let query = supabase
+        .from("qa_guide_generation_queue")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (statusFilter && statusFilter !== "all") {
+        query = query.eq("status", statusFilter);
+      }
+      const q = search.trim();
+      if (q) {
+        query = query.ilike("primary_keyword", `%${q}%`);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+      setItems((data as GenerationQueueItem[]) ?? []);
     } catch (e) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      const hint =
+        message.includes("qa_guide_generation_queue") ||
+        message.includes("schema cache")
+          ? " Run the migration supabase/migrations/20260524120000_qa_guide_generation_queue.sql in Supabase."
+          : "";
       toast({
         title: "Failed to load queue",
-        description: e instanceof Error ? e.message : "Unknown error",
+        description: message + hint,
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
-  }, [token, statusFilter, search, toast]);
+  }, [statusFilter, search, toast]);
 
   useEffect(() => {
     loadQueue();
   }, [loadQueue]);
 
   useEffect(() => {
-    if (!token) return;
     const hasRunning = items.some((i) => i.status === "running");
     if (!hasRunning) return;
     const interval = setInterval(() => {
       loadQueue();
     }, 3000);
     return () => clearInterval(interval);
-  }, [token, items, loadQueue]);
+  }, [items, loadQueue]);
 
   useEffect(() => {
     if (!token || !expandedId) return;
@@ -144,39 +156,42 @@ export default function QaGuideGenerationAdmin() {
     }
 
     const interval = setInterval(async () => {
-      try {
-        const detail = await getGenerationQueueItem(token, expandedId);
-        setExpandedDetail(detail);
-        setItems((prev) => prev.map((i) => (i.id === detail.id ? detail : i)));
-        if (detail.status !== "running") {
-          clearInterval(interval);
-        }
-      } catch {
-        /* ignore poll errors */
+      const { data, error } = await supabase
+        .from("qa_guide_generation_queue")
+        .select("*")
+        .eq("id", expandedId)
+        .maybeSingle();
+      if (error || !data) return;
+      const detail = data as GenerationQueueItem;
+      setExpandedDetail(detail);
+      setItems((prev) => prev.map((i) => (i.id === detail.id ? detail : i)));
+      if (detail.status !== "running") {
+        clearInterval(interval);
       }
     }, 2500);
 
     return () => clearInterval(interval);
-  }, [token, expandedId, items]);
+  }, [expandedId, items]);
 
   const handleCreate = async () => {
-    if (!token) return;
     if (!form.topic_cluster || !form.primary_keyword.trim() || !form.intent.trim()) {
       toast({ title: "Fill cluster, keyword, and intent", variant: "destructive" });
       return;
     }
     try {
-      await createGenerationQueueItem(token, {
+      const { error } = await supabase.from("qa_guide_generation_queue").insert({
         topic_cluster: form.topic_cluster,
         primary_keyword: form.primary_keyword.trim(),
         intent: form.intent.trim(),
-        secondary_keywords: form.secondary_keywords,
-        competitor_url_1: form.competitor_url_1 || null,
-        competitor_url_2: form.competitor_url_2 || null,
-        competitor_url_3: form.competitor_url_3 || null,
-        target_audience: form.target_audience || null,
-        notes: form.notes || null,
+        secondary_keywords: parseSecondaryKeywords(form.secondary_keywords),
+        competitor_url_1: form.competitor_url_1.trim() || null,
+        competitor_url_2: form.competitor_url_2.trim() || null,
+        competitor_url_3: form.competitor_url_3.trim() || null,
+        target_audience: form.target_audience.trim() || null,
+        notes: form.notes.trim() || null,
+        status: "pending",
       });
+      if (error) throw error;
       toast({ title: "Brief added to queue" });
       setShowForm(false);
       setForm({
@@ -192,9 +207,17 @@ export default function QaGuideGenerationAdmin() {
       });
       loadQueue();
     } catch (e) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      const hint =
+        message.includes("qa_guide_generation_queue") ||
+        message.includes("schema cache")
+          ? " Apply migration 20260524120000_qa_guide_generation_queue.sql in Supabase SQL editor."
+          : message.toLowerCase().includes("invalid api key")
+            ? " Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local match your project."
+            : "";
       toast({
         title: "Create failed",
-        description: e instanceof Error ? e.message : "Unknown error",
+        description: message + hint,
         variant: "destructive",
       });
     }
@@ -242,9 +265,13 @@ export default function QaGuideGenerationAdmin() {
   };
 
   const handleSkip = async (id: string) => {
-    if (!token || !confirm("Skip this brief?")) return;
+    if (!confirm("Skip this brief?")) return;
     try {
-      await skipGenerationQueueItem(token, id);
+      const { error } = await supabase
+        .from("qa_guide_generation_queue")
+        .update({ status: "skip" })
+        .eq("id", id);
+      if (error) throw error;
       toast({ title: "Skipped" });
       loadQueue();
     } catch (e) {
