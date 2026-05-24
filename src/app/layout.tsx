@@ -10,6 +10,7 @@ import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import "./App.css";
 import dynamic from "next/dynamic";
+import { Analytics } from "@vercel/analytics/next";
 
 const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
@@ -190,6 +191,9 @@ export default function RootLayout({
         <Script id="reb2b-loader" strategy="beforeInteractive">
           {`!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("9NMMZHRD91NW");`}
         </Script>
+        
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );
