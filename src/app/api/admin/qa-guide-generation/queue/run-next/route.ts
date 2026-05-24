@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminSupabaseClient } from "@/lib/admin/create-admin-supabase";
 import { requireAdminRequest } from "@/lib/admin/require-admin-request";
-import { claimNextPendingQueueRow } from "@/lib/qa-guide/generation/queue-db";
+import { claimNextPendingQueueRow, explainClaimFailure } from "@/lib/qa-guide/generation/queue-db";
 import { triggerGenerationWorker } from "@/lib/qa-guide/generation/run-pipeline";
 
 export const dynamic = "force-dynamic";
@@ -20,10 +20,16 @@ export async function POST(request: NextRequest) {
 
   const row = await claimNextPendingQueueRow(supabase);
   if (!row) {
-    return NextResponse.json(
-      { error: "No pending row available or another job is already running" },
-      { status: 409 },
-    );
+    const { data: runningRows } = await supabase
+      .from("qa_guide_generation_queue")
+      .select("id")
+      .eq("status", "running")
+      .limit(1);
+    const runningId = runningRows?.[0]?.id;
+    const reason = runningId
+      ? await explainClaimFailure(supabase, runningId)
+      : "No pending briefs in the queue.";
+    return NextResponse.json({ error: reason }, { status: 409 });
   }
 
   try {
