@@ -166,7 +166,7 @@ export default function QaGuidesCMS() {
                         disabled={publishingId === g.id}
                       >
                         <Rocket className="h-4 w-4 mr-1" />
-                        {publishingId === g.id ? "Publishing…" : "Publish"}
+                        {publishingId === g.id ? "Publishing…" : "Publish & index"}
                       </Button>
                     ) : null}
                     <Button
