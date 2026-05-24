@@ -14,6 +14,7 @@ export type GeneratedArticle = {
   image_prompt?: string;
   image_alt?: string;
   internal_link_suggestions?: Array<{ anchor: string; target_url: string }>;
+  external_link_suggestions?: Array<{ anchor: string; target_url: string }>;
   quality_checks?: Record<string, unknown>;
 };
 
@@ -39,8 +40,11 @@ export async function generateArticle(params: {
   intent: string;
   secondary_keywords: string[];
   target_audience: string | null;
+  editorial_notes: string | null;
   competitor_texts: string[];
   qapilot_homepage: string;
+  qapilot_brand_pages: string;
+  qapilot_peer_guides: string;
   qapilot_internal_urls: string[];
   run_id: string;
 }): Promise<GeneratedArticle> {
@@ -58,12 +62,17 @@ export async function generateArticle(params: {
     primary_keyword: params.primary_keyword,
     intent: params.intent,
     secondary_keywords: params.secondary_keywords.join(", ") || "(none)",
-    target_audience: params.target_audience ?? "mobile QA / engineering leaders",
+    target_audience:
+      params.target_audience ??
+      "Mobile QA leads, SDETs, and engineering managers shipping iOS/Android apps",
+    editorial_notes: params.editorial_notes?.trim() || "(none)",
     competitor_texts:
       params.competitor_texts.length > 0
         ? params.competitor_texts.join("\n\n---\n\n")
         : "(none provided)",
     qapilot_homepage: params.qapilot_homepage || "(homepage unavailable)",
+    qapilot_brand_pages: params.qapilot_brand_pages,
+    qapilot_peer_guides: params.qapilot_peer_guides,
     qapilot_internal_urls:
       params.qapilot_internal_urls.length > 0
         ? params.qapilot_internal_urls.join("\n")
@@ -80,7 +89,7 @@ export async function generateArticle(params: {
     body: JSON.stringify({
       model,
       temperature: 0.4,
-      max_tokens: 8192,
+      max_tokens: 12_288,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: ARTICLE_SYSTEM_PROMPT },
