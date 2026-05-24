@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminSupabaseClient } from "@/lib/admin/create-admin-supabase";
 import { requireAdminRequest } from "@/lib/admin/require-admin-request";
-import { claimQueueRowForRun } from "@/lib/qa-guide/generation/queue-db";
+import { claimQueueRowForRun, explainClaimFailure } from "@/lib/qa-guide/generation/queue-db";
 import { triggerGenerationWorker } from "@/lib/qa-guide/generation/run-pipeline";
 
 export const dynamic = "force-dynamic";
@@ -51,10 +51,8 @@ export async function POST(request: NextRequest, context: RouteContext) {
 
   const row = await claimQueueRowForRun(supabase, id);
   if (!row) {
-    return NextResponse.json(
-      { error: "Row not claimable (wrong status or another job is running)" },
-      { status: 409 },
-    );
+    const reason = await explainClaimFailure(supabase, id);
+    return NextResponse.json({ error: reason }, { status: 409 });
   }
 
   try {

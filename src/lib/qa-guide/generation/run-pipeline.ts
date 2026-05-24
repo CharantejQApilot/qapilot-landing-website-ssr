@@ -9,7 +9,7 @@ import { generateArticle, getGeminiTextModel } from "@/lib/qa-guide/generation/g
 import { generateCoverImagePng } from "@/lib/qa-guide/generation/generate-cover";
 import {
   appendQueueLog,
-  claimQueueRowForRun,
+  loadQueueRowForPipeline,
   markQueueFailed,
   markQueueGenerated,
   type QueueRow,
@@ -23,9 +23,9 @@ export async function runGenerationPipeline(
   supabase: SupabaseClient<Database>,
   queueId: string,
 ): Promise<{ ok: true; guide_id: string } | { ok: false; error: string }> {
-  let item: QueueRow | null = await claimQueueRowForRun(supabase, queueId);
+  const item: QueueRow | null = await loadQueueRowForPipeline(supabase, queueId);
   if (!item) {
-    return { ok: false, error: "Queue row not claimable (already running or wrong status)" };
+    return { ok: false, error: "Queue row not available for pipeline (wrong status)" };
   }
 
   try {
@@ -149,7 +149,10 @@ export async function triggerGenerationWorker(queueId: string): Promise<void> {
         "SUPABASE_SERVICE_ROLE_KEY is not set. Add it to .env.local (same Supabase project as NEXT_PUBLIC_SUPABASE_URL).",
       );
     }
-    void runGenerationPipeline(supabase, queueId);
+    const result = await runGenerationPipeline(supabase, queueId);
+    if (result.ok === false) {
+      throw new Error(result.error);
+    }
     return;
   }
 
