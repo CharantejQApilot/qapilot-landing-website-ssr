@@ -204,6 +204,96 @@ export type Database = {
           },
         ]
       }
+      qa_guide_generation_queue: {
+        Row: {
+          competitor_url_1: string | null
+          competitor_url_2: string | null
+          competitor_url_3: string | null
+          created_at: string
+          created_by: string | null
+          generated_qa_guide_id: string | null
+          id: string
+          intent: string
+          last_error: string | null
+          notes: string | null
+          primary_keyword: string
+          quality_payload: Json
+          quality_recommendation: string | null
+          quality_score: number | null
+          run_completed_at: string | null
+          run_log: string[]
+          run_started_at: string | null
+          secondary_keywords: string[]
+          status: string
+          target_audience: string | null
+          topic_cluster: string
+          updated_at: string
+        }
+        Insert: {
+          competitor_url_1?: string | null
+          competitor_url_2?: string | null
+          competitor_url_3?: string | null
+          created_at?: string
+          created_by?: string | null
+          generated_qa_guide_id?: string | null
+          id?: string
+          intent: string
+          last_error?: string | null
+          notes?: string | null
+          primary_keyword: string
+          quality_payload?: Json
+          quality_recommendation?: string | null
+          quality_score?: number | null
+          run_completed_at?: string | null
+          run_log?: string[]
+          run_started_at?: string | null
+          secondary_keywords?: string[]
+          status?: string
+          target_audience?: string | null
+          topic_cluster: string
+          updated_at?: string
+        }
+        Update: {
+          competitor_url_1?: string | null
+          competitor_url_2?: string | null
+          competitor_url_3?: string | null
+          created_at?: string
+          created_by?: string | null
+          generated_qa_guide_id?: string | null
+          id?: string
+          intent?: string
+          last_error?: string | null
+          notes?: string | null
+          primary_keyword?: string
+          quality_payload?: Json
+          quality_recommendation?: string | null
+          quality_score?: number | null
+          run_completed_at?: string | null
+          run_log?: string[]
+          run_started_at?: string | null
+          secondary_keywords?: string[]
+          status?: string
+          target_audience?: string | null
+          topic_cluster?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qa_guide_generation_queue_generated_qa_guide_id_fkey"
+            columns: ["generated_qa_guide_id"]
+            isOneToOne: false
+            referencedRelation: "qa_guides"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qa_guide_generation_queue_topic_cluster_fkey"
+            columns: ["topic_cluster"]
+            isOneToOne: false
+            referencedRelation: "qa_guide_topic_clusters"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       qa_guide_topic_clusters: {
         Row: {
           created_at: string

@@ -15,7 +15,7 @@ import { Trash2, Edit, LogOut, Plus, Save, X, Link, CalendarIcon, FileJson } fro
 import RichTextEditor from "@/components/RichTextEditor";
 import CareersCMS from "@/components/admin/CareersCMS";
 import FAQsCMS from "@/components/admin/FAQsCMS";
-import QaGuidesCMS from "@/components/admin/QaGuidesCMS";
+import QaGuideGenerationAdmin from "@/components/admin/QaGuideGenerationQueue";
 import WritersCMS from "@/components/admin/WritersCMS";
 import type { User } from "@supabase/supabase-js";
 import { format } from "date-fns";
@@ -1660,7 +1660,7 @@ const AdminClient = () => {
           </TabsContent>
 
           <TabsContent value="qa-guides">
-            <QaGuidesCMS />
+            <QaGuideGenerationAdmin />
           </TabsContent>
 
           <TabsContent value="writers">
