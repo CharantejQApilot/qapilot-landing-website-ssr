@@ -139,38 +139,12 @@ export default function QaGuideGenerationAdmin() {
   }, [loadQueue]);
 
   useEffect(() => {
-    const hasRunning = items.some((i) => i.status === "running");
-    if (!hasRunning) return;
-    const interval = setInterval(() => {
-      loadQueue();
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [items, loadQueue]);
-
-  useEffect(() => {
-    if (!token || !expandedId) return;
-    const row = items.find((i) => i.id === expandedId);
-    if (row?.status !== "running") {
-      setExpandedDetail(row ?? null);
+    if (!expandedId) {
+      setExpandedDetail(null);
       return;
     }
-
-    const interval = setInterval(async () => {
-      const { data, error } = await supabase
-        .from("qa_guide_generation_queue")
-        .select("*")
-        .eq("id", expandedId)
-        .maybeSingle();
-      if (error || !data) return;
-      const detail = data as GenerationQueueItem;
-      setExpandedDetail(detail);
-      setItems((prev) => prev.map((i) => (i.id === detail.id ? detail : i)));
-      if (detail.status !== "running") {
-        clearInterval(interval);
-      }
-    }, 2500);
-
-    return () => clearInterval(interval);
+    const row = items.find((i) => i.id === expandedId);
+    setExpandedDetail(row ?? null);
   }, [expandedId, items]);
 
   const handleCreate = async () => {
@@ -224,41 +198,55 @@ export default function QaGuideGenerationAdmin() {
   };
 
   const handleRunNext = async () => {
-    if (!token) return;
+    if (!token) {
+      toast({ title: "Sign in required", variant: "destructive" });
+      return;
+    }
     setRunningAction("next");
     try {
-      const { queue_id } = await runGenerationNext(token);
-      toast({ title: "Generation started", description: "This may take several minutes." });
-      setExpandedId(queue_id);
+      const result = await runGenerationNext(token);
+      toast({
+        title: "Draft ready",
+        description: "Review the draft, then publish from the Guides tab.",
+      });
+      setExpandedId(result.queue_id);
       loadQueue();
     } catch (e) {
       toast({
-        title: "Could not start generation",
+        title: "Generation failed",
         description: e instanceof Error ? e.message : "Unknown error",
         variant: "destructive",
       });
+      loadQueue();
     } finally {
       setRunningAction(null);
     }
   };
 
   const handleRunRow = async (id: string, force = false) => {
-    if (!token) return;
+    if (!token) {
+      toast({ title: "Sign in required", variant: "destructive" });
+      return;
+    }
     if (force && !confirm("Re-run will generate a new draft for this brief. Continue?")) {
       return;
     }
     setRunningAction(id);
     try {
       await runGenerationById(token, id, force);
-      toast({ title: "Generation started" });
+      toast({
+        title: "Draft ready",
+        description: "Open View draft to review, then publish when ready.",
+      });
       setExpandedId(id);
       loadQueue();
     } catch (e) {
       toast({
-        title: "Run failed",
+        title: "Generation failed",
         description: e instanceof Error ? e.message : "Unknown error",
         variant: "destructive",
       });
+      loadQueue();
     } finally {
       setRunningAction(null);
     }
@@ -292,9 +280,9 @@ export default function QaGuideGenerationAdmin() {
 
       <TabsContent value="queue" className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Add article briefs, then run generation to create a draft at{" "}
-          <code>/seo-drafts/…</code>. Review in Guides and publish to add the page to the QA
-          Guide hub and sitemap.
+          Add briefs like blog posts in Supabase, then <strong>Run</strong> to generate a draft
+          (Gemini). Generation takes a few minutes — keep this tab open. Review under Guides →
+          Publish &amp; index.
         </p>
 
         <div className="flex flex-wrap gap-2 justify-between items-center">
@@ -332,7 +320,7 @@ export default function QaGuideGenerationAdmin() {
               ) : (
                 <Play className="h-4 w-4 mr-1" />
               )}
-              Generate next pending
+              {runningAction === "next" ? "Generating…" : "Generate next pending"}
             </Button>
           </div>
         </div>
@@ -486,7 +474,7 @@ export default function QaGuideGenerationAdmin() {
                             ) : (
                               <Play className="h-4 w-4 mr-1" />
                             )}
-                            Run
+                            {runningAction === row.id ? "Generating…" : "Run"}
                           </Button>
                         ) : null}
                         {row.status === "generated" ? (
