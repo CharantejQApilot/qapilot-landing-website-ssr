@@ -5,7 +5,7 @@ import { slugifyTitle } from "@/lib/qa-guide/cms-api";
 import { uploadQaGuideCover } from "@/lib/qa-guide/upload-cover";
 import { fetchCompetitorText } from "@/lib/qa-guide/generation/fetch-competitors";
 import { fetchQapilotSiteContext } from "@/lib/qa-guide/generation/fetch-site-context";
-import { generateArticle, getGeminiTextModel } from "@/lib/qa-guide/generation/generate-article";
+import { generateArticle, getOpenAITextModel } from "@/lib/qa-guide/generation/generate-article";
 import { generateCoverImagePng } from "@/lib/qa-guide/generation/generate-cover";
 import {
   appendQueueLog,
@@ -60,7 +60,7 @@ export async function runGenerationPipeline(
     );
 
     const runId = new Date().toISOString().slice(0, 10);
-    await appendQueueLog(supabase, queueId, `calling Gemini (${getGeminiTextModel()}) for article JSON…`);
+    await appendQueueLog(supabase, queueId, `calling OpenAI (${getOpenAITextModel()}) for article JSON…`);
 
     const article = await generateArticle({
       topic_cluster: item.topic_cluster,
@@ -117,8 +117,8 @@ export async function runGenerationPipeline(
       source: {
         tool: "admin-generation",
         queue_id: queueId,
-        model: getGeminiTextModel(),
-        provider: "gemini",
+        model: getOpenAITextModel(),
+        provider: "openai",
         competitor_urls: competitorUrls,
       },
     });
