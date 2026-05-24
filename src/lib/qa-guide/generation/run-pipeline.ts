@@ -25,7 +25,10 @@ export async function runGenerationPipeline(
 ): Promise<{ ok: true; guide_id: string } | { ok: false; error: string }> {
   const item: QueueRow | null = await loadQueueRowForPipeline(supabase, queueId);
   if (!item) {
-    return { ok: false, error: "Queue row not available for pipeline (wrong status)" };
+    return {
+      ok: false,
+      error: "Could not load this brief for generation. Refresh and try Run again.",
+    };
   }
 
   try {
@@ -55,9 +58,6 @@ export async function runGenerationPipeline(
       queueId,
       `site context: ${ctx.homepage_text.length} chars homepage, ${ctx.internal_link_candidates.length} internal URLs`,
     );
-    if (ctx.warnings.length) {
-      await appendQueueLog(supabase, queueId, `warnings: ${ctx.warnings.join("; ")}`);
-    }
 
     const runId = new Date().toISOString().slice(0, 10);
     await appendQueueLog(supabase, queueId, `calling Gemini (${getGeminiTextModel()}) for article JSON…`);
@@ -134,61 +134,4 @@ export async function runGenerationPipeline(
     await markQueueFailed(supabase, queueId, msg);
     return { ok: false, error: msg };
   }
-}
-
-export async function triggerGenerationWorker(queueId: string): Promise<void> {
-  const secret = process.env.QA_GUIDE_GENERATION_SECRET?.trim();
-  if (!secret) {
-    throw new Error("QA_GUIDE_GENERATION_SECRET is not configured");
-  }
-
-  if (process.env.QA_GUIDE_GENERATION_INLINE === "true") {
-    const supabase = (await import("@/integrations/supabase/service")).createServiceSupabaseClient();
-    if (!supabase) {
-      throw new Error(
-        "SUPABASE_SERVICE_ROLE_KEY is not set. Add it to .env.local (same Supabase project as NEXT_PUBLIC_SUPABASE_URL).",
-      );
-    }
-    const result = await runGenerationPipeline(supabase, queueId);
-    if (result.ok === false) {
-      throw new Error(result.error);
-    }
-    return;
-  }
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-
-  if (supabaseUrl && serviceKey) {
-    const edgeUrl = `${supabaseUrl}/functions/v1/qa-guide-generate`;
-    void fetch(edgeUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${serviceKey}`,
-        "x-generation-secret": secret,
-      },
-      body: JSON.stringify({ queue_id: queueId }),
-    }).catch(() => {
-      /* fall through to direct internal call */
-    });
-    return;
-  }
-
-  const siteUrl =
-    process.env.SITE_BASE_URL?.trim() ||
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-    "http://localhost:3000";
-
-  void fetch(`${siteUrl}/api/internal/qa-guide-generation/execute`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${secret}`,
-      "x-generation-secret": secret,
-    },
-    body: JSON.stringify({ queue_id: queueId }),
-  }).catch(() => {
-    /* fire-and-forget */
-  });
 }

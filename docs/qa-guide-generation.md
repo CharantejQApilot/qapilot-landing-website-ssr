@@ -1,58 +1,39 @@
 # QA Guide content generation (admin)
 
-Native content automation for the QA Guide hub. Replaces the Cowork + Google Sheets prototype.
+Same admin session as Blogs. Queue CRUD uses the browser Supabase client; **Run** calls a server route that uses your admin JWT + `GEMINI_API_KEY`.
 
 ## Operator flow
 
-1. Open **Admin → QA Guide → Generation queue**.
-2. Add briefs (**+ New brief**): topic cluster, primary keyword, intent, competitor URLs, etc.
-3. Click **Generate next pending** (FIFO) or **Run** on a specific row.
-4. Wait ~4–7 minutes; watch the **Log** on the row.
-5. Click **View draft** → edit at `/admin/qa-guide/{id}`.
-6. Fact-check `claims_to_verify` in quality checks; light-edit if needed.
-7. Click **Publish & index** on the Guides sub-tab (or from the editor).
+1. **Admin → QA Guide → Generation queue** — add a brief (cluster, keyword, intent, competitor URLs).
+2. **Generate next pending** or **Run** on one row (wait a few minutes; keep the tab open).
+3. **View draft** → edit at `/admin/qa-guide/{id}`.
+4. **Guides** tab → **Publish & index** → live at `/qa-guide/<cluster>/<slug>` + sitemap.
 
-Published guides appear at `/qa-guide/<cluster>/<slug>` and in the `sitemap-qa-guides` Edge sitemap when `tier=index_worthy` and `status=published`.
+## Environment (local + Vercel)
 
-## Environment variables
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Same as rest of site |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Same as rest of site |
+| `GEMINI_API_KEY` | Yes for Run | Article JSON + cover image (server-only) |
+| `GEMINI_TEXT_MODEL` | Optional | Default `gemini-2.0-flash` |
+| `GEMINI_IMAGE_MODEL` | Optional | Default `gemini-3-pro-image-preview` |
 
-| Variable | Purpose |
-|----------|---------|
-| `GEMINI_API_KEY` | Article JSON + cover image (required) |
-| `GEMINI_TEXT_MODEL` | Optional; default `gemini-2.0-flash` (free tier) |
-| `GEMINI_IMAGE_MODEL` | Optional; default `gemini-3-pro-image-preview` |
-| `QA_GUIDE_GENERATION_SECRET` | Auth for internal execute route + edge function |
-| `SITE_BASE_URL` | Sitemap/homepage fetch + edge forwarder target |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server pipeline + edge invoke |
-| `QA_GUIDE_GENERATION_INLINE=true` | Local dev: run pipeline in-process (no edge) |
+You do **not** need `SUPABASE_SERVICE_ROLE_KEY`, `QA_GUIDE_GENERATION_SECRET`, or `QA_GUIDE_GENERATION_INLINE` for this feature.
 
-Set `QA_GUIDE_GENERATION_SECRET` and `SITE_BASE_URL` on the Supabase `qa-guide-generate` function secrets when deploying.
-
-## API (admin JWT)
-
-- `GET/POST /api/admin/qa-guide-generation/queue`
-- `GET/PATCH/DELETE /api/admin/qa-guide-generation/queue/{id}`
-- `POST /api/admin/qa-guide-generation/queue/run-next`
-- `POST /api/admin/qa-guide-generation/queue/{id}/run` (`?force=true` to re-run generated rows)
-
-## Manual E2E checklist
-
-1. Apply migration `20260524120000_qa_guide_generation_queue.sql`.
-2. Set env vars; for local dev set `QA_GUIDE_GENERATION_INLINE=true`.
-3. Create a pending brief with at least one competitor URL.
-4. **Generate next pending** → status `running` → `generated`; `generated_qa_guide_id` set.
-5. Open draft preview `/seo-drafts/<slug>` — confirm `noindex` in page metadata.
-6. Confirm URL is absent from QA guide sitemap until published.
-7. **Publish & index** → `/qa-guide/<cluster>/<slug>`; URL in sitemap output.
-8. Failed competitor fetch still completes when others succeed.
-9. Double-click **Generate next** while one job runs → second request returns 409.
+Legacy Cowork/scripts may still use `CMS_API_TOKEN` + `POST /api/posts` (service role on the server for that API only).
 
 ## Database
 
-Table: `qa_guide_generation_queue` (see `supabase/migrations/20260524120000_qa_guide_generation_queue.sql`).
+Run once in Supabase SQL: `supabase/migrations/20260524120000_qa_guide_generation_queue.sql`
 
-Legacy automation: `POST /api/posts` + `CMS_API_TOKEN` (see `contentpipeline/`).
+## API (admin session Bearer token)
+
+- `POST /api/admin/qa-guide-generation/queue/run-next`
+- `POST /api/admin/qa-guide-generation/queue/{id}/run` (`?force=true` to re-run)
+
+Both run the full pipeline and return `{ queue_id, guide_id, status: "generated" }` or an error.
 
 ## Security
 
-If a Gemini API key was ever committed (e.g. in `claudeplan/README.md`), **rotate it** in [Google AI Studio](https://aistudio.google.com/apikey), revoke the old key, and set the new value only in `.env.local` / Vercel secrets. If the key was pushed to GitHub, resolve the GitGuardian incident and consider rewriting history or accepting the leak is mitigated by rotation.
+Rotate any Gemini key that was ever committed to git. Store keys only in `.env.local` / Vercel secrets.

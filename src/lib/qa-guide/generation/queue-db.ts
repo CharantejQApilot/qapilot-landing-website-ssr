@@ -39,7 +39,7 @@ export async function explainClaimFailure(
     .eq("id", queueId)
     .maybeSingle();
 
-  if (!row) return "Queue row not found.";
+  if (!row) return "Brief not found. Refresh the page and try again.";
 
   if (row.status === "running") {
     if (isStaleRunning(row)) {
