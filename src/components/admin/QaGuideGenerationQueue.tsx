@@ -197,6 +197,28 @@ export default function QaGuideGenerationAdmin() {
     }
   };
 
+  const showDraftReadyToast = (result: {
+    quality_warnings?: string[];
+    quality_recommendation?: string;
+  }) => {
+    const warnings = result.quality_warnings ?? [];
+    if (warnings.length > 0) {
+      toast({
+        title: "Draft ready — quality warnings",
+        description: `${warnings.slice(0, 3).join("; ")}${warnings.length > 3 ? "…" : ""} You can still edit and publish.`,
+        variant: "destructive",
+      });
+      return;
+    }
+    toast({
+      title: "Draft ready",
+      description:
+        result.quality_recommendation === "NEEDS_REVIEW"
+          ? "Review the draft and quality log before publishing."
+          : "Review the draft, then publish from the Guides tab.",
+    });
+  };
+
   const handleRunNext = async () => {
     if (!token) {
       toast({ title: "Sign in required", variant: "destructive" });
@@ -205,10 +227,7 @@ export default function QaGuideGenerationAdmin() {
     setRunningAction("next");
     try {
       const result = await runGenerationNext(token);
-      toast({
-        title: "Draft ready",
-        description: "Review the draft, then publish from the Guides tab.",
-      });
+      showDraftReadyToast(result);
       setExpandedId(result.queue_id);
       loadQueue();
     } catch (e) {
@@ -233,11 +252,8 @@ export default function QaGuideGenerationAdmin() {
     }
     setRunningAction(id);
     try {
-      await runGenerationById(token, id, force);
-      toast({
-        title: "Draft ready",
-        description: "Open View draft to review, then publish when ready.",
-      });
+      const result = await runGenerationById(token, id, force);
+      showDraftReadyToast(result);
       setExpandedId(id);
       loadQueue();
     } catch (e) {
@@ -437,8 +453,17 @@ export default function QaGuideGenerationAdmin() {
                             {row.topic_cluster}
                           </span>
                           {row.quality_recommendation ? (
-                            <span className="text-xs text-muted-foreground">
-                              AI: {row.quality_recommendation}
+                            <span
+                              className={`text-xs font-medium ${
+                                row.quality_recommendation === "NEEDS_REVIEW"
+                                  ? "text-amber-700 dark:text-amber-300"
+                                  : "text-muted-foreground"
+                              }`}
+                            >
+                              Quality: {row.quality_recommendation}
+                              {row.quality_score != null
+                                ? ` (${row.quality_score})`
+                                : ""}
                             </span>
                           ) : null}
                         </div>
@@ -508,7 +533,25 @@ export default function QaGuideGenerationAdmin() {
                       </div>
                     </div>
                     {expandedId === row.id && (expandedDetail?.id === row.id || isRunning) ? (
-                      <div className="rounded-md bg-muted/50 p-3 text-xs font-mono space-y-1 max-h-48 overflow-y-auto">
+                      <div className="rounded-md bg-muted/50 p-3 text-xs font-mono space-y-2 max-h-64 overflow-y-auto">
+                        {(() => {
+                          const payload =
+                            expandedDetail?.quality_payload ?? row.quality_payload;
+                          const failures = payload?.server_side_failures;
+                          if (Array.isArray(failures) && failures.length > 0) {
+                            return (
+                              <div className="text-amber-800 dark:text-amber-200 space-y-1 pb-2 border-b border-border">
+                                <p className="font-sans font-semibold text-[11px]">
+                                  Quality gate (advisory — draft still saved)
+                                </p>
+                                {failures.map((f, i) => (
+                                  <div key={`qf-${i}`}>• {String(f)}</div>
+                                ))}
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
                         {(expandedDetail?.run_log ?? row.run_log).length === 0 ? (
                           <p className="text-muted-foreground">No log entries yet.</p>
                         ) : (

@@ -42,5 +42,7 @@ export async function POST(request: NextRequest) {
     queue_id: row.id,
     guide_id: result.guide_id,
     status: "generated",
+    quality_recommendation: result.quality_recommendation,
+    quality_warnings: result.quality_warnings,
   });
 }

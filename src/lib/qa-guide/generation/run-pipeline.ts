@@ -19,15 +19,15 @@ import {
   markQueueGenerated,
   type QueueRow,
 } from "@/lib/qa-guide/generation/queue-db";
-import {
-  compositeQualityScore,
-  runQualityGate,
-} from "@/lib/qa-guide/generation/quality-gate";
+import { compositeQualityScore, runQualityGate } from "@/lib/qa-guide/generation/quality-gate";
 
 export async function runGenerationPipeline(
   supabase: SupabaseClient<Database>,
   queueId: string,
-): Promise<{ ok: true; guide_id: string } | { ok: false; error: string }> {
+): Promise<
+  | { ok: true; guide_id: string; quality_recommendation: string; quality_warnings: string[] }
+  | { ok: false; error: string }
+> {
   const item: QueueRow | null = await loadQueueRowForPipeline(supabase, queueId);
   if (!item) {
     return {
@@ -99,12 +99,16 @@ export async function runGenerationPipeline(
     const qc = runQualityGate(enriched, ctx.internal_link_candidates);
     enriched.quality_checks = qc;
     const recommendation = String(qc.overall_recommendation ?? "REVIEW");
+    const warnings = Array.isArray(qc.server_side_failures)
+      ? (qc.server_side_failures as string[])
+      : [];
     await appendQueueLog(supabase, queueId, `quality gate: ${recommendation}`);
-
-    if (recommendation === "DISCARD") {
-      const failures = qc.server_side_failures;
-      const detail = Array.isArray(failures) ? failures.join("; ") : "quality_checks failed";
-      throw new Error(`Draft did not pass quality gate: ${detail}`);
+    if (warnings.length > 0) {
+      await appendQueueLog(
+        supabase,
+        queueId,
+        `quality warnings (draft saved — review before publish): ${warnings.join("; ")}`,
+      );
     }
 
     const slug = (enriched.slug?.trim() || slugifyTitle(enriched.title)).slice(0, 80);
@@ -154,7 +158,12 @@ export async function runGenerationPipeline(
     await markQueueGenerated(supabase, queueId, guide.id, qc, score, recommendation);
     await appendQueueLog(supabase, queueId, `draft created: ${guide.url_path}`);
 
-    return { ok: true, guide_id: guide.id };
+    return {
+      ok: true,
+      guide_id: guide.id,
+      quality_recommendation: recommendation,
+      quality_warnings: warnings,
+    };
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     await appendQueueLog(supabase, queueId, `pipeline failed: ${msg}`);

@@ -28,6 +28,8 @@ export type GenerationRunResult = {
   guide_id?: string;
   status?: string;
   error?: string;
+  quality_recommendation?: string;
+  quality_warnings?: string[];
 };
 
 async function adminPostRun(

@@ -1,55 +1,26 @@
 import { normalizeLinkPath } from "@/lib/qa-guide/generation/fetch-site-context";
+import {
+  BANNED_PHRASES,
+  QUALITY_MAX_EXTERNAL_LINKS,
+  QUALITY_MAX_INTERNAL_LINKS,
+  QUALITY_MAX_WORDS,
+  QUALITY_MIN_EXTERNAL_LINKS,
+  QUALITY_MIN_H2,
+  QUALITY_MIN_INFORMATION_GAIN,
+  QUALITY_MIN_INTERNAL_LINKS,
+  QUALITY_MIN_MOBILE_TERMS,
+  QUALITY_MIN_ORIGINALITY,
+  QUALITY_MIN_PRODUCT_RELEVANCE,
+  QUALITY_MIN_QAPILOT_GROUNDING,
+  QUALITY_MIN_QAPILOT_MENTIONS,
+  QUALITY_MIN_STRUCTURED_ELEMENTS,
+  QUALITY_MIN_USEFULNESS,
+  QUALITY_MIN_WORDS,
+  QUALITY_TARGET_MAX_WORDS,
+  QUALITY_TARGET_MIN_WORDS,
+} from "@/lib/qa-guide/generation/quality-standards";
 
-export const BANNED_PHRASES = [
-  "delve",
-  "delving",
-  "delved",
-  "testament",
-  "moreover",
-  "furthermore",
-  "in today's fast-paced world",
-  "in the world of",
-  "in the realm of",
-  "the world of",
-  "navigating the complexities",
-  "landscape of",
-  "ever-evolving",
-  "paradigm shift",
-  "synergy",
-  "harness the power of",
-  "unleash",
-  "unlock",
-  "dive deep",
-  "embark on a journey",
-  "at the end of the day",
-  "in conclusion",
-  "it's worth noting that",
-  "it goes without saying",
-  "needless to say",
-  "cutting-edge",
-  "state-of-the-art",
-  "revolutionize",
-  "revolutionary",
-  "seamless",
-  "seamlessly",
-  "robust",
-  "leverage",
-  "leveraging",
-  "as we navigate",
-  "tapestry",
-  "game-changer",
-  "holistic approach",
-  "best practices abound",
-];
-
-const MIN_WORDS = 2000;
-const MAX_WORDS = 3200;
-const MIN_H2_SECTIONS = 5;
-const MIN_QAPILOT_MENTIONS = 3;
-const MIN_INLINE_QAPILOT_LINKS = 2;
-const MAX_INLINE_QAPILOT_LINKS = 3;
-const MIN_INLINE_EXTERNAL_LINKS = 2;
-const MAX_INLINE_EXTERNAL_LINKS = 3;
+export { BANNED_PHRASES };
 
 const MOBILE_QA_TERMS = [
   "testflight",
@@ -120,8 +91,10 @@ export function runQualityGate(
 
   const fails: string[] = [];
 
-  if (wordCount < MIN_WORDS || wordCount > MAX_WORDS) {
-    fails.push(`word_count=${wordCount} not in [${MIN_WORDS},${MAX_WORDS}] (~2200–2800 target)`);
+  if (wordCount < QUALITY_MIN_WORDS || wordCount > QUALITY_MAX_WORDS) {
+    fails.push(
+      `word_count=${wordCount} not in [${QUALITY_MIN_WORDS},${QUALITY_MAX_WORDS}] (~${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} target)`,
+    );
   }
 
   const h2Re = /^##\s+(.+)$/gm;
@@ -130,8 +103,8 @@ export function runQualityGate(
   while ((h2Match = h2Re.exec(body)) !== null) {
     h2s.push(h2Match[1] ?? "");
   }
-  if (h2s.length < MIN_H2_SECTIONS) {
-    fails.push(`h2_count=${h2s.length} < ${MIN_H2_SECTIONS}`);
+  if (h2s.length < QUALITY_MIN_H2) {
+    fails.push(`h2_count=${h2s.length} < ${QUALITY_MIN_H2}`);
   }
 
   const lastH2 = h2s[h2s.length - 1]?.toLowerCase() ?? "";
@@ -141,35 +114,35 @@ export function runQualityGate(
 
   const qapilotMentions = (body.match(/qapilot/gi) ?? []).length;
   qc.qapilot_mention_count = qapilotMentions;
-  if (qapilotMentions < MIN_QAPILOT_MENTIONS) {
-    fails.push(`qapilot_mentions=${qapilotMentions} < ${MIN_QAPILOT_MENTIONS}`);
+  if (qapilotMentions < QUALITY_MIN_QAPILOT_MENTIONS) {
+    fails.push(`qapilot_mentions=${qapilotMentions} < ${QUALITY_MIN_QAPILOT_MENTIONS}`);
   }
 
   const { qapilot: inlineQapilot, external: inlineExternal } = countInlineLinks(body);
   qc.inline_qapilot_links = inlineQapilot;
   qc.inline_external_links = inlineExternal;
 
-  if (!isInRange(inlineQapilot, MIN_INLINE_QAPILOT_LINKS, MAX_INLINE_QAPILOT_LINKS)) {
+  if (!isInRange(inlineQapilot, QUALITY_MIN_INTERNAL_LINKS, QUALITY_MAX_INTERNAL_LINKS)) {
     fails.push(
-      `inline_qapilot_links=${inlineQapilot} (need ${MIN_INLINE_QAPILOT_LINKS}–${MAX_INLINE_QAPILOT_LINKS})`,
+      `inline_qapilot_links=${inlineQapilot} (need ${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS})`,
     );
   }
-  if (!isInRange(inlineExternal, MIN_INLINE_EXTERNAL_LINKS, MAX_INLINE_EXTERNAL_LINKS)) {
+  if (!isInRange(inlineExternal, QUALITY_MIN_EXTERNAL_LINKS, QUALITY_MAX_EXTERNAL_LINKS)) {
     fails.push(
-      `inline_external_links=${inlineExternal} (need ${MIN_INLINE_EXTERNAL_LINKS}–${MAX_INLINE_EXTERNAL_LINKS})`,
+      `inline_external_links=${inlineExternal} (need ${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS})`,
     );
   }
 
   const mobileTermHits = countMobileTerms(body);
   qc.mobile_term_hits = mobileTermHits;
-  if (mobileTermHits < 5) {
-    fails.push(`mobile_term_hits=${mobileTermHits} < 5`);
+  if (mobileTermHits < QUALITY_MIN_MOBILE_TERMS) {
+    fails.push(`mobile_term_hits=${mobileTermHits} < ${QUALITY_MIN_MOBILE_TERMS}`);
   }
 
   const lowerBody = body.toLowerCase();
   const foundBans = BANNED_PHRASES.filter((w) => lowerBody.includes(w));
   if (foundBans.length) {
-    fails.push(`banned words: ${foundBans.slice(0, 5).join(", ")}`);
+    fails.push(`banned words: ${foundBans.slice(0, 8).join(", ")}`);
   }
   qc.ai_tells_found = foundBans;
 
@@ -189,52 +162,62 @@ export function runQualityGate(
 
   const extSugg = article.external_link_suggestions ?? [];
   qc.external_link_suggestions_count = extSugg.length;
-  if (extSugg.length < MIN_INLINE_EXTERNAL_LINKS || extSugg.length > MAX_INLINE_EXTERNAL_LINKS) {
+  if (
+    extSugg.length < QUALITY_MIN_EXTERNAL_LINKS ||
+    extSugg.length > QUALITY_MAX_EXTERNAL_LINKS
+  ) {
     fails.push(
-      `external_link_suggestions=${extSugg.length} (need ${MIN_INLINE_EXTERNAL_LINKS}–${MAX_INLINE_EXTERNAL_LINKS})`,
+      `external_link_suggestions=${extSugg.length} (need ${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS})`,
     );
   }
 
   const infoGain = qc.information_gain;
-  if (!Array.isArray(infoGain) || infoGain.length < 2) {
-    fails.push("information_gain needs at least 2 items");
+  if (!Array.isArray(infoGain) || infoGain.length < QUALITY_MIN_INFORMATION_GAIN) {
+    fails.push(`information_gain needs at least ${QUALITY_MIN_INFORMATION_GAIN} items`);
   }
 
   const structured = qc.structured_elements;
-  if (!Array.isArray(structured) || structured.length < 2) {
-    fails.push("structured_elements needs at least 2 items");
+  if (!Array.isArray(structured) || structured.length < QUALITY_MIN_STRUCTURED_ELEMENTS) {
+    fails.push(`structured_elements needs at least ${QUALITY_MIN_STRUCTURED_ELEMENTS} items`);
   }
 
   const grounding = qc.qapilot_grounding;
-  if (!Array.isArray(grounding) || grounding.length < 3) {
-    fails.push("qapilot_grounding needs at least 3 site phrases");
+  if (!Array.isArray(grounding) || grounding.length < QUALITY_MIN_QAPILOT_GROUNDING) {
+    fails.push(`qapilot_grounding needs at least ${QUALITY_MIN_QAPILOT_GROUNDING} site phrases`);
   }
 
   const originality = typeof qc.originality_score === "number" ? qc.originality_score : 0;
-  if (originality < 0.65) {
-    fails.push(`originality_score=${originality} < 0.65`);
+  if (originality < QUALITY_MIN_ORIGINALITY) {
+    fails.push(`originality_score=${originality} < ${QUALITY_MIN_ORIGINALITY}`);
   }
 
   const usefulness = typeof qc.usefulness_score === "number" ? qc.usefulness_score : 0;
-  if (usefulness < 0.65) {
-    fails.push(`usefulness_score=${usefulness} < 0.65`);
+  if (usefulness < QUALITY_MIN_USEFULNESS) {
+    fails.push(`usefulness_score=${usefulness} < ${QUALITY_MIN_USEFULNESS}`);
   }
 
   const productRelevance =
     typeof qc.product_relevance_score === "number" ? qc.product_relevance_score : 0;
-  if (productRelevance < 0.6) {
-    fails.push(`product_relevance_score=${productRelevance} < 0.6`);
+  if (productRelevance < QUALITY_MIN_PRODUCT_RELEVANCE) {
+    fails.push(`product_relevance_score=${productRelevance} < ${QUALITY_MIN_PRODUCT_RELEVANCE}`);
   }
 
+  qc.gate_enforced = false;
+  qc.editor_may_bypass = true;
+
   if (fails.length) {
-    qc.overall_recommendation = "DISCARD";
+    qc.overall_recommendation = "NEEDS_REVIEW";
     qc.server_side_failures = fails;
-  } else if (
-    qc.overall_recommendation !== "APPROVE" &&
-    qc.overall_recommendation !== "APPROVE as supporting" &&
-    qc.overall_recommendation !== "REVIEW"
-  ) {
-    qc.overall_recommendation = "REVIEW";
+    qc.quality_gate_passed = false;
+  } else {
+    qc.quality_gate_passed = true;
+    if (
+      qc.overall_recommendation !== "APPROVE" &&
+      qc.overall_recommendation !== "APPROVE as supporting" &&
+      qc.overall_recommendation !== "REVIEW"
+    ) {
+      qc.overall_recommendation = "REVIEW";
+    }
   }
 
   return qc;
@@ -245,4 +228,10 @@ export function compositeQualityScore(qc: Record<string, unknown>): number {
   const u = typeof qc.usefulness_score === "number" ? qc.usefulness_score : 0;
   const p = typeof qc.product_relevance_score === "number" ? qc.product_relevance_score : 0;
   return Math.round(((o + u + p) / 3) * 100) / 100;
+}
+
+export function formatQualityFailures(qc: Record<string, unknown>): string {
+  const failures = qc.server_side_failures;
+  if (!Array.isArray(failures) || failures.length === 0) return "";
+  return failures.join("; ");
 }

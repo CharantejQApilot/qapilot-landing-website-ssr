@@ -1,7 +1,8 @@
 import type { GeneratedArticle } from "@/lib/qa-guide/generation/generate-article";
 import { getOpenAIApiKey, getOpenAITextModel } from "@/lib/qa-guide/generation/openai-config";
+import { QUALITY_TARGET_MIN_WORDS } from "@/lib/qa-guide/generation/quality-standards";
 
-const TARGET_MIN_WORDS = 2200;
+const TARGET_MIN_WORDS = QUALITY_TARGET_MIN_WORDS;
 
 function wordCount(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
