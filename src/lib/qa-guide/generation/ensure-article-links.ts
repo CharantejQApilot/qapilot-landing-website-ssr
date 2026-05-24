@@ -141,14 +141,18 @@ export function ensureArticleLinks(
   );
 
   const counts = countInlineLinks(body);
-  const externalToAdd =
-    counts.external < MIN_EXTERNAL
-      ? missingExternal.slice(0, MAX_EXTERNAL)
-      : missingExternal.slice(0, Math.max(0, MAX_EXTERNAL - counts.external));
-  const internalToAdd =
-    counts.qapilot < MIN_INTERNAL
-      ? missingInternal.slice(0, MAX_INTERNAL)
-      : missingInternal.slice(0, Math.max(0, MAX_INTERNAL - counts.qapilot));
+  const externalNeeded = Math.max(0, MIN_EXTERNAL - counts.external);
+  const externalCap = Math.max(0, MAX_EXTERNAL - counts.external);
+  const externalToAdd = missingExternal.slice(
+    0,
+    Math.min(externalNeeded, externalCap, missingExternal.length),
+  );
+  const internalNeeded = Math.max(0, MIN_INTERNAL - counts.qapilot);
+  const internalCap = Math.max(0, MAX_INTERNAL - counts.qapilot);
+  const internalToAdd = missingInternal.slice(
+    0,
+    Math.min(internalNeeded, internalCap, missingInternal.length),
+  );
 
   if (externalToAdd.length > 0 || internalToAdd.length > 0) {
     if (!body.toLowerCase().includes("## mobile testing resources")) {
