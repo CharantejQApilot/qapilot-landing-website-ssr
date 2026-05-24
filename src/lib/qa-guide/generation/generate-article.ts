@@ -1,5 +1,5 @@
 import { ARTICLE_SYSTEM_PROMPT, buildArticleUserPrompt } from "@/lib/qa-guide/generation/prompts";
-import { getGeminiApiKey, getGeminiTextModel } from "@/lib/qa-guide/generation/gemini-config";
+import { getOpenAIApiKey, getOpenAITextModel } from "@/lib/qa-guide/generation/openai-config";
 
 export type GeneratedArticle = {
   title: string;
@@ -33,18 +33,6 @@ function stripJsonFences(raw: string): string {
   return text.trim();
 }
 
-function extractGeminiText(data: {
-  candidates?: Array<{
-    content?: { parts?: Array<{ text?: string }> };
-  }>;
-}): string {
-  const parts = data.candidates?.[0]?.content?.parts ?? [];
-  return parts
-    .map((p) => p.text ?? "")
-    .join("")
-    .trim();
-}
-
 export async function generateArticle(params: {
   topic_cluster: string;
   primary_keyword: string;
@@ -59,10 +47,10 @@ export async function generateArticle(params: {
   let apiKey: string;
   let model: string;
   try {
-    apiKey = getGeminiApiKey();
-    model = getGeminiTextModel();
+    apiKey = getOpenAIApiKey();
+    model = getOpenAITextModel();
   } catch (e) {
-    throw new ArticleGenerationError(e instanceof Error ? e.message : "Gemini not configured");
+    throw new ArticleGenerationError(e instanceof Error ? e.message : "OpenAI not configured");
   }
 
   const userMessage = buildArticleUserPrompt({
@@ -83,41 +71,37 @@ export async function generateArticle(params: {
     run_id: params.run_id,
   });
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-  const res = await fetch(url, {
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      "x-goog-api-key": apiKey,
+      Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      systemInstruction: {
-        parts: [{ text: ARTICLE_SYSTEM_PROMPT }],
-      },
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: userMessage }],
-        },
+      model,
+      temperature: 0.4,
+      max_tokens: 8192,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: ARTICLE_SYSTEM_PROMPT },
+        { role: "user", content: userMessage },
       ],
-      generationConfig: {
-        temperature: 0.4,
-        maxOutputTokens: 8192,
-        responseMimeType: "application/json",
-      },
     }),
     signal: AbortSignal.timeout(300_000),
   });
 
   if (!res.ok) {
     const detail = await res.text();
-    throw new ArticleGenerationError(`Gemini HTTP ${res.status}: ${detail.slice(0, 500)}`);
+    throw new ArticleGenerationError(`OpenAI HTTP ${res.status}: ${detail.slice(0, 500)}`);
   }
 
-  const data = (await res.json()) as Parameters<typeof extractGeminiText>[0];
-  const rawText = extractGeminiText(data);
+  const data = (await res.json()) as {
+    choices?: Array<{ message?: { content?: string | null } }>;
+  };
+
+  const rawText = data.choices?.[0]?.message?.content?.trim() ?? "";
   if (!rawText) {
-    throw new ArticleGenerationError("Gemini returned no text content");
+    throw new ArticleGenerationError("OpenAI returned no text content");
   }
 
   let parsed: GeneratedArticle;
@@ -136,4 +120,4 @@ export async function generateArticle(params: {
   return parsed;
 }
 
-export { getGeminiTextModel };
+export { getOpenAITextModel };

@@ -1,6 +1,6 @@
 # QA Guide content generation (admin)
 
-Same admin session as Blogs. Queue CRUD uses the browser Supabase client; **Run** calls a server route that uses your admin JWT + `GEMINI_API_KEY`.
+Same admin session as Blogs. Queue CRUD uses the browser Supabase client; **Run** calls a server route that uses your admin JWT + `OPENAI_API_KEY`.
 
 ## Operator flow
 
@@ -15,13 +15,13 @@ Same admin session as Blogs. Queue CRUD uses the browser Supabase client; **Run*
 |----------|----------|---------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes | Same as rest of site |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Same as rest of site |
-| `GEMINI_API_KEY` | Yes for Run | Article JSON + cover image (server-only) |
-| `GEMINI_TEXT_MODEL` | Optional | Default `gemini-2.0-flash` |
-| `GEMINI_IMAGE_MODEL` | Optional | Default `gemini-3-pro-image-preview` |
+| `OPENAI_API_KEY` | Yes for Run | Article JSON (`gpt-4o` by default) + cover (`dall-e-3`) |
+| `OPENAI_TEXT_MODEL` | Optional | Default `gpt-4o` |
+| `OPENAI_IMAGE_MODEL` | Optional | Default `dall-e-3` |
 
-You do **not** need `SUPABASE_SERVICE_ROLE_KEY`, `QA_GUIDE_GENERATION_SECRET`, or `QA_GUIDE_GENERATION_INLINE` for this feature.
+You do **not** need `GEMINI_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, or generation secrets for this feature.
 
-Legacy Cowork/scripts may still use `CMS_API_TOKEN` + `POST /api/posts` (service role on the server for that API only).
+Legacy Cowork/scripts may still use `CMS_API_TOKEN` + `POST /api/posts`.
 
 ## Database
 
@@ -32,8 +32,6 @@ Run once in Supabase SQL: `supabase/migrations/20260524120000_qa_guide_generatio
 - `POST /api/admin/qa-guide-generation/queue/run-next`
 - `POST /api/admin/qa-guide-generation/queue/{id}/run` (`?force=true` to re-run)
 
-Both run the full pipeline and return `{ queue_id, guide_id, status: "generated" }` or an error.
-
 ## Security
 
-Rotate any Gemini key that was ever committed to git. Store keys only in `.env.local` / Vercel secrets.
+Store API keys only in Vercel / `.env.local`. Rotate any key that was ever committed or leaked.
