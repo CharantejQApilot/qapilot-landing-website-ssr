@@ -21,17 +21,94 @@ export async function appendQueueLog(
   await supabase.from("qa_guide_generation_queue").update({ run_log: next }).eq("id", queueId);
 }
 
+const STALE_RUN_MS = 15 * 60 * 1000;
+
+function isStaleRunning(row: { run_started_at: string | null }): boolean {
+  if (!row.run_started_at) return false;
+  return Date.now() - new Date(row.run_started_at).getTime() > STALE_RUN_MS;
+}
+
+/** Human-readable reason when claimQueueRowForRun returns null. */
+export async function explainClaimFailure(
+  supabase: SupabaseClient<Database>,
+  queueId: string,
+): Promise<string> {
+  const { data: row } = await supabase
+    .from("qa_guide_generation_queue")
+    .select("id, status, run_started_at")
+    .eq("id", queueId)
+    .maybeSingle();
+
+  if (!row) return "Queue row not found.";
+
+  if (row.status === "running") {
+    if (isStaleRunning(row)) {
+      return "This run looks stuck. Use Run again (stale runs are reset automatically) or refresh the page.";
+    }
+    return "This brief is already running. Watch the Log below, or wait until it finishes.";
+  }
+
+  if (row.status === "generated") {
+    return "Already generated. Use Re-run if you need a new draft.";
+  }
+
+  if (row.status === "skip") {
+    return "This brief was skipped. Edit status in the database or add a new brief.";
+  }
+
+  const { data: otherRunning } = await supabase
+    .from("qa_guide_generation_queue")
+    .select("primary_keyword")
+    .eq("status", "running")
+    .neq("id", queueId)
+    .limit(1);
+
+  if (otherRunning?.length) {
+    const kw = otherRunning[0]?.primary_keyword ?? "another brief";
+    return `Another job is running (“${kw}”). Wait for it to finish, or reset stuck runs.`;
+  }
+
+  return "Could not start run. Refresh and try again.";
+}
+
 export async function claimQueueRowForRun(
   supabase: SupabaseClient<Database>,
   queueId: string,
 ): Promise<QueueRow | null> {
   const { data: existing } = await supabase
     .from("qa_guide_generation_queue")
-    .select("id, status")
+    .select("id, status, run_started_at")
     .eq("id", queueId)
     .maybeSingle();
 
-  if (!existing || !["pending", "failed"].includes(existing.status)) {
+  if (!existing) return null;
+
+  if (existing.status === "running") {
+    const { data: full } = await supabase
+      .from("qa_guide_generation_queue")
+      .select("run_log")
+      .eq("id", queueId)
+      .maybeSingle();
+    const logLen = Array.isArray(full?.run_log) ? full.run_log.length : 0;
+    const abandoned = logLen === 0;
+
+    if (abandoned || isStaleRunning(existing)) {
+      await supabase
+        .from("qa_guide_generation_queue")
+        .update({
+          status: "failed",
+          run_completed_at: new Date().toISOString(),
+          last_error: abandoned
+            ? "Previous run did not start (reset). Try Run again."
+            : "Previous run timed out (stale). You can Run again.",
+        })
+        .eq("id", queueId);
+    } else {
+      return null;
+    }
+  }
+
+  if (!["pending", "failed"].includes(existing.status)) {
     return null;
   }
 
@@ -61,6 +138,43 @@ export async function claimQueueRowForRun(
 
   if (error || !data) return null;
   return data;
+}
+
+/**
+ * Load row for pipeline work. Accepts `running` when the API route already claimed the row.
+ */
+export async function loadQueueRowForPipeline(
+  supabase: SupabaseClient<Database>,
+  queueId: string,
+): Promise<QueueRow | null> {
+  const { data: row } = await supabase
+    .from("qa_guide_generation_queue")
+    .select("*")
+    .eq("id", queueId)
+    .maybeSingle();
+
+  if (!row) return null;
+
+  if (row.status === "running") {
+    if (isStaleRunning(row)) {
+      await supabase
+        .from("qa_guide_generation_queue")
+        .update({
+          status: "failed",
+          run_completed_at: new Date().toISOString(),
+          last_error: "Run timed out (stale).",
+        })
+        .eq("id", queueId);
+      return claimQueueRowForRun(supabase, queueId);
+    }
+    return row;
+  }
+
+  if (["pending", "failed"].includes(row.status)) {
+    return claimQueueRowForRun(supabase, queueId);
+  }
+
+  return null;
 }
 
 export async function claimNextPendingQueueRow(
