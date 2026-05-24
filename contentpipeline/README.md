@@ -1,5 +1,7 @@
 # Daily Content Publishing Automation — Setup Guide
 
+> **Legacy:** The primary workflow now lives in the site admin (**Admin → QA Guide → Generation queue**). See [docs/qa-guide-generation.md](../docs/qa-guide-generation.md). This folder remains for `POST /api/posts` compatibility and reference prompts.
+
 A daily automation that generates a unique, SEO-aware blog draft **as `noindex,nofollow`
 on `/seo-drafts/`**, runs a quality gate over it, and waits for your manual approval
 before any indexable page exists.
