@@ -172,8 +172,7 @@ export default function QaGuideEditorClient() {
         session.session?.access_token,
         withCommonCachePaths([
           PATHS.QA_GUIDE,
-          `${PATHS.QA_GUIDE}/${topicCluster}`,
-          publishedUrlPath(topicCluster, slug),
+          publishedUrlPath(slug),
           draftUrlPath(slug),
         ]),
       );

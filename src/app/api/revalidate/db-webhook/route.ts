@@ -90,10 +90,12 @@ function derivePaths(payload: DbWebhookPayload): string[] {
       const prevCluster = asNonEmptyString(oldRecord?.topic_cluster);
       const currentSlug = asNonEmptyString(record?.slug);
       const previousSlug = asNonEmptyString(oldRecord?.slug);
-      if (cluster) paths.add(`/qa-guide/${cluster}`);
-      if (prevCluster) paths.add(`/qa-guide/${prevCluster}`);
+      if (currentSlug) paths.add(`/qa-guide/${currentSlug}`);
+      if (previousSlug) paths.add(`/qa-guide/${previousSlug}`);
       if (cluster && currentSlug) paths.add(`/qa-guide/${cluster}/${currentSlug}`);
       if (prevCluster && previousSlug) paths.add(`/qa-guide/${prevCluster}/${previousSlug}`);
+      if (cluster) paths.add(`/qa-guide/${cluster}`);
+      if (prevCluster) paths.add(`/qa-guide/${prevCluster}`);
       if (currentSlug) paths.add(`/seo-drafts/${currentSlug}`);
       if (previousSlug) paths.add(`/seo-drafts/${previousSlug}`);
       break;

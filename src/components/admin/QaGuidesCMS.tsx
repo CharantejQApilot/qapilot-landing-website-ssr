@@ -110,8 +110,7 @@ export default function QaGuidesCMS() {
       const { data: session } = await supabase.auth.getSession();
       const paths = withCommonCachePaths([
         PATHS.QA_GUIDE,
-        `${PATHS.QA_GUIDE}/${guide.topic_cluster}`,
-        publishedUrlPath(guide.topic_cluster, guide.slug),
+        publishedUrlPath(guide.slug),
         draftUrlPath(guide.slug),
       ]);
       await revalidatePublicPaths(session.session?.access_token, paths);
