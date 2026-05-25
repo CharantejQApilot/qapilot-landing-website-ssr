@@ -6,6 +6,44 @@ type HomeHeroTrustMarqueeProps = {
 };
 
 function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?: boolean }) {
+  const wrapperClassName = cn(
+    "flex shrink-0 items-center justify-center",
+    // Horizontal gap between logos — fixed across breakpoints
+    "mx-6 sm:mx-8 md:mx-12 lg:mx-12 xl:mx-14 2xl:mx-16",
+    // Cell height grows with viewport (never shrinks at lg)
+    "h-14 sm:h-16 md:h-[4.25rem] lg:h-[4.75rem] xl:h-20 2xl:h-[5.25rem]",
+    "w-28 sm:w-32 md:w-40 lg:w-44 xl:w-48 2xl:w-52",
+  );
+
+  const logoImage = (
+    <img
+      src={logo.logo}
+      alt={decorative ? "" : `${logo.name} logo`}
+      width={160}
+      height={48}
+      loading="lazy"
+      decoding="async"
+      className={cn(
+        "h-auto w-auto max-h-full object-contain opacity-90",
+        // Logo mark scales up at each breakpoint (mobile → desktop)
+        "max-w-[6.5rem] sm:max-w-[7.5rem] md:max-w-[9.5rem] lg:max-w-[11rem] xl:max-w-[12.5rem] 2xl:max-w-[14rem]",
+        "h-7 sm:h-8 md:h-10 lg:h-12 xl:h-14 2xl:h-16",
+      )}
+      style={{ transform: `scale(${logo.visualScale})`, transformOrigin: "center" }}
+    />
+  );
+
+  if (!logo.url) {
+    return (
+      <div
+        aria-hidden={decorative ? true : undefined}
+        className={wrapperClassName}
+      >
+        {logoImage}
+      </div>
+    );
+  }
+
   return (
     <a
       href={logo.url}
@@ -13,30 +51,9 @@ function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?:
       rel="noopener"
       aria-hidden={decorative ? true : undefined}
       tabIndex={decorative ? -1 : undefined}
-      className={cn(
-        "flex shrink-0 items-center justify-center",
-        // Horizontal gap between logos — fixed across breakpoints
-        "mx-6 sm:mx-8 md:mx-12 lg:mx-12 xl:mx-14 2xl:mx-16",
-        // Cell height grows with viewport (never shrinks at lg)
-        "h-14 sm:h-16 md:h-[4.25rem] lg:h-[4.75rem] xl:h-20 2xl:h-[5.25rem]",
-        "w-28 sm:w-32 md:w-40 lg:w-44 xl:w-48 2xl:w-52",
-      )}
+      className={wrapperClassName}
     >
-      <img
-        src={logo.logo}
-        alt={decorative ? "" : `${logo.name} logo`}
-        width={160}
-        height={48}
-        loading="lazy"
-        decoding="async"
-        className={cn(
-          "h-auto w-auto max-h-full object-contain opacity-90",
-          // Logo mark scales up at each breakpoint (mobile → desktop)
-          "max-w-[6.5rem] sm:max-w-[7.5rem] md:max-w-[9.5rem] lg:max-w-[11rem] xl:max-w-[12.5rem] 2xl:max-w-[14rem]",
-          "h-7 sm:h-8 md:h-10 lg:h-12 xl:h-14 2xl:h-16",
-        )}
-        style={{ transform: `scale(${logo.visualScale})`, transformOrigin: "center" }}
-      />
+      {logoImage}
     </a>
   );
 }

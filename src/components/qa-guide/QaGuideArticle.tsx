@@ -13,7 +13,6 @@ const ARTICLE_MAX_WIDTH = "mx-auto w-full max-w-7xl";
 export type QaGuideArticleData = {
   title: string;
   slug: string;
-  topic_cluster: string;
   excerpt: string | null;
   content: string | null;
   content_format: string | null;
@@ -28,14 +27,12 @@ type QaGuideArticleProps = {
   guide: QaGuideArticleData;
   backHref: string;
   backLabel: string;
-  clusterTitle?: string;
 };
 
 export default function QaGuideArticle({
   guide,
   backHref,
   backLabel,
-  clusterTitle,
 }: QaGuideArticleProps) {
   const descriptionText = firstNonEmptyString(guide.excerpt, guide.intent);
   const tags = commaSeparatedList(guide.tags);
@@ -75,13 +72,8 @@ export default function QaGuideArticle({
           <p className="mb-8 text-xl text-muted-foreground">{descriptionText}</p>
         ) : null}
 
-        {clusterTitle || tags.length > 0 ? (
+        {tags.length > 0 ? (
           <div className="mb-6 flex flex-wrap gap-2 text-sm">
-            {clusterTitle ? (
-              <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                {clusterTitle}
-              </span>
-            ) : null}
             {tags.map((tag) => (
               <span
                 key={tag}

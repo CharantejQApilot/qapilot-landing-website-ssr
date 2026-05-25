@@ -16,13 +16,13 @@ export default function HeroSection() {
       />
 
       <div className="relative z-10 flex w-full flex-col lg:min-h-0 lg:flex-1 lg:justify-center">
-        <div className="section-full flex flex-col px-1 pt-16 sm:px-0 sm:pt-20 md:pt-24 max-lg:pt-[4.5rem] max-lg:sm:pt-24 max-lg:md:pt-28 lg:pt-0 lg:pb-0 2xl:pt-0">
+        <div className="section-full flex flex-col px-1 pt-10 sm:px-0 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0 2xl:pt-0">
           <div className="mx-auto flex w-full max-w-5xl max-lg:max-w-[36rem] flex-col items-center text-center">
             <HomeHeroInteractive />
           </div>
         </div>
 
-        <HomeHeroTrustMarquee className="mt-14 shrink-0 sm:mt-16 md:mt-20 lg:mt-20 xl:mt-20 2xl:mt-24" />
+        <HomeHeroTrustMarquee className="mt-10 shrink-0 sm:mt-14 md:mt-16 lg:mt-20 xl:mt-20 2xl:mt-24" />
       </div>
     </section>
   );

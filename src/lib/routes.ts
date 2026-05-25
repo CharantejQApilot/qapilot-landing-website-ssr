@@ -14,8 +14,7 @@ export const PATHS = {
   BLOGS: "/blogs",
   BLOG_POST: "/blogs/:slug",
   QA_GUIDE: "/qa-guide",
-  QA_GUIDE_CLUSTER: "/qa-guide/:cluster",
-  QA_GUIDE_POST: "/qa-guide/:cluster/:slug",
+  QA_GUIDE_POST: "/qa-guide/:slug",
   SEO_DRAFTS: "/seo-drafts",
   /**
    * Case studies live under Resources but are intentionally hidden from the
