@@ -55,7 +55,7 @@ export default async function SeoDraftPreviewPage({
   if (!guide) notFound();
 
   if (guide.tier === "index_worthy" && guide.status === "published") {
-    permanentRedirect(publishedUrlPath(guide.topic_cluster, guide.slug));
+    permanentRedirect(publishedUrlPath(guide.slug));
   }
 
   if (guide.tier !== "draft") notFound();

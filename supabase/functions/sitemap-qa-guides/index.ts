@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
 
     const { data: guides, error } = await supabaseClient
       .from("qa_guides")
-      .select("slug, topic_cluster, updated_at, title, featured_image")
+      .select("slug, updated_at, title")
       .eq("tier", "index_worthy")
       .eq("status", "published")
       .order("published_date", { ascending: false });
@@ -41,27 +41,18 @@ Deno.serve(async (req) => {
 
     const urlEntries =
       guides
-        ?.map((guide) => {
-          let imageTag = "";
-          if (guide.featured_image) {
-            imageTag = `
-    <image:image>
-      <image:loc>${escapeXml(guide.featured_image)}</image:loc>
-      <image:title>${escapeXml(guide.title)}</image:title>
-    </image:image>`;
-          }
-          return `  <url>
-    <loc>${base}/qa-guide/${guide.topic_cluster}/${guide.slug}</loc>
+        ?.map(
+          (guide) => `  <url>
+    <loc>${base}/qa-guide/${guide.slug}</loc>
     <lastmod>${new Date(guide.updated_at).toISOString().split("T")[0]}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.65</priority>${imageTag}
-  </url>`;
-        })
+    <priority>0.65</priority>
+  </url>`,
+        )
         .join("\n") ?? "";
 
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries}
 </urlset>`;
 

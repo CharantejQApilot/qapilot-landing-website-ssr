@@ -33,7 +33,7 @@ export function applyTierTransition(
   const cluster = patch.topic_cluster ?? row.topic_cluster;
 
   if (tier === "index_worthy") {
-    const newPath = publishedUrlPath(cluster, row.slug);
+    const newPath = publishedUrlPath(row.slug);
     return {
       tier: "index_worthy",
       status: "published",

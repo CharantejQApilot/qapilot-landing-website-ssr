@@ -6,12 +6,14 @@ export function draftUrlPath(slug: string): string {
   return `/seo-drafts/${slug}`;
 }
 
-export function publishedUrlPath(cluster: string, slug: string): string {
-  return `${PATHS.QA_GUIDE}/${cluster}/${slug}`;
+/** Published guide URL (flat — no topic segment). */
+export function publishedUrlPath(slug: string): string {
+  return `${PATHS.QA_GUIDE}/${slug}`;
 }
 
-export function clusterHubPath(cluster: string): string {
-  return `${PATHS.QA_GUIDE}/${cluster}`;
+/** Legacy path before flat URLs; use for redirects only. */
+export function legacyPublishedUrlPath(cluster: string, slug: string): string {
+  return `${PATHS.QA_GUIDE}/${cluster}/${slug}`;
 }
 
 export function metaRobotsForTier(tier: QaGuideTier): string {
