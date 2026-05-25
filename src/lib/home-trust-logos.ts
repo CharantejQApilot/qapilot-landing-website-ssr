@@ -3,7 +3,7 @@ import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 export type HomeTrustLogo = {
   name: string;
   logo: string;
-  url: string;
+  url?: string;
   visualScale: number;
 };
 
@@ -56,5 +56,11 @@ export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
     logo: `${PARTNER_LOGOS_PATH_PREFIX}qwipo-logo.png`,
     url: "https://qwipo.com/",
     visualScale: 1,
+  },
+  {
+    name: "Sahabat AI",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}sahabat-ai-logo-dark-horizontal.png`,
+    url: "https://sahabat-ai.com/",
+    visualScale: 0.98,
   },
 ];
