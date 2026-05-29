@@ -5,7 +5,7 @@ type MetadataFallbackReason =
 
 interface MetadataFallbackEvent {
   route: string;
-  contentType: "blogs" | "news_updates" | "case_studies" | "job_openings";
+  contentType: "blogs" | "news_updates" | "job_openings";
   slug: string;
   reason: MetadataFallbackReason;
   details?: Record<string, unknown>;

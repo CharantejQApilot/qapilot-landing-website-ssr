@@ -15,16 +15,16 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AUTONOMOUS_TESTING}`;
 
 export const metadata: Metadata = {
-  title: "Autonomous Testing for Mobile Applications",
+  title: "Autonomous Mobile App Testing — No Scripts, No Maintenance",
   description:
-    "Define autonomous testing for mobile: system-discovered journeys, adaptive coverage, and release readiness. See how QApilot operates beyond scripts and record-and-playback.",
+    "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
   alternates: {
     canonical: canonicalUrl,
   },
   openGraph: {
-    title: "Autonomous Testing for Mobile Applications | QApilot",
+    title: "Autonomous Mobile App Testing — No Scripts, No Maintenance | QApilot",
     description:
-      "Coverage discovered, generated, and maintained by the system—so teams move faster from exploration to release confidence.",
+      "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
     url: canonicalUrl,
     siteName: "QApilot",
     locale: "en_US",
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Autonomous Testing for Mobile | QApilot",
+    title: "Autonomous Mobile App Testing — No Scripts, No Maintenance | QApilot",
     description:
-      "Autonomous mobile testing: exploration, knowledge graph, coverage generation, execution, and continuous adaptation.",
+      "Crawl your app like a real user, build a knowledge graph, and generate test coverage automatically — zero scripting required.",
     images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
   },
 };

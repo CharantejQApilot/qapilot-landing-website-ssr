@@ -16,13 +16,6 @@ export const PATHS = {
   QA_GUIDE: "/qa-guide",
   QA_GUIDE_POST: "/qa-guide/:slug",
   SEO_DRAFTS: "/seo-drafts",
-  /**
-   * Case studies live under Resources but are intentionally hidden from the
-   * navigation menu for now (still reachable by direct URL or external links).
-   * Add to RESOURCE_NAV_LINKS when ready to surface in the header dropdown.
-   */
-  CASE_STUDIES: "/case-studies",
-  CASE_STUDY_POST: "/case-studies/:slug",
   NEWS: "/news",
   NEWS_POST: "/news/:slug",
   AUTH: "/auth",
@@ -48,8 +41,7 @@ export const PATHS = {
   CUSTOMERS: "#",
   COMPARE_APPIUM: "/compare/qapilot-vs-appium",
   COMPARE_WEB_FIRST: "/compare/qapilot-vs-web-first-automation-tools",
-  COMPARE_VISUAL_TESTING: "#",
-  COMPARE_CODE_FIRST: "#",
+  COMPARE_VISUAL_TESTING: "/compare/qapilot-vs-visual-testing-tools",
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
@@ -57,6 +49,9 @@ export const PATHS = {
   SECURITY_REPORTS: "/security-reports",
   AI_SELF_HEALING: "/ai-self-healing",
 } as const;
+
+/** On-screen label; path stays `PATHS.QA_GUIDE` (`/qa-guide`) for indexed URLs. */
+export const QE_GUIDE_DISPLAY_NAME = "QE Guide";
 
 /** Platform dropdown: By Solution (with icon names for Lucide) */
 export const PLATFORM_BY_SOLUTION = [
@@ -86,7 +81,7 @@ export const PLATFORM_AI_AGENTS = [
 /** Resources dropdown (header: Blogs, Labs, FAQs) */
 export const RESOURCE_NAV_LINKS = [
   { path: PATHS.BLOGS, label: "Blogs" },
-  { path: PATHS.QA_GUIDE, label: "QA Guide" },
+  { path: PATHS.QA_GUIDE, label: QE_GUIDE_DISPLAY_NAME },
   { path: PATHS.LABS, label: "Labs" },
   { path: PATHS.FAQS, label: "FAQs" },
 ] as const;
@@ -99,10 +94,9 @@ export const COMPANY_NAV_LINKS = [
   { path: PATHS.NEWS, label: "News & Updates" },
 ] as const;
 
-/** Compare dropdown (placeholder paths until pages exist) */
+/** Compare dropdown */
 export const COMPARE_NAV_LINKS = [
-  { path: PATHS.COMPARE_APPIUM, label: "vs Appium" },
   { path: PATHS.COMPARE_WEB_FIRST, label: "vs Web-First" },
+  { path: PATHS.COMPARE_APPIUM, label: "vs Appium" },
   { path: PATHS.COMPARE_VISUAL_TESTING, label: "vs Visual Testing" },
-  { path: PATHS.COMPARE_CODE_FIRST, label: "vs Code-Dependent Testing" },
 ] as const;

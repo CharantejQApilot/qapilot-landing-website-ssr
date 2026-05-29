@@ -73,7 +73,7 @@ const assistants: Assistant[] = [
 export function FooterSummariseWithAI() {
   return (
     <div className="mb-12 w-full border-t border-white/[0.08] pt-10">
-      <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">Summarise with AI</h3>
+      <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">Summarise With AI</h3>
       <ul className="flex flex-wrap items-stretch gap-3 sm:gap-4">
         {assistants.map((a) => (
           <li key={a.id}>

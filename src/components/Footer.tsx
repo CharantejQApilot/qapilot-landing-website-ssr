@@ -13,12 +13,18 @@ import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import Link from "next/link";
 import { marketingEyebrowClass, marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
-import { DOCS_URL, STATUS_URL } from "@/lib/constants";
+import {
+  DOCS_URL,
+  EXTERNAL_NOINDEX_SUBDOMAIN_REL,
+  STATUS_URL,
+} from "@/lib/constants";
 import { MOBILE_AGENTS_TRENDING_LABS_TOOLS } from "@/lib/mobile-agents-labs-tools";
 import {
   PLATFORM_BY_ROLE,
   PLATFORM_BY_SOLUTION,
   PATHS,
+  QE_GUIDE_DISPLAY_NAME,
+  COMPARE_NAV_LINKS,
 } from "@/lib/routes";
 import { FooterSummariseWithAI } from "@/components/footer/FooterSummariseWithAI";
 
@@ -52,15 +58,23 @@ const FooterLink = ({
   to,
   children,
   external = false,
+  nofollow = false,
 }: {
   to: string;
   children: React.ReactNode;
   external?: boolean;
+  /** Host is noindex (app login, status); do not pass for docs/social. */
+  nofollow?: boolean;
 }) => {
   const className = cn("inline-block", footerColumnLinkClass);
   if (external || to.startsWith("http"))
     return (
-      <a href={to} target="_blank" rel="noopener" className={className}>
+      <a
+        href={to}
+        target="_blank"
+        rel={nofollow ? EXTERNAL_NOINDEX_SUBDOMAIN_REL : "noopener"}
+        className={className}
+      >
         {children}
       </a>
     );
@@ -148,18 +162,26 @@ const Footer = () => {
                   <FooterLink to={PATHS.BLOGS}>Blogs</FooterLink>
                 </li>
                 <li>
+                  <FooterLink to={PATHS.QA_GUIDE}>{QE_GUIDE_DISPLAY_NAME}</FooterLink>
+                </li>
+                <li>
                   <FooterLink to={PATHS.LABS}>Labs</FooterLink>
                 </li>
                 <li>
                   <FooterLink to={PATHS.FAQS}>FAQs</FooterLink>
                 </li>
+                {COMPARE_NAV_LINKS.map((item) => (
+                  <li key={item.path}>
+                    <FooterLink to={item.path}>Compare {item.label}</FooterLink>
+                  </li>
+                ))}
                 <li>
                   <FooterLink to={`${DOCS_URL}/`} external>
                     Docs
                   </FooterLink>
                 </li>
                 <li>
-                  <FooterLink to={`${STATUS_URL}/`} external>
+                  <FooterLink to={`${STATUS_URL}/`} external nofollow>
                     Status Page
                   </FooterLink>
                 </li>

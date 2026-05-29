@@ -1,6 +1,10 @@
+import Link from "next/link";
 import { Zap, Settings, Link2 } from "lucide-react";
 import ReleaseReadinessFlowSection from "@/components/ReleaseReadinessFlowSection";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
+import { PATHS } from "@/lib/routes";
+
+const CI_CD_BLOG_PATH = `${PATHS.BLOGS}/enhance-mobile-apps-end-to-end-lifecycle-with-ci-cd-integrations`;
 
 const cards = [
   {
@@ -18,6 +22,7 @@ const cards = [
     description:
       "AI-native self-healing adapts to UI changes automatically, eliminating flaky tests and freeing your team from endless maintenance loops.",
     highlight: "AI-native self-healing",
+    highlightHref: PATHS.AI_SELF_HEALING,
     icon: Settings,
     statFirst: false,
   },
@@ -27,21 +32,28 @@ const cards = [
     description:
       "Seamless CI/CD integration with massively parallel test execution across your entire device matrix — no more queues, no more waiting.",
     highlight: "Seamless CI/CD integration",
+    highlightHref: CI_CD_BLOG_PATH,
     icon: Link2,
     statFirst: true,
   },
-];
+] as const;
 
-function highlightPhrase(text: string, phrase: string) {
+function highlightPhrase(text: string, phrase: string, href?: string) {
   const parts = text.split(new RegExp(`(${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "i"));
   return parts.map((part, i) =>
     part.toLowerCase() === phrase.toLowerCase() ? (
-      <strong key={i} className="font-semibold text-primary">
-        {phrase}
-      </strong>
+      href ? (
+        <Link key={i} href={href} className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary">
+          {phrase}
+        </Link>
+      ) : (
+        <strong key={i} className="font-semibold text-primary">
+          {phrase}
+        </strong>
+      )
     ) : (
       part
-    )
+    ),
   );
 }
 
@@ -77,7 +89,19 @@ const VelocitySection = () => {
               <span className="text-primary">Engineering Velocity</span> Without The QE Overhead
             </>
           }
-          description="Traditional test automation requires constant maintenance and manual effort. QApilot enables engineering teams to validate mobile builds automatically within CI/CD pipelines."
+          description={
+            <>
+              Traditional test automation requires constant maintenance and manual effort. QApilot enables engineering
+              teams to validate mobile builds automatically within{" "}
+              <Link
+                href={CI_CD_BLOG_PATH}
+                className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
+              >
+                CI/CD pipelines
+              </Link>
+              .
+            </>
+          }
         />
 
         <ReleaseReadinessFlowSection embedded />
@@ -106,7 +130,7 @@ const VelocitySection = () => {
                     <Icon className="w-5 h-5" strokeWidth={1.5} aria-hidden />
                   </div>
                   <p className="text-foreground/90 text-lg md:text-xl leading-relaxed pt-0.5 min-w-0">
-                    {highlightPhrase(card.description, card.highlight)}
+                    {highlightPhrase(card.description, card.highlight, "highlightHref" in card ? card.highlightHref : undefined)}
                   </p>
                 </div>
               );

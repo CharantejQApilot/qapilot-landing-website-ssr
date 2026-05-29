@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 const DYNAMIC_PREFIXES = [
   "/blogs",
   "/news",
-  "/case-studies",
   "/careers",
   "/qa-guide",
   "/seo-drafts",
@@ -73,15 +72,6 @@ function derivePaths(payload: DbWebhookPayload): string[] {
       const previousSlug = asNonEmptyString(oldRecord?.slug);
       if (currentSlug) paths.add(`/news/${currentSlug}`);
       if (previousSlug) paths.add(`/news/${previousSlug}`);
-      break;
-    }
-    case "case_studies": {
-      paths.add("/");
-      paths.add("/case-studies");
-      const currentSlug = asNonEmptyString(record?.slug);
-      const previousSlug = asNonEmptyString(oldRecord?.slug);
-      if (currentSlug) paths.add(`/case-studies/${currentSlug}`);
-      if (previousSlug) paths.add(`/case-studies/${previousSlug}`);
       break;
     }
     case "qa_guides": {

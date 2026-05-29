@@ -169,7 +169,7 @@ const AboutClient = () => {
             id="about-origin-heading"
             title={
               <>
-                How <span className="text-primary">QApilot</span> started
+                How <span className="text-primary">QApilot</span> Started
               </>
             }
             description="From brittle scripts to systems that understand mobile apps—the path that shaped the product."
@@ -322,7 +322,7 @@ const AboutClient = () => {
             id="about-team-heading"
             title={
               <>
-                Meet the <span className="text-primary">team</span>
+                Meet The <span className="text-primary">Team</span>
               </>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"

@@ -12,7 +12,6 @@ function supabaseSitemapUrls(): string[] {
       `${origin}/functions/v1/sitemap-posts`,
       `${origin}/functions/v1/sitemap-news`,
       `${origin}/functions/v1/sitemap-jobs`,
-      `${origin}/functions/v1/sitemap-case-studies`,
       `${origin}/functions/v1/sitemap-qa-guides`,
     ];
   } catch {
@@ -37,6 +36,8 @@ export function GET() {
     `Disallow: /admin/`,
     `Disallow: /auth/`,
     `Disallow: /api/`,
+    `Disallow: /seo-drafts/`,
+    `# AI/AEO: structured context at /llms.txt and /ai.txt`,
     `Content-Signal: ai-train=no, search=yes, ai-input=no`,
     ``,
     `User-agent: Googlebot-Image`,

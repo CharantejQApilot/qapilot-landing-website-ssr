@@ -4,22 +4,22 @@ const FeaturesGrid = () => {
   const features = [
     {
       label: "QUICK",
-      title: "Instant, script-free test coverage",
+      title: "Instant, Script-Free Test Coverage",
       description: "Start testing immediately without writing a single line of code. Our AI analyzes your app and creates comprehensive test coverage in minutes."
     },
     {
       label: "AUTOMATED",
-      title: "Lower maintenance and debugging effort", 
+      title: "Lower Maintenance And Debugging Effort", 
       description: "Self-healing tests that adapt to UI changes automatically. Spend less time maintaining tests and more time building features."
     },
     {
       label: "VELOCITY",
-      title: "Faster, safer releases",
+      title: "Faster, Safer Releases",
       description: "Accelerate your release cycle with confidence. Catch bugs before they reach production and ship with certainty."
     },
     {
       label: "INTEGRATIONS", 
-      title: "Integrates into your workflows",
+      title: "Integrates Into Your Workflows",
       description: "Seamlessly connects with your existing CI/CD pipeline and development tools. No disruption to your current processes."
     }
   ];

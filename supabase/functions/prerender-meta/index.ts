@@ -22,10 +22,9 @@ interface PageMeta {
 
 const STATIC_PAGES: Record<string, PageMeta> = {
   "/": {
-    title:
-      "QApilot - AI-Powered Mobile App Testing & QA Automation | iOS & Android",
+    title: "QApilot — AI-Powered Mobile App Testing & QA Automation Platform",
     description:
-      "Automate your mobile app testing with QApilot's AI-powered platform. Get instant test coverage for iOS & Android apps. Start testing in minutes, not hours.",
+      "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates test coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.",
   },
   "/product": {
     title:
@@ -34,9 +33,9 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one system.",
   },
   "/product/autonomous-testing": {
-    title: "Autonomous Mobile App Testing - Agentic QA | QApilot",
+    title: "Autonomous Mobile App Testing — No Scripts, No Maintenance | QApilot",
     description:
-      "Experience agentic testing with QApilot: AI crawlers, intelligent agents, and a knowledge graph for autonomous mobile test coverage on iOS and Android.",
+      "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
   },
   "/enterprise": {
     title:
@@ -74,15 +73,50 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Discover what sets QApilot apart: AI-native architecture, Bring Your Own Agent (BYOA) extensibility, and intelligent mobile app testing automation.",
   },
+  "/agentic-architecture": {
+    title: "QApilot's Agentic Architecture | AI Agents & Knowledge Graph | QApilot",
+    description:
+      "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing — context, exploration, and outcomes in one system.",
+  },
+  "/ai-self-healing": {
+    title: "AI Self-Healing Tests | QApilot",
+    description:
+      "Automatically recover from UI changes and keep mobile tests stable—multi-layer healing, real-time execution, approvals, and full report visibility.",
+  },
+  "/security-reports": {
+    title: "Security Reports for Mobile Applications | QApilot",
+    description:
+      "Automated security insights alongside functional testing: permissions, network, storage, trackers, and release-ready risk visibility.",
+  },
+  "/product/intelligent-bug-detection": {
+    title: "Intelligent Bug Detection for Mobile Applications | QApilot",
+    description:
+      "Go beyond pass or fail. QApilot detects accessibility, latency, and load issues during execution—mapped to exact screens with evidence, severity, and fix guidance.",
+  },
+  "/qa-guide": {
+    title: "QE Guide — Mobile Testing Guides & Checklists | QApilot",
+    description:
+      "In-depth QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.",
+  },
+  "/compare/qapilot-vs-web-first-automation-tools": {
+    title: "QApilot vs Web-First Automation Tools | Mobile-First App Testing | QApilot",
+    description:
+      "Web-first automation tools were built for browsers, then extended to mobile. QApilot is built mobile-first, helping teams test native, hybrid, and Flutter apps with better coverage, lower maintenance, and faster release confidence.",
+  },
+  "/compare/qapilot-vs-appium": {
+    title: "QApilot vs Appium | AI-Native Mobile App Testing Platform | QApilot",
+    description:
+      "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
+  },
+  "/compare/qapilot-vs-visual-testing-tools": {
+    title: "QApilot vs Visual Testing Tools | Mobile App Release Readiness | QApilot",
+    description:
+      "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
+  },
   "/blogs": {
     title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
     description:
       "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
-  },
-  "/case-studies": {
-    title: "Case Studies - Customer Stories & Outcomes | QApilot",
-    description:
-      "Real-world results from teams using QApilot to ship faster with fewer regressions. Customer stories, outcomes, and lessons from mobile QA programs.",
   },
   /** Canonical listing path (matches `PATHS.NEWS` in the Next app). */
   "/news": {
@@ -309,49 +343,6 @@ Deno.serve(async (req) => {
           trimStr(row.excerpt) ||
           trimStr(row.description) ||
           `Read ${baseTitle || "this post"} on the QApilot blog.`;
-        const image = blogShareImage(row);
-        const html = buildHtml({
-          title: pageTitle,
-          description,
-          url: canonicalUrl,
-          image,
-          ogType: "article",
-          author: (trimStr(row.author_name) || "QApilot") as string,
-          publishedDate: trimStr(row.published_date) || undefined,
-        });
-        return new Response(html, {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
-        });
-      }
-    } catch {
-      // fall through to fallback
-    }
-  }
-
-  // /case-studies/:slug (same CMS shape as blogs; OG image selection matches Next.js generateMetadata)
-  const caseStudyMatch = path.match(/^\/case-studies\/(.+)$/);
-  if (caseStudyMatch) {
-    try {
-      const slug = caseStudyMatch[1];
-      const { data, error } = await supabase
-        .from("case_studies")
-        .select(
-          "title, excerpt, description, featured_image, og_image_url, seo_title, seo_description, author_name, published_date, youtube_url",
-        )
-        .eq("slug", slug)
-        .eq("published", true)
-        .maybeSingle();
-
-      if (!error && data) {
-        const row = data as unknown as Record<string, unknown>;
-        const seoTitle = trimStr(row.seo_title);
-        const baseTitle = trimStr(row.title);
-        const pageTitle = seoTitle || legacyArticleTitle(baseTitle);
-        const description =
-          trimStr(row.seo_description) ||
-          trimStr(row.excerpt) ||
-          trimStr(row.description) ||
-          `Read ${baseTitle || "this case study"} on QApilot — customer outcomes from mobile QA programs.`;
         const image = blogShareImage(row);
         const html = buildHtml({
           title: pageTitle,

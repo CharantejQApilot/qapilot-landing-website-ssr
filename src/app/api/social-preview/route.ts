@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 
 const DEFAULT_TITLE = "QApilot - AI-Powered Mobile App Testing & QA Automation";
 const DEFAULT_DESCRIPTION =
@@ -132,24 +133,30 @@ async function newsMeta(pathname: string): Promise<MetaPayload | null> {
   return { title, description, image, type: "article" };
 }
 
-async function caseStudyMeta(pathname: string): Promise<MetaPayload | null> {
-  const slug = pathname.split("/")[2];
+async function qaGuideMeta(pathname: string): Promise<MetaPayload | null> {
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts[0] !== "qa-guide" || parts.length < 2) return null;
+  const slug = parts.length >= 3 ? parts[parts.length - 1] : parts[1];
   if (!slug) return null;
+
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) return null;
   const { data, error } = await supabase
-    .from("case_studies")
-    .select("title, seo_title, excerpt, description, seo_description, og_image_url, featured_image")
+    .from("qa_guides")
+    .select("title, seo_title, excerpt, seo_description, og_image_url, featured_image")
     .eq("slug", slug)
-    .eq("published", true)
+    .eq("tier", "index_worthy")
+    .eq("status", "published")
     .maybeSingle();
   if (error || !data) return null;
-  const title = asTrimmedString((data as { seo_title?: unknown }).seo_title) || articleTitle(asTrimmedString(data.title));
+
+  const title =
+    asTrimmedString((data as { seo_title?: unknown }).seo_title) ||
+    articleTitle(asTrimmedString(data.title));
   const description =
     asTrimmedString((data as { seo_description?: unknown }).seo_description) ||
     asTrimmedString(data.excerpt) ||
-    asTrimmedString((data as { description?: unknown }).description) ||
-    `Read ${asTrimmedString(data.title) || "this case study"} on QApilot.`;
+    `Read ${asTrimmedString(data.title) || "this guide"} on the QApilot ${QE_GUIDE_DISPLAY_NAME}.`;
   const image =
     asTrimmedString((data as { og_image_url?: unknown }).og_image_url) ||
     asTrimmedString(data.featured_image) ||
@@ -198,10 +205,10 @@ export async function GET(request: NextRequest) {
       payload = await blogMeta(canonicalPath);
     } else if (canonicalPath.startsWith("/news/")) {
       payload = await newsMeta(canonicalPath);
-    } else if (canonicalPath.startsWith("/case-studies/")) {
-      payload = await caseStudyMeta(canonicalPath);
     } else if (canonicalPath.startsWith("/careers/")) {
       payload = await careersMeta(canonicalPath);
+    } else if (canonicalPath.startsWith("/qa-guide/")) {
+      payload = await qaGuideMeta(canonicalPath);
     }
   } catch {
     payload = null;

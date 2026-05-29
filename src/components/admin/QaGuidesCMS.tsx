@@ -16,7 +16,7 @@ import {
 } from "@/lib/admin/revalidate-client";
 import { applyTierTransition } from "@/lib/qa-guide/promote";
 import { draftUrlPath, publishedUrlPath } from "@/lib/qa-guide/urls";
-import { PATHS } from "@/lib/routes";
+import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 
 type QaGuideRow = {
   id: string;
@@ -43,7 +43,7 @@ export default function QaGuidesCMS() {
       .select("id, title, slug, topic_cluster, tier, status, url_path, created_at, quality_checks")
       .order("created_at", { ascending: false });
     if (error) {
-      toast({ title: "Failed to load QA guides", variant: "destructive" });
+      toast({ title: `Failed to load ${QE_GUIDE_DISPLAY_NAME} articles`, variant: "destructive" });
     } else {
       setGuides((data as QaGuideRow[]) ?? []);
     }
@@ -144,7 +144,7 @@ export default function QaGuidesCMS() {
   };
 
   if (loading) {
-    return <p className="text-muted-foreground">Loading QA guides…</p>;
+    return <p className="text-muted-foreground">Loading {QE_GUIDE_DISPLAY_NAME} articles…</p>;
   }
 
   return (

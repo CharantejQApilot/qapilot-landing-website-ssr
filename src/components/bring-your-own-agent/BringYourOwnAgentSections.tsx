@@ -27,17 +27,17 @@ import { cn } from "@/lib/utils";
 
 const WHY_HIGHLIGHTS: readonly { title: string; body: string; Icon: LucideIcon }[] = [
   {
-    title: "Every team is different",
+    title: "Every Team Is Different",
     body: "Domain logic, custom validations, and workflows that don’t fit a one-size template.",
     Icon: Users,
   },
   {
-    title: "Beyond standard capabilities",
+    title: "Beyond Standard Capabilities",
     body: "When you need checks or flows that native tooling alone won’t cover.",
     Icon: Layers,
   },
   {
-    title: "Core stays coherent",
+    title: "Core Stays Coherent",
     body: "Extend behavior without forked stacks or breaking how QApilot explores and learns.",
     Icon: GitBranch,
   },
@@ -53,42 +53,42 @@ const KG_TILES: readonly { label: string; Icon: LucideIcon; hint: string }[] = [
 const HOW_STEPS: readonly { step: string; title: string; body: string; Icon: LucideIcon }[] = [
   {
     step: "01",
-    title: "Read context",
+    title: "Read Context",
     body: "Pull structure and state from the shared knowledge graph.",
     Icon: BookOpen,
   },
   {
     step: "02",
-    title: "Understand the app",
+    title: "Understand The App",
     body: "See where the app is in a flow and what matters next.",
     Icon: Eye,
   },
   {
     step: "03",
-    title: "Act & validate",
+    title: "Act & Validate",
     body: "Run your tasks, rules, or checks against live context.",
     Icon: CheckCircle2,
   },
   {
     step: "04",
-    title: "Write back",
+    title: "Write Back",
     body: "Record outcomes so the system stays one source of truth.",
     Icon: Database,
   },
 ];
 
 const ENABLES: readonly { title: string; Icon: LucideIcon }[] = [
-  { title: "Custom validation logic", Icon: Sparkles },
-  { title: "Domain-specific workflows", Icon: Workflow },
-  { title: "Specialized testing scenarios", Icon: Target },
-  { title: "Integration with internal systems", Icon: Cable },
+  { title: "Custom Validation Logic", Icon: Sparkles },
+  { title: "Domain-Specific Workflows", Icon: Workflow },
+  { title: "Specialized Testing Scenarios", Icon: Target },
+  { title: "Integration With Internal Systems", Icon: Cable },
 ];
 
 const USEFUL: readonly { title: string; Icon: LucideIcon }[] = [
-  { title: "Business-specific rules", Icon: FileCheck },
-  { title: "Flows unique to your app", Icon: Route },
-  { title: "Internal compliance checks", Icon: ShieldCheck },
-  { title: "Reporting & validation extensions", Icon: Lightbulb },
+  { title: "Business-Specific Rules", Icon: FileCheck },
+  { title: "Flows Unique To Your App", Icon: Route },
+  { title: "Internal Compliance Checks", Icon: ShieldCheck },
+  { title: "Reporting & Validation Extensions", Icon: Lightbulb },
 ];
 
 export function BringYourOwnAgentWhySection() {
@@ -328,7 +328,7 @@ export function BringYourOwnAgentPositioningSection() {
             <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-muted text-muted-foreground">
               <CircleSlash className="h-5 w-5" strokeWidth={1.5} aria-hidden />
             </div>
-            <h3 className="font-heading text-lg font-semibold text-muted-foreground md:text-xl">Not a replacement</h3>
+            <h3 className="font-heading text-lg font-semibold text-muted-foreground md:text-xl">Not A Replacement</h3>
             <p className={cn("mt-4 flex-1", marketingSectionIntroClass)}>
               <span className="font-semibold text-foreground">Bring Your Own Agent does not replace the system.</span>{" "}
               Your foundation — exploration, graph, and native agents — stays intact.
@@ -344,7 +344,7 @@ export function BringYourOwnAgentPositioningSection() {
             <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary">
               <Puzzle className="h-5 w-5" strokeWidth={1.5} aria-hidden />
             </div>
-            <h3 className="font-heading text-lg font-semibold text-primary md:text-xl">An extension</h3>
+            <h3 className="font-heading text-lg font-semibold text-primary md:text-xl">An Extension</h3>
             <p className={cn("mt-4 flex-1 font-medium text-foreground md:text-lg", marketingSectionIntroClass)}>
               It extends the platform. Custom agents plug into the same context layer, ensuring consistency while allowing
               flexibility where it matters.

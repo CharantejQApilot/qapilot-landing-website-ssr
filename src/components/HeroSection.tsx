@@ -1,5 +1,5 @@
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import HomeHeroInteractive from "@/components/HomeHeroInteractive";
+import HomeHeroContent from "@/components/HomeHeroContent";
 import { HomeHeroTrustMarquee } from "@/components/HomeHeroTrustMarquee";
 
 export default function HeroSection() {
@@ -18,7 +18,7 @@ export default function HeroSection() {
       <div className="relative z-10 flex w-full flex-col lg:min-h-0 lg:flex-1 lg:justify-center">
         <div className="section-full flex flex-col px-1 pt-10 sm:px-0 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0 2xl:pt-0">
           <div className="mx-auto flex w-full max-w-5xl max-lg:max-w-[36rem] flex-col items-center text-center">
-            <HomeHeroInteractive />
+            <HomeHeroContent />
           </div>
         </div>
 

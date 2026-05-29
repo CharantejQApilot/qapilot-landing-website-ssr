@@ -11,7 +11,6 @@ const MAX_SANITIZE_INPUT_CHARS = 900_000;
 const SANITIZER_OPTIONS: sanitizeHtml.IOptions = {
   allowedTags: sanitizeHtml.defaults.allowedTags.concat([
     "img",
-    "h1",
     "h2",
     "h3",
     "h4",
@@ -30,6 +29,9 @@ const SANITIZER_OPTIONS: sanitizeHtml.IOptions = {
     "br",
     "span",
   ]),
+  transformTags: {
+    h1: "h2",
+  },
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,
     a: ["href", "name", "target", "rel", "title"],

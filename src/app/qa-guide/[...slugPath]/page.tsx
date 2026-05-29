@@ -3,7 +3,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import QaGuideArticle from "@/components/qa-guide/QaGuideArticle";
-import { PATHS } from "@/lib/routes";
+import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
@@ -60,7 +60,7 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
   const metaTitle = firstNonEmptyString(guide.seo_title, guide.title) ?? guide.title;
   const description =
     firstNonEmptyString(guide.seo_description, guide.excerpt) ??
-    `Read ${metaTitle} on the QApilot QA Guide.`;
+    `Read ${metaTitle} on the QApilot ${QE_GUIDE_DISPLAY_NAME}.`;
   const canonical = `${SITE_BASE_URL}${publishedUrlPath(slug)}`;
   const ogAbsolute = absoluteUrlForOpenGraph(
     firstNonEmptyString(guide.og_image_url, guide.featured_image),
@@ -131,6 +131,11 @@ export default async function QaGuideCatchAllPage({
   if (!error && guide) {
     const articleUrl = `${SITE_BASE_URL}${publishedUrlPath(slug)}`;
     const publishedTime = normalizeArticlePublishedTime(guide.published_date);
+    const modifiedTime =
+      normalizeArticlePublishedTime(guide.updated_at) ?? publishedTime;
+    const articleImageUrl = absoluteUrlForOpenGraph(
+      firstNonEmptyString(guide.og_image_url, guide.featured_image),
+    );
     const jsonLd = {
       "@context": "https://schema.org",
       "@graph": [
@@ -140,6 +145,8 @@ export default async function QaGuideCatchAllPage({
           url: articleUrl,
           ...(guide.excerpt ? { description: guide.excerpt } : {}),
           ...(publishedTime ? { datePublished: publishedTime } : {}),
+          ...(modifiedTime ? { dateModified: modifiedTime } : {}),
+          ...(articleImageUrl ? { image: articleImageUrl } : {}),
           publisher: {
             "@type": "Organization",
             name: "QApilot",
@@ -151,7 +158,7 @@ export default async function QaGuideCatchAllPage({
         },
         buildBreadcrumbList([
           { name: "Home", path: PATHS.HOME },
-          { name: "QA Guide", path: PATHS.QA_GUIDE },
+          { name: QE_GUIDE_DISPLAY_NAME, path: PATHS.QA_GUIDE },
           { name: guide.title, path: publishedUrlPath(slug) },
         ]),
       ],
@@ -167,7 +174,7 @@ export default async function QaGuideCatchAllPage({
           <QaGuideArticle
             guide={guide}
             backHref={PATHS.QA_GUIDE}
-            backLabel="Back to QA Guide"
+            backLabel={`Back to ${QE_GUIDE_DISPLAY_NAME}`}
           />
           <Footer />
         </MarketingPageShell>

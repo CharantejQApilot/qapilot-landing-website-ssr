@@ -53,8 +53,12 @@ const aiSelfHealingReportLink = buildAiSelfHealingReportLinkHeader();
 const agentDiscoveryLink = buildAgentDiscoveryLinkHeader();
 
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   images: {
     remotePatterns,
+    formats: ["image/avif", "image/webp"],
   },
   async redirects() {
     return [
@@ -84,9 +88,9 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: "/compare/qapilot-vs-appium",
-        destination: "/compare/qapilot-vs-web-first-automation-tools",
-        permanent: false,
+        source: "/compare/qapilot-vs-visual-testing",
+        destination: "/compare/qapilot-vs-visual-testing-tools",
+        permanent: true,
       },
     ];
   },

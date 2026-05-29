@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 
 const AGENTS = [
   "Navigation",
-  "Interruption handling",
+  "Interruption Handling",
   "Prioritization",
-  "Test data generation",
-  "Test case generation",
+  "Test Data Generation",
+  "Test Case Generation",
   "Execution",
-  "Issue detection",
+  "Issue Detection",
 ] as const;
 
 export function AgenticArchitectureAgentLayerSection() {

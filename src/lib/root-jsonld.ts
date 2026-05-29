@@ -1,6 +1,5 @@
 import { SITE_BASE_URL } from "@/lib/constants";
 import { ORG_LOGO_HEIGHT, ORG_LOGO_URL, ORG_LOGO_WIDTH } from "@/lib/seo";
-import { QA_PILOT_PUBLIC_TESTIMONIALS } from "@/lib/qapilot-testimonials";
 
 const organization = {
   "@type": "Organization",
@@ -80,18 +79,6 @@ const softwareApplication = {
     "Visual regression testing",
     "Real device testing",
   ],
-  review: QA_PILOT_PUBLIC_TESTIMONIALS.map((t) => ({
-    "@type": "Review",
-    reviewBody: t.text,
-    reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-    author: { "@type": "Person", name: t.label },
-  })),
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5",
-    ratingCount: String(QA_PILOT_PUBLIC_TESTIMONIALS.length),
-    bestRating: "5",
-  },
 };
 
 const webSite = {
@@ -100,7 +87,7 @@ const webSite = {
   url: SITE_BASE_URL,
 };
 
-/** Single graph: Organization + WebSite + SoftwareApplication (with reviews). */
+/** Single graph: Organization + WebSite + SoftwareApplication. */
 export const rootSchemaGraphJsonLd = {
   "@context": "https://schema.org",
   "@graph": [organization, webSite, softwareApplication],

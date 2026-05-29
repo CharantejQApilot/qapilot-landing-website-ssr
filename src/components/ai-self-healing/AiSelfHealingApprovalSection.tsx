@@ -2,10 +2,10 @@ import { CheckCircle2, GitCompareArrows, MousePointerClick, ShieldCheck } from "
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const STEPS = [
-  { title: "Review healed step", Icon: ShieldCheck },
-  { title: "Compare old vs new locator", Icon: GitCompareArrows },
-  { title: "Click update", Icon: MousePointerClick },
-  { title: "Future runs use updated locator", Icon: CheckCircle2 },
+  { title: "Review Healed Step", Icon: ShieldCheck },
+  { title: "Compare Old Vs New Locator", Icon: GitCompareArrows },
+  { title: "Click Update", Icon: MousePointerClick },
+  { title: "Future Runs Use Updated Locator", Icon: CheckCircle2 },
 ] as const;
 
 export function AiSelfHealingApprovalSection() {

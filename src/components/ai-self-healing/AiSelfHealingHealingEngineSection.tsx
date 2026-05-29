@@ -11,19 +11,19 @@ const LAYERS = [
   },
   {
     badge: "Layer 2",
-    title: "XPath & attributes",
+    title: "XPath & Attributes",
     sub: "Fuzzy structural match",
     Icon: Waypoints,
   },
   {
     badge: "Layer 3",
-    title: "Visual matching",
+    title: "Visual Matching",
     sub: "Detects elements by appearance",
     Icon: Eye,
   },
   {
     badge: "Layer 4",
-    title: "Coordinate fallback",
+    title: "Coordinate Fallback",
     sub: "Last-resort interaction",
     Icon: Crosshair,
   },
