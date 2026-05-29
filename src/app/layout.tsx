@@ -9,6 +9,7 @@ import { HUBSPOT_NA1_PORTAL_ID, SITE_BASE_URL } from "@/lib/constants";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import dynamic from "next/dynamic";
+import { Analytics } from "@vercel/analytics/next";
 
 const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
@@ -154,22 +155,9 @@ export default function RootLayout({
         <Script id="reb2b-loader" strategy="lazyOnload">
           {`!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("9NMMZHRD91NW");`}
         </Script>
-
-        <Script id="zoominfo-loader" strategy="lazyOnload">
-          {`window[(function(_n9C,_VO){var _mjCWq='';for(var _QSrkp5=0;_QSrkp5<_n9C.length;_QSrkp5++){var _Niki=_n9C[_QSrkp5].charCodeAt();_Niki-=_VO;_Niki+=61;_mjCWq==_mjCWq;_VO>8;_Niki!=_QSrkp5;_Niki%=94;_Niki+=33;_mjCWq+=String.fromCharCode(_Niki)}return _mjCWq})(atob('XEtSdHFsZ2V2TWd7'), 2)] = '4c6a0a75e01777461860';var zi = document.createElement('script');zi.type = 'text/javascript';zi.async = true;zi.src = (function(_AE4,_dd){var _YokOA='';for(var _eydbHi=0;_eydbHi<_AE4.length;_eydbHi++){_7aB5!=_eydbHi;_YokOA==_YokOA;var _7aB5=_AE4[_eydbHi].charCodeAt();_7aB5-=_dd;_7aB5+=61;_dd>8;_7aB5%=94;_7aB5+=33;_YokOA+=String.fromCharCode(_7aB5)}return _YokOA})(atob('MT09OTxhVlYzPFVDMlQ8LDsyOT08VSw4NlZDMlQ9KjBVMzw='), 39);document.body.appendChild(zi);`}
-        </Script>
-
-        <Script id="factors-ai" strategy="lazyOnload">
-          {`window.faitracker=window.faitracker||function(){this.q=[];var t=new CustomEvent("FAITRACKER_QUEUED_EVENT");return this.init=function(t,e,a){this.TOKEN=t,this.INIT_PARAMS=e,this.INIT_CALLBACK=a,window.dispatchEvent(new CustomEvent("FAITRACKER_INIT_EVENT"))},this.call=function(){var e={k:"",a:[]};if(arguments&&arguments.length>=1){for(var a=1;a<arguments.length;a++)e.a.push(arguments[a]);e.k=arguments[0]}this.q.push(e),window.dispatchEvent(t)},this.message=function(){window.addEventListener("message",function(t){"faitracker"===t.data.origin&&this.call("message",t.data.type,t.data.message)})},this.message(),this.init("n6j67ljo4qxjwgnvo5ilzjd4b2qsic2v",{host:"https://api.factors.ai"}),this}(),function(){var t=document.createElement("script");t.type="text/javascript",t.src="https://app.factors.ai/assets/factors.js",t.async=!0,(d=document.getElementsByTagName("script")[0]).parentNode.insertBefore(t,d)}();`}
-        </Script>
-
-        <Script
-          id="vtag-ai-js"
-          src="https://r2.leadsy.ai/tag.js"
-          strategy="lazyOnload"
-          data-pid="B6CCj6R02ALsaXgt"
-          data-version="062024"
-        />
+        
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );
