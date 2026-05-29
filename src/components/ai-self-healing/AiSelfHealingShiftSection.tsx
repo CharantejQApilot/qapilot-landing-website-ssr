@@ -21,7 +21,7 @@ export function AiSelfHealingShiftSection() {
 
         <div className="mx-auto flex max-w-4xl flex-col items-stretch gap-6 md:flex-row md:items-center md:justify-center md:gap-4">
           <div className="flex-1 rounded-2xl border border-dashed border-border bg-muted/20 p-5 sm:p-6 md:rounded-r-none md:border-r-0">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Failed step</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Failed Step</p>
             <div className="mt-4 flex items-center gap-2 rounded-xl border border-border/80 bg-background/90 p-4 text-left shadow-inner">
               <XCircle className="h-5 w-5 shrink-0 text-destructive" aria-hidden />
               <span className="text-sm font-semibold text-foreground">Element not found</span>
@@ -35,7 +35,7 @@ export function AiSelfHealingShiftSection() {
           </div>
 
           <div className="flex-1 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.07] to-background p-5 shadow-lg shadow-primary/10 sm:p-6 md:rounded-l-none">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Healed step</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Healed Step</p>
             <div className="mt-4 flex items-center gap-2 rounded-xl border border-primary/20 bg-card p-4 text-left shadow-md">
               <Sparkles className="h-5 w-5 shrink-0 text-primary" aria-hidden />
               <span className="text-sm font-semibold text-foreground">Target re-identified · run continues</span>

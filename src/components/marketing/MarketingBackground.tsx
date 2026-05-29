@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
-import { HeroPixelDonutRipple } from "@/components/marketing/HeroPixelDonutRipple";
+import { HeroPixelDonutRippleDesktopOnly } from "@/components/marketing/HeroPixelDonutRippleDesktopOnly";
 
 /** Progressive blur bands — values taken from exalt-studio.com hero (Framer export). */
 const HERO_EXALT_BLUR_LAYERS: { blurPx: number; stops: [number, number, number, number] }[] = [
@@ -79,7 +79,7 @@ export function MarketingBackground({
       </div>
       <div className="absolute inset-0 z-[1] bg-hero-gradient" />
       {showDiagonalGrid ? <div className="absolute inset-0 z-[2] bg-hero-diagonal-grid" /> : null}
-      {showPixelRipple ? <HeroPixelDonutRipple /> : null}
+      {showPixelRipple ? <HeroPixelDonutRippleDesktopOnly /> : null}
       <div className="absolute inset-0 z-[4] bg-hero-grain" />
       <span
         className="hero-corner-orb absolute left-0 top-0 z-[5] h-64 w-64 rounded-full bg-primary/5"

@@ -64,7 +64,7 @@ export async function generateArticle(params: {
     secondary_keywords: params.secondary_keywords.join(", ") || "(none)",
     target_audience:
       params.target_audience ??
-      "Mobile QA leads, SDETs, and engineering managers shipping iOS/Android apps",
+      "Mobile QE leads, SDETs, and engineering managers shipping iOS/Android apps",
     editorial_notes: params.editorial_notes?.trim() || "(none)",
     competitor_texts:
       params.competitor_texts.length > 0

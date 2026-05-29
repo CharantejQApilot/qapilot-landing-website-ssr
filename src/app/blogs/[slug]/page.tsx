@@ -9,6 +9,7 @@ import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
+import { estimateReadingTimeMinutes, formatReadingTimeLabel } from "@/lib/reading-time";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
@@ -233,6 +234,15 @@ export default async function BlogPostPage({
     { name: blog.title, path: `${PATHS.BLOGS}/${blog.slug}` },
   ]);
   const articlePublishedTime = normalizeArticlePublishedTime(blog.published_date);
+  const articleModifiedTime =
+    normalizeArticlePublishedTime(asTrimmedString((blog as { updated_at?: unknown }).updated_at)) ??
+    articlePublishedTime;
+  const articleImageUrl = absoluteUrlForOpenGraph(
+    firstNonEmptyString(
+      (blog as { og_image_url?: unknown }).og_image_url,
+      blog.featured_image,
+    ),
+  );
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -240,6 +250,8 @@ export default async function BlogPostPage({
     url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
     ...(blog.excerpt ? { description: blog.excerpt } : {}),
     ...(articlePublishedTime ? { datePublished: articlePublishedTime } : {}),
+    ...(articleModifiedTime ? { dateModified: articleModifiedTime } : {}),
+    ...(articleImageUrl ? { image: articleImageUrl } : {}),
     publisher: {
       "@type": "Organization",
       name: "QApilot",
@@ -268,6 +280,7 @@ export default async function BlogPostPage({
       ? "markdown"
       : "html";
   const content = asString(blog.content);
+  const readingTimeMinutes = estimateReadingTimeMinutes(content);
 
   return (
     <>
@@ -342,14 +355,14 @@ export default async function BlogPostPage({
                   </p>
                 )}
               </div>
-              {publishedLabel ? (
-                <time
-                  dateTime={blog.published_date ?? undefined}
-                  className="text-sm text-muted-foreground ml-auto"
-                >
-                  {publishedLabel}
-                </time>
-              ) : null}
+              <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
+                {readingTimeMinutes ? (
+                  <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
+                ) : null}
+                {publishedLabel ? (
+                  <time dateTime={blog.published_date ?? undefined}>{publishedLabel}</time>
+                ) : null}
+              </div>
             </div>
 
             {youtubeUrl ? <YouTubeEmbed url={youtubeUrl} /> : null}

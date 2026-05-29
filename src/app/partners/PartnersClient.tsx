@@ -56,17 +56,17 @@ const opportunitySteps = [
 
 const whyChooseCards = [
   {
-    title: "Mobile-first platform",
+    title: "Mobile-First Platform",
     body: "Built for real mobile complexity, not retrofitted from web automation.",
     Icon: Smartphone,
   },
   {
-    title: "Agentic AI advantage",
+    title: "Agentic AI Advantage",
     body: "Bring autonomous testing, self-healing, and AI agents into customer conversations.",
     Icon: Bot,
   },
   {
-    title: "Partner-led delivery",
+    title: "Partner-Led Delivery",
     body: "You own the customer relationship. QApilot powers the platform layer.",
     Icon: Handshake,
   },

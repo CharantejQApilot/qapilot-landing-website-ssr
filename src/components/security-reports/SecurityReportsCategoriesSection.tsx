@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 const CATEGORIES = [
   {
-    title: "Manifest issues",
+    title: "Manifest Issues",
     total: 24,
     Icon: FileWarning,
     breakdown: [
@@ -14,7 +14,7 @@ const CATEGORIES = [
     ],
   },
   {
-    title: "Code vulnerabilities",
+    title: "Code Vulnerabilities",
     total: 41,
     Icon: Shield,
     breakdown: [
@@ -24,7 +24,7 @@ const CATEGORIES = [
     ],
   },
   {
-    title: "Certificate issues",
+    title: "Certificate Issues",
     total: 8,
     Icon: KeyRound,
     breakdown: [
@@ -34,7 +34,7 @@ const CATEGORIES = [
     ],
   },
   {
-    title: "Network issues",
+    title: "Network Issues",
     total: 55,
     Icon: Globe,
     breakdown: [

@@ -16,8 +16,13 @@ import {
   PLATFORM_AI_AGENTS,
   RESOURCE_NAV_LINKS,
   COMPANY_NAV_LINKS,
+  COMPARE_NAV_LINKS,
 } from "@/lib/routes";
-import { APP_AUTOMATION_LOGIN_URL, DOCS_URL } from "@/lib/constants";
+import {
+  APP_AUTOMATION_LOGIN_URL,
+  DOCS_URL,
+  EXTERNAL_NOINDEX_SUBDOMAIN_REL,
+} from "@/lib/constants";
 
 const HeaderDesktopPlatformMenu = dynamic(
   () => import("@/components/header/HeaderDesktopPlatformMenu"),
@@ -41,7 +46,7 @@ const Header = () => {
   const pathname = usePathname();
   const { openForm } = useHubSpotForm();
   const [openDropdown, setOpenDropdown] = useState<
-    "platform" | "resources" | "company" | null
+    "platform" | "compare" | "resources" | "company" | null
   >(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
@@ -84,6 +89,9 @@ const Header = () => {
     path === PATHS.FOR_QA_LEADER ||
     path === PATHS.FOR_PRODUCT_OWNER ||
     path === PATHS.FOR_SRE;
+  const isCompareActive = COMPARE_NAV_LINKS.some(
+    (p) => path === p.path || path.startsWith(`${p.path}/`),
+  );
   const isResourcesActive = [PATHS.BLOGS, PATHS.QA_GUIDE, PATHS.LABS, PATHS.FAQS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
@@ -92,29 +100,30 @@ const Header = () => {
   );
 
   const dropdownButtonClass = (active: boolean) =>
-    `font-heading ${RIBBON_NAV_TEXT_CLASS} flex items-center gap-1.5 font-medium transition-colors rounded-md px-3 py-2.5 -mx-1 ${
+    `font-heading ${RIBBON_NAV_TEXT_CLASS} flex shrink-0 items-center gap-1.5 font-medium transition-colors rounded-md px-2 py-2 xl:px-3 xl:py-2.5 -mx-1 whitespace-nowrap ${
       active
         ? "text-foreground font-semibold bg-primary/5"
         : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
     }`;
 
   return (
-    <header className="relative z-[1100] w-full border-b border-border bg-background overflow-visible flex flex-col lg:flex-row lg:items-center lg:h-[4.375rem]">
+    <header className="relative z-[1100] w-full border-b border-border bg-background overflow-visible flex flex-col xl:flex-row xl:items-center xl:h-[4.375rem]">
       {/* Bar: same horizontal padding as other sections (section-full); slightly taller than 4rem for ribbon breathing room */}
-      <div className="section-full w-full shrink-0 min-w-0 lg:flex-1 flex items-stretch h-[4.375rem]">
-        <div className="flex-1 min-w-0 flex items-center justify-between gap-4 sm:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 h-[4.375rem]">
+      <div className="section-full w-full shrink-0 min-w-0 xl:flex-1 flex items-stretch h-[4.375rem]">
+        <div className="flex w-full min-w-0 items-center h-[4.375rem]">
           <Link
             href={PATHS.HOME}
-            className="inline-flex min-w-0 shrink items-center leading-none"
+            className="inline-flex min-w-0 shrink-0 items-center leading-none"
             aria-label="QApilot home"
           >
             <Logo className="block h-[1.125rem] w-auto max-w-[58vw] sm:h-[1.375rem] sm:max-w-[42vw] md:h-6 md:max-w-[28vw] lg:h-[1.6875rem] lg:max-w-none xl:h-[1.875rem] 2xl:h-8" />
           </Link>
 
-          <nav
-          ref={navRef}
-          className="hidden lg:flex items-center justify-center gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 flex-1 min-w-0"
-        >
+          <div className="hidden xl:flex flex-1 min-w-0 items-center justify-center px-4 2xl:px-6">
+            <nav
+              ref={navRef}
+              className="flex items-center justify-center gap-4 2xl:gap-8 min-w-0"
+            >
           {/* Platform dropdown */}
           <div className="relative">
             <button
@@ -139,7 +148,7 @@ const Header = () => {
             ) : null}
           </div>
 
-          {/* Resources — first among secondary nav */}
+          {/* Resources */}
           <div className="relative">
             <button
               type="button"
@@ -208,46 +217,89 @@ const Header = () => {
             )}
           </div>
 
+          {/* Compare */}
+          <div className="relative">
+            <button
+              type="button"
+              aria-label="Compare menu"
+              aria-expanded={openDropdown === "compare"}
+              onClick={() =>
+                setOpenDropdown((o) => (o === "compare" ? null : "compare"))
+              }
+              className={dropdownButtonClass(openDropdown === "compare" || isCompareActive)}
+            >
+              Compare
+              <ChevronDown
+                size={15}
+                className={`transition-transform ${
+                  openDropdown === "compare" ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {openDropdown === "compare" && (
+              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
+                {COMPARE_NAV_LINKS.map((item) => (
+                  <NavItem
+                    key={item.path}
+                    to={item.path}
+                    isActive={isPathActive(item.path)}
+                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-secondary"
+                  >
+                    {item.label}
+                  </NavItem>
+                ))}
+              </div>
+            )}
+          </div>
+
           <a
             href={`${DOCS_URL}/`}
-            className={`font-heading ${RIBBON_NAV_TEXT_CLASS} font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md px-3 py-2.5 -mx-1`}
+            className={`font-heading ${RIBBON_NAV_TEXT_CLASS} shrink-0 whitespace-nowrap font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md px-2 py-2 xl:px-3 xl:py-2.5 -mx-1`}
           >
             Documentation
           </a>
-        </nav>
+            </nav>
+          </div>
 
-        <div className="hidden lg:flex items-center gap-4 shrink-0">
-          <Button
-            variant="ghost"
-            className={`${RIBBON_NAV_TEXT_CLASS} h-10 px-3 font-medium text-muted-foreground hover:text-foreground`}
-            asChild
-          >
-            <a href={APP_AUTOMATION_LOGIN_URL} target="_blank" rel="noopener noreferrer">
-              Log In
-            </a>
-          </Button>
-          <Button
-            className={`rounded-lg bg-primary px-6 py-2.5 ${RIBBON_NAV_TEXT_CLASS} font-semibold text-primary-foreground hover:bg-primary/90`}
-            onClick={() => openForm()}
-          >
-            Book a Demo
-          </Button>
-        </div>
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
+            <div className="hidden xl:flex items-center gap-3 2xl:gap-4">
+              <Button
+                variant="ghost"
+                className={`${RIBBON_NAV_TEXT_CLASS} h-10 px-2 xl:px-3 font-medium text-muted-foreground hover:text-foreground whitespace-nowrap`}
+                asChild
+              >
+                <a
+                  href={APP_AUTOMATION_LOGIN_URL}
+                  target="_blank"
+                  rel={EXTERNAL_NOINDEX_SUBDOMAIN_REL}
+                >
+                  Log In
+                </a>
+              </Button>
+              <Button
+                className={`rounded-lg bg-primary px-4 py-2.5 xl:px-6 ${RIBBON_NAV_TEXT_CLASS} font-semibold text-primary-foreground hover:bg-primary/90 whitespace-nowrap`}
+                onClick={() => openForm()}
+              >
+                Book a Demo
+              </Button>
+            </div>
 
-          <button
-            type="button"
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            className="flex items-center justify-center shrink-0 h-11 w-11 min-h-[2.75rem] min-w-[2.75rem] p-2 text-foreground transition-colors hover:text-primary lg:hidden"
-            onClick={() => setIsMobileMenuOpen((o) => !o)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            <button
+              type="button"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              className="relative z-20 flex items-center justify-center shrink-0 h-11 w-11 min-h-[2.75rem] min-w-[2.75rem] p-2 text-foreground transition-colors hover:text-primary xl:hidden touch-manipulation"
+              onClick={() => setIsMobileMenuOpen((o) => !o)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu — nested collapsible, stacks below header bar */}
       {isMobileMenuOpen && (
-        <div className="border-t border-border bg-background lg:hidden w-full shrink-0">
+        <div className="relative z-20 border-t border-border bg-background xl:hidden w-full shrink-0">
           <nav className="section-full py-5 pb-6">
             <div className="space-y-0">
               {/* Platform */}
@@ -364,7 +416,7 @@ const Header = () => {
                 )}
               </div>
 
-              {/* Resources — before Company */}
+              {/* Resources */}
               <div>
                 <button
                   type="button"
@@ -427,6 +479,38 @@ const Header = () => {
                 )}
               </div>
 
+              {/* Compare */}
+              <div>
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSection("compare")}
+                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md ${isCompareActive ? "bg-primary/5 font-semibold" : ""}`}
+                >
+                  <ChevronRight
+                    size={18}
+                    className={`shrink-0 text-foreground/70 transition-transform ${
+                      mobileExpanded["compare"] ? "rotate-90" : ""
+                    }`}
+                  />
+                  Compare
+                </button>
+                {mobileExpanded["compare"] && (
+                  <div className="pl-6 pr-2 pb-1 space-y-0">
+                    {COMPARE_NAV_LINKS.map((item) => (
+                      <NavItem
+                        key={item.path}
+                        to={item.path}
+                        isActive={isPathActive(item.path)}
+                        forceForeground
+                        className="block py-2 px-2 hover:bg-secondary rounded-md"
+                      >
+                        {item.label}
+                      </NavItem>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <a
                 href={`${DOCS_URL}/`}
                 className={`font-heading flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
@@ -438,7 +522,11 @@ const Header = () => {
 
             <div className="flex gap-3 pt-4 px-4 border-t border-border mt-2 pt-4">
               <Button variant="outline" className="flex-1 text-base" asChild>
-                <a href={APP_AUTOMATION_LOGIN_URL} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={APP_AUTOMATION_LOGIN_URL}
+                  target="_blank"
+                  rel={EXTERNAL_NOINDEX_SUBDOMAIN_REL}
+                >
                   Log In
                 </a>
               </Button>

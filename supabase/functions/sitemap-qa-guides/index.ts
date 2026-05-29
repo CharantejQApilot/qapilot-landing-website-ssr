@@ -14,6 +14,15 @@ function siteBaseUrl(): string {
   }
 }
 
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -27,7 +36,7 @@ Deno.serve(async (req) => {
 
     const { data: guides, error } = await supabaseClient
       .from("qa_guides")
-      .select("slug, updated_at, title")
+      .select("slug, updated_at, title, og_image_url, featured_image")
       .eq("tier", "index_worthy")
       .eq("status", "published")
       .order("published_date", { ascending: false });
@@ -41,18 +50,31 @@ Deno.serve(async (req) => {
 
     const urlEntries =
       guides
-        ?.map(
-          (guide) => `  <url>
-    <loc>${base}/qa-guide/${guide.slug}</loc>
+        ?.map((guide) => {
+          const imageUrl =
+            (typeof guide.og_image_url === "string" && guide.og_image_url.trim()) ||
+            (typeof guide.featured_image === "string" && guide.featured_image.trim()) ||
+            "";
+          const imageTag = imageUrl
+            ? `
+    <image:image>
+      <image:loc>${escapeXml(imageUrl)}</image:loc>
+      <image:title>${escapeXml(guide.title)}</image:title>
+    </image:image>`
+            : "";
+
+          return `  <url>
+    <loc>${base}/qa-guide/${escapeXml(guide.slug)}</loc>
     <lastmod>${new Date(guide.updated_at).toISOString().split("T")[0]}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.65</priority>
-  </url>`,
-        )
+    <priority>0.65</priority>${imageTag}
+  </url>`;
+        })
         .join("\n") ?? "";
 
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urlEntries}
 </urlset>`;
 
@@ -73,12 +95,3 @@ ${urlEntries}
     });
   }
 });
-
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}

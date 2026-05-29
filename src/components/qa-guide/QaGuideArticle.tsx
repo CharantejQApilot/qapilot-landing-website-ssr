@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import { formatPublishedDate } from "@/lib/format-published";
+import { estimateReadingTimeMinutes, formatReadingTimeLabel } from "@/lib/reading-time";
+import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
@@ -40,6 +42,7 @@ export default function QaGuideArticle({
     (guide.content_format ?? "").toLowerCase() === "markdown" ? "markdown" : "html";
   const content = guide.content ?? "";
   const publishedLabel = formatPublishedDate(guide.published_date);
+  const readingTimeMinutes = estimateReadingTimeMinutes(content);
 
   return (
     <main className="section-edge w-full py-16 md:py-20 lg:py-24">
@@ -56,7 +59,7 @@ export default function QaGuideArticle({
           <div className="mb-8 w-full overflow-hidden rounded-lg">
             <img
               src={guide.featured_image}
-              alt={`${guide.title} — QApilot QA Guide`}
+              alt={`${guide.title} — QApilot ${QE_GUIDE_DISPLAY_NAME}`}
               className="h-auto w-full object-contain"
               width={1200}
               height={630}
@@ -89,14 +92,14 @@ export default function QaGuideArticle({
           {guide.author_name ? (
             <p className="font-semibold text-foreground">{guide.author_name}</p>
           ) : null}
-          {publishedLabel ? (
-            <time
-              dateTime={guide.published_date ?? undefined}
-              className="ml-auto text-sm text-muted-foreground"
-            >
-              {publishedLabel}
-            </time>
-          ) : null}
+          <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
+            {readingTimeMinutes ? (
+              <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
+            ) : null}
+            {publishedLabel ? (
+              <time dateTime={guide.published_date ?? undefined}>{publishedLabel}</time>
+            ) : null}
+          </div>
         </div>
 
         <div

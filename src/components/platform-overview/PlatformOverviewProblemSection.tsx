@@ -27,7 +27,7 @@ const BLOCKS: readonly {
 }[] = [
   {
     title: "Coverage is Incomplete",
-    sublabel: "Fragmented mobile ecosystem",
+    sublabel: "Fragmented Mobile Ecosystem",
     Icon: LayoutGrid,
     body: (
       <>
@@ -42,7 +42,7 @@ const BLOCKS: readonly {
   },
   {
     title: "Execution is Fragile",
-    sublabel: "Brittle tests and changing UI",
+    sublabel: "Brittle Tests And Changing UI",
     Icon: Workflow,
     body: (
       <>
@@ -54,7 +54,7 @@ const BLOCKS: readonly {
   },
   {
     title: "Signals are Noisy or Missing",
-    sublabel: "Lack of meaningful runtime insights",
+    sublabel: "Lack Of Meaningful Runtime Insights",
     Icon: Activity,
     body: (
       <>

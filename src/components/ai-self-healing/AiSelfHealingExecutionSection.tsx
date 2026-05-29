@@ -3,19 +3,19 @@ import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionH
 
 const STEPS = [
   {
-    title: "Step fails → QApilot re-identifies element",
+    title: "Step Fails → QApilot Re-Identifies Element",
     Icon: RefreshCw,
   },
   {
-    title: "Fallback kicks in automatically",
+    title: "Fallback Kicks In Automatically",
     Icon: Zap,
   },
   {
-    title: "Step continues execution",
+    title: "Step Continues Execution",
     Icon: Footprints,
   },
   {
-    title: "Marked as “AI Assisted”",
+    title: "Marked As “AI Assisted”",
     Icon: BadgeCheck,
   },
 ] as const;

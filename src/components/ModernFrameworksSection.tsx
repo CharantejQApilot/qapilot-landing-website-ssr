@@ -1,6 +1,8 @@
 import type { ComponentType } from "react";
+import Link from "next/link";
 import { Smartphone, Layers, CodeXml, Cpu } from "lucide-react";
 import { marketingEyebrowClass, marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 const diagonalFill =
@@ -127,8 +129,15 @@ const ModernFrameworksSection = () => {
             <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:items-center lg:gap-10">
               <div className="flex min-w-0 flex-col justify-center gap-5">
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base lg:pr-2">
-                  Ship with confidence whether your team uses native toolchains, Flutter, or React Native. One pipeline
-                  validates what users actually experience — no framework-specific test harness required.
+                  Ship with confidence whether your team uses native toolchains,{" "}
+                  <Link
+                    href={PATHS.FOR_FLUTTER}
+                    className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
+                  >
+                    Flutter
+                  </Link>
+                  , or React Native. One pipeline validates what users actually experience — no framework-specific test
+                  harness required.
                 </p>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
                   <span className="font-semibold text-foreground">Post-build validation</span>

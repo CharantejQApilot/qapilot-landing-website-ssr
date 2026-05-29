@@ -1,10 +1,46 @@
 # QApilot — ai.txt (machine-readable pointers for AI crawlers)
 # Canonical site: https://qapilot.io
-# Structured product & company context for LLMs (llms.txt standard):
-# https://qapilot.io/llms.txt
+# Last updated: May 2026
+
+# Structured product & company context (llms.txt standard):
+Llms-Txt: https://qapilot.io/llms.txt
 
 Contact: https://qapilot.io/about
 Sitemap: https://qapilot.io/sitemap-index.xml
-
-# Optional: documentation (separate subdomain)
 Documentation: https://docs.qapilot.io/
+Product-App: https://app.qapilot.io/
+Status: https://status.qapilot.io/
+
+# Primary product pages
+Product: https://qapilot.io/product
+Autonomous-Testing: https://qapilot.io/product/autonomous-testing
+Intelligent-Bug-Detection: https://qapilot.io/product/intelligent-bug-detection
+AI-Self-Healing: https://qapilot.io/ai-self-healing
+Security-Reports: https://qapilot.io/security-reports
+Flutter-Testing: https://qapilot.io/for-flutter
+Agentic-Architecture: https://qapilot.io/agentic-architecture
+Bring-Your-Own-Agent: https://qapilot.io/bring-your-own-agent
+Enterprise: https://qapilot.io/enterprise
+
+# Compare / alternatives (mobile QA positioning)
+Compare-Web-First: https://qapilot.io/compare/qapilot-vs-web-first-automation-tools
+Compare-Appium: https://qapilot.io/compare/qapilot-vs-appium
+Compare-Visual-Testing: https://qapilot.io/compare/qapilot-vs-visual-testing-tools
+
+# Resources
+Blogs: https://qapilot.io/blogs
+QE-Guide: https://qapilot.io/qa-guide
+Labs: https://qapilot.io/labs
+FAQs: https://qapilot.io/faqs
+News: https://qapilot.io/news
+Careers: https://qapilot.io/careers
+Partners: https://qapilot.io/partners
+
+# Agent & API discovery
+OpenAPI: https://qapilot.io/openapi.json
+API-Catalog: https://qapilot.io/.well-known/api-catalog
+Agent-Skills: https://qapilot.io/.well-known/agent-skills/index.json
+Homepage-Markdown: https://qapilot.io/ (Accept: text/markdown)
+
+# Crawler policy
+Robots: https://qapilot.io/robots.txt

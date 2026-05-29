@@ -3,8 +3,9 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
-import { PATHS } from "@/lib/routes";
+import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
@@ -15,15 +16,40 @@ export const revalidate = 120;
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.QA_GUIDE}`;
 
+const QE_GUIDE_HUB_TITLE = `${QE_GUIDE_DISPLAY_NAME} — Mobile Testing Guides & Checklists`;
+const QE_GUIDE_HUB_DESCRIPTION =
+  "In-depth QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.";
+
 export const metadata: Metadata = {
-  title: "QA Guide — Mobile Testing Guides & Checklists",
-  description:
-    "In-depth QA guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.",
+  title: QE_GUIDE_HUB_TITLE,
+  description: QE_GUIDE_HUB_DESCRIPTION,
+  robots: { index: true, follow: true },
   alternates: { canonical: canonicalUrl },
+  openGraph: {
+    type: "website",
+    url: canonicalUrl,
+    title: `${QE_GUIDE_HUB_TITLE} | QApilot`,
+    description: QE_GUIDE_HUB_DESCRIPTION,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${QE_GUIDE_HUB_TITLE} | QApilot`,
+    description: QE_GUIDE_HUB_DESCRIPTION,
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
 };
 
 const GUIDE_LIST_SELECT =
   "id, slug, title, excerpt, published_date, author_name";
+
+function stripJsonLdContext(node: object): Record<string, unknown> {
+  const o = { ...(node as Record<string, unknown>) };
+  delete o["@context"];
+  return o;
+}
 
 export default async function QaGuideHubPage() {
   const supabase = tryCreateServerSupabaseClient();
@@ -40,15 +66,45 @@ export default async function QaGuideHubPage() {
 
   const breadcrumb = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
-    { name: "QA Guide", path: PATHS.QA_GUIDE },
+    { name: QE_GUIDE_DISPLAY_NAME, path: PATHS.QA_GUIDE },
   ]);
+
+  const itemListElements =
+    list.length > 0
+      ? list.map((g, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: g.title,
+          item: `${SITE_BASE_URL}${publishedUrlPath(g.slug)}`,
+        }))
+      : undefined;
+
+  const collectionPage: Record<string, unknown> = {
+    "@type": "CollectionPage",
+    name: `QApilot ${QE_GUIDE_DISPLAY_NAME}`,
+    description: QE_GUIDE_HUB_DESCRIPTION,
+    url: canonicalUrl,
+    publisher: { "@type": "Organization", name: "QApilot" },
+  };
+  if (itemListElements) {
+    collectionPage.mainEntity = {
+      "@type": "ItemList",
+      numberOfItems: itemListElements.length,
+      itemListElement: itemListElements,
+    };
+  }
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [collectionPage, stripJsonLdContext(breadcrumb)],
+  };
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [breadcrumb] }),
+          __html: JSON.stringify(structuredData),
         }}
       />
       <MarketingPageShell background="soft">
@@ -59,10 +115,10 @@ export default async function QaGuideHubPage() {
                 Resources
               </p>
               <h1 className={marketingHeroH1Class}>
-                <span className="text-gradient">QA Guide</span>
+                <span className="text-gradient">{QE_GUIDE_DISPLAY_NAME}</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-                Practical mobile testing guides — comparisons, checklists, and patterns for QA
+                Practical mobile testing guides — comparisons, checklists, and patterns for QE
                 leaders and engineers.
               </p>
             </header>

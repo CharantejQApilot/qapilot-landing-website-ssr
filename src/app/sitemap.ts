@@ -67,11 +67,6 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.8,
   },
   {
-    url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}`,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  },
-  {
     url: `${SITE_BASE_URL}${PATHS.CAREERS}`,
     changeFrequency: "weekly",
     priority: 0.8,
@@ -103,6 +98,16 @@ const staticPages: MetadataRoute.Sitemap = [
   },
   {
     url: `${SITE_BASE_URL}${PATHS.COMPARE_WEB_FIRST}`,
+    changeFrequency: "monthly",
+    priority: 0.78,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.COMPARE_APPIUM}`,
+    changeFrequency: "monthly",
+    priority: 0.78,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.COMPARE_VISUAL_TESTING}`,
     changeFrequency: "monthly",
     priority: 0.78,
   },

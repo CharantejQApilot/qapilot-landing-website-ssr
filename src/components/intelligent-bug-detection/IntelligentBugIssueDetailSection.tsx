@@ -56,11 +56,11 @@ export function IntelligentBugIssueDetailSection() {
             <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/15 via-transparent to-primary/5 blur-2xl" aria-hidden />
             <div className="relative overflow-hidden rounded-2xl border border-border/80 bg-card shadow-2xl">
               <div className="flex items-center justify-between border-b border-border/60 bg-muted/30 px-4 py-3">
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Issue detail</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Issue Detail</span>
                 <span className="rounded-full bg-destructive/15 px-2.5 py-0.5 text-xs font-bold text-destructive">High</span>
               </div>
               <div className="p-4">
-                <h3 className="font-heading text-lg font-semibold text-foreground">Tap target below minimum size</h3>
+                <h3 className="font-heading text-lg font-semibold text-foreground">Tap Target Below Minimum Size</h3>
                 <p className="mt-1 text-sm text-muted-foreground">Checkout · Shipping method row</p>
                 <div className="relative mt-5 overflow-hidden rounded-xl border border-border bg-muted/40">
                   <div className="aspect-[16/10] w-full bg-gradient-to-br from-muted to-background p-4">
@@ -89,7 +89,7 @@ export function IntelligentBugIssueDetailSection() {
                   </div>
                 </dl>
                 <div className="mt-4 rounded-xl border border-primary/25 bg-primary/[0.06] p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-primary">How to fix</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-primary">How To Fix</p>
                   <p className="mt-2 text-sm leading-relaxed text-foreground">
                     Increase tappable area to at least 48×48dp or add an invisible touch target padding layer.
                   </p>

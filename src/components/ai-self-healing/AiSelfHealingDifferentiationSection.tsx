@@ -3,10 +3,10 @@ import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionH
 import { cn } from "@/lib/utils";
 
 const POINTS = [
-  { title: "Transparent changes", body: "Every adaptation is inspectable—not a silent rewrite.", Icon: Eye },
-  { title: "Full visibility in reports", body: "Healing is labeled and traceable across runs.", Icon: Shield },
-  { title: "Human approval loop", body: "You decide when locators become canonical.", Icon: UserCheck },
-  { title: "Continuous test evolution", body: "Tests learn from real UI drift instead of rotting.", Icon: GitBranch },
+  { title: "Transparent Changes", body: "Every adaptation is inspectable—not a silent rewrite.", Icon: Eye },
+  { title: "Full Visibility In Reports", body: "Healing is labeled and traceable across runs.", Icon: Shield },
+  { title: "Human Approval Loop", body: "You decide when locators become canonical.", Icon: UserCheck },
+  { title: "Continuous Test Evolution", body: "Tests learn from real UI drift instead of rotting.", Icon: GitBranch },
 ] as const;
 
 export function AiSelfHealingDifferentiationSection() {

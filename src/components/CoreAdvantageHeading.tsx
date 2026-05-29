@@ -23,6 +23,17 @@ function CapHighlight({ children }: { children: ReactNode }) {
   return <strong className="font-semibold text-primary">{children}</strong>;
 }
 
+const inlineSeoLinkClass =
+  "font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary";
+
+function SeoLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link href={href} className={inlineSeoLinkClass}>
+      {children}
+    </Link>
+  );
+}
+
 type TabItem = {
   id: string;
   label: string;
@@ -43,8 +54,10 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
     description: (
       <>
         Automatically validates <CapHighlight>critical app flows</CapHighlight> without any scripts or setup. From the
-        moment you upload your app, QApilot explores it like a <CapHighlight>real user</CapHighlight> and generates
-        meaningful test coverage, giving <CapHighlight>instant visibility into app health</CapHighlight>.
+        moment you upload your app, QApilot&apos;s{" "}
+        <SeoLink href={PATHS.AUTONOMOUS_TESTING}>autonomous mobile app crawler</SeoLink> explores it like a{" "}
+        <CapHighlight>real user</CapHighlight> and generates meaningful test coverage, giving{" "}
+        <CapHighlight>instant visibility into app health</CapHighlight>.
       </>
     ),
     imageSrc: "/lovable-uploads/core-advantage-autonomous-testing.png",
@@ -57,10 +70,10 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
     label: "Intelligent Bug Detection",
     description: (
       <>
-        Autonomously detects <CapHighlight>accessibility gaps</CapHighlight>,{" "}
-        <CapHighlight>action latency issues</CapHighlight>, and <CapHighlight>page load failures</CapHighlight> during
-        execution. It surfaces real user-impacting problems without manual effort, helping teams{" "}
-        <CapHighlight>catch issues early</CapHighlight> and continuously.
+        <SeoLink href={PATHS.INTELLIGENT_BUG_DETECTION}>Intelligent bug detection</SeoLink> autonomously finds{" "}
+        <CapHighlight>accessibility gaps</CapHighlight>, <CapHighlight>action latency issues</CapHighlight>, and{" "}
+        <CapHighlight>page load failures</CapHighlight> during execution. It surfaces real user-impacting problems
+        without manual effort, helping teams <CapHighlight>catch issues early</CapHighlight> and continuously.
       </>
     ),
     imageSrc: "/lovable-uploads/core-advantage-intelligent-bug-detection.png",
@@ -73,7 +86,8 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
     label: "Flutter Testing",
     description: (
       <>
-        Built to handle <CapHighlight>Flutter&apos;s hybrid nature</CapHighlight>, QApilot seamlessly switches between{" "}
+        Built to handle <SeoLink href={PATHS.FOR_FLUTTER}>Flutter testing</SeoLink> and{" "}
+        <CapHighlight>Flutter&apos;s hybrid nature</CapHighlight>, QApilot seamlessly switches between{" "}
         <CapHighlight>native</CapHighlight> and <CapHighlight>Flutter contexts</CapHighlight>. This ensures reliable,
         end-to-end testing across platforms without breaking flows or requiring custom handling.
       </>
@@ -89,8 +103,8 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
     description: (
       <>
         Continuously analyzes your app for <CapHighlight>vulnerabilities</CapHighlight> like insecure requests, tracker
-        risks, and configuration issues. Provides <CapHighlight>clear, actionable insights</CapHighlight> to strengthen
-        security before every release.
+        risks, and configuration issues. <SeoLink href={PATHS.SECURITY_REPORTS}>Mobile security reports</SeoLink> provide{" "}
+        <CapHighlight>clear, actionable insights</CapHighlight> to strengthen security before every release.
       </>
     ),
     imageSrc: "/lovable-uploads/core-advantage-security-reports.png",
@@ -104,9 +118,10 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
     label: "AI Self Healing",
     description: (
       <>
-        Adapts automatically to UI changes by intelligently updating element references during execution. This reduces{" "}
-        <CapHighlight>flaky tests</CapHighlight> and eliminates the need for constant{" "}
-        <CapHighlight>maintenance</CapHighlight>, keeping your <CapHighlight>test suite stable</CapHighlight> over time.
+        <SeoLink href={PATHS.AI_SELF_HEALING}>AI self-healing tests</SeoLink> adapt automatically to UI changes by
+        intelligently updating element references during execution. This reduces <CapHighlight>flaky tests</CapHighlight>{" "}
+        and eliminates the need for constant <CapHighlight>maintenance</CapHighlight>, keeping your{" "}
+        <CapHighlight>test suite stable</CapHighlight> over time.
       </>
     ),
     imageSrc: "/lovable-uploads/core-advantage-self-healing.png",
@@ -140,8 +155,8 @@ function CoreCapabilityScenicBackdrop({
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-background"
       aria-hidden
     >
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-[-10%] motion-safe:animate-scenic-ken-burns">
+        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-[-10%] lg:motion-safe:animate-scenic-ken-burns">
           <Image
             key={panelKey}
             src={src}
@@ -149,7 +164,7 @@ function CoreCapabilityScenicBackdrop({
             fill
             sizes="(min-width: 1280px) 1200px, 100vw"
             className="object-cover object-center"
-            unoptimized
+            loading={priority ? "eager" : "lazy"}
             priority={priority}
           />
         </div>
@@ -191,11 +206,11 @@ function DeliverSectionBackgroundDecor() {
 
       {/* Corner orbs — kept to edges so center stays clean cream */}
       <span
-        className="hero-corner-orb absolute -left-10 top-0 h-56 w-56 rounded-full bg-primary/5 sm:left-0 sm:h-52 sm:w-52"
+        className="hero-corner-orb absolute -left-10 top-0 hidden h-56 w-56 rounded-full bg-primary/5 md:block sm:left-0 sm:h-52 sm:w-52"
         style={{ boxShadow: "0 0 100px 70px hsl(218 65% 28% / 0.09)" }}
       />
       <span
-        className="hero-corner-orb absolute -right-8 bottom-0 h-52 w-52 rounded-full bg-primary/[0.07] sm:right-0 sm:bottom-0"
+        className="hero-corner-orb absolute -right-8 bottom-0 hidden h-52 w-52 rounded-full bg-primary/[0.07] md:block sm:right-0 sm:bottom-0"
         style={{
           boxShadow: "0 0 90px 60px hsl(218 65% 28% / 0.14)",
           animationDelay: "-6s",
@@ -408,25 +423,26 @@ const CoreAdvantageHeading = () => {
         >
           <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
             {/* Left (~62% lg): scenic + screenshot; image first on mobile */}
-            <div className="relative isolate min-h-[420px] min-w-0 w-full overflow-hidden bg-background lg:flex-[0_0_62%] lg:min-h-0">
-              <CoreCapabilityScenicBackdrop
-                src={current.scenicBackgroundSrc}
-                panelKey={current.id}
-                scrim={current.scenicScrim}
-                priority={active === 0}
-              />
+            <div className="relative isolate min-h-[280px] min-w-0 w-full overflow-hidden bg-muted/30 lg:min-h-0 lg:flex-[0_0_62%] lg:bg-background">
+              <div className="hidden lg:block absolute inset-0">
+                <CoreCapabilityScenicBackdrop
+                  src={current.scenicBackgroundSrc}
+                  panelKey={current.id}
+                  scrim={current.scenicScrim}
+                  priority={false}
+                />
+              </div>
               <div
                 key={`${current.id}-media`}
-                className="relative z-[2] flex min-h-[420px] w-full items-center justify-center px-[7.5%] py-[6.5%] sm:px-[8%] sm:py-[7%] md:min-h-[520px] md:px-[8.25%] md:py-[7.5%] lg:min-h-full lg:px-[6%] lg:py-6 xl:py-7 animate-in fade-in duration-300"
+                className="relative z-[2] flex min-h-[280px] w-full items-center justify-center px-[7.5%] py-[6.5%] sm:min-h-[360px] sm:px-[8%] sm:py-[7%] md:min-h-[420px] md:px-[8.25%] md:py-[7.5%] lg:min-h-full lg:px-[6%] lg:py-6 xl:py-7 animate-in fade-in duration-300"
               >
                 {current.imageSrc ? (
                   <img
                     src={current.imageSrc}
                     alt={current.imageAlt}
-                    className="relative h-auto max-h-[min(88vh,920px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(90vh,960px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(54vh,576px)] xl:max-h-[min(56vh,608px)]"
-                    loading={active === 0 ? "eager" : "lazy"}
+                    className="relative h-auto max-h-[min(72vh,640px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(80vh,800px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(54vh,576px)] xl:max-h-[min(56vh,608px)]"
+                    loading="lazy"
                     decoding="async"
-                    fetchPriority={active === 0 ? "high" : undefined}
                   />
                 ) : (
                   <div className="flex w-full max-w-none flex-col items-center justify-center gap-4 py-4 text-center md:py-6">

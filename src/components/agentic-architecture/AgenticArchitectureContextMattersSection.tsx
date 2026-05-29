@@ -24,7 +24,7 @@ export function AgenticArchitectureContextMattersSection() {
 
         <div className="grid gap-6 md:grid-cols-2 md:gap-8">
           <div className="flex h-full flex-col rounded-2xl border border-border/80 bg-muted/15 p-6 md:p-8">
-            <h3 className="mb-4 font-heading text-lg font-semibold text-muted-foreground md:text-xl">Without context</h3>
+            <h3 className="mb-4 font-heading text-lg font-semibold text-muted-foreground md:text-xl">Without Context</h3>
             <ul className="space-y-3 text-base leading-relaxed text-muted-foreground md:text-lg">
               {WITHOUT.map((line) => (
                 <li key={line} className="flex gap-3">
@@ -43,7 +43,7 @@ export function AgenticArchitectureContextMattersSection() {
               "ring-1 ring-primary/15",
             )}
           >
-            <h3 className="mb-4 font-heading text-lg font-semibold text-primary md:text-xl">With context</h3>
+            <h3 className="mb-4 font-heading text-lg font-semibold text-primary md:text-xl">With Context</h3>
             <ul className="space-y-3 text-base font-medium leading-relaxed text-foreground md:text-lg">
               {WITH.map((line) => (
                 <li key={line} className="flex gap-3">

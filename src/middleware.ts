@@ -30,7 +30,6 @@ function isSocialPreviewPath(pathname: string): boolean {
   return (
     pathname.startsWith("/blogs/") ||
     pathname.startsWith("/news/") ||
-    pathname.startsWith("/case-studies/") ||
     pathname.startsWith("/careers/") ||
     pathname.startsWith("/qa-guide/")
   );
@@ -41,7 +40,7 @@ function isSocialPreviewPath(pathname: string): boolean {
  * (LinkedInBot / facebookexternalhit / Twitterbot / etc.) to a Supabase
  * `prerender-meta` edge function. That existed as a defensive workaround
  * back when serverless RSC cold starts were occasionally 500-ing on
- * `/blogs/[slug]`, `/case-studies/[slug]`, `/news/[slug]`.
+ * `/blogs/[slug]`, `/news/[slug]`.
  *
  * Those routes are now hardened with `generateStaticParams` (build-time
  * prerender), `revalidate = 120` (ISR), and `generateMetadata` wrapped in
@@ -50,9 +49,7 @@ function isSocialPreviewPath(pathname: string): boolean {
  * descriptions and `article:published_time`.
  *
  * The Supabase fallback was actively *wrong* whenever the deployed edge
- * function fell behind this repo (e.g. case studies looked like the generic
- * QApilot website preview because the deployed prerender-meta predated the
- * `/case-studies/:slug` handler). Crawlers were getting stale metadata even
+ * function fell behind this repo. Crawlers were getting stale metadata even
  * though Next.js was rendering the right thing.
  *
  * We now let Next.js answer crawler requests directly. Source-of-truth lives

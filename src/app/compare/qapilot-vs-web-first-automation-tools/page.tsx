@@ -8,65 +8,65 @@ import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-ty
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { cn } from "@/lib/utils";
-import BookDemoCtaButton from "./BookDemoCtaButton";
+import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 
 const path = PATHS.COMPARE_WEB_FIRST;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
 const comparisonRows = [
-  ["Core design", "Built for browser automation", "Built for mobile app testing"],
-  ["Mobile support", "Added through extensions, wrappers, or integrations", "Native focus from day one"],
+  ["Core Design", "Built for browser automation", "Built for mobile app testing"],
+  ["Mobile Support", "Added through extensions, wrappers, or integrations", "Native focus from day one"],
   [
-    "Test creation",
+    "Test Creation",
     "Scripted, recorded, low-code, or prompt-assisted",
     "Crawler-led generation plus guided creation",
   ],
-  ["App understanding", "Step-based or selector-based", "Journey-based with a mobile app knowledge graph"],
+  ["App Understanding", "Step-based or selector-based", "Journey-based with a mobile app knowledge graph"],
   [
-    "Self-healing",
+    "Self-Healing",
     "Often locator-led",
     "Context-aware across screens, journeys, metadata, and visual signals",
   ],
-  ["Device coverage", "Requires external setup and configuration", "Designed for real mobile execution workflows"],
+  ["Device Coverage", "Requires external setup and configuration", "Designed for real mobile execution workflows"],
   ["Debugging", "Shows where a step failed", "Shows why a mobile journey failed"],
-  ["Flutter support", "Often limited or workaround-heavy", "Built to handle mobile framework complexity"],
-  ["Best fit", "Web-first products and browser QA", "Mobile-first teams that need release confidence"],
+  ["Flutter Support", "Often limited or workaround-heavy", "Built to handle mobile framework complexity"],
+  ["Best Fit", "Web-first products and browser QA", "Mobile-first teams that need release confidence"],
 ] as const;
 
 const compactCards = [
   {
-    title: "Web-first tooling",
+    title: "Web-First Tooling",
     body: "Most automation ecosystems matured around browsers, DOM structures, and web events.",
   },
   {
-    title: "Mobile complexity",
+    title: "Mobile Complexity",
     body: "Mobile quality depends on devices, OS versions, gestures, permissions, app states, and frameworks.",
   },
   {
-    title: "Purpose-built gap",
+    title: "Purpose-Built Gap",
     body: "Mobile teams need testing infrastructure built around app journeys, not browser assumptions.",
   },
 ] as const;
 
 const featureCards = [
   {
-    title: "Autonomous mobile exploration",
+    title: "Autonomous Mobile Exploration",
     body: "QApilot crawls the app, discovers screens, identifies actions, and maps journeys without requiring teams to define every path upfront.",
   },
   {
-    title: "Mobile app knowledge graph",
+    title: "Mobile App Knowledge Graph",
     body: "QApilot stores context across screens, states, flows, and actions so tests are not just isolated scripts.",
   },
   {
-    title: "AI-native test generation",
+    title: "AI-Native Test Generation",
     body: "QApilot uses crawler context to generate relevant sanity and regression coverage faster.",
   },
   {
-    title: "Self-healing mobile tests",
+    title: "Self-Healing Mobile Tests",
     body: "QApilot uses app context when locators, UI, or app states change, reducing maintenance effort.",
   },
   {
-    title: "Release-ready reporting",
+    title: "Release-Ready Reporting",
     body: "QApilot gives teams step-level screenshots, logs, network traces, device metrics, accessibility checks, action latency, and failure evidence.",
   },
 ] as const;
@@ -151,7 +151,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               id="mobile-app-engineering-underserved"
               title={
                 <>
-                  Mobile app engineering is <span className="text-primary">underserved</span>
+                  Mobile App Engineering Is <span className="text-primary">Underserved</span>
                 </>
               }
               description={
@@ -191,7 +191,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               id="self-healing-contrast"
               title={
                 <>
-                  Web assumptions break in <span className="text-primary">mobile environments</span>
+                  Web Assumptions Break In <span className="text-primary">Mobile Environments</span>
                 </>
               }
               description="Self-healing is the clearest example."
@@ -202,7 +202,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               <article className="border-b border-border/60 p-6 md:border-b-0 md:border-r md:p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Web</p>
                 <h3 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
-                  Structure defines behavior
+                  Structure Defines Behavior
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                   On the web, DOM hierarchy, selectors, and browser events give automation tools a stable
@@ -220,7 +220,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               <article className="p-6 md:bg-primary/[0.04] md:p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Mobile</p>
                 <h3 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
-                  Behavior defines structure
+                  Behavior Defines Structure
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                   In mobile apps, intent is expressed through gestures, sequences, app states, permissions,
@@ -238,8 +238,8 @@ export default function QApilotVsWebFirstComparisonPage() {
 
             <div className="mt-8 border-l-4 border-primary bg-muted/20 px-5 py-5 md:px-6 md:py-6">
               <p className="font-heading text-xl font-semibold tracking-tight text-foreground">
-                Mobile self-healing needs more than locator recovery.{" "}
-                <span className="text-primary">It needs app context.</span>
+                Mobile Self-Healing Needs More Than Locator Recovery.{" "}
+                <span className="text-primary">It Needs App Context.</span>
               </p>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                 Healing cannot depend on selectors alone. It must understand the screen, journey, nearby
@@ -258,7 +258,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               id="built-around-mobile-context"
               title={
                 <>
-                  QApilot is built around <span className="text-primary">mobile context</span>
+                  QApilot Is Built Around <span className="text-primary">Mobile Context</span>
                 </>
               }
               description={
@@ -275,10 +275,10 @@ export default function QApilotVsWebFirstComparisonPage() {
 
             <div className="grid gap-4 md:grid-cols-4">
               {[
-                "Crawler explores app",
-                "Knowledge graph stores context",
-                "Agents generate and execute tests",
-                "Reports show release readiness",
+                "Crawler Explores App",
+                "Knowledge Graph Stores Context",
+                "Agents Generate And Execute Tests",
+                "Reports Show Release Readiness",
               ].map((step, index) => (
                 <div
                   key={step}
@@ -320,7 +320,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               id="comparison-table"
               title={
                 <>
-                  <span className="text-primary">QApilot</span> vs web-first automation tools
+                  <span className="text-primary">QApilot</span> vs Web-First Automation Tools
                 </>
               }
               marginBottomClassName="mb-8 md:mb-10"
@@ -340,7 +340,7 @@ export default function QApilotVsWebFirstComparisonPage() {
                   <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
                     <div className="p-4 sm:p-5 md:p-6">
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                        Web-first automation tools
+                        Web-First Automation Tools
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{webFirst}</p>
                     </div>
@@ -361,7 +361,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               id="what-qapilot-brings"
               title={
                 <>
-                  What QApilot brings to <span className="text-primary">mobile-first testing</span>
+                  What QApilot Brings To <span className="text-primary">Mobile-First Testing</span>
                 </>
               }
               marginBottomClassName="mb-10 md:mb-12"
@@ -389,7 +389,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               id="why-this-matters-and-fit"
               title={
                 <>
-                  Why this matters and when <span className="text-primary">QApilot fits best</span>
+                  Why This Matters And When <span className="text-primary">QApilot Fits Best</span>
                 </>
               }
               marginBottomClassName="mb-8 md:mb-10"
@@ -397,7 +397,7 @@ export default function QApilotVsWebFirstComparisonPage() {
             <div className="overflow-hidden rounded-2xl border border-border/60 bg-muted/15 md:grid md:grid-cols-2">
               <div className="border-b border-border/50 p-6 md:border-b-0 md:border-r md:p-8">
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
-                  Why <span className="text-primary">this matters</span>
+                  Why <span className="text-primary">This Matters</span>
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                   For mobile-first businesses, the app is where users onboard, pay, book, subscribe, and
@@ -407,7 +407,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               </div>
               <div className="p-6 md:bg-primary/[0.04] md:p-8">
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
-                  When QApilot is the <span className="text-primary">better fit</span>
+                  When QApilot Is The <span className="text-primary">Better Fit</span>
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                   QApilot is built for teams shipping mobile apps frequently across Android and iOS, dealing
@@ -423,7 +423,7 @@ export default function QApilotVsWebFirstComparisonPage() {
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
           <div className="section-full text-center">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
-              Ready for <span className="text-primary">mobile-first testing</span>?
+              Ready For <span className="text-primary">Mobile-First Testing</span>?
             </h2>
             <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
               QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across

@@ -20,9 +20,6 @@ verify_jwt = false
 [functions.sitemap-jobs]
 verify_jwt = false
 
-[functions.sitemap-case-studies]
-verify_jwt = false
-
 [functions.sitemap-qa-guides]
 verify_jwt = false
 

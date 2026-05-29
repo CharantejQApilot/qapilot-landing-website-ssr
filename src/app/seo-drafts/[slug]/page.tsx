@@ -3,7 +3,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import QaGuideArticle from "@/components/qa-guide/QaGuideArticle";
-import { PATHS } from "@/lib/routes";
+import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { MarketingPageShell } from "@/components/marketing";
 import { resolveSlugParam } from "@/lib/app-router-params";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
@@ -68,7 +68,7 @@ export default async function SeoDraftPreviewPage({
       <QaGuideArticle
         guide={guide}
         backHref={PATHS.QA_GUIDE}
-        backLabel="Back to QA Guide"
+        backLabel={`Back to ${QE_GUIDE_DISPLAY_NAME}`}
       />
       <Footer />
     </MarketingPageShell>

@@ -2,7 +2,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 
 const USER_AGENT = "qapilot-content-automation/1.0 (+https://qapilot.io)";
 
-const INTERNAL_PATH_PREFIXES = ["/qa-guide/", "/blogs/", "/product/", "/case-studies/", "/news/"];
+const INTERNAL_PATH_PREFIXES = ["/qa-guide/", "/blogs/", "/product/", "/news/"];
 
 /** Marketing/product pages scraped for grounded QApilot copy (path only). */
 const BRAND_CONTEXT_PATHS = [
