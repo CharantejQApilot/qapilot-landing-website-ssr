@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
+import DeviceCoverageSection from "@/components/DeviceCoverageSection";
 import VelocitySection from "@/components/VelocitySection";
 import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import ProductShowcaseSection from "@/components/ProductShowcaseSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 import MetricsSection from "@/components/MetricsSection";
-import CoreAdvantageLazy from "@/components/CoreAdvantageLazy";
+import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import Footer from "@/components/Footer";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
@@ -21,6 +22,9 @@ import {
 } from "@/lib/home-page-seo";
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
+
+/** Set to true to show Device Coverage Advisor between testimonials and metrics. */
+const SHOW_DEVICE_COVERAGE_ADVISOR = false;
 
 export const metadata: Metadata = {
   title: { absolute: HOME_PAGE_TITLE },
@@ -52,25 +56,14 @@ export default function IndexPage() {
       />
       <main>
         <HeroSection />
-        <div className="section-deferred-render">
-          <ClientsSection />
-        </div>
-        <div className="section-deferred-render">
-          <MetricsSection />
-        </div>
-        <div className="section-deferred-render">
-          <VelocitySection />
-        </div>
-        <CoreAdvantageLazy />
-        <div className="section-deferred-render">
-          <ModernFrameworksSection />
-        </div>
-        <div className="section-deferred-render">
-          <ProductShowcaseSection />
-        </div>
-        <div className="section-deferred-render">
-          <IntegrationsSection />
-        </div>
+        <ClientsSection />
+        {SHOW_DEVICE_COVERAGE_ADVISOR ? <DeviceCoverageSection /> : null}
+        <MetricsSection />
+        <VelocitySection />
+        <CoreAdvantageHeading />
+        <ModernFrameworksSection />
+        <ProductShowcaseSection />
+        <IntegrationsSection />
       </main>
       <Footer />
     </div>

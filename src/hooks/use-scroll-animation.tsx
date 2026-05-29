@@ -60,34 +60,64 @@ export const useScrollAnimation = (threshold = 0.1) => {
   return { ref, isVisible };
 };
 
+function parseRootMarginPx(rootMargin: string): number {
+  const top = rootMargin.trim().split(/\s+/)[0] ?? "0px";
+  const n = parseFloat(top);
+  return Number.isFinite(n) ? n : 0;
+}
+
 /**
- * Hook for lazy loading content when scrolled into view
- * Returns true when element is near viewport
+ * Lazy-load content when scrolled near the viewport.
+ * Uses a callback ref and an immediate geometry check so content already on screen loads without waiting for IO.
  */
-export const useLazyLoad = (rootMargin = '200px 0px') => {
-  const ref = useRef<HTMLElement>(null);
+export const useLazyLoad = (rootMargin = "200px 0px") => {
   const [shouldLoad, setShouldLoad] = useState(false);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const rootMarginRef = useRef(rootMargin);
+  rootMarginRef.current = rootMargin;
+
+  const markInView = useCallback((node: HTMLElement) => {
+    const margin = parseRootMarginPx(rootMarginRef.current);
+    const rect = node.getBoundingClientRect();
+    if (rect.top <= window.innerHeight + margin && rect.bottom >= -margin) {
+      setShouldLoad(true);
+      return true;
+    }
+    return false;
+  }, []);
+
+  const ref = useCallback(
+    (node: HTMLElement | null) => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+
+      if (!node || shouldLoad) return;
+
+      if (markInView(node)) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        },
+        { rootMargin: rootMarginRef.current },
+      );
+
+      observer.observe(node);
+      observerRef.current = observer;
+    },
+    [shouldLoad, markInView],
+  );
 
   useEffect(() => {
-    const currentRef = ref.current;
-    if (!currentRef) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin }
-    );
-
-    observer.observe(currentRef);
-
     return () => {
-      observer.disconnect();
+      observerRef.current?.disconnect();
     };
-  }, [rootMargin]);
+  }, []);
 
   return { ref, shouldLoad };
 };
@@ -107,11 +137,10 @@ export const useDebounceScroll = (callback: () => void, delay = 100) => {
   }, [callback, delay]);
 
   useEffect(() => {
-    // Use passive event listener for better scroll performance
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
