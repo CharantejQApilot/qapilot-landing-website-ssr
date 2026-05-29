@@ -24,7 +24,7 @@ import {
 const canonicalUrl = `${SITE_BASE_URL}/`;
 
 /** Set to true to show Device Coverage Advisor between testimonials and metrics. */
-const SHOW_DEVICE_COVERAGE_ADVISOR = false;
+const SHOW_DEVICE_COVERAGE_ADVISOR = true;
 
 export const metadata: Metadata = {
   title: { absolute: HOME_PAGE_TITLE },
