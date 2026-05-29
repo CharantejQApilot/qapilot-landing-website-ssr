@@ -1,10 +1,8 @@
 "use client";
 
-import type { RefObject } from "react";
 import { useEffect, useState } from "react";
 import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLazyLoad } from "@/hooks/use-scroll-animation";
 
 const ARCADE_EMBED_SRC =
   "https://demo.arcade.software/JxLpXPUuOXd4ad9mwlC9?embed&embed_mobile=tab&embed_desktop=inline&squared=true&show_copy_link=true";
@@ -32,64 +30,46 @@ function ArcadeIframe() {
   );
 }
 
-function EmbedPlaceholder() {
-  return <div className="relative aspect-[16/10] w-full bg-muted/20" aria-hidden />;
-}
-
 /**
  * Mobile: facade until user taps (saves third-party work on first load).
- * Desktop: loads when the section nears the viewport — same iframe, deferred off critical path.
+ * Desktop: embed loads immediately — same content as before performance experiments.
  */
 export default function ProductShowcaseEmbed() {
-  const { ref, shouldLoad } = useLazyLoad("400px 0px");
   const [loaded, setLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
     const mobile = window.matchMedia("(max-width: 767px)").matches;
     setIsMobile(mobile);
-  }, []);
-
-  useEffect(() => {
-    if (!isMobile && shouldLoad) {
+    if (!mobile) {
       setLoaded(true);
     }
-  }, [isMobile, shouldLoad]);
+  }, []);
 
   if (isMobile === null) {
-    return <EmbedPlaceholder />;
+    return <div className="relative aspect-[16/10] w-full bg-muted/20" aria-hidden />;
   }
 
   if (!loaded) {
     return (
-      <div ref={ref as RefObject<HTMLDivElement>}>
-        {isMobile ? (
-          <div className="relative aspect-[16/10] w-full bg-muted/30">
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center">
-              <p className="max-w-md text-sm text-muted-foreground">
-                Load the interactive demo when you&apos;re ready — keeps the page fast on mobile.
-              </p>
-              <Button
-                type="button"
-                size="lg"
-                className="rounded-xl bg-primary font-semibold text-primary-foreground shadow-md"
-                onClick={() => setLoaded(true)}
-              >
-                <Play className="mr-2 h-5 w-5" aria-hidden />
-                Play interactive demo
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <EmbedPlaceholder />
-        )}
+      <div className="relative aspect-[16/10] w-full bg-muted/30">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center">
+          <p className="max-w-md text-sm text-muted-foreground">
+            Load the interactive demo when you&apos;re ready — keeps the page fast on mobile.
+          </p>
+          <Button
+            type="button"
+            size="lg"
+            className="rounded-xl bg-primary font-semibold text-primary-foreground shadow-md"
+            onClick={() => setLoaded(true)}
+          >
+            <Play className="mr-2 h-5 w-5" aria-hidden />
+            Play interactive demo
+          </Button>
+        </div>
       </div>
     );
   }
 
-  return (
-    <div ref={ref as RefObject<HTMLDivElement>}>
-      <ArcadeIframe />
-    </div>
-  );
+  return <ArcadeIframe />;
 }
