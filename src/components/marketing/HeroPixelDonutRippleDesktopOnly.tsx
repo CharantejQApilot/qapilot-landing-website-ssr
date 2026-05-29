@@ -11,19 +11,28 @@ const HeroPixelDonutRipple = dynamic(
   { ssr: false },
 );
 
-function isDesktopViewport(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(min-width: 768px)").matches;
-}
-
-/** Halftone ripple — desktop/tablet only; skipped on mobile (no chunk load, no hydration). */
+/** Halftone ripple — desktop/tablet only; deferred until idle to reduce initial TBT. */
 export function HeroPixelDonutRippleDesktopOnly() {
-  const [enable, setEnable] = useState(isDesktopViewport);
+  const [enable, setEnable] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
-    const update = () => setEnable(mq.matches);
-    update();
+    if (!mq.matches) return;
+
+    const mount = () => setEnable(true);
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(mount, { timeout: 2500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(mount, 800);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => {
+      if (!mq.matches) setEnable(false);
+    };
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);

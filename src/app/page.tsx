@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
 import VelocitySection from "@/components/VelocitySection";
@@ -7,6 +6,7 @@ import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import ProductShowcaseSection from "@/components/ProductShowcaseSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 import MetricsSection from "@/components/MetricsSection";
+import CoreAdvantageLazy from "@/components/CoreAdvantageLazy";
 import Footer from "@/components/Footer";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
@@ -19,10 +19,6 @@ import {
   HOME_PAGE_TWITTER_TITLE,
   homeWebPageJsonLd,
 } from "@/lib/home-page-seo";
-
-const CoreAdvantageHeading = dynamic(() => import("@/components/CoreAdvantageHeading"), {
-  loading: () => <div className="section-cream section-edge min-h-[480px] w-full" aria-hidden />,
-});
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
 
@@ -56,13 +52,25 @@ export default function IndexPage() {
       />
       <main>
         <HeroSection />
-        <ClientsSection />
-        <MetricsSection />
-        <VelocitySection />
-        <CoreAdvantageHeading />
-        <ModernFrameworksSection />
-        <ProductShowcaseSection />
-        <IntegrationsSection />
+        <div className="section-deferred-render">
+          <ClientsSection />
+        </div>
+        <div className="section-deferred-render">
+          <MetricsSection />
+        </div>
+        <div className="section-deferred-render">
+          <VelocitySection />
+        </div>
+        <CoreAdvantageLazy />
+        <div className="section-deferred-render">
+          <ModernFrameworksSection />
+        </div>
+        <div className="section-deferred-render">
+          <ProductShowcaseSection />
+        </div>
+        <div className="section-deferred-render">
+          <IntegrationsSection />
+        </div>
       </main>
       <Footer />
     </div>
