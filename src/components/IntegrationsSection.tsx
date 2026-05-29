@@ -16,25 +16,42 @@ const integrations = [
   { name: "XRAY", logo: `${PARTNER_LOGOS_PATH_PREFIX}k3huxfe9vfbic6vuvurwtsvu5ggz.png` },
 ];
 
+function IntegrationTile({ compact }: { compact?: boolean }) {
+  return (
+    <>
+      {integrations.map((integration) => (
+        <div
+          key={integration.name}
+          className={cn(
+            "flex items-center justify-center rounded-xl border border-border bg-background",
+            compact
+              ? "h-[4.5rem] p-3"
+              : "h-24 w-36 flex-shrink-0 p-4 sm:h-28 sm:w-44 lg:h-32 lg:w-52 lg:p-6 2xl:h-36 2xl:w-60 2xl:p-8",
+          )}
+        >
+          <img
+            src={integration.logo}
+            alt={`${integration.name} integration with QApilot`}
+            width={80}
+            height={64}
+            loading="lazy"
+            decoding="async"
+            className="object-contain"
+            style={{
+              maxWidth: compact ? "64px" : "80px",
+              maxHeight: compact ? "48px" : "64px",
+            }}
+          />
+        </div>
+      ))}
+    </>
+  );
+}
+
 function IntegrationRow() {
   return (
     <div className="flex items-center gap-6 pr-6">
-      {integrations.map((integration, index) => (
-        <div key={`${integration.name}-${index}`} className="flex-shrink-0">
-          <div className="flex h-24 w-36 items-center justify-center rounded-xl border border-border bg-background p-4 sm:h-28 sm:w-44 lg:h-32 lg:w-52 lg:p-6 2xl:h-36 2xl:w-60 2xl:p-8">
-            <img
-              src={integration.logo}
-              alt={`${integration.name} integration with QApilot`}
-              width={80}
-              height={64}
-              loading="lazy"
-              decoding="async"
-              className="object-contain"
-              style={{ maxWidth: "80px", maxHeight: "64px" }}
-            />
-          </div>
-        </div>
-      ))}
+      <IntegrationTile />
     </div>
   );
 }
@@ -64,8 +81,16 @@ const IntegrationsSection = () => {
         <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle" aria-hidden />
 
         <div className="relative z-10 py-12 md:py-16 2xl:py-20">
-          <div className="relative w-full overflow-hidden">
-            {/* CSS marquee: same pattern as client logos — no rAF / setState (avoids scroll jank) */}
+          {/* Mobile: static grid — no animation, single set of logos */}
+          <div
+            className="section-full grid grid-cols-2 gap-3 px-4 xs:grid-cols-3 sm:gap-4 md:hidden"
+            aria-label="Integration partners"
+          >
+            <IntegrationTile compact />
+          </div>
+
+          {/* Desktop: infinite scroll marquee (unchanged) */}
+          <div className="relative hidden w-full overflow-hidden md:block">
             <div className="flex w-max motion-safe:animate-[infinite-scroll_52s_linear_infinite] motion-reduce:animate-none hover:motion-safe:[animation-play-state:paused] will-change-transform">
               <IntegrationRow />
               <IntegrationRow />

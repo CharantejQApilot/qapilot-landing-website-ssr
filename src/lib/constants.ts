@@ -14,6 +14,9 @@ export const APP_AUTOMATION_LOGIN_URL =
   "https://app.qapilot.io/automation/index.html";
 export const STATUS_URL = "https://status.qapilot.io";
 
+/** App login and status hosts use noindex; keep crawlers on marketing URLs. */
+export const EXTERNAL_NOINDEX_SUBDOMAIN_REL = "noopener noreferrer nofollow";
+
 /**
  * Main marketing “Book a Demo” HubSpot form (Forms API via `/api/hubspot/get-access`).
  * Used by the global dialog from Header, Footer, home hero, and platform pages.

@@ -674,6 +674,27 @@
     }
   }
 
+  /* Mobile: lighter hero decor — faster LCP and lower main-thread compositing cost */
+  @media (max-width: 767px) {
+    .hero-exalt-blob {
+      filter: blur(40px);
+      animation: none !important;
+      opacity: 0.65;
+    }
+
+    .hero-exalt-blob--b {
+      display: none;
+    }
+
+    .hero-exalt-center-ripple {
+      display: none;
+    }
+
+    .hero-corner-orb {
+      display: none;
+    }
+  }
+
   /* Center ripple — pixellated donut (pattern + ring mask), always circular */
   .hero-exalt-center-ripple {
     /* Moderate radius: fades within upper hero, not full-bleed */

@@ -26,7 +26,7 @@ import { validateQaGuideForPublish } from "@/lib/admin/publish-validation";
 import { prefillQaGuidePublishFields } from "@/lib/qa-guide/publish-prefill";
 import { applyTierTransition } from "@/lib/qa-guide/promote";
 import { draftUrlPath, publishedUrlPath } from "@/lib/qa-guide/urls";
-import { PATHS } from "@/lib/routes";
+import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 
 export default function QaGuideEditorClient() {
   const router = useRouter();
@@ -214,7 +214,7 @@ export default function QaGuideEditorClient() {
         </Button>
 
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <h1 className="text-2xl font-bold">Edit QA Guide</h1>
+          <h1 className="text-2xl font-bold">Edit {QE_GUIDE_DISPLAY_NAME}</h1>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
               <Save className="mr-2 h-4 w-4" />

@@ -49,7 +49,7 @@ export function AgenticArchitectureKnowledgeGraphSection() {
             </div>
 
             <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/[0.06] to-transparent px-5 py-6 md:px-7 md:py-8">
-              <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-primary">What this enables</p>
+              <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-primary">What This Enables</p>
               <ul className="space-y-3">
                 {ENABLES.map((line) => (
                   <li key={line} className="flex gap-3 text-base text-foreground md:text-lg">

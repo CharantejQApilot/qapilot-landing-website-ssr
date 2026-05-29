@@ -25,12 +25,12 @@ const ITEMS = [
     Icon: Binary,
   },
   {
-    title: "App config",
+    title: "App Config",
     body: "Manifest flags, backup rules, and debug exposure.",
     Icon: AppWindow,
   },
   {
-    title: "Tracker detection",
+    title: "Tracker Detection",
     body: "SDKs and beacons mapped to privacy and compliance risk.",
     Icon: Radar,
   },

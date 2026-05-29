@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
 import VelocitySection from "@/components/VelocitySection";
-import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import ProductShowcaseSection from "@/components/ProductShowcaseSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
@@ -19,6 +19,10 @@ import {
   HOME_PAGE_TWITTER_TITLE,
   homeWebPageJsonLd,
 } from "@/lib/home-page-seo";
+
+const CoreAdvantageHeading = dynamic(() => import("@/components/CoreAdvantageHeading"), {
+  loading: () => <div className="section-cream section-edge min-h-[480px] w-full" aria-hidden />,
+});
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
 

@@ -5,7 +5,7 @@ import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionH
 const STEPS = [
   { label: "Testing", sub: "Runs on real devices", Icon: TestTube2 },
   { label: "Issues", sub: "Findings grouped & scored", Icon: LayoutList },
-  { label: "Risk layer", sub: "One report for release", Icon: ShieldAlert },
+  { label: "Risk Layer", sub: "One report for release", Icon: ShieldAlert },
 ] as const;
 
 export function SecurityReportsShiftSection() {

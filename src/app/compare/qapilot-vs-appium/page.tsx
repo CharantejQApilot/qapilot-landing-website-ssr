@@ -1,0 +1,487 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import Footer from "@/components/Footer";
+import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
+import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { SITE_BASE_URL } from "@/lib/constants";
+import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
+import { PATHS } from "@/lib/routes";
+import { defaultOpenGraphImage } from "@/lib/seo";
+import { cn } from "@/lib/utils";
+
+const path = PATHS.COMPARE_APPIUM;
+const canonicalUrl = `${SITE_BASE_URL}${path}`;
+
+const heroComparisonCards = [
+  {
+    title: "Appium",
+    subtitle: "Script-First Automation",
+    body: "Teams define every flow, locator, device setup, and maintenance path manually.",
+  },
+  {
+    title: "QApilot",
+    subtitle: "Context-First Mobile Testing",
+    body: "QApilot understands the app, generates coverage, executes journeys, heals failures, and shows release risk.",
+  },
+] as const;
+
+const scalingPainPoints = [
+  {
+    title: "Heavy Authoring",
+    body: "Every journey has to be scripted manually.",
+  },
+  {
+    title: "Fragile Locators",
+    body: "Tests break when IDs, hierarchy, or UI structure changes.",
+  },
+  {
+    title: "High Maintenance",
+    body: "App updates create constant script upkeep.",
+  },
+  {
+    title: "Limited App Context",
+    body: "Scripts know steps. They do not understand journeys.",
+  },
+  {
+    title: "Slow Debugging",
+    body: "Failed runs still need manual investigation across logs, screenshots, devices, and app state.",
+  },
+  {
+    title: "Coverage Bottlenecks",
+    body: "If no one writes the test, the flow remains uncovered.",
+  },
+] as const;
+
+const comparisonRows = [
+  ["Core Design", "Mobile automation framework", "AI-native mobile testing platform"],
+  [
+    "Primary Role",
+    "Executes scripted tests",
+    "Generates, executes, heals, debugs, and reports",
+  ],
+  [
+    "Test Creation",
+    "Manual script authoring",
+    "Crawler-led generation, CoWork, and record/playback",
+  ],
+  ["Maintenance", "Manual locator and script updates", "Context-aware self-healing"],
+  [
+    "Debugging",
+    "Shows failed steps and execution errors",
+    "Shows why a mobile journey failed",
+  ],
+  [
+    "Device Execution",
+    "Requires setup and orchestration",
+    "Built for real mobile execution workflows",
+  ],
+  [
+    "Flutter Support",
+    "Often workaround-heavy",
+    "Built for Flutter, native, and hybrid complexity",
+  ],
+  [
+    "Best Fit",
+    "Teams with strong automation engineering bandwidth",
+    "Mobile-first teams that need faster coverage and release confidence",
+  ],
+] as const;
+
+const featureCards = [
+  {
+    title: "Autonomous Mobile Exploration",
+    body: "Discover critical screens, actions, and journeys without defining every path upfront.",
+  },
+  {
+    title: "AI-Native Test Generation",
+    body: "Turn app understanding into executable coverage faster.",
+  },
+  {
+    title: "CoWork From Existing Test Cases",
+    body: "Bring test cases from your test management system and convert them into executable mobile tests.",
+  },
+  {
+    title: "Context-Aware Self-Healing",
+    body: "Reduce breakage using screen context, journey intent, metadata, and visual signals.",
+  },
+  {
+    title: "Intelligent Bug Detection",
+    body: "Surface mobile-specific risks like accessibility issues, action latency, page-load failures, and privacy/security signals.",
+  },
+  {
+    title: "Release-Ready Reporting",
+    body: "Get screenshots, logs, network traces, device metrics, failure context, and debugging evidence in one place.",
+  },
+] as const;
+
+const betterFitPoints = [
+  "Increase mobile coverage without increasing automation headcount.",
+  "Reduce Appium maintenance and flaky test failures.",
+  "Test Android and iOS releases faster.",
+  "Handle Flutter, native, and hybrid app complexity.",
+  "Convert existing manual test cases into automation.",
+  "Get better debugging evidence for failed mobile journeys.",
+  "Move from test execution to release readiness.",
+] as const;
+
+export const metadata: Metadata = {
+  title: "QApilot vs Appium | AI-Native Mobile App Testing Platform",
+  description:
+    "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
+  alternates: {
+    canonical: canonicalUrl,
+  },
+  openGraph: {
+    type: "website",
+    title: "QApilot vs Appium | AI-Native Mobile App Testing Platform",
+    description:
+      "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
+    url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "QApilot vs Appium",
+    description:
+      "See how QApilot goes beyond Appium with autonomous crawling, AI-native generation, self-healing, and release-ready reporting.",
+    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+  },
+};
+
+export const revalidate = 300;
+
+export default function QApilotVsAppiumComparisonPage() {
+  return (
+    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "QApilot vs Appium", path },
+            ]),
+          ),
+        }}
+      />
+
+      <main>
+        <section
+          className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/40"
+          aria-labelledby="compare-appium-hero"
+        >
+          <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
+          <div className="relative z-10 section-full py-12 sm:py-14 md:py-16 lg:py-20 2xl:py-24">
+            <div className="mx-auto max-w-6xl text-center">
+              <div className="min-w-0">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
+                  QApilot vs Appium
+                </p>
+                <h1 id="compare-appium-hero" className={cn(marketingHeroH1Class, "mb-5 text-balance sm:mb-6 md:mb-8")}>
+                  Appium Executes Scripts.{" "}
+                  <span className="text-primary">QApilot Helps You Release Mobile Apps With Confidence.</span>
+                </h1>
+                <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl text-pretty")}>
+                  Appium is a powerful framework for mobile test automation. But mobile teams still carry the
+                  burden of authoring, maintaining, debugging, and scaling every test. QApilot adds the
+                  AI-native layer Appium was never designed to be. Autonomous exploration, context-aware
+                  execution, self-healing, and release-ready reporting for modern mobile teams.
+                </p>
+                <div className="mt-8 flex justify-center">
+                  <BookDemoCtaButton />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
+          <div className="section-full">
+            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+              {heroComparisonCards.map((card, index) => (
+                <article
+                  key={card.title}
+                  className={cn(
+                    "border-b border-border/60 p-6 md:p-7",
+                    index === 0 && "md:border-b-0 md:border-r",
+                    index === 1 && "md:bg-primary/[0.04]",
+                  )}
+                >
+                  <p
+                    className={cn(
+                      "text-xs font-semibold uppercase tracking-[0.18em]",
+                      index === 0 ? "text-muted-foreground" : "text-primary",
+                    )}
+                  >
+                    {card.title}
+                  </p>
+                  <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
+                    {card.subtitle}
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{card.body}</p>
+                </article>
+              ))}
+            </div>
+
+            <MarketingSectionHeader
+              id="appium-alone-not-enough"
+              title={
+                <>
+                  Appium Is Strong. But Appium Alone Is{" "}
+                  <span className="text-primary">Not Enough</span>.
+                </>
+              }
+              description={
+                <>
+                  <p>
+                    Appium solves mobile test execution. QApilot solves the larger mobile testing problem:
+                    coverage, maintenance, debugging, and release readiness.
+                  </p>
+                  <p>
+                    Most teams do not struggle because Appium cannot run a test. They struggle because every
+                    new flow, UI change, device variation, permission, popup, OS behavior, or framework quirk
+                    adds more effort.
+                  </p>
+                  <p>QApilot is built to reduce that effort.</p>
+                </>
+              }
+              marginBottomClassName="mb-0 mt-12 md:mt-14"
+            />
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
+          <div className="section-full">
+            <MarketingSectionHeader
+              id="appium-hard-to-scale"
+              title={
+                <>
+                  Where Appium Gets <span className="text-primary">Hard To Scale</span>
+                </>
+              }
+              marginBottomClassName="mb-10 md:mb-12"
+            />
+
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+              {scalingPainPoints.map((point) => (
+                <article
+                  key={point.title}
+                  className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm backdrop-blur-sm"
+                >
+                  <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">
+                    {point.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{point.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
+          <div className="section-full">
+            <MarketingSectionHeader
+              id="appium-flutter-gap"
+              title={
+                <>
+                  Appium&apos;s Biggest Mobile Gap: <span className="text-primary">Flutter</span>
+                </>
+              }
+              description={
+                <>
+                  <p>
+                    Flutter apps are not simple native apps with predictable locators. They often need special
+                    drivers, extra setup, debug-friendly builds, and careful switching between Flutter, native,
+                    and webview contexts.
+                  </p>
+                  <p>That turns Appium automation into an engineering-heavy effort.</p>
+                  <p>
+                    QApilot is built for this complexity. It can work across Flutter, native, and hybrid app
+                    surfaces, understand journeys beyond locators, and reduce the scripting and maintenance
+                    burden for Flutter-heavy mobile teams.
+                  </p>
+                </>
+              }
+              marginBottomClassName="mb-10 md:mb-12"
+            />
+
+            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+              <article className="border-b border-border/60 p-6 md:border-b-0 md:border-r md:p-7">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Appium</p>
+                <p className="mt-3 font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                  With Appium, Flutter Testing Becomes A Workaround.
+                </p>
+              </article>
+              <article className="p-6 md:bg-primary/[0.04] md:p-7">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">QApilot</p>
+                <p className="mt-3 font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                  With QApilot, Flutter Testing Becomes Part Of The Platform.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/10 to-background py-12 md:py-16 2xl:py-20">
+          <div className="section-full">
+            <MarketingSectionHeader
+              id="comparison-table"
+              title={
+                <>
+                  <span className="text-primary">QApilot</span> vs Appium
+                </>
+              }
+              marginBottomClassName="mb-8 md:mb-10"
+            />
+
+            <div className="grid gap-4 md:gap-5">
+              {comparisonRows.map(([area, appium, qapilot]) => (
+                <article
+                  key={area}
+                  className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm"
+                >
+                  <div className="border-b border-border/60 bg-muted/35 px-4 py-3 sm:px-5">
+                    <p className="font-heading text-sm font-semibold tracking-tight text-foreground md:text-base">
+                      {area}
+                    </p>
+                  </div>
+                  <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
+                    <div className="p-4 sm:p-5 md:p-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                        Appium
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{appium}</p>
+                    </div>
+                    <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">QApilot</p>
+                      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">
+                        {qapilot}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
+          <div className="section-full">
+            <MarketingSectionHeader
+              id="what-qapilot-brings"
+              title={
+                <>
+                  What QApilot Brings <span className="text-primary">Beyond Appium</span>
+                </>
+              }
+              marginBottomClassName="mb-10 md:mb-12"
+            />
+
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {featureCards.map((feature) => (
+                <article
+                  key={feature.title}
+                  className="rounded-xl border border-border/65 bg-card/85 p-4 shadow-sm"
+                >
+                  <h3 className="font-heading text-base font-semibold tracking-tight text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
+          <div className="section-full">
+            <MarketingSectionHeader
+              id="journeys-not-steps"
+              title={
+                <>
+                  Appium Automates Steps.{" "}
+                  <span className="text-primary">QApilot Understands Journeys.</span>
+                </>
+              }
+              description={
+                <>
+                  <p>
+                    For mobile-first businesses, broken app journeys are business risks. KYC, checkout,
+                    booking, payments, onboarding, renewals, transfers, uploads, and account actions cannot
+                    be treated as isolated test steps. They need to be validated as complete mobile
+                    experiences across devices, OS versions, app states, and frameworks.
+                  </p>
+                  <p>That is where QApilot fits.</p>
+                </>
+              }
+              marginBottomClassName="mb-8 md:mb-10"
+            />
+
+            <div className="overflow-hidden rounded-2xl border border-border/60 bg-card/85 p-6 md:p-8">
+              <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
+                When QApilot Is The <span className="text-primary">Better Fit</span>
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                Choose QApilot when your team needs to:
+              </p>
+              <ul className="mt-5 space-y-3">
+                {betterFitPoints.map((point) => (
+                  <li
+                    key={point}
+                    className="flex gap-3 text-sm leading-relaxed text-muted-foreground md:text-base"
+                  >
+                    <span
+                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                      aria-hidden
+                    />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">
+              Explore related capabilities:{" "}
+              <Link href={PATHS.AUTONOMOUS_TESTING} className="text-primary hover:underline">
+                autonomous testing
+              </Link>
+              ,{" "}
+              <Link href={PATHS.AI_SELF_HEALING} className="text-primary hover:underline">
+                AI self-healing
+              </Link>
+              ,{" "}
+              <Link href={PATHS.INTELLIGENT_BUG_DETECTION} className="text-primary hover:underline">
+                intelligent bug detection
+              </Link>
+              , and{" "}
+              <Link href={PATHS.FOR_FLUTTER} className="text-primary hover:underline">
+                Flutter testing automation
+              </Link>
+              .
+            </p>
+          </div>
+        </section>
+
+        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
+          <div className="section-full text-center">
+            <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
+              Ready To Move Beyond <span className="text-primary">Scripted Mobile Automation</span>?
+            </h2>
+            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across real
+              devices, and understand release readiness with mobile app context.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <BookDemoCtaButton />
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

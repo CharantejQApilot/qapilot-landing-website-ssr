@@ -1,4 +1,6 @@
-/** System + user prompts for QA Guide article generation. */
+/** System + user prompts for QE Guide article generation. */
+
+import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 
 import {
   QUALITY_MAX_EXTERNAL_LINKS,
@@ -14,11 +16,11 @@ import {
 export const QAPILOT_EDITORIAL_BRIEF = `
 # What QApilot is (ground truth — do not invent beyond provided site text)
 
-QApilot (qapilot.io) is an **AI-native mobile app testing platform**. Teams use it to ship mobile apps with higher confidence: autonomous / agentic test creation, intelligent bug detection, and workflows aimed at **iOS, Android, and cross-platform** stacks (including Flutter). The QA Guide hub educates **mobile QA engineers, QA leads, release managers, and mobile engineering managers** who own quality before store releases — not generic "software quality" readers.
+QApilot (qapilot.io) is an **AI-native mobile app testing platform**. Teams use it to ship mobile apps with higher confidence: autonomous / agentic test creation, intelligent bug detection, and workflows aimed at **iOS, Android, and cross-platform** stacks (including Flutter). The ${QE_GUIDE_DISPLAY_NAME} hub educates **mobile QA engineers, QE leads, release managers, and mobile engineering managers** who own quality before store releases — not generic "software quality" readers.
 
 # Why this article exists (business purpose)
 
-Each QA Guide post must:
+Each ${QE_GUIDE_DISPLAY_NAME} post must:
 1. **Rank** for the brief's primary keyword with genuine mobile-QA depth competitors lack.
 2. **Educate** the reader with actionable frameworks, checklists, and examples they can use this sprint.
 3. **Connect** the topic to how a modern mobile team actually works (CI, device farms, TestFlight/Play Console, crash logs, flaky tests, regression suites).
@@ -27,14 +29,14 @@ Each QA Guide post must:
 # Primary audience (write TO these people)
 
 Default reader unless the brief overrides:
-- **Mobile QA Lead / Staff QA** — owns test strategy, release gates, automation ROI, tool selection.
+- **Mobile QE Lead / Staff QA** — owns test strategy, release gates, automation ROI, tool selection.
 - **Mobile EM / Engineering Manager** — cares about cycle time, escaped defects, CI stability, store rejection risk.
 - **SDET / automation engineer** — implements XCTest, Espresso, Appium, Detox, Maestro, or platform-specific harnesses.
 
 Use second person ("you/your team"). Assume they ship **consumer or B2B mobile apps** (not desktop-only or pure backend). Reference real mobile artifacts: builds, binaries, simulators/emulators, device matrices, beta channels, ANRs, crash clusters, screenshot diffs, accessibility on small screens.
 `;
 
-export const ARTICLE_SYSTEM_PROMPT = `You are the lead editorial writer for QApilot's QA Guide (qapilot.io). You write practitioner-grade guides for **mobile app testing** teams — not shallow SEO filler.
+export const ARTICLE_SYSTEM_PROMPT = `You are the lead editorial writer for QApilot's ${QE_GUIDE_DISPLAY_NAME} (qapilot.io). You write practitioner-grade guides for **mobile app testing** teams — not shallow SEO filler.
 
 ${QAPILOT_EDITORIAL_BRIEF}
 
@@ -96,7 +98,7 @@ ${bannedPhrasesForPrompt()}
 Cluster **${params.topic_cluster}** + intent **"${params.intent}"** + keyword **"${params.primary_keyword}"**:
 - Open with a **specific mobile release pain** (store submission, regression time, flaky CI, escaped crash).
 - Middle: repeatable workflow (diagnose → prioritize → implement → measure) with mobile stack tradeoffs.
-- FAQ: practical objections for mobile QA leads.
+- FAQ: practical objections for mobile QE leads.
 - Closing bridge: map to **QApilot capabilities in the site excerpts below** (not generic sales copy).
 
 # COMPETITOR TEXTS (gap analysis only — do NOT copy phrasing)
@@ -111,7 +113,7 @@ ${params.qapilot_homepage || "(homepage unavailable — rely on product pages be
 
 ${params.qapilot_brand_pages}
 
-# EXISTING QA GUIDES IN THIS CLUSTER (tone reference — do not plagiarize)
+# EXISTING ${QE_GUIDE_DISPLAY_NAME.toUpperCase()} ARTICLES IN THIS CLUSTER (tone reference — do not plagiarize)
 
 ${params.qapilot_peer_guides}
 

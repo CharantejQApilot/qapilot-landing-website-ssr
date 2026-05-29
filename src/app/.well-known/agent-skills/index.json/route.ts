@@ -18,7 +18,7 @@ export function GET() {
           name: "qapilot-marketing",
           type: "skill-md",
           description:
-            "Find canonical URLs, documentation links, and public API discovery for the QApilot marketing site.",
+            "Find canonical URLs, documentation links, compare pages, and public API discovery for the QApilot marketing site.",
           url: `${SITE_BASE_URL}/.well-known/agent-skills/qapilot-marketing/SKILL.md`,
           digest: `sha256:${digest}`,
         },

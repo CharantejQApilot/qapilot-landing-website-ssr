@@ -21,7 +21,7 @@ export function SecurityReportsOverviewSection() {
 
         <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           <div className="flex flex-col items-center justify-center rounded-2xl border border-border/70 bg-card/90 p-6 text-center shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Risk score</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Risk Score</p>
             <div
               className="relative mt-4 flex h-28 w-28 items-center justify-center rounded-full border-4 border-primary/30 bg-primary/5"
               aria-hidden
@@ -50,7 +50,7 @@ export function SecurityReportsOverviewSection() {
           </div>
 
           <div className="rounded-2xl border border-border/70 bg-card/90 p-6 text-center shadow-sm sm:col-span-2 lg:col-span-1">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total issues</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Total Issues</p>
             <p className="mt-4 font-heading text-4xl font-bold text-foreground">128</p>
             <p className="mt-2 text-sm text-muted-foreground">Across latest run</p>
           </div>

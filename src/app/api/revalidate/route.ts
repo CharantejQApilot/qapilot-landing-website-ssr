@@ -12,7 +12,6 @@ import { verifyAdminAccessToken } from "@/lib/admin/verify-admin-access-token";
 const ALLOWED_PREFIXES = [
   "/blogs",
   "/news",
-  "/case-studies",
   "/careers",
   "/qa-guide",
   "/seo-drafts",

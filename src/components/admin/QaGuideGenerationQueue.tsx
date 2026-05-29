@@ -378,7 +378,7 @@ export default function QaGuideGenerationAdmin() {
                   value={form.intent}
                   onChange={(e) => setForm((f) => ({ ...f, intent: e.target.value }))}
                   rows={2}
-                  placeholder="e.g. comparison guide for fintech QA leads"
+                  placeholder="e.g. comparison guide for fintech QE leads"
                 />
               </div>
               <div className="space-y-2 sm:col-span-2">

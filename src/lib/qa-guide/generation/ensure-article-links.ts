@@ -1,3 +1,4 @@
+import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import type { GeneratedArticle } from "@/lib/qa-guide/generation/generate-article";
 import { pickExternalLinksForBrief } from "@/lib/qa-guide/generation/external-link-catalog";
 import { normalizeLinkPath } from "@/lib/qa-guide/generation/fetch-site-context";
@@ -34,7 +35,7 @@ function pickInternalLinks(
   for (const s of existing) {
     if (!s.target_url?.trim()) continue;
     out.push({
-      anchor: s.anchor?.trim() || "QApilot QA Guide",
+      anchor: s.anchor?.trim() || `QApilot ${QE_GUIDE_DISPLAY_NAME}`,
       target_url: s.target_url.trim(),
     });
   }
@@ -43,7 +44,7 @@ function pickInternalLinks(
     if (out.length >= MAX_INTERNAL) break;
     if (out.some((l) => normalizeLinkPath(l.target_url) === normalizeLinkPath(url))) continue;
     let anchor = "QApilot resource";
-    if (url.includes("/qa-guide/")) anchor = "related QApilot QA Guide";
+    if (url.includes("/qa-guide/")) anchor = `related QApilot ${QE_GUIDE_DISPLAY_NAME}`;
     else if (url.includes("/product/")) anchor = "QApilot product overview";
     else if (url.includes("/blogs/")) anchor = "QApilot blog";
     out.push({ anchor, target_url: url });

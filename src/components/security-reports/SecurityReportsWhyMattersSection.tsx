@@ -4,22 +4,22 @@ import { cn } from "@/lib/utils";
 
 const POINTS = [
   {
-    title: "Same pipeline as functional QE",
+    title: "Same Pipeline As Functional QE",
     body: "No handoff to a separate team or tool for “the security pass.”",
     Icon: ShieldAlert,
   },
   {
-    title: "Evidence tied to the build",
+    title: "Evidence Tied To The Build",
     body: "Know which binary, branch, and run produced each finding.",
     Icon: ClipboardList,
   },
   {
-    title: "Readable for PM and engineering",
+    title: "Readable For PM And Engineering",
     body: "Less security jargon, more “what to fix before we ship.”",
     Icon: Lightbulb,
   },
   {
-    title: "Release confidence",
+    title: "Release Confidence",
     body: "A shared bar for risk—so sign-off isn’t a gut call.",
     Icon: BadgeCheck,
   },
