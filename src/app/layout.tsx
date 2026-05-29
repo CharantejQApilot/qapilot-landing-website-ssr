@@ -5,11 +5,12 @@ import Header from "@/components/Header";
 import SitePromoBanner from "@/components/SitePromoBanner";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
-import { HUBSPOT_NA1_PORTAL_ID, SITE_BASE_URL } from "@/lib/constants";
+import { SITE_BASE_URL } from "@/lib/constants";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import dynamic from "next/dynamic";
-import { Analytics } from "@vercel/analytics/next";
+import DeferredAnalytics from "@/components/DeferredAnalytics";
+import DeferredMarketingScripts from "@/components/DeferredMarketingScripts";
 
 const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
@@ -133,31 +134,10 @@ export default function RootLayout({
           })(window,document,'script','dataLayer','GTM-D8GSMN6Q');`}
         </Script>
 
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-YVK0J06RCR"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics-gtag" strategy="lazyOnload">
-          {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-YVK0J06RCR');
-          `}
-        </Script>
+        {/* HubSpot tracking + reb2b load after first interaction (see DeferredMarketingScripts). */}
+        <DeferredMarketingScripts />
 
-        <Script
-          id="hs-script-loader"
-          src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
-          strategy="lazyOnload"
-        />
-
-        <Script id="reb2b-loader" strategy="lazyOnload">
-          {`!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("9NMMZHRD91NW");`}
-        </Script>
-        
-        {/* Vercel Web Analytics */}
-        <Analytics />
+        <DeferredAnalytics />
       </body>
     </html>
   );

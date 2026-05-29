@@ -16,15 +16,28 @@ interface WebVitalMetric {
  */
 export function useWebVitals() {
   const sendToAnalytics = useCallback((metric: WebVitalMetric) => {
-    // Send to Google Analytics if available
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', metric.name, {
-        event_category: 'Web Vitals',
-        value: Math.round(metric.name === 'CLS' ? metric.delta * 1000 : metric.delta),
+    if (typeof window === "undefined") return;
+
+    const payload = {
+      event: "web_vitals",
+      metric_name: metric.name,
+      metric_value: Math.round(metric.name === "CLS" ? metric.delta * 1000 : metric.delta),
+      metric_id: metric.id,
+      metric_rating: metric.rating,
+      non_interaction: true,
+    };
+
+    if ((window as any).gtag) {
+      (window as any).gtag("event", metric.name, {
+        event_category: "Web Vitals",
+        value: payload.metric_value,
         event_label: metric.id,
         non_interaction: true,
         metric_rating: metric.rating,
       });
+    } else {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(payload);
     }
 
     if (process.env.NODE_ENV === "development") {

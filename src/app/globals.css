@@ -810,6 +810,12 @@
     overflow-x: hidden;
   }
 
+  /* Skip layout/paint for below-fold sections until near viewport (desktop TBT). */
+  .section-deferred-render {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 480px;
+  }
+
   .glow-bg {
     background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.03) 0%, transparent 70%);
   }
