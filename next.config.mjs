@@ -54,7 +54,12 @@ const agentDiscoveryLink = buildAgentDiscoveryLinkHeader();
 
 const nextConfig = {
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    optimizePackageImports: [
+      "lucide-react",
+      "@radix-ui/react-tooltip",
+      "@radix-ui/react-toast",
+      "@radix-ui/react-dialog",
+    ],
   },
   images: {
     remotePatterns,
