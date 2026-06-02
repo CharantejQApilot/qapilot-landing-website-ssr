@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
-import DeviceCoverageSection from "@/components/DeviceCoverageSection";
 import VelocitySection from "@/components/VelocitySection";
 import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import ProductShowcaseSection from "@/components/ProductShowcaseSection";
@@ -22,9 +21,6 @@ import {
 } from "@/lib/home-page-seo";
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
-
-/** Set to true to show Device Coverage Advisor between testimonials and metrics. */
-const SHOW_DEVICE_COVERAGE_ADVISOR = false;
 
 export const metadata: Metadata = {
   title: { absolute: HOME_PAGE_TITLE },
@@ -57,7 +53,6 @@ export default function IndexPage() {
       <main>
         <HeroSection />
         <ClientsSection />
-        {SHOW_DEVICE_COVERAGE_ADVISOR ? <DeviceCoverageSection /> : null}
         <MetricsSection />
         <VelocitySection />
         <CoreAdvantageHeading />

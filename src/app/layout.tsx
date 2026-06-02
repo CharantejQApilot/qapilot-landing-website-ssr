@@ -5,12 +5,17 @@ import Header from "@/components/Header";
 import SitePromoBanner from "@/components/SitePromoBanner";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
-import { SITE_BASE_URL } from "@/lib/constants";
+import {
+  GA4_MEASUREMENT_ID,
+  GTM_CONTAINER_ID,
+  HUBSPOT_NA1_PORTAL_ID,
+  REB2B_SCRIPT_KEY,
+  SITE_BASE_URL,
+} from "@/lib/constants";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import DeferredAnalytics from "@/components/DeferredAnalytics";
-import DeferredMarketingScripts from "@/components/DeferredMarketingScripts";
 
 const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
@@ -98,6 +103,7 @@ export default function RootLayout({
           />
         ) : null}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://ddwl4m2hdecbv.cloudfront.net" />
         <link rel="dns-prefetch" href="https://js.hsforms.net" />
         <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
         <script
@@ -110,7 +116,7 @@ export default function RootLayout({
       <body>
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-D8GSMN6Q"
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
@@ -126,16 +132,36 @@ export default function RootLayout({
           <div className="relative z-0 isolate">{children}</div>
         </Providers>
 
-        <Script id="gtm" strategy="lazyOnload">
+        <Script id="gtm" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-D8GSMN6Q');`}
+          })(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`}
         </Script>
 
-        {/* HubSpot tracking + reb2b load after first interaction (see DeferredMarketingScripts). */}
-        <DeferredMarketingScripts />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics-gtag" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA4_MEASUREMENT_ID}');
+          `}
+        </Script>
+
+        <Script
+          id="hs-script-loader"
+          src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
+          strategy="afterInteractive"
+        />
+
+        <Script id="reb2b-loader" strategy="afterInteractive">
+          {`!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);}("${REB2B_SCRIPT_KEY}");`}
+        </Script>
 
         <DeferredAnalytics />
       </body>
