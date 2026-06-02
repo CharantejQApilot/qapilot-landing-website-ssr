@@ -34,3 +34,12 @@ export const HUBSPOT_PARTNERS_FORM_ID = "aea3fc81-f036-4592-92dc-5c8cc803ce70";
 
 /** Organization logo for JSON-LD (matches public/QApilotLogo.svg; not og:image). */
 export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/QApilotLogo.svg`;
+
+/** Google Tag Manager container (marketing site). */
+export const GTM_CONTAINER_ID = "GTM-D8GSMN6Q";
+
+/** GA4 property — loaded via gtag in addition to GTM (GTM alone did not report pageviews). */
+export const GA4_MEASUREMENT_ID = "G-YVK0J06RCR";
+
+/** RB2B / REB2B visitor-identification script key. */
+export const REB2B_SCRIPT_KEY = "9NMMZHRD91NW";
