@@ -1,6 +1,7 @@
 import { normalizeLinkPath } from "@/lib/qa-guide/generation/fetch-site-context";
 import {
   BANNED_PHRASES,
+  containsEmDash,
   QUALITY_MAX_EXTERNAL_LINKS,
   QUALITY_MAX_INTERNAL_LINKS,
   QUALITY_MAX_WORDS,
@@ -108,8 +109,11 @@ export function runQualityGate(
   }
 
   const lastH2 = h2s[h2s.length - 1]?.toLowerCase() ?? "";
-  if (!h2s.length || !lastH2.includes("qapilot")) {
-    fails.push("missing closing bridge (last H2 does not mention QApilot)");
+  const closingBlock = body.slice(Math.max(0, body.length - 900)).toLowerCase();
+  const closingHasQapilot =
+    lastH2.includes("qapilot") || closingBlock.includes("qapilot");
+  if (!h2s.length || !closingHasQapilot) {
+    fails.push("missing closing bridge (final section does not mention QApilot)");
   }
 
   const qapilotMentions = (body.match(/qapilot/gi) ?? []).length;
@@ -143,6 +147,9 @@ export function runQualityGate(
   const foundBans = BANNED_PHRASES.filter((w) => lowerBody.includes(w));
   if (foundBans.length) {
     fails.push(`banned words: ${foundBans.slice(0, 8).join(", ")}`);
+  }
+  if (containsEmDash(body)) {
+    fails.push("em dash (—) found in content_markdown; use commas, periods, or parentheses");
   }
   qc.ai_tells_found = foundBans;
 
