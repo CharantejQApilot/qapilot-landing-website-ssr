@@ -108,10 +108,17 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://js.hsforms.net" />
         <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
+        <link rel="preconnect" href="https://www.clarity.ms" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(rootSchemaGraphJsonLd),
+          }}
+        />
+        {/* Native head script — next/script only hydrates via RSC; Clarity never ran in production. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;(l.head||l.documentElement).appendChild(t);})(window,document,"clarity","script","${CLARITY_PROJECT_ID}");`,
           }}
         />
       </head>
@@ -163,14 +170,6 @@ export default function RootLayout({
 
         <Script id="reb2b-loader" strategy="afterInteractive">
           {`!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);}("${REB2B_SCRIPT_KEY}");`}
-        </Script>
-
-        <Script id="microsoft-clarity" strategy="afterInteractive">
-          {`(function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "${CLARITY_PROJECT_ID}");`}
         </Script>
 
         <DeferredAnalytics />
