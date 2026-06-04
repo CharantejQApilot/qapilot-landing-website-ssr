@@ -43,3 +43,6 @@ export const GA4_MEASUREMENT_ID = "G-YVK0J06RCR";
 
 /** RB2B / REB2B visitor-identification script key. */
 export const REB2B_SCRIPT_KEY = "9NMMZHRD91NW";
+
+/** Microsoft Clarity project ID (session recordings, heatmaps, behavior analytics). */
+export const CLARITY_PROJECT_ID = "wk5mdaaot4";
