@@ -11,6 +11,7 @@ import {
   HUBSPOT_MAIN_GET_ACCESS_FORM_NAME,
 } from "@/lib/constants";
 import AttributionTracker from "@/components/AttributionTracker";
+import ClarityTracker from "@/components/ClarityTracker";
 
 const HubSpotFormDialog = dynamic(() => import("@/components/HubSpotFormDialog"), {
   ssr: false,
@@ -42,6 +43,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <>
       <Suspense fallback={null}>
         <AttributionTracker />
+        <ClarityTracker />
       </Suspense>
       <TooltipProvider>
         <HubSpotFormProvider>

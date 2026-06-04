@@ -6,6 +6,8 @@ declare global {
     __qapilotAttribution?: StoredAttribution;
     /** QA: flat payload shape used for future form submits */
     __qapilotAttributionPayload?: Record<string, string>;
+    /** Microsoft Clarity behavior analytics API */
+    clarity?: (...args: unknown[]) => void;
   }
 }
 
