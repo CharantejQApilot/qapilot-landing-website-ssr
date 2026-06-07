@@ -1,6 +1,6 @@
 # QApilot — ai.txt (machine-readable pointers for AI crawlers)
 # Canonical site: https://qapilot.io
-# Last updated: May 2026
+# Last updated: June 2026
 
 # Structured product & company context (llms.txt standard):
 Llms-Txt: https://qapilot.io/llms.txt
@@ -42,5 +42,5 @@ API-Catalog: https://qapilot.io/.well-known/api-catalog
 Agent-Skills: https://qapilot.io/.well-known/agent-skills/index.json
 Homepage-Markdown: https://qapilot.io/ (Accept: text/markdown)
 
-# Crawler policy
+# Crawler policy (Content-Signal: search=yes, ai-input=yes, ai-train=no)
 Robots: https://qapilot.io/robots.txt

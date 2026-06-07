@@ -7,6 +7,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { formatPageTitle } from "@/lib/page-title";
 import { cn } from "@/lib/utils";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 
@@ -71,8 +72,11 @@ const featureCards = [
   },
 ] as const;
 
+const PAGE_TITLE = formatPageTitle("QApilot vs Web-First Tools | Mobile Testing");
+const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
+
 export const metadata: Metadata = {
-  title: "QApilot vs Web-First Automation Tools | Mobile-First App Testing",
+  title: PAGE_TITLE,
   description:
     "Web-first automation tools were built for browsers, then extended to mobile. QApilot is built mobile-first, helping teams test native, hybrid, and Flutter apps with better coverage, lower maintenance, and faster release confidence.",
   alternates: {
@@ -80,7 +84,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "QApilot vs Web-First Automation Tools | Mobile-First App Testing",
+    title: PAGE_TITLE_TEXT,
     description:
       "Compare mobile-first testing with web-first testing tools and see why QApilot delivers stronger context, self-healing, and release readiness for mobile apps.",
     url: canonicalUrl,

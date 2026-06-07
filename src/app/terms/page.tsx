@@ -15,7 +15,7 @@ import { asString, firstNonEmptyString } from "@/lib/cms-values";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.TERMS}`;
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
+  title: "Terms of Service — QApilot Platform Use Agreement",
   description:
     "Read QApilot's Terms of Service. Learn about the terms and conditions governing the use of our AI-powered testing platform.",
   alternates: { canonical: canonicalUrl },

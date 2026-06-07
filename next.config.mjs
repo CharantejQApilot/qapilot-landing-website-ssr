@@ -68,6 +68,12 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.qapilot.io" }],
+        destination: "https://qapilot.io/:path*",
+        permanent: true,
+      },
+      {
         source: "/platform/autonomous-testing",
         destination: "/product/autonomous-testing",
         permanent: true,
@@ -95,6 +101,11 @@ const nextConfig = {
       {
         source: "/compare/qapilot-vs-visual-testing",
         destination: "/compare/qapilot-vs-visual-testing-tools",
+        permanent: true,
+      },
+      {
+        source: "/qa-guide/:cluster/:slug",
+        destination: "/qa-guide/:slug",
         permanent: true,
       },
     ];

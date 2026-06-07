@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
 import VelocitySection from "@/components/VelocitySection";
 import ModernFrameworksSection from "@/components/ModernFrameworksSection";
-import ProductShowcaseSection from "@/components/ProductShowcaseSection";
-import IntegrationsSection from "@/components/IntegrationsSection";
 import MetricsSection from "@/components/MetricsSection";
-import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
-import Footer from "@/components/Footer";
+import IntegrationsSection from "@/components/IntegrationsSection";
+
+/** Below-fold client sections — split JS bundles without changing SSR output or visuals. */
+const CoreAdvantageHeading = dynamic(() => import("@/components/CoreAdvantageHeading"));
+const ProductShowcaseSection = dynamic(() => import("@/components/ProductShowcaseSection"));
+const Footer = dynamic(() => import("@/components/Footer"));
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import {

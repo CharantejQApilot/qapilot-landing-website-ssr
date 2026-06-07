@@ -25,14 +25,14 @@ const BLOGS_GUTTER =
 const BLOGS_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 export const metadata: Metadata = {
-  title: "Mobile Testing Blog - Tips, Guides & Best Practices",
+  title: "Blogs — Mobile Testing Tips, Guides & Best Practices",
   description:
     "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",
     url: canonicalUrl,
-    title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
+    title: "Blogs — Mobile Testing Tips, Guides & Best Practices | QApilot",
     description:
       "Expert insights on mobile app testing, QA automation, and test strategy from the QApilot team.",
     siteName: "QApilot",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
+    title: "Blogs — Mobile Testing Tips, Guides & Best Practices | QApilot",
     description:
       "Expert guides and strategies for mobile app testing and QA automation.",
     images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
@@ -180,6 +180,31 @@ export default async function BlogsPage() {
 
           <div className={`bg-background ${BLOGS_GUTTER} py-14 md:py-20`}>
             <div className={`${BLOGS_MAX_WIDTH} bg-dot-pattern-subtle`}>
+              <section
+                aria-labelledby="blogs-intro"
+                className="mx-auto mb-14 max-w-4xl text-center md:mb-16"
+              >
+                <h2
+                  id="blogs-intro"
+                  className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+                >
+                  What you&apos;ll find on the QApilot blog
+                </h2>
+                <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                  <p>
+                    Our blog covers practical mobile QA for Android, iOS, and Flutter teams — from
+                    autonomous testing and self-healing automation to release readiness, device
+                    health, and security reporting. Whether you are modernizing a legacy Appium
+                    stack or scaling CI/CD for a fintech or consumer app, these articles share
+                    patterns we see in the field.
+                  </p>
+                  <p>
+                    Browse featured posts for deep dives, or explore the full archive for how-to
+                    guides, opinion pieces, and product thinking from QApilot engineers and
+                    partners. New posts are added regularly as mobile testing practices evolve.
+                  </p>
+                </div>
+              </section>
               {list.length === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">
                   <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">

@@ -10,18 +10,22 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { formatPageTitle } from "@/lib/page-title";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AGENTIC_ARCHITECTURE}`;
 
+const PAGE_TITLE = formatPageTitle("Agentic Architecture — AI Agents & Knowledge Graph");
+const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
+
 export const metadata: Metadata = {
-  title: "QApilot's Agentic Architecture | AI Agents & Knowledge Graph",
+  title: PAGE_TITLE,
   description:
     "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing — context, exploration, and outcomes in one system.",
   alternates: {
     canonical: canonicalUrl,
   },
   openGraph: {
-    title: "QApilot's Agentic Architecture | AI Agents & Knowledge Graph",
+    title: PAGE_TITLE_TEXT,
     description:
       "Specialized agents, shared context, and the knowledge graph as the foundation — from exploration to coverage and release readiness.",
     url: canonicalUrl,

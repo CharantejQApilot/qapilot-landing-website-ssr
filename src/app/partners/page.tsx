@@ -9,14 +9,14 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.PARTNERS}`;
 
 export const metadata: Metadata = {
-  title: "Become a Partner",
+  title: "Partners Program — Grow Mobile QA With QApilot",
   description:
     "Partner with QApilot: join consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",
     url: canonicalUrl,
-    title: "Become a Partner | QApilot",
+    title: "Partners Program — Grow Mobile QA With QApilot | QApilot",
     description:
       "Join a growing ecosystem of partners helping teams put AI-native mobile testing and release readiness into practice—together with QApilot.",
     siteName: "QApilot",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Become a Partner | QApilot",
+    title: "Partners Program — Grow Mobile QA With QApilot | QApilot",
     description:
       "Consulting and technology partners delivering AI-native mobile testing and release readiness with QApilot.",
     images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],

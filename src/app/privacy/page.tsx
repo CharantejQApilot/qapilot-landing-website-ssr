@@ -12,7 +12,7 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.PRIVACY}`;
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
+  title: "Privacy Policy — How QApilot Protects Your Data",
   description:
     "Read QApilot's Privacy Policy. Learn how we collect, use, and protect personal data when you use our site and services.",
   alternates: { canonical: canonicalUrl },

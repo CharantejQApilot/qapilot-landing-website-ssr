@@ -14,6 +14,7 @@ import {
 import { firstNonEmptyString } from "@/lib/cms-values";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
 import { normalizeSlugPath } from "@/lib/qa-guide/resolve-slug-path";
+import { formatPageTitle } from "@/lib/page-title";
 
 export const revalidate = 120;
 
@@ -67,8 +68,10 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
   );
   const publishedTime = normalizeArticlePublishedTime(guide.published_date);
 
+  const pageTitle = formatPageTitle(metaTitle);
+
   return {
-    title: metaTitle,
+    title: pageTitle,
     description,
     robots: { index: true, follow: true },
     alternates: { canonical },
@@ -175,6 +178,7 @@ export default async function QaGuideCatchAllPage({
             guide={guide}
             backHref={PATHS.QA_GUIDE}
             backLabel={`Back to ${QE_GUIDE_DISPLAY_NAME}`}
+            pageUrl={articleUrl}
           />
           <Footer />
         </MarketingPageShell>
