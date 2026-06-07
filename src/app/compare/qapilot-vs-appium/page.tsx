@@ -8,6 +8,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { formatPageTitle } from "@/lib/page-title";
 import { cn } from "@/lib/utils";
 
 const path = PATHS.COMPARE_APPIUM;
@@ -125,8 +126,11 @@ const betterFitPoints = [
   "Move from test execution to release readiness.",
 ] as const;
 
+const PAGE_TITLE = formatPageTitle("QApilot vs Appium | AI-Native Mobile Testing");
+const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
+
 export const metadata: Metadata = {
-  title: "QApilot vs Appium | AI-Native Mobile App Testing Platform",
+  title: PAGE_TITLE,
   description:
     "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
   alternates: {
@@ -134,7 +138,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "QApilot vs Appium | AI-Native Mobile App Testing Platform",
+    title: PAGE_TITLE_TEXT,
     description:
       "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
     url: canonicalUrl,

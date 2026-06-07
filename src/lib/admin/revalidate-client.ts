@@ -1,6 +1,11 @@
 "use client";
 
-const COMMON_CACHE_PATHS = ["/sitemap-index.xml", "/robots.txt", "/sitemap.xml"];
+const COMMON_CACHE_PATHS = [
+  "/sitemap-index.xml",
+  "/sitemap-qa-guides.xml",
+  "/robots.txt",
+  "/sitemap.xml",
+];
 
 export function withCommonCachePaths(paths: string[]): string[] {
   return [...paths, ...COMMON_CACHE_PATHS];

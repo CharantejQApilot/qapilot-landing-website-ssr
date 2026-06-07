@@ -167,13 +167,20 @@ export async function fetchQapilotSiteContext(
   }
 
   const clusterSlug = topicCluster?.trim();
-  const peerCandidates = clusterSlug
-    ? out.internal_link_candidates.filter((u) =>
-        u.includes(`/qa-guide/${clusterSlug}/`),
-      )
-    : out.internal_link_candidates.filter((u) => u.includes("/qa-guide/"));
+  const peerCandidates = out.internal_link_candidates.filter((u) => {
+    try {
+      const segments = new URL(u).pathname.split("/").filter(Boolean);
+      return segments[0] === "qa-guide" && segments.length === 2;
+    } catch {
+      return false;
+    }
+  });
+  const scopedPeers = clusterSlug
+    ? peerCandidates.filter((u) => u.includes(`/qa-guide/${clusterSlug}/`))
+    : peerCandidates;
+  const peersToFetch = scopedPeers.length > 0 ? scopedPeers : peerCandidates;
 
-  for (const peerUrl of peerCandidates.slice(0, MAX_PEER_GUIDES)) {
+  for (const peerUrl of peersToFetch.slice(0, MAX_PEER_GUIDES)) {
     const html = await fetchText(peerUrl);
     if (!html) continue;
     const text = stripHtmlToText(html, MAX_PEER_GUIDE_CHARS);

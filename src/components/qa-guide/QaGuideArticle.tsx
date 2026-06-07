@@ -7,6 +7,7 @@ import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 
 const ARTICLE_GUTTER =
   "w-full px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14";
@@ -29,12 +30,14 @@ type QaGuideArticleProps = {
   guide: QaGuideArticleData;
   backHref: string;
   backLabel: string;
+  pageUrl: string;
 };
 
 export default function QaGuideArticle({
   guide,
   backHref,
   backLabel,
+  pageUrl,
 }: QaGuideArticleProps) {
   const descriptionText = firstNonEmptyString(guide.excerpt, guide.intent);
   const tags = commaSeparatedList(guide.tags);
@@ -69,7 +72,9 @@ export default function QaGuideArticle({
           </div>
         ) : null}
 
-        <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>{guide.title}</h1>
+        <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>{guide.title}</h1>
+
+        <ArticleSummariseWithAI pageUrl={pageUrl} />
 
         {descriptionText ? (
           <p className="mb-8 text-xl text-muted-foreground">{descriptionText}</p>

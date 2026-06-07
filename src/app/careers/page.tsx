@@ -77,6 +77,32 @@ export default async function CareersPage() {
       />
       <main>
         <CareersHeroSection />
+        <section
+          aria-labelledby="careers-about"
+          className="section-edge border-b border-border/60 bg-muted/30"
+        >
+          <div className="section-full mx-auto max-w-3xl py-12 text-center md:py-16">
+            <h2
+              id="careers-about"
+              className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
+            >
+              Build the future of AI-native mobile testing
+            </h2>
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p>
+                QApilot is growing a distributed team of engineers, product builders, and customer
+                champions who care about release quality for Android, iOS, and Flutter apps. We work
+                on autonomous exploration, intelligent bug detection, and the knowledge graph that
+                powers context-aware automation.
+              </p>
+              <p>
+                If you enjoy solving hard mobile QA problems, partnering with enterprise customers,
+                and shipping quickly with high ownership, explore the open roles below. We value
+                curiosity, clear communication, and outcomes over rigid job descriptions.
+              </p>
+            </div>
+          </div>
+        </section>
         <OpenPositionsSection jobOpenings={jobOpenings} organizations={organizations} />
         <HowWeWorkSection />
       </main>

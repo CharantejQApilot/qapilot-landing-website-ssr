@@ -8,6 +8,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { formatPageTitle } from "@/lib/page-title";
 import { cn } from "@/lib/utils";
 
 const path = PATHS.COMPARE_VISUAL_TESTING;
@@ -150,8 +151,11 @@ const betterFitPoints = [
   "Move from UI regression checks to release readiness.",
 ] as const;
 
+const PAGE_TITLE = formatPageTitle("QApilot vs Visual Testing | Release Readiness");
+const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
+
 export const metadata: Metadata = {
-  title: "QApilot vs Visual Testing Tools | Mobile App Release Readiness",
+  title: PAGE_TITLE,
   description:
     "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
   alternates: {
@@ -159,7 +163,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "QApilot vs Visual Testing Tools | Mobile App Release Readiness",
+    title: PAGE_TITLE_TEXT,
     description:
       "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
     url: canonicalUrl,

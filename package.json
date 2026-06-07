@@ -9,7 +9,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-admin": "node scripts/create-admin-user.mjs"
+    "create-admin": "node scripts/create-admin-user.mjs",
+    "validate:qa-guide-seo": "node scripts/validate-qa-guide-seo.mjs",
+    "ping:qa-guide-sitemap": "node scripts/validate-qa-guide-seo.mjs --ping"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -23,6 +23,7 @@ const ALLOWED_EXACT_PATHS = new Set([
   "/privacy",
   "/sitemap.xml",
   "/sitemap-index.xml",
+  "/sitemap-qa-guides.xml",
   "/robots.txt",
 ]);
 

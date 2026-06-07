@@ -16,9 +16,9 @@ export const revalidate = 120;
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.QA_GUIDE}`;
 
-const QE_GUIDE_HUB_TITLE = `${QE_GUIDE_DISPLAY_NAME} — Mobile Testing Guides & Checklists`;
+const QE_GUIDE_HUB_TITLE = "QA Guide — Mobile Testing Guides & Checklists";
 const QE_GUIDE_HUB_DESCRIPTION =
-  "In-depth QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.";
+  "In-depth QA and QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.";
 
 export const metadata: Metadata = {
   title: QE_GUIDE_HUB_TITLE,
@@ -122,6 +122,31 @@ export default async function QaGuideHubPage() {
                 leaders and engineers.
               </p>
             </header>
+
+            <section
+              aria-labelledby="qa-guide-intro"
+              className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
+            >
+              <h2
+                id="qa-guide-intro"
+                className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+              >
+                In-depth QA guides for mobile release teams
+              </h2>
+              <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground">
+                <p>
+                  The QApilot QA Guide library collects long-form references on testing types,
+                  banking and Flutter scenarios, automation strategy, and release checklists. Each
+                  guide is written for practitioners who need actionable steps, not generic
+                  definitions.
+                </p>
+                <p>
+                  Use these resources alongside the QApilot platform to plan coverage, evaluate
+                  tooling, and align QA with product and engineering stakeholders. New guides are
+                  published after editorial review.
+                </p>
+              </div>
+            </section>
 
             {list.length === 0 ? (
               <div className="flex flex-col items-center py-16 text-center text-muted-foreground">
