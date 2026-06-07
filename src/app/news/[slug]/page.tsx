@@ -36,6 +36,8 @@ import {
   logMetadataFallback,
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import { formatPageTitle } from "@/lib/page-title";
 
 /** Match blog article: readable column + comfortable side margin. */
 const ARTICLE_GUTTER =
@@ -156,9 +158,11 @@ export async function generateMetadata({
    * images during metadata resolution; very large PNGs (e.g. multi‑MB S3 assets)
    * have caused 500s on serverless.
    */
+  const pageTitle = formatPageTitle(metaTitle);
+
   try {
     return {
-      title: metaTitle,
+      title: pageTitle,
       description,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
@@ -194,7 +198,7 @@ export async function generateMetadata({
       details: summarizeUnknownError(error),
     });
     return {
-      title: metaTitle,
+      title: pageTitle,
       description,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
@@ -373,9 +377,11 @@ export default async function NewsPostPage({
               </div>
             )}
 
-            <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
+            <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
               {newsItem.title}
             </h1>
+
+            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`} />
 
             {leadDescription ? <p className="mb-8 text-xl text-muted-foreground">{leadDescription}</p> : null}
 

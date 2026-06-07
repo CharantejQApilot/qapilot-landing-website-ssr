@@ -13,7 +13,7 @@ const PRODUCT_PATH = PATHS.PRODUCT;
 const canonicalUrl = `${SITE_BASE_URL}${PRODUCT_PATH}`;
 
 export const metadata: Metadata = {
-  title: "Mobile Testing Platform for Release Readiness",
+  title: "Product — Mobile Testing Platform for Release Readiness",
   description:
     "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one integrated system.",
   alternates: {

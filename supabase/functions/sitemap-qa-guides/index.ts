@@ -36,7 +36,7 @@ Deno.serve(async (req) => {
 
     const { data: guides, error } = await supabaseClient
       .from("qa_guides")
-      .select("slug, updated_at, title, og_image_url, featured_image")
+      .select("slug, url_path, updated_at, title, og_image_url, featured_image")
       .eq("tier", "index_worthy")
       .eq("status", "published")
       .order("published_date", { ascending: false });
@@ -63,8 +63,13 @@ Deno.serve(async (req) => {
     </image:image>`
             : "";
 
+          const path =
+            (typeof guide.url_path === "string" && guide.url_path.trim().startsWith("/")
+              ? guide.url_path.trim()
+              : "") || `/qa-guide/${guide.slug}`;
+
           return `  <url>
-    <loc>${base}/qa-guide/${escapeXml(guide.slug)}</loc>
+    <loc>${escapeXml(`${base}${path}`)}</loc>
     <lastmod>${new Date(guide.updated_at).toISOString().split("T")[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>${imageTag}

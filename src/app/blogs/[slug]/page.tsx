@@ -31,6 +31,8 @@ import {
   logMetadataFallback,
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import { formatPageTitle } from "@/lib/page-title";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -138,9 +140,11 @@ export async function generateMetadata({
    * The whole return is wrapped in try/catch so a metadata hiccup never
    * cascades to a /500.
    */
+  const pageTitle = formatPageTitle(metaTitle);
+
   try {
     return {
-      title: metaTitle,
+      title: pageTitle,
       description,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
@@ -175,7 +179,7 @@ export async function generateMetadata({
       details: summarizeUnknownError(error),
     });
     return {
-      title: metaTitle,
+      title: pageTitle,
       description,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
@@ -314,9 +318,11 @@ export default async function BlogPostPage({
               </div>
             ) : null}
 
-            <h1 className={cn(marketingHeroH1Class, "mb-6 text-gradient")}>
+            <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
               {blog.title}
             </h1>
+
+            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`} />
 
             {descriptionText ? (
               <p className="mb-8 text-xl text-muted-foreground">

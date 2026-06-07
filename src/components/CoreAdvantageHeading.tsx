@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode, useState } from "react";
+import { useNearViewport } from "@/hooks/use-near-viewport";
 import Image from "next/image";
 import Link from "next/link";
 import { Network } from "lucide-react";
@@ -9,6 +10,7 @@ import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionH
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { CORE_ADVANTAGE_SCENIC_URLS } from "@/lib/core-advantage-scenic-urls.mjs";
 import { PATHS, PLATFORM_BY_SOLUTION } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 
 /** Same destinations as Platform → By Solution (excludes Overview). */
 function knowMoreHrefForSolutionLabel(label: string): string {
@@ -142,12 +144,15 @@ function CoreCapabilityScenicBackdrop({
   panelKey,
   scrim = "default",
   priority = false,
+  animateKenBurns = false,
 }: {
   src: string;
   panelKey: string;
   scrim?: "default" | "light";
   /** First tab: align with route-level preload + faster LCP for the scenic layer */
   priority?: boolean;
+  /** Ken-burns motion only when the section is near the viewport */
+  animateKenBurns?: boolean;
 }) {
   const isLight = scrim === "light";
   return (
@@ -156,7 +161,12 @@ function CoreCapabilityScenicBackdrop({
       aria-hidden
     >
         <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-[-10%] lg:motion-safe:animate-scenic-ken-burns">
+        <div
+          className={cn(
+            "absolute inset-[-10%]",
+            animateKenBurns && "lg:motion-safe:animate-scenic-ken-burns",
+          )}
+        >
           <Image
             key={panelKey}
             src={src}
@@ -301,9 +311,14 @@ function DeliverSectionBackgroundDecor() {
 const CoreAdvantageHeading = () => {
   const [active, setActive] = useState(0);
   const current = TABS[active];
+  const { ref: sectionRef, isNear: sectionNearViewport } = useNearViewport<HTMLElement>({
+    rootMargin: "280px 0px",
+    threshold: 0,
+  });
 
   return (
     <section
+      ref={sectionRef}
       className="relative isolate overflow-hidden section-cream section-edge w-full"
       aria-labelledby="core-advantage-heading"
     >
@@ -430,6 +445,7 @@ const CoreAdvantageHeading = () => {
                   panelKey={current.id}
                   scrim={current.scenicScrim}
                   priority={false}
+                  animateKenBurns={sectionNearViewport}
                 />
               </div>
               <div

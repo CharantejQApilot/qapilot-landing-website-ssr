@@ -24,14 +24,14 @@ const LIST_GUTTER =
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 export const metadata: Metadata = {
-  title: "News & Updates - Mobile Testing Industry News",
+  title: "News — Mobile Testing Industry Updates & Announcements",
   description:
     "Stay updated with the latest news, product updates, and industry insights from QApilot. Learn about new features, partnerships, and mobile testing trends.",
   alternates: { canonical: canonicalUrl },
   openGraph: {
     type: "website",
     url: canonicalUrl,
-    title: "News & Updates - Mobile Testing Industry News | QApilot",
+    title: "News — Mobile Testing Industry Updates & Announcements | QApilot",
     description:
       "Latest announcements, product updates, and insights from QApilot.",
     siteName: "QApilot",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "News & Updates - Mobile Testing Industry News | QApilot",
+    title: "News — Mobile Testing Industry Updates & Announcements | QApilot",
     description:
       "Stay updated with announcements and updates from QApilot.",
     images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
@@ -176,6 +176,30 @@ export default async function NewsPage() {
 
           <div className={`bg-background ${LIST_GUTTER} py-14 md:py-20`}>
             <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
+              <section
+                aria-labelledby="news-intro"
+                className="mx-auto mb-14 max-w-4xl text-center md:mb-16"
+              >
+                <h2
+                  id="news-intro"
+                  className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+                >
+                  Latest QApilot news and community updates
+                </h2>
+                <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                  <p>
+                    This news hub highlights product launches, partnerships, conference
+                    sponsorships, and community events from the QApilot team. Follow along for
+                    announcements about AI-native mobile testing, enterprise rollouts, and how we
+                    collaborate with QA leaders worldwide.
+                  </p>
+                  <p>
+                    From DevFest and QE Conclave to customer success stories and executive
+                    interviews, each update explains what changed and why it matters for mobile
+                    release quality. Check back for the newest posts or browse the archive below.
+                  </p>
+                </div>
+              </section>
               {list.length === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">
                   <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">

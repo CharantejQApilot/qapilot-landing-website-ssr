@@ -1,6 +1,7 @@
 import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
+import { IntegrationsMarqueeDesktop } from "@/components/integrations/IntegrationsMarqueeDesktop";
 
 const integrations = [
   { name: "TestRail", logo: `${PARTNER_LOGOS_PATH_PREFIX}962197a9-5e99-40b8-8f8c-794b50520d5e.png` },
@@ -89,15 +90,10 @@ const IntegrationsSection = () => {
             <IntegrationTile compact />
           </div>
 
-          {/* Desktop: infinite scroll marquee (unchanged) */}
-          <div className="relative hidden w-full overflow-hidden md:block">
-            <div className="flex w-max motion-safe:animate-[infinite-scroll_52s_linear_infinite] motion-reduce:animate-none hover:motion-safe:[animation-play-state:paused] will-change-transform">
-              <IntegrationRow />
-              <IntegrationRow />
-            </div>
-            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-[hsl(30_20%_97%)] to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-[hsl(30_20%_97%)] to-transparent" />
-          </div>
+          {/* Desktop: infinite scroll marquee — animation starts when near viewport */}
+          <IntegrationsMarqueeDesktop>
+            <IntegrationRow />
+          </IntegrationsMarqueeDesktop>
 
           <div className="section-full mt-12 text-center md:mt-14">
             <p className="text-sm text-muted-foreground/60 2xl:text-base">

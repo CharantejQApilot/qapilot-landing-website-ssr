@@ -4,6 +4,7 @@ import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import Footer from "@/components/Footer";
 import QaGuideArticle from "@/components/qa-guide/QaGuideArticle";
 import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
 import { MarketingPageShell } from "@/components/marketing";
 import { resolveSlugParam } from "@/lib/app-router-params";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
@@ -69,6 +70,7 @@ export default async function SeoDraftPreviewPage({
         guide={guide}
         backHref={PATHS.QA_GUIDE}
         backLabel={`Back to ${QE_GUIDE_DISPLAY_NAME}`}
+        pageUrl={`${SITE_BASE_URL}${publishedUrlPath(guide.slug)}`}
       />
       <Footer />
     </MarketingPageShell>

@@ -11,8 +11,9 @@ function supabaseBase(): string | null {
 }
 
 /**
- * Sitemap index — Supabase Edge Function URLs use `NEXT_PUBLIC_SUPABASE_URL`
- * (deploy the same functions under `supabase/functions` on the new project).
+ * Sitemap index — blog/news/jobs child sitemaps use Supabase Edge Functions
+ * (`NEXT_PUBLIC_SUPABASE_URL`). QE Guide articles use `/sitemap-qa-guides.xml`
+ * on the marketing origin so URLs stay in sync with published routes.
  */
 export function GET() {
   const sb = supabaseBase();
@@ -34,12 +35,14 @@ export function GET() {
       `  <sitemap>`,
       `    <loc>${sb}/functions/v1/sitemap-jobs</loc>`,
       `  </sitemap>`,
-      `  <sitemap>`,
-      `    <loc>${sb}/functions/v1/sitemap-qa-guides</loc>`,
-      `  </sitemap>`,
     );
   }
-  lines.push(`</sitemapindex>`);
+  lines.push(
+    `  <sitemap>`,
+    `    <loc>${SITE_BASE_URL}/sitemap-qa-guides.xml</loc>`,
+    `  </sitemap>`,
+    `</sitemapindex>`,
+  );
 
   return new Response(lines.join("\n"), {
     headers: {
