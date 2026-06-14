@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import Providers from "./providers";
 import Header from "@/components/Header";
 import SitePromoBanner from "@/components/SitePromoBanner";
@@ -103,19 +102,53 @@ export default function RootLayout({
             crossOrigin="anonymous"
           />
         ) : null}
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://ddwl4m2hdecbv.cloudfront.net" />
-        <link rel="dns-prefetch" href="https://js.hsforms.net" />
-        <link rel="dns-prefetch" href="https://js.hs-scripts.com" />
-        <link rel="dns-prefetch" href="https://www.clarity.ms" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.clarity.ms" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://js.hs-scripts.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://ddwl4m2hdecbv.cloudfront.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://js.hsforms.net" />
+        <link rel="dns-prefetch" href="https://js.hs-analytics.net" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(rootSchemaGraphJsonLd),
           }}
         />
-        {/* Native head script — next/script only hydrates via RSC; Clarity never ran in production. */}
+        {/* Native head scripts — load with first HTML parse (Next Script afterInteractive is too late for full tracker coverage). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`,
+          }}
+        />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA4_MEASUREMENT_ID}');
+`,
+          }}
+        />
+        <script
+          async
+          defer
+          id="hs-script-loader"
+          src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);}("${REB2B_SCRIPT_KEY}");`,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;(l.head||l.documentElement).appendChild(t);})(window,document,"clarity","script","${CLARITY_PROJECT_ID}");`,
@@ -140,37 +173,6 @@ export default function RootLayout({
           </div>
           <div className="relative z-0 isolate">{children}</div>
         </Providers>
-
-        <Script id="gtm" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`}
-        </Script>
-
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics-gtag" strategy="afterInteractive">
-          {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA4_MEASUREMENT_ID}');
-          `}
-        </Script>
-
-        <Script
-          id="hs-script-loader"
-          src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
-          strategy="afterInteractive"
-        />
-
-        <Script id="reb2b-loader" strategy="afterInteractive">
-          {`!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);}("${REB2B_SCRIPT_KEY}");`}
-        </Script>
 
         <DeferredAnalytics />
       </body>

@@ -22,9 +22,9 @@ interface PageMeta {
 
 const STATIC_PAGES: Record<string, PageMeta> = {
   "/": {
-    title: "QApilot — AI-Powered Mobile App Testing & QA Automation Platform",
+    title: "QApilot — AI-Powered Mobile App Testing & QA Automation",
     description:
-      "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates test coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.",
+      "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.",
   },
   "/product": {
     title:
@@ -59,9 +59,9 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Join the QApilot team. Help shape what quality looks like in an AI-first world. Explore career opportunities in AI-powered quality assurance.",
   },
   "/partners": {
-    title: "Become a Partner | QApilot",
+    title: "Partners Program — Grow Mobile QA | QApilot",
     description:
-      "Partner with QApilot: consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
+      "Partner with QApilot: join consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
   },
   "/for-flutter": {
     title: "Flutter App Testing - AI-Native Testing Platform | QApilot",
@@ -114,7 +114,7 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
   },
   "/blogs": {
-    title: "Mobile Testing Blog - Tips, Guides & Best Practices | QApilot",
+    title: "Blogs — Mobile Testing Tips, Guides & Best Practices | QApilot",
     description:
       "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
   },

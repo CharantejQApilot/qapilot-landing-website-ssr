@@ -3,10 +3,10 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 
 /** Single source for home `metadata` + JSON-LD (avoid og:image vs schema drift). */
 export const HOME_PAGE_TITLE =
-  "QApilot — AI-Powered Mobile App Testing & QA Automation Platform";
+  "QApilot — AI-Powered Mobile App Testing & QA Automation";
 
 export const HOME_PAGE_DESCRIPTION =
-  "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates test coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.";
+  "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.";
 
 export const HOME_PAGE_OG_TITLE = HOME_PAGE_TITLE;
 

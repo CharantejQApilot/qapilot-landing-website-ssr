@@ -311,7 +311,7 @@ function DeliverSectionBackgroundDecor() {
 const CoreAdvantageHeading = () => {
   const [active, setActive] = useState(0);
   const current = TABS[active];
-  const { ref: sectionRef, isNear: sectionNearViewport } = useNearViewport<HTMLElement>({
+  const { ref: sectionRef } = useNearViewport<HTMLElement>({
     rootMargin: "280px 0px",
     threshold: 0,
   });
@@ -445,7 +445,7 @@ const CoreAdvantageHeading = () => {
                   panelKey={current.id}
                   scrim={current.scenicScrim}
                   priority={false}
-                  animateKenBurns={sectionNearViewport}
+                  animateKenBurns
                 />
               </div>
               <div

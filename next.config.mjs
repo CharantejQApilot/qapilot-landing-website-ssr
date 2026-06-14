@@ -23,10 +23,6 @@ const remotePatterns = [
     protocol: "https",
     hostname: "i.ytimg.com",
   },
-  {
-    protocol: "https",
-    hostname: "images.unsplash.com",
-  },
 ];
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -113,7 +109,7 @@ const nextConfig = {
   async headers() {
     /**
      * `/` do not bundle Core Advantage image `preload` hints here: those pull many large
-     * Unsplash URLs immediately and hurt mobile LCP/INP. Agent discovery (RFC 8288) stays.
+     * scenic URLs immediately and hurt mobile LCP/INP. Agent discovery (RFC 8288) stays.
      * Core Advantage preloads remain on `/product` where that block is primary.
      */
     return [
