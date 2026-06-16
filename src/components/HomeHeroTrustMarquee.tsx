@@ -1,16 +1,32 @@
 import { HOME_TRUST_LOGOS, type HomeTrustLogo } from "@/lib/home-trust-logos";
 import { cn } from "@/lib/utils";
 
+type TrustMarqueeDensity = "hero" | "compact";
+
 type HomeHeroTrustMarqueeProps = {
   className?: string;
+  /** Home hero: full viewport width. Book demo: fits parent column. */
+  layout?: "fullBleed" | "contained";
+  density?: TrustMarqueeDensity;
+  title?: string;
 };
 
-function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?: boolean }) {
+function TrustLogoLink({
+  logo,
+  decorative,
+  density,
+}: {
+  logo: HomeTrustLogo;
+  decorative?: boolean;
+  density: TrustMarqueeDensity;
+}) {
+  const compact = density === "compact";
+
   const wrapperClassName = cn(
     "flex shrink-0 items-center justify-center",
-    "mx-4 sm:mx-8 md:mx-12 lg:mx-12 xl:mx-14 2xl:mx-16",
-    "h-12 sm:h-16 md:h-[4.25rem] lg:h-[4.75rem] xl:h-20 2xl:h-[5.25rem]",
-    "w-24 sm:w-32 md:w-40 lg:w-44 xl:w-48 2xl:w-52",
+    compact
+      ? "mx-4 h-14 w-32 sm:mx-6 sm:h-16 sm:w-36 md:mx-8 md:h-[4.25rem] md:w-44 lg:h-[4.75rem] lg:w-48"
+      : "mx-4 h-12 w-24 sm:mx-8 sm:h-16 sm:w-32 md:mx-12 md:h-[4.25rem] md:w-40 lg:mx-12 lg:h-[4.75rem] lg:w-44 xl:mx-14 xl:h-20 xl:w-48 2xl:mx-16 2xl:h-[5.25rem] 2xl:w-52",
   );
 
   const logoImage = (
@@ -22,9 +38,10 @@ function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?:
       loading="lazy"
       decoding="async"
       className={cn(
-        "h-auto w-auto max-h-full object-contain opacity-90",
-        "max-w-[5.5rem] sm:max-w-[7.5rem] md:max-w-[9.5rem] lg:max-w-[11rem] xl:max-w-[12.5rem] 2xl:max-w-[14rem]",
-        "h-6 sm:h-8 md:h-10 lg:h-12 xl:h-14 2xl:h-16",
+        "h-auto w-auto max-h-full object-contain opacity-90 transition-opacity hover:opacity-100",
+        compact
+          ? "h-8 max-w-[7rem] sm:h-10 sm:max-w-[8.5rem] md:h-11 md:max-w-[10rem] lg:h-12 lg:max-w-[11rem] xl:h-14 xl:max-w-[12.5rem]"
+          : "h-6 max-w-[5.5rem] sm:h-8 sm:max-w-[7.5rem] md:h-10 md:max-w-[9.5rem] lg:h-12 lg:max-w-[11rem] xl:h-14 xl:max-w-[12.5rem] 2xl:h-16 2xl:max-w-[14rem]",
       )}
       style={{ transform: `scale(${logo.visualScale})`, transformOrigin: "center" }}
     />
@@ -52,44 +69,69 @@ function TrustLogoLink({ logo, decorative }: { logo: HomeTrustLogo; decorative?:
   );
 }
 
-export function HomeHeroTrustMarquee({ className }: HomeHeroTrustMarqueeProps) {
+export function HomeHeroTrustMarquee({
+  className,
+  layout = "fullBleed",
+  density = "hero",
+  title,
+}: HomeHeroTrustMarqueeProps) {
   const marqueeItems = [...HOME_TRUST_LOGOS, ...HOME_TRUST_LOGOS];
+  const contained = layout === "contained";
+  const ariaLabel = title ?? "Trusted by industry leaders";
 
   return (
-    <div
-      className={cn(
-        "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2",
-        "pb-2 sm:pb-3 md:pb-2 lg:pb-0 xl:pb-0 2xl:pb-0",
-        className,
-      )}
-      aria-label="Trusted by industry leaders"
-    >
-      {/* Mobile: static wrapped grid — no animation, half the DOM nodes */}
-      <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-4 px-4 md:hidden">
-        {HOME_TRUST_LOGOS.map((logo) => (
-          <TrustLogoLink key={logo.name} logo={logo} />
-        ))}
-      </div>
+    <div className={cn(contained ? "relative w-full" : "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2", className)}>
+      {title ? (
+        <p
+          className={cn(
+            "mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground",
+            contained ? "text-left" : "text-center",
+          )}
+        >
+          {title}
+        </p>
+      ) : null}
 
-      {/* Desktop: infinite scroll marquee */}
-      <div className="hidden md:block">
+      <div aria-label={ariaLabel}>
+        {/* Mobile: static wrapped grid */}
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-background to-transparent sm:w-24 md:w-40"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-background to-transparent sm:w-24 md:w-40"
-          aria-hidden
-        />
-
-        <div className="flex w-max animate-infinite-scroll pt-1 hover:[animation-play-state:paused] motion-reduce:animate-none">
-          {marqueeItems.map((logo, index) => (
-            <TrustLogoLink
-              key={`${logo.name}-${index}`}
-              logo={logo}
-              decorative={index >= HOME_TRUST_LOGOS.length}
-            />
+          className={cn(
+            "flex flex-wrap items-center gap-x-2 gap-y-5 md:hidden",
+            contained ? "justify-start" : "justify-center px-4",
+          )}
+        >
+          {HOME_TRUST_LOGOS.map((logo) => (
+            <TrustLogoLink key={logo.name} logo={logo} density={density} />
           ))}
+        </div>
+
+        {/* Desktop: infinite scroll marquee */}
+        <div className={cn("relative hidden overflow-hidden md:block", contained && "rounded-xl")}>
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-y-0 left-0 z-20 bg-gradient-to-r from-background to-transparent",
+              contained ? "w-8 sm:w-12" : "w-16 sm:w-24 md:w-40",
+            )}
+            aria-hidden
+          />
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-y-0 right-0 z-20 bg-gradient-to-l from-background to-transparent",
+              contained ? "w-8 sm:w-12" : "w-16 sm:w-24 md:w-40",
+            )}
+            aria-hidden
+          />
+
+          <div className="flex w-max animate-infinite-scroll pt-1 hover:[animation-play-state:paused] motion-reduce:animate-none">
+            {marqueeItems.map((logo, index) => (
+              <TrustLogoLink
+                key={`${logo.name}-${index}`}
+                logo={logo}
+                density={density}
+                decorative={index >= HOME_TRUST_LOGOS.length}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

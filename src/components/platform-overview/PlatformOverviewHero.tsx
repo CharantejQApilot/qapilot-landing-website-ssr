@@ -1,15 +1,10 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
+import { BookDemoLinkButton } from "@/components/book-demo/BookDemoLinkButton";
 import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 export function PlatformOverviewHero() {
-  const { openForm } = useHubSpotForm();
-
   return (
     <section
       className="section-edge relative flex min-h-screen w-full flex-col justify-center overflow-x-hidden overflow-y-visible lg:h-screen lg:overflow-hidden"
@@ -17,7 +12,6 @@ export function PlatformOverviewHero() {
     >
       <MarketingBackground variant="hero" />
 
-      {/* Match home hero: full-bleed section + section-full (hero-only atmosphere above) */}
       <div className="relative z-10 w-full section-full py-10 sm:py-14 md:py-16 lg:py-24 2xl:py-28">
         <div className="grid min-h-0 grid-cols-1 items-center gap-8 sm:gap-10 lg:min-h-[70vh] lg:grid-cols-[2fr_3fr] lg:items-stretch lg:gap-14 xl:gap-16 2xl:gap-20">
           <div className="order-1 flex flex-col justify-center text-left">
@@ -29,14 +23,10 @@ export function PlatformOverviewHero() {
               detect critical issues, and validate mobile releases with confidence.
             </p>
             <div className="mt-6 sm:mt-8 md:mt-10">
-              <Button
-                type="button"
-                onClick={() => openForm()}
+              <BookDemoLinkButton
                 size="lg"
                 className="rounded-lg bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:px-10 2xl:py-7 2xl:text-lg"
-              >
-                Book a Demo
-              </Button>
+              />
             </div>
           </div>
 

@@ -1,15 +1,10 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
+import { BookDemoLinkButton } from "@/components/book-demo/BookDemoLinkButton";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { AgentNetworkCircuitVisual } from "./AgentNetworkCircuitVisual";
 
 export function AgenticArchitectureHero() {
-  const { openForm } = useHubSpotForm();
-
   return (
     <section
       className="section-edge relative flex min-h-screen w-full flex-col justify-center overflow-x-hidden overflow-y-visible lg:h-screen lg:overflow-hidden"
@@ -28,14 +23,10 @@ export function AgenticArchitectureHero() {
               enabling autonomous exploration, adaptive testing, and continuous learning across your app.
             </p>
             <div className="mt-6 sm:mt-8 md:mt-10">
-              <Button
-                type="button"
-                onClick={() => openForm()}
+              <BookDemoLinkButton
                 size="lg"
                 className="rounded-lg bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:px-10 2xl:py-7 2xl:text-lg"
-              >
-                Book a Demo
-              </Button>
+              />
             </div>
           </div>
 

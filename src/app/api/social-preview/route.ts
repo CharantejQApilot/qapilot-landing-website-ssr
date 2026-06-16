@@ -1,12 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
+import {
+  buildOpenGraphImageMeta,
+  DEFAULT_SHARE_IMAGE_URL,
+} from "@/lib/seo";
+import { formatPageTitleString } from "@/lib/page-title";
 
 const DEFAULT_TITLE = "QApilot - AI-Powered Mobile App Testing & QA Automation";
 const DEFAULT_DESCRIPTION =
   "Automate your mobile app testing with QApilot's AI-powered platform. Get instant test coverage for iOS and Android apps.";
-const DEFAULT_IMAGE = `${SITE_BASE_URL}/og/default-share.png`;
 
 function escapeHtml(value: string): string {
   return value
@@ -22,6 +27,8 @@ function buildHtml(meta: {
   description: string;
   url: string;
   image: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: "website" | "article";
 }): string {
   const title = escapeHtml(meta.title);
@@ -29,6 +36,12 @@ function buildHtml(meta: {
   const url = escapeHtml(meta.url);
   const image = escapeHtml(meta.image);
   const type = meta.type ?? "article";
+  const dimensionTags =
+    meta.imageWidth && meta.imageHeight
+      ? `<meta property="og:image:width" content="${meta.imageWidth}" />
+  <meta property="og:image:height" content="${meta.imageHeight}" />`
+      : "";
+
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -42,6 +55,7 @@ function buildHtml(meta: {
   <meta property="og:description" content="${description}" />
   <meta property="og:url" content="${url}" />
   <meta property="og:image" content="${image}" />
+  ${dimensionTags}
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${title}" />
   <meta name="twitter:description" content="${description}" />
@@ -59,8 +73,8 @@ function asTrimmedString(value: unknown): string {
 }
 
 function articleTitle(rawTitle: string): string {
-  if (!rawTitle) return "QApilot";
-  return rawTitle.includes("QApilot") ? rawTitle : `${rawTitle} | QApilot`;
+  if (!rawTitle) return formatPageTitleString("QApilot");
+  return formatPageTitleString(rawTitle);
 }
 
 function youtubeThumb(url: string): string | null {
@@ -79,6 +93,8 @@ type MetaPayload = {
   title: string;
   description: string;
   image: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: "website" | "article";
 };
 
@@ -94,17 +110,28 @@ async function blogMeta(pathname: string): Promise<MetaPayload | null> {
     .eq("published", true)
     .maybeSingle();
   if (error || !data) return null;
-  const title = asTrimmedString((data as { seo_title?: unknown }).seo_title) || articleTitle(asTrimmedString(data.title));
+  const rawTitle =
+    asTrimmedString((data as { seo_title?: unknown }).seo_title) ||
+    asTrimmedString(data.title);
+  const title = articleTitle(rawTitle);
   const description =
     asTrimmedString((data as { seo_description?: unknown }).seo_description) ||
     asTrimmedString(data.excerpt) ||
     asTrimmedString((data as { description?: unknown }).description) ||
     `Read ${asTrimmedString(data.title) || "this blog"} on QApilot.`;
-  const image =
+  const imageUrl =
     asTrimmedString((data as { og_image_url?: unknown }).og_image_url) ||
     asTrimmedString(data.featured_image) ||
-    DEFAULT_IMAGE;
-  return { title, description, image, type: "article" };
+    DEFAULT_SHARE_IMAGE_URL;
+  const ogImage = buildOpenGraphImageMeta(imageUrl, title);
+  return {
+    title,
+    description,
+    image: ogImage?.url ?? DEFAULT_SHARE_IMAGE_URL,
+    imageWidth: ogImage?.width,
+    imageHeight: ogImage?.height,
+    type: "article",
+  };
 }
 
 async function newsMeta(pathname: string): Promise<MetaPayload | null> {
@@ -119,18 +146,29 @@ async function newsMeta(pathname: string): Promise<MetaPayload | null> {
     .eq("published", true)
     .maybeSingle();
   if (error || !data) return null;
-  const title = asTrimmedString((data as { seo_title?: unknown }).seo_title) || articleTitle(asTrimmedString(data.title));
+  const rawTitle =
+    asTrimmedString((data as { seo_title?: unknown }).seo_title) ||
+    asTrimmedString(data.title);
+  const title = articleTitle(rawTitle);
   const description =
     asTrimmedString((data as { seo_description?: unknown }).seo_description) ||
     asTrimmedString(data.excerpt) ||
     asTrimmedString((data as { description?: unknown }).description) ||
     `Read ${asTrimmedString(data.title) || "this update"} on QApilot news.`;
-  const image =
+  const imageUrl =
     asTrimmedString((data as { og_image_url?: unknown }).og_image_url) ||
     asTrimmedString(data.featured_image) ||
     youtubeThumb(asTrimmedString((data as { youtube_url?: unknown }).youtube_url)) ||
-    DEFAULT_IMAGE;
-  return { title, description, image, type: "article" };
+    DEFAULT_SHARE_IMAGE_URL;
+  const ogImage = buildOpenGraphImageMeta(imageUrl, title);
+  return {
+    title,
+    description,
+    image: ogImage?.url ?? DEFAULT_SHARE_IMAGE_URL,
+    imageWidth: ogImage?.width,
+    imageHeight: ogImage?.height,
+    type: "article",
+  };
 }
 
 async function qaGuideMeta(pathname: string): Promise<MetaPayload | null> {
@@ -150,18 +188,27 @@ async function qaGuideMeta(pathname: string): Promise<MetaPayload | null> {
     .maybeSingle();
   if (error || !data) return null;
 
-  const title =
+  const rawTitle =
     asTrimmedString((data as { seo_title?: unknown }).seo_title) ||
-    articleTitle(asTrimmedString(data.title));
+    asTrimmedString(data.title);
+  const title = articleTitle(rawTitle);
   const description =
     asTrimmedString((data as { seo_description?: unknown }).seo_description) ||
     asTrimmedString(data.excerpt) ||
     `Read ${asTrimmedString(data.title) || "this guide"} on the QApilot ${QE_GUIDE_DISPLAY_NAME}.`;
-  const image =
+  const imageUrl =
     asTrimmedString((data as { og_image_url?: unknown }).og_image_url) ||
     asTrimmedString(data.featured_image) ||
-    DEFAULT_IMAGE;
-  return { title, description, image, type: "article" };
+    DEFAULT_SHARE_IMAGE_URL;
+  const ogImage = buildOpenGraphImageMeta(imageUrl, title);
+  return {
+    title,
+    description,
+    image: ogImage?.url ?? DEFAULT_SHARE_IMAGE_URL,
+    imageWidth: ogImage?.width,
+    imageHeight: ogImage?.height,
+    type: "article",
+  };
 }
 
 async function careersMeta(pathname: string): Promise<MetaPayload | null> {
@@ -191,7 +238,15 @@ async function careersMeta(pathname: string): Promise<MetaPayload | null> {
   const location = asTrimmedString(data.location);
   const title = `${role}${department ? ` - ${department}` : ""} | QApilot Careers`;
   const description = `${role}${location ? ` in ${location}` : ""}. Explore careers at QApilot.`;
-  return { title, description, image: DEFAULT_IMAGE, type: "website" };
+  const ogImage = buildOpenGraphImageMeta(DEFAULT_SHARE_IMAGE_URL, title);
+  return {
+    title,
+    description,
+    image: DEFAULT_SHARE_IMAGE_URL,
+    imageWidth: ogImage?.width,
+    imageHeight: ogImage?.height,
+    type: "website",
+  };
 }
 
 export async function GET(request: NextRequest) {
@@ -214,10 +269,14 @@ export async function GET(request: NextRequest) {
     payload = null;
   }
 
+  const defaultOg = buildOpenGraphImageMeta(DEFAULT_SHARE_IMAGE_URL, DEFAULT_TITLE);
+
   const html = buildHtml({
     title: payload?.title || DEFAULT_TITLE,
     description: payload?.description || DEFAULT_DESCRIPTION,
-    image: payload?.image || DEFAULT_IMAGE,
+    image: payload?.image || DEFAULT_SHARE_IMAGE_URL,
+    imageWidth: payload?.imageWidth ?? defaultOg?.width,
+    imageHeight: payload?.imageHeight ?? defaultOg?.height,
     url: canonicalUrl,
     type: payload?.type || "website",
   });

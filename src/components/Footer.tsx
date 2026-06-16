@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   ArrowUp,
@@ -9,8 +10,6 @@ import {
   Youtube,
   Instagram,
 } from "lucide-react";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
-import Link from "next/link";
 import { marketingEyebrowClass, marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import {
@@ -92,8 +91,6 @@ const FooterLink = ({
 };
 
 const Footer = () => {
-  const { openForm } = useHubSpotForm();
-
   return (
     <>
       {/* CTA Section — full-width, brand blue / navy (Harvey-style edge-to-edge) */}
@@ -114,11 +111,11 @@ const Footer = () => {
             </div>
             <div className="flex-shrink-0">
               <Button
-                onClick={() => openForm()}
                 size="lg"
                 className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-lg 2xl:text-lg 2xl:px-10 2xl:py-7"
+                asChild
               >
-                Book a Demo →
+                <Link href={PATHS.BOOK_DEMO}>Book a Demo →</Link>
               </Button>
             </div>
           </div>

@@ -141,6 +141,13 @@
     letter-spacing: -0.01em;
   }
 
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading), var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: hsl(var(--foreground));
@@ -882,28 +889,63 @@
   .animate-float { animation: float 3s ease-in-out infinite; }
 
   /* ── HubSpot Form Styling ── */
-  .hubspot-form-container .hs-form { @apply space-y-4; }
+  .hubspot-form-container {
+    @apply font-sans antialiased;
+  }
+  .hubspot-form-container .hs-form { @apply space-y-4 font-sans; }
   .hubspot-form-container .hs-form-field { @apply mb-4; }
-  .hubspot-form-container .hs-form-field label { @apply block text-sm font-medium mb-2; color: hsl(var(--foreground)) !important; }
+  .hubspot-form-container .hs-form-field label,
+  .hubspot-form-container .hs-form-field > label,
+  .hubspot-form-container legend,
+  .hubspot-form-container .hs-field-desc,
+  .hubspot-form-container .hs-richtext,
+  .hubspot-form-container .hs-richtext p {
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  }
+  .hubspot-form-container .hs-form-field label { @apply block text-sm font-medium mb-2 font-sans; color: hsl(var(--foreground)) !important; }
   .hubspot-form-container .hs-input {
-    @apply h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-sans shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
     color: hsl(var(--foreground)) !important;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   }
   .hubspot-form-container .hs-input::placeholder {
     color: hsl(var(--muted-foreground)) !important;
     opacity: 1 !important;
   }
   .hubspot-form-container select.hs-input {
-    @apply h-10 cursor-pointer py-2 text-sm;
+    @apply h-10 cursor-pointer py-2 text-sm font-sans;
     color: hsl(var(--foreground)) !important;
   }
-  .hubspot-form-container textarea.hs-input { @apply min-h-[80px] h-auto py-3; resize: vertical; }
-  .hubspot-form-container .hs-submit .hs-button { @apply w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2; }
-  .hubspot-form-container .hs-error-msg { @apply text-sm text-destructive; }
+  .hubspot-form-container textarea.hs-input { @apply min-h-[80px] h-auto py-3 font-sans; resize: vertical; }
+  .hubspot-form-container .hs-submit .hs-button {
+    @apply w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md font-medium font-sans transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  }
+  .hubspot-form-container .hs-error-msgs,
+  .hubspot-form-container .hs-error-msg { @apply text-sm text-destructive font-sans; }
   .hubspot-form-container .hs-richtext,
   .hubspot-form-container .hs-richtext p { color: hsl(var(--foreground)) !important; }
   .hubspot-form-container .hs-fieldtype-checkbox label,
-  .hubspot-form-container .hs-fieldtype-radio label { color: hsl(var(--foreground)) !important; }
+  .hubspot-form-container .hs-fieldtype-radio label,
+  .hubspot-form-container .hs-form-checkbox-display,
+  .hubspot-form-container .hs-form-radio-display {
+    color: hsl(var(--foreground)) !important;
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  }
+
+  /* Marketing lead forms (MarketingLeadForm, PhoneInput, FlutterContactForm) */
+  .marketing-form-surface,
+  .marketing-form-surface input,
+  .marketing-form-surface textarea,
+  .marketing-form-surface select,
+  .marketing-form-surface button,
+  .marketing-form-surface option {
+    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .marketing-form-surface .marketing-form-title {
+    font-family: var(--font-heading), var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: -0.02em;
+  }
 
   /* HubSpot forms/embed (portal script + .hs-form-frame) */
   .hubspot-forms-embed-frame {
