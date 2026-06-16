@@ -14,9 +14,9 @@ interface WebVitalMetric {
  * Web Vitals tracking hook for Core Web Vitals monitoring
  * Tracks LCP, FID/INP, CLS, FCP, TTFB
  */
-export function useWebVitals() {
+export function useWebVitals(enabled = true) {
   const sendToAnalytics = useCallback((metric: WebVitalMetric) => {
-    if (typeof window === "undefined") return;
+    if (!enabled || typeof window === "undefined") return;
 
     const payload = {
       event: "web_vitals",
@@ -43,9 +43,10 @@ export function useWebVitals() {
     if (process.env.NODE_ENV === "development") {
       console.log(`[Web Vitals] ${metric.name}:`, { value: metric.value, rating: metric.rating });
     }
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
+    if (!enabled) return;
     // Only run in browser
     if (typeof window === 'undefined') return;
 
@@ -71,7 +72,7 @@ export function useWebVitals() {
     } else {
       setTimeout(loadWebVitals, 1000);
     }
-  }, [sendToAnalytics]);
+  }, [enabled, sendToAnalytics]);
 }
 
 export default useWebVitals;

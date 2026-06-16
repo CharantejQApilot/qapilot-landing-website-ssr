@@ -2,6 +2,10 @@
 
 import { FlutterHeroLeadForm } from "@/components/flutter-testing/FlutterHeroLeadForm";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import {
+  marketingFormIntroClass,
+  marketingFormTitleClass,
+} from "@/lib/forms/marketing-form-classes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
@@ -63,10 +67,10 @@ export function FlutterTestingHero() {
               )}
             >
               <div className="relative z-[1] space-y-1.5 pb-5 sm:pb-6">
-                <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                <h2 className={marketingFormTitleClass}>
                   Test Your Flutter App on QApilot
                 </h2>
-                <p className="max-w-prose text-sm leading-snug text-muted-foreground sm:text-[0.9375rem]">
+                <p className={marketingFormIntroClass}>
                   Share a few details—we&apos;ll show you a tailored walkthrough.
                 </p>
               </div>

@@ -17,9 +17,15 @@ const HubSpotFormDialog = dynamic(() => import("@/components/HubSpotFormDialog")
   ssr: false,
 });
 
-function AppShell({ children }: { children: React.ReactNode }) {
+function AppShell({
+  children,
+  trackAnalytics,
+}: {
+  children: React.ReactNode;
+  trackAnalytics: boolean;
+}) {
   const { isOpen, title, description, closeForm } = useHubSpotForm();
-  useWebVitals();
+  useWebVitals(trackAnalytics);
 
   return (
     <>
@@ -38,17 +44,25 @@ function AppShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({
+  children,
+  trackAnalytics = true,
+}: {
+  children: React.ReactNode;
+  trackAnalytics?: boolean;
+}) {
   return (
     <>
-      <Suspense fallback={null}>
-        <AttributionTracker />
-        <ClarityTracker />
-      </Suspense>
+      {trackAnalytics ? (
+        <Suspense fallback={null}>
+          <AttributionTracker />
+          <ClarityTracker />
+        </Suspense>
+      ) : null}
       <TooltipProvider>
         <HubSpotFormProvider>
           <Toaster />
-          <AppShell>{children}</AppShell>
+          <AppShell trackAnalytics={trackAnalytics}>{children}</AppShell>
         </HubSpotFormProvider>
       </TooltipProvider>
     </>

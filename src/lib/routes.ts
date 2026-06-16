@@ -30,6 +30,7 @@ export const PATHS = {
   JOB_POST: "/careers/:slug",
   PARTNERS: "/partners",
   FAQS: "/faqs",
+  BOOK_DEMO: "/book-demo",
   LABS: "/labs",
   FOR_RELEASE_MANAGER: "/for-release-manager",
   FOR_QA_ENGINEER: "/for-qa-engineer",

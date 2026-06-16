@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { formatPageTitle, formatPageTitleString } from "@/lib/page-title";
 
 /** Organization / schema.org logo (not used for og:image or header wordmark). */
 export const ORG_LOGO_PATH = "/QApilotLogo.svg";
@@ -29,5 +31,77 @@ export const defaultOpenGraphImage = {
   alt: "QApilot autonomous mobile app testing platform for release readiness",
 } as const;
 
+/** Standard OG aspect ratio when CMS dimensions are unknown (no remote probing). */
+export const DEFAULT_CMS_OG_IMAGE_WIDTH = 1200;
+export const DEFAULT_CMS_OG_IMAGE_HEIGHT = 630;
+
+type OpenGraphImageMeta = {
+  url: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+/** OG/Twitter image metadata without probing remote URLs. */
+export function buildOpenGraphImageMeta(
+  absoluteUrl: string | undefined,
+  alt: string,
+): OpenGraphImageMeta | undefined {
+  if (!absoluteUrl) return undefined;
+
+  const isDefaultShare =
+    absoluteUrl === DEFAULT_SHARE_IMAGE_URL ||
+    absoluteUrl.endsWith(DEFAULT_SHARE_IMAGE_PATH);
+
+  return {
+    url: absoluteUrl,
+    alt,
+    width: isDefaultShare ? DEFAULT_SHARE_IMAGE_WIDTH : DEFAULT_CMS_OG_IMAGE_WIDTH,
+    height: isDefaultShare ? DEFAULT_SHARE_IMAGE_HEIGHT : DEFAULT_CMS_OG_IMAGE_HEIGHT,
+  };
+}
+
 /** Partner & integration marquee logos — blocked for Googlebot-Image in robots.txt */
 export const PARTNER_LOGOS_PATH_PREFIX = "/partner-logos-noindex/";
+
+type StaticPageMetadataInput = {
+  /** Base title without trailing `| QApilot`. */
+  title: string;
+  description: string;
+  path: string;
+  ogDescription?: string;
+  twitterDescription?: string;
+};
+
+/** Consistent metadata for static marketing pages (avoids duplicate brand suffix). */
+export function buildStaticPageMetadata({
+  title,
+  description,
+  path,
+  ogDescription,
+  twitterDescription,
+}: StaticPageMetadataInput): Metadata {
+  const canonicalUrl = `${SITE_BASE_URL}${path}`;
+  const displayTitle = formatPageTitleString(title);
+
+  return {
+    title: formatPageTitle(title),
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      type: "website",
+      url: canonicalUrl,
+      title: displayTitle,
+      description: ogDescription ?? description,
+      siteName: "QApilot",
+      locale: "en_US",
+      images: [defaultOpenGraphImage],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: displayTitle,
+      description: twitterDescription ?? ogDescription ?? description,
+      images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    },
+  };
+}

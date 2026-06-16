@@ -1,6 +1,8 @@
-import ProductShowcaseEmbed from "@/components/ProductShowcaseEmbed";
 import { marketingEyebrowClass, marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
+
+const ARCADE_EMBED_SRC =
+  "https://demo.arcade.software/JxLpXPUuOXd4ad9mwlC9?embed&embed_mobile=tab&embed_desktop=inline&squared=true&show_copy_link=true";
 
 const ProductShowcaseSection = () => {
   return (
@@ -26,7 +28,25 @@ const ProductShowcaseSection = () => {
         </header>
 
         <div className="relative border border-border rounded-2xl overflow-hidden bg-background">
-          <ProductShowcaseEmbed />
+          <div
+            className="relative w-full"
+            style={{
+              paddingBottom: "calc(57.8889% + 41px)",
+              height: 0,
+              width: "100%",
+            }}
+          >
+            <iframe
+              src={ARCADE_EMBED_SRC}
+              title="QApilot interactive demo"
+              className="absolute left-0 top-0 h-full w-full"
+              frameBorder={0}
+              loading="lazy"
+              allowFullScreen
+              allow="clipboard-write"
+              style={{ colorScheme: "light" }}
+            />
+          </div>
         </div>
       </div>
     </section>

@@ -6,7 +6,13 @@ import PhoneInput from "@/components/PhoneInput";
 import {
   marketingFormControlClass,
   marketingFormFieldErrorClass,
+  marketingFormIntroClass,
   marketingFormLabelClass,
+  marketingFormRootClass,
+  marketingFormStatusErrorClass,
+  marketingFormStatusSuccessClass,
+  marketingFormSubmitClass,
+  marketingFormTitleClass,
 } from "@/lib/forms/marketing-form-classes";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
@@ -136,24 +142,24 @@ const FlutterContactForm = () => {
   };
 
   return (
-    <div className="bg-background/80 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-lg max-w-2xl w-full">
+    <div className={cn("bg-background/80 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-lg max-w-2xl w-full", marketingFormRootClass)}>
       <div className="mb-6">
-        <h3 className="text-xl font-semibold text-foreground mb-2">
+        <h3 className={cn(marketingFormTitleClass, "mb-2")}>
           Get Started with Flutter Testing
         </h3>
-        <p className="text-muted-foreground text-sm">
+        <p className={marketingFormIntroClass}>
           Complete the form below and we'll get you set up with our Flutter testing platform.
         </p>
       </div>
 
       {submitStatus === 'success' && (
-        <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-700 dark:text-green-400">
+        <div className={cn(marketingFormStatusSuccessClass, "mb-6")}>
           Thank you! We'll be in touch soon.
         </div>
       )}
 
       {submitStatus === 'error' && (
-        <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive">
+        <div className={cn(marketingFormStatusErrorClass, "mb-6")}>
           Something went wrong. Please try again.
         </div>
       )}
@@ -314,12 +320,12 @@ const FlutterContactForm = () => {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-6 rounded-full transition-colors"
+          className={cn(marketingFormSubmitClass, "bg-primary hover:bg-primary/90 text-primary-foreground py-3 px-6 transition-colors")}
         >
           {isSubmitting ? 'Submitting...' : 'Get Started with QAPilot'}
         </Button>
 
-        <p className="text-xs text-muted-foreground text-center mt-4">
+        <p className="text-xs font-sans text-muted-foreground text-center mt-4">
           By submitting this form, you agree to our Terms of Service and Privacy Policy.
         </p>
       </form>

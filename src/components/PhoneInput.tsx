@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { marketingFormControlClass } from "@/lib/forms/marketing-form-classes";
+import { marketingFormCompositeSegmentClass, marketingFormControlClass } from "@/lib/forms/marketing-form-classes";
 import { cn } from "@/lib/utils";
 
 interface Country {
@@ -145,7 +145,7 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
   );
 
   return (
-    <div className={cn("relative w-full", className)}>
+    <div className={cn("marketing-form-surface relative w-full font-sans", className)}>
       {/* Backdrop before z-50 field so the menu stacks above it and stays clickable */}
       {isDropdownOpen && (
         <div
@@ -155,13 +155,18 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
         />
       )}
       <div className="relative z-50">
-        <div className="flex h-10 w-full items-stretch rounded-md border border-input bg-background shadow-sm ring-offset-background transition-shadow focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+        <div
+          className={cn(
+            "flex h-10 w-full items-stretch overflow-hidden rounded-md border border-input bg-background shadow-sm",
+            "ring-offset-background transition-shadow focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+          )}
+        >
         {/* Country Code Dropdown */}
         <div className="relative shrink-0">
           <button
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="inline-flex h-full min-w-[100px] items-center gap-2 rounded-l-[calc(0.375rem-1px)] border-0 border-r border-input bg-transparent px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
+            className="inline-flex h-full min-w-[100px] items-center gap-2 border-0 border-r border-input bg-transparent px-3 text-sm font-medium font-sans text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
           >
             <span className="text-lg leading-none">{selectedCountry.flag}</span>
             <span className="tabular-nums">{selectedCountry.dialCode}</span>
@@ -179,7 +184,7 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
                   placeholder="Search countries..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="h-9 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className={cn(marketingFormControlClass({ fullWidth: true }), "h-9")}
                 />
               </div>
               <div className="max-h-48 overflow-y-auto">
@@ -192,11 +197,11 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
                       setIsDropdownOpen(false);
                       setSearchTerm('');
                     }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-accent focus:bg-accent focus:outline-none transition-colors"
+                    className="w-full flex items-center gap-3 px-3 py-2 text-left font-sans hover:bg-accent focus:bg-accent focus:outline-none transition-colors"
                   >
                     <span className="text-lg">{country.flag}</span>
-                    <span className="text-sm font-medium min-w-[50px]">{country.dialCode}</span>
-                    <span className="text-sm text-muted-foreground truncate">{country.name}</span>
+                    <span className="text-sm font-medium font-sans min-w-[50px]">{country.dialCode}</span>
+                    <span className="text-sm font-sans text-muted-foreground truncate">{country.name}</span>
                   </button>
                 ))}
               </div>
@@ -210,10 +215,7 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           placeholder={placeholder}
-          className={cn(
-            marketingFormControlClass({ fullWidth: false }),
-            "rounded-none rounded-r-[calc(0.375rem-1px)] border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
-          )}
+          className={marketingFormCompositeSegmentClass}
         />
         </div>
       </div>
