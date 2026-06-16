@@ -43,6 +43,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Enterprise-grade mobile testing automation trusted by Fortune 500 companies. Scale your QA process with AI-powered testing for iOS and Android apps.",
   },
+  "/book-demo": {
+    title: "Book a Demo — See QApilot on Your Mobile App | QApilot",
+    description:
+      "Schedule a tailored QApilot demo: autonomous mobile testing, self-healing coverage, and release-ready reporting for iOS, Android, and Flutter teams.",
+  },
   "/labs": {
     title: "QApilot Labs - Experiments, Tools & Ideas Shipped Fast",
     description:

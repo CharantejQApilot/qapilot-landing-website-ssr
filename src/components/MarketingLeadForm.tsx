@@ -8,6 +8,10 @@ import {
   marketingFormControlClass,
   marketingFormFieldErrorClass,
   marketingFormLabelClass,
+  marketingFormRootClass,
+  marketingFormStatusErrorClass,
+  marketingFormStatusSuccessClass,
+  marketingFormSubmitClass,
 } from "@/lib/forms/marketing-form-classes";
 import { cn } from "@/lib/utils";
 import { getCleanAttributionPayloadForHubSpot } from "@/lib/attribution";
@@ -143,15 +147,15 @@ export function MarketingLeadForm({
   const pid = (name: string) => `${fieldIdPrefix}-${name}`;
 
   return (
-    <div className={className}>
+    <div className={cn(marketingFormRootClass, className)}>
       <div className="space-y-4">
         {status === "success" && (
-          <div className="rounded-lg border border-green-500/20 bg-green-500/10 px-3 py-2 text-sm text-green-700 dark:text-green-400">
+          <div className={marketingFormStatusSuccessClass}>
             Thank you! We&apos;ll be in touch soon.
           </div>
         )}
         {status === "error" && (
-          <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <div className={marketingFormStatusErrorClass}>
             Something went wrong. Please try again.
           </div>
         )}
@@ -273,7 +277,7 @@ export function MarketingLeadForm({
             )}
           </div>
 
-          <Button type="submit" disabled={isSubmitting} className="w-full rounded-full font-semibold">
+          <Button type="submit" disabled={isSubmitting} className={marketingFormSubmitClass}>
             {isSubmitting ? "Submitting…" : submitButtonLabel}
           </Button>
         </form>

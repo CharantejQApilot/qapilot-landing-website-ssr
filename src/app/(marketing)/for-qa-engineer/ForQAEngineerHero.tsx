@@ -1,14 +1,9 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
+import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 export function ForQAEngineerHero() {
-  const { openForm } = useHubSpotForm();
-
   return (
     <section
       className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
@@ -46,14 +41,7 @@ export function ForQAEngineerHero() {
           </p>
 
           <div className="mb-2 sm:mb-4">
-            <Button
-              type="button"
-              onClick={() => openForm()}
-              size="lg"
-              className="rounded-xl bg-primary px-8 py-5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-shadow hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/20 sm:px-10 sm:py-7 sm:text-lg md:text-xl 2xl:px-14 2xl:py-8 2xl:text-xl"
-            >
-              Book Demo
-            </Button>
+            <BookDemoCtaButton>Book Demo</BookDemoCtaButton>
           </div>
         </div>
       </div>

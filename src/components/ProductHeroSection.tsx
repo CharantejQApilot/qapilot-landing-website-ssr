@@ -1,17 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
+import { PATHS } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const ProductHeroSection = () => {
-  const { openForm } = useHubSpotForm();
-
-  const handleBookDemoClick = () => {
-    openForm();
-  };
   return (
     <section className="relative flex min-h-screen w-full items-center justify-center section-edge py-20 pb-8">
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
@@ -41,11 +37,13 @@ const ProductHeroSection = () => {
 
                 <div className="flex-shrink-0 animate-fade-in" style={{ animationDelay: "2.4s" }}>
                   <Button
-                    onClick={handleBookDemoClick}
+                    asChild
                     className="relative overflow-hidden rounded-full bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-glow"
                   >
-                    <span className="relative z-10">Book a Demo</span>
-                    <div className="absolute inset-0 -translate-x-full skew-x-12 transform bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shine_2s_ease-in-out_infinite]" />
+                    <Link href={PATHS.BOOK_DEMO}>
+                      <span className="relative z-10">Book a Demo</span>
+                      <div className="absolute inset-0 -translate-x-full skew-x-12 transform bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shine_2s_ease-in-out_infinite]" />
+                    </Link>
                   </Button>
                 </div>
               </div>

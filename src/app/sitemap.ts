@@ -32,6 +32,11 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.9,
   },
   {
+    url: `${SITE_BASE_URL}${PATHS.BOOK_DEMO}`,
+    changeFrequency: "monthly",
+    priority: 0.92,
+  },
+  {
     url: `${SITE_BASE_URL}${PATHS.ABOUT}`,
     changeFrequency: "monthly",
     priority: 0.8,

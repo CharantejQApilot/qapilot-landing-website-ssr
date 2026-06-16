@@ -2,6 +2,18 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { ADMIN_ACCESS_COOKIE } from "@/lib/admin/constants";
 import { verifyAdminAccessToken } from "@/lib/admin/verify-admin-access-token";
+import { INTERNAL_ROUTE_HEADER, isInternalPath } from "@/lib/internal-routes";
+
+function continueWithInternalRouting(request: NextRequest): NextResponse {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set(INTERNAL_ROUTE_HEADER, "1");
+
+  const response = NextResponse.next({
+    request: { headers: requestHeaders },
+  });
+  response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  return response;
+}
 
 function wantsMarkdown(accept: string | null): boolean {
   if (!accept) return false;
@@ -67,13 +79,17 @@ export async function middleware(request: NextRequest) {
 
     const adminStatus = await verifyAdminAccessToken(token);
     if (adminStatus === "ok") {
-      return NextResponse.next();
+      return continueWithInternalRouting(request);
     }
 
     const redirectTo = adminStatus === "forbidden" ? "/" : "/auth";
     const response = NextResponse.redirect(new URL(redirectTo, request.url));
     response.cookies.delete(ADMIN_ACCESS_COOKIE);
     return response;
+  }
+
+  if (isInternalPath(pathname)) {
+    return continueWithInternalRouting(request);
   }
 
   if (request.method !== "GET" && request.method !== "HEAD") {

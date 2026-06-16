@@ -1,20 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Activity, Shield, BarChart3, Zap } from "lucide-react";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
+import { PATHS } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const EnterpriseHeroSection = () => {
-  const { openForm } = useHubSpotForm();
-  
-  const handleBookDemoClick = () => {
-    openForm(
-      "Book a Demo",
-      "Fill out the form below and our team will get in touch to schedule a personalized demo.",
-    );
-  };
   return <section className="relative flex min-h-screen items-center justify-center section-edge w-full py-20 pb-8">
       {/* Enterprise Scale Background - Abstract Network Grid */}
       <div className="absolute inset-0 opacity-10">
@@ -89,12 +82,14 @@ const EnterpriseHeroSection = () => {
             animationDelay: '0.6s'
           }}>
             <Button 
-              onClick={handleBookDemoClick}
+              asChild
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full text-lg hover:scale-105 transition-all duration-300 hover:shadow-glow relative overflow-hidden"
             >
-              <span className="relative z-10">Book a Demo</span>
+              <Link href={PATHS.BOOK_DEMO}>
+                <span className="relative z-10">Book a Demo</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shine_2s_ease-in-out_infinite] transform skew-x-12"></div>
-              </Button>
+              </Link>
+            </Button>
             </div>
           </div>
 

@@ -8,7 +8,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { NavItem } from "@/components/header/HeaderNavItem";
-import { useHubSpotForm } from "@/hooks/useHubSpotForm";
 import {
   PATHS,
   PLATFORM_BY_SOLUTION,
@@ -44,7 +43,6 @@ const RIBBON_NAV_TEXT_CLASS = "text-[15.75px]";
 
 const Header = () => {
   const pathname = usePathname();
-  const { openForm } = useHubSpotForm();
   const [openDropdown, setOpenDropdown] = useState<
     "platform" | "compare" | "resources" | "company" | null
   >(null);
@@ -278,9 +276,9 @@ const Header = () => {
               </Button>
               <Button
                 className={`rounded-lg bg-primary px-4 py-2.5 xl:px-6 ${RIBBON_NAV_TEXT_CLASS} font-semibold text-primary-foreground hover:bg-primary/90 whitespace-nowrap`}
-                onClick={() => openForm()}
+                asChild
               >
-                Book a Demo
+                <Link href={PATHS.BOOK_DEMO}>Book a Demo</Link>
               </Button>
             </div>
 
@@ -513,7 +511,7 @@ const Header = () => {
 
               <a
                 href={`${DOCS_URL}/`}
-                className={`font-heading flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                className={`flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
               >
                 <span className="w-[18px] shrink-0" aria-hidden />
                 Documentation
@@ -532,9 +530,9 @@ const Header = () => {
               </Button>
               <Button
                 className="flex-1 bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
-                onClick={() => openForm()}
+                asChild
               >
-                Book a Demo
+                <Link href={PATHS.BOOK_DEMO}>Book a Demo</Link>
               </Button>
             </div>
           </nav>

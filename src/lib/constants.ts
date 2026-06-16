@@ -44,5 +44,8 @@ export const GA4_MEASUREMENT_ID = "G-YVK0J06RCR";
 /** RB2B / REB2B visitor-identification script key. */
 export const REB2B_SCRIPT_KEY = "9NMMZHRD91NW";
 
+/** Factors.ai (FAITracker) project token. */
+export const FACTORS_AI_TOKEN = "1ot6jei3yz5lmaqbl9byqb2pqlr4qkia";
+
 /** Microsoft Clarity project ID (session recordings, heatmaps, behavior analytics). */
 export const CLARITY_PROJECT_ID = "wk5mdaaot4";

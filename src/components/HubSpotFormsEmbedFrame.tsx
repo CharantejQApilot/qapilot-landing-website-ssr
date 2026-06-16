@@ -41,7 +41,7 @@ export function HubSpotFormsEmbedFrame({
   return (
     <div
       className={cn(
-        "hs-form-frame hubspot-forms-embed-frame min-h-[200px] w-full",
+        "hs-form-frame hubspot-forms-embed-frame hubspot-form-container font-sans antialiased min-h-[200px] w-full",
         className,
       )}
       data-region={region}

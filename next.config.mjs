@@ -90,11 +90,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/book-demo",
-        destination: "/for-flutter#flutter-demo",
-        permanent: false,
-      },
-      {
         source: "/compare/qapilot-vs-visual-testing",
         destination: "/compare/qapilot-vs-visual-testing-tools",
         permanent: true,

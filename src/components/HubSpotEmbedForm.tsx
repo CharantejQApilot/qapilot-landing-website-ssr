@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { cn } from "@/lib/utils";
 
 // Extend the Window interface to include dataLayer and gtag functions
 declare global {
@@ -156,8 +157,23 @@ const HubSpotEmbedForm = ({
     const style = document.createElement('style');
     style.id = styleId;
     style.textContent = `
+      .hs-form,
+      .hs-form-field,
+      .hs-form-field > label,
+      .hs-form-field label,
+      .hs-form-field span,
+      .hs-form legend,
+      .hs-field-desc,
+      .hs-richtext,
+      .hs-richtext p,
+      .hs-form-checkbox-display,
+      .hs-form-radio-display,
+      .hs-error-msgs,
+      .hs-error-msg {
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      }
       .hs-form {
-        font-family: inherit;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
       .hs-form-field {
         margin-bottom: 1rem;
@@ -168,6 +184,7 @@ const HubSpotEmbedForm = ({
         margin-bottom: 0.5rem;
         color: hsl(var(--foreground));
         font-size: 0.875rem;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
       }
       .hs-input {
         width: 100% !important;
@@ -178,6 +195,7 @@ const HubSpotEmbedForm = ({
         border-radius: 0.375rem !important;
         background-color: hsl(var(--background)) !important;
         color: hsl(var(--foreground)) !important;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         font-size: 0.875rem !important;
         line-height: 1.25rem !important;
         box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
@@ -210,6 +228,7 @@ const HubSpotEmbedForm = ({
         border: none !important;
         padding: 0.75rem 2rem !important;
         border-radius: 9999px !important;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         font-weight: 600 !important;
         font-size: 1rem !important;
         cursor: pointer !important;
@@ -227,6 +246,7 @@ const HubSpotEmbedForm = ({
         color: hsl(var(--destructive)) !important;
         font-size: 0.75rem !important;
         margin-top: 0.25rem !important;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
       }
       .hs-error-msg {
         list-style: none !important;
@@ -238,6 +258,7 @@ const HubSpotEmbedForm = ({
         color: hsl(var(--muted-foreground)) !important;
         font-size: 0.75rem !important;
         margin-top: 0.25rem !important;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
       }
       .hs-dependent-field {
         margin-top: 1rem !important;
@@ -251,6 +272,7 @@ const HubSpotEmbedForm = ({
       .hs-form-radio-display {
         color: hsl(var(--foreground)) !important;
         font-size: 0.875rem !important;
+        font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
       }
       input[type="checkbox"],
       input[type="radio"] {
@@ -262,7 +284,7 @@ const HubSpotEmbedForm = ({
   }, []);
 
   return (
-    <div className={`hubspot-form-container ${className}`}>
+    <div className={cn("hubspot-form-container font-sans antialiased", className)}>
       <div 
         ref={formRef}
         className="hs-form-frame w-full rounded-lg"
