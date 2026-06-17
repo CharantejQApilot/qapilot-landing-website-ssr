@@ -8,7 +8,10 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
-import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import {
+  marketingHeroH1Class,
+  marketingListingHeroLeadClass,
+} from "@/lib/marketing-typography";
 import { formatPublishedDate } from "@/lib/format-published";
 
 const NEWS_PATH = PATHS.NEWS;
@@ -164,7 +167,7 @@ export default async function NewsPage() {
                   <h1 className={marketingHeroH1Class}>
                     <span className="text-gradient">News &amp; updates</span>
                   </h1>
-                  <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed">
+                  <p className={marketingListingHeroLeadClass}>
                     Stay up to date with the latest announcements and updates
                     from QApilot.
                   </p>

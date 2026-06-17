@@ -37,6 +37,16 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
   },
+  "/product/cowork": {
+    title: "CoWork — Activate Test Cases You Already Have | QApilot",
+    description:
+      "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device execution on iOS, Android, and Flutter.",
+  },
+  "/cowork": {
+    title: "CoWork — Activate Test Cases You Already Have | QApilot",
+    description:
+      "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device execution on iOS, Android, and Flutter.",
+  },
   "/enterprise": {
     title:
       "Enterprise Mobile Testing Solutions - Scale QA Automation | QApilot",
@@ -128,6 +138,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     title: "News & Updates - Mobile Testing Industry News | QApilot",
     description:
       "Stay updated with the latest news, product updates, and industry insights from QApilot. Learn about new features, partnerships, and mobile testing trends.",
+  },
+  "/events": {
+    title: "Events - Webinars, Meetups & Live Talks | QApilot",
+    description:
+      "Webinars, meetups, and live talks from the QApilot team on AI-native mobile testing, autonomous QA, Flutter validation, and release readiness.",
   },
   "/news-updates": {
     title: "News & Updates - Mobile Testing Industry News | QApilot",

@@ -8,7 +8,10 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
-import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import {
+  marketingHeroH1Class,
+  marketingListingHeroLeadClass,
+} from "@/lib/marketing-typography";
 import { formatPublishedDate } from "@/lib/format-published";
 
 const BLOGS_PATH = PATHS.BLOGS;
@@ -155,7 +158,7 @@ export default async function BlogsPage() {
                       Mobile testing insights &amp; best practices
                     </span>
                   </h1>
-                  <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed">
+                  <p className={marketingListingHeroLeadClass}>
                     Expert guides, tips, and strategies for mobile app testing and
                     QA automation.
                   </p>
