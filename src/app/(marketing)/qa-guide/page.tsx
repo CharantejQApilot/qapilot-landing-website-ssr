@@ -7,7 +7,10 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
-import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import {
+  marketingHeroH1Class,
+  marketingListingHeroLeadClass,
+} from "@/lib/marketing-typography";
 import { formatPublishedDate } from "@/lib/format-published";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
 
@@ -116,7 +119,7 @@ export default async function QaGuideHubPage() {
               <h1 className={marketingHeroH1Class}>
                 <span className="text-gradient">{QE_GUIDE_DISPLAY_NAME}</span>
               </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+              <p className={marketingListingHeroLeadClass}>
                 Practical mobile testing guides — comparisons, checklists, and patterns for QE
                 leaders and engineers.
               </p>

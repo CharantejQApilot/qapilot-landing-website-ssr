@@ -59,6 +59,7 @@ ${url("/")}
 | Labs | ${url(PATHS.LABS)} |
 | FAQs | ${url(PATHS.FAQS)} |
 | News | ${url(PATHS.NEWS)} |
+| Events | ${url(PATHS.EVENTS)} |
 | Partners | ${url(PATHS.PARTNERS)} |
 | About | ${url(PATHS.ABOUT)} |
 | Careers | ${url(PATHS.CAREERS)} |

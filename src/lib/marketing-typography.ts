@@ -19,6 +19,13 @@ export const marketingHeroLeadClass =
   "text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl";
 
 /**
+ * Lead under h1 on resource listing heroes (blogs, news, events, QA guide hub).
+ * Full width of the hero header column — no `max-w-*` so subtext aligns with the h1 band.
+ */
+export const marketingListingHeroLeadClass =
+  "w-full mt-8 text-lg leading-relaxed text-muted-foreground text-pretty sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed";
+
+/**
  * Page hero title — same scale as {@link HeroSection} on the home page.
  * Compose margins with `cn(marketingHeroH1Class, "mb-…")`; add `text-balance` or `text-gradient` as needed.
  */

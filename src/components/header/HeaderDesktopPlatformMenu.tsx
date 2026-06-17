@@ -15,6 +15,7 @@ import {
   Server,
   Workflow,
   Bot,
+  PenLine,
 } from "lucide-react";
 import { NavItem } from "@/components/header/HeaderNavItem";
 import { PLATFORM_AI_AGENTS, PLATFORM_BY_ROLE, PLATFORM_BY_SOLUTION } from "@/lib/routes";
@@ -35,6 +36,7 @@ const PLATFORM_ICONS: Record<string, LucideIcon> = {
   Server,
   Workflow,
   Bot,
+  PenLine,
 };
 
 export default function HeaderDesktopPlatformMenu({

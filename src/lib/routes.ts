@@ -18,6 +18,8 @@ export const PATHS = {
   SEO_DRAFTS: "/seo-drafts",
   NEWS: "/news",
   NEWS_POST: "/news/:slug",
+  EVENTS: "/events",
+  EVENT_POST: "/events/:slug",
   AUTH: "/auth",
   ADMIN: "/admin",
   ADMIN_EDITOR: "/admin/editor",
@@ -46,6 +48,7 @@ export const PATHS = {
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
+  COWORK: "/product/cowork",
   INTELLIGENT_BUG_DETECTION: "/product/intelligent-bug-detection",
   SECURITY_REPORTS: "/security-reports",
   AI_SELF_HEALING: "/ai-self-healing",
@@ -58,6 +61,7 @@ export const QE_GUIDE_DISPLAY_NAME = "QE Guide";
 export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.OVERVIEW, label: "Overview", icon: "LayoutDashboard" },
   { path: PATHS.AUTONOMOUS_TESTING, label: "Autonomous Testing", icon: "Sparkles" },
+  { path: PATHS.COWORK, label: "CoWork", icon: "PenLine" },
   { path: PATHS.INTELLIGENT_BUG_DETECTION, label: "Intelligent Bug Detection", icon: "Bug" },
   { path: PATHS.FOR_FLUTTER, label: "Flutter Testing", icon: "Smartphone" },
   { path: PATHS.SECURITY_REPORTS, label: "Security Reports", icon: "ShieldCheck" },
@@ -87,11 +91,12 @@ export const RESOURCE_NAV_LINKS = [
   { path: PATHS.FAQS, label: "FAQs" },
 ] as const;
 
-/** Company dropdown (header: About, Partners, Careers, News) */
+/** Company dropdown (header: About, Partners, Careers, Events, News) */
 export const COMPANY_NAV_LINKS = [
   { path: PATHS.ABOUT, label: "About Us" },
   { path: PATHS.PARTNERS, label: "Partners" },
   { path: PATHS.CAREERS, label: "Careers" },
+  { path: PATHS.EVENTS, label: "Events" },
   { path: PATHS.NEWS, label: "News & Updates" },
 ] as const;
 
