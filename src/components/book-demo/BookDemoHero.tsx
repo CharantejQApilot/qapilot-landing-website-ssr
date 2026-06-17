@@ -79,7 +79,7 @@ export function BookDemoHero() {
               )}
             >
               <div className="relative z-[1] space-y-1.5 pb-5 sm:pb-6">
-                <h2 className={marketingFormTitleClass}>Request Your Demo</h2>
+                <h2 className={marketingFormTitleClass}>Test Your Mobile App on QApilot</h2>
                 <p className={marketingFormIntroClass}>
                   Share a few details and we&apos;ll reach out to schedule a session.
                 </p>

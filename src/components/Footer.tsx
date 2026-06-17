@@ -199,6 +199,9 @@ const Footer = () => {
                   <FooterLink to={PATHS.CAREERS}>Careers</FooterLink>
                 </li>
                 <li>
+                  <FooterLink to={PATHS.EVENTS}>Events</FooterLink>
+                </li>
+                <li>
                   <FooterLink to={PATHS.NEWS}>News & Updates</FooterLink>
                 </li>
               </ul>

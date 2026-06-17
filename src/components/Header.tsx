@@ -93,7 +93,7 @@ const Header = () => {
   const isResourcesActive = [PATHS.BLOGS, PATHS.QA_GUIDE, PATHS.LABS, PATHS.FAQS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
-  const isCompanyActive = [PATHS.ABOUT, PATHS.CAREERS, PATHS.PARTNERS, PATHS.NEWS].some(
+  const isCompanyActive = [PATHS.ABOUT, PATHS.CAREERS, PATHS.PARTNERS, PATHS.EVENTS, PATHS.NEWS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
 

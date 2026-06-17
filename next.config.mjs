@@ -85,6 +85,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/cowork",
+        destination: "/product/cowork",
+        permanent: true,
+      },
+      {
         source: "/solutions/flutter-testing",
         destination: "/for-flutter",
         permanent: true,

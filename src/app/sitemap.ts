@@ -22,6 +22,11 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.85,
   },
   {
+    url: `${SITE_BASE_URL}${PATHS.COWORK}`,
+    changeFrequency: "monthly",
+    priority: 0.84,
+  },
+  {
     url: `${SITE_BASE_URL}${PATHS.INTELLIGENT_BUG_DETECTION}`,
     changeFrequency: "monthly",
     priority: 0.85,
@@ -60,6 +65,11 @@ const staticPages: MetadataRoute.Sitemap = [
     url: `${SITE_BASE_URL}${PATHS.NEWS}`,
     changeFrequency: "weekly",
     priority: 0.8,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.EVENTS}`,
+    changeFrequency: "weekly",
+    priority: 0.78,
   },
   {
     url: `${SITE_BASE_URL}${PATHS.BLOGS}`,
