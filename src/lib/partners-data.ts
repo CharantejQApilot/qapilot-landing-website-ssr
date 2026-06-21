@@ -2,6 +2,7 @@ import qualizealLogo from "@/assets/qualizeal-logo.png";
 import kairosLogo from "@/assets/kairos-logo.png";
 import zyrixLogo from "@/assets/zyrix-logo.png";
 import qapitolLogo from "@/assets/qapitol-logo.png";
+import feujiLogo from "@/assets/feuji-logo.png";
 
 /**
  * Static partner directory rendered on `/partners`.
@@ -47,6 +48,12 @@ export const PARTNERS: readonly Partner[] = [
     name: "Qapitol QA",
     logo: qapitolLogo,
     url: "https://www.qapitol.com/",
+  },
+  {
+    name: "Feuji",
+    logo: feujiLogo,
+    url: "https://www.feuji.com/",
+    logoClassName: "max-h-12 max-w-[12rem]",
   },
 ] as const;
 
