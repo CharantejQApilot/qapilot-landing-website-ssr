@@ -63,6 +63,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "QApilot Labs is where we build and ship experiments that explore the edges of AI-native development and testing. Discover tools born from hackathons and real-world needs.",
   },
+  "/device-coverage-matrix": {
+    title: "Device Coverage Matrix — Plan Mobile Device Coverage",
+    description:
+      "Pick your market, set a coverage target, and get a ranked OEM + platform matrix for Android and iOS before every release.",
+  },
   "/about": {
     title: "About QApilot - AI-Native Mobile App Testing Company",
     description:

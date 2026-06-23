@@ -40,6 +40,7 @@ const STATIC_PATHS = [
   "/partners",
   "/faqs",
   "/labs",
+  "/device-coverage-matrix",
   "/security-reports",
   "/ai-self-healing",
   "/agentic-architecture",
@@ -73,6 +74,7 @@ const FORM_API_ROUTES = [
   { path: "/api/hubspot/get-access", label: "Main marketing / book demo / events" },
   { path: "/api/hubspot/flutter-hero", label: "Flutter hero" },
   { path: "/api/hubspot/partners", label: "Partners" },
+  { path: "/api/hubspot/lead-magnet", label: "Device coverage matrix lead magnet" },
 ];
 
 function loadEventSlugs() {

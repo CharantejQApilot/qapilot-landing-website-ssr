@@ -3,6 +3,7 @@ import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-ty
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import HomeHeroDemoButton from "@/components/HomeHeroDemoButton";
+import HomeHeroLabsPromo from "@/components/home-hero/HomeHeroLabsPromo";
 
 /** Server-rendered hero copy; only the demo button hydrates on the client. */
 export default function HomeHeroContent() {
@@ -11,7 +12,7 @@ export default function HomeHeroContent() {
       <h1
         className={cn(
           marketingHeroH1Class,
-          "mb-8 text-center text-balance sm:mb-14 md:mb-16",
+          "mb-8 w-full text-center text-balance sm:mb-14 md:mb-16",
           "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
         )}
       >
@@ -25,25 +26,35 @@ export default function HomeHeroContent() {
         </span>
       </h1>
 
-      <p
+      <div
         className={cn(
-          marketingHeroLeadClass,
-          "mx-auto mb-10 max-w-[22rem] text-center text-balance sm:mb-16 sm:max-w-3xl md:mb-20",
-          "max-lg:text-base max-lg:leading-relaxed max-lg:sm:text-xl max-lg:md:text-[1.875rem]",
+          "grid w-full grid-cols-1 gap-8 border-t border-border/50 pt-8 sm:gap-10 sm:pt-10 md:pt-12",
+          "lg:grid-cols-2 lg:items-start lg:gap-x-12 lg:pt-14 xl:gap-x-16 2xl:gap-x-20",
         )}
       >
-        <Link
-          href={PATHS.COMPARE_WEB_FIRST}
-          className="inline-block text-muted-foreground transition-colors hover:text-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
-        >
-          <span className="font-semibold text-primary underline decoration-primary/55 underline-offset-[0.2em] hover:decoration-primary">
-            Your mobile app isn&apos;t a smaller browser screen.
-          </span>
-        </Link>
-      </p>
+        <div className="flex flex-col items-center gap-6 text-center sm:gap-8 lg:items-start lg:text-left lg:pr-4 xl:pr-6">
+          <p className={cn(marketingHeroLeadClass, "max-w-md text-balance lg:max-w-none")}>
+            <Link
+              href={PATHS.COMPARE_WEB_FIRST}
+              className="inline-block text-muted-foreground transition-colors hover:text-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm"
+            >
+              <span className="font-semibold text-primary underline decoration-primary/55 underline-offset-[0.2em] hover:decoration-primary">
+                Your mobile app isn&apos;t a smaller browser screen.
+              </span>
+            </Link>
+          </p>
+          <HomeHeroDemoButton />
+        </div>
 
-      <div className="mb-0">
-        <HomeHeroDemoButton />
+        <div
+          className={cn(
+            "flex flex-col items-center gap-6 text-center sm:gap-8",
+            "border-t border-border/50 pt-8 sm:pt-10",
+            "lg:items-start lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0 lg:text-left xl:pl-6",
+          )}
+        >
+          <HomeHeroLabsPromo />
+        </div>
       </div>
     </>
   );
