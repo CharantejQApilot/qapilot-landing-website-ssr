@@ -32,6 +32,13 @@ export const HUBSPOT_FLUTTER_HERO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ec
 /** Partners `/partners` "Become a partner" form (HubSpot Forms API). */
 export const HUBSPOT_PARTNERS_FORM_ID = "aea3fc81-f036-4592-92dc-5c8cc803ce70";
 
+/**
+ * Lead magnet / gated content email capture (HubSpot Forms API via `/api/hubspot/lead-magnet`).
+ * Embed reference: portal `47284450`, form `fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1`.
+ */
+export const HUBSPOT_LEAD_MAGNET_FORM_ID = "fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1";
+export const HUBSPOT_LEAD_MAGNET_FORM_NAME = "Lead Magnet Email Capture";
+
 /** Organization logo for JSON-LD (matches public/QApilotLogo.svg; not og:image). */
 export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/QApilotLogo.svg`;
 

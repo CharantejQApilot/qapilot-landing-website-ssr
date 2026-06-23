@@ -3,7 +3,10 @@
  *
  * Keep `trending` and `href` values aligned with https://mobileagents.io/tools
  * so the Labs grid and the footer “QApilot Labs” column stay in sync.
+ * QApilot-native tools use site paths (`external: false`).
  */
+import { PATHS } from "@/lib/routes";
+
 export const MOBILE_AGENTS_TOOLS_HUB_URL = "https://mobileagents.io/tools";
 
 export type MobileAgentsLabsTool = {
@@ -13,9 +16,20 @@ export type MobileAgentsLabsTool = {
   category: string;
   /** When true, tool appears in footer QApilot Labs + shows Trending on Labs. */
   trending?: boolean;
+  /** When false, href is on-site (Next.js Link). Defaults to true for http(s) URLs. */
+  external?: boolean;
 };
 
 export const MOBILE_AGENTS_LABS_TOOLS: readonly MobileAgentsLabsTool[] = [
+  {
+    name: "Device Coverage Matrix",
+    description:
+      "Pick your target market, set a coverage goal, and get a ranked OEM + platform matrix from real device share data.",
+    href: PATHS.DEVICE_COVERAGE_MATRIX,
+    category: "Testing & Analysis",
+    trending: true,
+    external: false,
+  },
   {
     name: "SEO Image Optimizer",
     description:
@@ -95,3 +109,7 @@ export const MOBILE_AGENTS_LABS_TOOLS: readonly MobileAgentsLabsTool[] = [
 /** Same order as in `MOBILE_AGENTS_LABS_TOOLS` — footer + Labs trending badges. */
 export const MOBILE_AGENTS_TRENDING_LABS_TOOLS: readonly MobileAgentsLabsTool[] =
   MOBILE_AGENTS_LABS_TOOLS.filter((t) => t.trending === true);
+
+export function getMobileAgentsLabsTool(href: string): MobileAgentsLabsTool | undefined {
+  return MOBILE_AGENTS_LABS_TOOLS.find((tool) => tool.href === href);
+}

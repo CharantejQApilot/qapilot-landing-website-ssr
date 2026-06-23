@@ -79,6 +79,18 @@
     --sidebar-accent-foreground: 220 20% 12%;
     --sidebar-border: 220 12% 90%;
     --sidebar-ring: 218 65% 28%;
+
+    /* Device Coverage Advisor widget (hex tokens for component CSS vars) */
+    --qp-ink: #04041c;
+    --qp-accent: #2589d0;
+    --qp-accent-hover: #1f74ad;
+    --qp-accent-soft: #e8f4fc;
+    --qp-page: #f7f8fa;
+    --qp-card: #ffffff;
+    --qp-border: #e5e7eb;
+    --qp-muted: #9ca3af;
+    --qp-subtle: #f2f5fa;
+    --qp-banner-navy: #0c2340;
   }
 
   .dark {
@@ -819,6 +831,38 @@
 
   .glow-bg {
     background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.03) 0%, transparent 70%);
+  }
+
+  /* Device coverage calculator — custom range slider thumb */
+  .advisor-coverage-slider {
+    height: 100%;
+    min-height: 2.75rem;
+  }
+  .advisor-coverage-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background: hsl(var(--primary-foreground));
+    border: 2px solid hsl(var(--primary));
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.45);
+    cursor: pointer;
+  }
+  .advisor-coverage-slider::-moz-range-thumb {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background: hsl(var(--primary-foreground));
+    border: 2px solid hsl(var(--primary));
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.45);
+    cursor: pointer;
+  }
+  .advisor-coverage-slider::-webkit-slider-runnable-track {
+    background: transparent;
+  }
+  .advisor-coverage-slider::-moz-range-track {
+    background: transparent;
   }
 
   /* ── Flowing arrows ── */

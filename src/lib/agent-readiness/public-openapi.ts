@@ -72,6 +72,22 @@ export function getPublicOpenApiDocument(): Record<string, unknown> {
           },
         },
       },
+      "/api/hubspot/lead-magnet": {
+        post: {
+          operationId: "submitLeadMagnetEmail",
+          summary: "Submit lead-magnet email capture (HubSpot)",
+          requestBody: {
+            required: true,
+            content: { "application/json": { schema: { type: "object" } } },
+          },
+          responses: {
+            "200": { description: "Lead accepted" },
+            "400": { description: "Invalid JSON" },
+            "422": { description: "Validation error" },
+            "502": { description: "Upstream HubSpot error" },
+          },
+        },
+      },
     },
   };
 }

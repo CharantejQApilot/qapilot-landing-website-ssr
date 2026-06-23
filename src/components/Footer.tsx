@@ -213,7 +213,10 @@ const Footer = () => {
               <ul className={footerColumnListClass}>
                 {MOBILE_AGENTS_TRENDING_LABS_TOOLS.map((tool) => (
                   <li key={tool.href}>
-                    <FooterLink to={tool.href} external>
+                    <FooterLink
+                      to={tool.href}
+                      external={tool.external ?? tool.href.startsWith("http")}
+                    >
                       {tool.name}
                     </FooterLink>
                   </li>
