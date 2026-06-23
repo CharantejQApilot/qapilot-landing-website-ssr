@@ -146,6 +146,10 @@ const nextConfig = {
         source: "/ai-self-healing",
         headers: [{ key: "Link", value: aiSelfHealingReportLink }],
       },
+      {
+        source: "/device-coverage/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
     ];
   },
 };

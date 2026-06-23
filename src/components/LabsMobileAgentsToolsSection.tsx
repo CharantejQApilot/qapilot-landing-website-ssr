@@ -1,4 +1,5 @@
 import { ArrowUpRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { MarketingSectionHeader } from "@/components/marketing";
 import {
   MOBILE_AGENTS_LABS_TOOLS,
@@ -45,17 +46,14 @@ export default function LabsMobileAgentsToolsSection() {
         />
 
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {MOBILE_AGENTS_LABS_TOOLS.map((tool) => (
-            <li key={tool.href} className="min-h-0">
-              <a
-                href={tool.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm transition-colors",
-                  "motion-safe:hover:border-primary/30 motion-safe:hover:shadow-md",
-                )}
-              >
+          {MOBILE_AGENTS_LABS_TOOLS.map((tool) => {
+            const isExternal = tool.external ?? tool.href.startsWith("http");
+            const cardClassName = cn(
+              "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm transition-colors",
+              "motion-safe:hover:border-primary/30 motion-safe:hover:shadow-md",
+            );
+            const cardBody = (
+              <>
                 <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary/90" aria-hidden />
                 <div className="pl-4 md:pl-5">
                   <div className="mb-3 flex flex-wrap gap-2">
@@ -80,11 +78,30 @@ export default function LabsMobileAgentsToolsSection() {
                       aria-hidden
                     />
                   </span>
-                  <span className="sr-only"> (opens in a new tab)</span>
+                  {isExternal ? <span className="sr-only"> (opens in a new tab)</span> : null}
                 </div>
-              </a>
-            </li>
-          ))}
+              </>
+            );
+
+            return (
+              <li key={tool.href} className="min-h-0">
+                {isExternal ? (
+                  <a
+                    href={tool.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cardClassName}
+                  >
+                    {cardBody}
+                  </a>
+                ) : (
+                  <Link href={tool.href} className={cardClassName}>
+                    {cardBody}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         <div className="mt-10 flex justify-center sm:mt-12">

@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/*
+ * Palette aligned with qapilot.io (ink, accent blue, cool grays).
+ */
+:root {
+  --qp-ink: #04041c;
+  --qp-accent: #2589d0;
+  --qp-accent-hover: #1f74ad;
+  --qp-accent-soft: #e8f4fc;
+  --qp-page: #f7f8fa;
+  --qp-card: #ffffff;
+  --qp-border: #e5e7eb;
+  --qp-muted: #9ca3af;
+  --qp-subtle: #f2f5fa;
+  --qp-banner-navy: #0c2340;
+  --background: var(--qp-page);
+  --foreground: var(--qp-ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--qp-page);
+  color: var(--qp-ink);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
