@@ -4,18 +4,21 @@ import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import HomeHeroDemoButton from "@/components/HomeHeroDemoButton";
 import HomeHeroLabsPromo from "@/components/home-hero/HomeHeroLabsPromo";
+import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 
 /** Server-rendered hero copy; only the demo button hydrates on the client. */
 export default function HomeHeroContent() {
   return (
     <>
-      <h1
-        className={cn(
-          marketingHeroH1Class,
-          "mb-8 w-full text-center text-balance sm:mb-14 md:mb-16",
-          "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
-        )}
-      >
+      <div className="relative w-full min-w-0 sm:pt-[4.75rem]">
+        <HomeHeroProductHuntBadge />
+        <h1
+          className={cn(
+            marketingHeroH1Class,
+            "mb-8 w-full text-center text-balance sm:mb-14 md:mb-16",
+            "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
+          )}
+        >
         <span className="flex flex-col items-center gap-y-1.5 sm:gap-y-2.5 md:gap-y-3">
           <span className="block px-1 leading-[inherit] sm:whitespace-nowrap">
             When Your App Is <span className="text-hero-here">Mobile-first</span>,{" "}
@@ -24,7 +27,8 @@ export default function HomeHeroContent() {
             Your Testing Should Be Too.
           </span>
         </span>
-      </h1>
+        </h1>
+      </div>
 
       <div
         className={cn(

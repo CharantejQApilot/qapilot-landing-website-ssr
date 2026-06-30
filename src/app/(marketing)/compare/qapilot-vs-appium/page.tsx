@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
-import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
+import { MarketingSectionHeader } from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
@@ -172,34 +172,24 @@ export default function QApilotVsAppiumComparisonPage() {
       />
 
       <main>
-        <section
-          className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/40"
-          aria-labelledby="compare-appium-hero"
-        >
-          <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
-          <div className="relative z-10 section-full py-12 sm:py-14 md:py-16 lg:py-20 2xl:py-24">
-            <div className="mx-auto max-w-6xl text-center">
-              <div className="min-w-0">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
-                  QApilot vs Appium
-                </p>
-                <h1 id="compare-appium-hero" className={cn(marketingHeroH1Class, "mb-5 text-balance sm:mb-6 md:mb-8")}>
-                  Appium Executes Scripts.{" "}
-                  <span className="text-primary">QApilot Helps You Release Mobile Apps With Confidence.</span>
-                </h1>
-                <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl text-pretty")}>
-                  Appium is a powerful framework for mobile test automation. But mobile teams still carry the
-                  burden of authoring, maintaining, debugging, and scaling every test. QApilot adds the
-                  AI-native layer Appium was never designed to be. Autonomous exploration, context-aware
-                  execution, self-healing, and release-ready reporting for modern mobile teams.
-                </p>
-                <div className="mt-8 flex justify-center">
-                  <BookDemoCtaButton />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CompareHeroSection
+          heroId="compare-appium-hero"
+          eyebrow="QApilot vs Appium"
+          title={
+            <>
+              Appium Executes Scripts.{" "}
+              <span className="text-primary">QApilot Helps You Release Mobile Apps With Confidence.</span>
+            </>
+          }
+          description={
+            <>
+              Appium is a powerful framework for mobile test automation. But mobile teams still carry the
+              burden of authoring, maintaining, debugging, and scaling every test. QApilot adds the
+              AI-native layer Appium was never designed to be. Autonomous exploration, context-aware
+              execution, self-healing, and release-ready reporting for modern mobile teams.
+            </>
+          }
+        />
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
           <div className="section-full">

@@ -2,7 +2,23 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { ADMIN_ACCESS_COOKIE } from "@/lib/admin/constants";
 import { verifyAdminAccessToken } from "@/lib/admin/verify-admin-access-token";
+import { getIndexableContentCanonical } from "@/lib/indexable-content-canonical";
 import { INTERNAL_ROUTE_HEADER, isInternalPath } from "@/lib/internal-routes";
+
+function attachContentCanonicalHeader(
+  request: NextRequest,
+  response: NextResponse,
+): NextResponse {
+  const canonical = getIndexableContentCanonical(request.nextUrl.pathname);
+  if (canonical) {
+    response.headers.append("Link", `<${canonical}>; rel="canonical"`);
+  }
+  return response;
+}
+
+function nextWithContentCanonical(request: NextRequest): NextResponse {
+  return attachContentCanonicalHeader(request, NextResponse.next());
+}
 
 function continueWithInternalRouting(request: NextRequest): NextResponse {
   const requestHeaders = new Headers(request.headers);
@@ -93,7 +109,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (request.method !== "GET" && request.method !== "HEAD") {
-    return NextResponse.next();
+    return nextWithContentCanonical(request);
   }
 
   if (isSocialCrawler(userAgent) && isSocialPreviewPath(pathname)) {
@@ -104,14 +120,14 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname !== "/") {
-    return NextResponse.next();
+    return nextWithContentCanonical(request);
   }
   /** Let React Server Components / router internals through (not public markdown). */
   if (request.headers.has("RSC") || request.headers.has("Next-Router-State-Tree")) {
-    return NextResponse.next();
+    return nextWithContentCanonical(request);
   }
   if (!wantsMarkdown(request.headers.get("accept"))) {
-    return NextResponse.next();
+    return nextWithContentCanonical(request);
   }
 
   const { getHomePageMarkdown } = await import("@/lib/agent-readiness/home-markdown");

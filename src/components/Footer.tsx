@@ -2,14 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowUp,
-  Linkedin,
-  Twitter,
-  Github,
-  Youtube,
-  Instagram,
-} from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { marketingEyebrowClass, marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import {
@@ -25,33 +18,13 @@ import {
   QE_GUIDE_DISPLAY_NAME,
   COMPARE_NAV_LINKS,
 } from "@/lib/routes";
-import { FooterSummariseWithAI } from "@/components/footer/FooterSummariseWithAI";
+import { SOCIAL_LINKS } from "@/lib/social-links";
 
 /** Shared footer nav link rhythm (all columns use the same padding + gap). */
 const footerColumnLinkClass =
   "text-sm leading-normal py-1.5 2xl:text-base text-white/50 hover:text-white transition-colors";
 
 const footerColumnListClass = "flex flex-col gap-1";
-
-const socialLinks = [
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/company/qapilot/",
-    icon: Linkedin,
-  },
-  { name: "Twitter", href: "https://x.com/QApilot", icon: Twitter },
-  { name: "GitHub", href: "https://github.com/qapilothq", icon: Github },
-  {
-    name: "YouTube",
-    href: "https://www.youtube.com/@QApilot",
-    icon: Youtube,
-  },
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com/qapilot/",
-    icon: Instagram,
-  },
-];
 
 const FooterLink = ({
   to,
@@ -125,7 +98,7 @@ const Footer = () => {
       {/* Footer Links — edge-to-edge */}
       <footer className="section-dark border-t border-white/[0.06] section-edge w-full">
         <div className="section-full py-16 2xl:py-20">
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 mb-12 items-start justify-items-start">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-8 mb-12 items-start justify-items-start">
             <div className="min-w-0 w-full">
               <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
                 By Solution
@@ -167,11 +140,6 @@ const Footer = () => {
                 <li>
                   <FooterLink to={PATHS.FAQS}>FAQs</FooterLink>
                 </li>
-                {COMPARE_NAV_LINKS.map((item) => (
-                  <li key={item.path}>
-                    <FooterLink to={item.path}>Compare {item.label}</FooterLink>
-                  </li>
-                ))}
                 <li>
                   <FooterLink to={`${DOCS_URL}/`} external>
                     Docs
@@ -182,6 +150,18 @@ const Footer = () => {
                     Status Page
                   </FooterLink>
                 </li>
+              </ul>
+            </div>
+            <div className="min-w-0 w-full">
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
+                Compare
+              </h3>
+              <ul className={footerColumnListClass}>
+                {COMPARE_NAV_LINKS.map((item) => (
+                  <li key={item.path}>
+                    <FooterLink to={item.path}>{item.label}</FooterLink>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="min-w-0 w-full">
@@ -228,16 +208,29 @@ const Footer = () => {
                 Follow Us
               </h3>
               <ul className={footerColumnListClass}>
-                {socialLinks.map((social) => (
+                {SOCIAL_LINKS.map((social) => (
                   <li key={social.name}>
                     <a
                       href={social.href}
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       className={cn("inline-flex items-center gap-2", footerColumnLinkClass)}
                       aria-label={social.name}
                     >
-                      <social.icon size={16} className="shrink-0" />
+                      {social.kind === "lucide" ? (
+                        <social.icon size={16} className="shrink-0" aria-hidden />
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element -- brand mark via Simple Icons CDN
+                        <img
+                          src={`https://cdn.simpleicons.org/${social.iconSlug}/ffffff`}
+                          alt=""
+                          width={16}
+                          height={16}
+                          className="h-4 w-4 shrink-0 opacity-80"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
                       {social.name}
                     </a>
                   </li>
@@ -245,8 +238,6 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-
-          <FooterSummariseWithAI />
 
           <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-white/30">

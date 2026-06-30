@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { COWORK_HERO_VIDEO_ID } from "@/lib/cowork";
 import { cn } from "@/lib/utils";
 
@@ -14,12 +14,29 @@ type YtPlayer = {
   unMute: () => void;
   setVolume: (volume: number) => void;
   playVideo: () => void;
+  pauseVideo: () => void;
   seekTo: (seconds: number, allowSeekAhead?: boolean) => void;
   getPlayerState: () => number;
   getCurrentTime: () => number;
   getDuration: () => number;
   destroy?: () => void;
+  unloadModule?: (module: string) => void;
+  setOption?: (module: string, option: string, value: unknown) => void;
 };
+
+function disableCaptions(player: YtPlayer) {
+  try {
+    player.unloadModule?.("captions");
+    player.unloadModule?.("cc");
+  } catch {
+    /* ignore */
+  }
+  try {
+    player.setOption?.("captions", "track", {});
+  } catch {
+    /* ignore */
+  }
+}
 
 function restartLoop(player: YtPlayer) {
   try {
@@ -31,12 +48,19 @@ function restartLoop(player: YtPlayer) {
 }
 
 export function CoWorkHeroVideo({ className }: CoWorkHeroVideoProps) {
+  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const [userPaused, setUserPaused] = useState(false);
   const [player, setPlayer] = useState<YtPlayer | null>(null);
   const playerRef = useRef<HTMLDivElement>(null);
   const uid = useId().replace(/:/g, "");
   const playerIdRef = useRef(`cowork-hero-yt-${uid}`);
   const ytApiPlayerRef = useRef<YtPlayer | null>(null);
+  const userPausedRef = useRef(false);
+
+  useEffect(() => {
+    userPausedRef.current = userPaused;
+  }, [userPaused]);
 
   useEffect(() => {
     let pauseNudgeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -80,12 +104,22 @@ export function CoWorkHeroVideo({ className }: CoWorkHeroVideoProps) {
             ytApiPlayerRef.current = p;
             setPlayer(p);
             p.mute();
+            disableCaptions(p);
             p.playVideo();
+          },
+          onApiChange: (event: { target: YtPlayer }) => {
+            disableCaptions(event.target);
           },
           onStateChange: (event: { target: YtPlayer; data: number }) => {
             const target = event.target;
             const playerState = event.data;
             const YT = window.YT;
+
+            if (playerState === YT.PlayerState.PLAYING) {
+              disableCaptions(target);
+              setIsPlaying(true);
+              return;
+            }
 
             if (playerState === YT.PlayerState.ENDED) {
               if (pauseNudgeTimer) clearTimeout(pauseNudgeTimer);
@@ -94,6 +128,9 @@ export function CoWorkHeroVideo({ className }: CoWorkHeroVideoProps) {
             }
 
             if (playerState === YT.PlayerState.PAUSED) {
+              setIsPlaying(false);
+              if (userPausedRef.current) return;
+
               let t = 0;
               let d = 0;
               try {
@@ -110,6 +147,7 @@ export function CoWorkHeroVideo({ className }: CoWorkHeroVideoProps) {
               if (pauseNudgeTimer) clearTimeout(pauseNudgeTimer);
               pauseNudgeTimer = setTimeout(() => {
                 pauseNudgeTimer = null;
+                if (userPausedRef.current) return;
                 try {
                   if (target.getPlayerState() === YT.PlayerState.PAUSED) {
                     target.playVideo();
@@ -160,6 +198,23 @@ export function CoWorkHeroVideo({ className }: CoWorkHeroVideoProps) {
     };
   }, []);
 
+  const togglePlay = () => {
+    if (!player) return;
+    try {
+      if (isPlaying) {
+        userPausedRef.current = true;
+        setUserPaused(true);
+        player.pauseVideo();
+      } else {
+        userPausedRef.current = false;
+        setUserPaused(false);
+        player.playVideo();
+      }
+    } catch {
+      /* ignore */
+    }
+  };
+
   const toggleMute = () => {
     if (!player) return;
     try {
@@ -179,29 +234,68 @@ export function CoWorkHeroVideo({ className }: CoWorkHeroVideoProps) {
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden rounded-2xl border border-border/60 bg-background shadow-[0_24px_80px_-24px_hsl(220_25%_8%/0.28)]",
+        "group relative w-full overflow-hidden rounded-2xl border border-border/60 bg-background shadow-[0_24px_80px_-24px_hsl(220_25%_8%/0.28)]",
         className,
       )}
     >
       <div className="relative w-full overflow-hidden" style={{ paddingBottom: "56.25%" }}>
         <div ref={playerRef} id={playerIdRef.current} className="absolute inset-0 h-full w-full" />
+
+        {/* Blocks native YouTube chrome until hover. */}
+        <div
+          className="absolute inset-0 z-[10] bg-transparent transition-opacity duration-300 group-hover:pointer-events-none group-hover:opacity-0"
+          aria-hidden
+        />
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-x-0 bottom-0 z-[11] h-[18%] min-h-[3rem]",
+            "bg-gradient-to-t from-background via-background/90 to-transparent",
+            "transition-opacity duration-300 group-hover:opacity-0",
+          )}
+          aria-hidden
+        />
       </div>
 
-      <button
-        type="button"
-        onClick={toggleMute}
-        disabled={!player}
+      <div
         className={cn(
-          "absolute bottom-3 right-3 z-20 flex h-9 w-9 items-center justify-center rounded-full",
-          "border border-white/30 bg-black/50 text-white shadow-lg backdrop-blur-md",
-          "transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
-          "disabled:opacity-50 sm:bottom-4 sm:right-4 sm:h-10 sm:w-10",
+          "absolute inset-0 z-20 flex items-center justify-center gap-3",
+          "bg-black/0 opacity-0 transition-opacity duration-300",
+          "group-hover:bg-black/20 group-hover:opacity-100",
         )}
-        aria-label={isMuted ? "Turn sound on" : "Turn sound off"}
-        aria-pressed={!isMuted}
       >
-        {isMuted ? <VolumeX className="h-4 w-4" aria-hidden /> : <Volume2 className="h-4 w-4" aria-hidden />}
-      </button>
+        <button
+          type="button"
+          onClick={togglePlay}
+          disabled={!player}
+          className={cn(
+            "flex h-11 w-11 items-center justify-center rounded-full",
+            "border border-white/30 bg-black/50 text-white shadow-lg backdrop-blur-md",
+            "transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+            "pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100",
+            "disabled:opacity-50 sm:h-12 sm:w-12",
+          )}
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+        >
+          {isPlaying ? <Pause className="h-5 w-5" aria-hidden /> : <Play className="h-5 w-5" aria-hidden />}
+        </button>
+
+        <button
+          type="button"
+          onClick={toggleMute}
+          disabled={!player}
+          className={cn(
+            "flex h-11 w-11 items-center justify-center rounded-full",
+            "border border-white/30 bg-black/50 text-white shadow-lg backdrop-blur-md",
+            "transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+            "pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100",
+            "disabled:opacity-50 sm:h-12 sm:w-12",
+          )}
+          aria-label={isMuted ? "Turn sound on" : "Turn sound off"}
+          aria-pressed={!isMuted}
+        >
+          {isMuted ? <VolumeX className="h-5 w-5" aria-hidden /> : <Volume2 className="h-5 w-5" aria-hidden />}
+        </button>
+      </div>
     </div>
   );
 }

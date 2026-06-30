@@ -24,6 +24,10 @@ const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
 });
 
+const FloatingSiteRails = dynamic(() => import("@/components/floating/FloatingSiteRails"), {
+  ssr: false,
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://qapilot.io"),
   title: {
@@ -191,6 +195,7 @@ gtag('config', '${GA4_MEASUREMENT_ID}');
             </div>
           ) : null}
           <div className="relative z-0 isolate">{children}</div>
+          {!internal ? <FloatingSiteRails /> : null}
         </Providers>
 
         {!internal ? <DeferredAnalytics /> : null}

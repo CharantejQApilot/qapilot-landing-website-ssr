@@ -70,6 +70,17 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/:path*",
+        has: [{ type: "host", value: "flutter.qapilot.io" }],
+        destination: "https://qapilot.io/for-flutter",
+        permanent: true,
+      },
+      {
+        source: "/alternatives/appium",
+        destination: "/compare/qapilot-vs-appium",
+        permanent: true,
+      },
+      {
         source: "/platform/autonomous-testing",
         destination: "/product/autonomous-testing",
         permanent: true,

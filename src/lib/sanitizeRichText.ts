@@ -39,6 +39,7 @@ const SANITIZER_OPTIONS: sanitizeHtml.IOptions = {
     "*": ["class", "id", "style"],
   },
   allowedSchemes: ["http", "https", "mailto", "tel"],
+  forbiddenTags: ["link", "meta", "base", "script", "iframe", "object", "embed"],
   allowedStyles: {
     "*": {
       color: [/^.*$/],

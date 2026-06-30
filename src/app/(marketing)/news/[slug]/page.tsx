@@ -16,6 +16,7 @@ import {
   defaultOpenGraphImage,
 } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -275,12 +276,14 @@ export default async function NewsPostPage({
   const category = firstNonEmptyString(newsItem.category);
   const tags = commaSeparatedList(newsItem.tags);
 
+  const articleUrl = `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`;
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: newsItem.title,
-    url: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+    url: articleUrl,
     image: effectiveOgImage,
+    ...articleMainEntityOfPage(articleUrl),
     ...(newsItem.excerpt ? { description: newsItem.excerpt } : {}),
     ...(newsItem.published_date
       ? { datePublished: newsItem.published_date }
@@ -293,10 +296,6 @@ export default async function NewsPostPage({
     ...(newsItem.author_name
       ? { author: { "@type": "Person", name: newsItem.author_name } }
       : {}),
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
-    },
     ...(backlinks.length > 0
       ? {
           mentions: backlinks

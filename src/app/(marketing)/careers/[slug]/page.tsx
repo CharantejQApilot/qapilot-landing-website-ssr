@@ -8,6 +8,7 @@ import { ArrowLeft, MapPin, Clock, Building2, ExternalLink } from "lucide-react"
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -259,6 +260,7 @@ export default async function JobPostPage({
     "@context": "https://schema.org",
     "@type": "JobPosting",
     url: canonicalUrl,
+    ...articleMainEntityOfPage(canonicalUrl),
     title: job.role,
     description: job.description.replace(/<[^>]*>/g, ""),
     ...(datePosted ? { datePosted } : {}),

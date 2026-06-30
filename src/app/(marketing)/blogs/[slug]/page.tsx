@@ -12,6 +12,7 @@ import { estimateReadingTimeMinutes, formatReadingTimeLabel } from "@/lib/readin
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -241,11 +242,13 @@ export default async function BlogPostPage({
       blog.featured_image,
     ),
   );
+  const articleUrl = `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`;
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: blog.title,
-    url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+    url: articleUrl,
+    ...articleMainEntityOfPage(articleUrl),
     ...(blog.excerpt ? { description: blog.excerpt } : {}),
     ...(articlePublishedTime ? { datePublished: articlePublishedTime } : {}),
     ...(articleModifiedTime ? { dateModified: articleModifiedTime } : {}),
