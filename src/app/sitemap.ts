@@ -131,6 +131,31 @@ const staticPages: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
     priority: 0.78,
   },
+  {
+    url: `${SITE_BASE_URL}${PATHS.COMPARE_TESTSIGMA}`,
+    changeFrequency: "monthly",
+    priority: 0.78,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.COMPARE_MAESTRO}`,
+    changeFrequency: "monthly",
+    priority: 0.78,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.ALTERNATIVES_BROWSERSTACK}`,
+    changeFrequency: "monthly",
+    priority: 0.76,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.ALTERNATIVES_SAUCE_LABS}`,
+    changeFrequency: "monthly",
+    priority: 0.76,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.INTEGRATIONS}`,
+    changeFrequency: "monthly",
+    priority: 0.75,
+  },
   // Platform → By Role (paths must match PLATFORM_BY_ROLE in routes.ts; titles/descriptions also in prerender-meta)
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`,

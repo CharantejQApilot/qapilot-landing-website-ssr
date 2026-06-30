@@ -11,6 +11,10 @@ import { EventExploreQApilotSection } from "@/components/events/EventExploreQApi
 import { EventDetailHero } from "@/components/events/EventDetailHero";
 import { EventListItem } from "@/components/events/EventListItem";
 import { EventParticipantPortraits } from "@/components/events/EventParticipantPortraits";
+import {
+  EventPlatformLinks,
+  hasLogoPlatformLinks,
+} from "@/components/events/EventPlatformLinks";
 import { PATHS } from "@/lib/routes";
 import {
   formatEventDateLabel,
@@ -63,13 +67,13 @@ export function EventDetailView({
   const dateLabel = formatEventDateLabel(event);
   const hasParticipants = event.participants && event.participants.length > 0;
   const exploreCtas = getEventExploreCtas(event);
-  const platformHrefByName = new Map(
-    (event.platformLinks ?? []).map((link) => [link.name, link.href]),
-  );
+  const platformLinks = event.platformLinks ?? [];
+  const platformHrefByName = new Map(platformLinks.map((link) => [link.name, link.href]));
   const showMorePlatformsChip =
     event.platforms &&
     event.platforms.length > 1 &&
     !event.isTeaser &&
+    !hasLogoPlatformLinks(platformLinks) &&
     event.platforms.some((name) => !platformHrefByName.has(name));
   const youtubeVideoId = event.youtubeUrl ? extractYouTubeId(event.youtubeUrl) : null;
 
@@ -150,7 +154,7 @@ export function EventDetailView({
                 </div>
               ) : null}
 
-              {event.platforms && event.platforms.length > 0 ? (
+              {platformLinks.length > 0 ? (
                 <section
                   aria-labelledby="event-platforms"
                   className="mt-10 md:mt-12"
@@ -163,35 +167,39 @@ export function EventDetailView({
                       ? "Where to watch"
                       : "Where to watch or listen"}
                   </h2>
-                  <ul className="flex flex-wrap gap-2">
-                    {event.platforms.map((platform) => {
-                      const href = platformHrefByName.get(platform);
-                      const chipClass =
-                        "rounded-full border border-border bg-muted/40 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/35 hover:bg-primary/[0.06] hover:text-primary";
+                  {hasLogoPlatformLinks(platformLinks) ? (
+                    <EventPlatformLinks links={platformLinks} />
+                  ) : (
+                    <ul className="flex flex-wrap gap-2">
+                      {event.platforms?.map((platform) => {
+                        const href = platformHrefByName.get(platform);
+                        const chipClass =
+                          "rounded-full border border-border bg-muted/40 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/35 hover:bg-primary/[0.06] hover:text-primary";
 
-                      return (
-                        <li key={platform}>
-                          {href ? (
-                            <a
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={chipClass}
-                            >
-                              {platform}
-                            </a>
-                          ) : (
-                            <span className={chipClass}>{platform}</span>
-                          )}
+                        return (
+                          <li key={platform}>
+                            {href ? (
+                              <a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={chipClass}
+                              >
+                                {platform}
+                              </a>
+                            ) : (
+                              <span className={chipClass}>{platform}</span>
+                            )}
+                          </li>
+                        );
+                      })}
+                      {showMorePlatformsChip ? (
+                        <li className="rounded-full border border-dashed border-border px-4 py-2 text-sm font-medium text-muted-foreground">
+                          More platforms
                         </li>
-                      );
-                    })}
-                    {showMorePlatformsChip ? (
-                      <li className="rounded-full border border-dashed border-border px-4 py-2 text-sm font-medium text-muted-foreground">
-                        More platforms
-                      </li>
-                    ) : null}
-                  </ul>
+                      ) : null}
+                    </ul>
+                  )}
                 </section>
               ) : null}
 
@@ -241,7 +249,11 @@ export function EventDetailView({
                     </p>
                     <p className="mt-2 text-sm text-foreground">
                       {event.platforms.join(", ")}
-                      {event.isTeaser ? " · Details coming soon" : ", and more"}
+                      {event.isTeaser
+                        ? " · Details coming soon"
+                        : event.platforms.length > (event.platformLinks?.length ?? 0)
+                          ? ", and more"
+                          : ""}
                     </p>
                   </div>
                 ) : null}

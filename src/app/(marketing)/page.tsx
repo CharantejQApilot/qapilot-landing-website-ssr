@@ -10,6 +10,10 @@ import IntegrationsSection from "@/components/IntegrationsSection";
 /** Below-fold client sections — split JS bundles without changing SSR output or visuals. */
 const CoreAdvantageHeading = dynamic(() => import("@/components/CoreAdvantageHeading"));
 const ProductShowcaseSection = dynamic(() => import("@/components/ProductShowcaseSection"));
+const HomeExitIntentPopup = dynamic(
+  () => import("@/components/home-exit-intent/HomeExitIntentPopup"),
+  { ssr: false },
+);
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import {
@@ -62,6 +66,7 @@ export default function IndexPage() {
         <ProductShowcaseSection />
         <IntegrationsSection />
       </main>
+      <HomeExitIntentPopup />
     </div>
   );
 }

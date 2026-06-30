@@ -46,6 +46,11 @@ export const PATHS = {
   COMPARE_APPIUM: "/compare/qapilot-vs-appium",
   COMPARE_WEB_FIRST: "/compare/qapilot-vs-web-first-automation-tools",
   COMPARE_VISUAL_TESTING: "/compare/qapilot-vs-visual-testing-tools",
+  COMPARE_TESTSIGMA: "/compare/qapilot-vs-testsigma",
+  COMPARE_MAESTRO: "/compare/qapilot-vs-maestro",
+  ALTERNATIVES_BROWSERSTACK: "/alternatives/browserstack",
+  ALTERNATIVES_SAUCE_LABS: "/alternatives/sauce-labs",
+  INTEGRATIONS: "/integrations",
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
@@ -106,4 +111,8 @@ export const COMPARE_NAV_LINKS = [
   { path: PATHS.COMPARE_WEB_FIRST, label: "vs Web-First" },
   { path: PATHS.COMPARE_APPIUM, label: "vs Appium" },
   { path: PATHS.COMPARE_VISUAL_TESTING, label: "vs Visual Testing" },
+  { path: PATHS.COMPARE_TESTSIGMA, label: "vs Testsigma" },
+  { path: PATHS.COMPARE_MAESTRO, label: "vs Maestro" },
+  { path: PATHS.ALTERNATIVES_BROWSERSTACK, label: "BrowserStack Alternative" },
+  { path: PATHS.ALTERNATIVES_SAUCE_LABS, label: "Sauce Labs Alternative" },
 ] as const;

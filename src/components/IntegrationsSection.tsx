@@ -1,5 +1,7 @@
 import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
+import { PATHS } from "@/lib/routes";
+import Link from "next/link";
 import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 import { IntegrationsMarqueeDesktop } from "@/components/integrations/IntegrationsMarqueeDesktop";
 
@@ -97,7 +99,11 @@ const IntegrationsSection = () => {
 
           <div className="section-full mt-12 text-center md:mt-14">
             <p className="text-sm text-muted-foreground/60 2xl:text-base">
-              And many more... QApilot integrates with your entire testing ecosystem.
+              And many more... QApilot integrates with your entire testing ecosystem.{" "}
+              <Link href={PATHS.INTEGRATIONS} className="font-medium text-primary hover:underline">
+                See all integrations
+              </Link>
+              .
             </p>
           </div>
         </div>

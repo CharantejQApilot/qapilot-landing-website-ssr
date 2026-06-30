@@ -1,5 +1,6 @@
 import { BookDemoLeadForm } from "@/components/book-demo/BookDemoLeadForm";
 import { BookDemoTrustLogos } from "@/components/book-demo/BookDemoTrustLogos";
+import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 import { BOOK_DEMO_FORM_ID } from "@/lib/book-demo";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import {
@@ -29,20 +30,23 @@ export function BookDemoHero() {
           )}
         >
           <div className="flex min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-4 xl:pr-6">
-            <p className="mb-4 w-full text-left text-sm font-semibold leading-snug tracking-tight text-primary sm:mb-5 sm:text-base md:text-lg">
-              Transform Your Mobile App Testing Now
-            </p>
+            <div className="relative w-full min-w-0 sm:pt-[4.75rem]">
+              <HomeHeroProductHuntBadge align="start" />
+              <p className="mb-4 w-full text-left text-sm font-semibold leading-snug tracking-tight text-primary sm:mb-5 sm:text-base md:text-lg">
+                Transform Your Mobile App Testing Now
+              </p>
 
-            <h1
-              className={cn(
-                marketingHeroH1Class,
-                "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8",
-                "max-lg:text-[clamp(1.75rem,5.5vw,3.25rem)] max-lg:leading-[1.1]",
-              )}
-            >
-              Book A Demo Of{" "}
-              <span className="text-hero-here">QApilot</span>
-            </h1>
+              <h1
+                className={cn(
+                  marketingHeroH1Class,
+                  "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8",
+                  "max-lg:text-[clamp(1.75rem,5.5vw,3.25rem)] max-lg:leading-[1.1]",
+                )}
+              >
+                Book A Demo Of{" "}
+                <span className="text-hero-here">QApilot</span>
+              </h1>
+            </div>
 
             <p
               className={cn(

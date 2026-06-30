@@ -15,7 +15,6 @@ import {
   PLATFORM_AI_AGENTS,
   RESOURCE_NAV_LINKS,
   COMPANY_NAV_LINKS,
-  COMPARE_NAV_LINKS,
 } from "@/lib/routes";
 import {
   APP_AUTOMATION_LOGIN_URL,
@@ -44,7 +43,7 @@ const RIBBON_NAV_TEXT_CLASS = "text-[15.75px]";
 const Header = () => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<
-    "platform" | "compare" | "resources" | "company" | null
+    "platform" | "resources" | "company" | null
   >(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
@@ -87,9 +86,6 @@ const Header = () => {
     path === PATHS.FOR_QA_LEADER ||
     path === PATHS.FOR_PRODUCT_OWNER ||
     path === PATHS.FOR_SRE;
-  const isCompareActive = COMPARE_NAV_LINKS.some(
-    (p) => path === p.path || path.startsWith(`${p.path}/`),
-  );
   const isResourcesActive = [PATHS.BLOGS, PATHS.QA_GUIDE, PATHS.LABS, PATHS.FAQS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
@@ -202,41 +198,6 @@ const Header = () => {
             {openDropdown === "company" && (
               <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
                 {COMPANY_NAV_LINKS.map((item) => (
-                  <NavItem
-                    key={item.path}
-                    to={item.path}
-                    isActive={isPathActive(item.path)}
-                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-secondary"
-                  >
-                    {item.label}
-                  </NavItem>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Compare */}
-          <div className="relative">
-            <button
-              type="button"
-              aria-label="Compare menu"
-              aria-expanded={openDropdown === "compare"}
-              onClick={() =>
-                setOpenDropdown((o) => (o === "compare" ? null : "compare"))
-              }
-              className={dropdownButtonClass(openDropdown === "compare" || isCompareActive)}
-            >
-              Compare
-              <ChevronDown
-                size={15}
-                className={`transition-transform ${
-                  openDropdown === "compare" ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            {openDropdown === "compare" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
-                {COMPARE_NAV_LINKS.map((item) => (
                   <NavItem
                     key={item.path}
                     to={item.path}
@@ -463,38 +424,6 @@ const Header = () => {
                 {mobileExpanded["company"] && (
                   <div className="pl-6 pr-2 pb-1 space-y-0">
                     {COMPANY_NAV_LINKS.map((item) => (
-                      <NavItem
-                        key={item.path}
-                        to={item.path}
-                        isActive={isPathActive(item.path)}
-                        forceForeground
-                        className="block py-2 px-2 hover:bg-secondary rounded-md"
-                      >
-                        {item.label}
-                      </NavItem>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Compare */}
-              <div>
-                <button
-                  type="button"
-                  onClick={() => toggleMobileSection("compare")}
-                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md ${isCompareActive ? "bg-primary/5 font-semibold" : ""}`}
-                >
-                  <ChevronRight
-                    size={18}
-                    className={`shrink-0 text-foreground/70 transition-transform ${
-                      mobileExpanded["compare"] ? "rotate-90" : ""
-                    }`}
-                  />
-                  Compare
-                </button>
-                {mobileExpanded["compare"] && (
-                  <div className="pl-6 pr-2 pb-1 space-y-0">
-                    {COMPARE_NAV_LINKS.map((item) => (
                       <NavItem
                         key={item.path}
                         to={item.path}

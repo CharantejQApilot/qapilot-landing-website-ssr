@@ -6,7 +6,7 @@ export const HOME_PAGE_TITLE =
   "QApilot — AI-Powered Mobile App Testing & QA Automation";
 
 export const HOME_PAGE_DESCRIPTION =
-  "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.";
+  "QApilot autonomously explores your mobile app, generates test coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.";
 
 export const HOME_PAGE_OG_TITLE = HOME_PAGE_TITLE;
 
