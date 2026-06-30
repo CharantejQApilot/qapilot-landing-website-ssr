@@ -53,6 +53,11 @@ const STATIC_PATHS = [
   "/compare/qapilot-vs-web-first-automation-tools",
   "/compare/qapilot-vs-appium",
   "/compare/qapilot-vs-visual-testing-tools",
+  "/compare/qapilot-vs-testsigma",
+  "/compare/qapilot-vs-maestro",
+  "/alternatives/browserstack",
+  "/alternatives/sauce-labs",
+  "/integrations",
   "/privacy",
   "/terms",
   "/terms-conditions",
@@ -67,6 +72,11 @@ const REDIRECT_CHECKS = [
     path: "/platform/autonomous-testing",
     expectStatus: 308,
     expectLocationIncludes: "/product/autonomous-testing",
+  },
+  {
+    path: "/alternatives/appium",
+    expectStatus: 308,
+    expectLocationIncludes: "/compare/qapilot-vs-appium",
   },
 ];
 

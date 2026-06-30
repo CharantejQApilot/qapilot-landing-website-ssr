@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
+import CompareHeroSection from "@/components/compare/CompareHeroSection";
+import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { MarketingSectionHeader } from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
 import { cn } from "@/lib/utils";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 
 const path = PATHS.COMPARE_WEB_FIRST;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
@@ -118,35 +118,25 @@ export default function QApilotVsWebFirstComparisonPage() {
       />
 
       <main>
-        <section
-          className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/40"
-          aria-labelledby="compare-web-first-hero"
-        >
-          <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
-          <div className="relative z-10 section-full py-12 sm:py-14 md:py-16 lg:py-20 2xl:py-24">
-            <div className="mx-auto max-w-6xl text-center">
-              <div className="min-w-0">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
-                  QApilot vs Web-First Automation Tools
-                </p>
-                <h1 id="compare-web-first-hero" className={cn(marketingHeroH1Class, "mb-5 text-balance sm:mb-6 md:mb-8")}>
-                  <span className="block sm:inline">
-                    Most <span className="text-primary">&ldquo;mobile&rdquo;</span> testing tools are web tools
-                    <br className="sm:hidden" /> with an <span className="text-primary">extra tab</span>.
-                  </span>{" "}
-                  <span className="text-primary">We&apos;re not.</span>
-                </h1>
-                <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl text-pretty")}>
-                  QApilot vs web-first automation tools: built for native apps, real devices, and release-ready
-                  journeys—not browser automation extended sideways.
-                </p>
-                <div className="mt-8 flex justify-center">
-                  <BookDemoCtaButton />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CompareHeroSection
+          heroId="compare-web-first-hero"
+          eyebrow="QApilot vs Web-First Automation Tools"
+          title={
+            <>
+              <span className="block sm:inline">
+                Most <span className="text-primary">&ldquo;mobile&rdquo;</span> testing tools are web tools
+                <br className="sm:hidden" /> with an <span className="text-primary">extra tab</span>.
+              </span>{" "}
+              <span className="text-primary">We&apos;re not.</span>
+            </>
+          }
+          description={
+            <>
+              QApilot vs web-first automation tools: built for native apps, real devices, and release-ready
+              journeys—not browser automation extended sideways.
+            </>
+          }
+        />
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
           <div className="section-full">

@@ -1,6 +1,6 @@
 # QApilot — ai.txt (machine-readable pointers for AI crawlers)
 # Canonical site: https://qapilot.io
-# Last updated: June 2026
+# Last updated: July 2026
 
 # Structured product & company context (llms.txt standard):
 Llms-Txt: https://qapilot.io/llms.txt
@@ -26,6 +26,11 @@ Enterprise: https://qapilot.io/enterprise
 Compare-Web-First: https://qapilot.io/compare/qapilot-vs-web-first-automation-tools
 Compare-Appium: https://qapilot.io/compare/qapilot-vs-appium
 Compare-Visual-Testing: https://qapilot.io/compare/qapilot-vs-visual-testing-tools
+Compare-Testsigma: https://qapilot.io/compare/qapilot-vs-testsigma
+Compare-Maestro: https://qapilot.io/compare/qapilot-vs-maestro
+Alternative-BrowserStack: https://qapilot.io/alternatives/browserstack
+Alternative-Sauce-Labs: https://qapilot.io/alternatives/sauce-labs
+Integrations: https://qapilot.io/integrations
 
 # Resources
 Blogs: https://qapilot.io/blogs

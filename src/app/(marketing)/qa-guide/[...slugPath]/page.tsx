@@ -14,6 +14,7 @@ import { firstNonEmptyString } from "@/lib/cms-values";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
 import { normalizeSlugPath } from "@/lib/qa-guide/resolve-slug-path";
 import { formatPageTitle } from "@/lib/page-title";
+import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 
 export const revalidate = 120;
 
@@ -145,6 +146,7 @@ export default async function QaGuideCatchAllPage({
           "@type": "Article",
           headline: guide.title,
           url: articleUrl,
+          ...articleMainEntityOfPage(articleUrl),
           ...(guide.excerpt ? { description: guide.excerpt } : {}),
           ...(publishedTime ? { datePublished: publishedTime } : {}),
           ...(modifiedTime ? { dateModified: modifiedTime } : {}),

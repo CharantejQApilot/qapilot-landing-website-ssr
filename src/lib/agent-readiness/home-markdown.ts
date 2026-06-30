@@ -49,6 +49,16 @@ ${url("/")}
 | vs Web-first automation tools | ${url(PATHS.COMPARE_WEB_FIRST)} |
 | vs Appium | ${url(PATHS.COMPARE_APPIUM)} |
 | vs Visual testing tools | ${url(PATHS.COMPARE_VISUAL_TESTING)} |
+| vs Testsigma | ${url(PATHS.COMPARE_TESTSIGMA)} |
+| vs Maestro | ${url(PATHS.COMPARE_MAESTRO)} |
+| BrowserStack alternative | ${url(PATHS.ALTERNATIVES_BROWSERSTACK)} |
+| Sauce Labs alternative | ${url(PATHS.ALTERNATIVES_SAUCE_LABS)} |
+
+## Integrations
+
+| Page | URL |
+|------|-----|
+| Integrations hub | ${url(PATHS.INTEGRATIONS)} |
 
 ## Resources
 

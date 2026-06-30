@@ -6,6 +6,7 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { formatPageTitle } from "@/lib/page-title";
 import { getEventBySlug, getRelatedEvents } from "@/lib/events";
 import { QAPILOT_EVENTS } from "@/lib/events-data";
@@ -88,6 +89,7 @@ export default async function EventDetailPage({
     name: event.title,
     description: event.excerpt,
     url: canonicalUrl,
+    ...articleMainEntityOfPage(canonicalUrl),
     eventAttendanceMode: event.isVirtual
       ? "https://schema.org/OnlineEventAttendanceMode"
       : "https://schema.org/OfflineEventAttendanceMode",

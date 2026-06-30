@@ -7,11 +7,11 @@ interface Metric {
 }
 
 const metrics: Metric[] = [
-  { value: "10K+", label: "Test Steps Generated" },
-  { value: "130K+", label: "Test Steps Recorded" },
-  { value: "1.7Mn+", label: "Test Steps Executed" },
-  { value: "1500+", label: "Critical Bugs Surfaced" },
-  { value: "2400+", label: "Hours Saved for QE Teams" },
+  { value: "20K+", label: "Test Steps Generated" },
+  { value: "230K+", label: "Test Steps Recorded" },
+  { value: "3Mn+", label: "Test Steps Executed" },
+  { value: "3000+", label: "Critical Bugs Surfaced" },
+  { value: "5000+", label: "Hours Saved for QE Teams" },
 ];
 
 function MetricCard({ metric, isLast }: { metric: Metric; isLast: boolean }) {

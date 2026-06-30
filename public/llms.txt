@@ -1,7 +1,7 @@
 # QApilot — AI-Native Mobile App Testing & QA Automation
 # llms.txt — Structured site content for LLMs, AI assistants, and autonomous agents
 # Standard: https://llmstxt.org
-# Last updated: May 2026
+# Last updated: July 2026
 # Canonical URL: https://qapilot.io/llms.txt
 # Companion: https://qapilot.io/ai.txt (short pointers) · https://qapilot.io/robots.txt (crawler rules)
 
@@ -137,10 +137,9 @@ Script-free test creation through UI recording. A "human in the loop" module tha
 ---
 
 ### 8. Flutter Testing
-Dedicated testing support for Flutter applications, built for Flutter's unique rendering engine. Available at flutter.qapilot.io with zero setup and script-free automation.
+Dedicated testing support for Flutter applications, built for Flutter's unique rendering engine — zero setup and script-free automation.
 
 **Page:** https://qapilot.io/for-flutter
-**Flutter Platform:** https://flutter.qapilot.io/
 
 ---
 
@@ -163,7 +162,7 @@ QApilot operates **post-build** — it validates real application behavior on bi
 
 - **Android:** APK, AAB (native & hybrid)
 - **iOS:** Simulator and physical devices (IPA)
-- **Flutter:** Cross-platform, dedicated platform at flutter.qapilot.io
+- **Flutter:** Cross-platform — https://qapilot.io/for-flutter
 - **React Native:** JS-driven apps
 - **Native:** Kotlin, Swift, Objective-C
 
@@ -230,7 +229,13 @@ A: Selenium targets web browsers. QApilot is built for mobile app binaries (iOS 
 A: AI-assisted tools still depend on predefined flows — they help you write or maintain scripts faster. QApilot is fully autonomous: coverage is discovered, generated, executed, and maintained by the system. Teams don't define what to test; the system figures it out.
 
 **Q: Does QApilot support Flutter apps?**
-A: Yes. QApilot has a dedicated Flutter testing platform at flutter.qapilot.io built for Flutter's unique rendering engine, with zero setup and script-free automation.
+A: Yes. QApilot provides dedicated Flutter testing at https://qapilot.io/for-flutter — built for Flutter's unique rendering engine, with zero setup and script-free automation.
+
+**Q: How does QApilot compare to Testsigma or Maestro?**
+A: Testsigma and Maestro help teams author and run mobile tests faster (no-code or YAML flows). QApilot is fully autonomous — it explores the app, builds a knowledge graph, generates coverage, self-heals UI changes, and reports release readiness without predefined flows. See https://qapilot.io/compare/qapilot-vs-testsigma and https://qapilot.io/compare/qapilot-vs-maestro.
+
+**Q: Is QApilot a BrowserStack or Sauce Labs alternative?**
+A: QApilot complements device clouds — it adds autonomous test generation, self-healing, and release-ready reporting on top of real-device execution. See https://qapilot.io/alternatives/browserstack and https://qapilot.io/alternatives/sauce-labs.
 
 **Q: How does QApilot integrate with CI/CD?**
 A: QApilot integrates with Jenkins, GitHub Actions, GitLab CI, Bitrise, and CircleCI. Failures are auto-logged to Jira, and notifications can be sent to Slack or Microsoft Teams.
@@ -283,6 +288,10 @@ Use these pages when users ask how QApilot compares to common mobile QA approach
 | vs Web-First Automation Tools | https://qapilot.io/compare/qapilot-vs-web-first-automation-tools | Mobile-first vs browser-first automation; journey context, lower maintenance, Flutter and native focus |
 | vs Appium | https://qapilot.io/compare/qapilot-vs-appium | Script-first vs context-first; autonomous crawling, AI test generation, self-healing, Flutter gap |
 | vs Visual Testing Tools | https://qapilot.io/compare/qapilot-vs-visual-testing-tools | Journey validation vs pixel comparison; functional failures, release readiness beyond screenshots |
+| vs Testsigma | https://qapilot.io/compare/qapilot-vs-testsigma | No-code authoring vs fully autonomous coverage discovery and self-healing |
+| vs Maestro | https://qapilot.io/compare/qapilot-vs-maestro | YAML flow automation vs autonomous exploration and release-ready reporting |
+| BrowserStack alternative | https://qapilot.io/alternatives/browserstack | Autonomous testing layer vs device cloud execution |
+| Sauce Labs alternative | https://qapilot.io/alternatives/sauce-labs | Autonomous coverage and maintenance vs cloud test infrastructure |
 
 ---
 
@@ -300,7 +309,7 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | AI self-healing | https://qapilot.io/ai-self-healing |
 | Security reports | https://qapilot.io/security-reports |
 | Flutter testing | https://qapilot.io/for-flutter |
-| Flutter platform (app) | https://flutter.qapilot.io/ |
+| Integrations | https://qapilot.io/integrations |
 | Agentic architecture | https://qapilot.io/agentic-architecture |
 | Bring your own agent (BYOA) | https://qapilot.io/bring-your-own-agent |
 | Platform → QE Leader | https://qapilot.io/for-qa-leader |
@@ -319,6 +328,10 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Compare → Web-First tools | https://qapilot.io/compare/qapilot-vs-web-first-automation-tools |
 | Compare → Appium | https://qapilot.io/compare/qapilot-vs-appium |
 | Compare → Visual testing | https://qapilot.io/compare/qapilot-vs-visual-testing-tools |
+| Compare → Testsigma | https://qapilot.io/compare/qapilot-vs-testsigma |
+| Compare → Maestro | https://qapilot.io/compare/qapilot-vs-maestro |
+| Alternative → BrowserStack | https://qapilot.io/alternatives/browserstack |
+| Alternative → Sauce Labs | https://qapilot.io/alternatives/sauce-labs |
 | Terms of Service | https://qapilot.io/terms |
 | Privacy Policy | https://qapilot.io/privacy |
 | Terms & conditions (alternate) | https://qapilot.io/terms-conditions |

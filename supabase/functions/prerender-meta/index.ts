@@ -133,6 +133,31 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
   },
+  "/compare/qapilot-vs-testsigma": {
+    title: "QApilot vs Testsigma | Autonomous Mobile Testing | QApilot",
+    description:
+      "Compare QApilot vs Testsigma for mobile testing. Autonomous exploration and self-healing go beyond no-code authoring for release-ready mobile QA.",
+  },
+  "/compare/qapilot-vs-maestro": {
+    title: "QApilot vs Maestro | Autonomous Mobile Testing | QApilot",
+    description:
+      "Compare QApilot vs Maestro for mobile app testing. See how autonomous exploration and self-healing go beyond YAML flow automation for release-ready mobile QA.",
+  },
+  "/alternatives/browserstack": {
+    title: "BrowserStack Alternative — Autonomous Mobile Testing | QApilot",
+    description:
+      "Looking for a BrowserStack alternative? QApilot adds autonomous test generation, self-healing, and release readiness — mobile-first from day one.",
+  },
+  "/alternatives/sauce-labs": {
+    title: "Sauce Labs Alternative — Autonomous Mobile Testing | QApilot",
+    description:
+      "Looking for a Sauce Labs alternative? QApilot delivers autonomous mobile test generation, self-healing, and release readiness beyond device clouds.",
+  },
+  "/integrations": {
+    title: "Integrations — Works With Your Testing Stack | QApilot",
+    description:
+      "QApilot integrates with Jira, TestRail, Jenkins, BrowserStack, Sauce Labs, Slack, Teams, and more — fit autonomous mobile testing into your existing QA stack.",
+  },
   "/blogs": {
     title: "Blogs — Mobile Testing Tips, Guides & Best Practices | QApilot",
     description:

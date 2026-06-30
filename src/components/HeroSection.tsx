@@ -16,8 +16,8 @@ export default function HeroSection() {
       />
 
       <div className="relative z-10 flex w-full flex-col lg:min-h-0 lg:flex-1 lg:justify-center">
-        <div className="section-full flex flex-col px-1 pt-10 sm:px-0 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0 2xl:pt-0">
-          <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-1 sm:px-0 lg:max-w-7xl 2xl:max-w-[min(100%,88rem)]">
+        <div className="section-full flex flex-col pt-8 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0 2xl:pt-0">
+          <div className="mx-auto flex w-full min-w-0 max-w-6xl flex-col items-center lg:max-w-7xl 2xl:max-w-[min(100%,88rem)]">
             <HomeHeroContent />
           </div>
         </div>
