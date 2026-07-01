@@ -1,6 +1,6 @@
 /** Footer “summarise QApilot” prompt — site-wide, not article-specific. */
 export const SUMMARISE_QAPILOT_SITE_PROMPT =
-  "Summarize QApilot in simple terms. Explain what QApilot does, what makes it different for mobile app testing, who it is best suited for, and why teams might choose it over traditional testing tools.";
+  "Summarize QApilot in simple terms. Explain what QApilot does, how its Crawler, CoWork, and RPA capabilities help improve mobile test coverage, what makes it different from traditional testing tools, and who it is best suited for.";
 
 export type SummariseAssistantId = "chatgpt" | "perplexity" | "google-ai" | "claude";
 

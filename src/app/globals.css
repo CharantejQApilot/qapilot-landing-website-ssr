@@ -826,7 +826,8 @@
   .section-edge {
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    /* clip (not hidden) avoids forcing overflow-y to auto, which clips flex-centered hero content */
+    overflow-x: clip;
   }
 
   .glow-bg {
