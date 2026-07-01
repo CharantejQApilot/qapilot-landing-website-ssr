@@ -4,14 +4,12 @@ import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 import HomeHeroDemoButton from "@/components/HomeHeroDemoButton";
 import HomeHeroLabsPromo from "@/components/home-hero/HomeHeroLabsPromo";
-import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 
 /** Server-rendered hero copy; only the demo button hydrates on the client. */
 export default function HomeHeroContent() {
   return (
     <>
-      <div className="relative w-full min-w-0 sm:pt-[4.75rem]">
-        <HomeHeroProductHuntBadge />
+      <div className="w-full min-w-0">
         <h1
           className={cn(
             marketingHeroH1Class,
