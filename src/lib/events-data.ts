@@ -76,13 +76,13 @@ const NAVEEN_WEBINAR_YOUTUBE_URL = "https://www.youtube.com/watch?v=olW-hhtg61c"
 export const QAPILOT_EVENTS: QApilotEvent[] = [
   {
     slug: "naveen-automation-labs-qapilot-live-webinar",
-    title: "Mobile App Testing in the AI Era — Live on Naveen Automation Labs",
+    title: "Mobile App Testing in the AI Era. Live on Naveen Automation Labs",
     excerpt:
       "QApilot Co-founder Aditya Challa joins Naveen Khunteta for a live product showcase on mobile testing in the AI era — autonomous exploration, Flutter coverage, and release-ready signals on real devices.",
     description: [
       "Naveen Automation Labs is one of the largest automation testing education communities on YouTube, trusted by hundreds of thousands of QA engineers learning Selenium, API testing, CI/CD, and modern test architecture.",
       "In this live session, Naveen Khunteta hosts QApilot Co-founder Aditya Challa for a practical walkthrough of the platform: autonomous mobile exploration, agent-assisted authoring, Flutter coverage, and release-ready signals on real devices.",
-      "The recording is now available on YouTube. Watch the full session below for live demos, architecture deep dives, and advice on where autonomous mobile testing fits in modern CI/CD pipelines.",
+      "Join us live on YouTube for product demos, architecture deep dives, and advice on where autonomous mobile testing fits in modern CI/CD pipelines.",
       "Want a deeper look on your own stack? Use the demo form at the top of this page to schedule a tailored QApilot walkthrough on your iOS, Android, or Flutter app.",
     ],
     type: "webinar",
@@ -91,7 +91,7 @@ export const QAPILOT_EVENTS: QApilotEvent[] = [
     location: "Virtual",
     isVirtual: true,
     isFeatured: true,
-    isUpcoming: false,
+    isUpcoming: true,
     externalUrl: NAVEEN_WEBINAR_YOUTUBE_URL,
     youtubeUrl: NAVEEN_WEBINAR_YOUTUBE_URL,
     participants: [

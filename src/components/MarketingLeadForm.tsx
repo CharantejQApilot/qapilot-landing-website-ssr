@@ -144,6 +144,11 @@ export function MarketingLeadForm({
     });
   }, []);
 
+  const handlePhoneChange = useCallback((v: string) => {
+    setPhone(v);
+    clearFieldError("phone");
+  }, [clearFieldError]);
+
   const pid = (name: string) => `${fieldIdPrefix}-${name}`;
 
   return (
@@ -212,10 +217,7 @@ export function MarketingLeadForm({
             <PhoneInput
               key={formKey}
               value={phone}
-              onChange={(v) => {
-                setPhone(v);
-                clearFieldError("phone");
-              }}
+              onChange={handlePhoneChange}
               placeholder="Phone number"
             />
             {fieldErrors.phone && <p className={marketingFormFieldErrorClass}>{fieldErrors.phone}</p>}

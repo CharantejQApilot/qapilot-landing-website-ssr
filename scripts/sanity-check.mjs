@@ -128,6 +128,23 @@ async function checkFormApi(path) {
   }
 }
 
+async function checkFormApiIncompleteLead(path) {
+  const url = `${baseUrl.replace(/\/$/, "")}${path}`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstname: "Build Check",
+        email: "build-check@example.com",
+      }),
+    });
+    return { path, status: res.status };
+  } catch (err) {
+    return { path, status: 0, error: err instanceof Error ? err.message : String(err) };
+  }
+}
+
 async function main() {
   console.log(`\nQApilot sanity check — ${baseUrl}\n`);
 
@@ -175,6 +192,18 @@ async function main() {
     const pass = r.status === 422 || r.status === 400;
     if (!pass) failed++;
     console.log(pass ? "  ✓" : "  ✗", r.status, path, `— ${label}`, r.error ?? "");
+  }
+
+  console.log("\n3b) Lead form APIs reject incomplete payloads (422, not 5xx)");
+  for (const path of [
+    "/api/hubspot/get-access",
+    "/api/hubspot/flutter-hero",
+    "/api/hubspot/partners",
+  ]) {
+    const r = await checkFormApiIncompleteLead(path);
+    const pass = r.status === 422;
+    if (!pass) failed++;
+    console.log(pass ? "  ✓" : "  ✗", r.status, path, r.error ?? "");
   }
 
   console.log("\n4) Manual / browser checks (not automated here)");
