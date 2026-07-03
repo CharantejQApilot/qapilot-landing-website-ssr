@@ -58,6 +58,12 @@ export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
     visualScale: 1,
   },
   {
+    name: "Geml",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}geml-logo.png`,
+    url: "https://www.geml.co/",
+    visualScale: 1.45,
+  },
+  {
     name: "Sahabat AI",
     logo: `${PARTNER_LOGOS_PATH_PREFIX}sahabat-ai-logo-dark-horizontal.png`,
     url: "https://sahabat-ai.com/",

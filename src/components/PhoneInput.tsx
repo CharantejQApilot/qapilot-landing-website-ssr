@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 import { marketingFormCompositeSegmentClass, marketingFormControlClass } from "@/lib/forms/marketing-form-classes";
+import { formatMarketingPhoneValue } from "@/lib/forms/marketing-lead";
 import { cn } from "@/lib/utils";
 
 interface Country {
@@ -74,10 +76,28 @@ const countries: Country[] = [
 ];
 
 const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone number' }: PhoneInputProps) => {
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const onChangeRef = useRef(onChange);
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [menuPosition, setMenuPosition] = useState<{ top: number; left: number; width: number } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  const notifyChange = (country: Country, localNumber: string) => {
+    onChangeRef.current(formatMarketingPhoneValue(country.dialCode, localNumber));
+  };
+
+  const applyCountry = (country: Country, localNumber: string) => {
+    setSelectedCountry(country);
+    notifyChange(country, localNumber);
+  };
 
   // Auto-detect user's location and set default country
   useEffect(() => {
@@ -109,6 +129,10 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
 
         const defaultCountry = countries.find(c => c.code === countryCode) || countries[0];
         setSelectedCountry(defaultCountry);
+        setPhoneNumber((currentNumber) => {
+          notifyChange(defaultCountry, currentNumber);
+          return currentNumber;
+        });
       } catch (error) {
         console.log('Location detection failed, using US as default');
       }
@@ -117,32 +141,95 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
     detectLocation();
   }, []);
 
-  // Parse existing value if provided
+  // Sync when parent resets or hydrates a controlled value.
   useEffect(() => {
-    if (value && value.includes(' ')) {
-      const parts = value.split(' ');
-      const dialCode = parts[0];
-      const number = parts.slice(1).join(' ');
-      
-      const country = countries.find(c => c.dialCode === dialCode);
-      if (country) {
-        setSelectedCountry(country);
-        setPhoneNumber(number);
-      }
+    if (!value) {
+      setPhoneNumber('');
+      return;
+    }
+
+    if (!value.includes(' ')) return;
+
+    const parts = value.split(' ');
+    const dialCode = parts[0];
+    const number = parts.slice(1).join(' ');
+
+    const country = countries.find(c => c.dialCode === dialCode);
+    if (country) {
+      setSelectedCountry(country);
+      setPhoneNumber(number);
     }
   }, [value]);
-
-  // Update parent component when values change
-  useEffect(() => {
-    const fullNumber = phoneNumber ? `${selectedCountry.dialCode} ${phoneNumber}` : '';
-    onChange(fullNumber);
-  }, [selectedCountry, phoneNumber, onChange]);
 
   const filteredCountries = countries.filter(country =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     country.dialCode.includes(searchTerm) ||
     country.code.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const updateMenuPosition = () => {
+    const trigger = triggerRef.current;
+    if (!trigger) return;
+    const rect = trigger.getBoundingClientRect();
+    setMenuPosition({
+      top: rect.bottom + 4,
+      left: rect.left,
+      width: Math.max(rect.width, 320),
+    });
+  };
+
+  useLayoutEffect(() => {
+    if (!isDropdownOpen) {
+      setMenuPosition(null);
+      return;
+    }
+
+    updateMenuPosition();
+
+    const onScrollOrResize = () => updateMenuPosition();
+    window.addEventListener("resize", onScrollOrResize);
+    window.addEventListener("scroll", onScrollOrResize, true);
+    return () => {
+      window.removeEventListener("resize", onScrollOrResize);
+      window.removeEventListener("scroll", onScrollOrResize, true);
+    };
+  }, [isDropdownOpen]);
+
+  const dropdownMenu =
+    isDropdownOpen && menuPosition ? (
+      <div
+        className="fixed z-50 max-h-60 overflow-hidden rounded-md border border-border bg-background shadow-lg"
+        style={{ top: menuPosition.top, left: menuPosition.left, width: menuPosition.width }}
+      >
+        <div className="border-b border-border p-2">
+          <input
+            type="text"
+            placeholder="Search countries..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={cn(marketingFormControlClass({ fullWidth: true }), "h-9")}
+          />
+        </div>
+        <div className="max-h-48 overflow-y-auto">
+          {filteredCountries.map((country) => (
+            <button
+              key={country.code}
+              type="button"
+              onClick={() => {
+                applyCountry(country, phoneNumber);
+                setIsDropdownOpen(false);
+                setSearchTerm("");
+              }}
+              className="flex w-full items-center gap-3 px-3 py-2 text-left font-sans transition-colors hover:bg-accent focus:bg-accent focus:outline-none"
+            >
+              <span className="text-lg">{country.flag}</span>
+              <span className="min-w-[50px] text-sm font-medium font-sans">{country.dialCode}</span>
+              <span className="truncate text-sm font-sans text-muted-foreground">{country.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    ) : null;
 
   return (
     <div className={cn("marketing-form-surface relative w-full font-sans", className)}>
@@ -157,16 +244,19 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
       <div className="relative z-50">
         <div
           className={cn(
-            "flex h-10 w-full items-stretch overflow-hidden rounded-md border border-input bg-background shadow-sm",
+            "flex h-10 w-full items-stretch rounded-md border border-input bg-background shadow-sm",
             "ring-offset-background transition-shadow focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
           )}
         >
         {/* Country Code Dropdown */}
         <div className="relative shrink-0">
           <button
+            ref={triggerRef}
             type="button"
+            aria-expanded={isDropdownOpen}
+            aria-haspopup="listbox"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="inline-flex h-full min-w-[100px] items-center gap-2 border-0 border-r border-input bg-transparent px-3 text-sm font-medium font-sans text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
+            className="inline-flex h-full min-w-[100px] items-center gap-2 rounded-l-[calc(0.375rem-1px)] border-0 border-r border-input bg-transparent px-3 text-sm font-medium font-sans text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-none"
           >
             <span className="text-lg leading-none">{selectedCountry.flag}</span>
             <span className="tabular-nums">{selectedCountry.dialCode}</span>
@@ -174,51 +264,25 @@ const PhoneInput = ({ value, onChange, className = '', placeholder = 'Phone numb
               className={cn("h-4 w-4 shrink-0 transition-transform", isDropdownOpen && "rotate-180")}
             />
           </button>
-
-          {/* Dropdown Menu */}
-          {isDropdownOpen && (
-            <div className="absolute top-full left-0 z-50 mt-1 w-80 max-h-60 overflow-hidden rounded-md border border-border bg-background shadow-lg">
-              <div className="p-2 border-b border-border">
-                <input
-                  type="text"
-                  placeholder="Search countries..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={cn(marketingFormControlClass({ fullWidth: true }), "h-9")}
-                />
-              </div>
-              <div className="max-h-48 overflow-y-auto">
-                {filteredCountries.map((country) => (
-                  <button
-                    key={country.code}
-                    type="button"
-                    onClick={() => {
-                      setSelectedCountry(country);
-                      setIsDropdownOpen(false);
-                      setSearchTerm('');
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-left font-sans hover:bg-accent focus:bg-accent focus:outline-none transition-colors"
-                  >
-                    <span className="text-lg">{country.flag}</span>
-                    <span className="text-sm font-medium font-sans min-w-[50px]">{country.dialCode}</span>
-                    <span className="text-sm font-sans text-muted-foreground truncate">{country.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Phone Number Input */}
         <input
           type="tel"
           value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={(e) => {
+            const next = e.target.value;
+            setPhoneNumber(next);
+            notifyChange(selectedCountry, next);
+          }}
           placeholder={placeholder}
-          className={marketingFormCompositeSegmentClass}
+          className={cn(marketingFormCompositeSegmentClass, "rounded-r-[calc(0.375rem-1px)]")}
         />
         </div>
       </div>
+      {typeof document !== "undefined" && dropdownMenu
+        ? createPortal(dropdownMenu, document.body)
+        : null}
     </div>
   );
 };
