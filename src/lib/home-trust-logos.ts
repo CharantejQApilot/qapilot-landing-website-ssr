@@ -69,4 +69,10 @@ export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
     url: "https://sahabat-ai.com/",
     visualScale: 0.98,
   },
+  {
+    name: "Seiwa",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}seiwa-logo.png`,
+    url: "https://www.seiwa.app/",
+    visualScale: 1.12,
+  },
 ];
