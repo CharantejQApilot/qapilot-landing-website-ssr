@@ -3,7 +3,6 @@ import { CalendarDays } from "lucide-react";
 import { MarketingPageShell } from "@/components/marketing";
 import { FeaturedEventCard } from "@/components/events/FeaturedEventCard";
 import { EventListItem } from "@/components/events/EventListItem";
-import { EventsCtaSection } from "@/components/events/EventsCtaSection";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
@@ -199,8 +198,6 @@ export default function EventsPage() {
               )}
             </div>
           </div>
-
-          <EventsCtaSection />
         </main>
       </MarketingPageShell>
     </>
