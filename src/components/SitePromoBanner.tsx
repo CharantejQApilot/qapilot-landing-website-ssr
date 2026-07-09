@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { ExternalLink } from "lucide-react";
 import type { SitePromoPayload } from "@/lib/site-promo-banner";
 
 function normalizePathname(path: string): string {
@@ -12,6 +13,7 @@ function normalizePathname(path: string): string {
 }
 
 function hrefFromPayload(p: SitePromoPayload): string {
+  if (p.kind === "custom") return p.href;
   return p.kind === "news" ? `/news/${p.slug}` : `/blogs/${p.slug}`;
 }
 
@@ -66,18 +68,20 @@ export default function SitePromoBanner() {
     return null;
   }
 
+  const opensNewTab = payload.kind === "custom" && payload.external;
+
   return (
     <a
       href={href}
       id="news-banner"
+      target={opensNewTab ? "_blank" : undefined}
+      rel={opensNewTab ? "noopener noreferrer" : undefined}
       className="block bg-brand-dark text-white transition-opacity hover:opacity-95"
     >
       <div className="section-full py-2.5">
-        <div className="flex items-center justify-center text-center">
-          <span className="mr-2 text-xl" aria-hidden>
-            🎉
-          </span>
+        <div className="flex items-center justify-center gap-2 text-center">
           <span className="text-sm font-medium">{payload.text}</span>
+          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
         </div>
       </div>
     </a>
