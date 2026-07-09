@@ -2,10 +2,42 @@ import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 
 export type SitePromoPayload =
   | { kind: "news"; slug: string; text: string }
-  | { kind: "blog"; slug: string; text: string };
+  | { kind: "blog"; slug: string; text: string }
+  | { kind: "custom"; href: string; text: string; external: boolean };
+
+type HardcodedBanner = {
+  text: string;
+  href: string;
+  /** Open in a new tab (for pages outside this Next.js app, e.g. event pages). */
+  external: boolean;
+};
+
+/**
+ * Hardcoded banners for content that isn't managed in the admin dashboard
+ * (e.g. event/webinar pages). The first entry wins and takes precedence over
+ * CMS (news/blog) banners. Managed manually — comment out or remove entries
+ * when they're no longer relevant.
+ */
+const HARDCODED_PROMO_BANNERS: HardcodedBanner[] = [
+  {
+    text: "Live Webinar · July 10 — Mobile App Testing in the AI Era with Naveen Automation Labs",
+    href: "https://qapilot.io/events/naveen-automation-labs-qapilot-live-webinar",
+    external: true,
+  },
+];
 
 /** Shared by `/api/site-promo` and any server code that needs the active promo row. */
 export async function fetchSitePromoBanner(): Promise<SitePromoPayload | null> {
+  const hardcoded = HARDCODED_PROMO_BANNERS[0];
+  if (hardcoded) {
+    return {
+      kind: "custom",
+      href: hardcoded.href,
+      text: hardcoded.text,
+      external: hardcoded.external,
+    };
+  }
+
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) return null;
 
