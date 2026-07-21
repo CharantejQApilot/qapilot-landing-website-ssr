@@ -91,7 +91,7 @@ export const QAPILOT_EVENTS: QApilotEvent[] = [
     location: "Virtual",
     isVirtual: true,
     isFeatured: true,
-    isUpcoming: true,
+    isUpcoming: false,
     externalUrl: NAVEEN_WEBINAR_YOUTUBE_URL,
     youtubeUrl: NAVEEN_WEBINAR_YOUTUBE_URL,
     participants: [
