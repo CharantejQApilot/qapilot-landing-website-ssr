@@ -125,7 +125,7 @@ const portfolioPills = [
 ] as const;
 
 const partnerLogoTileClass = cn(
-  "flex h-20 w-full items-center justify-center rounded-xl border border-border/60 bg-background/80 px-4 py-3",
+  "flex min-h-[5.75rem] w-full items-center justify-center rounded-xl border border-border/60 bg-background/80 px-6 py-5 sm:min-h-24 sm:px-7 sm:py-6",
   "transition-colors hover:border-border hover:bg-background",
 );
 
@@ -274,7 +274,7 @@ const PartnersClient = () => {
           />
 
           <ul
-            className="mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-5"
+            className="grid w-full grid-cols-2 gap-5 sm:gap-6 md:grid-cols-3 md:gap-7 lg:grid-cols-5 lg:gap-8"
             aria-label="Partner logos"
           >
             {PARTNERS.map((partner) => (

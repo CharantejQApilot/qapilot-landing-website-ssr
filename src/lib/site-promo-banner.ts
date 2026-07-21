@@ -18,13 +18,7 @@ type HardcodedBanner = {
  * CMS (news/blog) banners. Managed manually — comment out or remove entries
  * when they're no longer relevant.
  */
-const HARDCODED_PROMO_BANNERS: HardcodedBanner[] = [
-  {
-    text: "Live Webinar · July 10 — Mobile App Testing in the AI Era with Naveen Automation Labs",
-    href: "https://qapilot.io/events/naveen-automation-labs-qapilot-live-webinar",
-    external: true,
-  },
-];
+const HARDCODED_PROMO_BANNERS: HardcodedBanner[] = [];
 
 /** Shared by `/api/site-promo` and any server code that needs the active promo row. */
 export async function fetchSitePromoBanner(): Promise<SitePromoPayload | null> {
