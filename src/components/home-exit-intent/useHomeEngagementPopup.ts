@@ -16,10 +16,10 @@ const ACTIVITY_EVENTS = ["mousemove", "mousedown", "keydown", "scroll", "touchst
 
 /**
  * Shows the home popup when either:
- * 1. User scrolled past threshold AND has been on page ≥ 15s, or
- * 2. User has been idle ≥ 45s (“still here?”).
+ * 1. User scrolled past threshold AND has been on page ≥ 60s, or
+ * 2. User has been idle ≥ 120s (“still here?”).
  *
- * Suppressed when closed (until refresh), after submit (7 days), or after one show per visit.
+ * Suppressed when closed (4 hours), after submit (7 days), or after one show per visit.
  */
 export function useHomeEngagementPopup(active: boolean) {
   const [open, setOpen] = useState(false);

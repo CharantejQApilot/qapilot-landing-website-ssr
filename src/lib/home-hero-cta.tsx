@@ -31,7 +31,7 @@ type HomeHeroCtaProps = {
   children: ReactNode;
 };
 
-/** Matched-size hero CTA link — primary (Book Demo) and inverse (Device Coverage Matrix). */
+/** Matched-size hero CTA link — primary Book a Demo (inverse kept for other surfaces). */
 export function HomeHeroCta({ href, variant, children }: HomeHeroCtaProps) {
   return (
     <Link
