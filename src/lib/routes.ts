@@ -35,6 +35,7 @@ export const PATHS = {
   BOOK_DEMO: "/book-demo",
   LABS: "/labs",
   DEVICE_COVERAGE_MATRIX: "/device-coverage-matrix",
+  AI_TIME_SAVINGS: "/ai-time-savings",
   FOR_RELEASE_MANAGER: "/for-release-manager",
   FOR_QA_ENGINEER: "/for-qa-engineer",
   FOR_QA_LEADER: "/for-qa-leader",

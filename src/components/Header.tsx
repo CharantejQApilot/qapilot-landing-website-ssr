@@ -239,7 +239,7 @@ const Header = () => {
                 className={`rounded-lg bg-primary px-4 py-2.5 xl:px-6 ${RIBBON_NAV_TEXT_CLASS} font-semibold text-primary-foreground hover:bg-primary/90 whitespace-nowrap`}
                 asChild
               >
-                <Link href={PATHS.BOOK_DEMO}>Book a Demo</Link>
+                <Link href={PATHS.BOOK_DEMO}>Sign Up</Link>
               </Button>
             </div>
 
@@ -461,7 +461,7 @@ const Header = () => {
                 className="flex-1 bg-primary text-base font-semibold text-primary-foreground hover:bg-primary/90"
                 asChild
               >
-                <Link href={PATHS.BOOK_DEMO}>Book a Demo</Link>
+                <Link href={PATHS.BOOK_DEMO}>Sign Up</Link>
               </Button>
             </div>
           </nav>

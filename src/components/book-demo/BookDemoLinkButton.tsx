@@ -1,7 +1,6 @@
-import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { PATHS } from "@/lib/routes";
+import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 
 type BookDemoLinkButtonProps = {
   className?: string;
@@ -18,7 +17,9 @@ export function BookDemoLinkButton({
 }: BookDemoLinkButtonProps) {
   return (
     <Button asChild size={size} variant={variant} className={className}>
-      <Link href={PATHS.BOOK_DEMO}>{children}</Link>
+      <a href={BOOK_DEMO_CALENDAR_URL} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
     </Button>
   );
 }

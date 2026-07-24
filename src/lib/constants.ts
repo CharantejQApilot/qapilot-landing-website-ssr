@@ -17,6 +17,10 @@ export const STATUS_URL = "https://status.qapilot.io";
 /** App login and status hosts use noindex; keep crawlers on marketing URLs. */
 export const EXTERNAL_NOINDEX_SUBDOMAIN_REL = "noopener noreferrer nofollow";
 
+/** In-page “Book a Demo” CTAs open this Read AI calendar (header “Sign Up” still uses `/book-demo`). */
+export const BOOK_DEMO_CALENDAR_URL =
+  "https://cal.read.ai/charan-tej-pupeb/01KEYD8ZYYAHDT5CFMV21VF3SW";
+
 /**
  * Main marketing “Book a Demo” HubSpot form (Forms API via `/api/hubspot/get-access`).
  * Used by the global dialog from Header, Footer, home hero, and platform pages.

@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Activity, Shield, BarChart3, Zap } from "lucide-react";
-import { PATHS } from "@/lib/routes";
+import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
@@ -85,10 +84,10 @@ const EnterpriseHeroSection = () => {
               asChild
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full text-lg hover:scale-105 transition-all duration-300 hover:shadow-glow relative overflow-hidden"
             >
-              <Link href={PATHS.BOOK_DEMO}>
+              <a href={BOOK_DEMO_CALENDAR_URL} target="_blank" rel="noopener noreferrer">
                 <span className="relative z-10">Book a Demo</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shine_2s_ease-in-out_infinite] transform skew-x-12"></div>
-              </Link>
+              </a>
             </Button>
             </div>
           </div>

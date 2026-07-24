@@ -7,6 +7,7 @@ import Logo from "@/components/Logo";
 import { marketingEyebrowClass, marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import {
+  BOOK_DEMO_CALENDAR_URL,
   DOCS_URL,
   EXTERNAL_NOINDEX_SUBDOMAIN_REL,
   STATUS_URL,
@@ -186,7 +187,9 @@ const Footer = () => {
                 className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-lg 2xl:text-lg 2xl:px-10 2xl:py-7"
                 asChild
               >
-                <Link href={PATHS.BOOK_DEMO}>Book a Demo →</Link>
+                <a href={BOOK_DEMO_CALENDAR_URL} target="_blank" rel="noopener noreferrer">
+                  Book a Demo →
+                </a>
               </Button>
             </div>
           </div>

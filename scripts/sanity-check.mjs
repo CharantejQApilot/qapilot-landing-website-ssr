@@ -41,6 +41,7 @@ const STATIC_PATHS = [
   "/faqs",
   "/labs",
   "/device-coverage-matrix",
+  "/ai-time-savings",
   "/security-reports",
   "/ai-self-healing",
   "/agentic-architecture",
