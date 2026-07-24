@@ -6,12 +6,13 @@ import {
   Smartphone,
   type LucideIcon,
 } from "lucide-react";
+import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
 import type { EventExploreCta } from "@/lib/events-data";
 import { cn } from "@/lib/utils";
 
 const CTA_ICON_BY_HREF: Partial<Record<string, LucideIcon>> = {
-  [PATHS.BOOK_DEMO]: Calendar,
+  [BOOK_DEMO_CALENDAR_URL]: Calendar,
   [PATHS.COWORK]: PenLine,
   [PATHS.FOR_FLUTTER]: Smartphone,
 };
@@ -41,12 +42,17 @@ function ExploreCtaLink({
 }) {
   const variant = index === 0 ? PRIMARY_CTA : SECONDARY_CTA;
   const Icon = CTA_ICON_BY_HREF[cta.href] ?? ArrowRight;
+  const isExternal = /^https?:\/\//.test(cta.href);
+  const externalProps = isExternal
+    ? ({ target: "_blank", rel: "noopener noreferrer" } as const)
+    : {};
 
   if (layout === "cards") {
     return (
       <li className="min-w-0">
         <Link
           href={cta.href}
+          {...externalProps}
           className={cn(
             "group relative flex h-full min-h-[4.5rem] items-center gap-3.5 overflow-hidden rounded-2xl px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 sm:min-h-[5rem] sm:gap-4 sm:px-6 sm:py-5",
             variant.link,
@@ -92,6 +98,7 @@ function ExploreCtaLink({
     <li className="min-w-0">
       <Link
         href={cta.href}
+        {...externalProps}
         className={cn(
           "group relative flex w-full items-center gap-3 overflow-hidden rounded-xl px-3.5 py-3 transition-all duration-200 hover:-translate-y-0.5 sm:px-4 sm:py-3.5",
           variant.link,

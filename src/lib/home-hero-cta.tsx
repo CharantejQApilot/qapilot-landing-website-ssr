@@ -29,19 +29,28 @@ type HomeHeroCtaProps = {
   href: string;
   variant: "primary" | "inverse";
   children: ReactNode;
+  /** Open in a new tab (e.g. external calendar). */
+  external?: boolean;
 };
 
 /** Matched-size hero CTA link — primary Book a Demo (inverse kept for other surfaces). */
-export function HomeHeroCta({ href, variant, children }: HomeHeroCtaProps) {
+export function HomeHeroCta({ href, variant, children, external = false }: HomeHeroCtaProps) {
+  const className = cn(
+    buttonVariants({ variant: "default" }),
+    homeHeroCtaBoxClass,
+    variant === "primary" ? homeHeroCtaPrimaryClass : homeHeroCtaInverseClass,
+  );
+
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <Link
-      href={href}
-      className={cn(
-        buttonVariants({ variant: "default" }),
-        homeHeroCtaBoxClass,
-        variant === "primary" ? homeHeroCtaPrimaryClass : homeHeroCtaInverseClass,
-      )}
-    >
+    <Link href={href} className={className}>
       {children}
     </Link>
   );
