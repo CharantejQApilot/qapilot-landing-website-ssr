@@ -31,6 +31,15 @@ export const MOBILE_AGENTS_LABS_TOOLS: readonly MobileAgentsLabsTool[] = [
     external: false,
   },
   {
+    name: "AI Time Savings Calculator",
+    description:
+      "Model AI test generation vs manual QA. Adjust accuracy and verification cost to see real effort savings after the verification tax.",
+    href: PATHS.AI_TIME_SAVINGS,
+    category: "Testing & Analysis",
+    trending: true,
+    external: false,
+  },
+  {
     name: "SEO Image Optimizer",
     description:
       "Compress, convert, and crop images to the right sizes for SEO and social sharing. Grab them one at a time or download everything as a ZIP.",

@@ -107,6 +107,11 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.78,
   },
   {
+    url: `${SITE_BASE_URL}${PATHS.AI_TIME_SAVINGS}`,
+    changeFrequency: "weekly",
+    priority: 0.78,
+  },
+  {
     url: `${SITE_BASE_URL}${PATHS.SECURITY_REPORTS}`,
     changeFrequency: "monthly",
     priority: 0.8,

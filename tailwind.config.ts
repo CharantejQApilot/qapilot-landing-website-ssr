@@ -146,6 +146,11 @@ export default {
 				'journey-decor-flow': {
 					'0%': { strokeDashoffset: '0' },
 					'100%': { strokeDashoffset: '-120' }
+				},
+				/** Home hero explore lanes — staggered entrance */
+				'home-hero-lane-in': {
+					'0%': { opacity: '0', transform: 'translateY(10px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
 				}
 			},
 			animation: {
@@ -163,7 +168,8 @@ export default {
 				'journey-spine-pulse': 'journey-spine-pulse 4.5s ease-in-out infinite',
 				'journey-spine-sheen': 'journey-spine-sheen 7s ease-in-out infinite',
 				'journey-decor-flow': 'journey-decor-flow 10s linear infinite',
-				'journey-decor-flow-slow': 'journey-decor-flow 14s linear infinite'
+				'journey-decor-flow-slow': 'journey-decor-flow 14s linear infinite',
+				'home-hero-lane-in': 'home-hero-lane-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both'
 			},
 		}
 	},

@@ -527,7 +527,17 @@
     animation: hero-word-in 0.5s ease-out forwards;
   }
 
-  /* "Here" word — blue–purple–cyan shade */
+  /* Home hero explore — idle timer fill */
+  @keyframes home-hero-timer-fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* "Here" / accent word in hero headlines */
   .text-hero-here {
     color: hsl(205 70% 48%);
   }

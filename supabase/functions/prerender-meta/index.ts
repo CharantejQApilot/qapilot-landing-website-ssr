@@ -68,6 +68,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Pick your market, set a coverage target, and get a ranked OEM + platform matrix for Android and iOS before every release.",
   },
+  "/ai-time-savings": {
+    title: "AI Time Savings Calculator — Real QA Effort Savings",
+    description:
+      "Model AI test generation vs manual QA. Adjust accuracy and verification cost to see naïve savings versus actual effort after the verification tax.",
+  },
   "/about": {
     title: "About QApilot - AI-Native Mobile App Testing Company",
     description:

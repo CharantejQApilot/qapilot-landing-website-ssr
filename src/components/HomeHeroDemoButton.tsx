@@ -1,6 +1,10 @@
 import { HomeHeroCta } from "@/lib/home-hero-cta";
-import { PATHS } from "@/lib/routes";
+import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 
 export default function HomeHeroDemoButton() {
-  return <HomeHeroCta href={PATHS.BOOK_DEMO} variant="primary">Book a Demo</HomeHeroCta>;
+  return (
+    <HomeHeroCta href={BOOK_DEMO_CALENDAR_URL} variant="primary" external>
+      Book a Demo
+    </HomeHeroCta>
+  );
 }
