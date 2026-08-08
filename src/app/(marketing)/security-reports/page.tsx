@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: "Security Reports for Mobile | QApilot",
     description:
       "Surface vulnerabilities during mobile testing with structured reports teams can act on before release.",

@@ -7,6 +7,9 @@ export const PATHS = {
   HOME: "/",
   PRODUCT: "/product",
   FOR_FLUTTER: "/for-flutter",
+  FOR_IOS: "/for-ios",
+  FOR_ANDROID: "/for-android",
+  FOR_REACT_NATIVE: "/for-react-native",
   BRING_YOUR_OWN_AGENT: "/bring-your-own-agent",
   AGENTIC_ARCHITECTURE: "/agentic-architecture",
   ENTERPRISE: "/enterprise",
@@ -51,6 +54,7 @@ export const PATHS = {
   COMPARE_MAESTRO: "/compare/qapilot-vs-maestro",
   ALTERNATIVES_BROWSERSTACK: "/alternatives/browserstack",
   ALTERNATIVES_SAUCE_LABS: "/alternatives/sauce-labs",
+  ALTERNATIVES_APPIUM: "/alternatives/appium",
   INTEGRATIONS: "/integrations",
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
@@ -71,6 +75,9 @@ export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.COWORK, label: "CoWork", icon: "PenLine" },
   { path: PATHS.INTELLIGENT_BUG_DETECTION, label: "Intelligent Bug Detection", icon: "Bug" },
   { path: PATHS.FOR_FLUTTER, label: "Flutter Testing", icon: "Smartphone" },
+  { path: PATHS.FOR_IOS, label: "iOS Testing", icon: "Smartphone" },
+  { path: PATHS.FOR_ANDROID, label: "Android Testing", icon: "Smartphone" },
+  { path: PATHS.FOR_REACT_NATIVE, label: "React Native Testing", icon: "Smartphone" },
   { path: PATHS.SECURITY_REPORTS, label: "Security Reports", icon: "ShieldCheck" },
   { path: PATHS.AI_SELF_HEALING, label: "AI Self Healing", icon: "RefreshCw" },
 ] as const;
@@ -116,4 +123,5 @@ export const COMPARE_NAV_LINKS = [
   { path: PATHS.COMPARE_MAESTRO, label: "vs Maestro" },
   { path: PATHS.ALTERNATIVES_BROWSERSTACK, label: "BrowserStack Alternative" },
   { path: PATHS.ALTERNATIVES_SAUCE_LABS, label: "Sauce Labs Alternative" },
+  { path: PATHS.ALTERNATIVES_APPIUM, label: "Appium Alternative" },
 ] as const;

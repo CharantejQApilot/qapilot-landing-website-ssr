@@ -17,7 +17,10 @@ export const STATUS_URL = "https://status.qapilot.io";
 /** App login and status hosts use noindex; keep crawlers on marketing URLs. */
 export const EXTERNAL_NOINDEX_SUBDOMAIN_REL = "noopener noreferrer nofollow";
 
-/** In-page “Book a Demo” CTAs open this Read AI calendar (header “Sign Up” still uses `/book-demo`). */
+/**
+ * Optional Read AI calendar URL for surfaces that need a direct scheduling link.
+ * Primary marketing “Book a Demo” CTAs use `PATHS.BOOK_DEMO` (`/book-demo`).
+ */
 export const BOOK_DEMO_CALENDAR_URL =
   "https://cal.read.ai/charan-tej-pupeb/01KEYD8ZYYAHDT5CFMV21VF3SW";
 

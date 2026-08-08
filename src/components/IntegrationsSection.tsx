@@ -6,13 +6,13 @@ import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
 import { IntegrationsMarqueeDesktop } from "@/components/integrations/IntegrationsMarqueeDesktop";
 
 const integrations = [
-  { name: "TestRail", logo: `${PARTNER_LOGOS_PATH_PREFIX}962197a9-5e99-40b8-8f8c-794b50520d5e.png` },
+  { name: "TestRail", logo: `${PARTNER_LOGOS_PATH_PREFIX}e9abab36-d809-4b15-8fd2-134b7e1d473e.png` },
   { name: "Jira", logo: `${PARTNER_LOGOS_PATH_PREFIX}jira-software-logo.png` },
   { name: "Teams", logo: `${PARTNER_LOGOS_PATH_PREFIX}bcb4526d-637b-49ba-a92d-b437d33a0516.png` },
   { name: "Slack", logo: `${PARTNER_LOGOS_PATH_PREFIX}f9ca9bd8-d74c-4852-8fa6-34c1be76aea3.png` },
-  { name: "BrowserStack", logo: `${PARTNER_LOGOS_PATH_PREFIX}445698aa-1a01-42ef-9a78-96903c80c41f.png` },
+  { name: "BrowserStack", logo: `${PARTNER_LOGOS_PATH_PREFIX}962197a9-5e99-40b8-8f8c-794b50520d5e.png` },
   { name: "LambdaTest", logo: `${PARTNER_LOGOS_PATH_PREFIX}9f5ef4eb-33b0-4852-a38a-61a25aaebe56.png` },
-  { name: "Sauce Labs", logo: `${PARTNER_LOGOS_PATH_PREFIX}e9abab36-d809-4b15-8fd2-134b7e1d473e.png` },
+  { name: "Sauce Labs", logo: `${PARTNER_LOGOS_PATH_PREFIX}445698aa-1a01-42ef-9a78-96903c80c41f.png` },
   { name: "Jenkins", logo: `${PARTNER_LOGOS_PATH_PREFIX}7cbcd4d0-466c-4693-8d02-87a5f30f712b.png` },
   { name: "Integration Tool", logo: `${PARTNER_LOGOS_PATH_PREFIX}70464805.png` },
   { name: "Development Platform", logo: `${PARTNER_LOGOS_PATH_PREFIX}cropped-MicrosoftTeams-image-5-1.png` },

@@ -37,18 +37,40 @@ type Platform = {
   label: string;
   sub: string;
   icon: ComponentType<Record<string, any>>;
+  href?: string;
 };
 
 const topPlatforms: Platform[] = [
-  { id: "android", label: "Android", sub: "APK · AAB · native & hybrid", icon: Smartphone },
-  { id: "ios", label: "iOS", sub: "Simulator & physical devices", icon: AppleIcon },
+  {
+    id: "android",
+    label: "Android",
+    sub: "APK · AAB · native & hybrid",
+    icon: Smartphone,
+    href: PATHS.FOR_ANDROID,
+  },
+  {
+    id: "ios",
+    label: "iOS",
+    sub: "Simulator & physical devices",
+    icon: AppleIcon,
+    href: PATHS.FOR_IOS,
+  },
 ];
 
 const bottomPlatforms: Platform[] = [
-  { id: "flutter", label: "Flutter", sub: "Cross-platform", icon: Layers },
-  { id: "react-native", label: "React Native", sub: "JS-driven apps", icon: CodeXml },
+  { id: "flutter", label: "Flutter", sub: "Cross-platform", icon: Layers, href: PATHS.FOR_FLUTTER },
+  {
+    id: "react-native",
+    label: "React Native",
+    sub: "JS-driven apps",
+    icon: CodeXml,
+    href: PATHS.FOR_REACT_NATIVE,
+  },
   { id: "native", label: "Native", sub: "Kotlin · Swift · Obj-C", icon: Cpu },
 ];
+
+const tileLinkClass =
+  "font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary";
 
 function PlatformTile({
   p,
@@ -61,14 +83,8 @@ function PlatformTile({
 }) {
   const Icon = p.icon;
   const isApple = p.id === "ios";
-  return (
-    <div
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/90 bg-card shadow-sm transition-all duration-300 hover:border-primary/25 hover:shadow-md ${
-        hero
-          ? "min-h-[140px] p-4 sm:min-h-[168px] sm:p-5 md:min-h-[180px] md:p-6"
-          : "min-h-[118px] p-4 md:min-h-[128px] md:p-5"
-      } ${className}`}
-    >
+  const inner = (
+    <>
       <div
         className={`mb-3 flex shrink-0 items-center justify-center rounded-lg bg-muted/80 text-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary ${
           hero ? "h-11 w-11 md:h-12 md:w-12" : "h-10 w-10 md:h-11 md:w-11"
@@ -86,8 +102,23 @@ function PlatformTile({
         </p>
         <p className={`mt-0.5 text-muted-foreground ${hero ? "text-xs md:text-sm" : "text-[11px] md:text-xs"}`}>{p.sub}</p>
       </div>
-    </div>
+    </>
   );
+  const shellClass = `group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/90 bg-card shadow-sm transition-all duration-300 hover:border-primary/25 hover:shadow-md ${
+    hero
+      ? "min-h-[140px] p-4 sm:min-h-[168px] sm:p-5 md:min-h-[180px] md:p-6"
+      : "min-h-[118px] p-4 md:min-h-[128px] md:p-5"
+  } ${className}`;
+
+  if (p.href) {
+    return (
+      <Link href={p.href} className={shellClass} aria-label={`${p.label} testing`}>
+        {inner}
+      </Link>
+    );
+  }
+
+  return <div className={shellClass}>{inner}</div>;
 }
 
 const ModernFrameworksSection = () => {
@@ -129,15 +160,23 @@ const ModernFrameworksSection = () => {
             <div className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:items-center lg:gap-10">
               <div className="flex min-w-0 flex-col justify-center gap-5">
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base lg:pr-2">
-                  Ship with confidence whether your team uses native toolchains,{" "}
-                  <Link
-                    href={PATHS.FOR_FLUTTER}
-                    className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
-                  >
+                  Ship with confidence whether your team uses{" "}
+                  <Link href={PATHS.FOR_ANDROID} className={tileLinkClass}>
+                    Android
+                  </Link>
+                  ,{" "}
+                  <Link href={PATHS.FOR_IOS} className={tileLinkClass}>
+                    iOS
+                  </Link>
+                  ,{" "}
+                  <Link href={PATHS.FOR_FLUTTER} className={tileLinkClass}>
                     Flutter
                   </Link>
-                  , or React Native. One pipeline validates what users actually experience — no framework-specific test
-                  harness required.
+                  , or{" "}
+                  <Link href={PATHS.FOR_REACT_NATIVE} className={tileLinkClass}>
+                    React Native
+                  </Link>
+                  . One pipeline validates what users actually experience — no framework-specific test harness required.
                 </p>
                 <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
                   <span className="font-semibold text-foreground">Post-build validation</span>

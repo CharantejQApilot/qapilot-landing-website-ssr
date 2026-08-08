@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: PAGE_TITLE_TEXT,
     description:
       "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",

@@ -144,6 +144,21 @@ Dedicated testing support for Flutter applications, built for Flutter's unique r
 
 **Page:** [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
 
+### 9. iOS Testing
+Dedicated testing support for iOS applications on simulators and real devices — AI discovery, low-maintenance tests, release-ready coverage.
+
+**Page:** [https://qapilot.io/for-ios](https://qapilot.io/for-ios)
+
+### 10. Android Testing
+Dedicated testing support for Android APK/AAB builds on real devices and emulators — AI discovery, low-maintenance tests, release-ready coverage.
+
+**Page:** [https://qapilot.io/for-android](https://qapilot.io/for-android)
+
+### 11. React Native Testing
+Dedicated testing support for React Native applications across iOS and Android — AI discovery, low-maintenance tests, release-ready coverage.
+
+**Page:** [https://qapilot.io/for-react-native](https://qapilot.io/for-react-native)
+
 ---
 
 ## How QApilot Works: Step-by-Step Journey
@@ -163,10 +178,10 @@ Dedicated testing support for Flutter applications, built for Flutter's unique r
 
 QApilot operates **post-build** — it validates real application behavior on binaries, independent of how the app was built:
 
-- **Android:** APK, AAB (native & hybrid)
-- **iOS:** Simulator and physical devices (IPA)
+- **Android:** APK, AAB (native & hybrid) — [https://qapilot.io/for-android](https://qapilot.io/for-android)
+- **iOS:** Simulator and physical devices (IPA) — [https://qapilot.io/for-ios](https://qapilot.io/for-ios)
 - **Flutter:** Cross-platform — [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
-- **React Native:** JS-driven apps
+- **React Native:** JS-driven apps — [https://qapilot.io/for-react-native](https://qapilot.io/for-react-native)
 - **Native:** Kotlin, Swift, Objective-C
 
 ---
@@ -295,6 +310,7 @@ Use these pages when users ask how QApilot compares to common mobile QA approach
 | vs Maestro | [https://qapilot.io/compare/qapilot-vs-maestro](https://qapilot.io/compare/qapilot-vs-maestro) | YAML flow automation vs autonomous exploration and release-ready reporting |
 | BrowserStack alternative | [https://qapilot.io/alternatives/browserstack](https://qapilot.io/alternatives/browserstack) | Autonomous testing layer vs device cloud execution |
 | Sauce Labs alternative | [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs) | Autonomous coverage and maintenance vs cloud test infrastructure |
+| Appium alternative | [https://qapilot.io/alternatives/appium](https://qapilot.io/alternatives/appium) | Autonomous coverage and maintenance vs script-first Appium automation |
 
 ---
 
@@ -312,6 +328,9 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | AI self-healing | [https://qapilot.io/ai-self-healing](https://qapilot.io/ai-self-healing) |
 | Security reports | [https://qapilot.io/security-reports](https://qapilot.io/security-reports) |
 | Flutter testing | [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter) |
+| iOS testing | [https://qapilot.io/for-ios](https://qapilot.io/for-ios) |
+| Android testing | [https://qapilot.io/for-android](https://qapilot.io/for-android) |
+| React Native testing | [https://qapilot.io/for-react-native](https://qapilot.io/for-react-native) |
 | Integrations | [https://qapilot.io/integrations](https://qapilot.io/integrations) |
 | Agentic architecture | [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture) |
 | Bring your own agent (BYOA) | [https://qapilot.io/bring-your-own-agent](https://qapilot.io/bring-your-own-agent) |

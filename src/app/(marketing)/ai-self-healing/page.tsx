@@ -26,6 +26,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: "AI Self-Healing Tests | QApilot",
     description:
       "Tests that fix themselves: transparent healing, human approval for locators, and execution reports you can trust.",

@@ -1,71 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
+import { INTEGRATION_TOOLS, integrationPath } from "@/lib/integrations";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 const path = PATHS.INTEGRATIONS;
-
-const integrations = [
-  {
-    name: "TestRail",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}962197a9-5e99-40b8-8f8c-794b50520d5e.png`,
-    description:
-      "Import test cases from TestRail and convert them into executable mobile tests with QApilot CoWork — bridging manual test management and autonomous execution.",
-  },
-  {
-    name: "Jira",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}jira-software-logo.png`,
-    description:
-      "Auto-log bugs and test failures to Jira with screen context, severity, and reproduction evidence — so engineering gets actionable tickets, not noise.",
-  },
-  {
-    name: "Microsoft Teams",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}bcb4526d-637b-49ba-a92d-b437d33a0516.png`,
-    description:
-      "Send build and test notifications to Teams channels so release managers and QE leads stay informed without leaving their workflow.",
-  },
-  {
-    name: "Slack",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}f9ca9bd8-d74c-4852-8fa6-34c1be76aea3.png`,
-    description:
-      "Get real-time alerts on test runs, failures, and release readiness signals directly in Slack.",
-  },
-  {
-    name: "BrowserStack",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}445698aa-1a01-42ef-9a78-96903c80c41f.png`,
-    description:
-      "Run QApilot-generated tests on BrowserStack device clouds — autonomous coverage generation paired with real-device execution at scale.",
-  },
-  {
-    name: "LambdaTest",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}9f5ef4eb-33b0-4852-a38a-61a25aaebe56.png`,
-    description:
-      "Execute mobile test suites across LambdaTest's device grid while QApilot handles exploration, generation, and self-healing.",
-  },
-  {
-    name: "Sauce Labs",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}e9abab36-d809-4b15-8fd2-134b7e1d473e.png`,
-    description:
-      "Combine QApilot's autonomous testing with Sauce Labs cloud infrastructure for parallel mobile execution.",
-  },
-  {
-    name: "Jenkins",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}7cbcd4d0-466c-4693-8d02-87a5f30f712b.png`,
-    description:
-      "Trigger QApilot test runs from Jenkins pipelines — integrate autonomous mobile QA into your CI/CD workflow.",
-  },
-  {
-    name: "XRAY",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}k3huxfe9vfbic6vuvurwtsvu5ggz.png`,
-    description:
-      "Sync test management workflows with XRAY for teams tracking coverage and release quality in Jira-native test management.",
-  },
-] as const;
 
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Integrations — Works With Your Testing Stack",
@@ -138,10 +82,11 @@ export default function IntegrationsPage() {
             />
 
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {integrations.map((integration) => (
-                <article
-                  key={integration.name}
-                  className="flex flex-col rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm backdrop-blur-sm"
+              {INTEGRATION_TOOLS.map((integration) => (
+                <Link
+                  key={integration.slug}
+                  href={integrationPath(integration.slug)}
+                  className="flex flex-col rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm backdrop-blur-sm transition-all hover:border-primary/30 hover:shadow-md"
                 >
                   <div className="mb-4 flex h-16 items-center">
                     <img
@@ -160,7 +105,8 @@ export default function IntegrationsPage() {
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground md:text-base">
                     {integration.description}
                   </p>
-                </article>
+                  <span className="mt-4 text-sm font-semibold text-primary">Learn more →</span>
+                </Link>
               ))}
             </div>
 

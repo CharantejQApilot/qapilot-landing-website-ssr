@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { INTEGRATION_SLUGS, integrationPath } from "@/lib/integrations";
 import { PATHS } from "@/lib/routes";
 
 /**
@@ -48,6 +49,21 @@ const staticPages: MetadataRoute.Sitemap = [
   },
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_FLUTTER}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.FOR_IOS}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.FOR_ANDROID}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.FOR_REACT_NATIVE}`,
     changeFrequency: "monthly",
     priority: 0.8,
   },
@@ -157,10 +173,20 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.76,
   },
   {
+    url: `${SITE_BASE_URL}${PATHS.ALTERNATIVES_APPIUM}`,
+    changeFrequency: "monthly",
+    priority: 0.76,
+  },
+  {
     url: `${SITE_BASE_URL}${PATHS.INTEGRATIONS}`,
     changeFrequency: "monthly",
     priority: 0.75,
   },
+  ...INTEGRATION_SLUGS.map((slug) => ({
+    url: `${SITE_BASE_URL}${integrationPath(slug)}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.72,
+  })),
   // Platform → By Role (paths must match PLATFORM_BY_ROLE in routes.ts; titles/descriptions also in prerender-meta)
   {
     url: `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`,

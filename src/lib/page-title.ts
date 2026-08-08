@@ -10,6 +10,10 @@ export const PAGE_TITLE_MIN_LEN = 30;
 
 const BRAND_SUFFIX_RE = /\s*\|\s*QApilot\s*$/i;
 
+/** Weak trailing words that make truncated titles look broken (e.g. "… for | QApilot"). */
+const WEAK_TRAILING_WORD_RE =
+  /\b(a|an|and|as|at|by|for|from|in|into|of|on|or|the|to|with|without|vs|via|makes?|complete|guide|qapilot)$/i;
+
 /** Remove trailing `| QApilot` segments (CMS titles often include the brand already). */
 export function stripBrandSuffix(title: string): string {
   let base = title.trim();
@@ -19,14 +23,27 @@ export function stripBrandSuffix(title: string): string {
   return base;
 }
 
+function stripTrailingPunctuation(text: string): string {
+  return text.replace(/[\s,.;:\-—–]+$/, "").trimEnd();
+}
+
 function truncateAtWordBoundary(text: string, maxLen: number): string {
   if (text.length <= maxLen) return text;
   const slice = text.slice(0, maxLen);
-  const lastSpace = slice.lastIndexOf(" ");
-  if (lastSpace > maxLen * 0.55) {
-    return slice.slice(0, lastSpace).trimEnd();
+  let cut = slice.lastIndexOf(" ");
+  if (cut <= maxLen * 0.55) {
+    return stripTrailingPunctuation(slice);
   }
-  return slice.trimEnd();
+  let truncated = stripTrailingPunctuation(slice.slice(0, cut));
+  // Drop dangling connector / brand words so titles don't end mid-phrase.
+  while (truncated) {
+    const parts = truncated.split(/\s+/);
+    const last = (parts[parts.length - 1] ?? "").replace(/[.,;\-—–]+$/, "");
+    if (!WEAK_TRAILING_WORD_RE.test(last) || parts.length <= 2) break;
+    parts.pop();
+    truncated = stripTrailingPunctuation(parts.join(" "));
+  }
+  return truncated;
 }
 
 /**
