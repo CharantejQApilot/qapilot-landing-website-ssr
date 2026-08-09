@@ -306,6 +306,9 @@ const Footer = () => {
                   <FooterLink to={PATHS.ABOUT}>About Us</FooterLink>
                 </li>
                 <li>
+                  <FooterLink to={PATHS.ENTERPRISE}>Enterprise</FooterLink>
+                </li>
+                <li>
                   <FooterLink to={PATHS.PARTNERS}>Partners</FooterLink>
                 </li>
                 <li>

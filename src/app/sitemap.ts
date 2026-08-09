@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { QAPILOT_EVENTS } from "@/lib/events-data";
 import { INTEGRATION_SLUGS, integrationPath } from "@/lib/integrations";
 import { PATHS } from "@/lib/routes";
 
@@ -53,21 +54,6 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.8,
   },
   {
-    url: `${SITE_BASE_URL}${PATHS.FOR_IOS}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_BASE_URL}${PATHS.FOR_ANDROID}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_BASE_URL}${PATHS.FOR_REACT_NATIVE}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
     url: `${SITE_BASE_URL}${PATHS.BRING_YOUR_OWN_AGENT}`,
     changeFrequency: "monthly",
     priority: 0.8,
@@ -87,6 +73,11 @@ const staticPages: MetadataRoute.Sitemap = [
     changeFrequency: "weekly",
     priority: 0.78,
   },
+  ...QAPILOT_EVENTS.map((event) => ({
+    url: `${SITE_BASE_URL}${PATHS.EVENTS}/${event.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  })),
   {
     url: `${SITE_BASE_URL}${PATHS.BLOGS}`,
     changeFrequency: "weekly",
@@ -220,11 +211,6 @@ const staticPages: MetadataRoute.Sitemap = [
   },
   {
     url: `${SITE_BASE_URL}${PATHS.PRIVACY}`,
-    changeFrequency: "yearly",
-    priority: 0.3,
-  },
-  {
-    url: `${SITE_BASE_URL}${PATHS.TERMS_CONDITIONS}`,
     changeFrequency: "yearly",
     priority: 0.3,
   },

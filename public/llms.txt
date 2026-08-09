@@ -3,7 +3,7 @@
 <!--
 llms.txt — Structured site content for LLMs, AI assistants, and autonomous agents
 Standard: https://llmstxt.org
-Last updated: July 2026
+Last updated: August 2026
 Canonical URL: https://qapilot.io/llms.txt
 Companion: https://qapilot.io/ai.txt (short pointers) · https://qapilot.io/robots.txt (crawler rules)
 -->
@@ -144,21 +144,6 @@ Dedicated testing support for Flutter applications, built for Flutter's unique r
 
 **Page:** [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
 
-### 9. iOS Testing
-Dedicated testing support for iOS applications on simulators and real devices — AI discovery, low-maintenance tests, release-ready coverage.
-
-**Page:** [https://qapilot.io/for-ios](https://qapilot.io/for-ios)
-
-### 10. Android Testing
-Dedicated testing support for Android APK/AAB builds on real devices and emulators — AI discovery, low-maintenance tests, release-ready coverage.
-
-**Page:** [https://qapilot.io/for-android](https://qapilot.io/for-android)
-
-### 11. React Native Testing
-Dedicated testing support for React Native applications across iOS and Android — AI discovery, low-maintenance tests, release-ready coverage.
-
-**Page:** [https://qapilot.io/for-react-native](https://qapilot.io/for-react-native)
-
 ---
 
 ## How QApilot Works: Step-by-Step Journey
@@ -178,10 +163,10 @@ Dedicated testing support for React Native applications across iOS and Android �
 
 QApilot operates **post-build** — it validates real application behavior on binaries, independent of how the app was built:
 
-- **Android:** APK, AAB (native & hybrid) — [https://qapilot.io/for-android](https://qapilot.io/for-android)
-- **iOS:** Simulator and physical devices (IPA) — [https://qapilot.io/for-ios](https://qapilot.io/for-ios)
+- **Android:** APK, AAB (native & hybrid)
+- **iOS:** Simulator and physical devices (IPA)
 - **Flutter:** Cross-platform — [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
-- **React Native:** JS-driven apps — [https://qapilot.io/for-react-native](https://qapilot.io/for-react-native)
+- **React Native:** JS-driven apps
 - **Native:** Kotlin, Swift, Objective-C
 
 ---
@@ -322,16 +307,18 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 |---|---|
 | Homepage | [https://qapilot.io/](https://qapilot.io/) |
 | Product overview | [https://qapilot.io/product](https://qapilot.io/product) |
+| CoWork | [https://qapilot.io/product/cowork](https://qapilot.io/product/cowork) |
+| Book a demo | [https://qapilot.io/book-demo](https://qapilot.io/book-demo) |
 | Enterprise | [https://qapilot.io/enterprise](https://qapilot.io/enterprise) |
 | Autonomous testing | [https://qapilot.io/product/autonomous-testing](https://qapilot.io/product/autonomous-testing) |
 | Intelligent bug detection | [https://qapilot.io/product/intelligent-bug-detection](https://qapilot.io/product/intelligent-bug-detection) |
 | AI self-healing | [https://qapilot.io/ai-self-healing](https://qapilot.io/ai-self-healing) |
 | Security reports | [https://qapilot.io/security-reports](https://qapilot.io/security-reports) |
 | Flutter testing | [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter) |
-| iOS testing | [https://qapilot.io/for-ios](https://qapilot.io/for-ios) |
-| Android testing | [https://qapilot.io/for-android](https://qapilot.io/for-android) |
-| React Native testing | [https://qapilot.io/for-react-native](https://qapilot.io/for-react-native) |
 | Integrations | [https://qapilot.io/integrations](https://qapilot.io/integrations) |
+| Integration → BrowserStack | [https://qapilot.io/integrations/browserstack](https://qapilot.io/integrations/browserstack) |
+| Integration → Jira | [https://qapilot.io/integrations/jira](https://qapilot.io/integrations/jira) |
+| Integration → Jenkins | [https://qapilot.io/integrations/jenkins](https://qapilot.io/integrations/jenkins) |
 | Agentic architecture | [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture) |
 | Bring your own agent (BYOA) | [https://qapilot.io/bring-your-own-agent](https://qapilot.io/bring-your-own-agent) |
 | Platform → QE Leader | [https://qapilot.io/for-qa-leader](https://qapilot.io/for-qa-leader) |
@@ -344,6 +331,9 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Labs | [https://qapilot.io/labs](https://qapilot.io/labs) |
 | FAQs | [https://qapilot.io/faqs](https://qapilot.io/faqs) |
 | News | [https://qapilot.io/news](https://qapilot.io/news) |
+| Events | [https://qapilot.io/events](https://qapilot.io/events) |
+| AI Time Savings | [https://qapilot.io/ai-time-savings](https://qapilot.io/ai-time-savings) |
+| Device Coverage Matrix | [https://qapilot.io/device-coverage-matrix](https://qapilot.io/device-coverage-matrix) |
 | Partners | [https://qapilot.io/partners](https://qapilot.io/partners) |
 | About | [https://qapilot.io/about](https://qapilot.io/about) |
 | Careers | [https://qapilot.io/careers](https://qapilot.io/careers) |
@@ -354,6 +344,7 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Compare → Maestro | [https://qapilot.io/compare/qapilot-vs-maestro](https://qapilot.io/compare/qapilot-vs-maestro) |
 | Alternative → BrowserStack | [https://qapilot.io/alternatives/browserstack](https://qapilot.io/alternatives/browserstack) |
 | Alternative → Sauce Labs | [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs) |
+| Alternative → Appium | [https://qapilot.io/alternatives/appium](https://qapilot.io/alternatives/appium) |
 | Terms of Service | [https://qapilot.io/terms](https://qapilot.io/terms) |
 | Privacy Policy | [https://qapilot.io/privacy](https://qapilot.io/privacy) |
 | Terms & conditions (alternate) | [https://qapilot.io/terms-conditions](https://qapilot.io/terms-conditions) |
@@ -399,7 +390,7 @@ Public marketing APIs (see OpenAPI): `/api/health`, `/api/site-promo`, `/api/hub
 - Twitter / X: [https://x.com/QApilot](https://x.com/QApilot)
 - GitHub: [https://github.com/qapilothq](https://github.com/qapilothq)
 - YouTube: [https://www.youtube.com/@QApilot](https://www.youtube.com/@QApilot)
-- Instagram: [https://www.instagram.com/qapilot/](https://www.instagram.com/qapilot/)
+- Instagram: [https://www.instagram.com/qa.pilot/](https://www.instagram.com/qa.pilot/)
 
 ---
 

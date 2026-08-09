@@ -1,4 +1,5 @@
 import { CheckCircle2, GitCompareArrows, MousePointerClick, ShieldCheck } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const STEPS = [
@@ -26,12 +27,9 @@ export function AiSelfHealingApprovalSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2">
+        <MarketingLedger cols={2} aria-label="Healing approval steps">
           {STEPS.map((step, i) => (
-            <div
-              key={step.title}
-              className="flex gap-4 rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm md:p-6"
-            >
+            <MarketingLedgerCell key={step.title} className="flex gap-4">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
                 {i + 1}
               </span>
@@ -39,9 +37,9 @@ export function AiSelfHealingApprovalSection() {
                 <step.Icon className="mt-1 h-6 w-6 shrink-0 text-primary" strokeWidth={1.35} aria-hidden />
                 <p className="pt-1 text-base font-semibold leading-snug text-foreground md:text-lg">{step.title}</p>
               </div>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

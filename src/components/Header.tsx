@@ -85,19 +85,25 @@ const Header = () => {
     path === PATHS.FOR_QA_ENGINEER ||
     path === PATHS.FOR_QA_LEADER ||
     path === PATHS.FOR_PRODUCT_OWNER ||
-    path === PATHS.FOR_SRE;
+    path === PATHS.FOR_SRE ||
+    path === PATHS.ENTERPRISE;
   const isResourcesActive = [PATHS.BLOGS, PATHS.QA_GUIDE, PATHS.LABS, PATHS.FAQS].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
-  const isCompanyActive = [PATHS.ABOUT, PATHS.CAREERS, PATHS.PARTNERS, PATHS.EVENTS, PATHS.NEWS].some(
-    (p) => path === p || path.startsWith(p + "/"),
-  );
+  const isCompanyActive = [
+    PATHS.ABOUT,
+    PATHS.ENTERPRISE,
+    PATHS.CAREERS,
+    PATHS.PARTNERS,
+    PATHS.EVENTS,
+    PATHS.NEWS,
+  ].some((p) => path === p || path.startsWith(p + "/"));
 
   const dropdownButtonClass = (active: boolean) =>
     `font-heading ${RIBBON_NAV_TEXT_CLASS} flex shrink-0 items-center gap-1.5 font-medium transition-colors rounded-md px-2 py-2 xl:px-3 xl:py-2.5 -mx-1 whitespace-nowrap ${
       active
-        ? "text-foreground font-semibold bg-primary/5"
-        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        ? "text-foreground font-semibold bg-muted/30"
+        : "text-muted-foreground hover:text-foreground hover:bg-muted/25"
     }`;
 
   return (
@@ -168,7 +174,7 @@ const Header = () => {
                     key={item.path}
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-secondary"
+                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-muted/30"
                   >
                     {item.label}
                   </NavItem>
@@ -202,7 +208,7 @@ const Header = () => {
                     key={item.path}
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-secondary"
+                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-muted/30"
                   >
                     {item.label}
                   </NavItem>
@@ -266,7 +272,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("platform")}
-                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md ${isPlatformActive ? "bg-primary/5 font-semibold" : ""}`}
+                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md ${isPlatformActive ? "bg-muted/25 font-semibold" : ""}`}
                 >
                   <ChevronRight
                     size={18}
@@ -283,7 +289,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-solution")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -301,7 +307,7 @@ const Header = () => {
                               to={item.path}
                               isActive={isPathActive(item.path)}
                               forceForeground
-                              className="block py-2 px-2 hover:bg-secondary rounded-md"
+                              className="block py-2 px-2 hover:bg-muted/30 rounded-md"
                             >
                               {item.label}
                             </NavItem>
@@ -314,7 +320,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-role")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -332,7 +338,7 @@ const Header = () => {
                               to={item.path}
                               isActive={isPathActive(item.path)}
                               forceForeground
-                              className="block py-2 px-2 hover:bg-secondary rounded-md"
+                              className="block py-2 px-2 hover:bg-muted/30 rounded-md"
                             >
                               {item.label}
                             </NavItem>
@@ -345,7 +351,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-agents")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -363,7 +369,7 @@ const Header = () => {
                               to={item.path}
                               isActive={isPathActive(item.path)}
                               forceForeground
-                              className="block py-2 px-2 hover:bg-secondary rounded-md"
+                              className="block py-2 px-2 hover:bg-muted/30 rounded-md"
                             >
                               {item.label}
                             </NavItem>
@@ -380,7 +386,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("resources")}
-                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md ${isResourcesActive ? "bg-primary/5 font-semibold" : ""}`}
+                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md ${isResourcesActive ? "bg-muted/25 font-semibold" : ""}`}
                 >
                   <ChevronRight
                     size={18}
@@ -398,7 +404,7 @@ const Header = () => {
                         to={item.path}
                         isActive={isPathActive(item.path)}
                         forceForeground
-                        className="block py-2 px-2 hover:bg-secondary rounded-md"
+                        className="block py-2 px-2 hover:bg-muted/30 rounded-md"
                       >
                         {item.label}
                       </NavItem>
@@ -411,7 +417,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("company")}
-                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md ${isCompanyActive ? "bg-primary/5 font-semibold" : ""}`}
+                  className={`flex w-full items-center gap-2 py-2.5 px-4 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md ${isCompanyActive ? "bg-muted/25 font-semibold" : ""}`}
                 >
                   <ChevronRight
                     size={18}
@@ -429,7 +435,7 @@ const Header = () => {
                         to={item.path}
                         isActive={isPathActive(item.path)}
                         forceForeground
-                        className="block py-2 px-2 hover:bg-secondary rounded-md"
+                        className="block py-2 px-2 hover:bg-muted/30 rounded-md"
                       >
                         {item.label}
                       </NavItem>
@@ -440,7 +446,7 @@ const Header = () => {
 
               <a
                 href={`${DOCS_URL}/`}
-                className={`flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-secondary rounded-md`}
+                className={`flex items-center gap-2 py-2.5 px-4 ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
               >
                 <span className="w-[18px] shrink-0" aria-hidden />
                 Documentation

@@ -43,7 +43,7 @@ export function MarketingBackground({
   className,
   showDiagonalGrid = true,
   showPixelRipple = true,
-  progressiveBlur = true,
+  progressiveBlur = false,
 }: MarketingBackgroundProps) {
   if (variant === "none") return null;
 

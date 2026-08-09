@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import ClientsSection from "@/components/ClientsSection";
 import VelocitySection from "@/components/VelocitySection";
+import ReleaseReadinessFlowSection from "@/components/ReleaseReadinessFlowSection";
 import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import MetricsSection from "@/components/MetricsSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
@@ -57,13 +58,15 @@ export default function IndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageJsonLd) }}
       />
       <main>
+        {/* S01–S02 hero + trust · S03 metrics · S04 product · S05 pipeline · S06 ledger · S07 demo · S13 frameworks · S09 proof · S12 ecosystem */}
         <HeroSection />
-        <ClientsSection />
         <MetricsSection />
-        <VelocitySection />
         <CoreAdvantageHeading />
-        <ModernFrameworksSection />
+        <ReleaseReadinessFlowSection />
+        <VelocitySection />
         <ProductShowcaseSection />
+        <ModernFrameworksSection />
+        <ClientsSection />
         <IntegrationsSection />
       </main>
       <HomeExitIntentPopup />

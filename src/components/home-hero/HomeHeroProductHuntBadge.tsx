@@ -32,12 +32,15 @@ export default function HomeHeroProductHuntBadge({
           align === "center" ? "justify-center" : "justify-start",
         )}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element -- Product Hunt embed widget */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- self-hosted PH badge; keep H1 as LCP */}
         <img
           alt={PRODUCT_HUNT_TOP_POST_BADGE.imageAlt}
           width={PRODUCT_HUNT_TOP_POST_BADGE.width}
           height={PRODUCT_HUNT_TOP_POST_BADGE.height}
           src={PRODUCT_HUNT_TOP_POST_BADGE.imageSrc}
+          loading="eager"
+          decoding="async"
+          fetchPriority="low"
           className={cn(
             "block h-auto w-full max-w-full object-contain",
             align === "start" ? "max-w-[min(200px,100%)]" : "max-w-[min(250px,100%)]",

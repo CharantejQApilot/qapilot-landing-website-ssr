@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { cn } from "@/lib/utils";
 
 const ROWS = [
   { before: "Broken tests", after: "Stable execution" },
@@ -26,23 +26,17 @@ export function AiSelfHealingOutcomesSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:gap-6">
+        <MarketingLedger cols={2} aria-label="Self-healing outcomes">
           {ROWS.map((row) => (
-            <div
-              key={row.before}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border/80 bg-card/90 p-6 shadow-md backdrop-blur-sm",
-                "motion-safe:hover:border-primary/25 motion-safe:hover:shadow-lg",
-              )}
-            >
+            <MarketingLedgerCell key={row.before}>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                 <span className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{row.before}</span>
                 <ArrowRight className="hidden h-4 w-4 shrink-0 text-primary sm:block" aria-hidden />
                 <span className="font-heading text-lg font-semibold text-primary md:text-xl">{row.after}</span>
               </div>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

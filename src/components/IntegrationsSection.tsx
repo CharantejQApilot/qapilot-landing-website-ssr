@@ -1,9 +1,9 @@
-import { marketingSectionH2Class } from "@/lib/marketing-typography";
-import { cn } from "@/lib/utils";
-import { PATHS } from "@/lib/routes";
+import Image from "next/image";
 import Link from "next/link";
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
+import { PATHS } from "@/lib/routes";
 import { PARTNER_LOGOS_PATH_PREFIX } from "@/lib/seo";
-import { IntegrationsMarqueeDesktop } from "@/components/integrations/IntegrationsMarqueeDesktop";
+import { cn } from "@/lib/utils";
 
 const integrations = [
   { name: "TestRail", logo: `${PARTNER_LOGOS_PATH_PREFIX}e9abab36-d809-4b15-8fd2-134b7e1d473e.png` },
@@ -19,46 +19,7 @@ const integrations = [
   { name: "XRAY", logo: `${PARTNER_LOGOS_PATH_PREFIX}k3huxfe9vfbic6vuvurwtsvu5ggz.png` },
 ];
 
-function IntegrationTile({ compact }: { compact?: boolean }) {
-  return (
-    <>
-      {integrations.map((integration) => (
-        <div
-          key={integration.name}
-          className={cn(
-            "flex items-center justify-center rounded-xl border border-border bg-background",
-            compact
-              ? "h-[4.5rem] p-3"
-              : "h-24 w-36 flex-shrink-0 p-4 sm:h-28 sm:w-44 lg:h-32 lg:w-52 lg:p-6 2xl:h-36 2xl:w-60 2xl:p-8",
-          )}
-        >
-          <img
-            src={integration.logo}
-            alt={`${integration.name} integration with QApilot`}
-            width={80}
-            height={64}
-            loading="lazy"
-            decoding="async"
-            className="object-contain"
-            style={{
-              maxWidth: compact ? "64px" : "80px",
-              maxHeight: compact ? "48px" : "64px",
-            }}
-          />
-        </div>
-      ))}
-    </>
-  );
-}
-
-function IntegrationRow() {
-  return (
-    <div className="flex items-center gap-6 pr-6">
-      <IntegrationTile />
-    </div>
-  );
-}
-
+/** S12 ecosystem stack — one static grid (no duplicate marquees). */
 const IntegrationsSection = () => {
   return (
     <section className="relative overflow-hidden border-t border-border bg-background section-edge w-full pt-7 md:pt-[2.45rem] 2xl:pt-[2.8rem]">
@@ -84,18 +45,28 @@ const IntegrationsSection = () => {
         <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle" aria-hidden />
 
         <div className="relative z-10 py-12 md:py-16 2xl:py-20">
-          {/* Mobile: static grid — no animation, single set of logos */}
           <div
-            className="section-full grid grid-cols-2 gap-3 px-4 xs:grid-cols-3 sm:gap-4 md:hidden"
+            className="section-full grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:gap-4"
             aria-label="Integration partners"
           >
-            <IntegrationTile compact />
+            {integrations.map((integration) => (
+              <div
+                key={integration.name}
+                className="flex h-[4.5rem] items-center justify-center rounded-xl border border-border bg-background p-3 sm:h-24 sm:p-4"
+              >
+                <Image
+                  src={integration.logo}
+                  alt={`${integration.name} integration with QApilot`}
+                  width={80}
+                  height={64}
+                  loading="lazy"
+                  decoding="async"
+                  className="object-contain"
+                  style={{ maxWidth: "80px", maxHeight: "64px" }}
+                />
+              </div>
+            ))}
           </div>
-
-          {/* Desktop: infinite scroll marquee — animation starts when near viewport */}
-          <IntegrationsMarqueeDesktop>
-            <IntegrationRow />
-          </IntegrationsMarqueeDesktop>
 
           <div className="section-full mt-12 text-center md:mt-14">
             <p className="text-sm text-muted-foreground/60 2xl:text-base">

@@ -2,6 +2,19 @@ import type { Metadata } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { formatPageTitle, formatPageTitleString } from "@/lib/page-title";
 
+/** SERP display budget for meta descriptions (~160 chars). */
+export const META_DESCRIPTION_MAX_LEN = 160;
+
+/** Trim description at a word boundary for SERP-safe length. */
+export function formatMetaDescription(raw: string, maxLen = META_DESCRIPTION_MAX_LEN): string {
+  const text = raw.replace(/\s+/g, " ").trim();
+  if (text.length <= maxLen) return text;
+  const slice = text.slice(0, maxLen);
+  const lastSpace = slice.lastIndexOf(" ");
+  const cut = lastSpace > maxLen * 0.6 ? lastSpace : maxLen;
+  return slice.slice(0, cut).replace(/[\s,.;:\-—–]+$/, "").trimEnd();
+}
+
 /** Organization / schema.org logo (not used for og:image or header wordmark). */
 export const ORG_LOGO_PATH = "/QApilotLogo.svg";
 export const ORG_LOGO_URL = `${SITE_BASE_URL}${ORG_LOGO_PATH}`;
@@ -83,16 +96,19 @@ export function buildStaticPageMetadata({
 }: StaticPageMetadataInput): Metadata {
   const canonicalUrl = `${SITE_BASE_URL}${path}`;
   const displayTitle = formatPageTitleString(title);
+  const metaDescription = formatMetaDescription(description);
+  const ogDesc = formatMetaDescription(ogDescription ?? description);
+  const twitterDesc = formatMetaDescription(twitterDescription ?? ogDescription ?? description);
 
   return {
     title: formatPageTitle(title),
-    description,
+    description: metaDescription,
     alternates: { canonical: canonicalUrl },
     openGraph: {
       type: "website",
       url: canonicalUrl,
       title: displayTitle,
-      description: ogDescription ?? description,
+      description: ogDesc,
       siteName: "QApilot",
       locale: "en_US",
       images: [defaultOpenGraphImage],
@@ -100,7 +116,7 @@ export function buildStaticPageMetadata({
     twitter: {
       card: "summary_large_image",
       title: displayTitle,
-      description: twitterDescription ?? ogDescription ?? description,
+      description: twitterDesc,
       images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
     },
   };

@@ -57,7 +57,7 @@ export default function HeaderDesktopPlatformMenu({
                   <NavItem
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-secondary"
+                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-muted/30"
                   >
                     {Icon && <Icon size={18} className="shrink-0 text-muted-foreground" />}
                     {item.label}
@@ -77,7 +77,7 @@ export default function HeaderDesktopPlatformMenu({
                   <NavItem
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-secondary"
+                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-muted/30"
                   >
                     {Icon && <Icon size={18} className="shrink-0 text-muted-foreground" />}
                     <span className="min-w-0 leading-snug">{item.label}</span>
@@ -97,7 +97,7 @@ export default function HeaderDesktopPlatformMenu({
                   <NavItem
                     to={item.path}
                     isActive={isPathActive(item.path)}
-                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-secondary"
+                    className="flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-lg hover:bg-muted/30"
                   >
                     {Icon && <Icon size={18} className="shrink-0 text-muted-foreground" />}
                     {item.label}

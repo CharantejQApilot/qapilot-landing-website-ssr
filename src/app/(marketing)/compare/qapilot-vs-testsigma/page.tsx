@@ -3,6 +3,7 @@ import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingSectionHeader } from "@/components/marketing";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
@@ -213,19 +214,16 @@ export default function QApilotVsTestsigmaPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <MarketingLedger cols={2} aria-label="What QApilot brings beyond Testsigma">
               {featureCards.map((feature) => (
-                <article
-                  key={feature.title}
-                  className="rounded-xl border border-border/65 bg-card/85 p-4 shadow-sm"
-                >
+                <MarketingLedgerCell key={feature.title}>
                   <h3 className="font-heading text-base font-semibold tracking-tight text-foreground">
                     {feature.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
 
             <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">
               Explore{" "}
@@ -246,15 +244,17 @@ export default function QApilotVsTestsigmaPage() {
         </section>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full text-center">
+          <div className="section-full">
+            <div className="sig-close">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               Ready for <span className="text-primary">Autonomous Mobile Coverage</span>?
             </h2>
             <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
               See how QApilot helps mobile teams move from AI-assisted authoring to fully autonomous testing.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="sig-cta-row">
               <BookDemoCtaButton />
+            </div>
             </div>
           </div>
         </section>

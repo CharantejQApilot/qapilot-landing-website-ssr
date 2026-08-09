@@ -6,36 +6,18 @@ import OpenPositionsSection, {
   type JobOrganization,
 } from "@/components/OpenPositionsSection";
 import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { buildStaticPageMetadata } from "@/lib/seo";
 
-const canonicalUrl = `${SITE_BASE_URL}${PATHS.CAREERS}`;
-
-export const metadata: Metadata = {
-  title: "Careers - Join the QApilot Team",
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "Careers — Join the Team",
   description:
-    "Join the QApilot team. Help shape what quality looks like in an AI-first world. Explore career opportunities in AI-powered quality assurance.",
-  alternates: { canonical: canonicalUrl },
-  openGraph: {
-    type: "website",
-    url: canonicalUrl,
-    title: "Careers - Join the QApilot Team | QApilot",
-    description:
-      "Career opportunities in AI-powered mobile testing and quality assurance.",
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [defaultOpenGraphImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Careers at QApilot",
-    description:
-      "Join the team building AI-native mobile testing and release readiness.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
-  },
-};
+    "Join QApilot and help shape quality in an AI-first world. Explore careers in AI-powered mobile testing and quality assurance.",
+  path: PATHS.CAREERS,
+  ogDescription: "Career opportunities in AI-powered mobile testing and QA.",
+  twitterDescription: "Join the team building AI-native mobile testing and release readiness.",
+});
 
 /** Server-render job listings for crawlers (full copy + links in HTML). */
 export const dynamic = "force-dynamic";

@@ -1,3 +1,6 @@
+/* Homepage / marketing section archetypes — layout only (existing tokens). */
+@import "../styles/signal/layout.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

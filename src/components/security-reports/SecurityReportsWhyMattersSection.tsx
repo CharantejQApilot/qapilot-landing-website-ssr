@@ -1,6 +1,6 @@
 import { BadgeCheck, ClipboardList, Lightbulb, ShieldAlert } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { cn } from "@/lib/utils";
 
 const POINTS = [
   {
@@ -60,16 +60,9 @@ export function SecurityReportsWhyMattersSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 lg:gap-6">
+        <MarketingLedger cols={2} aria-label="Why security reports matter">
           {POINTS.map((p) => (
-            <div
-              key={p.title}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border/60 bg-background/80 p-6 shadow-sm backdrop-blur-md",
-                "transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-primary/35 motion-safe:hover:shadow-lg motion-safe:hover:shadow-primary/5",
-                "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-gradient-to-r before:from-primary/0 before:via-primary/70 before:to-primary/0 before:opacity-60",
-              )}
-            >
+            <MarketingLedgerCell key={p.title}>
               <div className="flex gap-4">
                 <span
                   className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15"
@@ -82,9 +75,9 @@ export function SecurityReportsWhyMattersSection() {
                   <p className="mt-2 text-base leading-relaxed text-muted-foreground">{p.body}</p>
                 </div>
               </div>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const REASONS = [
@@ -32,21 +33,18 @@ export function CoWorkWhyTeamsSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="grid gap-6 md:grid-cols-3 md:gap-8">
+        <MarketingLedger cols={3} aria-label="Why teams use CoWork">
           {REASONS.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-border/80 bg-card p-6 shadow-sm md:p-8"
-            >
+            <MarketingLedgerCell key={item.title}>
               <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground md:text-xl">
                 {item.title}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                 {item.body}
               </p>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

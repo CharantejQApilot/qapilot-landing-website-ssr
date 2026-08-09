@@ -7,9 +7,6 @@ export const PATHS = {
   HOME: "/",
   PRODUCT: "/product",
   FOR_FLUTTER: "/for-flutter",
-  FOR_IOS: "/for-ios",
-  FOR_ANDROID: "/for-android",
-  FOR_REACT_NATIVE: "/for-react-native",
   BRING_YOUR_OWN_AGENT: "/bring-your-own-agent",
   AGENTIC_ARCHITECTURE: "/agentic-architecture",
   ENTERPRISE: "/enterprise",
@@ -75,9 +72,6 @@ export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.COWORK, label: "CoWork", icon: "PenLine" },
   { path: PATHS.INTELLIGENT_BUG_DETECTION, label: "Intelligent Bug Detection", icon: "Bug" },
   { path: PATHS.FOR_FLUTTER, label: "Flutter Testing", icon: "Smartphone" },
-  { path: PATHS.FOR_IOS, label: "iOS Testing", icon: "Smartphone" },
-  { path: PATHS.FOR_ANDROID, label: "Android Testing", icon: "Smartphone" },
-  { path: PATHS.FOR_REACT_NATIVE, label: "React Native Testing", icon: "Smartphone" },
   { path: PATHS.SECURITY_REPORTS, label: "Security Reports", icon: "ShieldCheck" },
   { path: PATHS.AI_SELF_HEALING, label: "AI Self Healing", icon: "RefreshCw" },
 ] as const;
@@ -108,6 +102,7 @@ export const RESOURCE_NAV_LINKS = [
 /** Company dropdown (header: About, Partners, Careers, Events, News) */
 export const COMPANY_NAV_LINKS = [
   { path: PATHS.ABOUT, label: "About Us" },
+  { path: PATHS.ENTERPRISE, label: "Enterprise" },
   { path: PATHS.PARTNERS, label: "Partners" },
   { path: PATHS.CAREERS, label: "Careers" },
   { path: PATHS.EVENTS, label: "Events" },

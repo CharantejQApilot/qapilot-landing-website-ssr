@@ -8,40 +8,18 @@ import { AutonomousTestingTeamsSection } from "@/components/autonomous-testing/A
 import { AutonomousTestingWhatChangesSection } from "@/components/autonomous-testing/AutonomousTestingWhatChangesSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
-import { formatPageTitle } from "@/lib/page-title";
+import { buildStaticPageMetadata } from "@/lib/seo";
 
-const canonicalUrl = `${SITE_BASE_URL}${PATHS.AUTONOMOUS_TESTING}`;
-
-const PAGE_TITLE = formatPageTitle("Autonomous Mobile Testing — No Scripts");
-const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
-
-export const metadata: Metadata = {
-  title: PAGE_TITLE,
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "Autonomous Mobile Testing — No Scripts",
   description:
-    "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
-  alternates: {
-    canonical: canonicalUrl,
-  },
-  openGraph: {
-    type: "website",
-    title: PAGE_TITLE_TEXT,
-    description:
-      "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
-    url: canonicalUrl,
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [defaultOpenGraphImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: PAGE_TITLE_TEXT,
-    description:
-      "Crawl your app like a real user, build a knowledge graph, and generate test coverage automatically — zero scripting required.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
-  },
-};
+    "Crawl your app like a real user, build a knowledge graph, and generate iOS & Android coverage automatically—zero scripting required.",
+  path: PATHS.AUTONOMOUS_TESTING,
+  ogDescription:
+    "Autonomous mobile testing: explore, map journeys, and generate coverage with no scripts.",
+  twitterDescription:
+    "Crawl like a real user and generate test coverage automatically—zero scripting.",
+});
 
 export const revalidate = 300;
 

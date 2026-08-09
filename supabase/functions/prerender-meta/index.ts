@@ -93,21 +93,6 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "The best AI-native platform for Flutter app testing. Instant sanity checks and scalable functional coverage engineered for Flutter's unique needs. Zero setup, script-free testing.",
   },
-  "/for-ios": {
-    title: "iOS Testing That Actually Works | QApilot",
-    description:
-      "QApilot runs iOS apps on simulators and real devices—AI element discovery, low-maintenance tests, and release-ready coverage without brittle scripts.",
-  },
-  "/for-android": {
-    title: "Android Testing That Actually Works | QApilot",
-    description:
-      "QApilot runs Android APK and AAB builds—AI element discovery, low-maintenance tests, and release-ready coverage on real devices and emulators.",
-  },
-  "/for-react-native": {
-    title: "React Native Testing That Actually Works | QApilot",
-    description:
-      "QApilot runs React Native apps across iOS and Android—AI element discovery, low-maintenance tests, and release-ready coverage without brittle scripts.",
-  },
   "/bring-your-own-agent": {
     title: "Differentiators - What Makes QApilot Different | QApilot",
     description:

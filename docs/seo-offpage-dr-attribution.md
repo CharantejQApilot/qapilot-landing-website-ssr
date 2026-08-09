@@ -21,7 +21,7 @@ Use Ahrefs / Semrush / Google Search Console (Links) and record:
 
 - Partner / customer case mentions with a dofollow link to a relevant landing page.
 - Compare & alternatives pages (`/compare/*`, `/alternatives/*`) when people publish “Appium alternative” roundups.
-- Platform pages (`/for-ios`, `/for-android`, `/for-flutter`, `/for-react-native`) for framework-specific mentions.
+- Platform pages (e.g. `/for-flutter`) for framework-specific mentions.
 - Blog posts with clear primary keywords and outbound outreach to communities that already linked once.
 
 ## Owner

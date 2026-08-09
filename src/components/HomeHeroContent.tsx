@@ -7,15 +7,15 @@ import { cn } from "@/lib/utils";
 
 function HomeHeroLandingPanel() {
   return (
-    <div className="flex w-full min-w-0 flex-col items-center">
+    <div className="flex w-full min-w-0 flex-col items-center lg:items-start">
       <h1
         className={cn(
           marketingHeroH1Class,
-          "mb-6 w-full text-center text-balance sm:mb-8 md:mb-10",
+          "mb-6 w-full text-center text-balance sm:mb-8 md:mb-10 lg:text-left",
           "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
         )}
       >
-        <span className="flex flex-col items-center gap-y-1.5 sm:gap-y-2.5 md:gap-y-3">
+        <span className="flex flex-col items-center gap-y-1.5 sm:gap-y-2.5 md:gap-y-3 lg:items-start">
           <span className="block px-1 leading-[inherit] sm:whitespace-nowrap">
             When Your App Is <span className="text-hero-here">Mobile-first</span>,{" "}
           </span>
@@ -28,7 +28,7 @@ function HomeHeroLandingPanel() {
       <p
         className={cn(
           marketingHeroLeadClass,
-          "max-w-xl text-center text-balance",
+          "max-w-xl text-center text-balance lg:text-left",
         )}
       >
         <Link
@@ -44,15 +44,15 @@ function HomeHeroLandingPanel() {
   );
 }
 
-/** Server-rendered hero copy + client explore stage; demo CTA stays pinned below. */
+/** Server-rendered hero copy + client explore stage; demo CTA stays pinned below. S01 alignment. */
 export default function HomeHeroContent() {
   return (
-    <div className="flex w-full min-w-0 flex-col items-center">
+    <div className="flex w-full min-w-0 flex-col items-center lg:items-stretch">
       <HomeHeroExploreStage>
         <HomeHeroLandingPanel />
       </HomeHeroExploreStage>
 
-      <div className="mt-8 flex w-full flex-col items-center sm:mt-10 md:mt-12">
+      <div className="sig-cta-row mt-8 w-full justify-center sm:mt-10 md:mt-12 lg:justify-start">
         <HomeHeroDemoButton />
       </div>
     </div>

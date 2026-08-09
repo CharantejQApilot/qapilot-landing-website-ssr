@@ -1,35 +1,18 @@
 import type { Metadata } from "next";
 import AboutClient from "./AboutClient";
 import { PATHS } from "@/lib/routes";
-import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 
-const canonicalUrl = `${SITE_BASE_URL}${PATHS.ABOUT}`;
-
-export const metadata: Metadata = {
-  title: "About QApilot - AI-Native Mobile App Testing Company",
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "About — AI-Native Mobile App Testing Company",
   description:
-    "QApilot exists to make mobile testing effortless, scalable, and future-ready for every team, from startups to global enterprises. Learn about our mission and vision.",
-  alternates: { canonical: canonicalUrl },
-  openGraph: {
-    type: "website",
-    url: canonicalUrl,
-    title: "About QApilot - AI-Native Mobile App Testing Company",
-    description:
-      "QApilot exists to make mobile testing effortless, scalable, and future-ready for every team, from startups to global enterprises.",
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [defaultOpenGraphImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "About QApilot - AI-Native Mobile App Testing Company",
-    description:
-      "Learn about our mission to make mobile testing effortless and future-ready.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
-  },
-};
+    "QApilot makes mobile testing effortless, scalable, and future-ready for startups to enterprises. Learn about our mission and vision.",
+  path: PATHS.ABOUT,
+  ogDescription:
+    "Mobile testing that is effortless, scalable, and future-ready—from startups to global enterprises.",
+  twitterDescription: "Our mission to make mobile testing effortless and future-ready.",
+});
 
 export default function AboutPage() {
   return (
