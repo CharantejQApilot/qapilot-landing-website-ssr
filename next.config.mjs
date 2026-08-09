@@ -82,7 +82,12 @@ const nextConfig = {
       },
       {
         source: "/appium-alternative",
-        destination: "/alternatives/appium",
+        destination: "/compare/qapilot-vs-appium",
+        permanent: true,
+      },
+      {
+        source: "/alternatives/appium",
+        destination: "/compare/qapilot-vs-appium",
         permanent: true,
       },
       {

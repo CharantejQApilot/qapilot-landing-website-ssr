@@ -14,7 +14,7 @@ npm run sanity-check -- --production
 Confirm live:
 
 - `/for-flutter` → 200
-- `/alternatives/appium` → 200 (not redirect to compare)
+- `/alternatives/appium` → 308 → `/compare/qapilot-vs-appium`
 - `/integrations/jira` (and siblings) → 200
 - `/book-demo` CTAs from homepage/footer → same-origin
 

@@ -27,7 +27,7 @@ export default function CareerNotFound() {
         </h1>
         <p className="mt-4 max-w-md text-muted-foreground">
           The job posting you&apos;re looking for may have been filled, closed,
-          or never existed. Browse our open roles instead.
+          or never existed. Reach out from the careers page instead.
         </p>
         <Button asChild className="mt-8" size="lg">
           <Link href={PATHS.CAREERS}>Back to careers</Link>

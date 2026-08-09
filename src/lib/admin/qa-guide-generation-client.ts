@@ -12,6 +12,7 @@ export type GenerationQueueItem = {
   competitor_url_3: string | null;
   target_audience: string | null;
   notes: string | null;
+  writer_id: string | null;
   created_at: string;
   run_started_at: string | null;
   run_completed_at: string | null;

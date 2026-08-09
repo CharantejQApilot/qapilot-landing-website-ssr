@@ -115,6 +115,12 @@ export default function QaGuidesCMS() {
       ]);
       await revalidatePublicPaths(session.session?.access_token, paths);
 
+      try {
+        await supabase.functions.invoke("ping-sitemap");
+      } catch (error) {
+        console.error("Failed to ping search engines:", error);
+      }
+
       toast({
         title: "Published",
         description: "Guide is live, indexable, and in the sitemap.",

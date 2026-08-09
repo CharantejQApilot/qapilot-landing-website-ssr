@@ -16,6 +16,7 @@ export type CreateDraftQaGuideInput = {
   content_html?: string;
   cover_image_url?: string | null;
   author?: string;
+  writer_id?: string | null;
   tags?: string[] | string;
   seo?: {
     meta_title?: string;
@@ -67,6 +68,7 @@ export async function createDraftQaGuide(
     content_format: input.content_markdown ? "markdown" : "html",
     featured_image: input.cover_image_url?.trim() ?? null,
     author_name: input.author?.trim() ?? "Editorial Team",
+    writer_id: input.writer_id?.trim() || null,
     tags: tagsFromPayload(input.tags, seo),
     tier: draftFields.tier,
     status: draftFields.status,

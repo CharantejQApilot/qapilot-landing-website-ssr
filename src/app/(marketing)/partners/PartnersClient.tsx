@@ -269,7 +269,7 @@ const PartnersClient = () => {
           />
 
           <ul
-            className="grid w-full grid-cols-2 gap-5 sm:gap-6 md:grid-cols-3 md:gap-7 lg:grid-cols-5 lg:gap-8"
+            className="grid w-full grid-cols-2 gap-5 sm:gap-6 md:grid-cols-4 md:gap-7 lg:gap-8"
             aria-label="Partner logos"
           >
             {PARTNERS.map((partner) => (

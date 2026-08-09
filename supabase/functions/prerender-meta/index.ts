@@ -81,7 +81,7 @@ const STATIC_PAGES: Record<string, PageMeta> = {
   "/careers": {
     title: "Careers - Join the QApilot Team",
     description:
-      "Join the QApilot team. Help shape what quality looks like in an AI-first world. Explore career opportunities in AI-powered quality assurance.",
+      "Join the QApilot team. Help shape what quality looks like in an AI-first world. Reach out with a general application for careers in AI-powered quality assurance.",
   },
   "/partners": {
     title: "Partners Program — Grow Mobile QA | QApilot",
@@ -121,7 +121,7 @@ const STATIC_PAGES: Record<string, PageMeta> = {
   "/qa-guide": {
     title: "QE Guide — Mobile Testing Guides & Checklists | QApilot",
     description:
-      "In-depth QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.",
+      "In-depth QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from QApilot practitioners.",
   },
   "/compare/qapilot-vs-web-first-automation-tools": {
     title: "QApilot vs Web-First Automation Tools | Mobile-First App Testing | QApilot",
@@ -157,11 +157,6 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     title: "Sauce Labs Alternative — Autonomous Mobile Testing | QApilot",
     description:
       "Looking for a Sauce Labs alternative? QApilot delivers autonomous mobile test generation, self-healing, and release readiness beyond device clouds.",
-  },
-  "/alternatives/appium": {
-    title: "Appium Alternative — Autonomous Mobile Testing | QApilot",
-    description:
-      "Looking for an Appium alternative? QApilot adds autonomous exploration, AI-native test generation, self-healing, and release-ready reporting beyond script-first automation.",
   },
   "/integrations": {
     title: "Integrations — Works With Your Testing Stack | QApilot",

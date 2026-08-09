@@ -58,7 +58,6 @@ const STATIC_PATHS = [
   "/compare/qapilot-vs-maestro",
   "/alternatives/browserstack",
   "/alternatives/sauce-labs",
-  "/alternatives/appium",
   "/integrations",
   "/integrations/browserstack",
   "/integrations/jira",
@@ -79,7 +78,12 @@ const REDIRECT_CHECKS = [
   {
     path: "/appium-alternative",
     expectStatus: 308,
-    expectLocationIncludes: "/alternatives/appium",
+    expectLocationIncludes: "/compare/qapilot-vs-appium",
+  },
+  {
+    path: "/alternatives/appium",
+    expectStatus: 308,
+    expectLocationIncludes: "/compare/qapilot-vs-appium",
   },
   {
     path: "/terms-conditions",

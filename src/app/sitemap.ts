@@ -164,11 +164,6 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.76,
   },
   {
-    url: `${SITE_BASE_URL}${PATHS.ALTERNATIVES_APPIUM}`,
-    changeFrequency: "monthly",
-    priority: 0.76,
-  },
-  {
     url: `${SITE_BASE_URL}${PATHS.INTEGRATIONS}`,
     changeFrequency: "monthly",
     priority: 0.75,

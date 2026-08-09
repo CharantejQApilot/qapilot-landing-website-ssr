@@ -32,7 +32,6 @@ Compare-Testsigma: https://qapilot.io/compare/qapilot-vs-testsigma
 Compare-Maestro: https://qapilot.io/compare/qapilot-vs-maestro
 Alternative-BrowserStack: https://qapilot.io/alternatives/browserstack
 Alternative-Sauce-Labs: https://qapilot.io/alternatives/sauce-labs
-Alternative-Appium: https://qapilot.io/alternatives/appium
 Integrations: https://qapilot.io/integrations
 
 # Resources

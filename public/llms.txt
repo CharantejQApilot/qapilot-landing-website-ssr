@@ -295,7 +295,6 @@ Use these pages when users ask how QApilot compares to common mobile QA approach
 | vs Maestro | [https://qapilot.io/compare/qapilot-vs-maestro](https://qapilot.io/compare/qapilot-vs-maestro) | YAML flow automation vs autonomous exploration and release-ready reporting |
 | BrowserStack alternative | [https://qapilot.io/alternatives/browserstack](https://qapilot.io/alternatives/browserstack) | Autonomous testing layer vs device cloud execution |
 | Sauce Labs alternative | [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs) | Autonomous coverage and maintenance vs cloud test infrastructure |
-| Appium alternative | [https://qapilot.io/alternatives/appium](https://qapilot.io/alternatives/appium) | Autonomous coverage and maintenance vs script-first Appium automation |
 
 ---
 
@@ -344,7 +343,6 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Compare → Maestro | [https://qapilot.io/compare/qapilot-vs-maestro](https://qapilot.io/compare/qapilot-vs-maestro) |
 | Alternative → BrowserStack | [https://qapilot.io/alternatives/browserstack](https://qapilot.io/alternatives/browserstack) |
 | Alternative → Sauce Labs | [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs) |
-| Alternative → Appium | [https://qapilot.io/alternatives/appium](https://qapilot.io/alternatives/appium) |
 | Terms of Service | [https://qapilot.io/terms](https://qapilot.io/terms) |
 | Privacy Policy | [https://qapilot.io/privacy](https://qapilot.io/privacy) |
 | Terms & conditions (alternate) | [https://qapilot.io/terms-conditions](https://qapilot.io/terms-conditions) |

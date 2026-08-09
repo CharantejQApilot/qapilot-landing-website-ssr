@@ -40,6 +40,13 @@ export const HUBSPOT_FLUTTER_HERO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ec
 export const HUBSPOT_PARTNERS_FORM_ID = "aea3fc81-f036-4592-92dc-5c8cc803ce70";
 
 /**
+ * Careers general application (HubSpot Forms API via `/api/hubspot/careers`).
+ * Embed reference: portal `47284450`, form `702b653d-94c3-4949-b431-45f7a6d035c4`.
+ */
+export const HUBSPOT_CAREERS_FORM_ID = "702b653d-94c3-4949-b431-45f7a6d035c4";
+export const HUBSPOT_CAREERS_FORM_NAME = "Careers General Application";
+
+/**
  * Lead magnet / gated content email capture (HubSpot Forms API via `/api/hubspot/lead-magnet`).
  * Embed reference: portal `47284450`, form `fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1`.
  */

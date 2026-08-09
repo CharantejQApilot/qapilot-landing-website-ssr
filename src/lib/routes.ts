@@ -51,7 +51,6 @@ export const PATHS = {
   COMPARE_MAESTRO: "/compare/qapilot-vs-maestro",
   ALTERNATIVES_BROWSERSTACK: "/alternatives/browserstack",
   ALTERNATIVES_SAUCE_LABS: "/alternatives/sauce-labs",
-  ALTERNATIVES_APPIUM: "/alternatives/appium",
   INTEGRATIONS: "/integrations",
   OVERVIEW: "/product",
   /** Platform → By Solution (linked from home + nav) */
@@ -118,5 +117,4 @@ export const COMPARE_NAV_LINKS = [
   { path: PATHS.COMPARE_MAESTRO, label: "vs Maestro" },
   { path: PATHS.ALTERNATIVES_BROWSERSTACK, label: "BrowserStack Alternative" },
   { path: PATHS.ALTERNATIVES_SAUCE_LABS, label: "Sauce Labs Alternative" },
-  { path: PATHS.ALTERNATIVES_APPIUM, label: "Appium Alternative" },
 ] as const;
