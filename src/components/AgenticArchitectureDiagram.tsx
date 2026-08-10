@@ -42,7 +42,7 @@ const AgenticArchitectureDiagram = () => {
       ref={ref as React.RefObject<HTMLDivElement>}
       className="relative w-full flex flex-col justify-start pt-2 md:pt-4 pb-4 md:pb-8"
     >
-      {/* BYOA — title, copy, single plug */}
+      {/* BYOA. Title, copy, single plug */}
       <div
         className={`mb-3 md:mb-4 transition-all duration-700 delay-75 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -53,10 +53,16 @@ const AgenticArchitectureDiagram = () => {
           <div className="relative bg-card/80 backdrop-blur-sm border border-blue-500/30 rounded-lg p-4 md:p-6 hover:border-blue-500/50 transition-all duration-300 hover:scale-[1.02]">
             <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-center sm:gap-6 sm:text-left">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-blue-500/20 ring-1 ring-blue-500/20">
-                <Plug className="h-7 w-7 text-blue-500" strokeWidth={2} aria-hidden />
+                <Plug
+                  className="h-7 w-7 text-blue-500"
+                  strokeWidth={2}
+                  aria-hidden
+                />
               </div>
               <div className="max-w-2xl">
-                <h3 className="text-sm font-semibold text-foreground md:text-lg">Bring Your Own Agent (BYOA)</h3>
+                <h3 className="text-sm font-semibold text-foreground md:text-lg">
+                  Bring Your Own Agent (BYOA)
+                </h3>
                 <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground md:text-xs">
                   Plug in your agents and extend QApilot with your tooling
                 </p>
@@ -76,16 +82,18 @@ const AgenticArchitectureDiagram = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div className="relative bg-card/80 backdrop-blur-sm border border-blue-500/30 rounded-lg p-4 md:p-6 hover:border-blue-500/50 transition-all duration-300 hover:scale-[1.02]">
             <div className="mb-3 md:mb-4 text-center">
-              <h3 className="text-sm md:text-lg font-semibold text-foreground">AI Agents</h3>
+              <h3 className="text-sm md:text-lg font-semibold text-foreground">
+                AI Agents
+              </h3>
               <p className="mt-1 text-[11px] text-muted-foreground md:text-xs">
                 Multiple specialized capabilities, one coordinated layer
               </p>
             </div>
             <div className="grid grid-cols-4 md:grid-cols-7 gap-2 md:gap-3">
               {topLayerIcons.map(({ label, Icon }, index) => (
-                <div 
-                  key={label} 
-                  className={`relative group ${index >= 4 ? 'hidden md:block' : ''}`}
+                <div
+                  key={label}
+                  className={`relative group ${index >= 4 ? "hidden md:block" : ""}`}
                 >
                   <div className="relative bg-background/60 border border-border/50 rounded-lg p-2 md:p-3 hover:border-blue-500/50 transition-all duration-200 hover:shadow-glow">
                     <div className="flex items-center justify-center">
@@ -101,7 +109,7 @@ const AgenticArchitectureDiagram = () => {
         </div>
       </div>
 
-      {/* Knowledge Graph — full width */}
+      {/* Knowledge Graph. Full width */}
       <div
         className={`mb-3 md:mb-4 transition-all duration-700 delay-300 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -115,8 +123,12 @@ const AgenticArchitectureDiagram = () => {
                 <Network className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               </div>
               <div>
-                <h3 className="text-sm md:text-lg font-semibold text-foreground">Knowledge Graph</h3>
-                <p className="text-[10px] font-medium text-primary md:text-xs">Core context layer</p>
+                <h3 className="text-sm md:text-lg font-semibold text-foreground">
+                  Knowledge Graph
+                </h3>
+                <p className="text-[10px] font-medium text-primary md:text-xs">
+                  Core context layer
+                </p>
               </div>
             </div>
             <div className="flex min-h-[10rem] flex-1 items-center justify-center py-6 md:min-h-[12rem] md:py-8">
@@ -147,7 +159,7 @@ const AgenticArchitectureDiagram = () => {
         </div>
       </div>
 
-      {/* Layer 1 - Bottom Layer — testing lifecycle */}
+      {/* Layer 1 - Bottom Layer. Testing lifecycle */}
       <div
         className={`transition-all duration-700 delay-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -157,19 +169,25 @@ const AgenticArchitectureDiagram = () => {
           Testing lifecycle modules
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-        {bottomLayerIcons.map(({ label, Icon }, index) => (
-          <div key={label} className="relative group" style={{ animationDelay: `${index * 100}ms` }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-lg blur-lg group-hover:blur-xl transition-all duration-300"></div>
-            <div className="relative bg-card/80 backdrop-blur-sm border border-blue-500/30 rounded-lg p-2 md:p-4 hover:border-blue-500/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-glow">
-              <div className="text-center">
-                <div className="inline-block p-2 md:p-3 bg-blue-500/20 rounded-lg mb-1 md:mb-2">
-                  <Icon className="w-4 h-4 md:w-6 md:h-6 text-blue-500" />
+          {bottomLayerIcons.map(({ label, Icon }, index) => (
+            <div
+              key={label}
+              className="relative group"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-lg blur-lg group-hover:blur-xl transition-all duration-300"></div>
+              <div className="relative bg-card/80 backdrop-blur-sm border border-blue-500/30 rounded-lg p-2 md:p-4 hover:border-blue-500/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-glow">
+                <div className="text-center">
+                  <div className="inline-block p-2 md:p-3 bg-blue-500/20 rounded-lg mb-1 md:mb-2">
+                    <Icon className="w-4 h-4 md:w-6 md:h-6 text-blue-500" />
+                  </div>
+                  <h4 className="text-xs md:text-sm font-semibold text-foreground">
+                    {label}
+                  </h4>
                 </div>
-                <h4 className="text-xs md:text-sm font-semibold text-foreground">{label}</h4>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         </div>
       </div>
     </div>

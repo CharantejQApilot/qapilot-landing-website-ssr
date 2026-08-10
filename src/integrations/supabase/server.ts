@@ -22,7 +22,7 @@ function createClientFromEnv(): SupabaseClient<Database> | null {
  *
  * Does **not** throw, so `next build` and Vercel deploys succeed even when env is
  * only attached to Production/Preview (or missing on a fork). Callers must null-check
- * before running queries — same as `tryCreateServerSupabaseClient`.
+ * before running queries. Same as `tryCreateServerSupabaseClient`.
  */
 export function createServerSupabaseClient(): SupabaseClient<Database> | null {
   return createClientFromEnv();

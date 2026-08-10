@@ -87,10 +87,9 @@ function isGoogleSearchHost(hostname: string): boolean {
   return false;
 }
 
-export function classifyReferrer(referrer: string | null): Pick<
-  AttributionData,
-  "source" | "medium" | "attributionMode"
-> {
+export function classifyReferrer(
+  referrer: string | null,
+): Pick<AttributionData, "source" | "medium" | "attributionMode"> {
   if (!referrer || referrer.trim() === "") {
     return {
       source: "direct",
@@ -116,7 +115,11 @@ export function classifyReferrer(referrer: string | null): Pick<
     };
   }
 
-  if (hostMatches(hostname, "linkedin.com") || hostname === "lnkd.in" || hostMatches(hostname, "lnkd.in")) {
+  if (
+    hostMatches(hostname, "linkedin.com") ||
+    hostname === "lnkd.in" ||
+    hostMatches(hostname, "lnkd.in")
+  ) {
     return {
       source: "linkedin",
       medium: "referral_social",
@@ -137,7 +140,10 @@ export function classifyReferrer(referrer: string | null): Pick<
     };
   }
 
-  if (hostname === "l.instagram.com" || hostMatches(hostname, "instagram.com")) {
+  if (
+    hostname === "l.instagram.com" ||
+    hostMatches(hostname, "instagram.com")
+  ) {
     return {
       source: "instagram",
       medium: "referral_social",
@@ -153,7 +159,11 @@ export function classifyReferrer(referrer: string | null): Pick<
     };
   }
 
-  if (hostMatches(hostname, "reddit.com") || hostname === "out.reddit.com" || hostMatches(hostname, "out.reddit.com")) {
+  if (
+    hostMatches(hostname, "reddit.com") ||
+    hostname === "out.reddit.com" ||
+    hostMatches(hostname, "out.reddit.com")
+  ) {
     return {
       source: "reddit",
       medium: "referral_social",
@@ -185,7 +195,10 @@ export function classifyReferrer(referrer: string | null): Pick<
     };
   }
 
-  if (hostname === "search.yahoo.com" || hostMatches(hostname, "search.yahoo.com")) {
+  if (
+    hostname === "search.yahoo.com" ||
+    hostMatches(hostname, "search.yahoo.com")
+  ) {
     return {
       source: "yahoo",
       medium: "organic_search",
@@ -203,7 +216,10 @@ export function classifyReferrer(referrer: string | null): Pick<
 function inferSessionPlatform(): SessionPlatform {
   if (typeof navigator === "undefined") return "unknown";
   const ua = navigator.userAgent || "";
-  if (/iPad|Tablet|PlayBook/i.test(ua) || (navigator.maxTouchPoints > 1 && /Macintosh/i.test(ua))) {
+  if (
+    /iPad|Tablet|PlayBook/i.test(ua) ||
+    (navigator.maxTouchPoints > 1 && /Macintosh/i.test(ua))
+  ) {
     return "tablet";
   }
   if (/Mobi|Android|iPhone|iPod|Windows Phone/i.test(ua)) {
@@ -272,7 +288,9 @@ function isAttributionData(v: unknown): v is AttributionData {
   const o = v as Record<string, unknown>;
   return (
     typeof o.attributionMode === "string" &&
-    ["utm", "referrer", "direct", "unknown"].includes(o.attributionMode as string)
+    ["utm", "referrer", "direct", "unknown"].includes(
+      o.attributionMode as string,
+    )
   );
 }
 
@@ -319,7 +337,9 @@ export function getStoredAttribution(): StoredAttribution {
       originalUrl: typeof o.originalUrl === "string" ? o.originalUrl : null,
       currentUrl: typeof o.currentUrl === "string" ? o.currentUrl : null,
       sessionEntryChannel:
-        typeof o.sessionEntryChannel === "string" ? o.sessionEntryChannel : null,
+        typeof o.sessionEntryChannel === "string"
+          ? o.sessionEntryChannel
+          : null,
       sessionEntryPlatform,
       gaClientId: typeof o.gaClientId === "string" ? o.gaClientId : null,
     };
@@ -385,7 +405,7 @@ export function omitEmptyStringValues(
   );
 }
 
-/** Attribution fields only, non-empty — merge into form POST bodies or HubSpot `fields`. */
+/** Attribution fields only, non-empty. Merge into form POST bodies or HubSpot `fields`. */
 export function getCleanAttributionPayloadForHubSpot(): Record<string, string> {
   return omitEmptyStringValues(getAttributionPayload());
 }
@@ -416,11 +436,12 @@ export function saveAttribution(): void {
   const lastTouch = current;
 
   const href = window.location.href;
-  const originalUrl = existing.originalUrl ?? (isFirst ? href : existing.originalUrl);
+  const originalUrl =
+    existing.originalUrl ?? (isFirst ? href : existing.originalUrl);
   const currentUrl = href;
 
   const sessionEntryChannel =
-    existing.sessionEntryChannel ?? (firstTouch.source ?? "unknown");
+    existing.sessionEntryChannel ?? firstTouch.source ?? "unknown";
 
   const sessionEntryPlatform =
     existing.sessionEntryPlatform ?? inferSessionPlatform();
@@ -439,7 +460,7 @@ export function saveAttribution(): void {
   try {
     localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(next));
   } catch {
-    // Quota or private mode — ignore
+    // Quota or private mode. Ignore
   }
 }
 

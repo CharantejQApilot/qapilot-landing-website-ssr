@@ -8,7 +8,7 @@ type ProductHuntTopPostBadgeProps = {
 
 /**
  * Product Hunt #2 Product of the Day badge.
- * In-flow only — lives in a dedicated hero top band so it is never clipped by
+ * In-flow only. Lives in a dedicated hero top band so it is never clipped by
  * overflow or flex vertical centering.
  */
 export default function HomeHeroProductHuntBadge({
@@ -43,7 +43,9 @@ export default function HomeHeroProductHuntBadge({
           fetchPriority="low"
           className={cn(
             "block h-auto w-full max-w-full object-contain",
-            align === "start" ? "max-w-[min(200px,100%)]" : "max-w-[min(250px,100%)]",
+            align === "start"
+              ? "max-w-[min(200px,100%)]"
+              : "max-w-[min(250px,100%)]",
           )}
         />
       </a>

@@ -1,0 +1,186 @@
+@keyframes bug-leg-twitch {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes bug-pop-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes bug-hit {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes bug-escape {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+}
+
+@keyframes float-score {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -22px);
+  }
+}
+
+@keyframes bug-drift {
+  0% {
+    translate: 0 0;
+  }
+  50% {
+    translate: var(--drift-x, 12px) var(--drift-y, -8px);
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes life-ring {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 88;
+  }
+}
+
+@keyframes combo-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.bug-ninja-arena {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: crosshair;
+  color: hsl(0 0% 100%);
+  /* Match footer dark / navy strip */
+  background-color: hsl(var(--foreground));
+}
+
+.bug-ninja-arena[data-state="finished"] {
+  cursor: default;
+}
+
+.bug-ninja-target[data-frozen="true"] .bug-ninja-ring circle {
+  animation: none;
+  stroke-dashoffset: 0;
+  stroke: hsl(210 80% 78% / 0.35);
+}
+
+.bug-ninja-target {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  animation: bug-pop-in 160ms ease-out both;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bug-ninja-target[data-moving="true"] .bug-ninja-target-inner {
+  animation: bug-drift var(--drift-ms, 2.4s) ease-in-out infinite;
+}
+
+.bug-ninja-target[data-hitting="true"] {
+  animation: bug-hit 200ms ease-out forwards;
+  pointer-events: none;
+}
+
+.bug-ninja-target[data-escaping="true"] {
+  animation: bug-escape 180ms ease-in forwards;
+  pointer-events: none;
+}
+
+.bug-ninja-float {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  animation: float-score 750ms ease-out forwards;
+  font-variant-numeric: tabular-nums;
+}
+
+.bug-ninja-ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bug-ninja-ring circle {
+  fill: none;
+  stroke: hsl(210 80% 78% / 0.7);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 88;
+  stroke-dashoffset: 0;
+  animation: life-ring var(--life-ms, 3s) linear forwards;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.bug-ninja-combo {
+  animation: combo-pulse 0.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bug-ninja-target {
+    animation: none;
+    opacity: 1;
+  }
+
+  .bug-ninja-target[data-hitting="true"],
+  .bug-ninja-target[data-escaping="true"] {
+    animation: none;
+    opacity: 0;
+  }
+
+  .bug-ninja-target[data-moving="true"] .bug-ninja-target-inner {
+    animation: none;
+  }
+
+  .bug-ninja-float {
+    animation: none;
+    opacity: 0;
+  }
+
+  .bug-ninja-ring circle {
+    animation: none;
+  }
+
+  .bug-ninja-combo {
+    animation: none;
+  }
+}

@@ -14,7 +14,9 @@ import { cn } from "@/lib/utils";
 
 function readHubSpotUtk(): string | undefined {
   if (typeof document === "undefined") return undefined;
-  const row = document.cookie.split("; ").find((r) => r.startsWith("hubspotutk="));
+  const row = document.cookie
+    .split("; ")
+    .find((r) => r.startsWith("hubspotutk="));
   if (!row) return undefined;
   const v = row.slice("hubspotutk=".length);
   return v ? decodeURIComponent(v) : undefined;
@@ -43,7 +45,8 @@ export function HomeExitIntentEmailForm({
     const result = leadMagnetEmailClientSchema.safeParse({ email });
     if (!result.success) {
       const message =
-        result.error.flatten().fieldErrors.email?.[0] ?? "Please enter a valid email address";
+        result.error.flatten().fieldErrors.email?.[0] ??
+        "Please enter a valid email address";
       setEmailError(message);
       return null;
     }
@@ -64,7 +67,7 @@ export function HomeExitIntentEmailForm({
       const body = {
         email: validEmail,
         pageUri: typeof window !== "undefined" ? window.location.href : "",
-        pageName: "Home — Exit Intent Popup — Book Demo",
+        pageName: "Home. Exit Intent Popup. Book Demo",
         hutk: readHubSpotUtk(),
         ...getCleanAttributionPayloadForHubSpot(),
       };
@@ -77,7 +80,9 @@ export function HomeExitIntentEmailForm({
 
       if (!res.ok) {
         if (res.status === 422) {
-          const data = (await res.json()) as { fields?: Record<string, string[]> };
+          const data = (await res.json()) as {
+            fields?: Record<string, string[]>;
+          };
           const msg = data.fields?.email?.[0];
           if (msg) {
             setEmailError(msg);
@@ -99,11 +104,13 @@ export function HomeExitIntentEmailForm({
 
   return (
     <div className={cn("min-w-0", className)}>
-      <p className="mb-4 text-[1.05em] leading-snug text-muted-foreground">{valueLine}</p>
+      <p className="mb-4 text-[1.05em] leading-snug text-muted-foreground">
+        {valueLine}
+      </p>
 
       {success ? (
         <p className="text-[1.05em] font-medium leading-snug text-emerald-700">
-          Thanks — we&apos;ll reach out shortly to schedule your demo.
+          Thanks. We&apos;ll reach out shortly to schedule your demo.
         </p>
       ) : (
         <form onSubmit={onSubmit} className="space-y-4">
@@ -154,7 +161,9 @@ export function HomeExitIntentEmailForm({
             {isSubmitting ? "Sending…" : "Book my demo"}
           </Button>
 
-          {submitError ? <p className="text-[0.95em] text-destructive">{submitError}</p> : null}
+          {submitError ? (
+            <p className="text-[0.95em] text-destructive">{submitError}</p>
+          ) : null}
         </form>
       )}
     </div>

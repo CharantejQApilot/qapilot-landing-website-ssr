@@ -30,11 +30,13 @@ export const BOOK_DEMO_CALENDAR_URL =
  */
 export const HUBSPOT_NA1_REGION = "na1" as const;
 export const HUBSPOT_NA1_PORTAL_ID = "47284450";
-export const HUBSPOT_MAIN_GET_ACCESS_FORM_ID = "9e1f8740-75cc-4924-a4bd-6b687bd6f6c6";
+export const HUBSPOT_MAIN_GET_ACCESS_FORM_ID =
+  "9e1f8740-75cc-4924-a4bd-6b687bd6f6c6";
 export const HUBSPOT_MAIN_GET_ACCESS_FORM_NAME = "Contact Us Dialog";
 
 /** Flutter `/for-flutter` hero form (HubSpot Forms API). */
-export const HUBSPOT_FLUTTER_HERO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ecb";
+export const HUBSPOT_FLUTTER_HERO_FORM_ID =
+  "b1b77d10-8753-4791-93a3-23783baf8ecb";
 
 /** Partners `/partners` "Become a partner" form (HubSpot Forms API). */
 export const HUBSPOT_PARTNERS_FORM_ID = "aea3fc81-f036-4592-92dc-5c8cc803ce70";
@@ -50,7 +52,8 @@ export const HUBSPOT_CAREERS_FORM_NAME = "Careers General Application";
  * Lead magnet / gated content email capture (HubSpot Forms API via `/api/hubspot/lead-magnet`).
  * Embed reference: portal `47284450`, form `fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1`.
  */
-export const HUBSPOT_LEAD_MAGNET_FORM_ID = "fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1";
+export const HUBSPOT_LEAD_MAGNET_FORM_ID =
+  "fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1";
 export const HUBSPOT_LEAD_MAGNET_FORM_NAME = "Lead Magnet Email Capture";
 
 /** Organization logo for JSON-LD (matches public/QApilotLogo.svg; not og:image). */
@@ -59,7 +62,7 @@ export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/QApilotLogo.svg`;
 /** Google Tag Manager container (marketing site). */
 export const GTM_CONTAINER_ID = "GTM-D8GSMN6Q";
 
-/** GA4 property — loaded via gtag in addition to GTM (GTM alone did not report pageviews). */
+/** GA4 property. Loaded via gtag in addition to GTM (GTM alone did not report pageviews). */
 export const GA4_MEASUREMENT_ID = "G-YVK0J06RCR";
 
 /** RB2B / REB2B visitor-identification script key. */

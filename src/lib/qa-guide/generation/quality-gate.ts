@@ -113,25 +113,42 @@ export function runQualityGate(
   const closingHasQapilot =
     lastH2.includes("qapilot") || closingBlock.includes("qapilot");
   if (!h2s.length || !closingHasQapilot) {
-    fails.push("missing closing bridge (final section does not mention QApilot)");
+    fails.push(
+      "missing closing bridge (final section does not mention QApilot)",
+    );
   }
 
   const qapilotMentions = (body.match(/qapilot/gi) ?? []).length;
   qc.qapilot_mention_count = qapilotMentions;
   if (qapilotMentions < QUALITY_MIN_QAPILOT_MENTIONS) {
-    fails.push(`qapilot_mentions=${qapilotMentions} < ${QUALITY_MIN_QAPILOT_MENTIONS}`);
+    fails.push(
+      `qapilot_mentions=${qapilotMentions} < ${QUALITY_MIN_QAPILOT_MENTIONS}`,
+    );
   }
 
-  const { qapilot: inlineQapilot, external: inlineExternal } = countInlineLinks(body);
+  const { qapilot: inlineQapilot, external: inlineExternal } =
+    countInlineLinks(body);
   qc.inline_qapilot_links = inlineQapilot;
   qc.inline_external_links = inlineExternal;
 
-  if (!isInRange(inlineQapilot, QUALITY_MIN_INTERNAL_LINKS, QUALITY_MAX_INTERNAL_LINKS)) {
+  if (
+    !isInRange(
+      inlineQapilot,
+      QUALITY_MIN_INTERNAL_LINKS,
+      QUALITY_MAX_INTERNAL_LINKS,
+    )
+  ) {
     fails.push(
       `inline_qapilot_links=${inlineQapilot} (need ${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS})`,
     );
   }
-  if (!isInRange(inlineExternal, QUALITY_MIN_EXTERNAL_LINKS, QUALITY_MAX_EXTERNAL_LINKS)) {
+  if (
+    !isInRange(
+      inlineExternal,
+      QUALITY_MIN_EXTERNAL_LINKS,
+      QUALITY_MAX_EXTERNAL_LINKS,
+    )
+  ) {
     fails.push(
       `inline_external_links=${inlineExternal} (need ${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS})`,
     );
@@ -140,7 +157,9 @@ export function runQualityGate(
   const mobileTermHits = countMobileTerms(body);
   qc.mobile_term_hits = mobileTermHits;
   if (mobileTermHits < QUALITY_MIN_MOBILE_TERMS) {
-    fails.push(`mobile_term_hits=${mobileTermHits} < ${QUALITY_MIN_MOBILE_TERMS}`);
+    fails.push(
+      `mobile_term_hits=${mobileTermHits} < ${QUALITY_MIN_MOBILE_TERMS}`,
+    );
   }
 
   const lowerBody = body.toLowerCase();
@@ -149,7 +168,9 @@ export function runQualityGate(
     fails.push(`banned words: ${foundBans.slice(0, 8).join(", ")}`);
   }
   if (containsEmDash(body)) {
-    fails.push("em dash (—) found in content_markdown; use commas, periods, or parentheses");
+    fails.push(
+      "em dash (. ) found in content_markdown; use commas, periods, or parentheses",
+    );
   }
   qc.ai_tells_found = foundBans;
 
@@ -179,34 +200,55 @@ export function runQualityGate(
   }
 
   const infoGain = qc.information_gain;
-  if (!Array.isArray(infoGain) || infoGain.length < QUALITY_MIN_INFORMATION_GAIN) {
-    fails.push(`information_gain needs at least ${QUALITY_MIN_INFORMATION_GAIN} items`);
+  if (
+    !Array.isArray(infoGain) ||
+    infoGain.length < QUALITY_MIN_INFORMATION_GAIN
+  ) {
+    fails.push(
+      `information_gain needs at least ${QUALITY_MIN_INFORMATION_GAIN} items`,
+    );
   }
 
   const structured = qc.structured_elements;
-  if (!Array.isArray(structured) || structured.length < QUALITY_MIN_STRUCTURED_ELEMENTS) {
-    fails.push(`structured_elements needs at least ${QUALITY_MIN_STRUCTURED_ELEMENTS} items`);
+  if (
+    !Array.isArray(structured) ||
+    structured.length < QUALITY_MIN_STRUCTURED_ELEMENTS
+  ) {
+    fails.push(
+      `structured_elements needs at least ${QUALITY_MIN_STRUCTURED_ELEMENTS} items`,
+    );
   }
 
   const grounding = qc.qapilot_grounding;
-  if (!Array.isArray(grounding) || grounding.length < QUALITY_MIN_QAPILOT_GROUNDING) {
-    fails.push(`qapilot_grounding needs at least ${QUALITY_MIN_QAPILOT_GROUNDING} site phrases`);
+  if (
+    !Array.isArray(grounding) ||
+    grounding.length < QUALITY_MIN_QAPILOT_GROUNDING
+  ) {
+    fails.push(
+      `qapilot_grounding needs at least ${QUALITY_MIN_QAPILOT_GROUNDING} site phrases`,
+    );
   }
 
-  const originality = typeof qc.originality_score === "number" ? qc.originality_score : 0;
+  const originality =
+    typeof qc.originality_score === "number" ? qc.originality_score : 0;
   if (originality < QUALITY_MIN_ORIGINALITY) {
     fails.push(`originality_score=${originality} < ${QUALITY_MIN_ORIGINALITY}`);
   }
 
-  const usefulness = typeof qc.usefulness_score === "number" ? qc.usefulness_score : 0;
+  const usefulness =
+    typeof qc.usefulness_score === "number" ? qc.usefulness_score : 0;
   if (usefulness < QUALITY_MIN_USEFULNESS) {
     fails.push(`usefulness_score=${usefulness} < ${QUALITY_MIN_USEFULNESS}`);
   }
 
   const productRelevance =
-    typeof qc.product_relevance_score === "number" ? qc.product_relevance_score : 0;
+    typeof qc.product_relevance_score === "number"
+      ? qc.product_relevance_score
+      : 0;
   if (productRelevance < QUALITY_MIN_PRODUCT_RELEVANCE) {
-    fails.push(`product_relevance_score=${productRelevance} < ${QUALITY_MIN_PRODUCT_RELEVANCE}`);
+    fails.push(
+      `product_relevance_score=${productRelevance} < ${QUALITY_MIN_PRODUCT_RELEVANCE}`,
+    );
   }
 
   qc.gate_enforced = false;
@@ -233,7 +275,10 @@ export function runQualityGate(
 export function compositeQualityScore(qc: Record<string, unknown>): number {
   const o = typeof qc.originality_score === "number" ? qc.originality_score : 0;
   const u = typeof qc.usefulness_score === "number" ? qc.usefulness_score : 0;
-  const p = typeof qc.product_relevance_score === "number" ? qc.product_relevance_score : 0;
+  const p =
+    typeof qc.product_relevance_score === "number"
+      ? qc.product_relevance_score
+      : 0;
   return Math.round(((o + u + p) / 3) * 100) / 100;
 }
 

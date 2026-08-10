@@ -8,9 +8,13 @@ import ModernFrameworksSection from "@/components/ModernFrameworksSection";
 import MetricsSection from "@/components/MetricsSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 
-/** Below-fold client sections — split JS bundles without changing SSR output or visuals. */
-const CoreAdvantageHeading = dynamic(() => import("@/components/CoreAdvantageHeading"));
-const ProductShowcaseSection = dynamic(() => import("@/components/ProductShowcaseSection"));
+/** Below-fold client sections. Split JS bundles without changing SSR output or visuals. */
+const CoreAdvantageHeading = dynamic(
+  () => import("@/components/CoreAdvantageHeading"),
+);
+const ProductShowcaseSection = dynamic(
+  () => import("@/components/ProductShowcaseSection"),
+);
 const HomeExitIntentPopup = dynamic(
   () => import("@/components/home-exit-intent/HomeExitIntentPopup"),
   { ssr: false },
@@ -46,7 +50,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: HOME_PAGE_TWITTER_TITLE,
     description: HOME_PAGE_TWITTER_DESCRIPTION,
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 
@@ -58,15 +64,15 @@ export default function IndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageJsonLd) }}
       />
       <main>
-        {/* S01–S02 hero + trust · S03 metrics · S04 product · S05 pipeline · S06 ledger · S07 demo · S13 frameworks · S09 proof · S12 ecosystem */}
+        {/* S01–S02 hero + trust · S09 proof · S03 metrics · S04 product · S05 pipeline · S06 ledger · S07 demo · S13 frameworks · S12 ecosystem */}
         <HeroSection />
+        <ClientsSection />
         <MetricsSection />
         <CoreAdvantageHeading />
         <ReleaseReadinessFlowSection />
         <VelocitySection />
         <ProductShowcaseSection />
         <ModernFrameworksSection />
-        <ClientsSection />
         <IntegrationsSection />
       </main>
       <HomeExitIntentPopup />

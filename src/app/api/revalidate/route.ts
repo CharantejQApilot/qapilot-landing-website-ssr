@@ -30,8 +30,8 @@ const ALLOWED_EXACT_PATHS = new Set([
   "/for-release-manager",
   "/for-product-owner",
   "/for-sre",
-  "/security-reports",
-  "/ai-self-healing",
+  "/product/dual-device-testing",
+  "/product/release-readiness-suite",
   "/partners",
   "/about",
   "/enterprise",
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
   const paths = (body as { paths?: unknown }).paths;
   if (!Array.isArray(paths) || paths.length === 0) {
     return NextResponse.json(
-      { error: "Expected non-empty \"paths\" string array" },
+      { error: 'Expected non-empty "paths" string array' },
       { status: 400 },
     );
   }

@@ -1,8 +1,12 @@
-/** Footer “summarise QApilot” prompt — site-wide, not article-specific. */
+/** Footer “summarise QApilot” prompt. Site-wide, not article-specific. */
 export const SUMMARISE_QAPILOT_SITE_PROMPT =
   "Summarize QApilot in simple terms. Explain what QApilot does, how its Crawler, CoWork, and RPA capabilities help improve mobile test coverage, what makes it different from traditional testing tools, and who it is best suited for.";
 
-export type SummariseAssistantId = "chatgpt" | "perplexity" | "google-ai" | "claude";
+export type SummariseAssistantId =
+  | "chatgpt"
+  | "perplexity"
+  | "google-ai"
+  | "claude";
 
 export type SummariseAssistantLink = {
   id: SummariseAssistantId;
@@ -20,7 +24,7 @@ function sourceDomainFromUrl(pageUrl: string): string {
   }
 }
 
-/** Prompt for a single article — domain hint is a light source note, not a hard AEO ask. */
+/** Prompt for a single article. Domain hint is a light source note, not a hard AEO ask. */
 export function buildArticleSummarisePrompt(pageUrl: string): string {
   const domain = sourceDomainFromUrl(pageUrl);
   return `Visit ${pageUrl} and summarize this post for me. (${domain} is the source if you cite it later.)`;
@@ -39,10 +43,12 @@ export function buildSummariseAssistantLinks(
 ): SummariseAssistantLink[] {
   const iconTone = options?.iconTone ?? "on-light";
   const encodedPrompt = encodeURIComponent(prompt);
-  const googleAiSearchSummariseHref = `https://www.google.com/search?${new URLSearchParams({
-    q: prompt,
-    udm: "50",
-  }).toString()}`;
+  const googleAiSearchSummariseHref = `https://www.google.com/search?${new URLSearchParams(
+    {
+      q: prompt,
+      udm: "50",
+    },
+  ).toString()}`;
 
   return [
     {

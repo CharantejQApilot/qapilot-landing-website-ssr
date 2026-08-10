@@ -6,7 +6,7 @@ export function draftUrlPath(slug: string): string {
   return `/seo-drafts/${slug}`;
 }
 
-/** Published guide URL (flat — no topic segment). */
+/** Published guide URL (flat. No topic segment). */
 export function publishedUrlPath(slug: string): string {
   return `${PATHS.QA_GUIDE}/${slug}`;
 }

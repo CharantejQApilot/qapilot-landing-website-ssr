@@ -20,8 +20,7 @@ import {
 const EVENTS_PATH = PATHS.EVENTS;
 const canonicalUrl = `${SITE_BASE_URL}${EVENTS_PATH}`;
 
-const LIST_GUTTER =
-  "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
+const LIST_GUTTER = "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
 
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
@@ -30,7 +29,7 @@ const EVENTS_GRID =
   "mx-auto grid w-full max-w-7xl list-none gap-6 sm:gap-8 md:grid-cols-2 xl:gap-10 [&>li:last-child:nth-child(odd)]:md:col-span-2 [&>li:last-child:nth-child(odd)]:md:max-w-3xl [&>li:last-child:nth-child(odd)]:md:justify-self-center [&>li:last-child:nth-child(odd)]:md:w-full";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Events — Webinars, Meetups & Live Talks",
+  title: "Events. Webinars, Meetups & Live Talks",
   description:
     "Webinars, meetups, and live talks on AI-native mobile testing, autonomous QA, Flutter validation, and release readiness.",
   path: EVENTS_PATH,
@@ -107,8 +106,8 @@ export default function EventsPage() {
                 </h1>
                 <p className={marketingListingHeroLeadClass}>
                   Practical sessions on AI mobile testing, agentic QA, and the
-                  engineering practices that make shipping faster feel safe. Join us
-                  live or catch the recordings.
+                  engineering practices that make shipping faster feel safe.
+                  Join us live or catch the recordings.
                 </p>
               </header>
             </div>
@@ -169,7 +168,8 @@ export default function EventsPage() {
                           Past &amp; upcoming
                         </h2>
                         <p className="text-base text-muted-foreground md:text-lg">
-                          All events · {eventCount} {eventCount === 1 ? "event" : "events"}
+                          All events · {eventCount}{" "}
+                          {eventCount === 1 ? "event" : "events"}
                         </p>
                       </div>
                       <ul className={EVENTS_GRID}>

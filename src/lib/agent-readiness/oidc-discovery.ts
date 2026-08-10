@@ -10,7 +10,7 @@ export function getSupabaseOpenIdConfigurationUrl(): string | null {
 
 /**
  * When Supabase is unavailable, serve a small valid-shaped document so discovery
- * scanners pass; real tokens are issued by your IdP (e.g. Supabase Auth) — configure
+ * scanners pass; real tokens are issued by your IdP (e.g. Supabase Auth). Configure
  * \`NEXT_PUBLIC_SUPABASE_URL\` so \`/.well-known/openid-configuration\` can proxy instead.
  */
 export function getLocalFallbackOpenIdConfiguration(): Record<string, unknown> {

@@ -26,7 +26,7 @@ export function enhanceContentLinks(html: string, siteDomain = SITE_DOMAIN): str
       return match;
     }
 
-    // External link — enhance with SEO attributes
+    // External link. Enhance with SEO attributes
     let enhanced = attrs;
 
     // Add target="_blank" if not present
@@ -34,7 +34,7 @@ export function enhanceContentLinks(html: string, siteDomain = SITE_DOMAIN): str
       enhanced += ' target="_blank"';
     }
 
-    // Replace or add rel — use "noopener" (no noreferrer, to pass referral)
+    // Replace or add rel. Use "noopener" (no noreferrer, to pass referral)
     if (/rel=/i.test(enhanced)) {
       enhanced = enhanced.replace(/rel=["'][^"']*["']/i, 'rel="noopener"');
     } else {

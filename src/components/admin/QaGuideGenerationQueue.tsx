@@ -66,7 +66,8 @@ export default function QaGuideGenerationAdmin() {
   const [showForm, setShowForm] = useState(false);
   const [runningAction, setRunningAction] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [expandedDetail, setExpandedDetail] = useState<GenerationQueueItem | null>(null);
+  const [expandedDetail, setExpandedDetail] =
+    useState<GenerationQueueItem | null>(null);
 
   const [writers, setWriters] = useState<WriterOption[]>([]);
   const [form, setForm] = useState({
@@ -97,7 +98,9 @@ export default function QaGuideGenerationAdmin() {
         const list = (data as Cluster[]) ?? [];
         setClusters(list);
         if (list[0]) {
-          setForm((f) => (f.topic_cluster ? f : { ...f, topic_cluster: list[0].slug }));
+          setForm((f) =>
+            f.topic_cluster ? f : { ...f, topic_cluster: list[0].slug },
+          );
         }
       });
 
@@ -170,8 +173,15 @@ export default function QaGuideGenerationAdmin() {
   }, [expandedId, items]);
 
   const handleCreate = async () => {
-    if (!form.topic_cluster || !form.primary_keyword.trim() || !form.intent.trim()) {
-      toast({ title: "Fill cluster, keyword, and intent", variant: "destructive" });
+    if (
+      !form.topic_cluster ||
+      !form.primary_keyword.trim() ||
+      !form.intent.trim()
+    ) {
+      toast({
+        title: "Fill cluster, keyword, and intent",
+        variant: "destructive",
+      });
       return;
     }
     if (!form.writer_id) {
@@ -179,19 +189,21 @@ export default function QaGuideGenerationAdmin() {
       return;
     }
     try {
-      const { error } = await supabase.from("qa_guide_generation_queue").insert({
-        topic_cluster: form.topic_cluster,
-        primary_keyword: form.primary_keyword.trim(),
-        intent: form.intent.trim(),
-        secondary_keywords: parseSecondaryKeywords(form.secondary_keywords),
-        competitor_url_1: form.competitor_url_1.trim() || null,
-        competitor_url_2: form.competitor_url_2.trim() || null,
-        competitor_url_3: form.competitor_url_3.trim() || null,
-        target_audience: form.target_audience.trim() || null,
-        notes: form.notes.trim() || null,
-        writer_id: form.writer_id,
-        status: "pending",
-      });
+      const { error } = await supabase
+        .from("qa_guide_generation_queue")
+        .insert({
+          topic_cluster: form.topic_cluster,
+          primary_keyword: form.primary_keyword.trim(),
+          intent: form.intent.trim(),
+          secondary_keywords: parseSecondaryKeywords(form.secondary_keywords),
+          competitor_url_1: form.competitor_url_1.trim() || null,
+          competitor_url_2: form.competitor_url_2.trim() || null,
+          competitor_url_3: form.competitor_url_3.trim() || null,
+          target_audience: form.target_audience.trim() || null,
+          notes: form.notes.trim() || null,
+          writer_id: form.writer_id,
+          status: "pending",
+        });
       if (error) throw error;
       toast({ title: "Brief added to queue" });
       setShowForm(false);
@@ -216,9 +228,9 @@ export default function QaGuideGenerationAdmin() {
           ? " Apply migration 20260524120000_qa_guide_generation_queue.sql in Supabase SQL editor."
           : message.includes("writer_id")
             ? " Apply migration 20260810120000_qa_guides_writer_id.sql in Supabase SQL editor."
-          : message.toLowerCase().includes("invalid api key")
-            ? " Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local match your project."
-            : "";
+            : message.toLowerCase().includes("invalid api key")
+              ? " Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local match your project."
+              : "";
       toast({
         title: "Create failed",
         description: message + hint,
@@ -234,7 +246,7 @@ export default function QaGuideGenerationAdmin() {
     const warnings = result.quality_warnings ?? [];
     if (warnings.length > 0) {
       toast({
-        title: "Draft ready — quality warnings",
+        title: "Draft ready. Quality warnings",
         description: `${warnings.slice(0, 3).join("; ")}${warnings.length > 3 ? "…" : ""} You can still edit and publish.`,
         variant: "destructive",
       });
@@ -277,7 +289,10 @@ export default function QaGuideGenerationAdmin() {
       toast({ title: "Sign in required", variant: "destructive" });
       return;
     }
-    if (force && !confirm("Re-run will generate a new draft for this brief. Continue?")) {
+    if (
+      force &&
+      !confirm("Re-run will generate a new draft for this brief. Continue?")
+    ) {
       return;
     }
     setRunningAction(id);
@@ -326,9 +341,9 @@ export default function QaGuideGenerationAdmin() {
 
       <TabsContent value="queue" className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Add briefs like blog posts in Supabase, then <strong>Run</strong> to generate a draft
-          (Gemini). Generation takes a few minutes — keep this tab open. Review under Guides →
-          Publish &amp; index.
+          Add briefs like blog posts in Supabase, then <strong>Run</strong> to
+          generate a draft (Gemini). Generation takes a few minutes. Keep this
+          tab open. Review under Guides → Publish &amp; index.
         </p>
 
         <div className="flex flex-wrap gap-2 justify-between items-center">
@@ -351,7 +366,12 @@ export default function QaGuideGenerationAdmin() {
               onChange={(e) => setSearch(e.target.value)}
               className="w-[200px]"
             />
-            <Button variant="outline" size="icon" onClick={loadQueue} aria-label="Refresh">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={loadQueue}
+              aria-label="Refresh"
+            >
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
@@ -366,7 +386,9 @@ export default function QaGuideGenerationAdmin() {
               ) : (
                 <Play className="h-4 w-4 mr-1" />
               )}
-              {runningAction === "next" ? "Generating…" : "Generate next pending"}
+              {runningAction === "next"
+                ? "Generating…"
+                : "Generate next pending"}
             </Button>
           </div>
         </div>
@@ -381,7 +403,9 @@ export default function QaGuideGenerationAdmin() {
                 <Label>Topic cluster</Label>
                 <Select
                   value={form.topic_cluster}
-                  onValueChange={(v) => setForm((f) => ({ ...f, topic_cluster: v }))}
+                  onValueChange={(v) =>
+                    setForm((f) => ({ ...f, topic_cluster: v }))
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Cluster" />
@@ -399,14 +423,18 @@ export default function QaGuideGenerationAdmin() {
                 <Label>Primary keyword</Label>
                 <Input
                   value={form.primary_keyword}
-                  onChange={(e) => setForm((f) => ({ ...f, primary_keyword: e.target.value }))}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, primary_keyword: e.target.value }))
+                  }
                 />
               </div>
               <div className="space-y-2 sm:col-span-2">
                 <Label>Intent / use case</Label>
                 <Textarea
                   value={form.intent}
-                  onChange={(e) => setForm((f) => ({ ...f, intent: e.target.value }))}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, intent: e.target.value }))
+                  }
                   rows={2}
                   placeholder="e.g. comparison guide for fintech QE leads"
                 />
@@ -416,7 +444,10 @@ export default function QaGuideGenerationAdmin() {
                 <Input
                   value={form.secondary_keywords}
                   onChange={(e) =>
-                    setForm((f) => ({ ...f, secondary_keywords: e.target.value }))
+                    setForm((f) => ({
+                      ...f,
+                      secondary_keywords: e.target.value,
+                    }))
                   }
                 />
               </div>
@@ -424,7 +455,9 @@ export default function QaGuideGenerationAdmin() {
                 <div key={n} className="space-y-2">
                   <Label>Competitor URL {n}</Label>
                   <Input
-                    value={form[`competitor_url_${n}` as keyof typeof form] as string}
+                    value={
+                      form[`competitor_url_${n}` as keyof typeof form] as string
+                    }
                     onChange={(e) =>
                       setForm((f) => ({
                         ...f,
@@ -438,14 +471,18 @@ export default function QaGuideGenerationAdmin() {
                 <Label>Target audience (optional)</Label>
                 <Input
                   value={form.target_audience}
-                  onChange={(e) => setForm((f) => ({ ...f, target_audience: e.target.value }))}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, target_audience: e.target.value }))
+                  }
                 />
               </div>
               <div className="space-y-2">
                 <Label>Author</Label>
                 <Select
                   value={form.writer_id || undefined}
-                  onValueChange={(v) => setForm((f) => ({ ...f, writer_id: v }))}
+                  onValueChange={(v) =>
+                    setForm((f) => ({ ...f, writer_id: v }))
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select author" />
@@ -454,7 +491,7 @@ export default function QaGuideGenerationAdmin() {
                     {writers.map((w) => (
                       <SelectItem key={w.id} value={w.id}>
                         {w.name}
-                        {w.designation ? ` — ${w.designation}` : ""}
+                        {w.designation ? `. ${w.designation}` : ""}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -467,7 +504,9 @@ export default function QaGuideGenerationAdmin() {
                 <Label>Notes (optional)</Label>
                 <Textarea
                   value={form.notes}
-                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, notes: e.target.value }))
+                  }
                   rows={2}
                 />
               </div>
@@ -488,7 +527,8 @@ export default function QaGuideGenerationAdmin() {
         ) : (
           <div className="space-y-3">
             {items.map((row) => {
-              const canRun = row.status === "pending" || row.status === "failed";
+              const canRun =
+                row.status === "pending" || row.status === "failed";
               const isRunning = row.status === "running";
               const authorLabel =
                 writers.find((w) => w.id === row.writer_id)?.name ?? null;
@@ -526,12 +566,16 @@ export default function QaGuideGenerationAdmin() {
                             </span>
                           ) : null}
                         </div>
-                        <h3 className="font-semibold mt-1">{row.primary_keyword}</h3>
+                        <h3 className="font-semibold mt-1">
+                          {row.primary_keyword}
+                        </h3>
                         <p className="text-sm text-muted-foreground line-clamp-2">
                           {row.intent}
                         </p>
                         {row.last_error ? (
-                          <p className="text-xs text-destructive mt-1">{row.last_error}</p>
+                          <p className="text-xs text-destructive mt-1">
+                            {row.last_error}
+                          </p>
                         ) : null}
                       </div>
                       <div className="flex flex-wrap gap-2 shrink-0">
@@ -540,7 +584,9 @@ export default function QaGuideGenerationAdmin() {
                             size="sm"
                             variant="outline"
                             onClick={() =>
-                              router.push(`/admin/qa-guide/${row.generated_qa_guide_id}`)
+                              router.push(
+                                `/admin/qa-guide/${row.generated_qa_guide_id}`,
+                              )
                             }
                           >
                             <ExternalLink className="h-4 w-4 mr-1" />
@@ -584,24 +630,28 @@ export default function QaGuideGenerationAdmin() {
                           size="sm"
                           variant="ghost"
                           onClick={() =>
-                            setExpandedId((id) => (id === row.id ? null : row.id))
+                            setExpandedId((id) =>
+                              id === row.id ? null : row.id,
+                            )
                           }
                         >
                           {expandedId === row.id ? "Hide log" : "Log"}
                         </Button>
                       </div>
                     </div>
-                    {expandedId === row.id && (expandedDetail?.id === row.id || isRunning) ? (
+                    {expandedId === row.id &&
+                    (expandedDetail?.id === row.id || isRunning) ? (
                       <div className="rounded-md bg-muted/50 p-3 text-xs font-mono space-y-2 max-h-64 overflow-y-auto">
                         {(() => {
                           const payload =
-                            expandedDetail?.quality_payload ?? row.quality_payload;
+                            expandedDetail?.quality_payload ??
+                            row.quality_payload;
                           const failures = payload?.server_side_failures;
                           if (Array.isArray(failures) && failures.length > 0) {
                             return (
                               <div className="text-amber-800 dark:text-amber-200 space-y-1 pb-2 border-b border-border">
                                 <p className="font-sans font-semibold text-[11px]">
-                                  Quality gate (advisory — draft still saved)
+                                  Quality gate (advisory. Draft still saved)
                                 </p>
                                 {failures.map((f, i) => (
                                   <div key={`qf-${i}`}>• {String(f)}</div>
@@ -611,12 +661,15 @@ export default function QaGuideGenerationAdmin() {
                           }
                           return null;
                         })()}
-                        {(expandedDetail?.run_log ?? row.run_log).length === 0 ? (
-                          <p className="text-muted-foreground">No log entries yet.</p>
+                        {(expandedDetail?.run_log ?? row.run_log).length ===
+                        0 ? (
+                          <p className="text-muted-foreground">
+                            No log entries yet.
+                          </p>
                         ) : (
-                          (expandedDetail?.run_log ?? row.run_log).map((line, i) => (
-                            <div key={i}>{line}</div>
-                          ))
+                          (expandedDetail?.run_log ?? row.run_log).map(
+                            (line, i) => <div key={i}>{line}</div>,
+                          )
                         )}
                         {isRunning ? (
                           <p className="text-amber-700 dark:text-amber-300 flex items-center gap-1">

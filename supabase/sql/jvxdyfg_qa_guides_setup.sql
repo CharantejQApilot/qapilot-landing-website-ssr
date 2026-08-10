@@ -1,5 +1,5 @@
 -- =============================================================================
--- PATH A — Run on PRODUCTION Supabase only
+-- PATH A. Run on PRODUCTION Supabase only
 -- Project: jvxdyfgjudycpopepgku
 -- URL:     https://jvxdyfgjudycpopepgku.supabase.co
 -- (Same project as Vercel NEXT_PUBLIC_SUPABASE_URL)
@@ -90,7 +90,7 @@ BEGIN
     SELECT 1 FROM information_schema.tables
     WHERE table_schema = 'public' AND table_name = 'qa_guides'
   ) THEN
-    RAISE EXCEPTION 'qa_guides table missing after setup — re-run from the top of this file';
+    RAISE EXCEPTION 'qa_guides table missing after setup. Re-run from the top of this file';
   END IF;
 END $$;
 

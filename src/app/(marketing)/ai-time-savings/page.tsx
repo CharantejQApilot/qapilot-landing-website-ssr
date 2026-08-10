@@ -11,7 +11,7 @@ import { buildStaticPageMetadata } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AI_TIME_SAVINGS}`;
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "AI Time Savings Calculator — Real QA Effort Savings",
+  title: "AI Time Savings Calculator. Real QA Effort Savings",
   description:
     "Model AI test generation vs manual QA. Adjust accuracy and verification cost to see naïve savings versus actual effort after the verification tax.",
   path: PATHS.AI_TIME_SAVINGS,

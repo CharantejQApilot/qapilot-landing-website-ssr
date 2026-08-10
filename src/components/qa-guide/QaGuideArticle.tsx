@@ -2,7 +2,10 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import { formatPublishedDate } from "@/lib/format-published";
-import { estimateReadingTimeMinutes, formatReadingTimeLabel } from "@/lib/reading-time";
+import {
+  estimateReadingTimeMinutes,
+  formatReadingTimeLabel,
+} from "@/lib/reading-time";
 import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -53,7 +56,9 @@ export default function QaGuideArticle({
   const descriptionText = firstNonEmptyString(guide.excerpt, guide.intent);
   const tags = commaSeparatedList(guide.tags);
   const contentFormat =
-    (guide.content_format ?? "").toLowerCase() === "markdown" ? "markdown" : "html";
+    (guide.content_format ?? "").toLowerCase() === "markdown"
+      ? "markdown"
+      : "html";
   const content = guide.content ?? "";
   const publishedLabel = formatPublishedDate(guide.published_date);
   const readingTimeMinutes = estimateReadingTimeMinutes(content);
@@ -74,7 +79,7 @@ export default function QaGuideArticle({
           <div className="mb-8 w-full overflow-hidden rounded-lg">
             <img
               src={guide.featured_image}
-              alt={`${guide.title} — QApilot ${QE_GUIDE_DISPLAY_NAME}`}
+              alt={`${guide.title}. QApilot ${QE_GUIDE_DISPLAY_NAME}`}
               className="h-auto w-full object-contain"
               width={1200}
               height={630}
@@ -84,12 +89,16 @@ export default function QaGuideArticle({
           </div>
         ) : null}
 
-        <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>{guide.title}</h1>
+        <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
+          {guide.title}
+        </h1>
 
         <ArticleSummariseWithAI pageUrl={pageUrl} />
 
         {descriptionText ? (
-          <p className="mb-8 text-xl text-muted-foreground">{descriptionText}</p>
+          <p className="mb-8 text-xl text-muted-foreground">
+            {descriptionText}
+          </p>
         ) : null}
 
         {tags.length > 0 ? (
@@ -110,7 +119,9 @@ export default function QaGuideArticle({
             <div>
               <p className="font-semibold text-foreground">{bylineName}</p>
               {writer?.designation ? (
-                <p className="text-sm text-muted-foreground">{writer.designation}</p>
+                <p className="text-sm text-muted-foreground">
+                  {writer.designation}
+                </p>
               ) : null}
             </div>
           ) : null}
@@ -119,7 +130,9 @@ export default function QaGuideArticle({
               <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
             ) : null}
             {publishedLabel ? (
-              <time dateTime={guide.published_date ?? undefined}>{publishedLabel}</time>
+              <time dateTime={guide.published_date ?? undefined}>
+                {publishedLabel}
+              </time>
             ) : null}
           </div>
         </div>

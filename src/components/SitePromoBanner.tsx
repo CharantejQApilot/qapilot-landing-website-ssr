@@ -18,9 +18,9 @@ function hrefFromPayload(p: SitePromoPayload): string {
 }
 
 /**
- * Top promo strip — loaded client-side so the root layout never awaits Supabase.
+ * Top promo strip. Loaded client-side so the root layout never awaits Supabase.
  * Starts at 0 height (no reserved empty slot) so sessions without a promo never CLS.
- * When a promo arrives, the strip expands once — rarer than the old collapse CLS.
+ * When a promo arrives, the strip expands once. Rarer than the old collapse CLS.
  */
 export default function SitePromoBanner() {
   const pathname = usePathname();

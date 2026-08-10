@@ -1,5 +1,5 @@
 /**
- * Marketing site sanity checks — run after meaningful releases.
+ * Marketing site sanity checks. Run after meaningful releases.
  *
  * Usage:
  *   npm run build && npm run start &
@@ -28,7 +28,8 @@ const STATIC_PATHS = [
   "/product",
   "/product/autonomous-testing",
   "/product/cowork",
-  "/product/intelligent-bug-detection",
+  "/product/dual-device-testing",
+  "/product/release-readiness-suite",
   "/for-flutter",
   "/enterprise",
   "/about",
@@ -42,8 +43,6 @@ const STATIC_PATHS = [
   "/labs",
   "/device-coverage-matrix",
   "/ai-time-savings",
-  "/security-reports",
-  "/ai-self-healing",
   "/agentic-architecture",
   "/bring-your-own-agent",
   "/for-qa-leader",
@@ -69,7 +68,11 @@ const STATIC_PATHS = [
 ];
 
 const REDIRECT_CHECKS = [
-  { path: "/cowork", expectStatus: 308, expectLocationIncludes: "/product/cowork" },
+  {
+    path: "/cowork",
+    expectStatus: 308,
+    expectLocationIncludes: "/product/cowork",
+  },
   {
     path: "/platform/autonomous-testing",
     expectStatus: 308,
@@ -93,10 +96,16 @@ const REDIRECT_CHECKS = [
 ];
 
 const FORM_API_ROUTES = [
-  { path: "/api/hubspot/get-access", label: "Main marketing / book demo / events" },
+  {
+    path: "/api/hubspot/get-access",
+    label: "Main marketing / book demo / events",
+  },
   { path: "/api/hubspot/flutter-hero", label: "Flutter hero" },
   { path: "/api/hubspot/partners", label: "Partners" },
-  { path: "/api/hubspot/lead-magnet", label: "Device coverage matrix lead magnet" },
+  {
+    path: "/api/hubspot/lead-magnet",
+    label: "Device coverage matrix lead magnet",
+  },
 ];
 
 function loadEventSlugs() {
@@ -122,7 +131,11 @@ async function checkGet(path) {
     const res = await fetch(url, { redirect: "manual" });
     return { path, status: res.status, location: res.headers.get("location") };
   } catch (err) {
-    return { path, status: 0, error: err instanceof Error ? err.message : String(err) };
+    return {
+      path,
+      status: 0,
+      error: err instanceof Error ? err.message : String(err),
+    };
   }
 }
 
@@ -136,7 +149,11 @@ async function checkFormApi(path) {
     });
     return { path, status: res.status };
   } catch (err) {
-    return { path, status: 0, error: err instanceof Error ? err.message : String(err) };
+    return {
+      path,
+      status: 0,
+      error: err instanceof Error ? err.message : String(err),
+    };
   }
 }
 
@@ -153,12 +170,16 @@ async function checkFormApiIncompleteLead(path) {
     });
     return { path, status: res.status };
   } catch (err) {
-    return { path, status: 0, error: err instanceof Error ? err.message : String(err) };
+    return {
+      path,
+      status: 0,
+      error: err instanceof Error ? err.message : String(err),
+    };
   }
 }
 
 async function main() {
-  console.log(`\nQApilot sanity check — ${baseUrl}\n`);
+  console.log(`\nQApilot sanity check. ${baseUrl}\n`);
 
   let failed = 0;
 
@@ -167,12 +188,7 @@ async function main() {
     const r = await checkGet(path);
     const pass = okStatus(r.status);
     if (!pass) failed++;
-    console.log(
-      pass ? "  ✓" : "  ✗",
-      r.status,
-      path,
-      r.error ?? "",
-    );
+    console.log(pass ? "  ✓" : "  ✗", r.status, path, r.error ?? "");
   }
 
   const eventSlugs = loadEventSlugs();
@@ -180,11 +196,20 @@ async function main() {
     const r = await checkGet(`/events/${slug}`);
     const pass = okStatus(r.status);
     if (!pass) failed++;
-    console.log(pass ? "  ✓" : "  ✗", r.status, `/events/${slug}`, r.error ?? "");
+    console.log(
+      pass ? "  ✓" : "  ✗",
+      r.status,
+      `/events/${slug}`,
+      r.error ?? "",
+    );
   }
 
   console.log("\n2) Redirects");
-  for (const { path, expectStatus, expectLocationIncludes } of REDIRECT_CHECKS) {
+  for (const {
+    path,
+    expectStatus,
+    expectLocationIncludes,
+  } of REDIRECT_CHECKS) {
     const r = await checkGet(path);
     const pass =
       r.status === expectStatus &&
@@ -203,7 +228,13 @@ async function main() {
     const r = await checkFormApi(path);
     const pass = r.status === 422 || r.status === 400;
     if (!pass) failed++;
-    console.log(pass ? "  ✓" : "  ✗", r.status, path, `— ${label}`, r.error ?? "");
+    console.log(
+      pass ? "  ✓" : "  ✗",
+      r.status,
+      path,
+      `.  ${label}`,
+      r.error ?? "",
+    );
   }
 
   console.log("\n3b) Lead form APIs reject incomplete payloads (422, not 5xx)");
@@ -220,15 +251,23 @@ async function main() {
 
   console.log("\n4) Manual / browser checks (not automated here)");
   console.log("  • CoWork hero video: autoplay, loop, unmute");
-  console.log("  • Scenic YouTube embeds: autonomous testing, Flutter, intelligent bug detection");
+  console.log(
+    "  • Scenic YouTube embeds: autonomous testing, Flutter, intelligent bug detection",
+  );
   console.log("  • Event detail YouTube embeds where configured");
-  console.log("  • Header/footer nav, Platform menu, Explore QApilot CTAs on events");
+  console.log(
+    "  • Header/footer nav, Platform menu, Explore QApilot CTAs on events",
+  );
   console.log("  • Mobile layout + Core Web Vitals (PageSpeed / Lighthouse)");
-  console.log("  • GTM, GA4, Clarity, RB2B, Factors.ai, HubSpot script in Network tab (marketing pages only)");
+  console.log(
+    "  • GTM, GA4, Clarity, RB2B, Factors.ai, HubSpot script in Network tab (marketing pages only)",
+  );
   console.log("  • Submit each live form with test data in HubSpot");
   console.log("  • OG/Twitter cards, canonicals, JSON-LD on key URLs");
 
-  console.log(`\n${failed === 0 ? "All automated checks passed." : `${failed} automated check(s) failed.`}\n`);
+  console.log(
+    `\n${failed === 0 ? "All automated checks passed." : `${failed} automated check(s) failed.`}\n`,
+  );
   process.exit(failed > 0 ? 1 : 0);
 }
 

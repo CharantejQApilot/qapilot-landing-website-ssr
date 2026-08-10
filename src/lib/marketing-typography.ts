@@ -1,6 +1,6 @@
 /**
  * Canonical typography for home / marketing sections (single source of truth).
- * Navy banners: use `marketingSectionH2Class` only — `.section-navy h2` sets color.
+ * Navy banners: use `marketingSectionH2Class` only. `.section-navy h2` sets color.
  */
 
 export const marketingSectionH2Class =
@@ -14,19 +14,22 @@ export const marketingSectionIntroClass =
 export const marketingEyebrowClass =
   "text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground mb-3 md:mb-4";
 
-/** Lead line under the page h1 (hero) — one step above `marketingSectionIntroClass` */
+/** Lead line under the page h1 (hero). One step above `marketingSectionIntroClass`.
+ * Full width of the hero column (no max-w) so left-aligned thesis heroes don’t leave an empty right band.
+ * Split heroes may still add a column `max-w-*` when media sits beside the copy.
+ */
 export const marketingHeroLeadClass =
-  "text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl";
+  "w-full text-pretty text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl";
 
 /**
  * Lead under h1 on resource listing heroes (blogs, news, events, QA guide hub).
- * Full width of the hero header column — no `max-w-*` so subtext aligns with the h1 band.
+ * Full width of the hero header column. No `max-w-*` so subtext aligns with the h1 band.
  */
 export const marketingListingHeroLeadClass =
   "w-full mt-8 text-lg leading-relaxed text-muted-foreground text-pretty sm:mt-10 md:text-xl lg:text-2xl lg:leading-relaxed";
 
 /**
- * Page hero title — same scale as {@link HeroSection} on the home page.
+ * Page hero title. Same scale as {@link HeroSection} on the home page.
  * Compose margins with `cn(marketingHeroH1Class, "mb-…")`; add `text-balance` or `text-gradient` as needed.
  */
 export const marketingHeroH1Class =

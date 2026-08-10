@@ -1,4 +1,4 @@
-/** @deprecated Import from `@/lib/forms/marketing-lead` — kept for stable import paths. */
+/** @deprecated Import from `@/lib/forms/marketing-lead`. Kept for stable import paths. */
 export {
   MARKETING_LEAD_DESIGNATIONS as FLUTTER_HERO_DESIGNATIONS,
   marketingLeadSchema as flutterHeroLeadSchema,

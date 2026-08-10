@@ -7,8 +7,10 @@ type IntegrationsMarqueeDesktopProps = {
   children: ReactNode;
 };
 
-/** Desktop integration logo marquee — CSS infinite scroll (always runs on md+). */
-export function IntegrationsMarqueeDesktop({ children }: IntegrationsMarqueeDesktopProps) {
+/** Desktop integration logo marquee. CSS infinite scroll (always runs on md+). */
+export function IntegrationsMarqueeDesktop({
+  children,
+}: IntegrationsMarqueeDesktopProps) {
   return (
     <div className="relative hidden w-full overflow-hidden md:block">
       <div className="flex w-max motion-safe:animate-[infinite-scroll_52s_linear_infinite] motion-reduce:animate-none hover:motion-safe:[animation-play-state:paused] will-change-transform">

@@ -10,12 +10,12 @@ import { buildStaticPageMetadata } from "@/lib/seo";
 const PRODUCT_PATH = PATHS.PRODUCT;
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Product — Mobile Testing for Release Readiness",
+  title: "Product. Mobile Testing for Release Readiness",
   description:
     "Unified mobile testing for release readiness: autonomous coverage, stable execution, issue detection, Flutter support, and security visibility.",
   path: PRODUCT_PATH,
   ogDescription:
-    "Generate coverage, cut maintenance, detect issues, and validate mobile releases—one platform.",
+    "Generate coverage, cut maintenance, detect issues, and validate mobile releases. One platform.",
   twitterDescription:
     "Coverage, stability, Flutter, and risk visibility for mobile release confidence.",
 });

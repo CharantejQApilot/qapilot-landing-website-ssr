@@ -8,7 +8,10 @@ import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
-import { estimateReadingTimeMinutes, formatReadingTimeLabel } from "@/lib/reading-time";
+import {
+  estimateReadingTimeMinutes,
+  formatReadingTimeLabel,
+} from "@/lib/reading-time";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
@@ -58,7 +61,9 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   if (error || !data) return [];
   return data
     .map((row) => row.slug)
-    .filter((slug): slug is string => typeof slug === "string" && slug.length > 0)
+    .filter(
+      (slug): slug is string => typeof slug === "string" && slug.length > 0,
+    )
     .map((slug) => ({ slug }));
 }
 
@@ -68,7 +73,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
  * metadata while a sibling `error.tsx` boundary exists has been observed to
  * escalate to Next's generic /500 page on Vercel rather than the proper /404
  * (related to vercel/next.js#65013). We let the page handler decide the HTTP
- * status — that path reliably renders a 404 via the segment-level
+ * status. That path reliably renders a 404 via the segment-level
  * `not-found.tsx`.
  */
 const NOT_FOUND_METADATA: Metadata = {
@@ -127,8 +132,10 @@ export async function generateMetadata({
     `Read ${baseTitle} on the QApilot blog. Expert insights on mobile app testing and QA automation.`;
 
   const metaTitle =
-    firstNonEmptyString((blog as { seo_title?: unknown }).seo_title, blog.title) ??
-    baseTitle;
+    firstNonEmptyString(
+      (blog as { seo_title?: unknown }).seo_title,
+      blog.title,
+    ) ?? baseTitle;
 
   const ogRaw = firstNonEmptyString(
     (blog as { og_image_url?: unknown }).og_image_url,
@@ -222,7 +229,7 @@ export default async function BlogPostPage({
   const { data: relatedPosts, error: relatedPostsError } = await supabase
     .from("blogs")
     .select(
-      "id, title, slug, excerpt, featured_image, published_date, youtube_url"
+      "id, title, slug, excerpt, featured_image, published_date, youtube_url",
     )
     .eq("published", true)
     .neq("id", blog.id)
@@ -236,10 +243,13 @@ export default async function BlogPostPage({
     { name: "Blogs", path: PATHS.BLOGS },
     { name: blog.title, path: `${PATHS.BLOGS}/${blog.slug}` },
   ]);
-  const articlePublishedTime = normalizeArticlePublishedTime(blog.published_date);
+  const articlePublishedTime = normalizeArticlePublishedTime(
+    blog.published_date,
+  );
   const articleModifiedTime =
-    normalizeArticlePublishedTime(asTrimmedString((blog as { updated_at?: unknown }).updated_at)) ??
-    articlePublishedTime;
+    normalizeArticlePublishedTime(
+      asTrimmedString((blog as { updated_at?: unknown }).updated_at),
+    ) ?? articlePublishedTime;
   const articleImageUrl = absoluteUrlForOpenGraph(
     firstNonEmptyString(
       (blog as { og_image_url?: unknown }).og_image_url,
@@ -280,8 +290,9 @@ export default async function BlogPostPage({
   const tags = commaSeparatedList((blog as { tags?: unknown }).tags);
   const youtubeUrl = asTrimmedString(blog.youtube_url);
   const contentFormat =
-    asTrimmedString((blog as { content_format?: unknown }).content_format).toLowerCase() ===
-    "markdown"
+    asTrimmedString(
+      (blog as { content_format?: unknown }).content_format,
+    ).toLowerCase() === "markdown"
       ? "markdown"
       : "html";
   const content = asString(blog.content);
@@ -294,8 +305,8 @@ export default async function BlogPostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
       />
       <MarketingPageShell background="soft">
-          <main className="section-edge w-full py-16 md:py-20 lg:py-24">
-            <div className={`${ARTICLE_GUTTER} ${ARTICLE_MAX_WIDTH}`}>
+        <main className="section-edge w-full py-16 md:py-20 lg:py-24">
+          <div className={`${ARTICLE_GUTTER} ${ARTICLE_MAX_WIDTH}`}>
             <Link
               href="/blogs"
               className="inline-flex items-center gap-2 mb-8 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -304,8 +315,7 @@ export default async function BlogPostPage({
               Back to Blogs
             </Link>
 
-            {blog.featured_image &&
-            !youtubeUrl ? (
+            {blog.featured_image && !youtubeUrl ? (
               <div className="w-full overflow-hidden rounded-lg mb-8">
                 <img
                   src={blog.featured_image}
@@ -323,7 +333,9 @@ export default async function BlogPostPage({
               {blog.title}
             </h1>
 
-            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`} />
+            <ArticleSummariseWithAI
+              pageUrl={`${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`}
+            />
 
             {descriptionText ? (
               <p className="mb-8 text-xl text-muted-foreground">
@@ -367,7 +379,9 @@ export default async function BlogPostPage({
                   <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
                 ) : null}
                 {publishedLabel ? (
-                  <time dateTime={blog.published_date ?? undefined}>{publishedLabel}</time>
+                  <time dateTime={blog.published_date ?? undefined}>
+                    {publishedLabel}
+                  </time>
                 ) : null}
               </div>
             </div>
@@ -377,10 +391,7 @@ export default async function BlogPostPage({
             <div
               className="blog-content max-w-none"
               dangerouslySetInnerHTML={{
-                __html: sanitizeRichText(
-                  content,
-                  contentFormat,
-                ),
+                __html: sanitizeRichText(content, contentFormat),
               }}
             />
 
@@ -397,8 +408,8 @@ export default async function BlogPostPage({
             ) : null}
 
             <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
-            </div>
-          </main>
+          </div>
+        </main>
       </MarketingPageShell>
     </>
   );

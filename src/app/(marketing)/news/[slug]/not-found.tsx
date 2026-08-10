@@ -7,7 +7,7 @@ import { PATHS } from "@/lib/routes";
 /**
  * Segment-level not-found UI for `/news/[slug]`. Having this colocated with
  * `page.tsx` ensures `notFound()` resolves into a clean 404 here instead of
- * bubbling past the sibling `error.tsx` boundary — which is what was making
+ * bubbling past the sibling `error.tsx` boundary. Which is what was making
  * unknown news slugs (typos, drafts, deleted posts, slugs LinkedIn crawled
  * before publish) escalate to /500 on Vercel.
  */
@@ -28,8 +28,9 @@ export default function NewsPostNotFound() {
           We couldn&apos;t find that update
         </h1>
         <p className="mt-4 max-w-md text-muted-foreground">
-          The news item you&apos;re looking for may have moved, been unpublished,
-          or never existed. Browse the latest QApilot updates instead.
+          The news item you&apos;re looking for may have moved, been
+          unpublished, or never existed. Browse the latest QApilot updates
+          instead.
         </p>
         <Button asChild className="mt-8" size="lg">
           <Link href={PATHS.NEWS}>Back to news</Link>

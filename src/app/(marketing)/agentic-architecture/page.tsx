@@ -13,13 +13,15 @@ import { formatPageTitle } from "@/lib/page-title";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.AGENTIC_ARCHITECTURE}`;
 
-const PAGE_TITLE = formatPageTitle("Agentic Architecture — AI Agents & Knowledge Graph");
+const PAGE_TITLE = formatPageTitle(
+  "Agentic Architecture. AI Agents & Knowledge Graph",
+);
 const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description:
-    "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing — context, exploration, and outcomes in one system.",
+    "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing. Context, exploration, and outcomes in one system.",
   alternates: {
     canonical: canonicalUrl,
   },
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     title: PAGE_TITLE_TEXT,
     description:
-      "Specialized agents, shared context, and the knowledge graph as the foundation — from exploration to coverage and release readiness.",
+      "Specialized agents, shared context, and the knowledge graph as the foundation. From exploration to coverage and release readiness.",
     url: canonicalUrl,
     siteName: "QApilot",
     locale: "en_US",
@@ -38,7 +40,9 @@ export const metadata: Metadata = {
     title: "QApilot's Agentic Architecture | QApilot",
     description:
       "Agents, knowledge graph, and continuous learning for autonomous mobile testing.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 

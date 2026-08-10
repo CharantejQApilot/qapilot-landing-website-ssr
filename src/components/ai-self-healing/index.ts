@@ -1,9 +1,4 @@
-export { AiSelfHealingHero } from "./AiSelfHealingHero";
-export { AiSelfHealingProblemSection } from "./AiSelfHealingProblemSection";
-export { AiSelfHealingShiftSection } from "./AiSelfHealingShiftSection";
 export { AiSelfHealingHealingEngineSection } from "./AiSelfHealingHealingEngineSection";
 export { AiSelfHealingExecutionSection } from "./AiSelfHealingExecutionSection";
 export { AiSelfHealingReportSection } from "./AiSelfHealingReportSection";
 export { AiSelfHealingApprovalSection } from "./AiSelfHealingApprovalSection";
-export { AiSelfHealingOutcomesSection } from "./AiSelfHealingOutcomesSection";
-export { AiSelfHealingDifferentiationSection } from "./AiSelfHealingDifferentiationSection";

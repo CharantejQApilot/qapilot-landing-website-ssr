@@ -11,7 +11,7 @@ const HeroPixelDonutRipple = dynamic(
   { ssr: false },
 );
 
-/** Halftone ripple — desktop/tablet only; deferred until idle to reduce initial TBT. */
+/** Halftone ripple. Desktop/tablet only; deferred until idle to reduce initial TBT. */
 export function HeroPixelDonutRippleDesktopOnly() {
   const [enable, setEnable] = useState(false);
 

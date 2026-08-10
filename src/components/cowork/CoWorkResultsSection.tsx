@@ -1,6 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import { ListChecks, ShieldCheck, TrendingUp } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 type ResultItem = {
@@ -49,17 +52,21 @@ export function CoWorkResultsSection() {
         className="pointer-events-none absolute -right-[8%] bottom-[5%] h-72 w-72 rounded-full bg-primary/[0.05] blur-3xl"
         aria-hidden
       />
-      <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-40" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-40"
+        aria-hidden
+      />
 
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader
           id="cowork-results-heading"
           title={
             <>
-              <span className="text-primary">3× Coverage</span> With the Team You Already Have
+              <span className="text-primary">3× Coverage</span> With the Team
+              You Already Have
             </>
           }
-          description="CoWork activates existing test cases before every release—without new scripts, new automation projects, or more headcount."
+          description="CoWork activates existing test cases before every release. Without new scripts, new automation projects, or more headcount."
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 

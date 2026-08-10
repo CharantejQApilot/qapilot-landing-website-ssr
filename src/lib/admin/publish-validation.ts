@@ -30,12 +30,16 @@ function isValidAbsoluteHttpUrl(value: string | null | undefined): boolean {
   }
 }
 
-export function validatePublishedContent(input: PublishValidationInput): string[] {
+export function validatePublishedContent(
+  input: PublishValidationInput,
+): string[] {
   const errors: string[] = [];
 
-  if (!hasText(input.title)) errors.push("Title is required before publishing.");
+  if (!hasText(input.title))
+    errors.push("Title is required before publishing.");
   if (!hasText(input.slug)) errors.push("Slug is required before publishing.");
-  if (!hasText(input.content)) errors.push("Content is required before publishing.");
+  if (!hasText(input.content))
+    errors.push("Content is required before publishing.");
 
   if (!hasText(input.seoTitle)) {
     errors.push("SEO title is required before publishing.");
@@ -45,7 +49,9 @@ export function validatePublishedContent(input: PublishValidationInput): string[
   }
 
   if (!hasText(input.ogImageUrl) && !hasText(input.featuredImageUrl)) {
-    errors.push("Provide either an OG image URL or a cover image before publishing.");
+    errors.push(
+      "Provide either an OG image URL or a cover image before publishing.",
+    );
   }
 
   if (hasText(input.ogImageUrl) && !isValidAbsoluteHttpUrl(input.ogImageUrl)) {
@@ -61,13 +67,17 @@ export function validatePublishedContent(input: PublishValidationInput): string[
   return errors;
 }
 
-/** QA guides: text blogs — SEO title + description only (no cover/OG required). */
-export function validateQaGuideForPublish(input: PublishValidationInput): string[] {
+/** QA guides: text blogs. SEO title + description only (no cover/OG required). */
+export function validateQaGuideForPublish(
+  input: PublishValidationInput,
+): string[] {
   const errors: string[] = [];
 
-  if (!hasText(input.title)) errors.push("Title is required before publishing.");
+  if (!hasText(input.title))
+    errors.push("Title is required before publishing.");
   if (!hasText(input.slug)) errors.push("Slug is required before publishing.");
-  if (!hasText(input.content)) errors.push("Content is required before publishing.");
+  if (!hasText(input.content))
+    errors.push("Content is required before publishing.");
   if (!hasText(input.seoTitle)) {
     errors.push("SEO title is required before publishing.");
   }
@@ -78,14 +88,17 @@ export function validateQaGuideForPublish(input: PublishValidationInput): string
   return errors;
 }
 
-export function validatePublishedJob(input: JobPublishValidationInput): string[] {
+export function validatePublishedJob(
+  input: JobPublishValidationInput,
+): string[] {
   const errors: string[] = [];
   if (!hasText(input.role)) errors.push("Role is required before publishing.");
   if (!hasText(input.slug)) errors.push("Slug is required before publishing.");
   if (!hasText(input.department)) {
     errors.push("Department is required before publishing.");
   }
-  if (!hasText(input.location)) errors.push("Location is required before publishing.");
+  if (!hasText(input.location))
+    errors.push("Location is required before publishing.");
   if (!hasText(input.description)) {
     errors.push("Job description is required before publishing.");
   }

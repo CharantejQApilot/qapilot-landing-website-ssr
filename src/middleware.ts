@@ -73,7 +73,7 @@ function isSocialPreviewPath(pathname: string): boolean {
  * Those routes are now hardened with `generateStaticParams` (build-time
  * prerender), `revalidate = 120` (ISR), and `generateMetadata` wrapped in
  * try/catch. The Next.js metadata pipeline produces the canonical OG /
- * Twitter tags for every article — including custom CMS images, titles,
+ * Twitter tags for every article. Including custom CMS images, titles,
  * descriptions and `article:published_time`.
  *
  * The Supabase fallback was actively *wrong* whenever the deployed edge

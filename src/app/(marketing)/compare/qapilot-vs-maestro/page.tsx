@@ -3,7 +3,10 @@ import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingSectionHeader } from "@/components/marketing";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
@@ -18,7 +21,7 @@ const heroComparisonCards = [
   {
     title: "Maestro",
     subtitle: "Flow-Based Mobile UI Testing",
-    body: "Teams define YAML flows for UI interactions and run them across devices — fast to start, but bounded by what you script.",
+    body: "Teams define YAML flows for UI interactions and run them across devices. Fast to start, but bounded by what you script.",
   },
   {
     title: "QApilot",
@@ -28,13 +31,21 @@ const heroComparisonCards = [
 ] as const;
 
 const comparisonRows = [
-  ["Approach", "Declarative YAML flows for UI automation", "Autonomous exploration and knowledge-graph-driven testing"],
+  [
+    "Approach",
+    "Declarative YAML flows for UI automation",
+    "Autonomous exploration and knowledge-graph-driven testing",
+  ],
   [
     "Test Creation",
     "Write and maintain flow definitions",
     "Crawler discovers and generates tests from app behavior",
   ],
-  ["Maintenance", "Update flows when selectors or screens change", "Context-aware self-healing across journeys"],
+  [
+    "Maintenance",
+    "Update flows when selectors or screens change",
+    "Context-aware self-healing across journeys",
+  ],
   [
     "Coverage Scope",
     "Flows you author",
@@ -59,7 +70,7 @@ const featureCards = [
   },
   {
     title: "Self-Healing Execution",
-    body: "Continue testing when UI elements change — reduce flaky flow maintenance.",
+    body: "Continue testing when UI elements change. Reduce flaky flow maintenance.",
   },
   {
     title: "Flutter & Hybrid Support",
@@ -71,7 +82,9 @@ const featureCards = [
   },
 ] as const;
 
-const PAGE_TITLE = formatPageTitle("QApilot vs Maestro | Autonomous Mobile Testing");
+const PAGE_TITLE = formatPageTitle(
+  "QApilot vs Maestro | Autonomous Mobile Testing",
+);
 const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 const PAGE_DESCRIPTION =
   "Compare QApilot vs Maestro for mobile app testing. See how autonomous exploration and self-healing go beyond YAML flow automation for release-ready mobile QA.";
@@ -93,7 +106,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "QApilot vs Maestro",
     description: PAGE_DESCRIPTION,
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 
@@ -121,14 +136,18 @@ export default function QApilotVsMaestroPage() {
           title={
             <>
               Maestro Runs Your Flows.{" "}
-              <span className="text-primary">QApilot Discovers What Matters.</span>
+              <span className="text-primary">
+                QApilot Discovers What Matters.
+              </span>
             </>
           }
           description={
             <>
-              Maestro makes mobile UI flow testing approachable with simple YAML definitions. QApilot is for teams
-              that need autonomous coverage — exploring apps post-build, generating tests, healing UI changes, and
-              delivering release-ready signals without maintaining every flow by hand.
+              Maestro makes mobile UI flow testing approachable with simple YAML
+              definitions. QApilot is for teams that need autonomous coverage.
+              Exploring apps post-build, generating tests, healing UI changes,
+              and delivering release-ready signals without maintaining every
+              flow by hand.
             </>
           }
         />
@@ -156,7 +175,9 @@ export default function QApilotVsMaestroPage() {
                   <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                     {card.subtitle}
                   </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{card.body}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {card.body}
+                  </p>
                 </article>
               ))}
             </div>
@@ -191,10 +212,14 @@ export default function QApilotVsMaestroPage() {
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                         Maestro
                       </p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{maestro}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                        {maestro}
+                      </p>
                     </div>
                     <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">QApilot</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+                        QApilot
+                      </p>
                       <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">
                         {qapilot}
                       </p>
@@ -212,34 +237,49 @@ export default function QApilotVsMaestroPage() {
               id="what-qapilot-brings"
               title={
                 <>
-                  What QApilot Brings <span className="text-primary">Beyond Maestro</span>
+                  What QApilot Brings{" "}
+                  <span className="text-primary">Beyond Maestro</span>
                 </>
               }
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <MarketingLedger cols={2} aria-label="What QApilot brings beyond Maestro">
+            <MarketingLedger
+              cols={2}
+              aria-label="What QApilot brings beyond Maestro"
+            >
               {featureCards.map((feature) => (
                 <MarketingLedgerCell key={feature.title}>
                   <h3 className="font-heading text-base font-semibold tracking-tight text-foreground">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {feature.body}
+                  </p>
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
 
             <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">
               Explore{" "}
-              <Link href={PATHS.AUTONOMOUS_TESTING} className="text-primary hover:underline">
+              <Link
+                href={PATHS.AUTONOMOUS_TESTING}
+                className="text-primary hover:underline"
+              >
                 autonomous testing
               </Link>
               ,{" "}
-              <Link href={PATHS.AI_SELF_HEALING} className="text-primary hover:underline">
+              <Link
+                href={PATHS.AI_SELF_HEALING}
+                className="text-primary hover:underline"
+              >
                 AI self-healing
               </Link>
               , and{" "}
-              <Link href={PATHS.INTELLIGENT_BUG_DETECTION} className="text-primary hover:underline">
+              <Link
+                href={PATHS.INTELLIGENT_BUG_DETECTION}
+                className="text-primary hover:underline"
+              >
                 intelligent bug detection
               </Link>
               .
@@ -250,15 +290,17 @@ export default function QApilotVsMaestroPage() {
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
           <div className="section-full">
             <div className="sig-close">
-            <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
-              Ready To Go <span className="text-primary">Beyond Flow Files</span>?
-            </h2>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              See how QApilot autonomously explores your app and delivers release-ready mobile coverage.
-            </p>
-            <div className="sig-cta-row">
-              <BookDemoCtaButton />
-            </div>
+              <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
+                Ready To Go{" "}
+                <span className="text-primary">Beyond Flow Files</span>?
+              </h2>
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                See how QApilot autonomously explores your app and delivers
+                release-ready mobile coverage.
+              </p>
+              <div className="sig-cta-row">
+                <BookDemoCtaButton />
+              </div>
             </div>
           </div>
         </section>

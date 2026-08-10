@@ -10,12 +10,14 @@ import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Labs — Experiments, Tools & Ideas Shipped Fast",
+  title: "Labs. Experiments, Tools & Ideas Shipped Fast",
   description:
-    "QApilot Labs ships AI-native experiments and tools from hackathons and real-world testing needs—explore what we build at the edge of mobile QA.",
+    "QApilot Labs ships AI-native experiments and tools from hackathons and real-world testing needs. Explore what we build at the edge of mobile QA.",
   path: PATHS.LABS,
-  ogDescription: "Experiments and tools exploring AI-native development and testing.",
-  twitterDescription: "Tools and ideas shipped fast from hackathons and real-world needs.",
+  ogDescription:
+    "Experiments and tools exploring AI-native development and testing.",
+  twitterDescription:
+    "Tools and ideas shipped fast from hackathons and real-world needs.",
 });
 
 export const revalidate = 120;

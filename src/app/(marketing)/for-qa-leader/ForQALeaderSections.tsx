@@ -7,7 +7,10 @@ import {
   Repeat,
   Smartphone,
 } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -82,19 +85,26 @@ export function ForQALeaderSections() {
             eyebrow="The challenge"
             title={
               <>
-                The Challenge Facing <span className="text-primary">QE Leaders</span>
+                The Challenge Facing{" "}
+                <span className="text-primary">QE Leaders</span>
               </>
             }
             description={
               <p>
-                Quality engineering teams are expected to move faster, test more, and block fewer releases — often
-                without additional headcount.
+                Quality engineering teams are expected to move faster, test
+                more, and block fewer releases. Often without additional
+                headcount.
               </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
-          <p className={cn(marketingSectionIntroClass, "mb-8 font-medium text-foreground/90 md:mb-10")}>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mb-8 font-medium text-foreground/90 md:mb-10",
+            )}
+          >
             But traditional testing stacks create drag:
           </p>
 
@@ -126,7 +136,8 @@ export function ForQALeaderSections() {
             eyebrow="Outcomes"
             title={
               <>
-                Outcomes <span className="text-primary">QE Leaders</span> Care About
+                Outcomes <span className="text-primary">QE Leaders</span> Care
+                About
               </>
             }
             description="What changes when autonomous exploration, healing, and structured signals replace brittle script-only automation."
@@ -139,7 +150,9 @@ export function ForQALeaderSections() {
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                   {outcome.title}
                 </h3>
-                <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                <p className={cn(marketingSectionIntroClass, "mt-4")}>
+                  {outcome.body}
+                </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {outcome.capabilities.map((cap) => (
                     <span
@@ -166,10 +179,16 @@ export function ForQALeaderSections() {
             eyebrow="Your stack"
             title={
               <>
-                Works With Your <span className="text-primary">Existing Stack</span>
+                Works With Your{" "}
+                <span className="text-primary">Existing Stack</span>
               </>
             }
-            description={<p>QApilot fits into enterprise environments without rip-and-replace.</p>}
+            description={
+              <p>
+                QApilot fits into enterprise environments without
+                rip-and-replace.
+              </p>
+            }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
@@ -182,8 +201,13 @@ export function ForQALeaderSections() {
                   "motion-safe:hover:border-primary/25",
                 )}
               >
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">{item}</span>
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                  aria-hidden
+                />
+                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -204,10 +228,11 @@ export function ForQALeaderSections() {
               eyebrow="Why QApilot"
               title={
                 <>
-                  Why QE Leaders Choose <span className="text-primary">QApilot</span>
+                  Why QE Leaders Choose{" "}
+                  <span className="text-primary">QApilot</span>
                 </>
               }
-              description="Because quality engineering should improve release velocity—not become the bottleneck—QApilot helps leaders move from maintenance-heavy operations to scalable mobile release readiness."
+              description="Because quality engineering should improve release velocity. Not become the bottleneck. QApilot helps leaders move from maintenance-heavy operations to scalable mobile release readiness."
               marginBottomClassName="mb-0"
             />
           </div>

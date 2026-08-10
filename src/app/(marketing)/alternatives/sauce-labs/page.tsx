@@ -8,7 +8,9 @@ import { formatPageTitle } from "@/lib/page-title";
 const path = PATHS.ALTERNATIVES_SAUCE_LABS;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 
-const PAGE_TITLE = formatPageTitle("Sauce Labs Alternative — Autonomous Mobile Testing | QApilot");
+const PAGE_TITLE = formatPageTitle(
+  "Sauce Labs Alternative. Autonomous Mobile Testing | QApilot",
+);
 const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 const PAGE_DESCRIPTION =
   "Looking for a Sauce Labs alternative? QApilot delivers autonomous mobile test generation, self-healing, and release readiness beyond device clouds.";
@@ -19,24 +21,33 @@ const config = {
   eyebrow: "Sauce Labs Alternative",
   h1: (
     <>
-      The <span className="text-primary">Sauce Labs Alternative</span> for Autonomous Mobile QA
+      The <span className="text-primary">Sauce Labs Alternative</span> for
+      Autonomous Mobile QA
     </>
   ),
-  lead: "Sauce Labs provides cloud-based device and browser infrastructure for test execution. QApilot goes further — autonomous app exploration, AI-native test generation, self-healing, and release-ready mobile reporting.",
+  lead: "Sauce Labs provides cloud-based device and browser infrastructure for test execution. QApilot goes further. Autonomous app exploration, AI-native test generation, self-healing, and release-ready mobile reporting.",
   competitorSubtitle: "Continuous Testing Platform",
   competitorBody:
     "Sauce Labs offers device clouds, test orchestration, and analytics for teams running automated tests at scale. Test authoring, maintenance, and coverage gaps remain the team's responsibility.",
   qapilotSubtitle: "AI-Native Mobile Testing",
   qapilotBody:
-    "QApilot autonomously maps your app, generates structured test coverage, executes journeys across real devices, heals broken steps, and reports release risk — reducing the script debt that device clouds alone cannot solve.",
+    "QApilot autonomously maps your app, generates structured test coverage, executes journeys across real devices, heals broken steps, and reports release risk. Reducing the script debt that device clouds alone cannot solve.",
   comparisonRows: [
-    ["Primary Focus", "Cloud test infrastructure and orchestration", "Autonomous mobile coverage and maintenance"],
+    [
+      "Primary Focus",
+      "Cloud test infrastructure and orchestration",
+      "Autonomous mobile coverage and maintenance",
+    ],
     [
       "Test Creation",
       "Script-based automation on connected devices",
       "Crawler-led generation from real app behavior",
     ],
-    ["Maintenance", "Manual updates when UI or flows change", "Context-aware self-healing across journeys"],
+    [
+      "Maintenance",
+      "Manual updates when UI or flows change",
+      "Context-aware self-healing across journeys",
+    ],
     [
       "App Understanding",
       "Executes predefined test suites",
@@ -54,7 +65,7 @@ const config = {
     ],
   ],
   whyPoints: [
-    "Discover critical mobile journeys automatically — not only what engineers script.",
+    "Discover critical mobile journeys automatically. Not only what engineers script.",
     "Cut test maintenance when locators, layouts, and flows change every release.",
     "Validate onboarding, payments, KYC, and other business-critical journeys end-to-end.",
     "Surface accessibility, latency, and security signals alongside functional results.",
@@ -79,9 +90,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sauce Labs Alternative — QApilot",
+    title: "Sauce Labs Alternative. QApilot",
     description: PAGE_DESCRIPTION,
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 

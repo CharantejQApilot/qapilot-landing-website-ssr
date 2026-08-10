@@ -11,13 +11,13 @@ export const HOME_POPUP_SUBMIT_STORAGE_KEY = "qapilot-home-popup-submitted-at";
 export const HOME_POPUP_DISMISS_STORAGE_KEY = "qapilot-home-popup-dismissed-at";
 
 const SUBMIT_SUPPRESS_MS = 7 * 24 * 60 * 60 * 1000;
-/** After close without submit — stay quiet for a few hours (not just until refresh). */
+/** After close without submit. Stay quiet for a few hours (not just until refresh). */
 const DISMISS_SUPPRESS_MS = 4 * 60 * 60 * 1000;
 
-/** Closed popup — in-memory until full page refresh. */
+/** Closed popup. In-memory until full page refresh. */
 let dismissedThisVisit = false;
 
-/** Popup already shown this visit — only one show per load. */
+/** Popup already shown this visit. Only one show per load. */
 let shownThisVisit = false;
 
 function isTimestampSuppressed(storageKey: string, windowMs: number): boolean {
@@ -42,12 +42,15 @@ export function markHomePopupDismissedThisVisit(): void {
   try {
     localStorage.setItem(HOME_POPUP_DISMISS_STORAGE_KEY, String(Date.now()));
   } catch {
-    // Private browsing — in-memory flag still applies for this visit.
+    // Private browsing. In-memory flag still applies for this visit.
   }
 }
 
 export function isHomePopupDismissSuppressed(): boolean {
-  return isTimestampSuppressed(HOME_POPUP_DISMISS_STORAGE_KEY, DISMISS_SUPPRESS_MS);
+  return isTimestampSuppressed(
+    HOME_POPUP_DISMISS_STORAGE_KEY,
+    DISMISS_SUPPRESS_MS,
+  );
 }
 
 export function hasHomePopupShownThisVisit(): boolean {
@@ -59,14 +62,17 @@ export function markHomePopupShownThisVisit(): void {
 }
 
 export function isHomePopupSubmitSuppressed(): boolean {
-  return isTimestampSuppressed(HOME_POPUP_SUBMIT_STORAGE_KEY, SUBMIT_SUPPRESS_MS);
+  return isTimestampSuppressed(
+    HOME_POPUP_SUBMIT_STORAGE_KEY,
+    SUBMIT_SUPPRESS_MS,
+  );
 }
 
 export function markHomePopupSubmitted(): void {
   try {
     localStorage.setItem(HOME_POPUP_SUBMIT_STORAGE_KEY, String(Date.now()));
   } catch {
-    // Private browsing — suppress for this visit via dismiss flag instead.
+    // Private browsing. Suppress for this visit via dismiss flag instead.
     markHomePopupDismissedThisVisit();
   }
   markHomePopupDismissedThisVisit();
@@ -74,7 +80,8 @@ export function markHomePopupSubmitted(): void {
 
 export function getHomePageScrollDepth(): number {
   if (typeof window === "undefined") return 0;
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollHeight =
+    document.documentElement.scrollHeight - window.innerHeight;
   if (scrollHeight <= 0) return 1;
   return Math.min(1, window.scrollY / scrollHeight);
 }

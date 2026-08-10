@@ -11,12 +11,14 @@ import {
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Careers — Join the Team",
+  title: "Careers. Join the Team",
   description:
     "Join QApilot and help shape quality in an AI-first world. Reach out with a general application for careers in AI-powered mobile testing and quality assurance.",
   path: PATHS.CAREERS,
-  ogDescription: "Join the team building AI-native mobile testing and release readiness.",
-  twitterDescription: "Join the team building AI-native mobile testing and release readiness.",
+  ogDescription:
+    "Join the team building AI-native mobile testing and release readiness.",
+  twitterDescription:
+    "Join the team building AI-native mobile testing and release readiness.",
 });
 
 export default function CareersPage() {
@@ -41,7 +43,10 @@ export default function CareersPage() {
           <div className="section-full py-14 md:py-20 2xl:py-24">
             <h2
               id="careers-about"
-              className={cn(marketingSectionH2Class, "w-full text-balance text-foreground")}
+              className={cn(
+                marketingSectionH2Class,
+                "w-full text-balance text-foreground",
+              )}
             >
               Build the future of{" "}
               <span className="text-primary">AI-native mobile testing</span>
@@ -53,15 +58,17 @@ export default function CareersPage() {
               )}
             >
               <p>
-                QApilot is growing a distributed team of engineers, product builders, and customer
-                champions who care about release quality for Android, iOS, and Flutter apps. We work
-                on autonomous exploration, intelligent bug detection, and the knowledge graph that
-                powers context-aware automation.
+                QApilot is growing a distributed team of engineers, product
+                builders, and customer champions who care about release quality
+                for Android, iOS, and Flutter apps. We work on autonomous
+                exploration, intelligent bug detection, and the knowledge graph
+                that powers context-aware automation.
               </p>
               <p>
-                If you enjoy solving hard mobile QA problems, partnering with enterprise customers,
-                and shipping quickly with high ownership, reach out above. We value curiosity, clear
-                communication, and outcomes over rigid job descriptions.
+                If you enjoy solving hard mobile QA problems, partnering with
+                enterprise customers, and shipping quickly with high ownership,
+                reach out above. We value curiosity, clear communication, and
+                outcomes over rigid job descriptions.
               </p>
             </div>
           </div>

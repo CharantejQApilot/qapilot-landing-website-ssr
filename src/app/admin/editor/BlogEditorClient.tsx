@@ -10,7 +10,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ArrowLeft, Save } from "lucide-react";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { validatePublishedContent } from "@/lib/admin/publish-validation";
@@ -118,7 +124,10 @@ const BlogEditorClient = () => {
         .single();
 
       if (error) throw error;
-      return data as Blog & { writer_id: string | null; youtube_url: string | null };
+      return data as Blog & {
+        writer_id: string | null;
+        youtube_url: string | null;
+      };
     },
     enabled: !!id,
   });
@@ -167,8 +176,14 @@ const BlogEditorClient = () => {
   }, [existingBlog]);
 
   const saveMutation = useMutation({
-    mutationFn: async ({ published: publishedFlag }: { published: boolean }) => {
-      const { data: { session } } = await supabase.auth.getSession();
+    mutationFn: async ({
+      published: publishedFlag,
+    }: {
+      published: boolean;
+    }) => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         throw new Error("Your session expired. Please sign in again.");
       }
@@ -223,35 +238,52 @@ const BlogEditorClient = () => {
       }
 
       if (id) {
-        const { data: updatedRow, error, status } = await supabase
+        const {
+          data: updatedRow,
+          error,
+          status,
+        } = await supabase
           .from("blogs")
           .update(blogData)
           .eq("id", id)
           .select("id, title")
           .maybeSingle();
-        console.log("[ADMIN DEBUG] blog update:", { updatedRow, error, status, id });
+        console.log("[ADMIN DEBUG] blog update:", {
+          updatedRow,
+          error,
+          status,
+          id,
+        });
         if (error) throw error;
         if (!updatedRow) {
           throw new Error(
-            `Blog update silently failed (status ${status}). RLS is blocking writes. Run 20260326000000_fix_all_admin_rls.sql in Supabase SQL Editor.`
+            `Blog update silently failed (status ${status}). RLS is blocking writes. Run 20260326000000_fix_all_admin_rls.sql in Supabase SQL Editor.`,
           );
         }
       } else {
-        const { data: insertedRow, error, status } = await supabase
+        const {
+          data: insertedRow,
+          error,
+          status,
+        } = await supabase
           .from("blogs")
           .insert({ ...blogData, id: crypto.randomUUID() })
           .select("id")
           .single();
-        console.log("[ADMIN DEBUG] blog insert:", { insertedRow, error, status });
+        console.log("[ADMIN DEBUG] blog insert:", {
+          insertedRow,
+          error,
+          status,
+        });
         if (error) throw error;
       }
 
       if (publishedFlag) {
         try {
-          await supabase.functions.invoke('ping-sitemap');
-          console.log('Search engines notified of new content');
+          await supabase.functions.invoke("ping-sitemap");
+          console.log("Search engines notified of new content");
         } catch (error) {
-          console.error('Failed to ping search engines:', error);
+          console.error("Failed to ping search engines:", error);
         }
       }
 
@@ -260,7 +292,9 @@ const BlogEditorClient = () => {
     onSuccess: async (result, variables) => {
       queryClient.invalidateQueries({ queryKey: ["admin-blogs"] });
 
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       const token = session?.access_token;
       const savedSlug = result?.savedSlug;
       if (token && savedSlug) {
@@ -441,7 +475,9 @@ const BlogEditorClient = () => {
                 disabled={saveMutation.isPending}
               >
                 <Save className="mr-2 h-4 w-4" />
-                {publishStatus === "published" ? "Save & publish" : "Save draft"}
+                {publishStatus === "published"
+                  ? "Save & publish"
+                  : "Save draft"}
               </Button>
             </div>
           </div>
@@ -565,7 +601,9 @@ const BlogEditorClient = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="author-designation">Author Designation</Label>
+                    <Label htmlFor="author-designation">
+                      Author Designation
+                    </Label>
                     <Input
                       id="author-designation"
                       value={authorDesignation}
@@ -576,7 +614,10 @@ const BlogEditorClient = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="writer">Writer Profile</Label>
-                  <Select value={writerId || "none"} onValueChange={setWriterId}>
+                  <Select
+                    value={writerId || "none"}
+                    onValueChange={setWriterId}
+                  >
                     <SelectTrigger className="bg-background">
                       <SelectValue placeholder="Select a writer (optional)" />
                     </SelectTrigger>
@@ -584,13 +625,15 @@ const BlogEditorClient = () => {
                       <SelectItem value="none">No writer profile</SelectItem>
                       {writers?.map((writer) => (
                         <SelectItem key={writer.id} value={writer.id}>
-                          {writer.name}{writer.designation ? ` — ${writer.designation}` : ""}
+                          {writer.name}
+                          {writer.designation ? `. ${writer.designation}` : ""}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
-                    Link a writer profile to show their bio and LinkedIn at the end of the post
+                    Link a writer profile to show their bio and LinkedIn at the
+                    end of the post
                   </p>
                 </div>
 
@@ -613,7 +656,8 @@ const BlogEditorClient = () => {
                     placeholder="https://www.youtube.com/watch?v=..."
                   />
                   <p className="text-xs text-muted-foreground">
-                    Paste a YouTube URL to embed the video at the top of the blog post
+                    Paste a YouTube URL to embed the video at the top of the
+                    blog post
                   </p>
                 </div>
 
@@ -622,7 +666,9 @@ const BlogEditorClient = () => {
                     SEO settings
                   </h3>
                   <div className="space-y-2">
-                    <Label htmlFor="seo-title">SEO title (required for publish)</Label>
+                    <Label htmlFor="seo-title">
+                      SEO title (required for publish)
+                    </Label>
                     <Input
                       id="seo-title"
                       value={seoTitle}
@@ -631,7 +677,9 @@ const BlogEditorClient = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="seo-description">SEO description (required for publish)</Label>
+                    <Label htmlFor="seo-description">
+                      SEO description (required for publish)
+                    </Label>
                     <Textarea
                       id="seo-description"
                       value={seoDescription}
@@ -642,7 +690,9 @@ const BlogEditorClient = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="og-image">OG image URL (or cover image required for publish)</Label>
+                    <Label htmlFor="og-image">
+                      OG image URL (or cover image required for publish)
+                    </Label>
                     <Input
                       id="og-image"
                       value={ogImageUrl}
@@ -651,7 +701,9 @@ const BlogEditorClient = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="seo-keywords">Keywords (comma-separated)</Label>
+                    <Label htmlFor="seo-keywords">
+                      Keywords (comma-separated)
+                    </Label>
                     <Input
                       id="seo-keywords"
                       value={seoKeywords}
@@ -666,7 +718,9 @@ const BlogEditorClient = () => {
                     <Checkbox
                       id="featured"
                       checked={isFeatured}
-                      onCheckedChange={(checked) => setIsFeatured(checked as boolean)}
+                      onCheckedChange={(checked) =>
+                        setIsFeatured(checked as boolean)
+                      }
                     />
                     <Label htmlFor="featured">Featured Post</Label>
                   </div>
@@ -674,7 +728,9 @@ const BlogEditorClient = () => {
                     <Checkbox
                       id="labs-featured"
                       checked={isLabsFeatured}
-                      onCheckedChange={(checked) => setIsLabsFeatured(checked as boolean)}
+                      onCheckedChange={(checked) =>
+                        setIsLabsFeatured(checked as boolean)
+                      }
                     />
                     <Label htmlFor="labs-featured">Labs Featured</Label>
                   </div>
@@ -686,7 +742,9 @@ const BlogEditorClient = () => {
                       id="blog-home-banner"
                       checked={isBlogBanner}
                       disabled={publishStatus !== "published"}
-                      onCheckedChange={(checked) => setIsBlogBanner(checked as boolean)}
+                      onCheckedChange={(checked) =>
+                        setIsBlogBanner(checked as boolean)
+                      }
                     />
                     <Label
                       htmlFor="blog-home-banner"
@@ -696,12 +754,14 @@ const BlogEditorClient = () => {
                           : "cursor-not-allowed font-normal opacity-50"
                       }
                     >
-                      Home page banner (sticky bar above header; only when published)
+                      Home page banner (sticky bar above header; only when
+                      published)
                     </Label>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    If a news item is also marked as banner, the news banner is shown instead. Use one
-                    blog banner at a time for predictable messaging.
+                    If a news item is also marked as banner, the news banner is
+                    shown instead. Use one blog banner at a time for predictable
+                    messaging.
                   </p>
                   {isBlogBanner && publishStatus === "published" && (
                     <div>

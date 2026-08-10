@@ -6,7 +6,7 @@ const RIPPLE_DUR_S = 5.8;
 
 /**
  * Exalt-style halftone ripple: fixed-size pixel grid + radial mask (hole, dense ring, soft outer fade).
- * SMIL animates mask radius only — dots do not scale; the ring grows smoothly and fades at the end.
+ * SMIL animates mask radius only. Dots do not scale; the ring grows smoothly and fades at the end.
  */
 export function HeroPixelDonutRipple() {
   const uid = useId().replace(/:/g, "");
@@ -18,10 +18,29 @@ export function HeroPixelDonutRipple() {
     <div className="hero-exalt-center-ripple">
       <svg className="hero-exalt-ripple-svg" viewBox="0 0 100 100">
         <defs>
-          <pattern id={pxId} width="0.88" height="0.88" patternUnits="userSpaceOnUse">
-            <rect className="hero-exalt-ripple-pixel" x="0.14" y="0.14" width="0.46" height="0.46" rx="0.03" ry="0.03" />
+          <pattern
+            id={pxId}
+            width="0.88"
+            height="0.88"
+            patternUnits="userSpaceOnUse"
+          >
+            <rect
+              className="hero-exalt-ripple-pixel"
+              x="0.14"
+              y="0.14"
+              width="0.46"
+              height="0.46"
+              rx="0.03"
+              ry="0.03"
+            />
           </pattern>
-          <radialGradient id={gradId} cx="50" cy="50" r="16" gradientUnits="userSpaceOnUse">
+          <radialGradient
+            id={gradId}
+            cx="50"
+            cy="50"
+            r="16"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop offset="0%" stopColor="#000" />
             <stop offset="40%" stopColor="#000" />
             <stop offset="43%" stopColor="#fff" stopOpacity={0.08} />
@@ -42,7 +61,14 @@ export function HeroPixelDonutRipple() {
               keySplines="0.2 0.05 0.05 1"
             />
           </radialGradient>
-          <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+          <mask
+            id={maskId}
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+          >
             <rect width="100" height="100" fill={`url(#${gradId})`} />
           </mask>
         </defs>
@@ -56,7 +82,12 @@ export function HeroPixelDonutRipple() {
             calcMode="spline"
             keySplines="0.33 0 0.2 1;0 0 1 1;0.2 0 0.45 1"
           />
-          <rect width="100" height="100" fill={`url(#${pxId})`} mask={`url(#${maskId})`} />
+          <rect
+            width="100"
+            height="100"
+            fill={`url(#${pxId})`}
+            mask={`url(#${maskId})`}
+          />
         </g>
       </svg>
     </div>

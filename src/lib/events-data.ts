@@ -1,4 +1,9 @@
-export type EventType = "webinar" | "meetup" | "conference" | "virtual" | "podcast";
+export type EventType =
+  | "webinar"
+  | "meetup"
+  | "conference"
+  | "virtual"
+  | "podcast";
 
 export type EventParticipant = {
   name: string;
@@ -70,7 +75,8 @@ const ALAN_PODCAST_SPOTIFY_URL =
 const ALAN_PODCAST_APPLE_URL =
   "https://podcasts.apple.com/us/podcast/episode-234-mobile-testing-with-aditya-challa/id856528068?i=1000773895663";
 
-const NAVEEN_WEBINAR_YOUTUBE_URL = "https://www.youtube.com/watch?v=olW-hhtg61c";
+const NAVEEN_WEBINAR_YOUTUBE_URL =
+  "https://www.youtube.com/watch?v=olW-hhtg61c";
 
 /** Static events catalog. Update here or migrate to CMS when editorial workflow is ready. */
 export const QAPILOT_EVENTS: QApilotEvent[] = [
@@ -78,7 +84,7 @@ export const QAPILOT_EVENTS: QApilotEvent[] = [
     slug: "naveen-automation-labs-qapilot-live-webinar",
     title: "Mobile App Testing in the AI Era. Live on Naveen Automation Labs",
     excerpt:
-      "QApilot Co-founder Aditya Challa joins Naveen Khunteta for a live product showcase on mobile testing in the AI era — autonomous exploration, Flutter coverage, and release-ready signals on real devices.",
+      "QApilot Co-founder Aditya Challa joins Naveen Khunteta for a live product showcase on mobile testing in the AI era. Autonomous exploration, Flutter coverage, and release-ready signals on real devices.",
     description: [
       "Naveen Automation Labs is one of the largest automation testing education communities on YouTube, trusted by hundreds of thousands of QA engineers learning Selenium, API testing, CI/CD, and modern test architecture.",
       "In this live session, Naveen Khunteta hosts QApilot Co-founder Aditya Challa for a practical walkthrough of the platform: autonomous mobile exploration, agent-assisted authoring, Flutter coverage, and release-ready signals on real devices.",

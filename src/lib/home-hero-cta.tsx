@@ -4,7 +4,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /**
- * Fixed box metrics for home hero CTAs — padding-based sizing caused height drift between buttons.
+ * Fixed box metrics for home hero CTAs. Padding-based sizing caused height drift between buttons.
  */
 export const homeHeroCtaBoxClass = cn(
   "inline-flex items-center justify-center whitespace-nowrap rounded-xl font-semibold leading-none",
@@ -33,8 +33,13 @@ type HomeHeroCtaProps = {
   external?: boolean;
 };
 
-/** Matched-size hero CTA link — primary Book a Demo (inverse kept for other surfaces). */
-export function HomeHeroCta({ href, variant, children, external = false }: HomeHeroCtaProps) {
+/** Matched-size hero CTA link. Primary Book a Demo (inverse kept for other surfaces). */
+export function HomeHeroCta({
+  href,
+  variant,
+  children,
+  external = false,
+}: HomeHeroCtaProps) {
   const className = cn(
     buttonVariants({ variant: "default" }),
     homeHeroCtaBoxClass,
@@ -43,7 +48,12 @@ export function HomeHeroCta({ href, variant, children, external = false }: HomeH
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
         {children}
       </a>
     );
