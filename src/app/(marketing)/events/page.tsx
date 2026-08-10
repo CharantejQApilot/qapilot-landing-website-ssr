@@ -95,7 +95,7 @@ export default function EventsPage() {
         <main className="relative w-full">
           <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
             <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
-              <header className="relative w-full text-center lg:text-left">
+              <header className="relative w-full text-left">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
                   Events
                 </p>
@@ -136,9 +136,9 @@ export default function EventsPage() {
                   {featuredEvent ? (
                     <section
                       aria-labelledby="events-featured"
-                      className="flex flex-col items-center"
+                      className="flex flex-col items-start"
                     >
-                      <div className="mb-8 flex w-full max-w-3xl flex-col items-center gap-2 text-center md:mb-12">
+                      <div className="mb-8 flex w-full max-w-3xl flex-col items-start gap-2 text-left md:mb-12">
                         <h2
                           id="events-featured"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
@@ -160,7 +160,7 @@ export default function EventsPage() {
                       aria-labelledby="events-all"
                       className="border-t border-border pt-16 md:pt-20"
                     >
-                      <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-12">
+                      <div className="mb-8 flex flex-col items-start gap-2 text-left md:mb-12">
                         <h2
                           id="events-all"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"

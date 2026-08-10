@@ -10,12 +10,12 @@ const ProductHeroSection = () => {
   return (
     <section className="relative flex min-h-screen w-full items-center justify-center section-edge py-20 pb-8">
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
-        <div className="mb-16 text-center">
+        <div className="mb-16 text-left">
           <h1 className={cn(marketingHeroH1Class, "mb-8")}>
             Experience <span className="text-primary">Agentic Testing</span> with QApilot.
           </h1>
 
-          <p className="mx-auto mb-1 max-w-4xl text-lg text-muted-foreground md:text-xl">
+          <p className="mb-1 max-w-4xl text-lg text-muted-foreground md:text-xl">
             AI crawlers, intelligent agents and a knowledge graph combine to deliver autonomous mobile test
             coverage.
           </p>

@@ -188,7 +188,7 @@ const PartnersClient = () => {
           progressiveBlur={false}
         />
         <div className="relative z-10 section-full py-14 sm:py-16 md:py-20 lg:py-24 2xl:py-28">
-          <div className="flex max-w-5xl flex-col items-center text-center lg:items-start lg:text-left">
+          <div className="flex max-w-5xl flex-col items-start text-left">
             <h1
               id="partners-hero-title"
               className={cn(
@@ -203,7 +203,7 @@ const PartnersClient = () => {
             <p
               className={cn(
                 marketingHeroLeadClass,
-                "mx-auto mb-10 sm:mb-11 lg:mx-0",
+                "mb-10 sm:mb-11",
               )}
             >
               Help customers move from brittle mobile automation to AI-native

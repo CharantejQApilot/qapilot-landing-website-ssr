@@ -300,7 +300,7 @@ const YouTubeVideoPlayer = ({
   };
 
   return (
-    <div ref={sectionRef} className="relative">
+    <div ref={sectionRef} className="relative hidden lg:block">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoStructuredData) }}

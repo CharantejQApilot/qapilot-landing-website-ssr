@@ -18,7 +18,7 @@ export function DeviceCoverageMatrixHero() {
       />
 
       <div className="relative z-10 w-full section-full py-8 sm:py-10 md:py-12">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center px-3 text-center sm:px-4 lg:max-w-7xl">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-start px-3 text-left sm:px-4 lg:max-w-7xl">
           <h1
             id="device-coverage-hero-title"
             className={cn(marketingHeroH1Class, "w-full text-balance")}

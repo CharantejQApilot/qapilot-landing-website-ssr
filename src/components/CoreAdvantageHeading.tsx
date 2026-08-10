@@ -468,9 +468,9 @@ const CoreAdvantageHeading = () => {
           aria-labelledby={`deliver-tab-${current.id}`}
           className="relative z-[1] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)]"
         >
-          {/* S04/S07: copy column then product media (media still first on small screens via order) */}
+          {/* S04/S07: copy column; product media from lg up */}
           <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
-            <div className="relative isolate order-2 flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-t border-border bg-muted px-6 py-8 md:px-8 md:py-10 lg:order-1 lg:border-l-0 lg:border-r lg:border-t-0 lg:px-10 lg:py-10 lg:flex-[0_0_38%]">
+            <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden bg-muted px-6 py-8 md:px-8 md:py-10 lg:border-r lg:px-10 lg:py-10 lg:flex-[0_0_38%]">
               {/* `soft` only. Full `hero` stacks 8× backdrop-filter layers that read as fog over this copy */}
               <MarketingBackground variant="soft" />
               <div
@@ -502,8 +502,8 @@ const CoreAdvantageHeading = () => {
               </div>
             </div>
 
-            <div className="relative isolate order-1 min-h-[280px] min-w-0 w-full overflow-hidden bg-muted/30 lg:order-2 lg:min-h-0 lg:flex-[0_0_62%] lg:bg-background">
-              <div className="hidden lg:block absolute inset-0">
+            <div className="relative isolate hidden min-h-[280px] min-w-0 w-full overflow-hidden bg-background lg:block lg:min-h-0 lg:flex-[0_0_62%]">
+              <div className="absolute inset-0">
                 <AbstractFrameBackdrop
                   scrim={current.frameScrim}
                   animate={isNear}
@@ -511,13 +511,13 @@ const CoreAdvantageHeading = () => {
               </div>
               <div
                 key={`${current.id}-media`}
-                className="relative z-[2] flex min-h-[280px] w-full items-center justify-center px-[7.5%] py-[6.5%] sm:min-h-[360px] sm:px-[8%] sm:py-[7%] md:min-h-[420px] md:px-[8.25%] md:py-[7.5%] lg:min-h-full lg:px-[6%] lg:py-6 xl:py-7 animate-in fade-in duration-300"
+                className="relative z-[2] flex min-h-full w-full items-center justify-center px-[6%] py-6 xl:py-7 animate-in fade-in duration-300"
               >
                 {current.imageSrc ? (
                   <img
                     src={current.imageSrc}
                     alt={current.imageAlt}
-                    className="relative h-auto max-h-[min(72vh,640px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] sm:max-h-[min(80vh,800px)] md:max-h-[min(88vh,900px)] lg:max-h-[min(54vh,576px)] xl:max-h-[min(56vh,608px)]"
+                    className="relative h-auto max-h-[min(54vh,576px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] xl:max-h-[min(56vh,608px)]"
                     loading="lazy"
                     decoding="async"
                   />

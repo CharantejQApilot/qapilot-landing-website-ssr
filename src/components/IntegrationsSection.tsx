@@ -86,19 +86,19 @@ const IntegrationsSection = () => {
             className="absolute inset-0 bg-structured-grid opacity-10 pointer-events-none"
             aria-hidden
           />
-          <p className="relative z-10 mb-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/60 md:mb-4">
+          <p className="relative z-10 mb-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/60 md:mb-4">
             Ecosystem
           </p>
           <h2
             id="integrations-heading"
             className={cn(
               marketingSectionH2Class,
-              "relative z-10 mb-4 px-3 text-center md:mb-5",
+              "relative z-10 mb-4 px-3 text-left md:mb-5",
             )}
           >
             Works With Your Existing Testing Stack
           </h2>
-          <p className="relative z-10 mx-auto w-full min-w-0 max-w-none px-3 text-center text-base leading-relaxed md:text-lg 2xl:text-xl">
+          <p className="relative z-10 w-full min-w-0 max-w-none px-3 text-left text-base leading-relaxed md:text-lg 2xl:text-xl">
             Connect QApilot with the tools your team already uses for planning,
             communication, and device execution.
           </p>
@@ -149,7 +149,7 @@ const IntegrationsSection = () => {
             </div>
           </div>
 
-          <div className="section-full mt-12 text-center md:mt-14">
+          <div className="section-full mt-12 text-left md:mt-14">
             <p className="text-sm text-muted-foreground/60 2xl:text-base">
               And many more... QApilot integrates with your entire testing
               ecosystem.{" "}

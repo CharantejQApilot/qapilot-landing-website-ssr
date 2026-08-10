@@ -146,7 +146,7 @@ export default async function NewsPage() {
         <main className="relative w-full">
           <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
             <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
-              <header className="relative w-full text-center lg:text-left">
+              <header className="relative w-full text-left">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
                   QApilot news
                 </p>
@@ -165,7 +165,7 @@ export default async function NewsPage() {
             <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
               <section
                 aria-labelledby="news-intro"
-                className="mx-auto mb-14 max-w-4xl text-center md:mb-16"
+                className="mb-14 max-w-4xl text-left md:mb-16"
               >
                 <h2
                   id="news-intro"
@@ -210,9 +210,9 @@ export default async function NewsPage() {
                   {featuredNews.length > 0 ? (
                     <section
                       aria-labelledby="news-featured"
-                      className="flex flex-col items-center"
+                      className="flex flex-col items-start"
                     >
-                      <div className="mb-8 flex w-full max-w-3xl flex-col items-center gap-2 text-center md:mb-12">
+                      <div className="mb-8 flex w-full max-w-3xl flex-col items-start gap-2 text-left md:mb-12">
                         <h2
                           id="news-featured"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
@@ -297,14 +297,14 @@ export default async function NewsPage() {
                       aria-labelledby="news-all"
                       className="border-t border-border pt-16 md:pt-20"
                     >
-                      <div className="mb-8 flex flex-col items-center gap-2 text-center md:mb-12">
+                      <div className="mb-8 flex flex-col items-start gap-2 text-left md:mb-12">
                         <h2
                           id="news-all"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
                         >
                           {featuredNews.length > 0 ? "All updates" : "Updates"}
                         </h2>
-                        <p className="mx-auto max-w-2xl text-center text-base text-muted-foreground md:text-lg">
+                        <p className="max-w-2xl text-left text-base text-muted-foreground md:text-lg">
                           Browse every published announcement.
                         </p>
                       </div>

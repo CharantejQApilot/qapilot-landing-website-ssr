@@ -63,12 +63,12 @@ export default function ReleaseReadinessFlowSection({
         }
       >
         <header className={embedded ? "mb-8 md:mb-10" : "mb-10 md:mb-12"}>
-          <p className={cn(marketingEyebrowClass, "text-center")}>Pipeline</p>
+          <p className={cn(marketingEyebrowClass, "text-left")}>Pipeline</p>
           <h2
             id="release-readiness-flow-heading"
             className={cn(
               marketingSectionH2Class,
-              "mb-0 text-center text-foreground",
+              "mb-0 text-left text-foreground",
             )}
           >
             From Build to{" "}
@@ -77,7 +77,7 @@ export default function ReleaseReadinessFlowSection({
           <p
             className={cn(
               marketingSectionIntroClass,
-              "mx-auto mt-4 w-full min-w-0 max-w-none px-2 text-center md:mt-5",
+              "mt-4 w-full min-w-0 max-w-none px-0 text-left md:mt-5",
             )}
           >
             Trace every stage from build upload to release sign-off. Structured
