@@ -22,7 +22,7 @@ const TRUST_LOGOS: HomeTrustLogo[] = TRUST_LOGO_NAMES.map((name) => {
 const VALUE_LINE =
   "Signup for a personalised demo of autonomous mobile coverage and release-ready reporting.";
 
-/** Popup shell — full width on mobile, side-by-side layout from sm+. */
+/** Popup shell. Full width on mobile, side-by-side layout from sm+. */
 const POPUP_SHELL_CLASS =
   "w-[min(94vw,53rem)] max-h-[min(92dvh,40rem)] min-h-0 sm:w-[clamp(26rem,52.5vw,53rem)] sm:max-h-none sm:min-h-[clamp(21rem,42vh,34rem)]";
 
@@ -40,14 +40,22 @@ function TrustLogo({ logo }: { logo: HomeTrustLogo }) {
       loading="lazy"
       decoding="async"
       className="h-auto w-auto object-contain opacity-90 max-h-[1.65rem] max-w-[4.75rem] sm:max-h-[2.75em] sm:max-w-[7.5em]"
-      style={{ transform: `scale(${logo.visualScale})`, transformOrigin: "center" }}
+      style={{
+        transform: `scale(${logo.visualScale})`,
+        transformOrigin: "center",
+      }}
     />
   );
 
   if (!logo.url) return img;
 
   return (
-    <a href={logo.url} target="_blank" rel="noopener noreferrer" aria-label={logo.name}>
+    <a
+      href={logo.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={logo.name}
+    >
       {img}
     </a>
   );
@@ -56,7 +64,8 @@ function TrustLogo({ logo }: { logo: HomeTrustLogo }) {
 export default function HomeExitIntentPopup() {
   const pathname = usePathname();
   const isHome = pathname === PATHS.HOME;
-  const { open, onOpenChange, onSubmitSuccess } = useHomeEngagementPopup(isHome);
+  const { open, onOpenChange, onSubmitSuccess } =
+    useHomeEngagementPopup(isHome);
 
   if (!isHome) return null;
 
@@ -102,7 +111,7 @@ export default function HomeExitIntentPopup() {
             </p>
             <p className="mt-2 text-[1.05em] font-semibold leading-snug text-foreground sm:mt-[0.45em] sm:text-[1.15em]">
               Ship mobile releases with{" "}
-              <span className="text-primary">3× coverage</span> — same QE team.
+              <span className="text-primary">3× coverage</span>. Same QE team.
             </p>
           </header>
 
@@ -154,7 +163,10 @@ export default function HomeExitIntentPopup() {
             </div>
 
             <div className="flex min-w-0 flex-1 flex-col justify-center px-4 py-4 sm:px-[1.6em] sm:py-[1.5em]">
-              <HomeExitIntentEmailForm valueLine={VALUE_LINE} onSuccess={onSubmitSuccess} />
+              <HomeExitIntentEmailForm
+                valueLine={VALUE_LINE}
+                onSuccess={onSubmitSuccess}
+              />
             </div>
           </div>
         </DialogPrimitive.Content>

@@ -10,7 +10,10 @@ import {
 } from "@/lib/qa-guide/generation/fetch-site-context";
 import { expandArticleIfShort } from "@/lib/qa-guide/generation/expand-article-if-short";
 import { ensureArticleLinks } from "@/lib/qa-guide/generation/ensure-article-links";
-import { generateArticle, getOpenAITextModel } from "@/lib/qa-guide/generation/generate-article";
+import {
+  generateArticle,
+  getOpenAITextModel,
+} from "@/lib/qa-guide/generation/generate-article";
 import { generateCoverImagePng } from "@/lib/qa-guide/generation/generate-cover";
 import { humanizeArticle } from "@/lib/qa-guide/generation/humanize-article";
 import {
@@ -20,7 +23,10 @@ import {
   markQueueGenerated,
   type QueueRow,
 } from "@/lib/qa-guide/generation/queue-db";
-import { compositeQualityScore, runQualityGate } from "@/lib/qa-guide/generation/quality-gate";
+import {
+  compositeQualityScore,
+  runQualityGate,
+} from "@/lib/qa-guide/generation/quality-gate";
 import {
   PREFERRED_QE_GUIDE_WRITER_NAMES,
   pickRandomPreferredWriterName,
@@ -30,14 +36,23 @@ export async function runGenerationPipeline(
   supabase: SupabaseClient<Database>,
   queueId: string,
 ): Promise<
-  | { ok: true; guide_id: string; quality_recommendation: string; quality_warnings: string[] }
+  | {
+      ok: true;
+      guide_id: string;
+      quality_recommendation: string;
+      quality_warnings: string[];
+    }
   | { ok: false; error: string }
 > {
-  const item: QueueRow | null = await loadQueueRowForPipeline(supabase, queueId);
+  const item: QueueRow | null = await loadQueueRowForPipeline(
+    supabase,
+    queueId,
+  );
   if (!item) {
     return {
       ok: false,
-      error: "Could not load this brief for generation. Refresh and try Run again.",
+      error:
+        "Could not load this brief for generation. Refresh and try Run again.",
     };
   }
 
@@ -55,10 +70,18 @@ export async function runGenerationPipeline(
       try {
         const text = await fetchCompetitorText(url);
         competitorTexts.push(text);
-        await appendQueueLog(supabase, queueId, `fetched competitor (${text.length} chars): ${url}`);
+        await appendQueueLog(
+          supabase,
+          queueId,
+          `fetched competitor (${text.length} chars): ${url}`,
+        );
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        await appendQueueLog(supabase, queueId, `competitor failed: ${url} — ${msg}`);
+        await appendQueueLog(
+          supabase,
+          queueId,
+          `competitor failed: ${url}. ${msg}`,
+        );
       }
     }
 
@@ -70,7 +93,11 @@ export async function runGenerationPipeline(
     );
 
     const runId = new Date().toISOString().slice(0, 10);
-    await appendQueueLog(supabase, queueId, `calling OpenAI (${getOpenAITextModel()}) for article JSON…`);
+    await appendQueueLog(
+      supabase,
+      queueId,
+      `calling OpenAI (${getOpenAITextModel()}) for article JSON…`,
+    );
 
     const article = await generateArticle({
       topic_cluster: item.topic_cluster,
@@ -87,7 +114,11 @@ export async function runGenerationPipeline(
       run_id: runId,
     });
 
-    await appendQueueLog(supabase, queueId, `article generated: "${article.title}"`);
+    await appendQueueLog(
+      supabase,
+      queueId,
+      `article generated: "${article.title}"`,
+    );
 
     let enriched = ensureArticleLinks(article, {
       topic_cluster: item.topic_cluster,
@@ -95,16 +126,36 @@ export async function runGenerationPipeline(
       intent: item.intent,
       internal_link_candidates: ctx.internal_link_candidates,
     });
-    await appendQueueLog(supabase, queueId, "injected internal/external links if missing");
+    await appendQueueLog(
+      supabase,
+      queueId,
+      "injected internal/external links if missing",
+    );
 
     enriched = await expandArticleIfShort(enriched);
-    const expandedWords = (enriched.content_markdown ?? "").split(/\s+/).filter(Boolean).length;
-    await appendQueueLog(supabase, queueId, `word count after expand pass: ${expandedWords}`);
+    const expandedWords = (enriched.content_markdown ?? "")
+      .split(/\s+/)
+      .filter(Boolean).length;
+    await appendQueueLog(
+      supabase,
+      queueId,
+      `word count after expand pass: ${expandedWords}`,
+    );
 
-    await appendQueueLog(supabase, queueId, `calling OpenAI (${getOpenAITextModel()}) for humanize pass…`);
+    await appendQueueLog(
+      supabase,
+      queueId,
+      `calling OpenAI (${getOpenAITextModel()}) for humanize pass…`,
+    );
     enriched = await humanizeArticle(enriched);
-    const humanizedWords = (enriched.content_markdown ?? "").split(/\s+/).filter(Boolean).length;
-    await appendQueueLog(supabase, queueId, `word count after humanize pass: ${humanizedWords}`);
+    const humanizedWords = (enriched.content_markdown ?? "")
+      .split(/\s+/)
+      .filter(Boolean).length;
+    await appendQueueLog(
+      supabase,
+      queueId,
+      `word count after humanize pass: ${humanizedWords}`,
+    );
 
     const qc = runQualityGate(enriched, ctx.internal_link_candidates);
     enriched.quality_checks = qc;
@@ -117,11 +168,14 @@ export async function runGenerationPipeline(
       await appendQueueLog(
         supabase,
         queueId,
-        `quality warnings (draft saved — review before publish): ${warnings.join("; ")}`,
+        `quality warnings (draft saved. Review before publish): ${warnings.join("; ")}`,
       );
     }
 
-    const slug = (enriched.slug?.trim() || slugifyTitle(enriched.title)).slice(0, 80);
+    const slug = (enriched.slug?.trim() || slugifyTitle(enriched.title)).slice(
+      0,
+      80,
+    );
     let coverUrl: string | null = null;
 
     if (enriched.image_prompt?.trim()) {
@@ -129,7 +183,11 @@ export async function runGenerationPipeline(
         const png = await generateCoverImagePng(enriched.image_prompt);
         const uploaded = await uploadQaGuideCover(supabase, png, slug);
         coverUrl = uploaded.url;
-        await appendQueueLog(supabase, queueId, `cover image uploaded (${png.length} bytes)`);
+        await appendQueueLog(
+          supabase,
+          queueId,
+          `cover image uploaded (${png.length} bytes)`,
+        );
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         await appendQueueLog(supabase, queueId, `cover image failed: ${msg}`);
@@ -151,7 +209,9 @@ export async function runGenerationPipeline(
       }
     }
     if (!writerId) {
-      const { data: allWriters } = await supabase.from("writers").select("id, name");
+      const { data: allWriters } = await supabase
+        .from("writers")
+        .select("id, name");
       const preferred = (allWriters ?? []).filter((w) =>
         PREFERRED_QE_GUIDE_WRITER_NAMES.some(
           (n) => n.toLowerCase() === w.name.trim().toLowerCase(),
@@ -159,7 +219,9 @@ export async function runGenerationPipeline(
       );
       const targetName = pickRandomPreferredWriterName();
       const pick =
-        preferred.find((w) => w.name.trim().toLowerCase() === targetName.toLowerCase()) ??
+        preferred.find(
+          (w) => w.name.trim().toLowerCase() === targetName.toLowerCase(),
+        ) ??
         preferred[Math.floor(Math.random() * preferred.length)] ??
         null;
       if (pick) {
@@ -208,7 +270,14 @@ export async function runGenerationPipeline(
     });
 
     const score = compositeQualityScore(qc);
-    await markQueueGenerated(supabase, queueId, guide.id, qc, score, recommendation);
+    await markQueueGenerated(
+      supabase,
+      queueId,
+      guide.id,
+      qc,
+      score,
+      recommendation,
+    );
     await appendQueueLog(supabase, queueId, `draft created: ${guide.url_path}`);
 
     return {

@@ -1,7 +1,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, Json } from "@/integrations/supabase/types";
 
-export type QueueRow = Database["public"]["Tables"]["qa_guide_generation_queue"]["Row"];
+export type QueueRow =
+  Database["public"]["Tables"]["qa_guide_generation_queue"]["Row"];
 
 export async function appendQueueLog(
   supabase: SupabaseClient<Database>,
@@ -16,9 +17,12 @@ export async function appendQueueLog(
 
   const prev = (row?.run_log as string[] | null) ?? [];
   const stamp = new Date().toISOString().replace("T", " ").slice(0, 19);
-  const next = [...prev, `${stamp} — ${line}`];
+  const next = [...prev, `${stamp}. ${line}`];
 
-  await supabase.from("qa_guide_generation_queue").update({ run_log: next }).eq("id", queueId);
+  await supabase
+    .from("qa_guide_generation_queue")
+    .update({ run_log: next })
+    .eq("id", queueId);
 }
 
 const STALE_RUN_MS = 15 * 60 * 1000;

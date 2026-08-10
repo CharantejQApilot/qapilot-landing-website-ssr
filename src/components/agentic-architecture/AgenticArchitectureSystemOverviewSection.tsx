@@ -23,8 +23,8 @@ export function AgenticArchitectureSystemOverviewSection() {
         </div>
 
         <p className="mx-auto mt-10 max-w-3xl text-center text-lg font-medium leading-relaxed text-foreground md:text-xl">
-          The knowledge graph acts as the central context layer — connecting all agents and enhancing every stage of the
-          testing lifecycle.
+          The knowledge graph acts as the central context layer. Connecting all
+          agents and enhancing every stage of the testing lifecycle.
         </p>
       </div>
     </section>

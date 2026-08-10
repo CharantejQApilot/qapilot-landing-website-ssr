@@ -15,7 +15,9 @@ import { cn } from "@/lib/utils";
 
 function readHubSpotUtk(): string | undefined {
   if (typeof document === "undefined") return undefined;
-  const row = document.cookie.split("; ").find((r) => r.startsWith("hubspotutk="));
+  const row = document.cookie
+    .split("; ")
+    .find((r) => r.startsWith("hubspotutk="));
   if (!row) return undefined;
   const v = row.slice("hubspotutk=".length);
   return v ? decodeURIComponent(v) : undefined;
@@ -26,7 +28,7 @@ export type LeadMagnetAction = {
   label: string;
   variant?: "default" | "outline";
   icon?: LucideIcon;
-  /** Appended to `pageName` for HubSpot context (e.g. " — Download CSV"). */
+  /** Appended to `pageName` for HubSpot context (e.g. ". Download CSV"). */
   hubspotActionLabel: string;
   /** Runs after email is captured in HubSpot. */
   onAfterCapture: () => void | Promise<void>;
@@ -69,7 +71,8 @@ export function LeadMagnetEmailCapture({
     const result = leadMagnetEmailClientSchema.safeParse({ email });
     if (!result.success) {
       const message =
-        result.error.flatten().fieldErrors.email?.[0] ?? "Please enter a valid email address";
+        result.error.flatten().fieldErrors.email?.[0] ??
+        "Please enter a valid email address";
       setEmailError(message);
       return null;
     }
@@ -102,7 +105,9 @@ export function LeadMagnetEmailCapture({
 
       if (!res.ok) {
         if (res.status === 422) {
-          const data = (await res.json()) as { fields?: Record<string, string[]> };
+          const data = (await res.json()) as {
+            fields?: Record<string, string[]>;
+          };
           const msg = data.fields?.email?.[0];
           if (msg) {
             setEmailError(msg);
@@ -125,7 +130,7 @@ export function LeadMagnetEmailCapture({
     successActionId && successMessages?.[successActionId]
       ? successMessages[successActionId]
       : successActionId
-        ? "Thank you — you're all set."
+        ? "Thank you. You're all set."
         : null;
 
   return (
@@ -154,7 +159,10 @@ export function LeadMagnetEmailCapture({
         <div className="w-full lg:w-auto lg:shrink-0">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-3 lg:gap-4">
             <div className="w-full sm:w-[15.5rem] lg:w-60">
-              <label htmlFor={fieldId} className={cn(marketingFormLabelClass, "mb-1.5")}>
+              <label
+                htmlFor={fieldId}
+                className={cn(marketingFormLabelClass, "mb-1.5")}
+              >
                 {emailLabel}
               </label>
               <input
@@ -201,7 +209,12 @@ export function LeadMagnetEmailCapture({
                     )}
                     onClick={() => runAction(action)}
                   >
-                    {Icon ? <Icon className="mr-2 h-4 w-4 shrink-0" strokeWidth={2.25} /> : null}
+                    {Icon ? (
+                      <Icon
+                        className="mr-2 h-4 w-4 shrink-0"
+                        strokeWidth={2.25}
+                      />
+                    ) : null}
                     {pendingActionId === action.id ? "Sending…" : action.label}
                   </Button>
                 );
@@ -228,7 +241,9 @@ export function LeadMagnetEmailCapture({
       ) : null}
 
       {successMessage ? (
-        <p className="mt-3 text-sm font-medium text-emerald-700">{successMessage}</p>
+        <p className="mt-3 text-sm font-medium text-emerald-700">
+          {successMessage}
+        </p>
       ) : null}
     </div>
   );

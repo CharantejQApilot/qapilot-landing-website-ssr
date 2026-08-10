@@ -25,14 +25,17 @@ const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
 });
 
-const FloatingSiteRails = dynamic(() => import("@/components/floating/FloatingSiteRails"), {
-  ssr: false,
-});
+const FloatingSiteRails = dynamic(
+  () => import("@/components/floating/FloatingSiteRails"),
+  {
+    ssr: false,
+  },
+);
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qapilot.io"),
   title: {
-    default: "QApilot — AI Mobile App Testing & QA Automation",
+    default: "QApilot. AI Mobile App Testing & QA Automation",
     template: "%s | QApilot",
   },
   description:
@@ -52,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE_BASE_URL,
-    title: "QApilot — AI Mobile App Testing & QA Automation",
+    title: "QApilot. AI Mobile App Testing & QA Automation",
     description:
       "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.",
     images: [defaultOpenGraphImage],
@@ -63,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@QApilot",
     creator: "@QApilot",
-    title: "QApilot — AI Mobile App Testing",
+    title: "QApilot. AI Mobile App Testing",
     description:
       "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.",
     images: [
@@ -101,7 +104,10 @@ export default async function RootLayout({
   const internal = isInternalRouteRequest(await headers());
 
   return (
-    <html lang="en" className={`${fontHeading.variable} ${fontSans.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${fontHeading.variable} ${fontSans.variable} scroll-smooth`}
+    >
       <head>
         <meta httpEquiv="content-language" content="en-US" />
         {supabaseOrigin ? (
@@ -119,16 +125,44 @@ export default async function RootLayout({
                 __html: CLARITY_UNMASK_STYLESHEETS_SCRIPT,
               }}
             />
-            {/* Google Analytics / GTM first — highest priority connection hints + early parse. */}
-            <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
+            {/* Google Analytics / GTM first. Highest priority connection hints + early parse. */}
+            <link
+              rel="preconnect"
+              href="https://www.googletagmanager.com"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preconnect"
+              href="https://www.google-analytics.com"
+              crossOrigin="anonymous"
+            />
             <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
             <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-            <link rel="preconnect" href="https://www.clarity.ms" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://js.hs-scripts.com" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://ddwl4m2hdecbv.cloudfront.net" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://app.factors.ai" crossOrigin="anonymous" />
-            <link rel="preconnect" href="https://api.factors.ai" crossOrigin="anonymous" />
+            <link
+              rel="preconnect"
+              href="https://www.clarity.ms"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preconnect"
+              href="https://js.hs-scripts.com"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preconnect"
+              href="https://ddwl4m2hdecbv.cloudfront.net"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preconnect"
+              href="https://app.factors.ai"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preconnect"
+              href="https://api.factors.ai"
+              crossOrigin="anonymous"
+            />
             <link rel="dns-prefetch" href="https://js.hsforms.net" />
             <link rel="dns-prefetch" href="https://js.hs-analytics.net" />
             <script
@@ -137,7 +171,7 @@ export default async function RootLayout({
                 __html: JSON.stringify(rootSchemaGraphJsonLd),
               }}
             />
-            {/* Native head scripts — load with first HTML parse for full tracker coverage. */}
+            {/* Native head scripts. Load with first HTML parse for full tracker coverage. */}
             <script
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

@@ -12,7 +12,7 @@ export function getHomePageMarkdown(): string {
 
 ${HOME_PAGE_DESCRIPTION}
 
-QApilot is an AI-native autonomous mobile app testing platform for iOS and Android. It discovers app journeys, generates and executes tests, self-heals UI changes, detects bugs and accessibility issues, and surfaces security and release-readiness signals — without manual scripting.
+QApilot is an AI-native autonomous mobile app testing platform for iOS and Android. It discovers app journeys, generates and executes tests, self-heals UI changes, detects bugs and accessibility issues, and surfaces security and release-readiness signals. Without manual scripting.
 
 ## Canonical URL
 
@@ -24,6 +24,8 @@ ${url("/")}
 |------|-----|
 | Platform overview | ${url(PATHS.PRODUCT)} |
 | Autonomous testing | ${url(PATHS.AUTONOMOUS_TESTING)} |
+| Dual Device Testing | ${url(PATHS.DUAL_DEVICE_TESTING)} |
+| Release Readiness Suite | ${url(PATHS.RELEASE_READINESS_SUITE)} |
 | Intelligent bug detection | ${url(PATHS.INTELLIGENT_BUG_DETECTION)} |
 | AI self-healing | ${url(PATHS.AI_SELF_HEALING)} |
 | Security reports | ${url(PATHS.SECURITY_REPORTS)} |

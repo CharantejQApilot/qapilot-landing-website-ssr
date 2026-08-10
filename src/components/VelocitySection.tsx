@@ -10,7 +10,7 @@ const cards = [
     stat: "10x",
     label: "Faster Time To Market",
     description:
-      "Autonomous test execution and an intuitive recording experience dramatically compress your test cycle — so releases ship in hours, not weeks.",
+      "Autonomous test execution and an intuitive recording experience dramatically compress your test cycle. So releases ship in hours, not weeks.",
     highlight: "Autonomous test execution",
     icon: Zap,
   },
@@ -27,7 +27,7 @@ const cards = [
     stat: "75%",
     label: "Less QE Bottlenecks",
     description:
-      "Seamless CI/CD integration with massively parallel test execution across your entire device matrix — no more queues, no more waiting.",
+      "Seamless CI/CD integration with massively parallel test execution across your entire device matrix. No more queues, no more waiting.",
     highlight: "Seamless CI/CD integration",
     highlightHref: CI_CD_BLOG_PATH,
     icon: Link2,
@@ -35,11 +35,17 @@ const cards = [
 ] as const;
 
 function highlightPhrase(text: string, phrase: string, href?: string) {
-  const parts = text.split(new RegExp(`(${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "i"));
+  const parts = text.split(
+    new RegExp(`(${phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "i"),
+  );
   return parts.map((part, i) =>
     part.toLowerCase() === phrase.toLowerCase() ? (
       href ? (
-        <Link key={i} href={href} className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary">
+        <Link
+          key={i}
+          href={href}
+          className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
+        >
           {phrase}
         </Link>
       ) : (
@@ -53,7 +59,7 @@ function highlightPhrase(text: string, phrase: string, href?: string) {
   );
 }
 
-/** S06 capability ledger — same velocity content, shared-border cells. */
+/** S06 capability ledger. Same velocity content, shared-border cells. */
 const VelocitySection = () => {
   return (
     <section
@@ -66,13 +72,15 @@ const VelocitySection = () => {
           eyebrow="Velocity"
           title={
             <>
-              <span className="text-primary">Engineering Velocity</span> Without The QE Overhead
+              <span className="text-primary">Engineering Velocity</span> Without
+              The QE Overhead
             </>
           }
           description={
             <>
-              Traditional test automation requires constant maintenance and manual effort. QApilot enables engineering
-              teams to validate mobile builds automatically within{" "}
+              Traditional test automation requires constant maintenance and
+              manual effort. QApilot enables engineering teams to validate
+              mobile builds automatically within{" "}
               <Link
                 href={CI_CD_BLOG_PATH}
                 className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
@@ -88,7 +96,10 @@ const VelocitySection = () => {
           {cards.map((card) => {
             const Icon = card.icon;
             return (
-              <article key={card.label} className="sig-cell flex flex-col gap-4">
+              <article
+                key={card.label}
+                className="sig-cell flex flex-col gap-4"
+              >
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <span className="font-heading text-4xl font-semibold tracking-tight text-foreground md:text-5xl">

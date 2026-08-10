@@ -13,7 +13,8 @@ export const MARKETING_LEAD_DESIGNATIONS = [
   "Others",
 ] as const;
 
-export type MarketingLeadDesignation = (typeof MARKETING_LEAD_DESIGNATIONS)[number];
+export type MarketingLeadDesignation =
+  (typeof MARKETING_LEAD_DESIGNATIONS)[number];
 
 function phoneHasValidLength(raw: string): boolean {
   const digits = raw.replace(/\D/g, "");
@@ -21,12 +22,15 @@ function phoneHasValidLength(raw: string): boolean {
 }
 
 /** Canonical phone string sent to HubSpot from {@link PhoneInput}. */
-export function formatMarketingPhoneValue(dialCode: string, localNumber: string): string {
+export function formatMarketingPhoneValue(
+  dialCode: string,
+  localNumber: string,
+): string {
   const trimmed = localNumber.trim();
   return trimmed ? `${dialCode} ${trimmed}` : "";
 }
 
-/** Sample outputs from PhoneInput — kept in sync with build validation in `scripts/validate-marketing-forms.mjs`. */
+/** Sample outputs from PhoneInput. Kept in sync with build validation in `scripts/validate-marketing-forms.mjs`. */
 export const MARKETING_PHONE_FORMAT_SAMPLES = [
   "+1 5551234567",
   "+91 9876543210",

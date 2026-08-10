@@ -5,13 +5,14 @@ import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "About — AI-Native Mobile App Testing Company",
+  title: "About. AI-Native Mobile App Testing Company",
   description:
     "QApilot makes mobile testing effortless, scalable, and future-ready for startups to enterprises. Learn about our mission and vision.",
   path: PATHS.ABOUT,
   ogDescription:
-    "Mobile testing that is effortless, scalable, and future-ready—from startups to global enterprises.",
-  twitterDescription: "Our mission to make mobile testing effortless and future-ready.",
+    "Mobile testing that is effortless, scalable, and future-ready. From startups to global enterprises.",
+  twitterDescription:
+    "Our mission to make mobile testing effortless and future-ready.",
 });
 
 export default function AboutPage() {

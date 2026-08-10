@@ -1,4 +1,4 @@
-# QApilot — ai.txt (machine-readable pointers for AI crawlers)
+# QApilot. Ai.txt (machine-readable pointers for AI crawlers)
 # Canonical site: https://qapilot.io
 # Last updated: August 2026
 
@@ -16,9 +16,11 @@ Book-Demo: https://qapilot.io/book-demo
 Product: https://qapilot.io/product
 CoWork: https://qapilot.io/product/cowork
 Autonomous-Testing: https://qapilot.io/product/autonomous-testing
-Intelligent-Bug-Detection: https://qapilot.io/product/intelligent-bug-detection
-AI-Self-Healing: https://qapilot.io/ai-self-healing
-Security-Reports: https://qapilot.io/security-reports
+Dual-Device-Testing: https://qapilot.io/product/dual-device-testing
+Release-Readiness-Suite: https://qapilot.io/product/release-readiness-suite
+Intelligent-Bug-Detection: https://qapilot.io/product/release-readiness-suite#intelligent-bug-detection
+AI-Self-Healing: https://qapilot.io/product/release-readiness-suite#ai-self-healing
+Security-Reports: https://qapilot.io/product/release-readiness-suite#security-reports
 Flutter-Testing: https://qapilot.io/for-flutter
 Agentic-Architecture: https://qapilot.io/agentic-architecture
 Bring-Your-Own-Agent: https://qapilot.io/bring-your-own-agent

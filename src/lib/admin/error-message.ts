@@ -12,11 +12,11 @@ export function formatErrorMessage(error: unknown): string {
     const details = typeof o.details === "string" ? o.details : "";
     const hint = typeof o.hint === "string" ? o.hint : "";
     const code = typeof o.code === "string" ? o.code : "";
-    const combined = [message, details, hint].filter(Boolean).join(" — ");
+    const combined = [message, details, hint].filter(Boolean).join(". ");
     if (combined.trim()) return friendlyDatabaseMessage(combined);
     if (code) return `Request failed (${code})`;
   }
-  return "Unknown error — open the browser console for details.";
+  return "Unknown error. Open the browser console for details.";
 }
 
 function friendlyDatabaseMessage(raw: string): string {

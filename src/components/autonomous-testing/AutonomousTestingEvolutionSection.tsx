@@ -20,7 +20,8 @@ const STAGES: EvolutionStage[] = [
     id: "record",
     label: (
       <>
-        <span className="text-primary">Record</span> & <span className="text-primary">Playback</span>
+        <span className="text-primary">Record</span> &{" "}
+        <span className="text-primary">Playback</span>
       </>
     ),
     description: "Faster to create, but still brittle and difficult to scale.",
@@ -32,12 +33,14 @@ const STAGES: EvolutionStage[] = [
         <span className="text-primary">AI-Assisted</span>
       </>
     ),
-    description: "Improves creation and maintenance, but still depends on predefined flows.",
+    description:
+      "Improves creation and maintenance, but still depends on predefined flows.",
   },
   {
     id: "autonomous",
     label: <span className="text-primary">Autonomous</span>,
-    description: "Coverage is discovered, generated, executed, and maintained by the system.",
+    description:
+      "Coverage is discovered, generated, executed, and maintained by the system.",
     emphasis: true,
   },
 ];
@@ -88,7 +91,9 @@ export function AutonomousTestingEvolutionSection() {
                     <p
                       className={cn(
                         "text-sm leading-relaxed lg:text-[0.9375rem]",
-                        stage.emphasis ? "text-foreground/90" : "text-muted-foreground",
+                        stage.emphasis
+                          ? "text-foreground/90"
+                          : "text-muted-foreground",
                       )}
                     >
                       {stage.description}
@@ -96,7 +101,10 @@ export function AutonomousTestingEvolutionSection() {
                   </div>
                 </div>
                 {i < STAGES.length - 1 ? (
-                  <div className="relative flex w-4 shrink-0 items-center sm:w-5 lg:w-6" aria-hidden>
+                  <div
+                    className="relative flex w-4 shrink-0 items-center sm:w-5 lg:w-6"
+                    aria-hidden
+                  >
                     <div className="h-px w-full bg-gradient-to-r from-border/40 via-primary/35 to-border/40" />
                   </div>
                 ) : null}
@@ -115,7 +123,9 @@ export function AutonomousTestingEvolutionSection() {
                 <span
                   className={cn(
                     "absolute left-0 top-1.5 flex h-[13px] w-[13px] rounded-full border-2 border-background",
-                    stage.emphasis ? "bg-primary shadow-[0_0_0_4px_hsl(var(--primary)/0.2)]" : "bg-muted-foreground/35",
+                    stage.emphasis
+                      ? "bg-primary shadow-[0_0_0_4px_hsl(var(--primary)/0.2)]"
+                      : "bg-muted-foreground/35",
                   )}
                   aria-hidden
                 />
@@ -128,14 +138,18 @@ export function AutonomousTestingEvolutionSection() {
                   )}
                 >
                   <div className="mb-1 flex flex-wrap items-center gap-2">
-                    <span className="font-heading text-base font-semibold text-foreground">{stage.label}</span>
+                    <span className="font-heading text-base font-semibold text-foreground">
+                      {stage.label}
+                    </span>
                     {stage.emphasis ? (
                       <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
                         QApilot
                       </span>
                     ) : null}
                   </div>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{stage.description}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    {stage.description}
+                  </p>
                 </div>
               </li>
             ))}
@@ -143,8 +157,9 @@ export function AutonomousTestingEvolutionSection() {
         </div>
 
         <p className="mx-auto mt-12 max-w-4xl text-center text-base leading-relaxed text-foreground/90 md:mt-14 md:text-lg 2xl:text-xl">
-          QApilot operates in the autonomous layer — where testing is no longer manually defined, but continuously
-          discovered, generated, and maintained by the system.
+          QApilot operates in the autonomous layer. Where testing is no longer
+          manually defined, but continuously discovered, generated, and
+          maintained by the system.
         </p>
       </div>
     </section>

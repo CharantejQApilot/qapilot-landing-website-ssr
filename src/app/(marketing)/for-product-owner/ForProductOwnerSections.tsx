@@ -7,7 +7,10 @@ import {
   type LucideIcon,
   Users,
 } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -81,18 +84,25 @@ export function ForProductOwnerSections() {
             eyebrow="The challenge"
             title={
               <>
-                The Challenge Facing <span className="text-primary">Product Managers</span>
+                The Challenge Facing{" "}
+                <span className="text-primary">Product Managers</span>
               </>
             }
             description={
               <p>
-                Shipping product is not just about building features—it is about launching them reliably.
+                Shipping product is not just about building features. It is
+                about launching them reliably.
               </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
-          <p className={cn(marketingSectionIntroClass, "mb-8 font-medium text-foreground/90 md:mb-10")}>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mb-8 font-medium text-foreground/90 md:mb-10",
+            )}
+          >
             Common challenges include:
           </p>
 
@@ -124,7 +134,8 @@ export function ForProductOwnerSections() {
             eyebrow="Outcomes"
             title={
               <>
-                Outcomes <span className="text-primary">Product Managers</span> Care About
+                Outcomes <span className="text-primary">Product Managers</span>{" "}
+                Care About
               </>
             }
             description="Clear readiness signals and faster validation loops keep roadmap cadence tied to real quality."
@@ -137,7 +148,9 @@ export function ForProductOwnerSections() {
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                   {outcome.title}
                 </h3>
-                <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                <p className={cn(marketingSectionIntroClass, "mt-4")}>
+                  {outcome.body}
+                </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {outcome.capabilities.map((cap) => (
                     <span
@@ -164,10 +177,13 @@ export function ForProductOwnerSections() {
             eyebrow="Delivery"
             title={
               <>
-                Built for <span className="text-primary">Product Delivery</span> Rhythm
+                Built for <span className="text-primary">Product Delivery</span>{" "}
+                Rhythm
               </>
             }
-            description={<p>QApilot helps Product Managers keep launches moving.</p>}
+            description={
+              <p>QApilot helps Product Managers keep launches moving.</p>
+            }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
@@ -180,8 +196,13 @@ export function ForProductOwnerSections() {
                   "motion-safe:hover:border-primary/25",
                 )}
               >
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">{item}</span>
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                  aria-hidden
+                />
+                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -199,10 +220,11 @@ export function ForProductOwnerSections() {
               eyebrow="Why QApilot"
               title={
                 <>
-                  Why Product Managers Choose <span className="text-primary">QApilot</span>
+                  Why Product Managers Choose{" "}
+                  <span className="text-primary">QApilot</span>
                 </>
               }
-              description="Because product velocity only matters when releases work—QApilot helps Product Managers ship faster with stronger confidence."
+              description="Because product velocity only matters when releases work. QApilot helps Product Managers ship faster with stronger confidence."
               marginBottomClassName="mb-0"
             />
           </div>

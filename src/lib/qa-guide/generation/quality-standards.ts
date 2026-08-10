@@ -89,9 +89,9 @@ export function containsEmDash(text: string): boolean {
   return text.includes(EM_DASH);
 }
 
-/** Checklist injected into the user prompt — must match runQualityGate(). */
+/** Checklist injected into the user prompt. Must match runQualityGate(). */
 export function buildQualityChecklistForPrompt(): string {
-  return `# QUALITY CHECKLIST (same rules the server runs after generation — satisfy before returning JSON)
+  return `# QUALITY CHECKLIST (same rules the server runs after generation. Satisfy before returning JSON)
 
 The server scores your draft against this list. Aim to pass every item; editors may still publish drafts with warnings.
 
@@ -105,7 +105,7 @@ The server scores your draft against this list. Aim to pass every item; editors 
 | Internal links | **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** inline \`[text](https://qapilot.io/...)\` links from the candidate list; varied anchor text |
 | External links | **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** inline \`[text](https://...)\` links to authoritative non-qapilot.io docs/tools (not more than ${QUALITY_MAX_EXTERNAL_LINKS}) |
 | Banned phrases | **Zero** instances of any phrase in the banned list below; \`quality_checks.ai_tells_found\` must be \`[]\` |
-| Em dashes | **Zero** em dashes (—) anywhere in \`content_markdown\`; use commas, periods, colons, or parentheses instead |
+| Em dashes | **Zero** em dashes (. ) anywhere in \`content_markdown\`; use commas, periods, colons, or parentheses instead |
 | SEO | Primary keyword in H1, first 100 words, slug, \`meta_title\`, \`meta_description\`; each secondary keyword in at least one H2/H3; 2+ question-style headings where intent is informational |
 | information_gain | **≥${QUALITY_MIN_INFORMATION_GAIN}** items in \`quality_checks.information_gain\` |
 | structured_elements | **≥${QUALITY_MIN_STRUCTURED_ELEMENTS}** items (tables, checklists, numbered processes) |

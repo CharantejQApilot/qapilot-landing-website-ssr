@@ -7,7 +7,7 @@ export type HomeTrustLogo = {
   visualScale: number;
 };
 
-/** Home hero trust strip — same marks as the former “Trusted by Industry Leaders” marquee. */
+/** Home hero trust strip. Same marks as the former “Trusted by Industry Leaders” marquee. */
 export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
   {
     name: "WIO Bank",

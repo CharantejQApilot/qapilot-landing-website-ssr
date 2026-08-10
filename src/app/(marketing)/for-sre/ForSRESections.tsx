@@ -7,18 +7,30 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const CHALLENGE_ITEMS: { title: string; icon: LucideIcon }[] = [
-  { title: "Releases introducing preventable user-facing issues", icon: AlertTriangle },
+  {
+    title: "Releases introducing preventable user-facing issues",
+    icon: AlertTriangle,
+  },
   { title: "Limited pre-release visibility into mobile risk", icon: Eye },
   { title: "Incidents caused by broken critical flows", icon: Zap },
   { title: "Slow diagnosis when failures surface post-release", icon: Search },
-  { title: "Poor alignment between QA, engineering, and operations", icon: Users },
-  { title: "Growing pressure to maintain uptime during fast release cycles", icon: Activity },
+  {
+    title: "Poor alignment between QA, engineering, and operations",
+    icon: Users,
+  },
+  {
+    title: "Growing pressure to maintain uptime during fast release cycles",
+    icon: Activity,
+  },
 ];
 
 const BUILT_ITEMS = [
@@ -81,16 +93,25 @@ export function ForSRESections() {
             eyebrow="The challenge"
             title={
               <>
-                The Challenge Facing <span className="text-primary">SRE Teams</span>
+                The Challenge Facing{" "}
+                <span className="text-primary">SRE Teams</span>
               </>
             }
             description={
-              <p>Reliability is often impacted long before production incidents begin.</p>
+              <p>
+                Reliability is often impacted long before production incidents
+                begin.
+              </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
-          <p className={cn(marketingSectionIntroClass, "mb-8 font-medium text-foreground/90 md:mb-10")}>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mb-8 font-medium text-foreground/90 md:mb-10",
+            )}
+          >
             Common challenges include:
           </p>
 
@@ -122,7 +143,8 @@ export function ForSRESections() {
             eyebrow="Outcomes"
             title={
               <>
-                Outcomes <span className="text-primary">SRE Teams</span> Care About
+                Outcomes <span className="text-primary">SRE Teams</span> Care
+                About
               </>
             }
             description="Stronger pre-release signals and faster evidence shorten the path from code to confident deploy."
@@ -135,7 +157,9 @@ export function ForSRESections() {
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                   {outcome.title}
                 </h3>
-                <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                <p className={cn(marketingSectionIntroClass, "mt-4")}>
+                  {outcome.body}
+                </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {outcome.capabilities.map((cap) => (
                     <span
@@ -162,10 +186,13 @@ export function ForSRESections() {
             eyebrow="Operations"
             title={
               <>
-                Built for <span className="text-primary">Reliability Operations</span>
+                Built for{" "}
+                <span className="text-primary">Reliability Operations</span>
               </>
             }
-            description={<p>QApilot helps SRE teams reduce avoidable production risk.</p>}
+            description={
+              <p>QApilot helps SRE teams reduce avoidable production risk.</p>
+            }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
@@ -178,8 +205,13 @@ export function ForSRESections() {
                   "motion-safe:hover:border-primary/25",
                 )}
               >
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">{item}</span>
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                  aria-hidden
+                />
+                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -197,10 +229,11 @@ export function ForSRESections() {
               eyebrow="Why QApilot"
               title={
                 <>
-                  Why SRE Teams Choose <span className="text-primary">QApilot</span>
+                  Why SRE Teams Choose{" "}
+                  <span className="text-primary">QApilot</span>
                 </>
               }
-              description="Because reliability starts before production—QApilot helps SRE teams reduce operational risk through stronger mobile release readiness."
+              description="Because reliability starts before production. QApilot helps SRE teams reduce operational risk through stronger mobile release readiness."
               marginBottomClassName="mb-0"
             />
           </div>

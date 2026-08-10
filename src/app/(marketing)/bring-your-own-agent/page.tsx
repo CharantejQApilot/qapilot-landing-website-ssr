@@ -18,7 +18,7 @@ const canonicalUrl = `${SITE_BASE_URL}${PATHS.BRING_YOUR_OWN_AGENT}`;
 export const metadata: Metadata = {
   title: "Bring Your Own Agent (BYOA)",
   description:
-    "Integrate your own AI agents into QApilot and use the shared knowledge graph for custom validation, domain workflows, and specialized testing—without breaking the core system.",
+    "Integrate your own AI agents into QApilot and use the shared knowledge graph for custom validation, domain workflows, and specialized testing. Without breaking the core system.",
   alternates: {
     canonical: canonicalUrl,
   },
@@ -37,7 +37,9 @@ export const metadata: Metadata = {
     title: "Bring Your Own Agent (BYOA) | QApilot",
     description:
       "Custom agents on the same knowledge graph as QApilot’s native testing agents.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 
@@ -52,7 +54,10 @@ export default function BringYourOwnAgentPage() {
           __html: JSON.stringify(
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
-              { name: "Bring Your Own Agent", path: PATHS.BRING_YOUR_OWN_AGENT },
+              {
+                name: "Bring Your Own Agent",
+                path: PATHS.BRING_YOUR_OWN_AGENT,
+              },
             ]),
           ),
         }}

@@ -14,7 +14,7 @@ const metrics: Metric[] = [
   { value: "5000+", label: "Hours Saved for QE Teams" },
 ];
 
-/** S03 telemetry strip — same metrics, horizontal instrument alignment. */
+/** S03 telemetry strip. Same metrics, horizontal instrument alignment. */
 const MetricsSection = () => {
   return (
     <section className="relative overflow-hidden section-edge w-full">
@@ -24,11 +24,17 @@ const MetricsSection = () => {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-center text-primary-foreground/60 mb-3 md:mb-4 relative z-10">
             At scale
           </p>
-          <h2 className={cn(marketingSectionH2Class, "text-center relative z-10 px-2 mb-4 md:mb-5")}>
+          <h2
+            className={cn(
+              marketingSectionH2Class,
+              "text-center relative z-10 px-2 mb-4 md:mb-5",
+            )}
+          >
             QApilot By The Numbers
           </h2>
           <p className="relative z-10 mx-auto w-full min-w-0 max-w-none px-3 text-center text-base leading-relaxed md:text-lg 2xl:text-xl">
-            A live snapshot of platform activity—every step the system generates, runs, and surfaces to keep teams moving.
+            A live snapshot of platform activity. Every step the system
+            generates, runs, and surfaces to keep teams moving.
           </p>
         </div>
       </div>
@@ -38,7 +44,10 @@ const MetricsSection = () => {
         aria-label="Platform metrics"
       >
         {metrics.map((metric) => (
-          <div key={metric.label} className="sig-telemetry-item min-w-[11rem] flex-1 sm:min-w-[12rem]">
+          <div
+            key={metric.label}
+            className="sig-telemetry-item min-w-[11rem] flex-1 sm:min-w-[12rem]"
+          >
             <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.15em]">
               {metric.label}
             </span>

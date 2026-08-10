@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
+import {
+  marketingHeroH1Class,
+  marketingHeroLeadClass,
+} from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 type MarketingThesisHeroProps = {
@@ -22,7 +25,7 @@ type MarketingThesisHeroProps = {
 };
 
 /**
- * S01 thesis hero — left-aligned on desktop, same colours/type as existing marketing heroes.
+ * S01 thesis hero. Left-aligned on desktop, same colours/type as existing marketing heroes.
  */
 export function MarketingThesisHero({
   ariaLabel,
@@ -62,21 +65,11 @@ export function MarketingThesisHero({
 
       {lead ? (
         typeof lead === "string" ? (
-          <p
-            className={cn(
-              marketingHeroLeadClass,
-              "mb-8 max-w-3xl text-balance sm:mb-10 md:mb-11 lg:max-w-4xl",
-            )}
-          >
+          <p className={cn(marketingHeroLeadClass, "mb-8 sm:mb-10 md:mb-11")}>
             {lead}
           </p>
         ) : (
-          <div
-            className={cn(
-              marketingHeroLeadClass,
-              "mb-8 max-w-3xl text-balance sm:mb-10 md:mb-11 lg:max-w-4xl",
-            )}
-          >
+          <div className={cn(marketingHeroLeadClass, "mb-8 sm:mb-10 md:mb-11")}>
             {lead}
           </div>
         )
@@ -84,7 +77,11 @@ export function MarketingThesisHero({
 
       {children}
 
-      {cta ? <div className="sig-cta-row mt-2 w-full justify-center lg:justify-start">{cta}</div> : null}
+      {cta ? (
+        <div className="sig-cta-row mt-2 w-full justify-center lg:justify-start">
+          {cta}
+        </div>
+      ) : null}
     </div>
   );
 
@@ -92,18 +89,26 @@ export function MarketingThesisHero({
     <section
       className={cn(
         "hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible",
-        fillViewport && "border-b border-border/40 lg:flex lg:min-h-[calc(100dvh-4.375rem)] lg:flex-col",
+        fillViewport &&
+          "border-b border-border/40 lg:flex lg:min-h-[calc(100dvh-4.375rem)] lg:flex-col",
         className,
       )}
       aria-label={ariaLabel}
       aria-labelledby={titleId}
     >
-      <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple progressiveBlur={false} />
+      <MarketingBackground
+        variant="hero"
+        showDiagonalGrid={false}
+        showPixelRipple
+        progressiveBlur={false}
+      />
 
       <div
         className={cn(
           "relative z-10 w-full",
-          fillViewport ? "flex flex-col lg:min-h-0 lg:flex-1 lg:justify-center" : undefined,
+          fillViewport
+            ? "flex flex-col lg:min-h-0 lg:flex-1 lg:justify-center"
+            : undefined,
         )}
       >
         <div

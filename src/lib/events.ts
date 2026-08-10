@@ -1,4 +1,5 @@
 import { formatPublishedDate } from "@/lib/format-published";
+import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
 import {
   EVENT_TYPE_LABELS,
@@ -12,7 +13,7 @@ const MAX_EVENT_EXPLORE_CTAS = 3;
 
 /** Default explore CTAs when an event does not define its own. */
 export const DEFAULT_EVENT_EXPLORE_CTAS: EventExploreCta[] = [
-  { label: "Book a demo", href: PATHS.BOOK_DEMO },
+  { label: "Book a demo", href: BOOK_DEMO_CALENDAR_URL },
   { label: "CoWork - 3x Automation, Same QA Team", href: PATHS.COWORK },
   { label: "Flutter Testing Simplified", href: PATHS.FOR_FLUTTER },
 ];

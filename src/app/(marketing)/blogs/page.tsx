@@ -21,13 +21,12 @@ const BLOG_LIST_SELECT =
   "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
 
 /** Tighter horizontal rhythm than `section-full` so grids feel closer to edge-to-edge on large displays. */
-const BLOGS_GUTTER =
-  "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
+const BLOGS_GUTTER = "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
 
 const BLOGS_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Blogs — Mobile Testing Tips, Guides & Best Practices",
+  title: "Blogs. Mobile Testing Tips, Guides & Best Practices",
   description:
     "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
   path: BLOGS_PATH,
@@ -54,7 +53,8 @@ type BlogListRow = {
 
 function resolveCardImageUrl(blog: BlogListRow): string | undefined {
   if (blog.featured_image) return blog.featured_image;
-  if (blog.youtube_url) return getYouTubeThumbnail(blog.youtube_url) ?? undefined;
+  if (blog.youtube_url)
+    return getYouTubeThumbnail(blog.youtube_url) ?? undefined;
   return undefined;
 }
 
@@ -179,16 +179,18 @@ export default async function BlogsPage() {
                 </h2>
                 <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
                   <p>
-                    Our blog covers practical mobile QA for Android, iOS, and Flutter teams — from
-                    autonomous testing and self-healing automation to release readiness, device
-                    health, and security reporting. Whether you are modernizing a legacy Appium
-                    stack or scaling CI/CD for a fintech or consumer app, these articles share
-                    patterns we see in the field.
+                    Our blog covers practical mobile QA for Android, iOS, and
+                    Flutter teams. From autonomous testing and self-healing
+                    automation to release readiness, device health, and security
+                    reporting. Whether you are modernizing a legacy Appium stack
+                    or scaling CI/CD for a fintech or consumer app, these
+                    articles share patterns we see in the field.
                   </p>
                   <p>
-                    Browse featured posts for deep dives, or explore the full archive for how-to
-                    guides, opinion pieces, and product thinking from QApilot engineers and
-                    partners. New posts are added regularly as mobile testing practices evolve.
+                    Browse featured posts for deep dives, or explore the full
+                    archive for how-to guides, opinion pieces, and product
+                    thinking from QApilot engineers and partners. New posts are
+                    added regularly as mobile testing practices evolve.
                   </p>
                 </div>
               </section>
@@ -223,7 +225,7 @@ export default async function BlogsPage() {
                           Featured
                         </h2>
                         <p className="text-base text-muted-foreground md:text-lg">
-                          Highlights from the team — start here.
+                          Highlights from the team. Start here.
                         </p>
                       </div>
                       <ul className={gridFeatured}>
@@ -244,12 +246,10 @@ export default async function BlogsPage() {
                                     {imgSrc ? (
                                       <img
                                         src={imgSrc}
-                                        alt={`${blog.title} — QApilot blog`}
+                                        alt={`${blog.title}. QApilot blog`}
                                         width={960}
                                         height={540}
-                                        loading={
-                                          index === 0 ? "eager" : "lazy"
-                                        }
+                                        loading={index === 0 ? "eager" : "lazy"}
                                         fetchPriority={
                                           index === 0 ? "high" : undefined
                                         }
@@ -331,7 +331,7 @@ export default async function BlogsPage() {
                                     {imgSrc ? (
                                       <img
                                         src={imgSrc}
-                                        alt={`${blog.title} — QApilot blog`}
+                                        alt={`${blog.title}. QApilot blog`}
                                         width={800}
                                         height={450}
                                         loading="lazy"

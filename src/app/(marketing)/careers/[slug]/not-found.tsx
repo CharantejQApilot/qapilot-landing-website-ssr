@@ -7,7 +7,7 @@ import { PATHS } from "@/lib/routes";
 /**
  * Segment-level not-found UI for `/careers/[slug]`. Colocated so `notFound()`
  * resolves into a clean 404 here instead of bubbling up and escalating to
- * Next's generic /500 on Vercel — same fix we applied to /news, /blogs, and /careers.
+ * Next's generic /500 on Vercel. Same fix we applied to /news, /blogs, and /careers.
  */
 export const metadata: Metadata = {
   title: "Job opening not found",

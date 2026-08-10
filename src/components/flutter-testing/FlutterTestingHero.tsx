@@ -15,7 +15,11 @@ export function FlutterTestingHero() {
       className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
       aria-label="Flutter testing"
     >
-      <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
+      <MarketingBackground
+        variant="hero"
+        showDiagonalGrid={false}
+        showPixelRipple
+      />
 
       <div className="relative z-10 w-full section-full py-14 sm:py-16 md:py-20 lg:py-28 2xl:py-32">
         <div
@@ -29,7 +33,12 @@ export function FlutterTestingHero() {
             <p className="mb-3 w-full text-left text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
               Platform · Flutter
             </p>
-            <h1 className={cn(marketingHeroH1Class, "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8")}>
+            <h1
+              className={cn(
+                marketingHeroH1Class,
+                "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8",
+              )}
+            >
               Flutter Testing That{" "}
               <span className="text-primary">Actually Works</span>
             </h1>
@@ -39,9 +48,10 @@ export function FlutterTestingHero() {
                 "lg:max-w-xl xl:max-w-2xl",
               )}
             >
-              Flutter apps break traditional automation in ways web-first tools were never built to
-              handle. QApilot brings reliable Flutter test automation with context switching across
-              Flutter, native, and webviews, AI-assisted element discovery, and lower-maintenance
+              Flutter apps break traditional automation in ways web-first tools
+              were never built to handle. QApilot brings reliable Flutter test
+              automation with context switching across Flutter, native, and
+              webviews, AI-assisted element discovery, and lower-maintenance
               execution built for modern mobile teams.
             </p>
             <p
@@ -50,8 +60,8 @@ export function FlutterTestingHero() {
                 "lg:mt-6 lg:max-w-xl lg:border-border/40 lg:pt-6 xl:max-w-2xl",
               )}
             >
-              Built for teams shipping complex Flutter apps across real devices, real user journeys,
-              and real release cycles.
+              Built for teams shipping complex Flutter apps across real devices,
+              real user journeys, and real release cycles.
             </p>
           </div>
 
@@ -71,7 +81,8 @@ export function FlutterTestingHero() {
                   Test Your Flutter App on QApilot
                 </h2>
                 <p className={marketingFormIntroClass}>
-                  Share a few details—we&apos;ll show you a tailored walkthrough.
+                  Share a few details. We&apos;ll show you a tailored
+                  walkthrough.
                 </p>
               </div>
               <div className="relative z-[1] min-h-0 min-w-0 flex-1 rounded-xl border border-border/40 bg-background/70 p-3 sm:p-4 md:p-5">

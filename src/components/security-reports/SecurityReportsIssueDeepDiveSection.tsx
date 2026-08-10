@@ -1,9 +1,6 @@
 import { ScenicFramedImage } from "@/components/marketing/ScenicFramedImage";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import {
-  SECURITY_REPORT_DASHBOARD_IMAGE_PATH,
-  SECURITY_REPORT_DEEP_DIVE_SCENIC_URL,
-} from "@/lib/core-advantage-scenic-urls.mjs";
+import { SECURITY_REPORT_DASHBOARD_IMAGE_PATH } from "@/lib/core-advantage-scenic-urls.mjs";
 
 const DASHBOARD_WIDTH = 1024;
 const DASHBOARD_HEIGHT = 593;
@@ -19,10 +16,11 @@ export function SecurityReportsIssueDeepDiveSection() {
           id="sr-deepdive-heading"
           title={
             <>
-              Every Issue, <span className="text-primary">Explained and Actionable</span>
+              Every Issue,{" "}
+              <span className="text-primary">Explained and Actionable</span>
             </>
           }
-          description="See the finding, why it matters, and what to change—without leaving your test workflow."
+          description="See the finding, why it matters, and what to change. Without leaving your test workflow."
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
@@ -32,7 +30,6 @@ export function SecurityReportsIssueDeepDiveSection() {
             width={DASHBOARD_WIDTH}
             height={DASHBOARD_HEIGHT}
             alt="Security report overview in QApilot showing issues, severity, and context"
-            scenicUrl={SECURITY_REPORT_DEEP_DIVE_SCENIC_URL}
             ariaLabel="Product screenshot: security report overview"
             priority
           />

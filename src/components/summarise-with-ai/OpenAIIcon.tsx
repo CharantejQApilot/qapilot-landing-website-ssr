@@ -1,4 +1,4 @@
-/** OpenAI mark (Simple Icons v9 path, MIT) — `cdn.simpleicons.org/openai` no longer serves this slug. */
+/** OpenAI mark (Simple Icons v9 path, MIT). `cdn.simpleicons.org/openai` no longer serves this slug. */
 export function OpenAIIcon({ className }: { className?: string }) {
   return (
     <svg

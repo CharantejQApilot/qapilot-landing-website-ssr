@@ -17,7 +17,7 @@ const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_FLUTTER}`;
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Flutter Testing That Actually Works",
   description:
-    "QApilot runs Flutter, native, and webview in one flow—AI element discovery, low-maintenance tests, and release-ready coverage on real devices.",
+    "QApilot runs Flutter, native, and webview in one flow. AI element discovery, low-maintenance tests, and release-ready coverage on real devices.",
   path: PATHS.FOR_FLUTTER,
   ogDescription:
     "Built for real apps, devices, and complexity. Cross-context execution, AI discovery, and autonomous risk detection.",

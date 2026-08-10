@@ -1,5 +1,9 @@
-import { CheckCircle2, GitCompareArrows, MousePointerClick, ShieldCheck } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  CheckCircle2,
+  GitCompareArrows,
+  MousePointerClick,
+  ShieldCheck,
+} from "lucide-react";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const STEPS = [
@@ -23,23 +27,35 @@ export function AiSelfHealingApprovalSection() {
               Approve Once. <span className="text-primary">Stay Fixed.</span>
             </>
           }
-          description="Human-in-the-loop control over locator updates—so healing stays transparent and intentional."
+          description="Human-in-the-loop control over locator updates. So healing stays transparent and intentional."
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <MarketingLedger cols={2} aria-label="Healing approval steps">
+        <ol
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 xl:gap-5"
+          aria-label="Healing approval steps"
+        >
           {STEPS.map((step, i) => (
-            <MarketingLedgerCell key={step.title} className="flex gap-4">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-                {i + 1}
-              </span>
-              <div className="flex min-w-0 flex-1 items-start gap-3">
-                <step.Icon className="mt-1 h-6 w-6 shrink-0 text-primary" strokeWidth={1.35} aria-hidden />
-                <p className="pt-1 text-base font-semibold leading-snug text-foreground md:text-lg">{step.title}</p>
+            <li
+              key={step.title}
+              className="flex h-full flex-col gap-4 rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm md:p-6"
+            >
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                  {i + 1}
+                </span>
+                <step.Icon
+                  className="h-5 w-5 shrink-0 text-primary"
+                  strokeWidth={1.35}
+                  aria-hidden
+                />
               </div>
-            </MarketingLedgerCell>
+              <p className="text-base font-semibold leading-snug text-foreground md:text-lg">
+                {step.title}
+              </p>
+            </li>
           ))}
-        </MarketingLedger>
+        </ol>
       </div>
     </section>
   );

@@ -1,5 +1,11 @@
-import { ARTICLE_SYSTEM_PROMPT, buildArticleUserPrompt } from "@/lib/qa-guide/generation/prompts";
-import { getOpenAIApiKey, getOpenAITextModel } from "@/lib/qa-guide/generation/openai-config";
+import {
+  ARTICLE_SYSTEM_PROMPT,
+  buildArticleUserPrompt,
+} from "@/lib/qa-guide/generation/prompts";
+import {
+  getOpenAIApiKey,
+  getOpenAITextModel,
+} from "@/lib/qa-guide/generation/openai-config";
 
 export type GeneratedArticle = {
   title: string;
@@ -54,7 +60,9 @@ export async function generateArticle(params: {
     apiKey = getOpenAIApiKey();
     model = getOpenAITextModel();
   } catch (e) {
-    throw new ArticleGenerationError(e instanceof Error ? e.message : "OpenAI not configured");
+    throw new ArticleGenerationError(
+      e instanceof Error ? e.message : "OpenAI not configured",
+    );
   }
 
   const userMessage = buildArticleUserPrompt({
@@ -76,7 +84,7 @@ export async function generateArticle(params: {
     qapilot_internal_urls:
       params.qapilot_internal_urls.length > 0
         ? params.qapilot_internal_urls.join("\n")
-        : "(none — sitemap unavailable)",
+        : "(none. Sitemap unavailable)",
     run_id: params.run_id,
   });
 
@@ -101,7 +109,9 @@ export async function generateArticle(params: {
 
   if (!res.ok) {
     const detail = await res.text();
-    throw new ArticleGenerationError(`OpenAI HTTP ${res.status}: ${detail.slice(0, 500)}`);
+    throw new ArticleGenerationError(
+      `OpenAI HTTP ${res.status}: ${detail.slice(0, 500)}`,
+    );
   }
 
   const data = (await res.json()) as {
@@ -123,7 +133,9 @@ export async function generateArticle(params: {
   }
 
   if (!parsed.title?.trim() || !parsed.content_markdown?.trim()) {
-    throw new ArticleGenerationError("Article JSON missing title or content_markdown");
+    throw new ArticleGenerationError(
+      "Article JSON missing title or content_markdown",
+    );
   }
 
   return parsed;

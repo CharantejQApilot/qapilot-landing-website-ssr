@@ -14,7 +14,7 @@ import { asString, firstNonEmptyString } from "@/lib/cms-values";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.TERMS}`;
 
 export const metadata: Metadata = {
-  title: "Terms of Service — QApilot Platform Use Agreement",
+  title: "Terms of Service. QApilot Platform Use Agreement",
   description:
     "Read QApilot's Terms of Service. Learn about the terms and conditions governing the use of our AI-powered testing platform.",
   alternates: { canonical: canonicalUrl },
@@ -32,7 +32,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Terms of Service | QApilot",
     description: "QApilot Terms of Service and platform use conditions.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 
@@ -68,20 +70,18 @@ export default async function TermsPage() {
         </div>
         <div className="section-edge w-full py-12">
           <div className="section-full mx-auto max-w-4xl">
-          <div className="mb-12 text-center">
-            <h1 className={cn(marketingHeroH1Class, "mb-4")}>
-              {title}
-            </h1>
-          </div>
+            <div className="mb-12 text-center">
+              <h1 className={cn(marketingHeroH1Class, "mb-4")}>{title}</h1>
+            </div>
 
-          <div className="max-w-none">
-            <div
-              className="prose prose-slate max-w-none rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12"
-              dangerouslySetInnerHTML={{
-                __html: sanitizeRichText(content, "html"),
-              }}
-            />
-          </div>
+            <div className="max-w-none">
+              <div
+                className="prose prose-slate max-w-none rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12"
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeRichText(content, "html"),
+                }}
+              />
+            </div>
           </div>
         </div>
       </MarketingPageShell>

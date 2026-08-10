@@ -29,7 +29,10 @@ export async function generateMetadata({
     .maybeSingle();
 
   if (!data) {
-    return { title: "Draft not found", robots: { index: false, follow: false } };
+    return {
+      title: "Draft not found",
+      robots: { index: false, follow: false },
+    };
   }
 
   return {
@@ -66,7 +69,7 @@ export default async function SeoDraftPreviewPage({
   return (
     <MarketingPageShell background="soft">
       <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-center text-sm text-amber-900 dark:text-amber-100">
-        Draft preview — not indexed. Publish from admin when ready.
+        Draft preview. Not indexed. Publish from admin when ready.
       </div>
       <QaGuideArticle
         guide={guide}

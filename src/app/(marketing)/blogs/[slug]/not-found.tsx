@@ -7,7 +7,7 @@ import { PATHS } from "@/lib/routes";
 /**
  * Segment-level not-found UI for `/blogs/[slug]`. Having this colocated with
  * `page.tsx` ensures `notFound()` resolves into a clean 404 here instead of
- * bubbling past the sibling `error.tsx` boundary — which is what was making
+ * bubbling past the sibling `error.tsx` boundary. Which is what was making
  * unknown blog slugs escalate to /500 on Vercel and poison social previews.
  */
 export const metadata: Metadata = {
@@ -27,8 +27,9 @@ export default function BlogPostNotFound() {
           We couldn&apos;t find that article
         </h1>
         <p className="mt-4 max-w-md text-muted-foreground">
-          The blog post you&apos;re looking for may have moved, been unpublished,
-          or never existed. Browse the latest QApilot writing instead.
+          The blog post you&apos;re looking for may have moved, been
+          unpublished, or never existed. Browse the latest QApilot writing
+          instead.
         </p>
         <Button asChild className="mt-8" size="lg">
           <Link href={PATHS.BLOGS}>Back to blogs</Link>

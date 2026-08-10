@@ -28,7 +28,9 @@ function EffortBar({
           {label}
         </span>
         {note ? (
-          <span className="text-xs tabular-nums text-muted-foreground">{note}</span>
+          <span className="text-xs tabular-nums text-muted-foreground">
+            {note}
+          </span>
         ) : null}
       </div>
 
@@ -58,8 +60,14 @@ function EffortBar({
         {segments
           .filter((s) => s.value > 0)
           .map((s) => (
-            <div key={s.label} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className={cn("size-2.5 shrink-0 rounded-sm", s.className)} aria-hidden />
+            <div
+              key={s.label}
+              className="flex items-center gap-1.5 text-xs text-muted-foreground"
+            >
+              <span
+                className={cn("size-2.5 shrink-0 rounded-sm", s.className)}
+                aria-hidden
+              />
               <span>
                 {s.label}:{" "}
                 <span className="font-heading font-semibold tabular-nums text-foreground">
@@ -253,14 +261,16 @@ export default function CalculatorResults({
 
         <p className="mt-6 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
           The gap between these two numbers is the{" "}
-          <strong className="font-semibold text-foreground">hidden verification tax</strong> — and
-          it grows as AI accuracy drops or verification takes longer.
+          <strong className="font-semibold text-foreground">
+            hidden verification tax
+          </strong>
+          . And it grows as AI accuracy drops or verification takes longer.
           {savings <= 0 ? (
             <span className="text-destructive">
               {" "}
               At these settings, AI-assisted QA is actually{" "}
-              <strong className="font-semibold">slower</strong> than manual. The break-even requires
-              either higher accuracy or faster verification.
+              <strong className="font-semibold">slower</strong> than manual. The
+              break-even requires either higher accuracy or faster verification.
             </span>
           ) : null}
         </p>

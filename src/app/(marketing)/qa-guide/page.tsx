@@ -18,7 +18,7 @@ export const revalidate = 120;
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.QA_GUIDE}`;
 
-const QE_GUIDE_HUB_TITLE = "QA Guide — Mobile Testing Guides & Checklists";
+const QE_GUIDE_HUB_TITLE = "QA Guide. Mobile Testing Guides & Checklists";
 const QE_GUIDE_HUB_DESCRIPTION =
   "In-depth QA and QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from QApilot practitioners.";
 
@@ -40,7 +40,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${QE_GUIDE_HUB_TITLE} | QApilot`,
     description: QE_GUIDE_HUB_DESCRIPTION,
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 
@@ -120,8 +122,8 @@ export default async function QaGuideHubPage() {
                 <span className="text-gradient">{QE_GUIDE_DISPLAY_NAME}</span>
               </h1>
               <p className={marketingListingHeroLeadClass}>
-                Practical mobile testing guides — comparisons, checklists, and patterns for QE
-                leaders and engineers.
+                Practical mobile testing guides. Comparisons, checklists, and
+                patterns for QE leaders and engineers.
               </p>
             </header>
 
@@ -137,15 +139,17 @@ export default async function QaGuideHubPage() {
               </h2>
               <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground">
                 <p>
-                  The QApilot QA Guide library collects long-form references on testing types,
-                  banking and Flutter scenarios, automation strategy, and release checklists. Each
-                  guide is written for practitioners who need actionable steps, not generic
+                  The QApilot QA Guide library collects long-form references on
+                  testing types, banking and Flutter scenarios, automation
+                  strategy, and release checklists. Each guide is written for
+                  practitioners who need actionable steps, not generic
                   definitions.
                 </p>
                 <p>
-                  Use these resources alongside the QApilot platform to plan coverage, evaluate
-                  tooling, and align QA with product and engineering stakeholders. New guides are
-                  published after editorial review.
+                  Use these resources alongside the QApilot platform to plan
+                  coverage, evaluate tooling, and align QA with product and
+                  engineering stakeholders. New guides are published after
+                  editorial review.
                 </p>
               </div>
             </section>

@@ -60,7 +60,7 @@ export const FALLBACK_FAQS: FallbackFAQ[] = [
     id: "fallback-support",
     question: "What support does QApilot provide?",
     answer:
-      "<p>QApilot customers receive onboarding guidance, platform support, and access to documentation and best practices for mobile test automation. Reach out to <a href=\"mailto:support@qapilot.com\">support@qapilot.com</a> for help.</p>",
+      '<p>QApilot customers receive onboarding guidance, platform support, and access to documentation and best practices for mobile test automation. Reach out to <a href="mailto:support@qapilot.com">support@qapilot.com</a> for help.</p>',
     category: "Support",
     display_order: 7,
   },
@@ -68,7 +68,7 @@ export const FALLBACK_FAQS: FallbackFAQ[] = [
     id: "fallback-flutter",
     question: "Does QApilot support Flutter testing?",
     answer:
-      "<p>Yes. QApilot is built for Flutter complexity—including cross-context flows across Flutter, native, and webviews—with AI-assisted element discovery and lower-maintenance execution on real devices.</p>",
+      "<p>Yes. QApilot is built for Flutter complexity. Including cross-context flows across Flutter, native, and webviews. With AI-assisted element discovery and lower-maintenance execution on real devices.</p>",
     category: "Product",
     display_order: 8,
   },

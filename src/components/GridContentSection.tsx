@@ -63,7 +63,7 @@ const GridContentSection = ({
       {...(dataSection ? { "data-section": dataSection } : {})}
       className={`relative w-full overflow-hidden section-edge min-h-[420px] md:min-h-[520px] ${className}`}
     >
-      {/* Grid background — absolute, fills section (Harvey-style edge-to-edge) */}
+      {/* Grid background. Absolute, fills section (Harvey-style edge-to-edge) */}
       <div
         className="absolute inset-0 grid gap-0"
         style={{
@@ -82,7 +82,7 @@ const GridContentSection = ({
         ))}
       </div>
 
-      {/* Content — in flow so section grows; centered over grid */}
+      {/* Content. In flow so section grows; centered over grid */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[420px] md:min-h-[520px] py-12 md:py-16">
         {(eyebrow || title) && (
           <div className="section-full text-center mb-8">
@@ -98,7 +98,9 @@ const GridContentSection = ({
             )}
           </div>
         )}
-        <div className={`w-full section-full ${contentInCard ? "max-w-4xl mx-auto" : ""}`}>
+        <div
+          className={`w-full section-full ${contentInCard ? "max-w-4xl mx-auto" : ""}`}
+        >
           {contentInCard ? (
             <div className="rounded-xl overflow-hidden border border-border bg-background/95 backdrop-blur-sm shadow-lg">
               {children}

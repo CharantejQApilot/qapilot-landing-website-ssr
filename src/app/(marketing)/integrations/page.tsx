@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
-import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
+import {
+  MarketingBackground,
+  MarketingSectionHeader,
+} from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { INTEGRATION_TOOLS, integrationPath } from "@/lib/integrations";
-import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
+import {
+  marketingHeroH1Class,
+  marketingHeroLeadClass,
+} from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -12,9 +18,9 @@ import { cn } from "@/lib/utils";
 const path = PATHS.INTEGRATIONS;
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Integrations — Works With Your Testing Stack",
+  title: "Integrations. Works With Your Testing Stack",
   description:
-    "QApilot integrates with Jira, TestRail, Jenkins, BrowserStack, Sauce Labs, Slack, Teams, and more — fit autonomous mobile testing into your existing QA stack.",
+    "QApilot integrates with Jira, TestRail, Jenkins, BrowserStack, Sauce Labs, Slack, Teams, and more. Fit autonomous mobile testing into your existing QA stack.",
   path,
   ogDescription:
     "Connect QApilot with Jira, CI/CD, device clouds, and test management tools your team already uses.",
@@ -42,19 +48,30 @@ export default function IntegrationsPage() {
           className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/40"
           aria-labelledby="integrations-hero"
         >
-          <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
+          <MarketingBackground
+            variant="hero"
+            showDiagonalGrid={false}
+            showPixelRipple
+          />
           <div className="relative z-10 section-full py-12 sm:py-14 md:py-16 lg:py-20 2xl:py-24">
-            <div className="mx-auto max-w-6xl text-center lg:mx-0 lg:text-left">
+            <div className="mx-auto w-full max-w-6xl text-center sm:px-0 lg:mx-0 lg:max-w-7xl lg:text-left 2xl:max-w-[90rem]">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
                 Ecosystem
               </p>
-              <h1 id="integrations-hero" className={cn(marketingHeroH1Class, "mb-5 text-balance sm:mb-6 md:mb-8")}>
-                Integrations — Works With Your{" "}
+              <h1
+                id="integrations-hero"
+                className={cn(
+                  marketingHeroH1Class,
+                  "mb-5 text-balance sm:mb-6 md:mb-8",
+                )}
+              >
+                Integrations. Works With Your{" "}
                 <span className="text-primary">Existing Testing Stack</span>
               </h1>
-              <p className={cn(marketingHeroLeadClass, "mx-auto max-w-3xl text-pretty lg:mx-0")}>
-                QApilot fits into the tools your team already uses for planning, communication, CI/CD, and device
-                execution — so autonomous mobile testing enhances your workflow instead of replacing it.
+              <p className={marketingHeroLeadClass}>
+                QApilot fits into the tools your team already uses for planning,
+                communication, CI/CD, and device execution. So autonomous mobile
+                testing enhances your workflow instead of replacing it.
               </p>
               <div className="mt-8 flex justify-center lg:justify-start">
                 <BookDemoCtaButton />
@@ -69,13 +86,16 @@ export default function IntegrationsPage() {
               id="integration-partners"
               title={
                 <>
-                  Connected <span className="text-primary">Partners & Tools</span>
+                  Connected{" "}
+                  <span className="text-primary">Partners & Tools</span>
                 </>
               }
               description={
                 <p>
-                  QApilot integrates with test management, issue tracking, CI/CD pipelines, messaging platforms, and
-                  device clouds — giving mobile teams end-to-end coverage from generation to execution to reporting.
+                  QApilot integrates with test management, issue tracking, CI/CD
+                  pipelines, messaging platforms, and device clouds. Giving
+                  mobile teams end-to-end coverage from generation to execution
+                  to reporting.
                 </p>
               }
               marginBottomClassName="mb-10 md:mb-12"
@@ -105,13 +125,16 @@ export default function IntegrationsPage() {
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground md:text-base">
                     {integration.description}
                   </p>
-                  <span className="mt-4 text-sm font-semibold text-primary">Learn more →</span>
+                  <span className="mt-4 text-sm font-semibold text-primary">
+                    Learn more →
+                  </span>
                 </Link>
               ))}
             </div>
 
             <p className="mt-10 text-center text-sm text-muted-foreground/70 md:text-base">
-              And many more — QApilot integrates with your entire testing ecosystem.
+              And many more. QApilot integrates with your entire testing
+              ecosystem.
             </p>
           </div>
         </section>
@@ -123,7 +146,8 @@ export default function IntegrationsPage() {
                 See QApilot in <span className="text-primary">Your Stack</span>
               </h2>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                Book a demo to learn how QApilot connects with your CI/CD, device farms, and test management tools.
+                Book a demo to learn how QApilot connects with your CI/CD,
+                device farms, and test management tools.
               </p>
               <div className="sig-cta-row">
                 <BookDemoCtaButton />

@@ -7,7 +7,10 @@ import {
   type LucideIcon,
   Wrench,
 } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -81,18 +84,27 @@ export function ForQAEngineerSections() {
             eyebrow="The challenge"
             title={
               <>
-                The Challenge Facing <span className="text-primary">Quality Assurance Engineers</span>
+                The Challenge Facing{" "}
+                <span className="text-primary">
+                  Quality Assurance Engineers
+                </span>
               </>
             }
             description={
               <p>
-                QA Engineers are often closest to release pressure—but spend too much time on repetitive testing work.
+                QA Engineers are often closest to release pressure. But spend
+                too much time on repetitive testing work.
               </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
-          <p className={cn(marketingSectionIntroClass, "mb-8 font-medium text-foreground/90 md:mb-10")}>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mb-8 font-medium text-foreground/90 md:mb-10",
+            )}
+          >
             Common challenges include:
           </p>
 
@@ -124,7 +136,11 @@ export function ForQAEngineerSections() {
             eyebrow="Outcomes"
             title={
               <>
-                Outcomes <span className="text-primary">Quality Assurance Engineers</span> Care About
+                Outcomes{" "}
+                <span className="text-primary">
+                  Quality Assurance Engineers
+                </span>{" "}
+                Care About
               </>
             }
             description="Healing, autonomous coverage, and evidence-rich runs change what a QA engineer can deliver in a single sprint."
@@ -137,7 +153,9 @@ export function ForQAEngineerSections() {
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                   {outcome.title}
                 </h3>
-                <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                <p className={cn(marketingSectionIntroClass, "mt-4")}>
+                  {outcome.body}
+                </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {outcome.capabilities.map((cap) => (
                     <span
@@ -164,11 +182,15 @@ export function ForQAEngineerSections() {
             eyebrow="Day-to-day"
             title={
               <>
-                Built for How <span className="text-primary">Engineers</span> Actually Work
+                Built for How <span className="text-primary">Engineers</span>{" "}
+                Actually Work
               </>
             }
             description={
-              <p>QApilot helps QA Engineers move faster inside real delivery environments.</p>
+              <p>
+                QApilot helps QA Engineers move faster inside real delivery
+                environments.
+              </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
@@ -182,8 +204,13 @@ export function ForQAEngineerSections() {
                   "motion-safe:hover:border-primary/25",
                 )}
               >
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">{item}</span>
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                  aria-hidden
+                />
+                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -201,10 +228,11 @@ export function ForQAEngineerSections() {
               eyebrow="Why QApilot"
               title={
                 <>
-                  Why QA Engineers Choose <span className="text-primary">QApilot</span>
+                  Why QA Engineers Choose{" "}
+                  <span className="text-primary">QApilot</span>
                 </>
               }
-              description="Because engineers should spend time improving product quality—not babysitting brittle tests—QApilot helps QA Engineers move faster with less friction."
+              description="Because engineers should spend time improving product quality. Not babysitting brittle tests. QApilot helps QA Engineers move faster with less friction."
               marginBottomClassName="mb-0"
             />
           </div>

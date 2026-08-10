@@ -95,7 +95,7 @@ export const MOBILE_AGENTS_LABS_TOOLS: readonly MobileAgentsLabsTool[] = [
   {
     name: "PriceMyAgent",
     description:
-      "Describe your AI agent idea and get three implementation plans with real cost estimates—complexity, timelines, and monthly spend side by side.",
+      "Describe your AI agent idea and get three implementation plans with real cost estimates. Complexity, timelines, and monthly spend side by side.",
     href: "https://mobileagents.io/tools/price-my-agent",
     category: "AI & Automation",
   },
@@ -115,10 +115,12 @@ export const MOBILE_AGENTS_LABS_TOOLS: readonly MobileAgentsLabsTool[] = [
   },
 ] as const;
 
-/** Same order as in `MOBILE_AGENTS_LABS_TOOLS` — footer + Labs trending badges. */
+/** Same order as in `MOBILE_AGENTS_LABS_TOOLS`. Footer + Labs trending badges. */
 export const MOBILE_AGENTS_TRENDING_LABS_TOOLS: readonly MobileAgentsLabsTool[] =
   MOBILE_AGENTS_LABS_TOOLS.filter((t) => t.trending === true);
 
-export function getMobileAgentsLabsTool(href: string): MobileAgentsLabsTool | undefined {
+export function getMobileAgentsLabsTool(
+  href: string,
+): MobileAgentsLabsTool | undefined {
   return MOBILE_AGENTS_LABS_TOOLS.find((tool) => tool.href === href);
 }

@@ -24,7 +24,7 @@ export function stripBrandSuffix(title: string): string {
 }
 
 function stripTrailingPunctuation(text: string): string {
-  return text.replace(/[\s,.;:\-—–]+$/, "").trimEnd();
+  return text.replace(/[\s,.;:\-–]+$/, "").trimEnd();
 }
 
 function truncateAtWordBoundary(text: string, maxLen: number): string {
@@ -38,7 +38,7 @@ function truncateAtWordBoundary(text: string, maxLen: number): string {
   // Drop dangling connector / brand words so titles don't end mid-phrase.
   while (truncated) {
     const parts = truncated.split(/\s+/);
-    const last = (parts[parts.length - 1] ?? "").replace(/[.,;\-—–]+$/, "");
+    const last = (parts[parts.length - 1] ?? "").replace(/[.,;\-–]+$/, "");
     if (!WEAK_TRAILING_WORD_RE.test(last) || parts.length <= 2) break;
     parts.pop();
     truncated = stripTrailingPunctuation(parts.join(" "));

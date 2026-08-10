@@ -11,7 +11,7 @@ import { buildStaticPageMetadata } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.DEVICE_COVERAGE_MATRIX}`;
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Device Coverage Matrix — Plan Mobile Device Coverage",
+  title: "Device Coverage Matrix. Plan Mobile Device Coverage",
   description:
     "Pick your market, set a coverage target, and get a ranked OEM + platform matrix for Android and iOS before every release.",
   path: PATHS.DEVICE_COVERAGE_MATRIX,
@@ -55,7 +55,10 @@ export default function DeviceCoverageMatrixPage() {
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
               { name: "Labs", path: PATHS.LABS },
-              { name: "Device Coverage Matrix", path: PATHS.DEVICE_COVERAGE_MATRIX },
+              {
+                name: "Device Coverage Matrix",
+                path: PATHS.DEVICE_COVERAGE_MATRIX,
+              },
             ]),
           ]),
         }}
