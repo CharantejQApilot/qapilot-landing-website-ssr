@@ -101,6 +101,7 @@ export const RESOURCE_NAV_LINKS = [
 /** Company dropdown (header: About, Partners, Careers, Events, News) */
 export const COMPANY_NAV_LINKS = [
   { path: PATHS.ABOUT, label: "About Us" },
+  { path: PATHS.ENTERPRISE, label: "Enterprise" },
   { path: PATHS.PARTNERS, label: "Partners" },
   { path: PATHS.CAREERS, label: "Careers" },
   { path: PATHS.EVENTS, label: "Events" },

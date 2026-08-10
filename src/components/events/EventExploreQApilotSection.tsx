@@ -6,13 +6,12 @@ import {
   Smartphone,
   type LucideIcon,
 } from "lucide-react";
-import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
 import type { EventExploreCta } from "@/lib/events-data";
 import { cn } from "@/lib/utils";
 
 const CTA_ICON_BY_HREF: Partial<Record<string, LucideIcon>> = {
-  [BOOK_DEMO_CALENDAR_URL]: Calendar,
+  [PATHS.BOOK_DEMO]: Calendar,
   [PATHS.COWORK]: PenLine,
   [PATHS.FOR_FLUTTER]: Smartphone,
 };

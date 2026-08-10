@@ -76,13 +76,18 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/alternatives/appium",
+        source: "/platform/autonomous-testing",
+        destination: "/product/autonomous-testing",
+        permanent: true,
+      },
+      {
+        source: "/appium-alternative",
         destination: "/compare/qapilot-vs-appium",
         permanent: true,
       },
       {
-        source: "/platform/autonomous-testing",
-        destination: "/product/autonomous-testing",
+        source: "/alternatives/appium",
+        destination: "/compare/qapilot-vs-appium",
         permanent: true,
       },
       {

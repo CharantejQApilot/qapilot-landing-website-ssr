@@ -3,6 +3,7 @@ import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingSectionHeader } from "@/components/marketing";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
@@ -160,21 +161,18 @@ export default function QApilotVsWebFirstComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+            <MarketingLedger cols={3} aria-label="Web-first tooling gaps">
               {compactCards.map((card) => (
-                <article
-                  key={card.title}
-                  className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm backdrop-blur-sm"
-                >
+                <MarketingLedgerCell key={card.title}>
                   <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">
                     {card.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
                     {card.body}
                   </p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
           </div>
         </section>
 
@@ -360,19 +358,16 @@ export default function QApilotVsWebFirstComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            <MarketingLedger cols={5} aria-label="What QApilot brings to mobile-first testing">
               {featureCards.map((feature) => (
-                <article
-                  key={feature.title}
-                  className="rounded-xl border border-border/65 bg-card/85 p-4 shadow-sm"
-                >
+                <MarketingLedgerCell key={feature.title}>
                   <h3 className="font-heading text-base font-semibold tracking-tight text-foreground">
                     {feature.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
           </div>
         </section>
 
@@ -414,7 +409,8 @@ export default function QApilotVsWebFirstComparisonPage() {
         </section>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full text-center">
+          <div className="section-full">
+            <div className="sig-close">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               Ready For <span className="text-primary">Mobile-First Testing</span>?
             </h2>
@@ -422,8 +418,9 @@ export default function QApilotVsWebFirstComparisonPage() {
               QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across
               devices, and understand mobile app release readiness with more context.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="sig-cta-row">
               <BookDemoCtaButton />
+            </div>
             </div>
           </div>
         </section>

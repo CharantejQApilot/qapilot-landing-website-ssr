@@ -9,6 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Rocket, Save } from "lucide-react";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
@@ -43,6 +50,7 @@ export default function QaGuideEditorClient() {
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
   const [authorName, setAuthorName] = useState("");
+  const [writerId, setWriterId] = useState("");
 
   useEffect(() => {
     const check = async () => {
@@ -79,6 +87,18 @@ export default function QaGuideEditorClient() {
     },
   });
 
+  const { data: writers } = useQuery({
+    queryKey: ["writers"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("writers")
+        .select("id, name, designation")
+        .order("name");
+      if (error) throw error;
+      return data;
+    },
+  });
+
   useEffect(() => {
     if (!guide) return;
     setTitle(guide.title);
@@ -90,7 +110,16 @@ export default function QaGuideEditorClient() {
     setSeoTitle(guide.seo_title ?? "");
     setSeoDescription(guide.seo_description ?? "");
     setAuthorName(guide.author_name ?? "");
+    setWriterId(guide.writer_id ?? "");
   }, [guide]);
+
+  const handleWriterChange = (value: string) => {
+    setWriterId(value === "none" ? "" : value);
+    if (value && value !== "none") {
+      const writer = writers?.find((w) => w.id === value);
+      if (writer?.name) setAuthorName(writer.name);
+    }
+  };
 
   const saveMutation = useMutation({
     mutationFn: async () => {
@@ -106,6 +135,7 @@ export default function QaGuideEditorClient() {
           seo_title: seoTitle || null,
           seo_description: seoDescription || null,
           author_name: authorName || null,
+          writer_id: writerId || null,
           og_image_url: featuredImage || null,
         })
         .eq("id", id);
@@ -176,6 +206,12 @@ export default function QaGuideEditorClient() {
           draftUrlPath(slug),
         ]),
       );
+
+      try {
+        await supabase.functions.invoke("ping-sitemap");
+      } catch (error) {
+        console.error("Failed to ping search engines:", error);
+      }
     },
     onSuccess: () => {
       toast({
@@ -292,10 +328,30 @@ export default function QaGuideEditorClient() {
                 <Input id="seoTitle" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="author">Author</Label>
+                <Label htmlFor="author">Author name</Label>
                 <Input id="author" value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
               </div>
-              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="writer">Writer profile</Label>
+              <Select value={writerId || "none"} onValueChange={handleWriterChange}>
+                <SelectTrigger id="writer" className="bg-background">
+                  <SelectValue placeholder="Select a writer" />
+                </SelectTrigger>
+                <SelectContent className="bg-background z-50">
+                  <SelectItem value="none">No writer profile</SelectItem>
+                  {(writers ?? []).map((writer) => (
+                    <SelectItem key={writer.id} value={writer.id}>
+                      {writer.name}
+                      {writer.designation ? ` — ${writer.designation}` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Links the Written by card (bio + LinkedIn) at the end of the guide
+              </p>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="seoDesc">SEO description (auto-filled from excerpt if empty)</Label>
               <Textarea id="seoDesc" value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} />

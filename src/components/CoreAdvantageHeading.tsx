@@ -311,7 +311,7 @@ function DeliverSectionBackgroundDecor() {
 const CoreAdvantageHeading = () => {
   const [active, setActive] = useState(0);
   const current = TABS[active];
-  const { ref: sectionRef } = useNearViewport<HTMLElement>({
+  const { ref: sectionRef, isNear } = useNearViewport<HTMLElement>({
     rootMargin: "280px 0px",
     threshold: 0,
   });
@@ -334,7 +334,6 @@ const CoreAdvantageHeading = () => {
             </>
           }
           description="From autonomous exploration to security and self-healing, QApilot unifies the capabilities your team needs to ship mobile quality with less manual effort."
-          className="border border-border bg-section-header shadow-sm"
           marginBottomClassName="mb-8 md:mb-10 2xl:mb-12"
         />
 
@@ -436,16 +435,43 @@ const CoreAdvantageHeading = () => {
           aria-labelledby={`deliver-tab-${current.id}`}
           className="relative z-[1] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)]"
         >
+          {/* S04/S07: copy column then product media (media still first on small screens via order) */}
           <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
-            {/* Left (~62% lg): scenic + screenshot; image first on mobile */}
-            <div className="relative isolate min-h-[280px] min-w-0 w-full overflow-hidden bg-muted/30 lg:min-h-0 lg:flex-[0_0_62%] lg:bg-background">
+            <div className="relative isolate order-2 flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-t border-border bg-muted px-6 py-8 md:px-8 md:py-10 lg:order-1 lg:border-l-0 lg:border-r lg:border-t-0 lg:px-10 lg:py-10 lg:flex-[0_0_38%]">
+              {/* `soft` only — full `hero` stacks 8× backdrop-filter layers that read as fog over this copy */}
+              <MarketingBackground variant="soft" />
+              <div className="pointer-events-none absolute inset-0 bg-muted/88" aria-hidden />
+              <div
+                key={current.id}
+                className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"
+              >
+                <div className="flex items-start gap-3 md:gap-3.5">
+                  <span
+                    className="mt-2 size-3 shrink-0 rounded-sm bg-primary md:mt-2.5"
+                    aria-hidden="true"
+                  />
+                  <h3 className="font-heading text-xl font-bold tracking-tight text-foreground md:text-2xl 2xl:text-[1.65rem] leading-snug">
+                    {current.label}
+                  </h3>
+                </div>
+                <p className={marketingSectionIntroClass}>{current.description}</p>
+                <Link
+                  href={current.knowMoreHref}
+                  className="inline-flex font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+                >
+                  Know more
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative isolate order-1 min-h-[280px] min-w-0 w-full overflow-hidden bg-muted/30 lg:order-2 lg:min-h-0 lg:flex-[0_0_62%] lg:bg-background">
               <div className="hidden lg:block absolute inset-0">
                 <CoreCapabilityScenicBackdrop
                   src={current.scenicBackgroundSrc}
                   panelKey={current.id}
                   scrim={current.scenicScrim}
                   priority={false}
-                  animateKenBurns
+                  animateKenBurns={isNear}
                 />
               </div>
               <div
@@ -473,34 +499,6 @@ const CoreAdvantageHeading = () => {
                     </div>
                   </div>
                 )}
-              </div>
-            </div>
-
-            {/* Right (~38% lg): hero-style patterns + section copy */}
-            <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden border-t border-border bg-muted px-6 py-8 md:px-8 md:py-10 lg:border-l lg:border-t-0 lg:px-10 lg:py-10">
-              {/* `soft` only — full `hero` stacks 8× backdrop-filter layers that read as fog over this copy */}
-              <MarketingBackground variant="soft" />
-              <div className="pointer-events-none absolute inset-0 bg-muted/88" aria-hidden />
-              <div
-                key={current.id}
-                className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"
-              >
-                <div className="flex items-start gap-3 md:gap-3.5">
-                  <span
-                    className="mt-2 size-3 shrink-0 rounded-sm bg-primary md:mt-2.5"
-                    aria-hidden="true"
-                  />
-                  <h3 className="font-heading text-xl font-bold tracking-tight text-foreground md:text-2xl 2xl:text-[1.65rem] leading-snug">
-                    {current.label}
-                  </h3>
-                </div>
-                <p className={marketingSectionIntroClass}>{current.description}</p>
-                <Link
-                  href={current.knowMoreHref}
-                  className="inline-flex font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
-                >
-                  Know more
-                </Link>
               </div>
             </div>
           </div>

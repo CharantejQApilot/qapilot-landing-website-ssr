@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useId } from "react";
 import Image from "next/image";
+import { useNearViewport } from "@/hooks/use-near-viewport";
 import { cn } from "@/lib/utils";
 
 type ScenicYoutubeVideoProps = {
@@ -13,7 +14,7 @@ type ScenicYoutubeVideoProps = {
 
 /**
  * Muted autoplay YouTube embed with scenic Ken Burns backdrop, scale crop for pillarboxing,
- * and transparent shield (same behavior as autonomous testing walkthrough).
+ * and transparent shield. Player + iframe API mount only when near viewport (poster scenic first).
  */
 export function ScenicYoutubeVideo({
   videoId,
@@ -21,12 +22,17 @@ export function ScenicYoutubeVideo({
   ariaLabel,
   className,
 }: ScenicYoutubeVideoProps) {
+  const { ref: nearRef, isNear } = useNearViewport<HTMLDivElement>({
+    rootMargin: "400px 0px",
+  });
   const playerRef = useRef<HTMLDivElement>(null);
   const uid = useId().replace(/:/g, "");
   const playerIdRef = useRef(`yt-scenic-${uid}`);
   const ytApiPlayerRef = useRef<{ destroy?: () => void } | null>(null);
 
   useEffect(() => {
+    if (!isNear) return;
+
     let pauseNudgeTimer: ReturnType<typeof setTimeout> | null = null;
 
     const initializePlayer = () => {
@@ -136,10 +142,11 @@ export function ScenicYoutubeVideo({
       }
       ytApiPlayerRef.current = null;
     };
-  }, [videoId]);
+  }, [videoId, isNear]);
 
   return (
     <div
+      ref={nearRef}
       className={cn(
         "relative mb-14 overflow-hidden rounded-2xl border border-border/70 shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)] md:mb-16 2xl:mb-20",
         className,
@@ -155,7 +162,6 @@ export function ScenicYoutubeVideo({
               fill
               className="object-cover object-center"
               sizes="(min-width: 1280px) 1200px, 100vw"
-              unoptimized
             />
           </div>
         </div>
@@ -174,7 +180,9 @@ export function ScenicYoutubeVideo({
                 transformOrigin: "center center",
               }}
             >
-              <div ref={playerRef} id={playerIdRef.current} className="h-full w-full" />
+              {isNear ? (
+                <div ref={playerRef} id={playerIdRef.current} className="h-full w-full" />
+              ) : null}
             </div>
             <div className="absolute inset-0" style={{ zIndex: 10 }} />
           </div>

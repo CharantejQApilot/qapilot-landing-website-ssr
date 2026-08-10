@@ -3,6 +3,7 @@ import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingSectionHeader } from "@/components/marketing";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
@@ -131,7 +132,7 @@ const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description:
-    "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
+    "QApilot vs Appium: autonomous crawling, AI test generation, self-healing, and release-ready reporting beyond script-first mobile automation.",
   alternates: {
     canonical: canonicalUrl,
   },
@@ -139,7 +140,7 @@ export const metadata: Metadata = {
     type: "website",
     title: PAGE_TITLE_TEXT,
     description:
-      "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
+      "QApilot vs Appium: autonomous crawling, AI test generation, self-healing, and release-ready reporting beyond scripts.",
     url: canonicalUrl,
     siteName: "QApilot",
     locale: "en_US",
@@ -258,19 +259,16 @@ export default function QApilotVsAppiumComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+            <MarketingLedger cols={3} aria-label="Where Appium gets hard to scale">
               {scalingPainPoints.map((point) => (
-                <article
-                  key={point.title}
-                  className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm backdrop-blur-sm"
-                >
+                <MarketingLedgerCell key={point.title}>
                   <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">
                     {point.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{point.body}</p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
           </div>
         </section>
 
@@ -373,19 +371,16 @@ export default function QApilotVsAppiumComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <MarketingLedger cols={3} aria-label="What QApilot brings beyond Appium">
               {featureCards.map((feature) => (
-                <article
-                  key={feature.title}
-                  className="rounded-xl border border-border/65 bg-card/85 p-4 shadow-sm"
-                >
+                <MarketingLedgerCell key={feature.title}>
                   <h3 className="font-heading text-base font-semibold tracking-tight text-foreground">
                     {feature.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
           </div>
         </section>
 
@@ -459,7 +454,8 @@ export default function QApilotVsAppiumComparisonPage() {
         </section>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full text-center">
+          <div className="section-full">
+            <div className="sig-close">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               Ready To Move Beyond <span className="text-primary">Scripted Mobile Automation</span>?
             </h2>
@@ -467,8 +463,9 @@ export default function QApilotVsAppiumComparisonPage() {
               QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across real
               devices, and understand release readiness with mobile app context.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="sig-cta-row">
               <BookDemoCtaButton />
+            </div>
             </div>
           </div>
         </section>

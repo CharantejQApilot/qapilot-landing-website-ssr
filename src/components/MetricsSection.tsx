@@ -14,26 +14,7 @@ const metrics: Metric[] = [
   { value: "5000+", label: "Hours Saved for QE Teams" },
 ];
 
-function MetricCard({ metric, isLast }: { metric: Metric; isLast: boolean }) {
-  const borderClasses = !isLast
-    ? "border-b border-border min-[1280px]:border-b-0 sm:border-r border-border"
-    : "";
-
-  return (
-    <div
-      className={`px-4 py-5 text-center sm:px-6 sm:py-8 2xl:px-8 2xl:py-10 min-w-0 ${borderClasses}`}
-    >
-      <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] sm:tracking-[0.15em] text-muted-foreground mb-2 sm:mb-3 break-words leading-tight">
-        {metric.label}
-      </p>
-      <div className="font-heading text-2xl sm:text-3xl min-[1280px]:text-5xl 2xl:text-6xl font-semibold text-foreground tracking-tight tabular-nums">
-        {metric.value}
-      </div>
-    </div>
-  );
-}
-
-/** Static metrics — no client JS or rAF count-up (better mobile INP). */
+/** S03 telemetry strip — same metrics, horizontal instrument alignment. */
 const MetricsSection = () => {
   return (
     <section className="relative overflow-hidden section-edge w-full">
@@ -52,18 +33,20 @@ const MetricsSection = () => {
         </div>
       </div>
 
-      <div className="border-b border-border bg-background w-full">
-        <div className="section-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 min-[1280px]:grid-cols-5">
-            {metrics.map((metric, index) => (
-              <MetricCard
-                key={metric.label}
-                metric={metric}
-                isLast={index === metrics.length - 1}
-              />
-            ))}
+      <div
+        className="sig-telemetry-strip w-full border-border bg-background"
+        aria-label="Platform metrics"
+      >
+        {metrics.map((metric) => (
+          <div key={metric.label} className="sig-telemetry-item min-w-[11rem] flex-1 sm:min-w-[12rem]">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:text-xs sm:tracking-[0.15em]">
+              {metric.label}
+            </span>
+            <span className="font-heading text-2xl font-semibold tracking-tight text-foreground tabular-nums sm:text-3xl min-[1280px]:text-4xl 2xl:text-5xl">
+              {metric.value}
+            </span>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );

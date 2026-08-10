@@ -77,11 +77,12 @@ export function buildAiSelfHealingReportLinkHeader() {
 
 /**
  * RFC 8288 Link header: image preloads for Core Advantage section.
- * Only attached to routes that render CoreAdvantageHeading (see next.config).
+ * Only the default tab scenic + first product shot — avoid competing with hero LCP.
  */
 export function buildCoreAdvantageLinkHeader() {
+  const firstScenic = CORE_ADVANTAGE_SCENIC_URLS[0];
   const parts = [
-    ...CORE_ADVANTAGE_SCENIC_URLS.map((url) => preloadImage(url)),
+    ...(firstScenic ? [preloadImage(firstScenic)] : []),
     preloadImage(CORE_ADVANTAGE_FIRST_PRODUCT_IMAGE_PATH),
   ];
   return parts.join(", ");

@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: "Bring Your Own Agent (BYOA) | QApilot",
     description:
       "Extend QApilot with custom agents that read and write the same knowledge graph context as native agents.",

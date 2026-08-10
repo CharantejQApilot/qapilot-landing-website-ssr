@@ -5,7 +5,7 @@ import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 import {
@@ -25,29 +25,14 @@ const LIST_GUTTER =
 
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
-export const metadata: Metadata = {
-  title: "News — Mobile Testing Industry Updates & Announcements",
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "News — Mobile Testing Updates & Announcements",
   description:
-    "Stay updated with the latest news, product updates, and industry insights from QApilot. Learn about new features, partnerships, and mobile testing trends.",
-  alternates: { canonical: canonicalUrl },
-  openGraph: {
-    type: "website",
-    url: canonicalUrl,
-    title: "News — Mobile Testing Industry Updates & Announcements | QApilot",
-    description:
-      "Latest announcements, product updates, and insights from QApilot.",
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [defaultOpenGraphImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "News — Mobile Testing Industry Updates & Announcements | QApilot",
-    description:
-      "Stay updated with announcements and updates from QApilot.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
-  },
-};
+    "Product updates, partnerships, and mobile testing insights from QApilot—stay current on AI-native QA.",
+  path: NEWS_PATH,
+  ogDescription: "Latest announcements, product updates, and insights from QApilot.",
+  twitterDescription: "News and announcements on AI-native mobile testing from QApilot.",
+});
 
 export const revalidate = 120;
 
@@ -158,21 +143,19 @@ export default async function NewsPage() {
       <MarketingPageShell background="none">
         <main className="relative w-full">
           <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
-            <div className={LIST_GUTTER}>
-              <div className={`${LIST_MAX_WIDTH} py-16 md:py-24 lg:py-28 2xl:py-32`}>
-                <header className="relative mx-auto max-w-6xl text-center sm:max-w-none lg:max-w-7xl">
-                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
-                    QApilot news
-                  </p>
-                  <h1 className={marketingHeroH1Class}>
-                    <span className="text-gradient">News &amp; updates</span>
-                  </h1>
-                  <p className={marketingListingHeroLeadClass}>
-                    Stay up to date with the latest announcements and updates
-                    from QApilot.
-                  </p>
-                </header>
-              </div>
+            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
+              <header className="relative w-full text-center lg:text-left">
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
+                  QApilot news
+                </p>
+                <h1 className={marketingHeroH1Class}>
+                  <span className="text-gradient">News &amp; updates</span>
+                </h1>
+                <p className={marketingListingHeroLeadClass}>
+                  Stay up to date with the latest announcements and updates
+                  from QApilot.
+                </p>
+              </header>
             </div>
           </div>
 

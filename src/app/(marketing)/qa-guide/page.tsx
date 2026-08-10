@@ -20,7 +20,7 @@ const canonicalUrl = `${SITE_BASE_URL}${PATHS.QA_GUIDE}`;
 
 const QE_GUIDE_HUB_TITLE = "QA Guide — Mobile Testing Guides & Checklists";
 const QE_GUIDE_HUB_DESCRIPTION =
-  "In-depth QA and QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from the QApilot team.";
+  "In-depth QA and QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from QApilot practitioners.";
 
 export const metadata: Metadata = {
   title: QE_GUIDE_HUB_TITLE,

@@ -31,11 +31,19 @@ function fallbackByQuestion(): Map<string, FallbackFAQ> {
   return map;
 }
 
+/** Repair known CMS tense slip that pollutes FAQPage JSON-LD. */
+function normalizeFaqAnswerHtml(html: string): string {
+  return html.replace(
+    /explores the app like a real user,\s*identified critical flows,\s*and\s*generated/gi,
+    "explores the app like a real user, identifies critical flows, and generates",
+  );
+}
+
 function resolveAnswerHtml(rawAnswer: string, fallbackAnswer?: string): string {
-  const sanitized = sanitizeRichText(asString(rawAnswer), "html");
+  const sanitized = normalizeFaqAnswerHtml(sanitizeRichText(asString(rawAnswer), "html"));
   if (sanitized.trim()) return sanitized;
   if (fallbackAnswer) {
-    return sanitizeRichText(fallbackAnswer, "html");
+    return normalizeFaqAnswerHtml(sanitizeRichText(fallbackAnswer, "html"));
   }
   return "";
 }

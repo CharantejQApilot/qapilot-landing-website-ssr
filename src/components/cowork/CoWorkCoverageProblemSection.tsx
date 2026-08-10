@@ -1,3 +1,4 @@
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 
@@ -38,22 +39,15 @@ export function CoWorkCoverageProblemSection() {
           As a result
         </p>
 
-        <div className="grid gap-6 md:grid-cols-3 md:gap-8">
+        <MarketingLedger cols={3} aria-label="Coverage outcomes">
           {OUTCOMES.map((item) => (
-            <div
-              key={item}
-              className="group relative overflow-hidden rounded-2xl border border-border/80 bg-muted/20 p-5 shadow-sm sm:p-6 md:p-8"
-            >
-              <div
-                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-0 transition-opacity group-hover:opacity-100"
-                aria-hidden
-              />
+            <MarketingLedgerCell key={item}>
               <p className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
                 {item}
               </p>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

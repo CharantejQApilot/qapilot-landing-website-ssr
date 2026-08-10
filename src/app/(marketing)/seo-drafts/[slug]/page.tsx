@@ -7,6 +7,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { MarketingPageShell } from "@/components/marketing";
 import { resolveSlugParam } from "@/lib/app-router-params";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
+import { loadQaGuideWriter } from "@/lib/qa-guide/load-writer";
 
 export const revalidate = 60;
 
@@ -60,6 +61,8 @@ export default async function SeoDraftPreviewPage({
 
   if (guide.tier !== "draft") notFound();
 
+  const writer = await loadQaGuideWriter(supabase, guide.writer_id);
+
   return (
     <MarketingPageShell background="soft">
       <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-center text-sm text-amber-900 dark:text-amber-100">
@@ -67,6 +70,7 @@ export default async function SeoDraftPreviewPage({
       </div>
       <QaGuideArticle
         guide={guide}
+        writer={writer}
         backHref={PATHS.QA_GUIDE}
         backLabel={`Back to ${QE_GUIDE_DISPLAY_NAME}`}
         pageUrl={`${SITE_BASE_URL}${publishedUrlPath(guide.slug)}`}

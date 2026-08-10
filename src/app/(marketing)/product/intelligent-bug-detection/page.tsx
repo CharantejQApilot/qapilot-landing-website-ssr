@@ -22,6 +22,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: "Intelligent Bug Detection for Mobile | QApilot",
     description:
       "Actionable issue intelligence: categories, screen mapping, screenshots, metadata, and corrective guidance for stronger release readiness.",

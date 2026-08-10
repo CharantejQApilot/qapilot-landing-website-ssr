@@ -12,6 +12,7 @@ import { expandArticleIfShort } from "@/lib/qa-guide/generation/expand-article-i
 import { ensureArticleLinks } from "@/lib/qa-guide/generation/ensure-article-links";
 import { generateArticle, getOpenAITextModel } from "@/lib/qa-guide/generation/generate-article";
 import { generateCoverImagePng } from "@/lib/qa-guide/generation/generate-cover";
+import { humanizeArticle } from "@/lib/qa-guide/generation/humanize-article";
 import {
   appendQueueLog,
   loadQueueRowForPipeline,
@@ -20,6 +21,10 @@ import {
   type QueueRow,
 } from "@/lib/qa-guide/generation/queue-db";
 import { compositeQualityScore, runQualityGate } from "@/lib/qa-guide/generation/quality-gate";
+import {
+  PREFERRED_QE_GUIDE_WRITER_NAMES,
+  pickRandomPreferredWriterName,
+} from "@/lib/qa-guide/preferred-writers";
 
 export async function runGenerationPipeline(
   supabase: SupabaseClient<Database>,
@@ -96,6 +101,11 @@ export async function runGenerationPipeline(
     const expandedWords = (enriched.content_markdown ?? "").split(/\s+/).filter(Boolean).length;
     await appendQueueLog(supabase, queueId, `word count after expand pass: ${expandedWords}`);
 
+    await appendQueueLog(supabase, queueId, `calling OpenAI (${getOpenAITextModel()}) for humanize pass…`);
+    enriched = await humanizeArticle(enriched);
+    const humanizedWords = (enriched.content_markdown ?? "").split(/\s+/).filter(Boolean).length;
+    await appendQueueLog(supabase, queueId, `word count after humanize pass: ${humanizedWords}`);
+
     const qc = runQualityGate(enriched, ctx.internal_link_candidates);
     enriched.quality_checks = qc;
     const recommendation = String(qc.overall_recommendation ?? "REVIEW");
@@ -126,6 +136,45 @@ export async function runGenerationPipeline(
       }
     }
 
+    let writerId = item.writer_id?.trim() || null;
+    let authorName: string | null = null;
+    if (writerId) {
+      const { data: writer } = await supabase
+        .from("writers")
+        .select("id, name")
+        .eq("id", writerId)
+        .maybeSingle();
+      if (writer) {
+        authorName = writer.name;
+      } else {
+        writerId = null;
+      }
+    }
+    if (!writerId) {
+      const { data: allWriters } = await supabase.from("writers").select("id, name");
+      const preferred = (allWriters ?? []).filter((w) =>
+        PREFERRED_QE_GUIDE_WRITER_NAMES.some(
+          (n) => n.toLowerCase() === w.name.trim().toLowerCase(),
+        ),
+      );
+      const targetName = pickRandomPreferredWriterName();
+      const pick =
+        preferred.find((w) => w.name.trim().toLowerCase() === targetName.toLowerCase()) ??
+        preferred[Math.floor(Math.random() * preferred.length)] ??
+        null;
+      if (pick) {
+        writerId = pick.id;
+        authorName = pick.name;
+      }
+    }
+    await appendQueueLog(
+      supabase,
+      queueId,
+      authorName
+        ? `author: ${authorName}`
+        : "author: no preferred writer found; draft will use Editorial Team",
+    );
+
     const guide = await createDraftQaGuide(supabase, {
       title: enriched.title,
       slug,
@@ -134,6 +183,8 @@ export async function runGenerationPipeline(
       excerpt: enriched.excerpt ?? enriched.meta_description,
       content_markdown: enriched.content_markdown,
       cover_image_url: coverUrl,
+      author: authorName ?? undefined,
+      writer_id: writerId,
       tags: enriched.tags,
       seo: {
         meta_title: enriched.meta_title,
@@ -149,8 +200,10 @@ export async function runGenerationPipeline(
         queue_id: queueId,
         model: getOpenAITextModel(),
         provider: "openai",
+        passes: ["generate", "expand_if_short", "humanize"],
         competitor_urls: competitorUrls,
         external_link_suggestions: enriched.external_link_suggestions ?? [],
+        writer_id: writerId,
       },
     });
 
