@@ -74,7 +74,7 @@ export function AiSelfHealingHealingEngineSection() {
           ))}
         </ul>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center text-base font-medium text-foreground md:text-lg">
+        <p className="mt-10 max-w-2xl text-left text-base font-medium text-foreground md:text-lg">
           Always finds the best possible match before failing.
         </p>
       </div>

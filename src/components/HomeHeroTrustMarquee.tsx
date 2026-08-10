@@ -85,8 +85,7 @@ export function HomeHeroTrustMarquee({
       {title ? (
         <p
           className={cn(
-            "mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground",
-            contained ? "text-left" : "text-center",
+            "mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground text-left",
           )}
         >
           {title}
@@ -98,7 +97,7 @@ export function HomeHeroTrustMarquee({
         <div
           className={cn(
             "flex flex-wrap items-center gap-x-2 gap-y-5 md:hidden",
-            contained ? "justify-start" : "justify-center px-4",
+            contained ? "justify-start" : "justify-start px-4",
           )}
         >
           {HOME_TRUST_LOGOS.map((logo) => (

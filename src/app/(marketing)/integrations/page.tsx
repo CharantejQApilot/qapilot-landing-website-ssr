@@ -54,7 +54,7 @@ export default function IntegrationsPage() {
             showPixelRipple
           />
           <div className="relative z-10 section-full py-12 sm:py-14 md:py-16 lg:py-20 2xl:py-24">
-            <div className="mx-auto w-full max-w-6xl text-center sm:px-0 lg:mx-0 lg:max-w-7xl lg:text-left 2xl:max-w-[90rem]">
+            <div className="mx-auto w-full max-w-6xl text-left sm:px-0 lg:mx-0 lg:max-w-7xl 2xl:max-w-[90rem]">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
                 Ecosystem
               </p>
@@ -73,7 +73,7 @@ export default function IntegrationsPage() {
                 communication, CI/CD, and device execution. So autonomous mobile
                 testing enhances your workflow instead of replacing it.
               </p>
-              <div className="mt-8 flex justify-center lg:justify-start">
+              <div className="mt-8 flex justify-start">
                 <BookDemoCtaButton />
               </div>
             </div>
@@ -132,7 +132,7 @@ export default function IntegrationsPage() {
               ))}
             </div>
 
-            <p className="mt-10 text-center text-sm text-muted-foreground/70 md:text-base">
+            <p className="mt-10 text-left text-sm text-muted-foreground/70 md:text-base">
               And many more. QApilot integrates with your entire testing
               ecosystem.
             </p>

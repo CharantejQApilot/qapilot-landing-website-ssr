@@ -25,7 +25,7 @@ export function DualDeviceHero() {
             "2xl:max-w-[min(100%,88rem)]",
           )}
         >
-          <div className="flex min-w-0 flex-1 flex-col items-center text-center lg:items-start lg:text-left">
+          <div className="flex min-w-0 flex-1 flex-col items-start text-left">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary sm:mb-4 sm:text-sm">
               Synchronised across two devices
             </p>
@@ -47,12 +47,12 @@ export function DualDeviceHero() {
             >
               Real journeys span two devices. QApilot runs both sides as one continuous transaction.
             </p>
-            <div className="sig-cta-row mt-8 w-full justify-center sm:mt-10 lg:justify-start">
+            <div className="sig-cta-row mt-8 w-full justify-start sm:mt-10">
               <BookDemoCtaButton />
             </div>
           </div>
 
-          <div className="flex min-w-0 flex-1 items-center justify-center lg:justify-end">
+          <div className="hidden min-w-0 flex-1 items-center justify-end lg:flex">
             <DualDeviceHeroVisual />
           </div>
         </div>

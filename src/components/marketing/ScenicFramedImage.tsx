@@ -27,7 +27,7 @@ export function ScenicFramedImage({
   return (
     <div
       className={cn(
-        "relative mb-14 overflow-hidden rounded-2xl border border-border/70 shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)] md:mb-16 2xl:mb-20",
+        "relative mb-14 hidden overflow-hidden rounded-2xl border border-border/70 shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)] lg:mb-16 lg:block 2xl:mb-20",
         className,
       )}
       aria-label={ariaLabel}

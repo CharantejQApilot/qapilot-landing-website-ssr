@@ -311,10 +311,10 @@ export function BringYourOwnAgentHowSection() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-2xl border border-border/70 bg-muted/20 px-5 py-5 text-center md:mt-12 md:px-8 md:py-6">
+        <div className="mt-10 rounded-2xl border border-border/70 bg-muted/20 px-5 py-5 text-left md:mt-12 md:px-8 md:py-6">
           <p
             className={cn(
-              "mx-auto max-w-3xl font-medium text-foreground md:text-lg",
+              "max-w-3xl font-medium text-foreground md:text-lg",
               marketingSectionIntroClass,
             )}
           >

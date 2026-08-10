@@ -164,15 +164,15 @@ export function IntegrationLandingPage({ tool }: { tool: IntegrationTool }) {
         </section>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full text-center">
+          <div className="section-full text-left">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               See QApilot with <span className="text-primary">{tool.name}</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
               Book a short demo if you want to see this against your own{" "}
               {tool.name} setup.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-start">
               <BookDemoCtaButton />
             </div>
           </div>

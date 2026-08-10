@@ -18,7 +18,7 @@ export function AiTimeSavingsHero() {
       />
 
       <div className="relative z-10 w-full section-full py-8 sm:py-10 md:py-12">
-        <div className="mx-auto flex w-full max-w-[100rem] flex-col items-center text-center">
+        <div className="mx-auto flex w-full max-w-[100rem] flex-col items-start text-left">
           <h1
             id="ai-time-savings-hero-title"
             className={cn(marketingHeroH1Class, "w-full max-w-4xl text-balance")}

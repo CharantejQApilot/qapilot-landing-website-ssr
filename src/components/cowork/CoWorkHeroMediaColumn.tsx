@@ -54,7 +54,7 @@ function CoWorkHeroDecorBottom() {
 
 export function CoWorkHeroMediaColumn() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3 sm:gap-4 lg:gap-5">
+    <div className="hidden h-full w-full flex-col items-center justify-center gap-3 sm:gap-4 lg:flex lg:gap-5">
       <CoWorkHeroProductHuntBadge />
       <CoWorkHeroVideo className="w-full shrink-0" />
       <CoWorkHeroDecorBottom />

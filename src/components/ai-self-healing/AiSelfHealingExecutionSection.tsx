@@ -63,7 +63,7 @@ export function AiSelfHealingExecutionSection() {
           ))}
         </ol>
 
-        <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground md:text-base">
+        <p className="mt-8 max-w-2xl text-left text-sm text-muted-foreground md:text-base">
           Healed steps are flagged in execution logs so you always know what the
           engine touched.
         </p>

@@ -25,7 +25,7 @@ type MarketingThesisHeroProps = {
 };
 
 /**
- * S01 thesis hero. Left-aligned on desktop, same colours/type as existing marketing heroes.
+ * S01 thesis hero. Left-aligned copy; optional media from lg up.
  */
 export function MarketingThesisHero({
   ariaLabel,
@@ -42,7 +42,7 @@ export function MarketingThesisHero({
   const copy = (
     <div
       className={cn(
-        "flex w-full min-w-0 flex-col items-center text-center lg:items-start lg:text-left",
+        "flex w-full min-w-0 flex-col items-start text-left",
         media && "lg:max-w-none",
       )}
     >
@@ -78,7 +78,7 @@ export function MarketingThesisHero({
       {children}
 
       {cta ? (
-        <div className="sig-cta-row mt-2 w-full justify-center lg:justify-start">
+        <div className="sig-cta-row mt-2 w-full justify-start">
           {cta}
         </div>
       ) : null}
@@ -121,9 +121,9 @@ export function MarketingThesisHero({
         >
           <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
             {media ? (
-              <div className="sig-split items-center">
+              <div className="sig-split max-lg:[grid-template-columns:minmax(0,1fr)] items-center">
                 {copy}
-                <div className="min-w-0 w-full">{media}</div>
+                <div className="hidden min-w-0 w-full lg:block">{media}</div>
               </div>
             ) : (
               copy

@@ -211,8 +211,8 @@
 /* S14. Centred close */
 .sig-close {
   max-width: 40rem;
-  margin-inline: auto;
-  text-align: center;
+  margin-inline: 0;
+  text-align: left;
 }
 
 .sig-cta-row {
@@ -223,5 +223,5 @@
 }
 
 .sig-close .sig-cta-row {
-  justify-content: center;
+  justify-content: flex-start;
 }

@@ -14,7 +14,7 @@ export function FloatingSummariseRail() {
   return (
     <nav
       aria-label="Summarise QApilot with AI"
-      className={cn(floatingRailShellLeftClass, "top-40 md:top-36")}
+      className={cn(floatingRailShellLeftClass, "top-40 hidden md:top-36 lg:flex")}
     >
       {assistants.map((assistant) => (
         <a
