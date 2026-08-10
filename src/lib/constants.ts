@@ -18,15 +18,15 @@ export const STATUS_URL = "https://status.qapilot.io";
 export const EXTERNAL_NOINDEX_SUBDOMAIN_REL = "noopener noreferrer nofollow";
 
 /**
- * Optional Read AI calendar URL for surfaces that need a direct scheduling link.
- * Primary marketing “Book a Demo” CTAs use `PATHS.BOOK_DEMO` (`/book-demo`).
+ * Read AI calendar for marketing “Book a Demo” CTAs (opens in a new tab).
+ * Header “Sign Up” and the lead-form page use `PATHS.BOOK_DEMO` (`/book-demo`).
  */
 export const BOOK_DEMO_CALENDAR_URL =
   "https://cal.read.ai/charan-tej-pupeb/01KEYD8ZYYAHDT5CFMV21VF3SW";
 
 /**
- * Main marketing “Book a Demo” HubSpot form (Forms API via `/api/hubspot/get-access`).
- * Used by the global dialog from Header, Footer, home hero, and platform pages.
+ * Main marketing HubSpot lead form (Forms API via `/api/hubspot/get-access`).
+ * Used on `/book-demo` and event lead forms (Header “Sign Up” lands here).
  */
 export const HUBSPOT_NA1_REGION = "na1" as const;
 export const HUBSPOT_NA1_PORTAL_ID = "47284450";

@@ -63,8 +63,11 @@ function checkConstantsFile() {
   const source = readFileSync(path, "utf8");
   let ok = true;
   for (const name of HUBSPOT_CONSTANTS) {
-    const match = source.match(new RegExp(`export const ${name} = "([^"]+)"`));
-    if (!match?.[1]) {
+    // Allow same-line or multiline: export const NAME =\n  "value"
+    const match = source.match(
+      new RegExp(`export const ${name}\\s*=\\s*"([^"]+)"`),
+    );
+    if (!match?.[1]?.trim()) {
       ok = fail(`Missing or empty constant: ${name}`) && ok;
     }
   }
