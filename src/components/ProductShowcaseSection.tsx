@@ -13,7 +13,7 @@ const ProductShowcaseSection = () => {
   return (
     <section className="relative bg-background overflow-hidden section-edge w-full">
       <div className="section-full relative z-10 pt-7 pb-[2.8rem] md:pt-[2.45rem] md:pb-14 2xl:pt-[2.8rem] 2xl:pb-[4.2rem]">
-        <div className="sig-split items-start lg:items-center">
+        <div className="sig-split max-lg:[grid-template-columns:minmax(0,1fr)] items-start lg:items-center">
           <header
             className="min-w-0"
             aria-labelledby="product-showcase-heading"
@@ -39,7 +39,7 @@ const ProductShowcaseSection = () => {
             </p>
           </header>
 
-          <div className="relative min-w-0 overflow-hidden rounded-2xl border border-border bg-background">
+          <div className="relative hidden min-w-0 overflow-hidden rounded-2xl border border-border bg-background lg:block">
             <div
               className="relative w-full"
               style={{

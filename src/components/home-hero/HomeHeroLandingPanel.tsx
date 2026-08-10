@@ -14,15 +14,18 @@ const HOME_HERO_PRODUCT_LINKS = [
   { label: "Release Readiness Suite", href: PATHS.RELEASE_READINESS_SUITE },
 ] as const;
 
+const LG_MIN = "(min-width: 1024px)";
+
 type HomeHeroLandingPanelProps = {
   /** When false, overlays stay hidden (avoids flash with stale coords). */
   active?: boolean;
 };
 
 /**
- * Slide 1 content. Headline stays vertically centered (spacer preserves prior layout).
- * Product Hunt + capsules are measured into the true midpoints of the empty bands
- * (menu → headline, headline → slider).
+ * Slide 1 content.
+ * Mobile: document-flow stack (badge → headline → capsules) to avoid overlap.
+ * Desktop (lg+): badge + capsules are absolutely placed in the midpoints of the
+ * empty bands (menu → headline, headline → slider).
  */
 export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingPanelProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -39,6 +42,13 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
     if (!root || !headline || !badge || !capsules) return;
 
     const placeTops = () => {
+      // Mobile uses in-flow layout; clear any leftover absolute tops.
+      if (!window.matchMedia(LG_MIN).matches) {
+        badge.style.top = "";
+        capsules.style.top = "";
+        return true;
+      }
+
       const siteHeader = document.querySelector("[data-site-header]");
       const slider = document.querySelector("[data-hero-slider]");
       if (!siteHeader || !slider) return false;
@@ -71,6 +81,8 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
     ro.observe(badge);
     ro.observe(capsules);
 
+    const mq = window.matchMedia(LG_MIN);
+    mq.addEventListener("change", rafPlace);
     window.addEventListener("resize", rafPlace);
     window.addEventListener("scroll", rafPlace, { passive: true });
     window.addEventListener("home-hero-layout", rafPlace);
@@ -80,30 +92,37 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
 
     return () => {
       ro.disconnect();
+      mq.removeEventListener("change", rafPlace);
       window.removeEventListener("resize", rafPlace);
       window.removeEventListener("scroll", rafPlace);
       window.removeEventListener("home-hero-layout", rafPlace);
     };
   }, [active]);
 
-  const showOverlays = active && ready;
+  // Mobile is always visible in-flow; desktop waits for measured placement.
+  const showDesktopOverlays = active && ready;
 
   return (
-    <div ref={rootRef} className="relative h-full w-full min-w-0">
+    <div
+      ref={rootRef}
+      className="relative flex h-full w-full min-w-0 flex-col items-start justify-center gap-5 sm:gap-6 lg:block lg:gap-0"
+    >
       <div
         ref={badgeRef}
         className={cn(
-          "absolute inset-x-0 z-[2] flex justify-center lg:justify-start",
-          !showOverlays && "invisible",
+          "z-[2] flex w-full justify-start",
+          "relative shrink-0",
+          "lg:absolute lg:inset-x-0 lg:top-0",
+          !showDesktopOverlays && "lg:invisible",
         )}
-        aria-hidden={!showOverlays}
       >
-        <HomeHeroProductHuntBadge className="shrink-0 lg:self-start" />
+        <HomeHeroProductHuntBadge className="shrink-0 self-start" />
       </div>
 
-      <div className="flex h-full w-full items-center justify-center lg:justify-start">
-        <div className="flex w-full min-w-0 flex-col items-center gap-6 sm:gap-7 lg:items-start lg:gap-8">
-          <div className="invisible shrink-0" aria-hidden>
+      <div className="flex w-full min-w-0 flex-col items-start lg:h-full lg:items-center lg:justify-start">
+        <div className="flex w-full min-w-0 flex-col items-start gap-0 lg:h-full lg:justify-center lg:gap-8">
+          {/* Desktop-only spacer so the headline stays vertically centered under the absolute badge */}
+          <div className="invisible hidden shrink-0 lg:block" aria-hidden>
             <HomeHeroProductHuntBadge />
           </div>
           <h1
@@ -111,19 +130,19 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
             data-home-hero-band-headline
             className={cn(
               marketingHeroH1Class,
-              "mb-0 w-full text-center sm:mb-0 lg:text-left",
+              "mb-0 w-full text-left sm:mb-0",
               "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
             )}
           >
-            <span className="flex flex-col items-center gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:items-start lg:gap-y-4">
-              <span className="flex flex-col items-center gap-y-2 px-1 leading-[inherit] sm:gap-y-2.5 md:block md:whitespace-nowrap lg:items-start">
+            <span className="flex flex-col items-start gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:gap-y-4">
+              <span className="flex flex-col items-start gap-y-2 px-1 leading-[inherit] sm:gap-y-2.5 md:block md:whitespace-nowrap">
                 <span className="block md:inline">Mobile-First</span>
                 <span className="hidden md:inline"> </span>
                 <span className="block md:inline">Apps Need</span>
               </span>
               <Link
                 href={PATHS.COMPARE_WEB_FIRST}
-                className="flex flex-col items-center gap-y-2 rounded-sm px-1 leading-[inherit] text-hero-here transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-y-2.5 md:block md:whitespace-nowrap lg:items-start"
+                className="flex flex-col items-start gap-y-2 rounded-sm px-1 leading-[inherit] text-hero-here transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-y-2.5 md:block md:whitespace-nowrap"
               >
                 <span className="block md:inline">Mobile-First</span>
                 <span className="hidden md:inline"> </span>
@@ -137,13 +156,14 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
       <nav
         ref={capsulesRef}
         className={cn(
-          "absolute inset-x-0 z-[2] flex justify-center lg:justify-start",
-          !showOverlays && "invisible",
+          "z-[2] flex w-full justify-start",
+          "relative shrink-0",
+          "lg:absolute lg:inset-x-0",
+          !showDesktopOverlays && "lg:invisible",
         )}
         aria-label="Product highlights"
-        aria-hidden={!showOverlays}
       >
-        <ul className="flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-2.5 lg:justify-start">
+        <ul className="flex max-w-full flex-wrap items-center justify-start gap-2 sm:gap-2.5">
           {HOME_HERO_PRODUCT_LINKS.map((item) => (
             <li key={item.href}>
               <Link

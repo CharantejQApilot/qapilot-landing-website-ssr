@@ -33,12 +33,12 @@ export function ReleaseReadinessSuiteHero() {
  <div className="relative z-10 w-full">
  <div className="section-full py-16 sm:py-20 md:py-24 lg:py-28">
  <div className={heroShellClass}>
- <div className="flex w-full min-w-0 flex-col items-center lg:items-start">
+ <div className="flex w-full min-w-0 flex-col items-start">
  <h1
  id="release-readiness-suite-hero-title"
  className={cn(
  marketingHeroH1Class,
- "mb-4 w-full text-center text-balance sm:mb-5 lg:text-left",
+ "mb-4 w-full text-left text-balance sm:mb-5",
  "max-lg:text-[clamp(1.75rem,6vw,3.5rem)] max-lg:leading-[1.1]",
  )}
  >
@@ -48,7 +48,7 @@ export function ReleaseReadinessSuiteHero() {
  <p
  className={cn(
  marketingHeroLeadClass,
- "w-full text-center lg:text-left",
+ "w-full text-left",
  "max-lg:text-base max-lg:sm:text-lg",
  "md:whitespace-nowrap",
  )}

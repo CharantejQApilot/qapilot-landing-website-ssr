@@ -27,7 +27,7 @@ export function DualDeviceHeroVisual({
  return (
  <div
  className={cn(
- "relative mx-auto w-full select-none",
+ "relative mx-auto hidden w-full select-none lg:block",
  size === "compact" && "max-w-md",
  size === "home" && "max-w-[26rem] sm:max-w-[28rem]",
  size === "default" && "max-w-[34rem] sm:max-w-[38rem] lg:max-w-[40rem]",

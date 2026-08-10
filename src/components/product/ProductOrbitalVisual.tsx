@@ -10,18 +10,18 @@ type ProductOrbitalVisualProps = {
 };
 
 /**
- * Shared agentic orbital diagram: desktop full diagram + mobile simplified strip.
- * Used by ProductHeroSection (centered) and PlatformOverviewHero (right column).
+ * Shared agentic orbital diagram (desktop / large screens only).
+ * Used by ProductHeroSection and PlatformOverviewHero.
  */
 export function ProductOrbitalVisual({
   className,
   desktopContainerClassName,
 }: ProductOrbitalVisualProps) {
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("hidden w-full lg:block", className)}>
       <div
         className={cn(
-          "relative mx-auto hidden h-[700px] w-full max-w-7xl overflow-hidden md:block",
+          "relative mx-auto h-[700px] w-full max-w-7xl overflow-hidden",
           desktopContainerClassName,
         )}
       >
@@ -385,32 +385,6 @@ export function ProductOrbitalVisual({
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="mb-12 block md:hidden">
-        <div className="mb-6 flex items-center justify-center space-x-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-card">
-            <Brain size={16} className="text-primary" />
-          </div>
-          <div className="text-2xl text-primary">→</div>
-          <div className="flex h-16 w-16 items-center justify-center rounded-xl border-2 border-primary bg-card">
-            <svg width="24" height="24" viewBox="0 0 40 40" fill="none" className="text-primary">
-              <circle cx="20" cy="20" r="4" stroke="currentColor" strokeWidth="2" fill="none" />
-              <circle cx="20" cy="20" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
-              <circle cx="20" cy="20" r="12" stroke="currentColor" strokeWidth="2" fill="none" />
-              <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="2" fill="none" />
-              <line x1="20" y1="4" x2="20" y2="36" stroke="currentColor" strokeWidth="2" />
-              <line x1="4" y1="20" x2="36" y2="20" stroke="currentColor" strokeWidth="2" />
-              <line x1="8.6" y1="8.6" x2="31.4" y2="31.4" stroke="currentColor" strokeWidth="2" />
-              <line x1="31.4" y1="8.6" x2="8.6" y2="31.4" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </div>
-          <div className="text-2xl text-primary">→</div>
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-card">
-            <Brain size={16} className="text-primary" />
-          </div>
-        </div>
-        <p className="text-center text-sm text-muted-foreground">AI Agents Working in Harmony</p>
       </div>
     </div>
   );

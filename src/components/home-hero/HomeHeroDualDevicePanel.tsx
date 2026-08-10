@@ -8,6 +8,7 @@ import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 const INDUSTRIES = ["Marketplace", "Messaging", "Field Force"] as const;
+const LG_MIN = "(min-width: 1024px)";
 
 type HomeHeroDualDevicePanelProps = {
   /** When false, industry strip stays hidden (avoids flash before measured place). */
@@ -16,8 +17,8 @@ type HomeHeroDualDevicePanelProps = {
 
 /**
  * Home hero slide 2: Dual Device Testing + product-page phone visual.
- * Industry labels share the same Y band as slide 1 product capsules
- * (midpoint of slide-1 headline → slider), not the dual-device title → lead gap.
+ * Mobile: industries sit in document flow under the copy.
+ * Desktop (lg+): industry labels share the same Y band as slide 1 product capsules.
  */
 export default function HomeHeroDualDevicePanel({
   active = false,
@@ -32,6 +33,11 @@ export default function HomeHeroDualDevicePanel({
     if (!root || !industries) return;
 
     const placeTop = () => {
+      if (!window.matchMedia(LG_MIN).matches) {
+        industries.style.top = "";
+        return true;
+      }
+
       const slider = document.querySelector("[data-hero-slider]");
       // Same band reference as slide 1 capsules (still laid out while opacity:0)
       const bandHeadline = document.querySelector("[data-home-hero-band-headline]");
@@ -63,6 +69,8 @@ export default function HomeHeroDualDevicePanel({
     const bandHeadline = document.querySelector("[data-home-hero-band-headline]");
     if (bandHeadline) ro.observe(bandHeadline);
 
+    const mq = window.matchMedia(LG_MIN);
+    mq.addEventListener("change", rafPlace);
     window.addEventListener("resize", rafPlace);
     window.addEventListener("scroll", rafPlace, { passive: true });
     window.addEventListener("home-hero-layout", rafPlace);
@@ -72,23 +80,27 @@ export default function HomeHeroDualDevicePanel({
 
     return () => {
       ro.disconnect();
+      mq.removeEventListener("change", rafPlace);
       window.removeEventListener("resize", rafPlace);
       window.removeEventListener("scroll", rafPlace);
       window.removeEventListener("home-hero-layout", rafPlace);
     };
   }, [active]);
 
-  const showIndustries = active && ready;
+  const showDesktopIndustries = active && ready;
 
   return (
-    <div ref={rootRef} className="relative h-full w-full min-w-0">
+    <div
+      ref={rootRef}
+      className="relative flex h-full w-full min-w-0 flex-col items-start justify-center gap-5 sm:gap-6 lg:block lg:gap-0"
+    >
       <div
         className={cn(
-          "flex h-full w-full min-w-0 flex-col items-center justify-center gap-8 py-1",
-          "lg:flex-row lg:items-center lg:gap-x-10 xl:gap-x-12",
+          "flex w-full min-w-0 flex-col items-start",
+          "lg:h-full lg:flex-row lg:items-center lg:gap-x-10 xl:gap-x-12",
         )}
       >
-        <div className="flex min-w-0 flex-[0.95] flex-col items-center text-center lg:items-start lg:text-left">
+        <div className="flex min-w-0 flex-col items-start text-left lg:flex-[0.95]">
           <p className="mb-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary sm:mb-3 sm:text-sm">
             Synchronised across two devices
           </p>
@@ -117,7 +129,7 @@ export default function HomeHeroDualDevicePanel({
           </p>
         </div>
 
-        <div className="flex w-full min-w-0 flex-1 items-center justify-center lg:justify-end">
+        <div className="hidden w-full min-w-0 flex-1 items-center justify-end lg:flex">
           <DualDeviceHeroVisual />
         </div>
       </div>
@@ -125,11 +137,12 @@ export default function HomeHeroDualDevicePanel({
       <p
         ref={industriesRef}
         className={cn(
-          "absolute inset-x-0 z-[2] flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm font-medium text-foreground/80 lg:justify-start",
-          !showIndustries && "invisible",
+          "z-[2] flex flex-wrap items-center justify-start gap-x-3 gap-y-1 text-sm font-medium text-foreground/80",
+          "relative shrink-0",
+          "lg:absolute lg:inset-x-0",
+          !showDesktopIndustries && "lg:invisible",
         )}
         aria-label="Industries where dual-device testing matters"
-        aria-hidden={!showIndustries}
       >
         {INDUSTRIES.map((name, i) => (
           <span key={name} className="inline-flex items-center gap-x-3">

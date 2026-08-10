@@ -70,7 +70,7 @@ export default async function TermsPage() {
         </div>
         <div className="section-edge w-full py-12">
           <div className="section-full mx-auto max-w-4xl">
-            <div className="mb-12 text-center">
+            <div className="mb-12 text-left">
               <h1 className={cn(marketingHeroH1Class, "mb-4")}>{title}</h1>
             </div>
 

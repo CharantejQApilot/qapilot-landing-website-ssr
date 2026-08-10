@@ -114,7 +114,7 @@ export default async function QaGuideHubPage() {
       <MarketingPageShell background="soft">
         <main className="w-full px-6 py-16 md:py-24">
           <div className="mx-auto max-w-7xl">
-            <header className="mb-12 text-center md:mb-16">
+            <header className="mb-12 text-left md:mb-16">
               <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">
                 Resources
               </p>
@@ -129,7 +129,7 @@ export default async function QaGuideHubPage() {
 
             <section
               aria-labelledby="qa-guide-intro"
-              className="mx-auto mb-12 max-w-3xl text-center md:mb-16"
+              className="mb-12 max-w-3xl text-left md:mb-16"
             >
               <h2
                 id="qa-guide-intro"

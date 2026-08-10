@@ -68,13 +68,13 @@ export function AutonomousTestingTeamsSection() {
               key={row.from}
               className="group grid grid-cols-1 items-center gap-4 rounded-2xl border border-border/70 bg-background/70 px-5 py-5 backdrop-blur-sm transition-colors hover:border-primary/20 md:grid-cols-[1fr_auto_1fr] md:gap-6 md:px-8 md:py-6"
             >
-              <p className="text-center font-heading text-base font-medium text-muted-foreground md:text-left md:text-lg">
+              <p className="text-left font-heading text-base font-medium text-muted-foreground md:text-lg">
                 {row.from}
               </p>
-              <div className="flex justify-center" aria-hidden>
+              <div className="flex justify-start md:justify-center" aria-hidden>
                 <ArrowRight className="h-5 w-5 text-primary/60 transition-transform group-hover:translate-x-0.5 md:h-6 md:w-6" />
               </div>
-              <p className="text-center font-heading text-base font-semibold text-foreground md:text-right md:text-lg">
+              <p className="text-left font-heading text-base font-semibold text-foreground md:text-right md:text-lg">
                 {row.to}
               </p>
             </div>

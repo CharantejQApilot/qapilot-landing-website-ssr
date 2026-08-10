@@ -76,11 +76,11 @@ export default async function FAQsPage() {
       <MarketingPageShell background="soft">
         <main className="section-edge w-full py-16 md:py-24">
           <div className="section-full w-full">
-            <header className="mb-12 text-center md:mb-14 lg:text-left">
+            <header className="mb-12 text-left md:mb-14">
               <h1
                 className={cn(
                   marketingHeroH1Class,
-                  "mx-auto max-w-4xl leading-[1.08] lg:mx-0",
+                  "max-w-4xl leading-[1.08]",
                 )}
               >
                 <span className="block">Frequently Asked</span>

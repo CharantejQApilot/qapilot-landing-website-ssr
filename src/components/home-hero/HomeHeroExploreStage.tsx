@@ -135,7 +135,7 @@ export default function HomeHeroExploreStage({
   });
 
   return (
-    <div className="flex min-h-0 w-full flex-1 flex-col items-center justify-center gap-3 sm:gap-4 lg:items-stretch">
+    <div className="flex min-h-0 w-full flex-1 flex-col items-stretch justify-center gap-3 sm:gap-4">
       <div
         ref={stageRef}
         className="relative grid w-full min-w-0"
@@ -172,7 +172,7 @@ export default function HomeHeroExploreStage({
         </div>
       </div>
 
-      <div className="flex shrink-0 flex-col items-center gap-2.5 lg:items-start">
+      <div className="flex shrink-0 flex-col items-start gap-2.5">
         {!reducedMotion && autoPlay && timerArmed && (
           <div
             key={panel}
