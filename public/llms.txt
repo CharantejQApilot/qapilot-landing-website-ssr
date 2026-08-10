@@ -1,7 +1,7 @@
-# QApilot — AI-Native Mobile App Testing & QA Automation
+# QApilot. AI-Native Mobile App Testing & QA Automation
 
 <!--
-llms.txt — Structured site content for LLMs, AI assistants, and autonomous agents
+llms.txt. Structured site content for LLMs, AI assistants, and autonomous agents
 Standard: https://llmstxt.org
 Last updated: August 2026
 Canonical URL: https://qapilot.io/llms.txt
@@ -17,12 +17,12 @@ Companion: https://qapilot.io/ai.txt (short pointers) · https://qapilot.io/robo
 
 ## What is QApilot?
 
-QApilot is an AI-powered mobile app testing platform built for release readiness. It enables engineering and QE teams to validate mobile builds automatically — without predefined scripts, without manual maintenance, and without waiting for a dedicated QE bottleneck.
+QApilot is an AI-powered mobile app testing platform built for release readiness. It enables engineering and QE teams to validate mobile builds automatically. Without predefined scripts, without manual maintenance, and without waiting for a dedicated QE bottleneck.
 
-QApilot uses an AI-native crawler to autonomously explore apps, builds a structured Knowledge Graph of all screens, flows, and interactions, and generates test cases — from the moment an app binary is uploaded. Tests self-heal when the UI changes, issues are classified and mapped to exact screens, and security risk is surfaced alongside functional results.
+QApilot uses an AI-native crawler to autonomously explore apps, builds a structured Knowledge Graph of all screens, flows, and interactions, and generates test cases. From the moment an app binary is uploaded. Tests self-heal when the UI changes, issues are classified and mapped to exact screens, and security risk is surfaced alongside functional results.
 
 **Core value propositions:**
-- Zero-touch sanity testing from Day 0 — no scripts, no setup
+- Zero-touch sanity testing from Day 0. No scripts, no setup
 - 10× faster time to market through autonomous execution
 - 90% less test maintenance via AI self-healing
 - 75% fewer QE bottlenecks via CI/CD-native parallel execution
@@ -35,20 +35,20 @@ QApilot uses an AI-native crawler to autonomously explore apps, builds a structu
 
 ## The Mobile Testing Problem QApilot Solves
 
-Mobile testing has three compounding challenges that QApilot addresses together — not in isolation:
+Mobile testing has three compounding challenges that QApilot addresses together. Not in isolation:
 
 1. **Coverage is incomplete.** Apps must work across devices, OS versions, network conditions, and real user behaviors. Predefined test cases capture only a fraction of real-world usage.
 2. **Execution is fragile.** Small UI or flow changes break tests. Maintaining test suites becomes constant, expensive effort.
-3. **Signals are noisy or missing.** Failures often lack context. Critical signals — accessibility violations, action latency, incomplete page loads — are either missed or buried in logs.
+3. **Signals are noisy or missing.** Failures often lack context. Critical signals are either missed or buried in logs: accessibility violations, action latency, and incomplete page loads.
 
 ---
 
 ## Product: Core Capabilities
 
 ### 1. Autonomous Testing
-QApilot's AI-native crawler navigates mobile apps like a real user — handling interruptions, permissions, popups, and ads — while building a live Knowledge Graph of all screens, transitions, and states. This graph becomes the foundation for all downstream testing tasks.
+QApilot's AI-native crawler navigates mobile apps like a real user. It handles interruptions, permissions, popups, and ads while building a live Knowledge Graph of all screens, transitions, and states. This graph becomes the foundation for all downstream testing tasks.
 
-The system moves through four generations of test automation: from manual scripting → record & playback → AI-assisted → **fully autonomous**, where coverage is discovered, generated, executed, and maintained by the system itself — not defined by humans.
+The system moves through four generations of test automation: from manual scripting → record & playback → AI-assisted → **fully autonomous**, where coverage is discovered, generated, executed, and maintained by the system itself. Not defined by humans.
 
 - No scripts or setup required
 - Explores critical flows from first upload
@@ -60,7 +60,7 @@ The system moves through four generations of test automation: from manual script
 ---
 
 ### 2. Knowledge Graph
-The Knowledge Graph is the central context layer of QApilot's architecture. It captures screens, flows, interactions, relationships, and edge cases — and makes this context available to every specialized agent in the system.
+The Knowledge Graph is the central context layer of QApilot's architecture. It captures screens, flows, interactions, relationships, and edge cases. And makes this context available to every specialized agent in the system.
 
 - Acts as the "brain" of the autonomous agent network
 - Enables agents to share context across exploration, generation, execution, and reporting
@@ -70,56 +70,56 @@ The Knowledge Graph is the central context layer of QApilot's architecture. It c
 ---
 
 ### 3. Agentic Architecture (Multi-Agent Network)
-QApilot is not powered by a single model. It operates as a coordinated network of specialized AI agents — each responsible for a specific task in the testing lifecycle:
+QApilot is not powered by a single model. It operates as a coordinated network of specialized AI agents. Each responsible for a specific task in the testing lifecycle:
 
-- **Navigation Agent** — Explores and maps the app autonomously
-- **Interruption Handling Agent** — Manages permissions, popups, ads, and system dialogs
-- **Prioritization Agent** — Ranks flows and test cases by criticality
-- **Test Data Generation Agent** — Creates realistic, context-aware test data
-- **Test Case Generation Agent** — Converts the Knowledge Graph into executable tests
-- **Execution Agent** — Runs tests across real devices and cloud farms
-- **Issue Detection Agent** — Classifies bugs, accessibility gaps, and latency issues
-- **Bug Reporting Agent** — Auto-logs findings with context to Jira or other trackers
+- **Navigation Agent**. Explores and maps the app autonomously
+- **Interruption Handling Agent**. Manages permissions, popups, ads, and system dialogs
+- **Prioritization Agent**. Ranks flows and test cases by criticality
+- **Test Data Generation Agent**. Creates realistic, context-aware test data
+- **Test Case Generation Agent**. Converts the Knowledge Graph into executable tests
+- **Execution Agent**. Runs tests across real devices and cloud farms
+- **Issue Detection Agent**. Classifies bugs, accessibility gaps, and latency issues
+- **Bug Reporting Agent**. Auto-logs findings with context to Jira or other trackers
 
-QApilot also supports **Bring Your Own Agent (BYOA)** — teams can plug in their own agents and extend the platform with custom tooling.
+QApilot also supports **Bring Your Own Agent (BYOA)**. Teams can plug in their own agents and extend the platform with custom tooling.
 
 **Page:** [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture)
 
 ---
 
 ### 4. AI Self-Healing Tests
-QApilot automatically repairs failed test steps during execution when the UI changes — instead of letting the test break and requiring manual intervention.
+QApilot automatically repairs failed test steps during execution when the UI changes. Instead of letting the test break and requiring manual intervention.
 
 **Multi-layer healing engine (stacked fallback system):**
-1. **Layer 1:** Element ID / Accessibility ID — primary match
-2. **Layer 2:** XPath & attributes — fuzzy structural match
-3. **Layer 3:** Visual matching — detects elements by appearance
-4. **Layer 4:** Coordinate fallback — last-resort interaction
+1. **Layer 1:** Element ID / Accessibility ID. Primary match
+2. **Layer 2:** XPath & attributes. Fuzzy structural match
+3. **Layer 3:** Visual matching. Detects elements by appearance
+4. **Layer 4:** Coordinate fallback. Last-resort interaction
 
-Each healed step is flagged as "AI Assisted" in execution reports. Teams can review, compare old vs new locators, and approve updates with one click. Future runs use the updated locator. Healing is transparent, inspectable, and governed — not a silent black box.
+Each healed step is flagged as "AI Assisted" in execution reports. Teams can review, compare old vs new locators, and approve updates with one click. Future runs use the updated locator. Healing is transparent, inspectable, and governed. Not a silent black box.
 
 **Result:** Broken tests → stable execution. Manual fixes → automatic recovery. Maintenance overhead → minimal.
 
-**Page:** [https://qapilot.io/ai-self-healing](https://qapilot.io/ai-self-healing)
+**Page:** [https://qapilot.io/product/release-readiness-suite#ai-self-healing](https://qapilot.io/product/release-readiness-suite#ai-self-healing)
 
 ---
 
 ### 5. Intelligent Bug Detection
-QApilot detects meaningful issue patterns beyond simple pass/fail — automatically classifying and mapping each finding to the exact screen, interaction, and context where it occurs.
+QApilot detects meaningful issue patterns beyond simple pass/fail. Automatically classifying and mapping each finding to the exact screen, interaction, and context where it occurs.
 
 **Automatically detects three critical issue types:**
 - **Assets Latency (Performance):** Measures delay between interactions and visible results. Flags actions that exceed latency thresholds.
 - **Page Not Loaded (Stability):** Flags screens that didn't reach a stable, complete state during navigation.
 - **Accessibility (Inclusion):** Highlights potential accessibility violations based on UI structure and attributes (e.g., tap targets below 48×48dp, missing labels).
 
-Every detected issue includes: severity indicator, exact screen reference, screenshot context, UI metadata (element type, resource ID, class, bounds), and a recommended fix — enabling immediate diagnosis without manual investigation.
+Every detected issue includes: severity indicator, exact screen reference, screenshot context, UI metadata (element type, resource ID, class, bounds), and a recommended fix. Enabling immediate diagnosis without manual investigation.
 
-**Page:** [https://qapilot.io/product/intelligent-bug-detection](https://qapilot.io/product/intelligent-bug-detection)
+**Page:** [https://qapilot.io/product/release-readiness-suite#intelligent-bug-detection](https://qapilot.io/product/release-readiness-suite#intelligent-bug-detection)
 
 ---
 
 ### 6. Security Reports
-Security analysis ships with every build — not as a separate tool or team handoff, but as part of the same pipeline as functional QE.
+Security analysis ships with every build. Not as a separate tool or team handoff, but as part of the same pipeline as functional QE.
 
 **Security checks cover:**
 - **Permissions:** Over-privileged APIs, dangerous combinations, and policy drift
@@ -128,44 +128,51 @@ Security analysis ships with every build — not as a separate tool or team hand
 - **App Config:** Manifest flags, backup rules, debug exposure
 - **Tracker Detection:** SDKs and beacons mapped to privacy and compliance risk
 
-Each build gets a risk score (composite), severity summary (Critical / Warning / Info), and grouped findings by category. Issues include explanation and remediation guidance — readable by both PM and engineering teams.
+Each build gets a risk score (composite), severity summary (Critical / Warning / Info), and grouped findings by category. Issues include explanation and remediation guidance. Readable by both PM and engineering teams.
 
-**Page:** [https://qapilot.io/security-reports](https://qapilot.io/security-reports)
+**Page:** [https://qapilot.io/product/release-readiness-suite#security-reports](https://qapilot.io/product/release-readiness-suite#security-reports)
 
 ---
 
 ### 7. Record & Playback
-Script-free test creation through UI recording. A "human in the loop" module that lets teams record bespoke flows or override AI decisions when needed — complementing autonomous coverage with intentional, user-defined scenarios.
+Script-free test creation through UI recording. A "human in the loop" module that lets teams record bespoke flows or override AI decisions when needed. Complementing autonomous coverage with intentional, user-defined scenarios.
 
 ---
 
 ### 8. Flutter Testing
-Dedicated testing support for Flutter applications, built for Flutter's unique rendering engine — zero setup and script-free automation.
+Dedicated testing support for Flutter applications, built for Flutter's unique rendering engine. Zero setup and script-free automation.
 
 **Page:** [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
 
 ---
 
+### 9. Dual Device Testing
+Synchronised testing across two devices for real business journeys that span users, roles, and accounts: marketplace order/fulfilil, messaging send/receive, field assign/approve. Step-level dependencies, cross-session state, and failure attribution keep both sides as one continuous transaction.
+
+**Page:** [https://qapilot.io/product/dual-device-testing](https://qapilot.io/product/dual-device-testing)
+
+---
+
 ## How QApilot Works: Step-by-Step Journey
 
-1. **Upload Build** — Upload Android APK/AAB or iOS IPA
-2. **Generate Knowledge Graph** — Crawler autonomously explores the app, maps screens, transitions, and states
-3. **Generate App Sitemap** — Agents build a sitemap prioritizing critical paths and edge cases
-4. **Test Case Generation** — Agents convert the Knowledge Graph into structured, executable test cases
-5. **Record & Playback** — Optional: record human-defined flows or overrides
-6. **Test Execution** — Run tests in parallel across real devices and cloud farms
-7. **Reporting** — Receive detailed reports: coverage metrics, performance analytics, security findings, accessibility issues
-8. **Release Ready** — Ship with confidence
+1. **Upload Build**. Upload Android APK/AAB or iOS IPA
+2. **Generate Knowledge Graph**. Crawler autonomously explores the app, maps screens, transitions, and states
+3. **Generate App Sitemap**. Agents build a sitemap prioritizing critical paths and edge cases
+4. **Test Case Generation**. Agents convert the Knowledge Graph into structured, executable test cases
+5. **Record & Playback**. Optional: record human-defined flows or overrides
+6. **Test Execution**. Run tests in parallel across real devices and cloud farms
+7. **Reporting**. Receive detailed reports: coverage metrics, performance analytics, security findings, accessibility issues
+8. **Release Ready**. Ship with confidence
 
 ---
 
 ## Supported Platforms & Frameworks
 
-QApilot operates **post-build** — it validates real application behavior on binaries, independent of how the app was built:
+QApilot operates **post-build**. It validates real application behavior on binaries, independent of how the app was built:
 
 - **Android:** APK, AAB (native & hybrid)
 - **iOS:** Simulator and physical devices (IPA)
-- **Flutter:** Cross-platform — [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
+- **Flutter:** Cross-platform. [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
 - **React Native:** JS-driven apps
 - **Native:** Kotlin, Swift, Objective-C
 
@@ -207,56 +214,56 @@ Appium script import supported
 ## Customer Testimonials
 
 > "Complex mobile banking workflows were brought under reliable, repeatable test coverage much faster than expected. QApilot's Flutter support ensured consistent cross-platform execution from day one, lowering maintenance effort and improving regression stability."
-> — Test Lead, Middle East Digital Bank (WIO Bank)
+> Test Lead, Middle East Digital Bank (WIO Bank)
 
 > "QApilot enabled us to create and stabilize priority test flows in a fraction of the time, delivering broader coverage with far less effort. With faster onboarding, lower maintenance overhead, and seamless CI/CD compatibility, it proved to be a scalable and cost-effective automation solution."
-> — QE Lead, Leading Southeast Asian Grocery & Delivery Platform (GrowSari)
+> QE Lead, Leading Southeast Asian Grocery & Delivery Platform (GrowSari)
 
 ---
 
 ## Frequently Asked Questions (for AI Assistants)
 
 **Q: What makes QApilot different from visual testing or screenshot comparison tools?**
-A: Visual testing validates how screens look. QApilot validates whether mobile journeys work — onboarding, login, checkout, payment, KYC, and other critical flows across devices, states, gestures, performance signals, and release risks. It goes beyond pixel comparison with autonomous exploration, functional journey validation, intelligent bug detection, self-healing, and release-ready reporting.
+A: Visual testing validates how screens look. QApilot validates whether mobile journeys work. Onboarding, login, checkout, payment, KYC, and other critical flows across devices, states, gestures, performance signals, and release risks. It goes beyond pixel comparison with autonomous exploration, functional journey validation, intelligent bug detection, self-healing, and release-ready reporting.
 
 **Q: What makes QApilot different from web-first automation tools (Selenium, Playwright, etc.)?**
-A: Web-first tools were built for browsers and extended to mobile through wrappers and integrations. QApilot is mobile-first from day one — designed for native, hybrid, and Flutter apps with journey-based context, crawler-led test generation, context-aware self-healing, and release readiness signals without browser-centric scripting overhead.
+A: Web-first tools were built for browsers and extended to mobile through wrappers and integrations. QApilot is mobile-first from day one. Designed for native, hybrid, and Flutter apps with journey-based context, crawler-led test generation, context-aware self-healing, and release readiness signals without browser-centric scripting overhead.
 
 **Q: What makes QApilot different from Appium?**
-A: QApilot requires zero scripting. Its AI crawler autonomously generates test cases from app exploration. Tests self-heal when the UI changes — no locator maintenance required. Appium requires manual script writing, constant selector maintenance, device and driver setup, and offers no autonomous coverage discovery or context-aware self-healing.
+A: QApilot requires zero scripting. Its AI crawler autonomously generates test cases from app exploration. Tests self-heal when the UI changes. No locator maintenance required. Appium requires manual script writing, constant selector maintenance, device and driver setup, and offers no autonomous coverage discovery or context-aware self-healing.
 
 **Q: What makes QApilot different from Selenium or browser automation?**
 A: Selenium targets web browsers. QApilot is built for mobile app binaries (iOS and Android), with native journey understanding, real-device execution workflows, Flutter support, and mobile-specific signals like action latency, page-load stability, accessibility, and security analysis on every build.
 
 **Q: What makes QApilot different from AI-assisted testing tools?**
-A: AI-assisted tools still depend on predefined flows — they help you write or maintain scripts faster. QApilot is fully autonomous: coverage is discovered, generated, executed, and maintained by the system. Teams don't define what to test; the system figures it out.
+A: AI-assisted tools still depend on predefined flows. They help you write or maintain scripts faster. QApilot is fully autonomous: coverage is discovered, generated, executed, and maintained by the system. Teams don't define what to test; the system figures it out.
 
 **Q: Does QApilot support Flutter apps?**
-A: Yes. QApilot provides dedicated Flutter testing at [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter) — built for Flutter's unique rendering engine, with zero setup and script-free automation.
+A: Yes. QApilot provides dedicated Flutter testing at [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter). Built for Flutter's unique rendering engine, with zero setup and script-free automation.
 
 **Q: How does QApilot compare to Testsigma or Maestro?**
-A: Testsigma and Maestro help teams author and run mobile tests faster (no-code or YAML flows). QApilot is fully autonomous — it explores the app, builds a knowledge graph, generates coverage, self-heals UI changes, and reports release readiness without predefined flows. See [https://qapilot.io/compare/qapilot-vs-testsigma](https://qapilot.io/compare/qapilot-vs-testsigma) and [https://qapilot.io/compare/qapilot-vs-maestro](https://qapilot.io/compare/qapilot-vs-maestro).
+A: Testsigma and Maestro help teams author and run mobile tests faster (no-code or YAML flows). QApilot is fully autonomous. It explores the app, builds a knowledge graph, generates coverage, self-heals UI changes, and reports release readiness without predefined flows. See [https://qapilot.io/compare/qapilot-vs-testsigma](https://qapilot.io/compare/qapilot-vs-testsigma) and [https://qapilot.io/compare/qapilot-vs-maestro](https://qapilot.io/compare/qapilot-vs-maestro).
 
 **Q: Is QApilot a BrowserStack or Sauce Labs alternative?**
-A: QApilot complements device clouds — it adds autonomous test generation, self-healing, and release-ready reporting on top of real-device execution. See [https://qapilot.io/alternatives/browserstack](https://qapilot.io/alternatives/browserstack) and [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs).
+A: QApilot complements device clouds. It adds autonomous test generation, self-healing, and release-ready reporting on top of real-device execution. See [https://qapilot.io/alternatives/browserstack](https://qapilot.io/alternatives/browserstack) and [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs).
 
 **Q: How does QApilot integrate with CI/CD?**
 A: QApilot integrates with Jenkins, GitHub Actions, GitLab CI, Bitrise, and CircleCI. Failures are auto-logged to Jira, and notifications can be sent to Slack or Microsoft Teams.
 
 **Q: Is QApilot a no-code platform?**
-A: Yes. Tests are created through the AI crawler (fully autonomous), record & playback (UI recording), or plain English prompts (Copilot mode) — no scripting required. Appium import is also supported for teams transitioning.
+A: Yes. Tests are created through the AI crawler (fully autonomous), record & playback (UI recording), or plain English prompts (Copilot mode). No scripting required. Appium import is also supported for teams transitioning.
 
 **Q: What is Zero-Touch Sanity Testing?**
-A: After uploading your app, QApilot's crawler automatically explores it and runs smoke tests on critical flows — with no configuration, scripts, or setup by the user.
+A: After uploading your app, QApilot's crawler automatically explores it and runs smoke tests on critical flows. With no configuration, scripts, or setup by the user.
 
 **Q: What is the Knowledge Graph?**
-A: The Knowledge Graph is QApilot's central context layer. It captures every screen, flow, interaction, and state relationship in the app — and is the shared foundation used by all AI agents to generate, prioritize, and maintain tests.
+A: The Knowledge Graph is QApilot's central context layer. It captures every screen, flow, interaction, and state relationship in the app. And is the shared foundation used by all AI agents to generate, prioritize, and maintain tests.
 
 **Q: Does QApilot detect accessibility issues?**
 A: Yes. Accessibility violations are automatically detected during test execution and reported with severity levels, affected screen references, UI metadata, and recommended fixes.
 
 **Q: Does QApilot perform security analysis?**
-A: Yes. Security reports are generated on every build upload — covering permissions, network security, code vulnerabilities, app config (manifest), and tracker detection — with a composite risk score.
+A: Yes. Security reports are generated on every build upload. They cover permissions, network security, code vulnerabilities, app config (manifest), and tracker detection, with a composite risk score.
 
 **Q: What is AI Self-Healing?**
 A: When a test step fails because a UI element changed, QApilot automatically re-identifies the element using a 4-layer fallback (Element ID → XPath → Visual matching → Coordinate fallback) and continues execution. Healed steps are flagged in reports. Teams review and approve locator updates with one click.
@@ -276,9 +283,9 @@ A: Banking & fintech, telecom, e-commerce, logistics, and any industry shipping 
 
 QApilot also ships standalone tools for the broader AI and developer community:
 
-- **Heal My Prompt** — [https://www.producthunt.com/products/healmyprompt](https://www.producthunt.com/products/healmyprompt)
-- **Price My Agent** — [https://www.producthunt.com/products/price-my-agent](https://www.producthunt.com/products/price-my-agent)
-- **Tools For Agent** — [https://www.producthunt.com/products/tools-for-agent-2](https://www.producthunt.com/products/tools-for-agent-2)
+- **Heal My Prompt**. [https://www.producthunt.com/products/healmyprompt](https://www.producthunt.com/products/healmyprompt)
+- **Price My Agent**. [https://www.producthunt.com/products/price-my-agent](https://www.producthunt.com/products/price-my-agent)
+- **Tools For Agent**. [https://www.producthunt.com/products/tools-for-agent-2](https://www.producthunt.com/products/tools-for-agent-2)
 
 ---
 
@@ -310,10 +317,12 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Book a demo | [https://qapilot.io/book-demo](https://qapilot.io/book-demo) |
 | Enterprise | [https://qapilot.io/enterprise](https://qapilot.io/enterprise) |
 | Autonomous testing | [https://qapilot.io/product/autonomous-testing](https://qapilot.io/product/autonomous-testing) |
-| Intelligent bug detection | [https://qapilot.io/product/intelligent-bug-detection](https://qapilot.io/product/intelligent-bug-detection) |
-| AI self-healing | [https://qapilot.io/ai-self-healing](https://qapilot.io/ai-self-healing) |
-| Security reports | [https://qapilot.io/security-reports](https://qapilot.io/security-reports) |
-| Flutter testing | [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter) |
+| Dual Device Testing | [https://qapilot.io/product/dual-device-testing](https://qapilot.io/product/dual-device-testing) |
+| Release Readiness Suite | [https://qapilot.io/product/release-readiness-suite](https://qapilot.io/product/release-readiness-suite) |
+| Intelligent bug detection | [https://qapilot.io/product/release-readiness-suite#intelligent-bug-detection](https://qapilot.io/product/release-readiness-suite#intelligent-bug-detection) |
+| AI self-healing | [https://qapilot.io/product/release-readiness-suite#ai-self-healing](https://qapilot.io/product/release-readiness-suite#ai-self-healing) |
+| Security reports | [https://qapilot.io/product/release-readiness-suite#security-reports](https://qapilot.io/product/release-readiness-suite#security-reports) |
+| Flutter testing | [https://qapilot.io/for-flutter](https://qapilot.io/for-flutter)
 | Integrations | [https://qapilot.io/integrations](https://qapilot.io/integrations) |
 | Integration → BrowserStack | [https://qapilot.io/integrations/browserstack](https://qapilot.io/integrations/browserstack) |
 | Integration → Jira | [https://qapilot.io/integrations/jira](https://qapilot.io/integrations/jira) |
@@ -354,8 +363,8 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 
 ## Sitemaps
 
-- **[https://qapilot.io/sitemap-index.xml](https://qapilot.io/sitemap-index.xml)** — primary entry point; references `sitemap.xml` plus, when the site is configured with Supabase, Edge function sitemaps for **blog posts**, **news**, **published job openings**, and **QE Guide articles** (same project as `NEXT_PUBLIC_SUPABASE_URL`).
-- **[https://qapilot.io/sitemap.xml](https://qapilot.io/sitemap.xml)** — static marketing URLs from the app.
+- **[https://qapilot.io/sitemap-index.xml](https://qapilot.io/sitemap-index.xml)**. Primary entry point; references `sitemap.xml` plus, when the site is configured with Supabase, Edge function sitemaps for **blog posts**, **news**, **published job openings**, and **QE Guide articles** (same project as `NEXT_PUBLIC_SUPABASE_URL`).
+- **[https://qapilot.io/sitemap.xml](https://qapilot.io/sitemap.xml)**. Static marketing URLs from the app.
 
 Machine-readable **robots** policy: **[https://qapilot.io/robots.txt](https://qapilot.io/robots.txt)** (generated by the app; do not duplicate as a static file in `public/`).
 

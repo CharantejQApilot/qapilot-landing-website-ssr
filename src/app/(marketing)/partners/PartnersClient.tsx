@@ -17,8 +17,14 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
-import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingBackground,
+  MarketingSectionHeader,
+} from "@/components/marketing";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { HUBSPOT_PARTNERS_FORM_ID } from "@/lib/constants";
 import {
   marketingHeroH1Class,
@@ -175,7 +181,12 @@ const PartnersClient = () => {
         aria-label="Partners hero"
         aria-labelledby="partners-hero-title"
       >
-        <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple={false} progressiveBlur={false} />
+        <MarketingBackground
+          variant="hero"
+          showDiagonalGrid={false}
+          showPixelRipple={false}
+          progressiveBlur={false}
+        />
         <div className="relative z-10 section-full py-14 sm:py-16 md:py-20 lg:py-24 2xl:py-28">
           <div className="flex max-w-5xl flex-col items-center text-center lg:items-start lg:text-left">
             <h1
@@ -192,11 +203,12 @@ const PartnersClient = () => {
             <p
               className={cn(
                 marketingHeroLeadClass,
-                "mx-auto mb-10 max-w-3xl text-balance text-muted-foreground sm:mb-11 lg:mx-0",
+                "mx-auto mb-10 sm:mb-11 lg:mx-0",
               )}
             >
-              Help customers move from brittle mobile automation to AI-native release readiness. QApilot gives
-              partners a mobile-first platform to land faster, expand wider, and bring agentic AI into every QA
+              Help customers move from brittle mobile automation to AI-native
+              release readiness. QApilot gives partners a mobile-first platform
+              to land faster, expand wider, and bring agentic AI into every QA
               conversation.
             </p>
             <Button
@@ -239,12 +251,18 @@ const PartnersClient = () => {
                 </span>
                 <div className="relative pr-10">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
-                    <step.Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+                    <step.Icon
+                      className="h-5 w-5"
+                      strokeWidth={1.5}
+                      aria-hidden
+                    />
                   </span>
                   <h3 className="mt-4 font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {step.body}
+                  </p>
                 </div>
               </MarketingLedgerCell>
             ))}
@@ -261,7 +279,8 @@ const PartnersClient = () => {
             id="partners-logos-heading"
             title={
               <>
-                Partners Building <span className="text-primary">With QApilot</span>
+                Partners Building{" "}
+                <span className="text-primary">With QApilot</span>
               </>
             }
             description="Consulting, QA, and digital engineering partners bringing AI-native mobile testing to enterprise customers."
@@ -279,7 +298,6 @@ const PartnersClient = () => {
             ))}
           </ul>
 
-
           <div className="mt-12 border-t border-border/40 pt-10 md:mt-14 md:pt-12">
             <h2 id="why-partners-heading" className="sr-only">
               Why partners choose QApilot
@@ -290,8 +308,12 @@ const PartnersClient = () => {
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
                     <Icon className="h-5 w-5" strokeWidth={1.4} aria-hidden />
                   </span>
-                  <h3 className="mt-4 font-heading text-lg font-semibold tracking-tight text-foreground">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{body}</p>
+                  <h3 className="mt-4 font-heading text-lg font-semibold tracking-tight text-foreground">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {body}
+                  </p>
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
@@ -308,7 +330,8 @@ const PartnersClient = () => {
             id="partner-types-heading"
             title={
               <>
-                Built for Different <span className="text-primary">Partner Motions</span>
+                Built for Different{" "}
+                <span className="text-primary">Partner Motions</span>
               </>
             }
             description="Whether you lead transformation, own QA delivery, or advise enterprises on AI adoption, QApilot gives you a mobile-first platform to turn agentic testing into customer outcomes."
@@ -324,7 +347,9 @@ const PartnersClient = () => {
                 <h3 className="mt-4 font-heading text-base font-semibold leading-snug text-foreground md:text-lg">
                   {title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {body}
+                </p>
               </MarketingLedgerCell>
             ))}
           </MarketingLedger>
@@ -340,7 +365,8 @@ const PartnersClient = () => {
             id="revenue-heading"
             title={
               <>
-                Turn Customer QA Pain Into <span className="text-primary">Partner Revenue</span>
+                Turn Customer QA Pain Into{" "}
+                <span className="text-primary">Partner Revenue</span>
               </>
             }
             marginBottomClassName="mb-8 md:mb-10"
@@ -349,8 +375,14 @@ const PartnersClient = () => {
           <MarketingLedger cols={2} aria-label="Partner revenue motions">
             {revenueCards.map(({ title, body, Icon }) => (
               <MarketingLedgerCell key={title} as="div">
-                <Icon className="h-5 w-5 text-primary" strokeWidth={1.4} aria-hidden />
-                <h3 className="mt-3 font-heading text-base font-semibold text-foreground">{title}</h3>
+                <Icon
+                  className="h-5 w-5 text-primary"
+                  strokeWidth={1.4}
+                  aria-hidden
+                />
+                <h3 className="mt-3 font-heading text-base font-semibold text-foreground">
+                  {title}
+                </h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">{body}</p>
               </MarketingLedgerCell>
             ))}
@@ -367,7 +399,8 @@ const PartnersClient = () => {
             id="portfolio-heading"
             title={
               <>
-                Where QApilot Fits Into Your <span className="text-primary">Services Portfolio</span>
+                Where QApilot Fits Into Your{" "}
+                <span className="text-primary">Services Portfolio</span>
               </>
             }
             marginBottomClassName="mb-8 md:mb-10"
@@ -392,11 +425,21 @@ const PartnersClient = () => {
       >
         <div className="section-full">
           <div className="sig-close">
-            <h2 id="final-cta-heading" className={cn(marketingSectionH2Class, "text-foreground")}>
-              Build Your Agentic Mobile QA Practice <span className="text-primary">With QApilot</span>
+            <h2
+              id="final-cta-heading"
+              className={cn(marketingSectionH2Class, "text-foreground")}
+            >
+              Build Your Agentic Mobile QA Practice{" "}
+              <span className="text-primary">With QApilot</span>
             </h2>
-            <p className={cn(marketingSectionIntroClass, "mx-auto mt-4 max-w-xl text-pretty")}>
-              Land with mobile testing. Expand into QA modernization, AI services, and release readiness.
+            <p
+              className={cn(
+                marketingSectionIntroClass,
+                "mx-auto mt-4 max-w-xl text-pretty",
+              )}
+            >
+              Land with mobile testing. Expand into QA modernization, AI
+              services, and release readiness.
             </p>
             <div className="sig-cta-row">
               <Button

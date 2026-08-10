@@ -1,24 +1,22 @@
 "use client";
 
 import { useRef, useEffect, useId } from "react";
-import Image from "next/image";
+import { AbstractFrameBackdrop } from "@/components/marketing/AbstractFrameBackdrop";
 import { useNearViewport } from "@/hooks/use-near-viewport";
 import { cn } from "@/lib/utils";
 
 type ScenicYoutubeVideoProps = {
   videoId: string;
-  scenicUrl: string;
   ariaLabel: string;
   className?: string;
 };
 
 /**
- * Muted autoplay YouTube embed with scenic Ken Burns backdrop, scale crop for pillarboxing,
- * and transparent shield. Player + iframe API mount only when near viewport (poster scenic first).
+ * Muted autoplay YouTube embed with abstract CSS backdrop, scale crop for pillarboxing,
+ * and transparent shield. Player + iframe API mount only when near viewport.
  */
 export function ScenicYoutubeVideo({
   videoId,
-  scenicUrl,
   ariaLabel,
   className,
 }: ScenicYoutubeVideoProps) {
@@ -153,26 +151,14 @@ export function ScenicYoutubeVideo({
       )}
       aria-label={ariaLabel}
     >
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-background" aria-hidden>
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-[-10%] motion-safe:animate-scenic-ken-burns">
-            <Image
-              src={scenicUrl}
-              alt=""
-              fill
-              className="object-cover object-center"
-              sizes="(min-width: 1280px) 1200px, 100vw"
-            />
-          </div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/10 via-transparent to-background/10" />
-        <div className="absolute inset-0 bg-primary/[0.02]" />
-      </div>
+      <AbstractFrameBackdrop animate />
 
       <div className="relative z-[2] px-[6%] py-[6.5%] sm:px-[7%] sm:py-[7%] md:px-[8%] md:py-[7.5%]">
         <div className="relative w-full overflow-hidden rounded-xl border border-white/20 bg-black shadow-[inset_0_0_0_1px_hsl(0_0%_100%/0.06)] outline outline-1 outline-white/25 [outline-offset:0]">
-          <div className="relative w-full overflow-hidden" style={{ paddingBottom: "56.25%" }}>
+          <div
+            className="relative w-full overflow-hidden"
+            style={{ paddingBottom: "56.25%" }}
+          >
             <div
               className="absolute inset-0 h-full w-full"
               style={{
@@ -181,7 +167,11 @@ export function ScenicYoutubeVideo({
               }}
             >
               {isNear ? (
-                <div ref={playerRef} id={playerIdRef.current} className="h-full w-full" />
+                <div
+                  ref={playerRef}
+                  id={playerIdRef.current}
+                  className="h-full w-full"
+                />
               ) : null}
             </div>
             <div className="absolute inset-0" style={{ zIndex: 10 }} />

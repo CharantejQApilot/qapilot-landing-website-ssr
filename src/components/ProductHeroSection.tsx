@@ -2,9 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
-import Link from "next/link";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
-import { PATHS } from "@/lib/routes";
+import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const ProductHeroSection = () => {
@@ -40,10 +39,14 @@ const ProductHeroSection = () => {
                     asChild
                     className="relative overflow-hidden rounded-full bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-glow"
                   >
-                    <Link href={PATHS.BOOK_DEMO}>
+                    <a
+                      href={BOOK_DEMO_CALENDAR_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <span className="relative z-10">Book a Demo</span>
                       <div className="absolute inset-0 -translate-x-full skew-x-12 transform bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shine_2s_ease-in-out_infinite]" />
-                    </Link>
+                    </a>
                   </Button>
                 </div>
               </div>

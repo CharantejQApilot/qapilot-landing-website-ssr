@@ -9,7 +9,8 @@ const BRAND_CONTEXT_PATHS = [
   "/",
   "/product",
   "/product/autonomous-testing",
-  "/product/intelligent-bug-detection",
+  "/product/dual-device-testing",
+  "/product/release-readiness-suite",
   "/for-flutter",
 ] as const;
 
@@ -35,7 +36,10 @@ export type QapilotSiteContext = {
 function stripHtmlToText(html: string, maxLen: number): string {
   let cleaned = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
   cleaned = cleaned.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "");
-  const text = cleaned.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const text = cleaned
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   return text.slice(0, maxLen);
 }
 
@@ -55,7 +59,9 @@ function isInternalCandidate(url: string): boolean {
     const parsed = new URL(url);
     if (!parsed.hostname.endsWith("qapilot.io")) return false;
     const path = parsed.pathname;
-    return INTERNAL_PATH_PREFIXES.some((p) => path.startsWith(p) || path === p.slice(0, -1));
+    return INTERNAL_PATH_PREFIXES.some(
+      (p) => path.startsWith(p) || path === p.slice(0, -1),
+    );
   } catch {
     return false;
   }
@@ -114,8 +120,8 @@ export async function fetchQapilotSiteContext(
     out.warnings.push("homepage fetch failed");
   }
 
-  const brandFetches = BRAND_CONTEXT_PATHS.filter((p) => p !== "/").map((path) =>
-    fetchPageExcerpt(path, MAX_BRAND_PAGE_CHARS),
+  const brandFetches = BRAND_CONTEXT_PATHS.filter((p) => p !== "/").map(
+    (path) => fetchPageExcerpt(path, MAX_BRAND_PAGE_CHARS),
   );
   const brandResults = await Promise.all(brandFetches);
   for (const page of brandResults) {
@@ -130,7 +136,8 @@ export async function fetchQapilotSiteContext(
     }
   }
 
-  const childUrls = sitemapUrls.length > 0 ? sitemapUrls : [`${SITE_BASE_URL}/sitemap.xml`];
+  const childUrls =
+    sitemapUrls.length > 0 ? sitemapUrls : [`${SITE_BASE_URL}/sitemap.xml`];
   const seen = new Set<string>();
 
   for (const sitemapUrl of childUrls) {
@@ -208,9 +215,6 @@ export function normalizeLinkPath(url: string): string {
 export function formatBrandPagesForPrompt(pages: BrandPageExcerpt[]): string {
   if (pages.length === 0) return "(no additional product pages fetched)";
   return pages
-    .map(
-      (p, i) =>
-        `### Page ${i + 1}: ${p.url}\n${p.text}`,
-    )
+    .map((p, i) => `### Page ${i + 1}: ${p.url}\n${p.text}`)
     .join("\n\n");
 }

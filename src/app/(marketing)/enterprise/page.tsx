@@ -14,7 +14,9 @@ import { MarketingPageShell } from "@/components/marketing";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.ENTERPRISE}`;
 
-const PAGE_TITLE = formatPageTitle("Enterprise Mobile Testing — Scale QA Automation");
+const PAGE_TITLE = formatPageTitle(
+  "Enterprise Mobile Testing. Scale QA Automation",
+);
 const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 
 export const metadata: Metadata = {
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
     url: canonicalUrl,
     title: PAGE_TITLE_TEXT,
     description:
-      "Scale mobile QA with AI-powered testing for iOS and Android—built for enterprise teams.",
+      "Scale mobile QA with AI-powered testing for iOS and Android. Built for enterprise teams.",
     siteName: "QApilot",
     locale: "en_US",
     images: [defaultOpenGraphImage],
@@ -37,7 +39,9 @@ export const metadata: Metadata = {
     title: "Enterprise Mobile Testing Solutions | QApilot",
     description:
       "Enterprise-grade mobile testing automation for iOS and Android at scale.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+    images: [
+      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+    ],
   },
 };
 

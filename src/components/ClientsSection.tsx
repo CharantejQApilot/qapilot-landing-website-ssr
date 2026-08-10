@@ -1,12 +1,16 @@
 import type { ReactNode } from "react";
 import { QA_PILOT_PUBLIC_TESTIMONIALS } from "@/lib/qapilot-testimonials";
+import { cn } from "@/lib/utils";
 
 function escapeRegExp(s: string) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /** Split quote into plain / highlighted runs; longer phrases first so shorter substrings don’t steal matches. */
-function testimonialParts(text: string, highlightPhrases: readonly string[]): ReactNode[] {
+function testimonialParts(
+  text: string,
+  highlightPhrases: readonly string[],
+): ReactNode[] {
   const sorted = [...highlightPhrases].sort((a, b) => b.length - a.length);
   if (sorted.length === 0) return [text];
   const re = new RegExp(`(${sorted.map(escapeRegExp).join("|")})`, "gi");
@@ -25,13 +29,13 @@ function testimonialParts(text: string, highlightPhrases: readonly string[]): Re
   });
 }
 
-const testimonials = QA_PILOT_PUBLIC_TESTIMONIALS;
-const [primary, secondary] = testimonials;
-
-/** S09 proof split — existing testimonials, quote | secondary with hairline. */
+/** Equal-weight dual testimonials. Same type scale and column share. */
 const ClientsSection = () => {
   return (
-    <section className="relative z-10 overflow-hidden section-edge" aria-label="Client testimonials">
+    <section
+      className="relative z-10 overflow-hidden section-edge"
+      aria-label="Client testimonials"
+    >
       <div className="section-testimonials relative overflow-hidden py-16 2xl:py-20">
         <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-90" />
         <div className="section-full relative z-10">
@@ -40,44 +44,32 @@ const ClientsSection = () => {
           </p>
           <h3 className="sr-only">Client Testimonials</h3>
 
-          <div className="sig-proof border-t border-border pt-8 md:pt-10">
-            <figure
-              className="sig-proof__quote"
-              itemScope
-              itemType="https://schema.org/Review"
-            >
-              <meta itemProp="itemReviewed" content="QApilot" />
-              <blockquote itemProp="reviewBody">
-                <p className="font-heading text-lg leading-relaxed tracking-tight text-foreground md:text-xl 2xl:text-2xl">
-                  {testimonialParts(primary.text, primary.highlightPhrases)}
-                </p>
-              </blockquote>
-              <footer className="mt-6">
-                <cite className="not-italic text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  {primary.label}
-                </cite>
-              </footer>
-            </figure>
-
-            {secondary ? (
+          <div className="grid grid-cols-1 border-t border-border pt-8 md:grid-cols-2 md:pt-10">
+            {QA_PILOT_PUBLIC_TESTIMONIALS.map((item, index) => (
               <figure
-                className="sig-proof__outcomes"
+                key={item.label}
+                className={cn(
+                  "flex flex-col",
+                  index === 0
+                    ? "border-b border-border pb-8 md:border-b-0 md:border-r md:pb-0 md:pr-8 lg:pr-10"
+                    : "pt-8 md:pt-0 md:pl-8 lg:pl-10",
+                )}
                 itemScope
                 itemType="https://schema.org/Review"
               >
                 <meta itemProp="itemReviewed" content="QApilot" />
-                <blockquote itemProp="reviewBody">
-                  <p className="font-heading text-base leading-relaxed tracking-tight text-foreground md:text-lg">
-                    {testimonialParts(secondary.text, secondary.highlightPhrases)}
+                <blockquote itemProp="reviewBody" className="flex-1">
+                  <p className="font-heading text-lg leading-relaxed tracking-tight text-foreground md:text-xl 2xl:text-2xl">
+                    {testimonialParts(item.text, item.highlightPhrases)}
                   </p>
                 </blockquote>
                 <footer className="mt-6">
                   <cite className="not-italic text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    {secondary.label}
+                    {item.label}
                   </cite>
                 </footer>
               </figure>
-            ) : null}
+            ))}
           </div>
         </div>
       </div>

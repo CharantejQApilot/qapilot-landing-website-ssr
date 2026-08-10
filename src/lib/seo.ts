@@ -6,13 +6,19 @@ import { formatPageTitle, formatPageTitleString } from "@/lib/page-title";
 export const META_DESCRIPTION_MAX_LEN = 160;
 
 /** Trim description at a word boundary for SERP-safe length. */
-export function formatMetaDescription(raw: string, maxLen = META_DESCRIPTION_MAX_LEN): string {
+export function formatMetaDescription(
+  raw: string,
+  maxLen = META_DESCRIPTION_MAX_LEN,
+): string {
   const text = raw.replace(/\s+/g, " ").trim();
   if (text.length <= maxLen) return text;
   const slice = text.slice(0, maxLen);
   const lastSpace = slice.lastIndexOf(" ");
   const cut = lastSpace > maxLen * 0.6 ? lastSpace : maxLen;
-  return slice.slice(0, cut).replace(/[\s,.;:\-—–]+$/, "").trimEnd();
+  return slice
+    .slice(0, cut)
+    .replace(/[\s,.;:\-–]+$/, "")
+    .trimEnd();
 }
 
 /** Organization / schema.org logo (not used for og:image or header wordmark). */
@@ -69,12 +75,16 @@ export function buildOpenGraphImageMeta(
   return {
     url: absoluteUrl,
     alt,
-    width: isDefaultShare ? DEFAULT_SHARE_IMAGE_WIDTH : DEFAULT_CMS_OG_IMAGE_WIDTH,
-    height: isDefaultShare ? DEFAULT_SHARE_IMAGE_HEIGHT : DEFAULT_CMS_OG_IMAGE_HEIGHT,
+    width: isDefaultShare
+      ? DEFAULT_SHARE_IMAGE_WIDTH
+      : DEFAULT_CMS_OG_IMAGE_WIDTH,
+    height: isDefaultShare
+      ? DEFAULT_SHARE_IMAGE_HEIGHT
+      : DEFAULT_CMS_OG_IMAGE_HEIGHT,
   };
 }
 
-/** Partner & integration marquee logos — blocked for Googlebot-Image in robots.txt */
+/** Partner & integration marquee logos. Blocked for Googlebot-Image in robots.txt */
 export const PARTNER_LOGOS_PATH_PREFIX = "/partner-logos-noindex/";
 
 type StaticPageMetadataInput = {
@@ -98,7 +108,9 @@ export function buildStaticPageMetadata({
   const displayTitle = formatPageTitleString(title);
   const metaDescription = formatMetaDescription(description);
   const ogDesc = formatMetaDescription(ogDescription ?? description);
-  const twitterDesc = formatMetaDescription(twitterDescription ?? ogDescription ?? description);
+  const twitterDesc = formatMetaDescription(
+    twitterDescription ?? ogDescription ?? description,
+  );
 
   return {
     title: formatPageTitle(title),
@@ -117,7 +129,9 @@ export function buildStaticPageMetadata({
       card: "summary_large_image",
       title: displayTitle,
       description: twitterDesc,
-      images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+      images: [
+        { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
+      ],
     },
   };
 }

@@ -56,9 +56,14 @@ export const PATHS = {
   /** Platform → By Solution (linked from home + nav) */
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
   COWORK: "/product/cowork",
-  INTELLIGENT_BUG_DETECTION: "/product/intelligent-bug-detection",
-  SECURITY_REPORTS: "/security-reports",
-  AI_SELF_HEALING: "/ai-self-healing",
+  DUAL_DEVICE_TESTING: "/product/dual-device-testing",
+  RELEASE_READINESS_SUITE: "/product/release-readiness-suite",
+  /** Deep links into Release Readiness Suite pillars (legacy page names). */
+  INTELLIGENT_BUG_DETECTION:
+    "/product/release-readiness-suite#intelligent-bug-detection",
+  SECURITY_REPORTS: "/product/release-readiness-suite#security-reports",
+  AI_SELF_HEALING: "/product/release-readiness-suite#ai-self-healing",
+  DEVICE_METRICS: "/product/release-readiness-suite#device-metrics",
 } as const;
 
 /** On-screen label; path stays `PATHS.QA_GUIDE` (`/qa-guide`) for indexed URLs. */
@@ -67,27 +72,58 @@ export const QE_GUIDE_DISPLAY_NAME = "QE Guide";
 /** Platform dropdown: By Solution (with icon names for Lucide) */
 export const PLATFORM_BY_SOLUTION = [
   { path: PATHS.OVERVIEW, label: "Overview", icon: "LayoutDashboard" },
-  { path: PATHS.AUTONOMOUS_TESTING, label: "Autonomous Testing", icon: "Sparkles" },
+  {
+    path: PATHS.AUTONOMOUS_TESTING,
+    label: "Autonomous Testing",
+    icon: "Sparkles",
+  },
   { path: PATHS.COWORK, label: "CoWork", icon: "PenLine" },
-  { path: PATHS.INTELLIGENT_BUG_DETECTION, label: "Intelligent Bug Detection", icon: "Bug" },
   { path: PATHS.FOR_FLUTTER, label: "Flutter Testing", icon: "Smartphone" },
-  { path: PATHS.SECURITY_REPORTS, label: "Security Reports", icon: "ShieldCheck" },
-  { path: PATHS.AI_SELF_HEALING, label: "AI Self Healing", icon: "RefreshCw" },
+  {
+    path: PATHS.DUAL_DEVICE_TESTING,
+    label: "Dual Device Testing",
+    icon: "ArrowLeftRight",
+  },
+  {
+    path: PATHS.RELEASE_READINESS_SUITE,
+    label: "Release Readiness Suite",
+    icon: "ShieldCheck",
+  },
 ] as const;
 
 /** Platform dropdown: By Role (order matches nav) */
 export const PLATFORM_BY_ROLE = [
   { path: PATHS.FOR_QA_LEADER, label: "QE Leader", icon: "Users" },
-  { path: PATHS.FOR_RELEASE_MANAGER, label: "Release Manager", icon: "Package" },
-  { path: PATHS.FOR_QA_ENGINEER, label: "Quality Assurance Engineer", icon: "TestTube2" },
-  { path: PATHS.FOR_PRODUCT_OWNER, label: "Product Manager", icon: "ClipboardList" },
+  {
+    path: PATHS.FOR_RELEASE_MANAGER,
+    label: "Release Manager",
+    icon: "Package",
+  },
+  {
+    path: PATHS.FOR_QA_ENGINEER,
+    label: "Quality Assurance Engineer",
+    icon: "TestTube2",
+  },
+  {
+    path: PATHS.FOR_PRODUCT_OWNER,
+    label: "Product Manager",
+    icon: "ClipboardList",
+  },
   { path: PATHS.FOR_SRE, label: "Site Reliability Engineer", icon: "Server" },
 ] as const;
 
 /** Platform dropdown: AI Agents */
 export const PLATFORM_AI_AGENTS = [
-  { path: PATHS.AGENTIC_ARCHITECTURE, label: "QApilot's Agentic Architecture", icon: "Workflow" },
-  { path: PATHS.BRING_YOUR_OWN_AGENT, label: "Bring Your Own Agent (BYOA)", icon: "Bot" },
+  {
+    path: PATHS.AGENTIC_ARCHITECTURE,
+    label: "QApilot's Agentic Architecture",
+    icon: "Workflow",
+  },
+  {
+    path: PATHS.BRING_YOUR_OWN_AGENT,
+    label: "Bring Your Own Agent (BYOA)",
+    icon: "Bot",
+  },
 ] as const;
 
 /** Resources dropdown (header: Blogs, Labs, FAQs) */

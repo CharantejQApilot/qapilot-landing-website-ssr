@@ -8,11 +8,11 @@ export function AutonomousTestingHero() {
       title={
         <>
           <span className="text-primary">Autonomous</span> Testing for
-          <br className="hidden lg:block" aria-hidden="true" />{" "}
-          Mobile Applications
+          <br className="hidden lg:block" aria-hidden="true" /> Mobile
+          Applications
         </>
       }
-      lead="QApilot moves testing beyond scripts, record-and-playback, and AI assistance. It explores your app, builds coverage across real user journeys, and continuously adapts as the app evolves — creating a faster path to release readiness."
+      lead="QApilot moves testing beyond scripts, record-and-playback, and AI assistance. It explores your app, builds coverage across real user journeys, and continuously adapts as the app evolves. Creating a faster path to release readiness."
       cta={<BookDemoCtaButton />}
     />
   );

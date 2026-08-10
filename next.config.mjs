@@ -1,9 +1,6 @@
 import {
   buildAiSelfHealingReportLinkHeader,
-  buildAutonomousWalkthroughLinkHeader,
   buildCoreAdvantageLinkHeader,
-  buildFlutterTestingVideoLinkHeader,
-  buildIntelligentBugIssueDetailLinkHeader,
   buildSecurityReportDeepDiveLinkHeader,
 } from "./src/lib/core-advantage-scenic-urls.mjs";
 import { buildAgentDiscoveryLinkHeader } from "./src/lib/agent-discovery-link-header.mjs";
@@ -41,9 +38,6 @@ if (supabaseUrl) {
 }
 
 const coreAdvantageLink = buildCoreAdvantageLinkHeader();
-const autonomousWalkthroughLink = buildAutonomousWalkthroughLinkHeader();
-const intelligentBugIssueDetailLink = buildIntelligentBugIssueDetailLinkHeader();
-const flutterTestingVideoLink = buildFlutterTestingVideoLinkHeader();
 const securityReportDeepDiveLink = buildSecurityReportDeepDiveLinkHeader();
 const aiSelfHealingReportLink = buildAiSelfHealingReportLinkHeader();
 const agentDiscoveryLink = buildAgentDiscoveryLinkHeader();
@@ -92,12 +86,32 @@ const nextConfig = {
       },
       {
         source: "/platform/ai-self-healing",
-        destination: "/ai-self-healing",
+        destination: "/product/release-readiness-suite",
         permanent: true,
       },
       {
         source: "/platform/intelligent-bug-detection",
-        destination: "/product/intelligent-bug-detection",
+        destination: "/product/release-readiness-suite",
+        permanent: true,
+      },
+      {
+        source: "/platform/security-reports",
+        destination: "/product/release-readiness-suite",
+        permanent: true,
+      },
+      {
+        source: "/product/intelligent-bug-detection",
+        destination: "/product/release-readiness-suite",
+        permanent: true,
+      },
+      {
+        source: "/security-reports",
+        destination: "/product/release-readiness-suite",
+        permanent: true,
+      },
+      {
+        source: "/ai-self-healing",
+        destination: "/product/release-readiness-suite",
         permanent: true,
       },
       {
@@ -124,9 +138,8 @@ const nextConfig = {
   },
   async headers() {
     /**
-     * `/` do not bundle Core Advantage image `preload` hints here: those pull many large
-     * scenic URLs immediately and hurt mobile LCP/INP. Agent discovery (RFC 8288) stays.
-     * Core Advantage preloads remain on `/product` where that block is primary.
+     * Preload product screenshots only. Scenic photo backdrops were removed (CSS patterns).
+     * Agent discovery (RFC 8288) stays on `/`.
      */
     return [
       {
@@ -143,24 +156,15 @@ const nextConfig = {
         headers: [{ key: "Link", value: coreAdvantageLink }],
       },
       {
-        source: "/product/autonomous-testing",
-        headers: [{ key: "Link", value: autonomousWalkthroughLink }],
-      },
-      {
-        source: "/product/intelligent-bug-detection",
-        headers: [{ key: "Link", value: intelligentBugIssueDetailLink }],
-      },
-      {
-        source: "/for-flutter",
-        headers: [{ key: "Link", value: flutterTestingVideoLink }],
-      },
-      {
-        source: "/security-reports",
-        headers: [{ key: "Link", value: securityReportDeepDiveLink }],
-      },
-      {
-        source: "/ai-self-healing",
-        headers: [{ key: "Link", value: aiSelfHealingReportLink }],
+        source: "/product/release-readiness-suite",
+        headers: [
+          {
+            key: "Link",
+            value: [securityReportDeepDiveLink, aiSelfHealingReportLink].join(
+              ", ",
+            ),
+          },
+        ],
       },
       {
         source: "/device-coverage/:path*",

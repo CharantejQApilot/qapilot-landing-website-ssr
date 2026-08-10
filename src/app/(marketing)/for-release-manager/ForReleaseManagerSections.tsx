@@ -7,7 +7,10 @@ import {
   RefreshCw,
   Users,
 } from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -17,7 +20,10 @@ const CHALLENGE_ITEMS: { title: string; icon: LucideIcon }[] = [
   { title: "Last-minute test delays", icon: Clock },
   { title: "Inconsistent regression cycles", icon: RefreshCw },
   { title: "Poor visibility into real release risk", icon: Eye },
-  { title: "Fragmented signals across QA, product, and engineering", icon: Users },
+  {
+    title: "Fragmented signals across QA, product, and engineering",
+    icon: Users,
+  },
   { title: "Production issues discovered after launch", icon: AlertTriangle },
 ];
 
@@ -80,16 +86,25 @@ export function ForReleaseManagerSections() {
             eyebrow="The challenge"
             title={
               <>
-                The Challenge Facing <span className="text-primary">Release Managers</span>
+                The Challenge Facing{" "}
+                <span className="text-primary">Release Managers</span>
               </>
             }
             description={
-              <p>Every release carries pressure to move fast without breaking user experience.</p>
+              <p>
+                Every release carries pressure to move fast without breaking
+                user experience.
+              </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
 
-          <p className={cn(marketingSectionIntroClass, "mb-8 font-medium text-foreground/90 md:mb-10")}>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mb-8 font-medium text-foreground/90 md:mb-10",
+            )}
+          >
             But many teams still face:
           </p>
 
@@ -121,7 +136,8 @@ export function ForReleaseManagerSections() {
             eyebrow="Outcomes"
             title={
               <>
-                Outcomes <span className="text-primary">Release Managers</span> Care About
+                Outcomes <span className="text-primary">Release Managers</span>{" "}
+                Care About
               </>
             }
             description="Structured readiness and resilient automation replace guessing during every launch window."
@@ -134,7 +150,9 @@ export function ForReleaseManagerSections() {
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
                   {outcome.title}
                 </h3>
-                <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                <p className={cn(marketingSectionIntroClass, "mt-4")}>
+                  {outcome.body}
+                </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {outcome.capabilities.map((cap) => (
                     <span
@@ -161,11 +179,17 @@ export function ForReleaseManagerSections() {
             eyebrow="Release ops"
             title={
               <>
-                Fits Into <span className="text-primary">Existing Release Operations</span>
+                Fits Into{" "}
+                <span className="text-primary">
+                  Existing Release Operations
+                </span>
               </>
             }
             description={
-              <p>Improve release decisions without changing current release governance.</p>
+              <p>
+                Improve release decisions without changing current release
+                governance.
+              </p>
             }
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
@@ -179,8 +203,13 @@ export function ForReleaseManagerSections() {
                   "motion-safe:hover:border-primary/25",
                 )}
               >
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">{item}</span>
+                <span
+                  className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                  aria-hidden
+                />
+                <span className="text-base leading-relaxed text-foreground/90 md:text-lg">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -198,10 +227,11 @@ export function ForReleaseManagerSections() {
               eyebrow="Why QApilot"
               title={
                 <>
-                  Why Release Managers Choose <span className="text-primary">QApilot</span>
+                  Why Release Managers Choose{" "}
+                  <span className="text-primary">QApilot</span>
                 </>
               }
-              description="Because releases should be delayed only by real risk—not unclear testing signals—QApilot helps Release Managers move faster with stronger confidence."
+              description="Because releases should be delayed only by real risk. Not unclear testing signals. QApilot helps Release Managers move faster with stronger confidence."
               marginBottomClassName="mb-0"
             />
           </div>

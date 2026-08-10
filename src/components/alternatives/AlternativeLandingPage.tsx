@@ -2,7 +2,10 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+import {
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
@@ -26,7 +29,9 @@ type AlternativeLandingPageProps = {
   config: AlternativePageConfig;
 };
 
-export function AlternativeLandingPage({ config }: AlternativeLandingPageProps) {
+export function AlternativeLandingPage({
+  config,
+}: AlternativeLandingPageProps) {
   const {
     path,
     competitorName,
@@ -74,14 +79,20 @@ export function AlternativeLandingPage({ config }: AlternativeLandingPageProps) 
                 <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                   {competitorSubtitle}
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{competitorBody}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {competitorBody}
+                </p>
               </article>
               <article className="min-w-0 md:pl-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">QApilot</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                  QApilot
+                </p>
                 <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                   {qapilotSubtitle}
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">{qapilotBody}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+                  {qapilotBody}
+                </p>
               </article>
             </div>
           </div>
@@ -93,31 +104,44 @@ export function AlternativeLandingPage({ config }: AlternativeLandingPageProps) 
               id="comparison-table"
               title={
                 <>
-                  <span className="text-primary">QApilot</span> vs {competitorName}
+                  <span className="text-primary">QApilot</span> vs{" "}
+                  {competitorName}
                 </>
               }
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            {/* S11 comparison matrix — real table markup */}
+            {/* S11 comparison matrix. Real table markup */}
             <div className="overflow-x-auto border border-border">
               <table className="w-full min-w-[40rem] border-collapse text-left">
                 <thead className="sticky top-0 bg-muted/40">
                   <tr className="border-b border-border">
-                    <th scope="col" className="sticky left-0 bg-muted/40 px-4 py-3 font-heading text-sm font-semibold text-foreground sm:px-5">
+                    <th
+                      scope="col"
+                      className="sticky left-0 bg-muted/40 px-4 py-3 font-heading text-sm font-semibold text-foreground sm:px-5"
+                    >
                       Area
                     </th>
-                    <th scope="col" className="px-4 py-3 font-heading text-sm font-semibold text-foreground sm:px-5">
+                    <th
+                      scope="col"
+                      className="px-4 py-3 font-heading text-sm font-semibold text-foreground sm:px-5"
+                    >
                       {competitorName}
                     </th>
-                    <th scope="col" className="px-4 py-3 font-heading text-sm font-semibold text-primary sm:px-5">
+                    <th
+                      scope="col"
+                      className="px-4 py-3 font-heading text-sm font-semibold text-primary sm:px-5"
+                    >
                       QApilot
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {comparisonRows.map(([area, competitor, qapilot]) => (
-                    <tr key={area} className="border-b border-border last:border-b-0">
+                    <tr
+                      key={area}
+                      className="border-b border-border last:border-b-0"
+                    >
                       <th
                         scope="row"
                         className="sticky left-0 bg-background px-4 py-4 font-heading text-sm font-semibold text-foreground sm:px-5 md:text-base"
@@ -151,27 +175,43 @@ export function AlternativeLandingPage({ config }: AlternativeLandingPageProps) 
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <MarketingLedger cols={2} aria-label={`Reasons to choose QApilot over ${competitorName}`}>
+            <MarketingLedger
+              cols={2}
+              aria-label={`Reasons to choose QApilot over ${competitorName}`}
+            >
               {whyPoints.map((point) => (
                 <MarketingLedgerCell key={point} as="div">
-                  <p className="text-sm leading-relaxed text-muted-foreground md:text-base">{point}</p>
+                  <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {point}
+                  </p>
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
 
-            <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">{complementaryNote}</p>
+            <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">
+              {complementaryNote}
+            </p>
 
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground md:text-base">
               Explore related capabilities:{" "}
-              <Link href={PATHS.AUTONOMOUS_TESTING} className="text-primary hover:underline">
+              <Link
+                href={PATHS.AUTONOMOUS_TESTING}
+                className="text-primary hover:underline"
+              >
                 autonomous testing
               </Link>
               ,{" "}
-              <Link href={PATHS.INTEGRATIONS} className="text-primary hover:underline">
+              <Link
+                href={PATHS.INTEGRATIONS}
+                className="text-primary hover:underline"
+              >
                 integrations
               </Link>
               , and{" "}
-              <Link href={PATHS.AI_SELF_HEALING} className="text-primary hover:underline">
+              <Link
+                href={PATHS.AI_SELF_HEALING}
+                className="text-primary hover:underline"
+              >
                 AI self-healing
               </Link>
               .
@@ -183,11 +223,12 @@ export function AlternativeLandingPage({ config }: AlternativeLandingPageProps) 
           <div className="section-full">
             <div className="sig-close">
               <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
-                Ready for <span className="text-primary">Autonomous Mobile Testing</span>?
+                Ready for{" "}
+                <span className="text-primary">Autonomous Mobile Testing</span>?
               </h2>
               <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-                See how QApilot generates coverage faster, reduces maintenance, and delivers release-ready signals
-                for mobile teams.
+                See how QApilot generates coverage faster, reduces maintenance,
+                and delivers release-ready signals for mobile teams.
               </p>
               <div className="sig-cta-row">
                 <BookDemoCtaButton />

@@ -6,7 +6,7 @@ const floatingRailShellBase = cn(
   "max-sm:gap-1 max-sm:p-1",
 );
 
-/** Left edge rail — rounds only the inward (right) side. */
+/** Left edge rail. Rounds only the inward (right) side. */
 export const floatingRailShellLeftClass = cn(
   floatingRailShellBase,
   "left-0 rounded-r-xl border-l-0",

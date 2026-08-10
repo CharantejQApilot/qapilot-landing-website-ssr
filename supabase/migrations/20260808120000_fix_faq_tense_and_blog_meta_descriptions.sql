@@ -15,7 +15,7 @@ WHERE slug = 'flutter-app-testing-guide-cross-platform-mobile-teams'
   AND (seo_description IS NULL OR char_length(seo_description) > 160);
 
 UPDATE public.blogs
-SET seo_description = 'How Flutter simplified mobile development — and how QApilot simplifies testing with AI-native coverage across Flutter, native, and webview flows.'
+SET seo_description = 'How Flutter simplified mobile development. And how QApilot simplifies testing with AI-native coverage across Flutter, native, and webview flows.'
 WHERE slug = 'flutter-made-mobile-development-simple-qapilot-makes-testing-simple'
   AND (seo_description IS NULL OR char_length(seo_description) > 160);
 

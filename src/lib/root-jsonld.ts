@@ -47,6 +47,7 @@ const organization = {
     "No-Code Testing",
     "Autonomous Testing",
     "QA Automation",
+    "Dual Device Testing",
     "Flutter Testing",
     "Mobile Testing Platform",
     "CI/CD Integration",

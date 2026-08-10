@@ -12,12 +12,17 @@ export function ForProductOwnerHero() {
           <span className="text-primary">Product Managers</span>
         </>
       }
-      lead={<span className="font-medium text-foreground/90">Launch with confidence. Reduce surprises after release.</span>}
+      lead={
+        <span className="font-medium text-foreground/90">
+          Launch with confidence. Reduce surprises after release.
+        </span>
+      }
       cta={<BookDemoCtaButton>Book Demo</BookDemoCtaButton>}
     >
-      <p className="mx-auto mb-10 max-w-3xl text-base leading-relaxed text-muted-foreground text-balance sm:mb-11 sm:text-lg md:max-w-4xl md:text-xl md:leading-relaxed">
-        QApilot helps Product Managers ship mobile features faster by improving release confidence, reducing
-        quality-related delays, and surfacing issues before users do.
+      <p className="mb-8 w-full text-pretty text-base leading-relaxed text-muted-foreground sm:mb-10 sm:text-lg md:mb-11 md:text-xl md:leading-relaxed">
+        QApilot helps Product Managers ship mobile features faster by improving
+        release confidence, reducing quality-related delays, and surfacing
+        issues before users do.
       </p>
     </MarketingThesisHero>
   );

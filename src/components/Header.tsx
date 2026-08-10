@@ -37,7 +37,7 @@ const HeaderDesktopPlatformMenu = dynamic(
 
 /** Dropdowns, mobile drawer, and in-panel links */
 const NAV_TEXT_CLASS = "text-[15px]";
-/** Desktop top bar only — slightly larger than dropdown/mobile */
+/** Desktop top bar only. Slightly larger than dropdown/mobile */
 const RIBBON_NAV_TEXT_CLASS = "text-[15.75px]";
 
 const Header = () => {
@@ -46,7 +46,9 @@ const Header = () => {
     "platform" | "resources" | "company" | null
   >(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
+  const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>(
+    {},
+  );
   const navRef = useRef<HTMLDivElement>(null);
 
   const toggleMobileSection = (key: string) => {
@@ -69,16 +71,17 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const isPathActive = (path: string) =>
-    path !== "#" && pathname === path;
+  const isPathActive = (path: string) => {
+    if (path === "#") return false;
+    const pathOnly = path.split("#")[0] || path;
+    return pathname === pathOnly;
+  };
 
   const path = pathname;
   const isPlatformActive =
     path === PATHS.PRODUCT ||
     path.startsWith(`${PATHS.PRODUCT}/`) ||
     path === PATHS.FOR_FLUTTER ||
-    path === PATHS.SECURITY_REPORTS ||
-    path === PATHS.AI_SELF_HEALING ||
     path === PATHS.BRING_YOUR_OWN_AGENT ||
     path === PATHS.AGENTIC_ARCHITECTURE ||
     path === PATHS.FOR_RELEASE_MANAGER ||
@@ -87,9 +90,12 @@ const Header = () => {
     path === PATHS.FOR_PRODUCT_OWNER ||
     path === PATHS.FOR_SRE ||
     path === PATHS.ENTERPRISE;
-  const isResourcesActive = [PATHS.BLOGS, PATHS.QA_GUIDE, PATHS.LABS, PATHS.FAQS].some(
-    (p) => path === p || path.startsWith(p + "/"),
-  );
+  const isResourcesActive = [
+    PATHS.BLOGS,
+    PATHS.QA_GUIDE,
+    PATHS.LABS,
+    PATHS.FAQS,
+  ].some((p) => path === p || path.startsWith(p + "/"));
   const isCompanyActive = [
     PATHS.ABOUT,
     PATHS.ENTERPRISE,
@@ -107,7 +113,10 @@ const Header = () => {
     }`;
 
   return (
-    <header className="relative z-[1100] w-full border-b border-border bg-background overflow-visible flex flex-col xl:flex-row xl:items-center xl:h-[4.375rem]">
+    <header
+      data-site-header
+      className="relative z-[1100] w-full border-b border-border bg-background overflow-visible flex flex-col xl:flex-row xl:items-center xl:h-[4.375rem]"
+    >
       {/* Bar: same horizontal padding as other sections (section-full); slightly taller than 4rem for ribbon breathing room */}
       <div className="section-full w-full shrink-0 min-w-0 xl:flex-1 flex items-stretch h-[4.375rem]">
         <div className="flex w-full min-w-0 items-center h-[4.375rem]">
@@ -124,105 +133,115 @@ const Header = () => {
               ref={navRef}
               className="flex items-center justify-center gap-4 2xl:gap-8 min-w-0"
             >
-          {/* Platform dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              aria-label="Platform menu"
-              aria-expanded={openDropdown === "platform"}
-              onClick={() =>
-                setOpenDropdown((o) => (o === "platform" ? null : "platform"))
-              }
-              className={dropdownButtonClass(openDropdown === "platform" || isPlatformActive)}
-            >
-              Platform
-              <ChevronDown
-                size={15}
-                className={`transition-transform ${
-                  openDropdown === "platform" ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            {openDropdown === "platform" ? (
-              <HeaderDesktopPlatformMenu isPathActive={isPathActive} />
-            ) : null}
-          </div>
-
-          {/* Resources */}
-          <div className="relative">
-            <button
-              type="button"
-              aria-label="Resources menu"
-              aria-expanded={openDropdown === "resources"}
-              onClick={() =>
-                setOpenDropdown((o) => (o === "resources" ? null : "resources"))
-              }
-              className={dropdownButtonClass(openDropdown === "resources" || isResourcesActive)}
-            >
-              Resources
-              <ChevronDown
-                size={15}
-                className={`transition-transform ${
-                  openDropdown === "resources" ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            {openDropdown === "resources" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
-                {RESOURCE_NAV_LINKS.map((item) => (
-                  <NavItem
-                    key={item.path}
-                    to={item.path}
-                    isActive={isPathActive(item.path)}
-                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-muted/30"
-                  >
-                    {item.label}
-                  </NavItem>
-                ))}
+              {/* Platform dropdown */}
+              <div className="relative">
+                <button
+                  type="button"
+                  aria-label="Platform menu"
+                  aria-expanded={openDropdown === "platform"}
+                  onClick={() =>
+                    setOpenDropdown((o) =>
+                      o === "platform" ? null : "platform",
+                    )
+                  }
+                  className={dropdownButtonClass(
+                    openDropdown === "platform" || isPlatformActive,
+                  )}
+                >
+                  Platform
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform ${
+                      openDropdown === "platform" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {openDropdown === "platform" ? (
+                  <HeaderDesktopPlatformMenu isPathActive={isPathActive} />
+                ) : null}
               </div>
-            )}
-          </div>
 
-          <div className="relative">
-            <button
-              type="button"
-              aria-label="Company menu"
-              aria-expanded={openDropdown === "company"}
-              onClick={() =>
-                setOpenDropdown((o) => (o === "company" ? null : "company"))
-              }
-              className={dropdownButtonClass(openDropdown === "company" || isCompanyActive)}
-            >
-              Company
-              <ChevronDown
-                size={15}
-                className={`transition-transform ${
-                  openDropdown === "company" ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            {openDropdown === "company" && (
-              <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
-                {COMPANY_NAV_LINKS.map((item) => (
-                  <NavItem
-                    key={item.path}
-                    to={item.path}
-                    isActive={isPathActive(item.path)}
-                    className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-muted/30"
-                  >
-                    {item.label}
-                  </NavItem>
-                ))}
+              {/* Resources */}
+              <div className="relative">
+                <button
+                  type="button"
+                  aria-label="Resources menu"
+                  aria-expanded={openDropdown === "resources"}
+                  onClick={() =>
+                    setOpenDropdown((o) =>
+                      o === "resources" ? null : "resources",
+                    )
+                  }
+                  className={dropdownButtonClass(
+                    openDropdown === "resources" || isResourcesActive,
+                  )}
+                >
+                  Resources
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform ${
+                      openDropdown === "resources" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {openDropdown === "resources" && (
+                  <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
+                    {RESOURCE_NAV_LINKS.map((item) => (
+                      <NavItem
+                        key={item.path}
+                        to={item.path}
+                        isActive={isPathActive(item.path)}
+                        className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-muted/30"
+                      >
+                        {item.label}
+                      </NavItem>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          <a
-            href={`${DOCS_URL}/`}
-            className={`font-heading ${RIBBON_NAV_TEXT_CLASS} shrink-0 whitespace-nowrap font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md px-2 py-2 xl:px-3 xl:py-2.5 -mx-1`}
-          >
-            Documentation
-          </a>
+              <div className="relative">
+                <button
+                  type="button"
+                  aria-label="Company menu"
+                  aria-expanded={openDropdown === "company"}
+                  onClick={() =>
+                    setOpenDropdown((o) => (o === "company" ? null : "company"))
+                  }
+                  className={dropdownButtonClass(
+                    openDropdown === "company" || isCompanyActive,
+                  )}
+                >
+                  Company
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform ${
+                      openDropdown === "company" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {openDropdown === "company" && (
+                  <div className="absolute left-0 top-full z-[9999] mt-2 w-max max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-background py-2 pl-2 pr-3 shadow-xl sm:pl-3 sm:pr-4">
+                    {COMPANY_NAV_LINKS.map((item) => (
+                      <NavItem
+                        key={item.path}
+                        to={item.path}
+                        isActive={isPathActive(item.path)}
+                        className="block whitespace-nowrap px-5 py-3 rounded-lg hover:bg-muted/30"
+                      >
+                        {item.label}
+                      </NavItem>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <a
+                href={`${DOCS_URL}/`}
+                className={`font-heading ${RIBBON_NAV_TEXT_CLASS} shrink-0 whitespace-nowrap font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md px-2 py-2 xl:px-3 xl:py-2.5 -mx-1`}
+              >
+                Documentation
+              </a>
             </nav>
           </div>
 
@@ -262,7 +281,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile menu — nested collapsible, stacks below header bar */}
+      {/* Mobile menu. Nested collapsible, stacks below header bar */}
       {isMobileMenuOpen && (
         <div className="relative z-20 border-t border-border bg-background xl:hidden w-full shrink-0">
           <nav className="section-full py-5 pb-6">
@@ -294,7 +313,9 @@ const Header = () => {
                         <ChevronRight
                           size={16}
                           className={`shrink-0 transition-transform ${
-                            mobileExpanded["platform-solution"] ? "rotate-90" : ""
+                            mobileExpanded["platform-solution"]
+                              ? "rotate-90"
+                              : ""
                           }`}
                         />
                         By Solution

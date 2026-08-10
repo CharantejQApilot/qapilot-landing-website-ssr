@@ -1,5 +1,9 @@
 import { Fragment } from "react";
-import { marketingEyebrowClass, marketingSectionH2Class, marketingSectionIntroClass } from "@/lib/marketing-typography";
+import {
+  marketingEyebrowClass,
+  marketingSectionH2Class,
+  marketingSectionIntroClass,
+} from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -62,9 +66,13 @@ export default function ReleaseReadinessFlowSection({
           <p className={cn(marketingEyebrowClass, "text-center")}>Pipeline</p>
           <h2
             id="release-readiness-flow-heading"
-            className={cn(marketingSectionH2Class, "mb-0 text-center text-foreground")}
+            className={cn(
+              marketingSectionH2Class,
+              "mb-0 text-center text-foreground",
+            )}
           >
-            From Build to <span className="text-primary">Release Readiness</span>
+            From Build to{" "}
+            <span className="text-primary">Release Readiness</span>
           </h2>
           <p
             className={cn(
@@ -72,7 +80,8 @@ export default function ReleaseReadinessFlowSection({
               "mx-auto mt-4 w-full min-w-0 max-w-none px-2 text-center md:mt-5",
             )}
           >
-            Trace every stage from build upload to release sign-off—structured visibility so teams always know where quality stands.
+            Trace every stage from build upload to release sign-off. Structured
+            visibility so teams always know where quality stands.
           </p>
         </header>
 
@@ -83,31 +92,31 @@ export default function ReleaseReadinessFlowSection({
             aria-hidden
           />
           <ol className="relative z-[1] flex list-none flex-col">
-          {STEPS.map((label, index) => {
-            return (
-              <Fragment key={label}>
-                {index > 0 ? (
-                  <li className="list-none" aria-hidden="true">
-                    <div className="h-3" />
-                  </li>
-                ) : null}
-                <li className="list-none">
-                  <div className="flex items-center gap-4">
-                    <div className="relative z-[1] flex w-7 shrink-0 justify-center">
-                      <StepNode />
+            {STEPS.map((label, index) => {
+              return (
+                <Fragment key={label}>
+                  {index > 0 ? (
+                    <li className="list-none" aria-hidden="true">
+                      <div className="h-3" />
+                    </li>
+                  ) : null}
+                  <li className="list-none">
+                    <div className="flex items-center gap-4">
+                      <div className="relative z-[1] flex w-7 shrink-0 justify-center">
+                        <StepNode />
+                      </div>
+                      <span
+                        className={`min-w-0 text-sm font-semibold leading-snug sm:text-base ${
+                          isLastStep(index) ? "text-primary" : "text-foreground"
+                        }`}
+                      >
+                        {label}
+                      </span>
                     </div>
-                    <span
-                      className={`min-w-0 text-sm font-semibold leading-snug sm:text-base ${
-                        isLastStep(index) ? "text-primary" : "text-foreground"
-                      }`}
-                    >
-                      {label}
-                    </span>
-                  </div>
-                </li>
-              </Fragment>
-            );
-          })}
+                  </li>
+                </Fragment>
+              );
+            })}
           </ol>
         </div>
 
@@ -129,9 +138,7 @@ export default function ReleaseReadinessFlowSection({
           />
           <div
             className={`snap-x snap-mandatory overflow-x-auto overflow-y-visible overscroll-x-contain [-webkit-overflow-scrolling:touch] pb-3 pt-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border/80 ${
-              embedded
-                ? "px-1 sm:px-2"
-                : "px-6 sm:px-8 md:px-12 lg:px-16"
+              embedded ? "px-1 sm:px-2" : "px-6 sm:px-8 md:px-12 lg:px-16"
             }`}
           >
             <div className="relative mx-auto min-w-min max-w-max">
@@ -157,7 +164,9 @@ export default function ReleaseReadinessFlowSection({
                         <StepNode />
                         <span
                           className={`mt-3 px-1 text-[0.8125rem] font-semibold leading-tight tracking-tight ${
-                            isLastStep(index) ? "text-primary" : "text-foreground"
+                            isLastStep(index)
+                              ? "text-primary"
+                              : "text-foreground"
                           }`}
                         >
                           {label}

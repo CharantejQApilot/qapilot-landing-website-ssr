@@ -10,7 +10,7 @@ type MarketingLedgerProps = {
   "aria-label"?: string;
 };
 
-/** S06 capability ledger — shared outer border + internal hairlines. */
+/** S06 capability ledger. Shared outer border + internal hairlines. */
 export function MarketingLedger({
   children,
   cols = 3,

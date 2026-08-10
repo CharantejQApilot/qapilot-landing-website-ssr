@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type UseNearViewportOptions = {
-  /** IntersectionObserver rootMargin — default preloads ~300px before entering view. */
+  /** IntersectionObserver rootMargin. Default preloads ~300px before entering view. */
   rootMargin?: string;
   threshold?: number;
   /** When true, stays enabled after first intersection (default). */
@@ -12,7 +12,7 @@ type UseNearViewportOptions = {
 
 /**
  * True when the ref element is near or inside the viewport.
- * Used to defer heavy embeds/animations until users scroll close — visuals unchanged once active.
+ * Used to defer heavy embeds/animations until users scroll close. Visuals unchanged once active.
  */
 export function useNearViewport<T extends Element = HTMLDivElement>(
   options: UseNearViewportOptions = {},

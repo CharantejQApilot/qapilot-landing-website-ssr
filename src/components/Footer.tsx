@@ -1,12 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowUp, Clock, Linkedin } from "lucide-react";
 import Logo from "@/components/Logo";
-import { marketingEyebrowClass, marketingSectionH2Class } from "@/lib/marketing-typography";
+import {
+  marketingEyebrowClass,
+  marketingSectionH2Class,
+} from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import {
+  BOOK_DEMO_CALENDAR_URL,
   DOCS_URL,
   EXTERNAL_NOINDEX_SUBDOMAIN_REL,
   STATUS_URL,
@@ -20,6 +25,22 @@ import {
   COMPARE_NAV_LINKS,
 } from "@/lib/routes";
 import { SOCIAL_LINKS } from "@/lib/social-links";
+
+const BugNinja = dynamic(() => import("@/components/bug-ninja"), {
+  ssr: false,
+  loading: () => (
+    <>
+      <div
+        className="hidden h-[280px] border-y border-white/[0.06] bg-[hsl(var(--foreground))] sm:block md:h-[300px]"
+        aria-hidden
+      />
+      <div
+        className="h-[76px] border-y border-white/[0.06] bg-[hsl(var(--foreground))] sm:hidden"
+        aria-hidden
+      />
+    </>
+  ),
+});
 
 /** Shared footer nav link rhythm (all columns use the same padding + gap). */
 const footerColumnLinkClass =
@@ -82,7 +103,11 @@ const ComplianceBadge = ({
       />
     </div>
     <figcaption className="flex items-center gap-1.5 text-[11px] font-medium leading-none tracking-wide text-white/40 sm:text-xs">
-      <Clock className="h-3 w-3 shrink-0 text-white/35" strokeWidth={2} aria-hidden />
+      <Clock
+        className="h-3 w-3 shrink-0 text-white/35"
+        strokeWidth={2}
+        aria-hidden
+      />
       <span>
         <span className="sr-only">{label}: </span>
         In Progress
@@ -91,13 +116,19 @@ const ComplianceBadge = ({
   </figure>
 );
 
-const FOOTER_SOCIAL_ICON_SLUGS: Partial<Record<(typeof SOCIAL_LINKS)[number]["name"], string>> = {
+const FOOTER_SOCIAL_ICON_SLUGS: Partial<
+  Record<(typeof SOCIAL_LINKS)[number]["name"], string>
+> = {
   X: "x",
   YouTube: "youtube",
   Instagram: "instagram",
 };
 
-const FooterSocialIconLink = ({ social }: { social: (typeof SOCIAL_LINKS)[number] }) => (
+const FooterSocialIconLink = ({
+  social,
+}: {
+  social: (typeof SOCIAL_LINKS)[number];
+}) => (
   <a
     href={social.href}
     target="_blank"
@@ -164,13 +195,18 @@ const FooterLink = ({
 const Footer = () => {
   return (
     <>
-      {/* CTA Section — full-width, brand blue / navy (Harvey-style edge-to-edge) */}
+      {/* CTA Section. Full-width, brand blue / navy (Harvey-style edge-to-edge) */}
       <section className="relative section-navy overflow-hidden section-edge w-full">
         <div className="absolute inset-0 bg-dot-pattern-subtle opacity-20 pointer-events-none" />
         <div className="section-full relative z-10 py-20 md:py-28 2xl:py-36">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 2xl:gap-16">
             <div className="flex-1 w-full min-w-0 text-left">
-              <p className={cn(marketingEyebrowClass, "text-primary-foreground/50 mb-3 md:mb-4")}>
+              <p
+                className={cn(
+                  marketingEyebrowClass,
+                  "text-primary-foreground/50 mb-3 md:mb-4",
+                )}
+              >
                 Get started
               </p>
               <h2 className={cn(marketingSectionH2Class, "text-white mb-4")}>
@@ -186,17 +222,23 @@ const Footer = () => {
                 className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-lg 2xl:text-lg 2xl:px-10 2xl:py-7"
                 asChild
               >
-                <Link href={PATHS.BOOK_DEMO}>Book a Demo →</Link>
+                <a
+                  href={BOOK_DEMO_CALENDAR_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Book a Demo →
+                </a>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer Links — edge-to-edge */}
+      {/* Footer Links. Edge-to-edge */}
       <footer className="section-dark border-t border-white/[0.06] section-edge w-full">
-        <div className="section-full py-16 2xl:py-20">
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] gap-x-8 gap-y-10 sm:gap-x-10 sm:gap-y-12 xl:gap-x-12 mb-14 items-start justify-items-start">
+        <div className="section-full py-16 2xl:py-20 pb-10 2xl:pb-12">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] gap-x-8 gap-y-10 sm:gap-x-10 sm:gap-y-12 xl:gap-x-12 items-start justify-items-start">
             <div className="min-w-0 w-full xs:col-span-2 sm:col-span-3 lg:col-span-4 xl:col-span-1 flex flex-col gap-6 xl:max-w-md 2xl:max-w-lg">
               <Link
                 href={PATHS.HOME}
@@ -206,7 +248,8 @@ const Footer = () => {
                 <Logo className="block h-7 w-auto brightness-0 invert sm:h-8" />
               </Link>
               <p className="max-w-sm text-sm leading-relaxed text-white/50 2xl:text-base">
-                AI-powered mobile testing for modern teams. Ship faster with confidence.
+                AI-powered mobile testing for modern teams. Ship faster with
+                confidence.
               </p>
               <div className="flex flex-wrap items-start gap-x-8 gap-y-4 md:flex-nowrap md:gap-x-6 lg:gap-x-8">
                 {COMPLIANCE_BADGES.map((badge) => (
@@ -217,7 +260,9 @@ const Footer = () => {
                     label={badge.label}
                     width={badge.width}
                     height={badge.height}
-                    imageScale={"imageScale" in badge ? badge.imageScale : undefined}
+                    imageScale={
+                      "imageScale" in badge ? badge.imageScale : undefined
+                    }
                   />
                 ))}
               </div>
@@ -265,7 +310,9 @@ const Footer = () => {
                   <FooterLink to={PATHS.BLOGS}>Blogs</FooterLink>
                 </li>
                 <li>
-                  <FooterLink to={PATHS.QA_GUIDE}>{QE_GUIDE_DISPLAY_NAME}</FooterLink>
+                  <FooterLink to={PATHS.QA_GUIDE}>
+                    {QE_GUIDE_DISPLAY_NAME}
+                  </FooterLink>
                 </li>
                 <li>
                   <FooterLink to={PATHS.LABS}>Labs</FooterLink>
@@ -340,35 +387,40 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-
-          <div className="border-t border-white/[0.06] pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="text-sm text-white/30">
-              Copyright © {new Date().getFullYear()} | Powered by QApilot
-            </div>
-            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-6">
-              <Link
-                href={PATHS.PRIVACY}
-                className="text-sm text-white/30 hover:text-white transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href={PATHS.TERMS}
-                className="text-sm text-white/30 hover:text-white transition-colors"
-              >
-                Terms & Conditions
-              </Link>
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="flex items-center gap-2 text-sm text-white/30 hover:text-white transition-colors"
-                aria-label="Back to top"
-              >
-                <ArrowUp size={16} /> Back to top
-              </button>
-            </div>
-          </div>
         </div>
       </footer>
+
+      {/* Easter egg — after footer nav, above legal strip */}
+      <BugNinja />
+
+      <div className="section-dark section-edge w-full border-t border-white/[0.06]">
+        <div className="section-full flex flex-col items-center justify-between gap-6 py-8 sm:flex-row">
+          <div className="text-sm text-white/30">
+            Copyright © {new Date().getFullYear()} | Powered by QApilot
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:justify-end">
+            <Link
+              href={PATHS.PRIVACY}
+              className="text-sm text-white/30 transition-colors hover:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href={PATHS.TERMS}
+              className="text-sm text-white/30 transition-colors hover:text-white"
+            >
+              Terms & Conditions
+            </Link>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex items-center gap-2 text-sm text-white/30 transition-colors hover:text-white"
+              aria-label="Back to top"
+            >
+              <ArrowUp size={16} /> Back to top
+            </button>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

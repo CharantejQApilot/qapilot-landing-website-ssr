@@ -6,7 +6,7 @@ import { PATHS } from "@/lib/routes";
 
 /**
  * Static marketing URLs only. Individual `/blogs/:slug` URLs live in the Edge
- * `sitemap-posts` function (image/video sitemap extensions) — see
+ * `sitemap-posts` function (image/video sitemap extensions). See
  * `sitemap-index.xml` and `robots.ts`.
  */
 export const revalidate = 3600;
@@ -29,7 +29,12 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.84,
   },
   {
-    url: `${SITE_BASE_URL}${PATHS.INTELLIGENT_BUG_DETECTION}`,
+    url: `${SITE_BASE_URL}${PATHS.DUAL_DEVICE_TESTING}`,
+    changeFrequency: "monthly",
+    priority: 0.84,
+  },
+  {
+    url: `${SITE_BASE_URL}${PATHS.RELEASE_READINESS_SUITE}`,
     changeFrequency: "monthly",
     priority: 0.85,
   },
@@ -117,16 +122,6 @@ const staticPages: MetadataRoute.Sitemap = [
     url: `${SITE_BASE_URL}${PATHS.AI_TIME_SAVINGS}`,
     changeFrequency: "weekly",
     priority: 0.78,
-  },
-  {
-    url: `${SITE_BASE_URL}${PATHS.SECURITY_REPORTS}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  },
-  {
-    url: `${SITE_BASE_URL}${PATHS.AI_SELF_HEALING}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
   },
   {
     url: `${SITE_BASE_URL}${PATHS.COMPARE_WEB_FIRST}`,

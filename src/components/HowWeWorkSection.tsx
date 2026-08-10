@@ -16,7 +16,7 @@ const HowWeWorkSection = () => {
               How We <span className="text-primary">Work</span>
             </>
           }
-          description="Low on ceremony, high on ownership—with clear ownership and outcomes over rigid roles."
+          description="Low on ceremony, high on ownership. With clear ownership and outcomes over rigid roles."
           marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
         />
 
@@ -28,11 +28,16 @@ const HowWeWorkSection = () => {
           </div>
 
           <p className={cn(marketingSectionIntroClass, "!text-foreground/90")}>
-            People take responsibility, step in where needed, and focus on outcomes over roles.
+            People take responsibility, step in where needed, and focus on
+            outcomes over roles.
           </p>
 
           <div className="flex flex-wrap gap-3">
-            {["Engineers pitch in on demos", "Marketers understand the product", "Everyone ships"].map((label) => (
+            {[
+              "Engineers pitch in on demos",
+              "Marketers understand the product",
+              "Everyone ships",
+            ].map((label) => (
               <span
                 key={label}
                 className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-medium text-foreground"
@@ -45,7 +50,9 @@ const HowWeWorkSection = () => {
           <div className="rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8">
             <p className="text-lg leading-relaxed text-foreground md:text-xl">
               We take the work seriously,{" "}
-              <span className="font-bold text-primary">ourselves, not so much.</span>
+              <span className="font-bold text-primary">
+                ourselves, not so much.
+              </span>
             </p>
           </div>
         </div>

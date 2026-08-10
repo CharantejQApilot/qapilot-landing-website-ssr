@@ -14,7 +14,7 @@ export const metadata: Metadata = buildStaticPageMetadata({
     "Scale quality engineering without scaling complexity. Reduce test maintenance, improve release confidence, and expand mobile coverage with autonomous, AI-native testing.",
   path: PATHS.FOR_QA_LEADER,
   ogDescription:
-    "Autonomous, AI-native mobile testing for QE leaders—less maintenance, stronger release signals, broader coverage.",
+    "Autonomous, AI-native mobile testing for QE leaders. Less maintenance, stronger release signals, broader coverage.",
   twitterDescription:
     "Move from maintenance-heavy testing to scalable mobile release readiness with QApilot.",
 });
@@ -50,7 +50,10 @@ const structuredData = {
 export default function ForQALeaderPage() {
   return (
     <div className="relative z-0 min-h-screen w-full section-edge bg-background">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <main>
         <ForQALeaderHero />
         <ForQALeaderSections />

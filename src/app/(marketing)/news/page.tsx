@@ -20,18 +20,19 @@ const canonicalUrl = `${SITE_BASE_URL}${NEWS_PATH}`;
 const NEWS_LIST_SELECT =
   "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
 
-const LIST_GUTTER =
-  "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
+const LIST_GUTTER = "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
 
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "News — Mobile Testing Updates & Announcements",
+  title: "News. Mobile Testing Updates & Announcements",
   description:
-    "Product updates, partnerships, and mobile testing insights from QApilot—stay current on AI-native QA.",
+    "Product updates, partnerships, and mobile testing insights from QApilot. Stay current on AI-native QA.",
   path: NEWS_PATH,
-  ogDescription: "Latest announcements, product updates, and insights from QApilot.",
-  twitterDescription: "News and announcements on AI-native mobile testing from QApilot.",
+  ogDescription:
+    "Latest announcements, product updates, and insights from QApilot.",
+  twitterDescription:
+    "News and announcements on AI-native mobile testing from QApilot.",
 });
 
 export const revalidate = 120;
@@ -51,7 +52,8 @@ type NewsListRow = {
 
 function resolveCardImageUrl(item: NewsListRow): string | undefined {
   if (item.featured_image) return item.featured_image;
-  if (item.youtube_url) return getYouTubeThumbnail(item.youtube_url) ?? undefined;
+  if (item.youtube_url)
+    return getYouTubeThumbnail(item.youtube_url) ?? undefined;
   return undefined;
 }
 
@@ -152,8 +154,8 @@ export default async function NewsPage() {
                   <span className="text-gradient">News &amp; updates</span>
                 </h1>
                 <p className={marketingListingHeroLeadClass}>
-                  Stay up to date with the latest announcements and updates
-                  from QApilot.
+                  Stay up to date with the latest announcements and updates from
+                  QApilot.
                 </p>
               </header>
             </div>
@@ -173,15 +175,17 @@ export default async function NewsPage() {
                 </h2>
                 <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
                   <p>
-                    This news hub highlights product launches, partnerships, conference
-                    sponsorships, and community events from the QApilot team. Follow along for
-                    announcements about AI-native mobile testing, enterprise rollouts, and how we
-                    collaborate with QA leaders worldwide.
+                    This news hub highlights product launches, partnerships,
+                    conference sponsorships, and community events from the
+                    QApilot team. Follow along for announcements about AI-native
+                    mobile testing, enterprise rollouts, and how we collaborate
+                    with QA leaders worldwide.
                   </p>
                   <p>
-                    From DevFest and QE Conclave to customer success stories and executive
-                    interviews, each update explains what changed and why it matters for mobile
-                    release quality. Check back for the newest posts or browse the archive below.
+                    From DevFest and QE Conclave to customer success stories and
+                    executive interviews, each update explains what changed and
+                    why it matters for mobile release quality. Check back for
+                    the newest posts or browse the archive below.
                   </p>
                 </div>
               </section>
@@ -216,7 +220,7 @@ export default async function NewsPage() {
                           Featured
                         </h2>
                         <p className="text-base text-muted-foreground md:text-lg">
-                          Highlights from the team — start here.
+                          Highlights from the team. Start here.
                         </p>
                       </div>
                       <ul className={gridFeatured}>
@@ -237,12 +241,10 @@ export default async function NewsPage() {
                                     {imgSrc ? (
                                       <img
                                         src={imgSrc}
-                                        alt={`${item.title} — QApilot news`}
+                                        alt={`${item.title}. QApilot news`}
                                         width={960}
                                         height={540}
-                                        loading={
-                                          index === 0 ? "eager" : "lazy"
-                                        }
+                                        loading={index === 0 ? "eager" : "lazy"}
                                         fetchPriority={
                                           index === 0 ? "high" : undefined
                                         }
@@ -300,9 +302,7 @@ export default async function NewsPage() {
                           id="news-all"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
                         >
-                          {featuredNews.length > 0
-                            ? "All updates"
-                            : "Updates"}
+                          {featuredNews.length > 0 ? "All updates" : "Updates"}
                         </h2>
                         <p className="mx-auto max-w-2xl text-center text-base text-muted-foreground md:text-lg">
                           Browse every published announcement.
@@ -326,7 +326,7 @@ export default async function NewsPage() {
                                     {imgSrc ? (
                                       <img
                                         src={imgSrc}
-                                        alt={`${item.title} — QApilot news`}
+                                        alt={`${item.title}. QApilot news`}
                                         width={800}
                                         height={450}
                                         loading="lazy"

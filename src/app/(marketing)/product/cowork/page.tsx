@@ -15,7 +15,7 @@ import { buildStaticPageMetadata } from "@/lib/seo";
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.COWORK}`;
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "CoWork — Activate Test Cases You Already Have",
+  title: "CoWork. Activate Test Cases You Already Have",
   description:
     "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device execution on iOS, Android, and Flutter.",
   path: PATHS.COWORK,

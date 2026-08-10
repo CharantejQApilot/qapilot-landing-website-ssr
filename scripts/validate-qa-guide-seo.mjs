@@ -134,7 +134,7 @@ async function main() {
     if (!ok && !hardFail) report.warnings += 1;
   }
 
-  console.log(`\nQE Guide SEO validation — ${SITE_BASE_URL}\n`);
+  console.log(`\nQE Guide SEO validation. ${SITE_BASE_URL}\n`);
 
   // robots.txt
   {
@@ -283,8 +283,8 @@ async function main() {
     section("Bing sitemap ping", ping.ok, ping, { hardFail: false });
     const pingNote =
       ping.status === 410
-        ? "  Bing sitemap ping API returned 410 (deprecated) — use Bing Webmaster Tools."
-        : "  Google: sitemap ping API removed — resubmit in Search Console manually.";
+        ? "  Bing sitemap ping API returned 410 (deprecated). Use Bing Webmaster Tools."
+        : "  Google: sitemap ping API removed. Resubmit in Search Console manually.";
     console.log(`\n${ping.ok ? "✓" : "⚠"} Bing ping (${ping.status}) → ${sitemapIndex}`);
     console.log(pingNote);
   } else {
@@ -295,7 +295,7 @@ async function main() {
     report.warnings > 0
       ? `PASS (${report.warnings} warning${report.warnings === 1 ? "" : "s"})`
       : "PASS";
-  console.log(`\n${report.ok ? summary : "FAIL"} — QE Guide SEO validation\n`);
+  console.log(`\n${report.ok ? summary : "FAIL"}. QE Guide SEO validation\n`);
 
   if (!report.ok) process.exit(1);
 }

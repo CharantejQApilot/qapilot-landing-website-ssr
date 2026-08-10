@@ -22,7 +22,7 @@ export const ROBOTS_AEO_ALLOW_PATHS = [
 ] as const;
 
 /**
- * Content Signals (https://contentsignals.org/) — usage preferences after access.
+ * Content Signals (https://contentsignals.org/). Usage preferences after access.
  * search=yes: classic search indexing and link discovery (SEO + DR tools).
  * ai-input=yes: real-time AI answers / RAG / citations (AEO).
  * ai-train=no: do not use content for model training.
@@ -30,7 +30,7 @@ export const ROBOTS_AEO_ALLOW_PATHS = [
 export const CONTENT_SIGNAL_MARKETING =
   "search=yes, ai-input=yes, ai-train=no" as const;
 
-/** SEO crawlers and domain-rating / audit bots — explicitly welcomed. */
+/** SEO crawlers and domain-rating / audit bots. Explicitly welcomed. */
 export const SEO_AND_DOMAIN_RATING_AGENTS = [
   "Googlebot",
   "Bingbot",
@@ -51,7 +51,7 @@ export const SEO_AND_DOMAIN_RATING_AGENTS = [
   "YandexBot",
 ] as const;
 
-/** AI answer-engine crawlers — allow marketing pages for citations (AEO). */
+/** AI answer-engine crawlers. Allow marketing pages for citations (AEO). */
 export const AEO_ANSWER_ENGINE_AGENTS = [
   "GPTBot",
   "ChatGPT-User",
@@ -112,14 +112,14 @@ function crawlerGroup(userAgent: string, extraLines: string[] = []): string[] {
 }
 
 const CONTENT_SIGNAL_PREAMBLE = [
-  "# QApilot marketing site — https://qapilot.io",
+  "# QApilot marketing site. Https://qapilot.io",
   "# Sitemap index: /sitemap-index.xml",
   "# AEO context: /llms.txt · /ai.txt · /.well-known/agent-skills/",
   "#",
   "# Content Signals (https://contentsignals.org/):",
-  "#   search=yes   — search indexes, SEO audits, domain-rating crawlers",
-  "#   ai-input=yes — AI answer engines may use pages for citations / RAG",
-  "#   ai-train=no  — do not use content for model training",
+  "# search=yes . Search indexes, SEO audits, domain-rating crawlers",
+  "# ai-input=yes. AI answer engines may use pages for citations / RAG",
+  "# ai-train=no. Do not use content for model training",
   "",
 ];
 
@@ -138,11 +138,9 @@ export function buildRobotsTxt(): string {
     "",
     "# SEO & domain-rating crawlers (explicit welcome)",
     ...SEO_AND_DOMAIN_RATING_AGENTS.flatMap((agent) =>
-      agent === "Googlebot"
-        ? []
-        : crawlerGroup(agent),
+      agent === "Googlebot" ? [] : crawlerGroup(agent),
     ),
-    "# AI answer-engine crawlers (AEO — citations, not training)",
+    "# AI answer-engine crawlers (AEO. Citations, not training)",
     ...AEO_ANSWER_ENGINE_AGENTS.map((agent) => crawlerGroup(agent)).flat(),
     "# Sitemaps",
     ...robotsSitemapUrls().map((loc) => `Sitemap: ${loc}`),

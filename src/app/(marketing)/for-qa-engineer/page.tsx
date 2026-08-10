@@ -16,7 +16,7 @@ export const metadata: Metadata = buildStaticPageMetadata({
   ogDescription:
     "AI self-healing, autonomous coverage, and rich diagnostics so QA Engineers ship mobile quality with less friction.",
   twitterDescription:
-    "Less maintenance, faster coverage, clearer failures—mobile testing built for QA Engineers.",
+    "Less maintenance, faster coverage, clearer failures. Mobile testing built for QA Engineers.",
 });
 
 const breadcrumbList = buildBreadcrumbList([
@@ -50,7 +50,10 @@ const structuredData = {
 export default function ForQAEngineerPage() {
   return (
     <div className="relative z-0 min-h-screen w-full section-edge bg-background">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <main>
         <ForQAEngineerHero />
         <ForQAEngineerSections />

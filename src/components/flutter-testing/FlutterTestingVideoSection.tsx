@@ -12,11 +12,11 @@ export function FlutterTestingVideoSection() {
           id="flutter-video-heading"
           title={
             <>
-              The Best <span className="text-primary">AI-Native</span> Platform for{" "}
-              <span className="text-primary">Flutter Testing</span>
+              The Best <span className="text-primary">AI-Native</span> Platform
+              for <span className="text-primary">Flutter Testing</span>
             </>
           }
-          description="Watch how QApilot explores, maps, and stress-tests real mobile flows—including Flutter, native, and webview in one continuous run."
+          description="Watch how QApilot explores, maps, and stress-tests real mobile flows. Including Flutter, native, and webview in one continuous run."
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 

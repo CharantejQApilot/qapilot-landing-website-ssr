@@ -1,17 +1,17 @@
-/* Homepage / marketing section archetypes — layout only (existing tokens). */
+/* Homepage / marketing section archetypes. Layout only (existing tokens). */
 @import "../styles/signal/layout.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* QApilot Design Foundation v5 — Harvey, Spur, PlayerZero, TestMu inspired
+/* QApilot Design Foundation v5. Harvey, Spur, PlayerZero, TestMu inspired
    Elegant SaaS: clean backgrounds, refined typography, subtle depth
    Space Grotesk headings · Source Sans 3 body · HSL tokens */
 
 @layer base {
   :root {
-    /* Light palette — clean near-whites, soft greys, strong text */
+    /* Light palette. Clean near-whites, soft greys, strong text */
     --background: 220 25% 98%;
     --background-alt: 0 0% 100%;
     --foreground: 222 25% 11%;
@@ -22,11 +22,11 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 12%;
 
-    /* Primary — Dark elegant blue (QApilot brand), slightly lighter for buttons */
+    /* Primary. Dark elegant blue (QApilot brand), slightly lighter for buttons */
     --primary: 218 65% 28%;
     --primary-foreground: 0 0% 100%;
 
-    /* Brand dark — #04041C for banner and dark sections */
+    /* Brand dark. #04041C for banner and dark sections */
     --brand-dark: 240 85% 6%;
 
     /* Primary light for subtle tints */
@@ -50,16 +50,16 @@
 
     --radius: 0.75rem;
 
-    /* Navy / dark sections — #04041C family */
+    /* Navy / dark sections. #04041C family */
     --navy: 240 85% 6%;
     --navy-light: 240 60% 12%;
     --navy-muted: 218 25% 65%;
 
-    /* Brand blue — same hue as primary, for accents */
+    /* Brand blue. Same hue as primary, for accents */
     --brand-blue: 218 65% 28%;
     --brand-blue-light: 218 45% 92%;
 
-    /* Section fills — soft neutral and warm alternates */
+    /* Section fills. Soft neutral and warm alternates */
     --cream: 220 20% 97%;
     --cream-dark: 220 15% 93%;
     --grey: 220 10% 42%;
@@ -163,14 +163,27 @@
     font-family: inherit;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family:
+      var(--font-heading),
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
     color: hsl(var(--foreground));
     font-weight: 600;
     letter-spacing: -0.02em;
   }
 
-  img, video, iframe {
+  img,
+  video,
+  iframe {
     max-width: 100%;
     height: auto;
   }
@@ -185,7 +198,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -229,7 +244,11 @@
   /* Same look as `bg-muted/20` on page background, fully opaque (e.g. Deliver header on cream) */
   .bg-section-header {
     background-color: hsl(var(--muted) / 0.2);
-    background-color: color-mix(in srgb, hsl(var(--muted)) 20%, hsl(var(--background)) 80%);
+    background-color: color-mix(
+      in srgb,
+      hsl(var(--muted)) 20%,
+      hsl(var(--background)) 80%
+    );
   }
 
   /* Banner and dark blue (#04041C) */
@@ -271,41 +290,85 @@
 
   /* ── Subtle dot grid (elegant, low-contrast) ── */
   .bg-dot-pattern {
-    background-image: radial-gradient(hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+    background-image: radial-gradient(
+      hsl(var(--foreground) / 0.06) 1px,
+      transparent 1px
+    );
     background-size: 24px 24px;
   }
 
   .bg-dot-pattern-subtle {
-    background-image: radial-gradient(hsl(var(--foreground) / 0.04) 1px, transparent 1px);
+    background-image: radial-gradient(
+      hsl(var(--foreground) / 0.04) 1px,
+      transparent 1px
+    );
     background-size: 20px 20px;
+  }
+
+  /* Product / video frame atmosphere. CSS only (replaces scenic photo backdrops) */
+  .bg-scenic-abstract {
+    background-color: hsl(220 22% 97%);
+    background-image: radial-gradient(
+        ellipse 90% 70% at 15% 0%,
+        hsl(var(--primary) / 0.09) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 80% 60% at 90% 100%,
+        hsl(218 40% 94% / 0.95) 0%,
+        transparent 55%
+      ),
+      linear-gradient(135deg, hsl(var(--border) / 0.45) 1px, transparent 1px),
+      linear-gradient(45deg, hsl(var(--border) / 0.28) 1px, transparent 1px),
+      radial-gradient(hsl(var(--foreground) / 0.04) 1px, transparent 1px);
+    background-size:
+      auto,
+      auto,
+      56px 56px,
+      56px 56px,
+      18px 18px;
+    background-position:
+      center,
+      center,
+      0 0,
+      0 0,
+      0 0;
   }
 
   /* ── Structured grid background (TestMu-inspired) ── */
   .bg-structured-grid {
-    background-image:
-      linear-gradient(hsl(var(--border) / 0.4) 1px, transparent 1px),
+    background-image: linear-gradient(
+        hsl(var(--border) / 0.4) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, hsl(var(--border) / 0.4) 1px, transparent 1px);
     background-size: 80px 80px;
   }
 
   .bg-structured-grid-dense {
-    background-image:
-      linear-gradient(hsl(var(--border) / 0.35) 1px, transparent 1px),
+    background-image: linear-gradient(
+        hsl(var(--border) / 0.35) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, hsl(var(--border) / 0.35) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
   /* ── Subtle grid pattern overlay ── */
   .bg-grid-pattern {
-    background-image:
-      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+    background-image: linear-gradient(
+        hsl(var(--border) / 0.3) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
   .bg-grid-navy {
-    background-image:
-      linear-gradient(hsl(var(--navy-light) / 0.3) 1px, transparent 1px),
+    background-image: linear-gradient(
+        hsl(var(--navy-light) / 0.3) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, hsl(var(--navy-light) / 0.3) 1px, transparent 1px);
     background-size: 64px 64px;
   }
@@ -313,12 +376,25 @@
   /* ── Hero: elegant gradient + soft radial (Harvey / PlayerZero style) ── */
   .bg-hero-gradient {
     background-color: hsl(220 25% 98%);
-    background-image:
-      radial-gradient(ellipse 100% 70% at 50% -10%, hsl(var(--primary) / 0.06) 0%, transparent 55%),
-      radial-gradient(ellipse 80% 50% at 80% 50%, hsl(218 40% 96%) 0%, transparent 50%),
+    background-image: radial-gradient(
+        ellipse 100% 70% at 50% -10%,
+        hsl(var(--primary) / 0.06) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 80% 50% at 80% 50%,
+        hsl(218 40% 96%) 0%,
+        transparent 50%
+      ),
       linear-gradient(180deg, hsl(220 22% 98.5%) 0%, hsl(220 18% 97%) 100%);
-    background-size: 100% 100%, 100% 100%, 100% 100%;
-    background-position: 0 0, 0 0, 0 0;
+    background-size:
+      100% 100%,
+      100% 100%,
+      100% 100%;
+    background-position:
+      0 0,
+      0 0,
+      0 0;
     background-repeat: no-repeat;
   }
 
@@ -331,15 +407,21 @@
 
   /* Home hero: slightly richer gradient so the fold reads as the main stage */
   .hero-prominent .bg-hero-gradient {
-    background-image:
-      radial-gradient(ellipse 100% 72% at 50% -8%, hsl(var(--primary) / 0.11) 0%, transparent 58%),
-      radial-gradient(ellipse 82% 52% at 82% 48%, hsl(218 42% 96.5%) 0%, transparent 52%),
+    background-image: radial-gradient(
+        ellipse 100% 72% at 50% -8%,
+        hsl(var(--primary) / 0.11) 0%,
+        transparent 58%
+      ),
+      radial-gradient(
+        ellipse 82% 52% at 82% 48%,
+        hsl(218 42% 96.5%) 0%,
+        transparent 52%
+      ),
       linear-gradient(180deg, hsl(220 24% 99%) 0%, hsl(220 18% 97.5%) 100%);
   }
 
   .bg-hero-diagonal-grid {
-    background-image:
-      repeating-linear-gradient(
+    background-image: repeating-linear-gradient(
         105deg,
         transparent 0,
         hsl(var(--foreground) / 0.055) 0,
@@ -379,14 +461,17 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 60%, hsl(var(--foreground) / 0.02) 100%);
+    background: radial-gradient(
+      ellipse 90% 80% at 50% 50%,
+      transparent 60%,
+      hsl(var(--foreground) / 0.02) 100%
+    );
   }
 
-  /* Quality journey (product) — hero-style diagonal mesh, slow drift */
+  /* Quality journey (product). Hero-style diagonal mesh, slow drift */
   .bg-journey-mesh-animated {
     pointer-events: none;
-    background-image:
-      repeating-linear-gradient(
+    background-image: repeating-linear-gradient(
         105deg,
         transparent 0,
         hsl(var(--foreground) / 0.04) 0,
@@ -402,18 +487,34 @@
         transparent 1px,
         transparent 44px
       );
-    background-size: 44px 44px, 44px 44px;
-    mask-image: radial-gradient(ellipse 88% 78% at 48% 45%, black 0%, black 28%, transparent 72%);
-    -webkit-mask-image: radial-gradient(ellipse 88% 78% at 48% 45%, black 0%, black 28%, transparent 72%);
+    background-size:
+      44px 44px,
+      44px 44px;
+    mask-image: radial-gradient(
+      ellipse 88% 78% at 48% 45%,
+      black 0%,
+      black 28%,
+      transparent 72%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 88% 78% at 48% 45%,
+      black 0%,
+      black 28%,
+      transparent 72%
+    );
     animation: journey-mesh-drift 100s linear infinite;
   }
 
   @keyframes journey-mesh-drift {
     0% {
-      background-position: 0 0, 0 0;
+      background-position:
+        0 0,
+        0 0;
     }
     100% {
-      background-position: 44px 12px, -44px -12px;
+      background-position:
+        44px 12px,
+        -44px -12px;
     }
   }
 
@@ -450,19 +551,37 @@
   /* Deliver section: flat cream; gradients only at edges (no full-bleed tint) */
   .bg-deliver-section-gradient {
     background-color: hsl(var(--cream));
-    background-image:
-      radial-gradient(ellipse 55% 42% at 100% 0%, hsl(var(--primary) / 0.09) 0%, transparent 58%),
-      radial-gradient(ellipse 48% 38% at 0% 100%, hsl(var(--primary) / 0.07) 0%, transparent 52%),
-      radial-gradient(ellipse 42% 36% at 100% 92%, hsl(var(--primary) / 0.045) 0%, transparent 50%),
-      radial-gradient(ellipse 38% 32% at 0% 8%, hsl(218 40% 96% / 0.65) 0%, transparent 55%);
+    background-image: radial-gradient(
+        ellipse 55% 42% at 100% 0%,
+        hsl(var(--primary) / 0.09) 0%,
+        transparent 58%
+      ),
+      radial-gradient(
+        ellipse 48% 38% at 0% 100%,
+        hsl(var(--primary) / 0.07) 0%,
+        transparent 52%
+      ),
+      radial-gradient(
+        ellipse 42% 36% at 100% 92%,
+        hsl(var(--primary) / 0.045) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse 38% 32% at 0% 8%,
+        hsl(218 40% 96% / 0.65) 0%,
+        transparent 55%
+      );
     background-repeat: no-repeat;
-    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-size:
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%;
   }
 
   /* Grid strongest near corners / gutters, faint in content column */
   .bg-deliver-diagonal-grid {
-    background-image:
-      repeating-linear-gradient(
+    background-image: repeating-linear-gradient(
         105deg,
         transparent 0,
         hsl(var(--foreground) / 0.038) 0,
@@ -530,7 +649,7 @@
     animation: hero-word-in 0.5s ease-out forwards;
   }
 
-  /* Home hero explore — idle timer fill */
+  /* Home hero explore. Idle timer fill */
   @keyframes home-hero-timer-fill {
     from {
       transform: scaleX(0);
@@ -545,10 +664,14 @@
     color: hsl(205 70% 48%);
   }
 
-  /* Curved underline for "Here" — SVG path draws in */
+  /* Curved underline for "Here". SVG path draws in */
   @keyframes hero-underline-draw {
-    from { stroke-dashoffset: 1; }
-    to { stroke-dashoffset: 0; }
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
   .hero-here-underline {
@@ -610,10 +733,17 @@
     }
   }
 
-  /* Hero corner orbs — soft gradient blobs (Vercel/Linear/Aceternity style) */
+  /* Hero corner orbs. Soft gradient blobs (Vercel/Linear/Aceternity style) */
   @keyframes hero-orb-pulse {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.08); }
+    0%,
+    100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
   }
   .hero-corner-orb {
     position: absolute;
@@ -622,7 +752,10 @@
     animation: hero-orb-pulse 12s ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero-corner-orb { animation: none; opacity: 0.7; }
+    .hero-corner-orb {
+      animation: none;
+      opacity: 0.7;
+    }
   }
 
   /* Exalt-style hero: soft drifting mesh (Framer sites often pair this with progressive blur) */
@@ -646,7 +779,11 @@
     height: min(78vw, 540px);
     left: -12%;
     top: -8%;
-    background: radial-gradient(circle closest-side, hsl(var(--primary) / 0.2) 0%, transparent 100%);
+    background: radial-gradient(
+      circle closest-side,
+      hsl(var(--primary) / 0.2) 0%,
+      transparent 100%
+    );
     animation: hero-exalt-drift-a 32s ease-in-out infinite;
   }
 
@@ -655,7 +792,11 @@
     height: min(70vw, 480px);
     right: -18%;
     top: 18%;
-    background: radial-gradient(circle closest-side, hsl(218 45% 92% / 0.95) 0%, transparent 100%);
+    background: radial-gradient(
+      circle closest-side,
+      hsl(218 45% 92% / 0.95) 0%,
+      transparent 100%
+    );
     animation: hero-exalt-drift-b 38s ease-in-out infinite;
   }
 
@@ -664,7 +805,11 @@
     height: min(85vw, 620px);
     left: 18%;
     bottom: -28%;
-    background: radial-gradient(circle closest-side, hsl(var(--primary) / 0.12) 0%, transparent 100%);
+    background: radial-gradient(
+      circle closest-side,
+      hsl(var(--primary) / 0.12) 0%,
+      transparent 100%
+    );
     animation: hero-exalt-drift-c 44s ease-in-out infinite;
   }
 
@@ -706,7 +851,7 @@
     }
   }
 
-  /* Mobile: lighter hero decor — faster LCP and lower main-thread compositing cost */
+  /* Mobile: lighter hero decor. Faster LCP and lower main-thread compositing cost */
   @media (max-width: 767px) {
     .hero-exalt-blob {
       filter: blur(40px);
@@ -727,7 +872,7 @@
     }
   }
 
-  /* Center ripple — pixellated donut (pattern + ring mask), always circular */
+  /* Center ripple. Pixellated donut (pattern + ring mask), always circular */
   .hero-exalt-center-ripple {
     /* Moderate radius: fades within upper hero, not full-bleed */
     --hero-ripple-diameter: min(max(118vw, 88vh), 1680px);
@@ -777,7 +922,9 @@
     display: none;
   }
 
-  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  @supports (
+    (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+  ) {
     .hero-exalt-progressive-blur {
       display: block;
     }
@@ -797,7 +944,7 @@
     -webkit-mask-size: 100% 100%;
   }
 
-  /* Top fade — same idea as Exalt’s white 35% → clear ramp */
+  /* Top fade. Same idea as Exalt’s white 35% → clear ramp */
   .hero-exalt-top-fade {
     position: absolute;
     inset: 0;
@@ -813,23 +960,39 @@
 
   /* ── Radial glow ── */
   .bg-glow-center {
-    background: radial-gradient(ellipse 60% 50% at 50% 0%, hsl(var(--primary) / 0.06) 0%, transparent 70%);
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 0%,
+      hsl(var(--primary) / 0.06) 0%,
+      transparent 70%
+    );
   }
 
   .bg-glow-navy {
-    background: radial-gradient(ellipse 60% 50% at 50% 0%, hsl(var(--navy-light) / 0.4) 0%, transparent 70%);
+    background: radial-gradient(
+      ellipse 60% 50% at 50% 0%,
+      hsl(var(--navy-light) / 0.4) 0%,
+      transparent 70%
+    );
   }
 
   /* ── Text utilities ── */
   .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--navy-light)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--navy-light))
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-accent {
-    background: linear-gradient(135deg, hsl(var(--brand-blue)), hsl(var(--navy-light)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--brand-blue)),
+      hsl(var(--navy-light))
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -844,10 +1007,14 @@
   }
 
   .glow-bg {
-    background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.03) 0%, transparent 70%);
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--primary) / 0.03) 0%,
+      transparent 70%
+    );
   }
 
-  /* Device coverage calculator — custom range slider thumb */
+  /* Device coverage calculator. Custom range slider thumb */
   .advisor-coverage-slider {
     height: 100%;
     min-height: 2.75rem;
@@ -891,11 +1058,92 @@
   }
 
   @keyframes dash-flow {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: 20; }
+    0% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: 20;
+    }
   }
 
-  /* Core advantage scenic panel — slow zoom (TestMu-style mood) */
+  /* Dual Device Testing hero. Send → receive → pass */
+  @keyframes dual-device-send {
+    0%,
+    12% {
+      opacity: 0;
+      transform: translateY(6px) scale(0.96);
+    }
+    22%,
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes dual-device-receive {
+    0%,
+    38% {
+      opacity: 0;
+      transform: translateY(6px) scale(0.96);
+    }
+    50%,
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes dual-device-pass {
+    0%,
+    58% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    70%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes dual-device-pulse {
+    0%,
+    18% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    30%,
+    55% {
+      transform: translateX(120%);
+      opacity: 1;
+    }
+    70%,
+    100% {
+      transform: translateX(220%);
+      opacity: 0;
+    }
+  }
+  .animate-dual-device-send {
+    animation: dual-device-send 4.8s ease-out infinite;
+  }
+  .animate-dual-device-receive {
+    animation: dual-device-receive 4.8s ease-out infinite;
+  }
+  .animate-dual-device-pass {
+    animation: dual-device-pass 4.8s ease-out infinite;
+  }
+  .animate-dual-device-pulse {
+    animation: dual-device-pulse 4.8s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-dual-device-send,
+    .animate-dual-device-receive,
+    .animate-dual-device-pass,
+    .animate-dual-device-pulse {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Abstract product-frame backdrop. Subtle drift (no photo) */
   @keyframes scenic-ken-burns {
     0% {
       transform: scale(1.05);
@@ -915,56 +1163,100 @@
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
-  .flowing-arrow-left { animation: flow-left 2s ease-in-out infinite; }
-  .flowing-arrow-right { animation: flow-right 2s ease-in-out infinite; }
+  .flowing-arrow-left {
+    animation: flow-left 2s ease-in-out infinite;
+  }
+  .flowing-arrow-right {
+    animation: flow-right 2s ease-in-out infinite;
+  }
 
   .path-dot {
-    width: 6px; height: 6px;
+    width: 6px;
+    height: 6px;
     background: hsl(var(--primary));
     border-radius: 50%;
     box-shadow: 0 0 8px hsl(var(--primary) / 0.6);
   }
 
   .path-arrow {
-    width: 8px; height: 8px;
+    width: 8px;
+    height: 8px;
     border-right: 2px solid hsl(var(--primary));
     border-top: 2px solid hsl(var(--primary));
     transform: rotate(45deg);
     filter: drop-shadow(0 0 4px hsl(var(--primary) / 0.5));
   }
 
-  .delay-0 { animation-delay: 0s; }
-  .delay-500 { animation-delay: 0.5s; }
-  .delay-1000 { animation-delay: 1s; }
-  .delay-1500 { animation-delay: 1.5s; }
-  .delay-2000 { animation-delay: 2s; }
-  .delay-2500 { animation-delay: 2.5s; }
+  .delay-0 {
+    animation-delay: 0s;
+  }
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+  .delay-1000 {
+    animation-delay: 1s;
+  }
+  .delay-1500 {
+    animation-delay: 1.5s;
+  }
+  .delay-2000 {
+    animation-delay: 2s;
+  }
+  .delay-2500 {
+    animation-delay: 2.5s;
+  }
 
-  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
 
   /* ── HubSpot Form Styling ── */
   .hubspot-form-container {
     @apply font-sans antialiased;
   }
-  .hubspot-form-container .hs-form { @apply space-y-4 font-sans; }
-  .hubspot-form-container .hs-form-field { @apply mb-4; }
+  .hubspot-form-container .hs-form {
+    @apply space-y-4 font-sans;
+  }
+  .hubspot-form-container .hs-form-field {
+    @apply mb-4;
+  }
   .hubspot-form-container .hs-form-field label,
   .hubspot-form-container .hs-form-field > label,
   .hubspot-form-container legend,
   .hubspot-form-container .hs-field-desc,
   .hubspot-form-container .hs-richtext,
   .hubspot-form-container .hs-richtext p {
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-family:
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif !important;
   }
-  .hubspot-form-container .hs-form-field label { @apply block text-sm font-medium mb-2 font-sans; color: hsl(var(--foreground)) !important; }
+  .hubspot-form-container .hs-form-field label {
+    @apply block text-sm font-medium mb-2 font-sans;
+    color: hsl(var(--foreground)) !important;
+  }
   .hubspot-form-container .hs-input {
     @apply h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-sans shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
     color: hsl(var(--foreground)) !important;
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-family:
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif !important;
   }
   .hubspot-form-container .hs-input::placeholder {
     color: hsl(var(--muted-foreground)) !important;
@@ -974,21 +1266,40 @@
     @apply h-10 cursor-pointer py-2 text-sm font-sans;
     color: hsl(var(--foreground)) !important;
   }
-  .hubspot-form-container textarea.hs-input { @apply min-h-[80px] h-auto py-3 font-sans; resize: vertical; }
+  .hubspot-form-container textarea.hs-input {
+    @apply min-h-[80px] h-auto py-3 font-sans;
+    resize: vertical;
+  }
   .hubspot-form-container .hs-submit .hs-button {
     @apply w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md font-medium font-sans transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-family:
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif !important;
   }
   .hubspot-form-container .hs-error-msgs,
-  .hubspot-form-container .hs-error-msg { @apply text-sm text-destructive font-sans; }
+  .hubspot-form-container .hs-error-msg {
+    @apply text-sm text-destructive font-sans;
+  }
   .hubspot-form-container .hs-richtext,
-  .hubspot-form-container .hs-richtext p { color: hsl(var(--foreground)) !important; }
+  .hubspot-form-container .hs-richtext p {
+    color: hsl(var(--foreground)) !important;
+  }
   .hubspot-form-container .hs-fieldtype-checkbox label,
   .hubspot-form-container .hs-fieldtype-radio label,
   .hubspot-form-container .hs-form-checkbox-display,
   .hubspot-form-container .hs-form-radio-display {
     color: hsl(var(--foreground)) !important;
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-family:
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif !important;
   }
 
   /* Marketing lead forms (MarketingLeadForm, PhoneInput, FlutterContactForm) */
@@ -998,10 +1309,22 @@
   .marketing-form-surface select,
   .marketing-form-surface button,
   .marketing-form-surface option {
-    font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family:
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif;
   }
   .marketing-form-surface .marketing-form-title {
-    font-family: var(--font-heading), var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family:
+      var(--font-heading),
+      var(--font-sans),
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
     letter-spacing: -0.02em;
   }
 
@@ -1034,78 +1357,229 @@
   }
 
   @keyframes slide-down {
-    0% { transform: translateY(-100%); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(400%); opacity: 0; }
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(400%);
+      opacity: 0;
+    }
   }
 
   @keyframes flow {
-    0% { stroke-dashoffset: 100; opacity: 0.3; }
-    50% { opacity: 0.6; }
-    100% { stroke-dashoffset: 0; opacity: 0.3; }
+    0% {
+      stroke-dashoffset: 100;
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0.3;
+    }
   }
 
-  .animate-flow { stroke-dasharray: 10; animation: flow 4s ease-in-out infinite; }
+  .animate-flow {
+    stroke-dasharray: 10;
+    animation: flow 4s ease-in-out infinite;
+  }
 
   /* ── Blog Content Styling ── */
-  .blog-content { @apply text-foreground text-lg leading-relaxed; }
-  .blog-content h1 { @apply text-4xl font-bold mt-8 mb-4; }
-  .blog-content h2 { @apply text-3xl font-bold mt-6 mb-3; }
-  .blog-content h3 { @apply text-2xl font-semibold mt-6 mb-3; }
-  .blog-content h4 { @apply text-xl font-semibold mt-4 mb-2; }
-  .blog-content h5 { @apply text-lg font-semibold mt-4 mb-2; }
-  .blog-content h6 { @apply text-base font-semibold mt-4 mb-2; }
-  .blog-content p { @apply mb-4 leading-relaxed text-foreground; }
-  .blog-content ul { @apply list-disc mb-6 space-y-2 pl-8; }
-  .blog-content ol { @apply list-decimal mb-6 space-y-2 pl-8; }
-  .blog-content li { @apply leading-relaxed text-foreground pl-2; }
-  .blog-content ul ul, .blog-content ol ul { @apply list-disc mt-2 mb-2 pl-6; }
-  .blog-content ul ol, .blog-content ol ol { @apply list-decimal mt-2 mb-2 pl-6; }
-  .blog-content blockquote { @apply border-l-4 border-primary pl-6 py-2 italic my-6 text-muted-foreground; }
-  .blog-content code { @apply bg-muted px-2 py-1 rounded text-sm font-mono; }
-  .blog-content pre { @apply bg-muted p-4 rounded my-6 overflow-x-auto; }
-  .blog-content pre code { @apply bg-transparent p-0; }
-  .blog-content a, .blog-content a:visited { @apply text-primary underline underline-offset-2 decoration-2 font-medium hover:text-primary/80 transition-colors; }
-  .blog-content strong a, .blog-content a strong, .blog-content b a, .blog-content a b { @apply text-primary underline font-semibold; }
-  .blog-content img { @apply rounded-lg my-6 max-w-full h-auto; }
-  .blog-content strong, .blog-content b { @apply font-bold text-foreground; }
-  .blog-content em, .blog-content i { @apply italic; }
-  .blog-content u { @apply underline; }
-  .blog-content hr { @apply my-8 border-border; }
-  .blog-content table { @apply w-full border-collapse my-6 text-left; }
-  .blog-content table th { @apply bg-muted font-semibold text-foreground border border-border px-4 py-3; }
-  .blog-content table td { @apply border border-border px-4 py-3 text-foreground; }
-  .blog-content table tr:nth-child(even) { @apply bg-muted/30; }
-  .blog-content table tr:hover { @apply bg-muted/50 transition-colors; }
+  .blog-content {
+    @apply text-foreground text-lg leading-relaxed;
+  }
+  .blog-content h1 {
+    @apply text-4xl font-bold mt-8 mb-4;
+  }
+  .blog-content h2 {
+    @apply text-3xl font-bold mt-6 mb-3;
+  }
+  .blog-content h3 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+  .blog-content h4 {
+    @apply text-xl font-semibold mt-4 mb-2;
+  }
+  .blog-content h5 {
+    @apply text-lg font-semibold mt-4 mb-2;
+  }
+  .blog-content h6 {
+    @apply text-base font-semibold mt-4 mb-2;
+  }
+  .blog-content p {
+    @apply mb-4 leading-relaxed text-foreground;
+  }
+  .blog-content ul {
+    @apply list-disc mb-6 space-y-2 pl-8;
+  }
+  .blog-content ol {
+    @apply list-decimal mb-6 space-y-2 pl-8;
+  }
+  .blog-content li {
+    @apply leading-relaxed text-foreground pl-2;
+  }
+  .blog-content ul ul,
+  .blog-content ol ul {
+    @apply list-disc mt-2 mb-2 pl-6;
+  }
+  .blog-content ul ol,
+  .blog-content ol ol {
+    @apply list-decimal mt-2 mb-2 pl-6;
+  }
+  .blog-content blockquote {
+    @apply border-l-4 border-primary pl-6 py-2 italic my-6 text-muted-foreground;
+  }
+  .blog-content code {
+    @apply bg-muted px-2 py-1 rounded text-sm font-mono;
+  }
+  .blog-content pre {
+    @apply bg-muted p-4 rounded my-6 overflow-x-auto;
+  }
+  .blog-content pre code {
+    @apply bg-transparent p-0;
+  }
+  .blog-content a,
+  .blog-content a:visited {
+    @apply text-primary underline underline-offset-2 decoration-2 font-medium hover:text-primary/80 transition-colors;
+  }
+  .blog-content strong a,
+  .blog-content a strong,
+  .blog-content b a,
+  .blog-content a b {
+    @apply text-primary underline font-semibold;
+  }
+  .blog-content img {
+    @apply rounded-lg my-6 max-w-full h-auto;
+  }
+  .blog-content strong,
+  .blog-content b {
+    @apply font-bold text-foreground;
+  }
+  .blog-content em,
+  .blog-content i {
+    @apply italic;
+  }
+  .blog-content u {
+    @apply underline;
+  }
+  .blog-content hr {
+    @apply my-8 border-border;
+  }
+  .blog-content table {
+    @apply w-full border-collapse my-6 text-left;
+  }
+  .blog-content table th {
+    @apply bg-muted font-semibold text-foreground border border-border px-4 py-3;
+  }
+  .blog-content table td {
+    @apply border border-border px-4 py-3 text-foreground;
+  }
+  .blog-content table tr:nth-child(even) {
+    @apply bg-muted/30;
+  }
+  .blog-content table tr:hover {
+    @apply bg-muted/50 transition-colors;
+  }
 
   /* ── News Content Styling ── */
-  .news-content { @apply text-foreground text-lg leading-relaxed; }
-  .news-content h1 { @apply text-4xl font-bold mt-8 mb-4; }
-  .news-content h2 { @apply text-3xl font-bold mt-6 mb-3; }
-  .news-content h3 { @apply text-2xl font-semibold mt-6 mb-3; }
-  .news-content h4 { @apply text-xl font-semibold mt-4 mb-2; }
-  .news-content h5 { @apply text-lg font-semibold mt-4 mb-2; }
-  .news-content h6 { @apply text-base font-semibold mt-4 mb-2; }
-  .news-content p { @apply mb-4 leading-relaxed text-foreground; }
-  .news-content ul { @apply list-disc mb-6 space-y-2 pl-8; }
-  .news-content ol { @apply list-decimal mb-6 space-y-2 pl-8; }
-  .news-content li { @apply leading-relaxed text-foreground pl-2; }
-  .news-content ul ul, .news-content ol ul { @apply list-disc mt-2 mb-2 pl-6; }
-  .news-content ul ol, .news-content ol ol { @apply list-decimal mt-2 mb-2 pl-6; }
-  .news-content blockquote { @apply border-l-4 border-primary pl-6 py-2 italic my-6 text-muted-foreground; }
-  .news-content code { @apply bg-muted px-2 py-1 rounded text-sm font-mono; }
-  .news-content pre { @apply bg-muted p-4 rounded my-6 overflow-x-auto; }
-  .news-content pre code { @apply bg-transparent p-0; }
-  .news-content a, .news-content a:visited { @apply text-primary underline underline-offset-2 decoration-2 font-medium hover:text-primary/80 transition-colors; }
-  .news-content strong a, .news-content a strong, .news-content b a, .news-content a b { @apply text-primary underline font-semibold; }
-  .news-content img { @apply rounded-lg my-6 max-w-full h-auto; }
-  .news-content strong, .news-content b { @apply font-bold text-foreground; }
-  .news-content em, .news-content i { @apply italic; }
-  .news-content u { @apply underline; }
-  .news-content hr { @apply my-8 border-border; }
-  .news-content table { @apply w-full border-collapse my-6 text-left; }
-  .news-content table th { @apply bg-muted font-semibold text-foreground border border-border px-4 py-3; }
-  .news-content table td { @apply border border-border px-4 py-3 text-foreground; }
-  .news-content table tr:nth-child(even) { @apply bg-muted/30; }
-  .news-content table tr:hover { @apply bg-muted/50 transition-colors; }
+  .news-content {
+    @apply text-foreground text-lg leading-relaxed;
+  }
+  .news-content h1 {
+    @apply text-4xl font-bold mt-8 mb-4;
+  }
+  .news-content h2 {
+    @apply text-3xl font-bold mt-6 mb-3;
+  }
+  .news-content h3 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+  .news-content h4 {
+    @apply text-xl font-semibold mt-4 mb-2;
+  }
+  .news-content h5 {
+    @apply text-lg font-semibold mt-4 mb-2;
+  }
+  .news-content h6 {
+    @apply text-base font-semibold mt-4 mb-2;
+  }
+  .news-content p {
+    @apply mb-4 leading-relaxed text-foreground;
+  }
+  .news-content ul {
+    @apply list-disc mb-6 space-y-2 pl-8;
+  }
+  .news-content ol {
+    @apply list-decimal mb-6 space-y-2 pl-8;
+  }
+  .news-content li {
+    @apply leading-relaxed text-foreground pl-2;
+  }
+  .news-content ul ul,
+  .news-content ol ul {
+    @apply list-disc mt-2 mb-2 pl-6;
+  }
+  .news-content ul ol,
+  .news-content ol ol {
+    @apply list-decimal mt-2 mb-2 pl-6;
+  }
+  .news-content blockquote {
+    @apply border-l-4 border-primary pl-6 py-2 italic my-6 text-muted-foreground;
+  }
+  .news-content code {
+    @apply bg-muted px-2 py-1 rounded text-sm font-mono;
+  }
+  .news-content pre {
+    @apply bg-muted p-4 rounded my-6 overflow-x-auto;
+  }
+  .news-content pre code {
+    @apply bg-transparent p-0;
+  }
+  .news-content a,
+  .news-content a:visited {
+    @apply text-primary underline underline-offset-2 decoration-2 font-medium hover:text-primary/80 transition-colors;
+  }
+  .news-content strong a,
+  .news-content a strong,
+  .news-content b a,
+  .news-content a b {
+    @apply text-primary underline font-semibold;
+  }
+  .news-content img {
+    @apply rounded-lg my-6 max-w-full h-auto;
+  }
+  .news-content strong,
+  .news-content b {
+    @apply font-bold text-foreground;
+  }
+  .news-content em,
+  .news-content i {
+    @apply italic;
+  }
+  .news-content u {
+    @apply underline;
+  }
+  .news-content hr {
+    @apply my-8 border-border;
+  }
+  .news-content table {
+    @apply w-full border-collapse my-6 text-left;
+  }
+  .news-content table th {
+    @apply bg-muted font-semibold text-foreground border border-border px-4 py-3;
+  }
+  .news-content table td {
+    @apply border border-border px-4 py-3 text-foreground;
+  }
+  .news-content table tr:nth-child(even) {
+    @apply bg-muted/30;
+  }
+  .news-content table tr:hover {
+    @apply bg-muted/50 transition-colors;
+  }
 }

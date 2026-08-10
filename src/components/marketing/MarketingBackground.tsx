@@ -2,8 +2,11 @@ import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import { HeroPixelDonutRippleDesktopOnly } from "@/components/marketing/HeroPixelDonutRippleDesktopOnly";
 
-/** Progressive blur bands — values taken from exalt-studio.com hero (Framer export). */
-const HERO_EXALT_BLUR_LAYERS: { blurPx: number; stops: [number, number, number, number] }[] = [
+/** Progressive blur bands. Values taken from exalt-studio.com hero (Framer export). */
+const HERO_EXALT_BLUR_LAYERS: {
+  blurPx: number;
+  stops: [number, number, number, number];
+}[] = [
   { blurPx: 0.0390625, stops: [0, 12.5, 25, 37.5] },
   { blurPx: 0.078125, stops: [12.5, 25, 37.5, 50] },
   { blurPx: 0.15625, stops: [25, 37.5, 50, 62.5] },
@@ -78,7 +81,9 @@ export function MarketingBackground({
         <div className="hero-exalt-blob hero-exalt-blob--c" />
       </div>
       <div className="absolute inset-0 z-[1] bg-hero-gradient" />
-      {showDiagonalGrid ? <div className="absolute inset-0 z-[2] bg-hero-diagonal-grid" /> : null}
+      {showDiagonalGrid ? (
+        <div className="absolute inset-0 z-[2] bg-hero-diagonal-grid" />
+      ) : null}
       {showPixelRipple ? <HeroPixelDonutRippleDesktopOnly /> : null}
       <div className="absolute inset-0 z-[4] bg-hero-grain" />
       <span
@@ -98,7 +103,12 @@ export function MarketingBackground({
             const style: CSSProperties = {
               zIndex: i + 1,
               ["--hero-exalt-blur" as string]: `blur(${blurPx}px)`,
-              ["--hero-exalt-mask" as string]: exaltBlurMask(stops[0], stops[1], stops[2], stops[3]),
+              ["--hero-exalt-mask" as string]: exaltBlurMask(
+                stops[0],
+                stops[1],
+                stops[2],
+                stops[3],
+              ),
             };
             return <div key={i} style={style} />;
           })}

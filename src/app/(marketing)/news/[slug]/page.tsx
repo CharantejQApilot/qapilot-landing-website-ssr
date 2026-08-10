@@ -11,10 +11,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
-import {
-  DEFAULT_SHARE_IMAGE_URL,
-  defaultOpenGraphImage,
-} from "@/lib/seo";
+import { DEFAULT_SHARE_IMAGE_URL, defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
@@ -62,7 +59,9 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   if (error || !data) return [];
   return data
     .map((row) => row.slug)
-    .filter((slug): slug is string => typeof slug === "string" && slug.length > 0)
+    .filter(
+      (slug): slug is string => typeof slug === "string" && slug.length > 0,
+    )
     .map((slug) => ({ slug }));
 }
 
@@ -80,7 +79,7 @@ interface Backlink {
  * metadata while a sibling `error.tsx` boundary exists has been observed to
  * escalate to Next's generic /500 page on Vercel rather than the proper /404
  * (related to vercel/next.js#65013). We let the page handler decide the HTTP
- * status — that path reliably renders a 404 via the segment-level
+ * status. That path reliably renders a 404 via the segment-level
  * `not-found.tsx`.
  */
 const NOT_FOUND_METADATA: Metadata = {
@@ -138,7 +137,8 @@ export async function generateMetadata({
     ) ??
     `Read ${baseTitle} on QApilot News. Latest updates on AI-powered mobile app testing.`;
 
-  const metaTitle = firstNonEmptyString(newsItem.seo_title, newsItem.title) ?? baseTitle;
+  const metaTitle =
+    firstNonEmptyString(newsItem.seo_title, newsItem.title) ?? baseTitle;
   const youtubeUrl = asTrimmedString(newsItem.youtube_url);
   const videoId = youtubeUrl ? extractYouTubeId(youtubeUrl) : null;
   const videoThumbnail = videoId
@@ -150,7 +150,8 @@ export async function generateMetadata({
     videoThumbnail,
     DEFAULT_SHARE_IMAGE_URL,
   );
-  const ogAbsolute = absoluteUrlForOpenGraph(ogImage) ?? DEFAULT_SHARE_IMAGE_URL;
+  const ogAbsolute =
+    absoluteUrlForOpenGraph(ogImage) ?? DEFAULT_SHARE_IMAGE_URL;
   const publishedTime = normalizeArticlePublishedTime(newsItem.published_date);
 
   /**
@@ -251,7 +252,7 @@ export default async function NewsPostPage({
   const { data: relatedPosts, error: relatedPostsError } = await supabase
     .from("news_updates")
     .select(
-      "id, title, slug, excerpt, featured_image, published_date, youtube_url"
+      "id, title, slug, excerpt, featured_image, published_date, youtube_url",
     )
     .eq("published", true)
     .neq("id", newsItem.id)
@@ -270,9 +271,15 @@ export default async function NewsPostPage({
     : null;
   const featuredImage = firstNonEmptyString(newsItem.featured_image);
   const effectiveOgImage =
-    firstNonEmptyString(newsItem.featured_image, videoThumbnail, DEFAULT_SHARE_IMAGE_URL) ??
-    DEFAULT_SHARE_IMAGE_URL;
-  const leadDescription = firstNonEmptyString(newsItem.description, newsItem.excerpt);
+    firstNonEmptyString(
+      newsItem.featured_image,
+      videoThumbnail,
+      DEFAULT_SHARE_IMAGE_URL,
+    ) ?? DEFAULT_SHARE_IMAGE_URL;
+  const leadDescription = firstNonEmptyString(
+    newsItem.description,
+    newsItem.excerpt,
+  );
   const category = firstNonEmptyString(newsItem.category);
   const tags = commaSeparatedList(newsItem.tags);
 
@@ -379,9 +386,15 @@ export default async function NewsPostPage({
               {newsItem.title}
             </h1>
 
-            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`} />
+            <ArticleSummariseWithAI
+              pageUrl={`${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`}
+            />
 
-            {leadDescription ? <p className="mb-8 text-xl text-muted-foreground">{leadDescription}</p> : null}
+            {leadDescription ? (
+              <p className="mb-8 text-xl text-muted-foreground">
+                {leadDescription}
+              </p>
+            ) : null}
 
             {category || tags.length > 0 ? (
               <div className="mb-6 flex flex-wrap gap-2 text-sm">
@@ -391,13 +404,13 @@ export default async function NewsPostPage({
                   </span>
                 ) : null}
                 {tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  <span
+                    key={tag}
+                    className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             ) : null}
 
@@ -435,7 +448,8 @@ export default async function NewsPostPage({
               dangerouslySetInnerHTML={{
                 __html: sanitizeRichText(
                   asString(newsItem.content),
-                  asTrimmedString(newsItem.content_format).toLowerCase() === "markdown"
+                  asTrimmedString(newsItem.content_format).toLowerCase() ===
+                    "markdown"
                     ? "markdown"
                     : "html",
                 ),

@@ -15,7 +15,7 @@ type HardcodedBanner = {
 /**
  * Hardcoded banners for content that isn't managed in the admin dashboard
  * (e.g. event/webinar pages). The first entry wins and takes precedence over
- * CMS (news/blog) banners. Managed manually — comment out or remove entries
+ * CMS (news/blog) banners. Managed manually. Comment out or remove entries
  * when they're no longer relevant.
  */
 const HARDCODED_PROMO_BANNERS: HardcodedBanner[] = [];

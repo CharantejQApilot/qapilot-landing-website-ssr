@@ -22,28 +22,33 @@ interface PageMeta {
 
 const STATIC_PAGES: Record<string, PageMeta> = {
   "/": {
-    title: "QApilot — AI-Powered Mobile App Testing & QA Automation",
+    title: "QApilot. AI-Powered Mobile App Testing & QA Automation",
     description:
       "QApilot is the AI-native mobile app testing platform that autonomously explores your app, generates coverage, and self-heals broken tests. iOS, Android & Flutter. Book a demo.",
   },
   "/product": {
-    title:
-      "Mobile Testing Platform for Release Readiness | QApilot",
+    title: "Mobile Testing Platform for Release Readiness | QApilot",
     description:
-      "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one system.",
+      "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility. Designed as one system.",
   },
   "/product/autonomous-testing": {
-    title: "Autonomous Mobile App Testing — No Scripts, No Maintenance | QApilot",
+    title:
+      "Autonomous Mobile App Testing. No Scripts, No Maintenance | QApilot",
     description:
-      "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically — zero scripting required. iOS & Android.",
+      "QApilot's autonomous testing engine crawls your app like a real user, builds a knowledge graph, and generates test coverage automatically. Zero scripting required. iOS & Android.",
   },
   "/product/cowork": {
-    title: "CoWork — Activate Test Cases You Already Have | QApilot",
+    title: "CoWork. Activate Test Cases You Already Have | QApilot",
     description:
       "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device execution on iOS, Android, and Flutter.",
   },
+  "/product/dual-device-testing": {
+    title: "Dual Device Testing: Synchronised Mobile Workflows | QApilot",
+    description:
+      "Test marketplace, messaging, and field workflows across two devices as one continuous transaction. Step-level sync, dependency-aware orchestration, and clear failure attribution.",
+  },
   "/cowork": {
-    title: "CoWork — Activate Test Cases You Already Have | QApilot",
+    title: "CoWork. Activate Test Cases You Already Have | QApilot",
     description:
       "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device execution on iOS, Android, and Flutter.",
   },
@@ -54,7 +59,7 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Enterprise-grade mobile testing automation trusted by Fortune 500 companies. Scale your QA process with AI-powered testing for iOS and Android apps.",
   },
   "/book-demo": {
-    title: "Book a Demo — See QApilot on Your Mobile App | QApilot",
+    title: "Book a Demo. See QApilot on Your Mobile App | QApilot",
     description:
       "Schedule a tailored QApilot demo: autonomous mobile testing, self-healing coverage, and release-ready reporting for iOS, Android, and Flutter teams.",
   },
@@ -64,12 +69,12 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "QApilot Labs is where we build and ship experiments that explore the edges of AI-native development and testing. Discover tools born from hackathons and real-world needs.",
   },
   "/device-coverage-matrix": {
-    title: "Device Coverage Matrix — Plan Mobile Device Coverage",
+    title: "Device Coverage Matrix. Plan Mobile Device Coverage",
     description:
       "Pick your market, set a coverage target, and get a ranked OEM + platform matrix for Android and iOS before every release.",
   },
   "/ai-time-savings": {
-    title: "AI Time Savings Calculator — Real QA Effort Savings",
+    title: "AI Time Savings Calculator. Real QA Effort Savings",
     description:
       "Model AI test generation vs manual QA. Adjust accuracy and verification cost to see naïve savings versus actual effort after the verification tax.",
   },
@@ -84,7 +89,7 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Join the QApilot team. Help shape what quality looks like in an AI-first world. Reach out with a general application for careers in AI-powered quality assurance.",
   },
   "/partners": {
-    title: "Partners Program — Grow Mobile QA | QApilot",
+    title: "Partners Program. Grow Mobile QA | QApilot",
     description:
       "Partner with QApilot: join consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
   },
@@ -99,42 +104,37 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Discover what sets QApilot apart: AI-native architecture, Bring Your Own Agent (BYOA) extensibility, and intelligent mobile app testing automation.",
   },
   "/agentic-architecture": {
-    title: "QApilot's Agentic Architecture | AI Agents & Knowledge Graph | QApilot",
+    title:
+      "QApilot's Agentic Architecture | AI Agents & Knowledge Graph | QApilot",
     description:
-      "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing — context, exploration, and outcomes in one system.",
+      "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing. Context, exploration, and outcomes in one system.",
   },
-  "/ai-self-healing": {
-    title: "AI Self-Healing Tests | QApilot",
+  "/product/release-readiness-suite": {
+    title:
+      "Release Readiness Suite. Bug Detection, Security & Self-Healing | QApilot",
     description:
-      "Automatically recover from UI changes and keep mobile tests stable—multi-layer healing, real-time execution, approvals, and full report visibility.",
-  },
-  "/security-reports": {
-    title: "Security Reports for Mobile Applications | QApilot",
-    description:
-      "Automated security insights alongside functional testing: permissions, network, storage, trackers, and release-ready risk visibility.",
-  },
-  "/product/intelligent-bug-detection": {
-    title: "Intelligent Bug Detection for Mobile Applications | QApilot",
-    description:
-      "Go beyond pass or fail. QApilot detects accessibility, latency, and load issues during execution—mapped to exact screens with evidence, severity, and fix guidance.",
+      "QApilot’s Release Readiness Suite combines intelligent bug detection, security reports, and AI self-healing so mobile teams ship with clearer confidence.",
   },
   "/qa-guide": {
-    title: "QE Guide — Mobile Testing Guides & Checklists | QApilot",
+    title: "QE Guide. Mobile Testing Guides & Checklists | QApilot",
     description:
       "In-depth QE guides for mobile testing: Flutter, Appium, regression checklists, and fintech-ready patterns from QApilot practitioners.",
   },
   "/compare/qapilot-vs-web-first-automation-tools": {
-    title: "QApilot vs Web-First Automation Tools | Mobile-First App Testing | QApilot",
+    title:
+      "QApilot vs Web-First Automation Tools | Mobile-First App Testing | QApilot",
     description:
       "Web-first automation tools were built for browsers, then extended to mobile. QApilot is built mobile-first, helping teams test native, hybrid, and Flutter apps with better coverage, lower maintenance, and faster release confidence.",
   },
   "/compare/qapilot-vs-appium": {
-    title: "QApilot vs Appium | AI-Native Mobile App Testing Platform | QApilot",
+    title:
+      "QApilot vs Appium | AI-Native Mobile App Testing Platform | QApilot",
     description:
       "Compare QApilot vs Appium for mobile app testing. See how QApilot goes beyond scripted automation with autonomous crawling, AI-native test generation, self-healing, real-device execution, and release-ready reporting.",
   },
   "/compare/qapilot-vs-visual-testing-tools": {
-    title: "QApilot vs Visual Testing Tools | Mobile App Release Readiness | QApilot",
+    title:
+      "QApilot vs Visual Testing Tools | Mobile App Release Readiness | QApilot",
     description:
       "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
   },
@@ -149,22 +149,22 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Compare QApilot vs Maestro for mobile app testing. See how autonomous exploration and self-healing go beyond YAML flow automation for release-ready mobile QA.",
   },
   "/alternatives/browserstack": {
-    title: "BrowserStack Alternative — Autonomous Mobile Testing | QApilot",
+    title: "BrowserStack Alternative. Autonomous Mobile Testing | QApilot",
     description:
-      "Looking for a BrowserStack alternative? QApilot adds autonomous test generation, self-healing, and release readiness — mobile-first from day one.",
+      "Looking for a BrowserStack alternative? QApilot adds autonomous test generation, self-healing, and release readiness. Mobile-first from day one.",
   },
   "/alternatives/sauce-labs": {
-    title: "Sauce Labs Alternative — Autonomous Mobile Testing | QApilot",
+    title: "Sauce Labs Alternative. Autonomous Mobile Testing | QApilot",
     description:
       "Looking for a Sauce Labs alternative? QApilot delivers autonomous mobile test generation, self-healing, and release readiness beyond device clouds.",
   },
   "/integrations": {
-    title: "Integrations — Works With Your Testing Stack | QApilot",
+    title: "Integrations. Works With Your Testing Stack | QApilot",
     description:
-      "QApilot integrates with Jira, TestRail, Jenkins, BrowserStack, Sauce Labs, Slack, Teams, and more — fit autonomous mobile testing into your existing QA stack.",
+      "QApilot integrates with Jira, TestRail, Jenkins, BrowserStack, Sauce Labs, Slack, Teams, and more. Fit autonomous mobile testing into your existing QA stack.",
   },
   "/blogs": {
-    title: "Blogs — Mobile Testing Tips, Guides & Best Practices | QApilot",
+    title: "Blogs. Mobile Testing Tips, Guides & Best Practices | QApilot",
     description:
       "Expert insights on mobile app testing, QA automation, and test strategy. Learn best practices for iOS and Android testing from the QApilot team.",
   },
@@ -282,51 +282,55 @@ function buildHtml(meta: {
   publishedDate?: string;
 }): string {
   const escaped = (s: string) =>
-    s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
 
   /** Avoid declaring wrong dimensions for arbitrary CMS images (many crawlers ignore these). */
   const dimensionTags =
     meta.image === DEFAULT_OG_IMAGE
       ? `<meta property="og:image:width" content="${DEFAULT_OG_IMAGE_WIDTH}" />
-  <meta property="og:image:height" content="${DEFAULT_OG_IMAGE_HEIGHT}" />`
+ <meta property="og:image:height" content="${DEFAULT_OG_IMAGE_HEIGHT}" />`
       : "";
 
   const articleTags =
     meta.ogType === "article" && meta.publishedDate
       ? `<meta property="article:published_time" content="${escaped(meta.publishedDate)}" />
-  <meta property="article:author" content="${escaped(meta.author || "QApilot")}" />`
+ <meta property="article:author" content="${escaped(meta.author || "QApilot")}" />`
       : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>${escaped(meta.title)}</title>
-  <meta name="description" content="${escaped(meta.description)}" />
-  <link rel="canonical" href="${escaped(meta.url)}" />
+ <meta charset="utf-8" />
+ <title>${escaped(meta.title)}</title>
+ <meta name="description" content="${escaped(meta.description)}" />
+ <link rel="canonical" href="${escaped(meta.url)}" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="${meta.ogType}" />
-  <meta property="og:url" content="${escaped(meta.url)}" />
-  <meta property="og:title" content="${escaped(meta.title)}" />
-  <meta property="og:description" content="${escaped(meta.description)}" />
-  <meta property="og:image" content="${escaped(meta.image)}" />
-  ${dimensionTags}
-  <meta property="og:site_name" content="QApilot" />
-  ${articleTags}
+ <!-- Open Graph -->
+ <meta property="og:type" content="${meta.ogType}" />
+ <meta property="og:url" content="${escaped(meta.url)}" />
+ <meta property="og:title" content="${escaped(meta.title)}" />
+ <meta property="og:description" content="${escaped(meta.description)}" />
+ <meta property="og:image" content="${escaped(meta.image)}" />
+ ${dimensionTags}
+ <meta property="og:site_name" content="QApilot" />
+ ${articleTags}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@QApilot" />
-  <meta name="twitter:title" content="${escaped(meta.title)}" />
-  <meta name="twitter:description" content="${escaped(meta.description)}" />
-  <meta name="twitter:image" content="${escaped(meta.image)}" />
+ <!-- Twitter Card -->
+ <meta name="twitter:card" content="summary_large_image" />
+ <meta name="twitter:site" content="@QApilot" />
+ <meta name="twitter:title" content="${escaped(meta.title)}" />
+ <meta name="twitter:description" content="${escaped(meta.description)}" />
+ <meta name="twitter:image" content="${escaped(meta.image)}" />
 
-  <!-- Redirect real users to the SPA -->
-  <meta http-equiv="refresh" content="0;url=${escaped(meta.url)}" />
+ <!-- Redirect real users to the SPA -->
+ <meta http-equiv="refresh" content="0;url=${escaped(meta.url)}" />
 </head>
 <body>
-  <p>Redirecting to <a href="${escaped(meta.url)}">${escaped(meta.url)}</a></p>
+ <p>Redirecting to <a href="${escaped(meta.url)}">${escaped(meta.url)}</a></p>
 </body>
 </html>`;
 }
@@ -409,7 +413,10 @@ Deno.serve(async (req) => {
           publishedDate: trimStr(row.published_date) || undefined,
         });
         return new Response(html, {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/html; charset=utf-8",
+          },
         });
       }
     } catch {
@@ -452,7 +459,10 @@ Deno.serve(async (req) => {
           publishedDate: trimStr(row.published_date) || undefined,
         });
         return new Response(html, {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/html; charset=utf-8",
+          },
         });
       }
     } catch {
@@ -486,7 +496,10 @@ Deno.serve(async (req) => {
           ogType: "website",
         });
         return new Response(html, {
-          headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/html; charset=utf-8",
+          },
         });
       }
     } catch {
@@ -494,7 +507,7 @@ Deno.serve(async (req) => {
     }
   }
 
-  // 3. Fallback — unknown path, return generic QApilot meta with redirect
+  // 3. Fallback. Unknown path, return generic QApilot meta with redirect
   const fallbackHtml = buildHtml({
     title: "QApilot - AI-Powered Mobile App Testing & QA Automation",
     description:

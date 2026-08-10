@@ -1,11 +1,8 @@
+import { AppWindow, Binary, Fingerprint, Network, Radar } from "lucide-react";
 import {
-  AppWindow,
-  Binary,
-  Fingerprint,
-  Network,
-  Radar,
-} from "lucide-react";
-import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
+  MarketingLedger,
+  MarketingLedgerCell,
+} from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const ITEMS = [
@@ -47,19 +44,28 @@ export function SecurityReportsAnalyzeGridSection() {
           id="sr-analyze-heading"
           title={
             <>
-              Security Analysis To Make Your App <span className="text-primary">Release Ready</span>
+              Security Analysis To Make Your App{" "}
+              <span className="text-primary">Release Ready</span>
             </>
           }
-          description="Structured checks that mirror how attackers and auditors think—not a one-off scan buried in a folder."
+          description="Structured checks that mirror how attackers and auditors think. Not a one-off scan buried in a folder."
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
         <MarketingLedger cols={5} aria-label="Security analysis areas">
           {ITEMS.map((item) => (
             <MarketingLedgerCell key={item.title}>
-              <item.Icon className="h-8 w-8 text-primary" strokeWidth={1.35} aria-hidden />
-              <h3 className="mt-4 font-heading text-lg font-semibold text-foreground">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{item.body}</p>
+              <item.Icon
+                className="h-8 w-8 text-primary"
+                strokeWidth={1.35}
+                aria-hidden
+              />
+              <h3 className="mt-4 font-heading text-lg font-semibold text-foreground">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                {item.body}
+              </p>
             </MarketingLedgerCell>
           ))}
         </MarketingLedger>

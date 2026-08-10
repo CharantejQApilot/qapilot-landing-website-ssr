@@ -6,7 +6,12 @@ import { PATHS } from "@/lib/routes";
 
 function AppleIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
       <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.44.09 1.17-.33 2.35-1.02 3.28-.69.93-1.84 1.64-2.86 1.66-.12-1.15.41-2.35 1.04-3.5z" />
     </svg>
   );
@@ -33,7 +38,13 @@ const platforms: Platform[] = [
     sub: "Simulator & physical devices",
     icon: AppleIcon,
   },
-  { id: "flutter", label: "Flutter", sub: "Cross-platform", icon: Layers, href: PATHS.FOR_FLUTTER },
+  {
+    id: "flutter",
+    label: "Flutter",
+    sub: "Cross-platform",
+    icon: Layers,
+    href: PATHS.FOR_FLUTTER,
+  },
   {
     id: "react-native",
     label: "React Native",
@@ -55,12 +66,20 @@ function PlatformTile({ p }: { p: Platform }) {
         {isApple ? (
           <AppleIcon className="h-5 w-5 md:h-6 md:w-6" />
         ) : (
-          <Icon className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} aria-hidden />
+          <Icon
+            className="h-5 w-5 md:h-6 md:w-6"
+            strokeWidth={1.5}
+            aria-hidden
+          />
         )}
       </div>
       <div>
-        <p className="font-heading text-sm font-bold text-foreground md:text-base">{p.label}</p>
-        <p className="mt-0.5 text-[11px] text-muted-foreground md:text-xs">{p.sub}</p>
+        <p className="font-heading text-sm font-bold text-foreground md:text-base">
+          {p.label}
+        </p>
+        <p className="mt-0.5 text-[11px] text-muted-foreground md:text-xs">
+          {p.sub}
+        </p>
       </div>
     </>
   );
@@ -69,7 +88,11 @@ function PlatformTile({ p }: { p: Platform }) {
 
   if (p.href) {
     return (
-      <Link href={p.href} className={shellClass} aria-label={`${p.label} testing`}>
+      <Link
+        href={p.href}
+        className={shellClass}
+        aria-label={`${p.label} testing`}
+      >
         {inner}
       </Link>
     );
@@ -78,7 +101,7 @@ function PlatformTile({ p }: { p: Platform }) {
   return <div className={shellClass}>{inner}</div>;
 }
 
-/** S13 compatibility ledger — existing framework content, split + shared borders. */
+/** S13 compatibility ledger. Existing framework content, split + shared borders. */
 const ModernFrameworksSection = () => {
   return (
     <section
@@ -96,13 +119,18 @@ const ModernFrameworksSection = () => {
           eyebrow="Compatibility"
           title={
             <>
-              Built for <span className="text-primary">Modern Mobile</span> Frameworks
+              Built for <span className="text-primary">Modern Mobile</span>{" "}
+              Frameworks
             </>
           }
           description={
             <>
-              QApilot works <strong className="font-semibold text-foreground">post-build</strong>
-              {"\u00A0"}— it validates real application behavior on your binaries, independent of how they were built.
+              QApilot works{" "}
+              <strong className="font-semibold text-foreground">
+                post-build
+              </strong>
+              {"\u00A0"}. it validates real application behavior on your
+              binaries, independent of how they were built.
             </>
           }
         />
@@ -113,15 +141,22 @@ const ModernFrameworksSection = () => {
             <Link href={PATHS.FOR_FLUTTER} className={tileLinkClass}>
               Flutter
             </Link>
-            , or React Native. One pipeline validates what users actually experience — no framework-specific
-            test harness required.
+            , or React Native. One pipeline validates what users actually
+            experience. No framework-specific test harness required.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-            <span className="font-semibold text-foreground">Post-build validation</span>
-            <span className="mx-2 select-none text-muted-foreground/45 md:mx-2.5" aria-hidden>
+            <span className="font-semibold text-foreground">
+              Post-build validation
+            </span>
+            <span
+              className="mx-2 select-none text-muted-foreground/45 md:mx-2.5"
+              aria-hidden
+            >
               ·
             </span>
-            <span className="font-semibold text-foreground">Framework-agnostic</span>
+            <span className="font-semibold text-foreground">
+              Framework-agnostic
+            </span>
           </p>
         </div>
 

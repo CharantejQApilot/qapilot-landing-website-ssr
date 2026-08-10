@@ -3,7 +3,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 
 export const dynamic = "force-static";
 
-/** MCP Server Card (SEP-1649) — transport \`endpoint\` for Streamable HTTP. */
+/** MCP Server Card (SEP-1649). Transport \`endpoint\` for Streamable HTTP. */
 export function GET() {
   const endpoint = `${SITE_BASE_URL}/mcp`;
   return NextResponse.json(

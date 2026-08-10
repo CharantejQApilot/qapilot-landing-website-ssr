@@ -68,7 +68,11 @@ export default function QaGuideEditorClient() {
   const { data: guide, isLoading } = useQuery({
     queryKey: ["qa-guide", id],
     queryFn: async () => {
-      const { data, error } = await supabase.from("qa_guides").select("*").eq("id", id).single();
+      const { data, error } = await supabase
+        .from("qa_guides")
+        .select("*")
+        .eq("id", id)
+        .single();
       if (error) throw error;
       return data;
     },
@@ -145,7 +149,11 @@ export default function QaGuideEditorClient() {
       toast({ title: "Saved" });
     },
     onError: (e: Error) => {
-      toast({ title: "Save failed", description: e.message, variant: "destructive" });
+      toast({
+        title: "Save failed",
+        description: e.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -252,12 +260,19 @@ export default function QaGuideEditorClient() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">Edit {QE_GUIDE_DISPLAY_NAME}</h1>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+            <Button
+              variant="outline"
+              onClick={() => saveMutation.mutate()}
+              disabled={saveMutation.isPending}
+            >
               <Save className="mr-2 h-4 w-4" />
               Save
             </Button>
             {isDraft ? (
-              <Button onClick={() => publishMutation.mutate()} disabled={publishMutation.isPending}>
+              <Button
+                onClick={() => publishMutation.mutate()}
+                disabled={publishMutation.isPending}
+              >
                 <Rocket className="mr-2 h-4 w-4" />
                 Publish
               </Button>
@@ -272,7 +287,9 @@ export default function QaGuideEditorClient() {
         {Object.keys(qc).length > 0 ? (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Quality checks (from automation)</CardTitle>
+              <CardTitle className="text-base">
+                Quality checks (from automation)
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <pre className="max-h-48 overflow-auto rounded bg-muted p-3 text-xs">
@@ -286,12 +303,20 @@ export default function QaGuideEditorClient() {
           <CardContent className="space-y-4 pt-6">
             <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
-              <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="slug">Slug</Label>
-                <Input id="slug" value={slug} onChange={(e) => setSlug(e.target.value)} />
+                <Input
+                  id="slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="cluster">Topic cluster</Label>
@@ -312,29 +337,57 @@ export default function QaGuideEditorClient() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="excerpt">Excerpt</Label>
-              <Textarea id="excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} />
+              <Textarea
+                id="excerpt"
+                value={excerpt}
+                onChange={(e) => setExcerpt(e.target.value)}
+                rows={2}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="content">Content (Markdown)</Label>
-              <Textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} rows={16} className="font-mono text-sm" />
+              <Textarea
+                id="content"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={16}
+                className="font-mono text-sm"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="image">Featured image URL (optional)</Label>
-              <Input id="image" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} />
+              <Input
+                id="image"
+                value={featuredImage}
+                onChange={(e) => setFeaturedImage(e.target.value)}
+              />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="seoTitle">SEO title (auto-filled from title if empty)</Label>
-                <Input id="seoTitle" value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} />
+                <Label htmlFor="seoTitle">
+                  SEO title (auto-filled from title if empty)
+                </Label>
+                <Input
+                  id="seoTitle"
+                  value={seoTitle}
+                  onChange={(e) => setSeoTitle(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="author">Author name</Label>
-                <Input id="author" value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+                <Input
+                  id="author"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="writer">Writer profile</Label>
-              <Select value={writerId || "none"} onValueChange={handleWriterChange}>
+              <Select
+                value={writerId || "none"}
+                onValueChange={handleWriterChange}
+              >
                 <SelectTrigger id="writer" className="bg-background">
                   <SelectValue placeholder="Select a writer" />
                 </SelectTrigger>
@@ -343,18 +396,26 @@ export default function QaGuideEditorClient() {
                   {(writers ?? []).map((writer) => (
                     <SelectItem key={writer.id} value={writer.id}>
                       {writer.name}
-                      {writer.designation ? ` — ${writer.designation}` : ""}
+                      {writer.designation ? `. ${writer.designation}` : ""}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                Links the Written by card (bio + LinkedIn) at the end of the guide
+                Links the Written by card (bio + LinkedIn) at the end of the
+                guide
               </p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="seoDesc">SEO description (auto-filled from excerpt if empty)</Label>
-              <Textarea id="seoDesc" value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} rows={2} />
+              <Label htmlFor="seoDesc">
+                SEO description (auto-filled from excerpt if empty)
+              </Label>
+              <Textarea
+                id="seoDesc"
+                value={seoDescription}
+                onChange={(e) => setSeoDescription(e.target.value)}
+                rows={2}
+              />
             </div>
           </CardContent>
         </Card>

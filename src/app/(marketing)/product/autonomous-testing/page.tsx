@@ -11,14 +11,14 @@ import { PATHS } from "@/lib/routes";
 import { buildStaticPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Autonomous Mobile Testing — No Scripts",
+  title: "Autonomous Mobile Testing. No Scripts",
   description:
-    "Crawl your app like a real user, build a knowledge graph, and generate iOS & Android coverage automatically—zero scripting required.",
+    "Crawl your app like a real user, build a knowledge graph, and generate iOS & Android coverage automatically. Zero scripting required.",
   path: PATHS.AUTONOMOUS_TESTING,
   ogDescription:
     "Autonomous mobile testing: explore, map journeys, and generate coverage with no scripts.",
   twitterDescription:
-    "Crawl like a real user and generate test coverage automatically—zero scripting.",
+    "Crawl like a real user and generate test coverage automatically. Zero scripting.",
 });
 
 export const revalidate = 300;

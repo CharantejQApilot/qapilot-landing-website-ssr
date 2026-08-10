@@ -5,16 +5,16 @@ set -euo pipefail
 PROJECT_REF="jvxdyfgjudycpopepgku"
 BASE_URL="https://${PROJECT_REF}.supabase.co"
 
-echo "=== QA Guide Path A — production project ${PROJECT_REF} ==="
+echo "=== QA Guide Path A. Production project ${PROJECT_REF} ==="
 echo ""
 
 if [[ -z "${SUPABASE_ACCESS_TOKEN:-}" ]]; then
-  echo "STEP 1 — Database (manual)"
+  echo "STEP 1. Database (manual)"
   echo "  Open Supabase SQL Editor for project ${PROJECT_REF}"
   echo "  (Lovable → project → Supabase, or dashboard if you have access)"
   echo "  Run: supabase/sql/jvxdyfg_qa_guides_setup.sql"
   echo ""
-  echo "STEP 2 — Edge function deploy (needs access token)"
+  echo "STEP 2. Edge function deploy (needs access token)"
   echo "  Create token: https://supabase.com/dashboard/account/tokens"
   echo "  Token must belong to an account with access to project ${PROJECT_REF}"
   echo "  Then re-run:"

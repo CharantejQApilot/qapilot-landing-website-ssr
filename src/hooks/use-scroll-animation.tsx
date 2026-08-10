@@ -16,7 +16,7 @@ const useIsomorphicLayoutEffect =
  * - SSR / first paint: treat as in-view (visible) so HTML never flashes hidden→shown above the fold.
  * - useLayoutEffect runs before the browser paints after hydration: elements strictly below the
  *   viewport switch to hidden once, then IntersectionObserver reveals them on scroll.
- * (Using useEffect caused one painted frame at full opacity before hiding — visible flicker.)
+ * (Using useEffect caused one painted frame at full opacity before hiding. Visible flicker.)
  */
 export const useScrollAnimation = (threshold = 0.1) => {
   const ref = useRef<HTMLElement>(null);

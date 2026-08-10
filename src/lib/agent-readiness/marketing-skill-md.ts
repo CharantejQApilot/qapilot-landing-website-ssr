@@ -13,7 +13,7 @@ description: Use QApilot marketing site endpoints, docs, compare pages, and API 
 
 # QApilot marketing site
 
-Public marketing and API discovery for [QApilot](https://qapilot.io) — AI-native mobile app testing and QA automation for iOS and Android.
+Public marketing and API discovery for [QApilot](https://qapilot.io). AI-native mobile app testing and QA automation for iOS and Android.
 
 ## When to use
 
@@ -35,6 +35,8 @@ Public marketing and API discovery for [QApilot](https://qapilot.io) — AI-nati
 
 - Overview: ${u(PATHS.PRODUCT)}
 - Autonomous testing: ${u(PATHS.AUTONOMOUS_TESTING)}
+- Dual Device Testing: ${u(PATHS.DUAL_DEVICE_TESTING)}
+- Release Readiness Suite: ${u(PATHS.RELEASE_READINESS_SUITE)}
 - Intelligent bug detection: ${u(PATHS.INTELLIGENT_BUG_DETECTION)}
 - AI self-healing: ${u(PATHS.AI_SELF_HEALING)}
 - Security reports: ${u(PATHS.SECURITY_REPORTS)}
