@@ -7,6 +7,7 @@ import {
   RefreshCw,
   Users,
 } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -92,15 +93,9 @@ export function ForReleaseManagerSections() {
             But many teams still face:
           </p>
 
-          <ul className="grid gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
+          <MarketingLedger cols={2} aria-label="Release manager challenges">
             {CHALLENGE_ITEMS.map(({ title, icon: Icon }) => (
-              <li
-                key={title}
-                className={cn(
-                  "relative flex gap-4 overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-7",
-                  "motion-safe:hover:border-primary/25 motion-safe:hover:shadow-md",
-                )}
-              >
+              <MarketingLedgerCell key={title} className="flex gap-4">
                 <span
                   className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/10"
                   aria-hidden
@@ -110,9 +105,9 @@ export function ForReleaseManagerSections() {
                 <span className="min-w-0 self-center text-base font-medium leading-snug text-foreground md:text-lg">
                   {title}
                 </span>
-              </li>
+              </MarketingLedgerCell>
             ))}
-          </ul>
+          </MarketingLedger>
         </div>
       </section>
 
@@ -133,35 +128,26 @@ export function ForReleaseManagerSections() {
             marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
           />
 
-          <div className="grid gap-5 md:grid-cols-2 md:gap-6 lg:gap-8">
+          <MarketingLedger cols={2} aria-label="Release manager outcomes">
             {OUTCOMES.map((outcome) => (
-              <article
-                key={outcome.title}
-                className={cn(
-                  "relative flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8",
-                  "motion-safe:hover:border-primary/30",
-                )}
-              >
-                <span className="absolute bottom-0 left-0 top-0 w-1 bg-primary/90" aria-hidden />
-                <div className="pl-4 md:pl-5">
-                  <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-                    {outcome.title}
-                  </h3>
-                  <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {outcome.capabilities.map((cap) => (
-                      <span
-                        key={cap}
-                        className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
-                      >
-                        {cap}
-                      </span>
-                    ))}
-                  </div>
+              <MarketingLedgerCell key={outcome.title}>
+                <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                  {outcome.title}
+                </h3>
+                <p className={cn(marketingSectionIntroClass, "mt-4")}>{outcome.body}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {outcome.capabilities.map((cap) => (
+                    <span
+                      key={cap}
+                      className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary"
+                    >
+                      {cap}
+                    </span>
+                  ))}
                 </div>
-              </article>
+              </MarketingLedgerCell>
             ))}
-          </div>
+          </MarketingLedger>
         </div>
       </section>
 
@@ -206,17 +192,19 @@ export function ForReleaseManagerSections() {
         aria-labelledby="rm-why-heading"
       >
         <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
-          <MarketingSectionHeader
-            id="rm-why-heading"
-            eyebrow="Why QApilot"
-            title={
-              <>
-                Why Release Managers Choose <span className="text-primary">QApilot</span>
-              </>
-            }
-            description="Because releases should be delayed only by real risk—not unclear testing signals—QApilot helps Release Managers move faster with stronger confidence."
-            marginBottomClassName="mb-0"
-          />
+          <div className="sig-close">
+            <MarketingSectionHeader
+              id="rm-why-heading"
+              eyebrow="Why QApilot"
+              title={
+                <>
+                  Why Release Managers Choose <span className="text-primary">QApilot</span>
+                </>
+              }
+              description="Because releases should be delayed only by real risk—not unclear testing signals—QApilot helps Release Managers move faster with stronger confidence."
+              marginBottomClassName="mb-0"
+            />
+          </div>
         </div>
       </section>
     </>

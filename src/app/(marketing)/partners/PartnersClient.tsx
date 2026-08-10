@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
 import { MarketingBackground, MarketingSectionHeader } from "@/components/marketing";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { HUBSPOT_PARTNERS_FORM_ID } from "@/lib/constants";
 import {
   marketingHeroH1Class,
@@ -176,7 +177,7 @@ const PartnersClient = () => {
       >
         <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple={false} progressiveBlur={false} />
         <div className="relative z-10 section-full py-14 sm:py-16 md:py-20 lg:py-24 2xl:py-28">
-          <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
+          <div className="flex max-w-5xl flex-col items-center text-center lg:items-start lg:text-left">
             <h1
               id="partners-hero-title"
               className={cn(
@@ -191,7 +192,7 @@ const PartnersClient = () => {
             <p
               className={cn(
                 marketingHeroLeadClass,
-                "mx-auto mb-10 max-w-3xl text-balance text-muted-foreground sm:mb-11",
+                "mx-auto mb-10 max-w-3xl text-balance text-muted-foreground sm:mb-11 lg:mx-0",
               )}
             >
               Help customers move from brittle mobile automation to AI-native release readiness. QApilot gives
@@ -227,15 +228,9 @@ const PartnersClient = () => {
             marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <div className="grid w-full gap-5 md:grid-cols-3 md:gap-6">
+          <MarketingLedger cols={3} aria-label="Partner opportunity steps">
             {opportunitySteps.map((step, index) => (
-              <article
-                key={step.key}
-                className={cn(
-                  "relative overflow-hidden rounded-2xl border border-border/70 bg-card/90 p-6 shadow-md backdrop-blur-sm md:p-7",
-                  "before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/[0.06] before:to-transparent",
-                )}
-              >
+              <MarketingLedgerCell key={step.key} className="relative">
                 <span
                   className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-xs font-semibold tabular-nums text-primary md:right-6 md:top-6"
                   aria-hidden
@@ -251,9 +246,9 @@ const PartnersClient = () => {
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{step.body}</p>
                 </div>
-              </article>
+              </MarketingLedgerCell>
             ))}
-          </div>
+          </MarketingLedger>
         </div>
       </section>
 
@@ -274,7 +269,7 @@ const PartnersClient = () => {
           />
 
           <ul
-            className="grid w-full grid-cols-2 gap-5 sm:gap-6 md:grid-cols-3 md:gap-7 lg:grid-cols-5 lg:gap-8"
+            className="grid w-full grid-cols-2 gap-5 sm:gap-6 md:grid-cols-4 md:gap-7 lg:gap-8"
             aria-label="Partner logos"
           >
             {PARTNERS.map((partner) => (
@@ -289,24 +284,17 @@ const PartnersClient = () => {
             <h2 id="why-partners-heading" className="sr-only">
               Why partners choose QApilot
             </h2>
-            <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
+            <MarketingLedger cols={3} aria-label="Why partners choose QApilot">
               {whyChooseCards.map(({ title, body, Icon }) => (
-                <li
-                  key={title}
-                  className={cn(
-                    "rounded-2xl border border-border/55 p-5 shadow-sm backdrop-blur-sm md:p-6",
-                    "bg-gradient-to-b from-muted/45 to-muted/15",
-                    "ring-1 ring-border/30",
-                  )}
-                >
+                <MarketingLedgerCell key={title} as="div">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/12 text-primary ring-1 ring-primary/15">
                     <Icon className="h-5 w-5" strokeWidth={1.4} aria-hidden />
                   </span>
                   <h3 className="mt-4 font-heading text-lg font-semibold tracking-tight text-foreground">{title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{body}</p>
-                </li>
+                </MarketingLedgerCell>
               ))}
-            </ul>
+            </MarketingLedger>
           </div>
         </div>
       </section>
@@ -327,12 +315,9 @@ const PartnersClient = () => {
             marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
+          <MarketingLedger cols={3} aria-label="Partner types">
             {partnerTypeCards.map(({ title, body, Icon }) => (
-              <li
-                key={title}
-                className="rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm md:p-6"
-              >
+              <MarketingLedgerCell key={title} as="div">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/20 bg-primary/[0.07] text-primary">
                   <Icon className="h-5 w-5" strokeWidth={1.4} aria-hidden />
                 </span>
@@ -340,9 +325,9 @@ const PartnersClient = () => {
                   {title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
-              </li>
+              </MarketingLedgerCell>
             ))}
-          </ul>
+          </MarketingLedger>
         </div>
       </section>
 
@@ -361,18 +346,15 @@ const PartnersClient = () => {
             marginBottomClassName="mb-8 md:mb-10"
           />
 
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <MarketingLedger cols={2} aria-label="Partner revenue motions">
             {revenueCards.map(({ title, body, Icon }) => (
-              <li
-                key={title}
-                className="rounded-xl border border-border/65 bg-card/80 p-4 shadow-sm md:p-5"
-              >
+              <MarketingLedgerCell key={title} as="div">
                 <Icon className="h-5 w-5 text-primary" strokeWidth={1.4} aria-hidden />
                 <h3 className="mt-3 font-heading text-base font-semibold text-foreground">{title}</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">{body}</p>
-              </li>
+              </MarketingLedgerCell>
             ))}
-          </ul>
+          </MarketingLedger>
         </div>
       </section>
 
@@ -409,14 +391,14 @@ const PartnersClient = () => {
         aria-labelledby="final-cta-heading"
       >
         <div className="section-full">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="sig-close">
             <h2 id="final-cta-heading" className={cn(marketingSectionH2Class, "text-foreground")}>
               Build Your Agentic Mobile QA Practice <span className="text-primary">With QApilot</span>
             </h2>
             <p className={cn(marketingSectionIntroClass, "mx-auto mt-4 max-w-xl text-pretty")}>
               Land with mobile testing. Expand into QA modernization, AI services, and release readiness.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="sig-cta-row">
               <Button
                 type="button"
                 onClick={openForm}

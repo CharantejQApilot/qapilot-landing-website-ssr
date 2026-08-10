@@ -11,12 +11,12 @@ import { resolveFaqsForPage, type CmsFAQ } from "@/lib/faqs-resolve";
 import { logMetadataFallback } from "@/lib/server-telemetry";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "FAQs - Frequently Asked Questions",
+  title: "FAQs — Mobile Testing Answers",
   description:
-    "Find answers to frequently asked questions about QApilot's AI-powered testing platform, features, pricing, and support.",
+    "Answers about QApilot’s AI-native mobile testing: platforms, autonomous coverage, self-healing, integrations, and getting started.",
   path: PATHS.FAQS,
   ogDescription:
-    "Answers about QApilot's AI-powered mobile testing platform, features, and support.",
+    "FAQs on QApilot AI-native mobile testing, features, integrations, and support.",
 });
 
 export const revalidate = 120;
@@ -76,8 +76,8 @@ export default async function FAQsPage() {
       <MarketingPageShell background="soft">
         <main className="section-edge w-full py-16 md:py-24">
           <div className="section-full w-full">
-            <header className="mb-12 text-center md:mb-14">
-              <h1 className={cn(marketingHeroH1Class, "mx-auto max-w-4xl leading-[1.08]")}>
+            <header className="mb-12 text-center md:mb-14 lg:text-left">
+              <h1 className={cn(marketingHeroH1Class, "mx-auto max-w-4xl leading-[1.08] lg:mx-0")}>
                 <span className="block">Frequently Asked</span>
                 <span className="block text-primary">Questions</span>
               </h1>

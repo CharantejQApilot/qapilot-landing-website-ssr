@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { HOME_TRUST_LOGOS, type HomeTrustLogo } from "@/lib/home-trust-logos";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +31,7 @@ function TrustLogoLink({
   );
 
   const logoImage = (
-    <img
+    <Image
       src={logo.logo}
       alt={decorative ? "" : `${logo.name} logo`}
       width={160}

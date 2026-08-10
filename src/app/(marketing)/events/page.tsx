@@ -5,7 +5,7 @@ import { FeaturedEventCard } from "@/components/events/FeaturedEventCard";
 import { EventListItem } from "@/components/events/EventListItem";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import {
   marketingHeroH1Class,
@@ -29,29 +29,16 @@ const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 const EVENTS_GRID =
   "mx-auto grid w-full max-w-7xl list-none gap-6 sm:gap-8 md:grid-cols-2 xl:gap-10 [&>li:last-child:nth-child(odd)]:md:col-span-2 [&>li:last-child:nth-child(odd)]:md:max-w-3xl [&>li:last-child:nth-child(odd)]:md:justify-self-center [&>li:last-child:nth-child(odd)]:md:w-full";
 
-export const metadata: Metadata = {
-  title: "Events - Webinars, Meetups & Live Talks",
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "Events — Webinars, Meetups & Live Talks",
   description:
-    "Webinars, meetups, and live talks from the QApilot team on AI-native mobile testing, autonomous QA, Flutter validation, and release readiness.",
-  alternates: { canonical: canonicalUrl },
-  openGraph: {
-    type: "website",
-    url: canonicalUrl,
-    title: "Events - Webinars, Meetups & Live Talks | QApilot",
-    description:
-      "Practical sessions on AI mobile testing, agentic QA, and engineering practices that make shipping faster feel safe.",
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [defaultOpenGraphImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Events - Webinars, Meetups & Live Talks | QApilot",
-    description:
-      "Join QApilot live or catch recordings on mobile testing, autonomous QA, and release readiness.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
-  },
-};
+    "Webinars, meetups, and live talks on AI-native mobile testing, autonomous QA, Flutter validation, and release readiness.",
+  path: EVENTS_PATH,
+  ogDescription:
+    "Practical sessions on AI mobile testing, agentic QA, and safer shipping practices.",
+  twitterDescription:
+    "Join QApilot webinars and meetups on AI-native mobile testing.",
+});
 
 export const revalidate = 3600;
 
@@ -108,24 +95,22 @@ export default function EventsPage() {
       <MarketingPageShell background="none">
         <main className="relative w-full">
           <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
-            <div className={LIST_GUTTER}>
-              <div className={`${LIST_MAX_WIDTH} py-16 md:py-24 lg:py-28 2xl:py-32`}>
-                <header className="relative mx-auto max-w-6xl text-center sm:max-w-none lg:max-w-7xl">
-                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
-                    Events
-                  </p>
-                  <h1 className={marketingHeroH1Class}>
-                    <span className="text-gradient">
-                      Webinars, meetups &amp; live talks
-                    </span>
-                  </h1>
-                  <p className={marketingListingHeroLeadClass}>
-                    Practical sessions on AI mobile testing, agentic QA, and the
-                    engineering practices that make shipping faster feel safe. Join us
-                    live or catch the recordings.
-                  </p>
-                </header>
-              </div>
+            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
+              <header className="relative w-full text-center lg:text-left">
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
+                  Events
+                </p>
+                <h1 className={marketingHeroH1Class}>
+                  <span className="text-gradient">
+                    Webinars, meetups &amp; live talks
+                  </span>
+                </h1>
+                <p className={marketingListingHeroLeadClass}>
+                  Practical sessions on AI mobile testing, agentic QA, and the
+                  engineering practices that make shipping faster feel safe. Join us
+                  live or catch the recordings.
+                </p>
+              </header>
             </div>
           </div>
 

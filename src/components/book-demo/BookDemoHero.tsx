@@ -35,13 +35,7 @@ export function BookDemoHero() {
 
         <div className="section-full flex min-h-0 flex-1 flex-col pb-10 sm:pb-14 md:pb-20 lg:justify-center lg:pb-16 2xl:pb-20">
           <div className={bookDemoShellClass}>
-            <div
-              className={cn(
-                "grid w-full grid-cols-1 gap-10 sm:gap-12",
-                "lg:grid-cols-2 lg:items-center lg:gap-x-12 lg:gap-y-0",
-                "xl:gap-x-16 2xl:gap-x-20",
-              )}
-            >
+            <div className="sig-split w-full items-center gap-10 sm:gap-12 xl:gap-x-16 2xl:gap-x-20">
               <div className="flex min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-4 xl:pr-6">
                 <div className="w-full min-w-0">
                   <p className="mb-4 w-full text-left text-sm font-semibold leading-snug tracking-tight text-primary sm:mb-5 sm:text-base md:text-lg">

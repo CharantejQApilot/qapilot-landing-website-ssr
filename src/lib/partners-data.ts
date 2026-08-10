@@ -1,6 +1,5 @@
 import qualizealLogo from "@/assets/qualizeal-logo.png";
 import kairosLogo from "@/assets/kairos-logo.png";
-import zyrixLogo from "@/assets/zyrix-logo.png";
 import qapitolLogo from "@/assets/qapitol-logo.png";
 import feujiLogo from "@/assets/feuji-logo.png";
 
@@ -38,12 +37,6 @@ export const PARTNERS: readonly Partner[] = [
     name: "Kairos Technologies",
     logo: kairosLogo,
     url: "https://www.kairostech.com/",
-  },
-  {
-    name: "Zyrix",
-    logo: zyrixLogo,
-    url: "https://zyrix.ai/",
-    logoClassName: "max-h-8 max-w-[8rem]",
   },
   {
     name: "Qapitol QA",

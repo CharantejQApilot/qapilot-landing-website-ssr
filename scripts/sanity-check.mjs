@@ -59,9 +59,10 @@ const STATIC_PATHS = [
   "/alternatives/browserstack",
   "/alternatives/sauce-labs",
   "/integrations",
+  "/integrations/browserstack",
+  "/integrations/jira",
   "/privacy",
   "/terms",
-  "/terms-conditions",
   "/sitemap.xml",
   "/robots.txt",
   "/sitemap-index.xml",
@@ -75,9 +76,19 @@ const REDIRECT_CHECKS = [
     expectLocationIncludes: "/product/autonomous-testing",
   },
   {
+    path: "/appium-alternative",
+    expectStatus: 308,
+    expectLocationIncludes: "/compare/qapilot-vs-appium",
+  },
+  {
     path: "/alternatives/appium",
     expectStatus: 308,
     expectLocationIncludes: "/compare/qapilot-vs-appium",
+  },
+  {
+    path: "/terms-conditions",
+    expectStatus: 308,
+    expectLocationIncludes: "/terms",
   },
 ];
 

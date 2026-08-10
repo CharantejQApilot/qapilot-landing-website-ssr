@@ -8,6 +8,7 @@ import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import WriterCard from "@/components/WriterCard";
 
 const ARTICLE_GUTTER =
   "w-full px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14";
@@ -26,8 +27,17 @@ export type QaGuideArticleData = {
   intent: string | null;
 };
 
+export type QaGuideWriter = {
+  name: string;
+  designation?: string | null;
+  description?: string | null;
+  linkedin_url?: string | null;
+  profile_image?: string | null;
+};
+
 type QaGuideArticleProps = {
   guide: QaGuideArticleData;
+  writer?: QaGuideWriter | null;
   backHref: string;
   backLabel: string;
   pageUrl: string;
@@ -35,6 +45,7 @@ type QaGuideArticleProps = {
 
 export default function QaGuideArticle({
   guide,
+  writer,
   backHref,
   backLabel,
   pageUrl,
@@ -46,6 +57,7 @@ export default function QaGuideArticle({
   const content = guide.content ?? "";
   const publishedLabel = formatPublishedDate(guide.published_date);
   const readingTimeMinutes = estimateReadingTimeMinutes(content);
+  const bylineName = writer?.name ?? guide.author_name;
 
   return (
     <main className="section-edge w-full py-16 md:py-20 lg:py-24">
@@ -94,8 +106,13 @@ export default function QaGuideArticle({
         ) : null}
 
         <div className="mb-8 flex items-center gap-4 border-b border-border pb-8">
-          {guide.author_name ? (
-            <p className="font-semibold text-foreground">{guide.author_name}</p>
+          {bylineName ? (
+            <div>
+              <p className="font-semibold text-foreground">{bylineName}</p>
+              {writer?.designation ? (
+                <p className="text-sm text-muted-foreground">{writer.designation}</p>
+              ) : null}
+            </div>
           ) : null}
           <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
             {readingTimeMinutes ? (
@@ -113,6 +130,16 @@ export default function QaGuideArticle({
             __html: sanitizeRichText(content, contentFormat),
           }}
         />
+
+        {writer ? (
+          <WriterCard
+            name={writer.name}
+            designation={writer.designation}
+            description={writer.description}
+            linkedinUrl={writer.linkedin_url}
+            profileImage={writer.profile_image}
+          />
+        ) : null}
       </div>
     </main>
   );

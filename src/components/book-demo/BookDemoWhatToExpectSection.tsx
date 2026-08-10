@@ -1,12 +1,13 @@
 import { Check } from "lucide-react";
 import { BookDemoScrollToFormButton } from "@/components/book-demo/BookDemoScrollToFormButton";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import { BOOK_DEMO_BEYOND_QA, BOOK_DEMO_TESTING_MODES, type BookDemoTestingMode } from "@/lib/book-demo-what-to-expect";
 import { cn } from "@/lib/utils";
 
 function TestingModeBlock({ mode, outcomesFirst }: { mode: BookDemoTestingMode; outcomesFirst: boolean }) {
   return (
-    <article className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:items-center lg:gap-x-14 lg:gap-y-10 xl:gap-x-16 2xl:gap-x-20">
+    <article className="sig-split w-full items-start gap-8 lg:items-center lg:gap-x-14 xl:gap-x-16 2xl:gap-x-20">
       <div className={cn("min-w-0 lg:flex lg:flex-col lg:justify-center", outcomesFirst && "lg:order-2")}>
         <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-primary/80 lg:text-sm lg:tracking-[0.14em]">
           {mode.eyebrow}
@@ -17,20 +18,20 @@ function TestingModeBlock({ mode, outcomesFirst }: { mode: BookDemoTestingMode; 
         <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg lg:mt-5 lg:max-w-none lg:text-xl lg:leading-relaxed 2xl:text-[1.375rem]">
           {mode.description}
         </p>
-        <div className="mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-10 lg:gap-5">
-          <div className="rounded-xl border border-primary/20 bg-primary/[0.06] px-4 py-4 lg:px-5 lg:py-5 xl:px-6 xl:py-6">
+        <MarketingLedger cols={2} className="mt-8 lg:mt-10" aria-label={`${mode.title} metrics`}>
+          <MarketingLedgerCell as="div" className="bg-primary/[0.06]">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:text-sm">Test Coverage</p>
             <p className="mt-1 font-heading text-xl font-semibold text-primary md:text-2xl lg:text-3xl xl:text-[2rem]">
               {mode.coverageValue}
             </p>
-          </div>
-          <div className="rounded-xl border border-border/70 bg-muted/30 px-4 py-4 lg:px-5 lg:py-5 xl:px-6 xl:py-6">
+          </MarketingLedgerCell>
+          <MarketingLedgerCell as="div" className="bg-muted/30">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground lg:text-sm">Est. Cost Savings</p>
             <p className="mt-1 font-heading text-xl font-semibold text-foreground md:text-2xl lg:text-3xl xl:text-[2rem]">
               {mode.savingsValue}
             </p>
-          </div>
-        </div>
+          </MarketingLedgerCell>
+        </MarketingLedger>
       </div>
 
       <div className={cn("min-w-0 lg:flex lg:items-center", outcomesFirst && "lg:order-1")}>

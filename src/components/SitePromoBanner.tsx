@@ -18,14 +18,13 @@ function hrefFromPayload(p: SitePromoPayload): string {
 }
 
 /**
- * Top promo strip — loaded client-side so the root layout never awaits Supabase or
- * streams a layout `<Suspense>` boundary that can interact badly with dynamic RSC on Vercel.
+ * Top promo strip — loaded client-side so the root layout never awaits Supabase.
+ * Starts at 0 height (no reserved empty slot) so sessions without a promo never CLS.
+ * When a promo arrives, the strip expands once — rarer than the old collapse CLS.
  */
 export default function SitePromoBanner() {
   const pathname = usePathname();
-  const [payload, setPayload] = useState<SitePromoPayload | null | undefined>(
-    undefined,
-  );
+  const [payload, setPayload] = useState<SitePromoPayload | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -55,16 +54,10 @@ export default function SitePromoBanner() {
     };
   }, []);
 
-  if (payload === undefined) {
-    return <div className="h-[44px] shrink-0" aria-hidden />;
-  }
   if (!payload) return null;
 
   const href = hrefFromPayload(payload);
-  if (
-    pathname &&
-    normalizePathname(pathname) === normalizePathname(href)
-  ) {
+  if (pathname && normalizePathname(pathname) === normalizePathname(href)) {
     return null;
   }
 

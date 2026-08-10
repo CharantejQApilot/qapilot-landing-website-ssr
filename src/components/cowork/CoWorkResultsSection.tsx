@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { ListChecks, ShieldCheck, TrendingUp } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { cn } from "@/lib/utils";
 
 type ResultItem = {
   stat: string;
@@ -63,26 +63,10 @@ export function CoWorkResultsSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="grid gap-6 md:grid-cols-3 md:gap-8">
+        <MarketingLedger cols={3} aria-label="CoWork coverage results">
           {RESULTS.map((item) => (
-            <div
-              key={item.title}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border/70 bg-background/90 p-6 shadow-sm backdrop-blur-sm",
-                "transition-shadow duration-300 hover:border-primary/25 hover:shadow-[0_20px_48px_-20px_hsl(var(--primary)/0.18)]",
-                "md:p-8",
-              )}
-            >
-              <div
-                className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-60 transition-opacity group-hover:opacity-100"
-                aria-hidden
-              />
-              <div
-                className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-primary/[0.06] blur-2xl transition-opacity group-hover:bg-primary/[0.1]"
-                aria-hidden
-              />
-
-              <div className="relative flex items-start justify-between gap-4">
+            <MarketingLedgerCell key={item.title}>
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/[0.08] text-primary shadow-sm">
                   <item.Icon className="h-5 w-5" aria-hidden />
                 </div>
@@ -98,15 +82,15 @@ export function CoWorkResultsSection() {
                 </div>
               </div>
 
-              <h3 className="relative mt-6 font-heading text-lg font-semibold tracking-tight text-foreground md:text-xl">
+              <h3 className="mt-6 font-heading text-lg font-semibold tracking-tight text-foreground md:text-xl">
                 {item.title}
               </h3>
-              <p className="relative mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
                 {item.body}
               </p>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

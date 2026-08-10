@@ -25,8 +25,10 @@ import {
 } from "@/lib/admin/qa-guide-generation-client";
 import { ExternalLink, Loader2, Play, Plus, RefreshCw } from "lucide-react";
 import QaGuidesCMS from "@/components/admin/QaGuidesCMS";
+import { PREFERRED_QE_GUIDE_WRITER_NAMES } from "@/lib/qa-guide/preferred-writers";
 
 type Cluster = { slug: string; title: string };
+type WriterOption = { id: string; name: string; designation: string | null };
 
 const STATUS_OPTIONS = [
   { value: "all", label: "All" },
@@ -66,6 +68,7 @@ export default function QaGuideGenerationAdmin() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [expandedDetail, setExpandedDetail] = useState<GenerationQueueItem | null>(null);
 
+  const [writers, setWriters] = useState<WriterOption[]>([]);
   const [form, setForm] = useState({
     topic_cluster: "",
     primary_keyword: "",
@@ -76,6 +79,7 @@ export default function QaGuideGenerationAdmin() {
     competitor_url_3: "",
     target_audience: "",
     notes: "",
+    writer_id: "",
   });
 
   useEffect(() => {
@@ -94,6 +98,24 @@ export default function QaGuideGenerationAdmin() {
         setClusters(list);
         if (list[0]) {
           setForm((f) => (f.topic_cluster ? f : { ...f, topic_cluster: list[0].slug }));
+        }
+      });
+
+    supabase
+      .from("writers")
+      .select("id, name, designation")
+      .order("name", { ascending: true })
+      .then(({ data }) => {
+        const list = (data as WriterOption[]) ?? [];
+        setWriters(list);
+        const preferred =
+          list.find((w) =>
+            PREFERRED_QE_GUIDE_WRITER_NAMES.some(
+              (n) => n.toLowerCase() === w.name.trim().toLowerCase(),
+            ),
+          ) ?? list[0];
+        if (preferred) {
+          setForm((f) => (f.writer_id ? f : { ...f, writer_id: preferred.id }));
         }
       });
   }, []);
@@ -152,6 +174,10 @@ export default function QaGuideGenerationAdmin() {
       toast({ title: "Fill cluster, keyword, and intent", variant: "destructive" });
       return;
     }
+    if (!form.writer_id) {
+      toast({ title: "Select an author", variant: "destructive" });
+      return;
+    }
     try {
       const { error } = await supabase.from("qa_guide_generation_queue").insert({
         topic_cluster: form.topic_cluster,
@@ -163,6 +189,7 @@ export default function QaGuideGenerationAdmin() {
         competitor_url_3: form.competitor_url_3.trim() || null,
         target_audience: form.target_audience.trim() || null,
         notes: form.notes.trim() || null,
+        writer_id: form.writer_id,
         status: "pending",
       });
       if (error) throw error;
@@ -178,6 +205,7 @@ export default function QaGuideGenerationAdmin() {
         competitor_url_3: "",
         target_audience: "",
         notes: "",
+        writer_id: form.writer_id,
       });
       loadQueue();
     } catch (e) {
@@ -186,6 +214,8 @@ export default function QaGuideGenerationAdmin() {
         message.includes("qa_guide_generation_queue") ||
         message.includes("schema cache")
           ? " Apply migration 20260524120000_qa_guide_generation_queue.sql in Supabase SQL editor."
+          : message.includes("writer_id")
+            ? " Apply migration 20260810120000_qa_guides_writer_id.sql in Supabase SQL editor."
           : message.toLowerCase().includes("invalid api key")
             ? " Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local match your project."
             : "";
@@ -411,6 +441,28 @@ export default function QaGuideGenerationAdmin() {
                   onChange={(e) => setForm((f) => ({ ...f, target_audience: e.target.value }))}
                 />
               </div>
+              <div className="space-y-2">
+                <Label>Author</Label>
+                <Select
+                  value={form.writer_id || undefined}
+                  onValueChange={(v) => setForm((f) => ({ ...f, writer_id: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select author" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {writers.map((w) => (
+                      <SelectItem key={w.id} value={w.id}>
+                        {w.name}
+                        {w.designation ? ` — ${w.designation}` : ""}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  Shown on the published guide byline and Written by card.
+                </p>
+              </div>
               <div className="space-y-2 sm:col-span-2">
                 <Label>Notes (optional)</Label>
                 <Textarea
@@ -438,6 +490,8 @@ export default function QaGuideGenerationAdmin() {
             {items.map((row) => {
               const canRun = row.status === "pending" || row.status === "failed";
               const isRunning = row.status === "running";
+              const authorLabel =
+                writers.find((w) => w.id === row.writer_id)?.name ?? null;
               return (
                 <Card key={row.id}>
                   <CardContent className="p-4 space-y-3">
@@ -452,6 +506,11 @@ export default function QaGuideGenerationAdmin() {
                           <span className="text-xs text-muted-foreground">
                             {row.topic_cluster}
                           </span>
+                          {authorLabel ? (
+                            <span className="text-xs text-muted-foreground">
+                              Author: {authorLabel}
+                            </span>
+                          ) : null}
                           {row.quality_recommendation ? (
                             <span
                               className={`text-xs font-medium ${

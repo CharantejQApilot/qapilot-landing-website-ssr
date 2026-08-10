@@ -1,6 +1,6 @@
 # QApilot — ai.txt (machine-readable pointers for AI crawlers)
 # Canonical site: https://qapilot.io
-# Last updated: July 2026
+# Last updated: August 2026
 
 # Structured product & company context (llms.txt standard):
 Llms-Txt: https://qapilot.io/llms.txt
@@ -10,9 +10,11 @@ Sitemap: https://qapilot.io/sitemap-index.xml
 Documentation: https://docs.qapilot.io/
 Product-App: https://app.qapilot.io/
 Status: https://status.qapilot.io/
+Book-Demo: https://qapilot.io/book-demo
 
 # Primary product pages
 Product: https://qapilot.io/product
+CoWork: https://qapilot.io/product/cowork
 Autonomous-Testing: https://qapilot.io/product/autonomous-testing
 Intelligent-Bug-Detection: https://qapilot.io/product/intelligent-bug-detection
 AI-Self-Healing: https://qapilot.io/ai-self-healing
@@ -38,6 +40,9 @@ QE-Guide: https://qapilot.io/qa-guide
 Labs: https://qapilot.io/labs
 FAQs: https://qapilot.io/faqs
 News: https://qapilot.io/news
+Events: https://qapilot.io/events
+AI-Time-Savings: https://qapilot.io/ai-time-savings
+Device-Coverage-Matrix: https://qapilot.io/device-coverage-matrix
 Careers: https://qapilot.io/careers
 Partners: https://qapilot.io/partners
 

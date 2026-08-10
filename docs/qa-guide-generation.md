@@ -4,10 +4,11 @@ Same admin session as Blogs. Queue CRUD uses the browser Supabase client; **Run*
 
 ## Operator flow
 
-1. **Admin → QA Guide → Generation queue** — add a brief (cluster, keyword, intent, competitor URLs).
+1. **Admin → QA Guide → Generation queue** — add a brief (cluster, keyword, intent, author, competitor URLs).
 2. **Generate next pending** or **Run** on one row (wait a few minutes; keep the tab open).
-3. **View draft** → edit at `/admin/qa-guide/{id}`.
-4. **Guides** tab → **Publish & index** → live at `/qa-guide/<cluster>/<slug>` + sitemap.
+   Pipeline: article draft → expand if short → **humanize rewrite pass** → quality gate → draft with linked writer profile.
+3. **View draft** → edit at `/admin/qa-guide/{id}` (author / writer profile can be changed before publish).
+4. **Guides** tab → **Publish & index** → live at `/qa-guide/<slug>` + sitemap.
 
 ## Environment (local + Vercel)
 
@@ -25,7 +26,10 @@ Legacy Cowork/scripts may still use `CMS_API_TOKEN` + `POST /api/posts`.
 
 ## Database
 
-Run once in Supabase SQL: `supabase/migrations/20260524120000_qa_guide_generation_queue.sql`
+Run once in Supabase SQL (if not already applied):
+
+- `supabase/migrations/20260524120000_qa_guide_generation_queue.sql`
+- `supabase/migrations/20260810120000_qa_guides_writer_id.sql` (adds `writer_id` on guides + queue; backfills Harini Mukesh / Charan Tej Kammara on existing guides)
 
 ## API (admin session Bearer token)
 

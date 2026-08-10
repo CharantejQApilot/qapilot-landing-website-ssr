@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { cn } from "@/lib/utils";
 
 const ROWS: { before: string; after: ReactNode }[] = [
   {
@@ -54,21 +54,10 @@ export function FlutterTestingOutcomesSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:gap-8">
+        <MarketingLedger cols={2} aria-label="Flutter testing outcomes">
           {ROWS.map((row) => (
-            <div
-              key={row.before}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border/80 bg-card/90 p-5 shadow-md backdrop-blur-sm transition-shadow motion-safe:hover:shadow-lg sm:p-6 md:p-8",
-              )}
-            >
-              <div
-                className="pointer-events-none absolute right-0 top-0 h-28 w-28 rounded-bl-full bg-primary/[0.07] transition-opacity group-hover:bg-primary/[0.1]"
-                aria-hidden
-              />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
-
-              <div className="relative flex flex-col gap-6">
+            <MarketingLedgerCell key={row.before}>
+              <div className="flex flex-col gap-6">
                 <div>
                   <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/90">
                     From
@@ -92,9 +81,9 @@ export function FlutterTestingOutcomesSection() {
                   </p>
                 </div>
               </div>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

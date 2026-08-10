@@ -135,7 +135,7 @@ export default function HomeHeroExploreStage({ children }: HomeHeroExploreStageP
   const showExplore = panel === "explore";
 
   return (
-    <div className="flex w-full flex-col items-center gap-4 sm:gap-5">
+    <div className="flex w-full flex-col items-center gap-4 sm:gap-5 lg:items-stretch">
       <div
         ref={stageRef}
         className="relative grid w-full min-w-0"
@@ -148,7 +148,7 @@ export default function HomeHeroExploreStage({ children }: HomeHeroExploreStageP
         <div
           ref={landingRef}
           className={cn(
-            "col-start-1 row-start-1 flex w-full items-center justify-center duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:transition-[opacity,transform]",
+            "col-start-1 row-start-1 flex w-full items-center justify-center duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:transition-[opacity,transform] lg:justify-start",
             showLanding
               ? "z-[1] translate-y-0 opacity-100"
               : "pointer-events-none z-0 opacity-0 motion-safe:-translate-y-[12%]",
@@ -161,7 +161,7 @@ export default function HomeHeroExploreStage({ children }: HomeHeroExploreStageP
         <div
           ref={exploreRef}
           className={cn(
-            "col-start-1 row-start-1 flex w-full items-center justify-center duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:transition-[opacity,transform]",
+            "col-start-1 row-start-1 flex w-full items-center justify-center duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:transition-[opacity,transform] lg:justify-start",
             showExplore
               ? "z-[1] translate-y-0 opacity-100"
               : "pointer-events-none z-0 opacity-0 motion-safe:translate-y-[12%]",
@@ -172,7 +172,7 @@ export default function HomeHeroExploreStage({ children }: HomeHeroExploreStageP
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-3 lg:items-start">
         {!reducedMotion && showLanding && timerArmed && (
           <div
             className="h-0.5 w-24 overflow-hidden rounded-full bg-primary/15 sm:w-28"

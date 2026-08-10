@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Zap, Settings, Link2 } from "lucide-react";
-import ReleaseReadinessFlowSection from "@/components/ReleaseReadinessFlowSection";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import { PATHS } from "@/lib/routes";
 
@@ -14,7 +13,6 @@ const cards = [
       "Autonomous test execution and an intuitive recording experience dramatically compress your test cycle — so releases ship in hours, not weeks.",
     highlight: "Autonomous test execution",
     icon: Zap,
-    statFirst: true,
   },
   {
     stat: "90%",
@@ -24,7 +22,6 @@ const cards = [
     highlight: "AI-native self-healing",
     highlightHref: PATHS.AI_SELF_HEALING,
     icon: Settings,
-    statFirst: false,
   },
   {
     stat: "75%",
@@ -34,7 +31,6 @@ const cards = [
     highlight: "Seamless CI/CD integration",
     highlightHref: CI_CD_BLOG_PATH,
     icon: Link2,
-    statFirst: true,
   },
 ] as const;
 
@@ -57,30 +53,14 @@ function highlightPhrase(text: string, phrase: string, href?: string) {
   );
 }
 
-/** Two vertical rails + diagonal hatch; height = grid cell (matches card stack) */
-function VelocityPillar() {
-  const diagonalFill =
-    "repeating-linear-gradient(-45deg, transparent 0, transparent 6px, hsl(var(--foreground) / 0.2) 6px, hsl(var(--foreground) / 0.2) 7px)";
-
-  return (
-    <div
-      className="relative flex min-h-0 w-10 flex-1 flex-row overflow-hidden border-y border-r border-border bg-muted/30 sm:w-11 md:w-12"
-      aria-hidden="true"
-    >
-      <span className="min-h-0 w-[2px] shrink-0 self-stretch bg-foreground/25" />
-      <div className="min-h-0 min-w-0 flex-1 self-stretch bg-muted/25" style={{ backgroundImage: diagonalFill }} />
-      <span className="min-h-0 w-[2px] shrink-0 self-stretch bg-foreground/25" />
-    </div>
-  );
-}
-
+/** S06 capability ledger — same velocity content, shared-border cells. */
 const VelocitySection = () => {
   return (
     <section
       className="relative overflow-hidden bg-background section-edge w-full"
       aria-labelledby="velocity-heading"
     >
-      <div className="section-full pt-10 md:pt-14 2xl:pt-16 pb-2 sm:pb-3 md:pb-4 2xl:pb-4">
+      <div className="section-full pt-10 md:pt-14 2xl:pt-16 pb-10 md:pb-14 2xl:pb-16">
         <MarketingSectionHeader
           id="velocity-heading"
           eyebrow="Velocity"
@@ -104,59 +84,34 @@ const VelocitySection = () => {
           }
         />
 
-        <ReleaseReadinessFlowSection embedded />
-
-        {/* Grid: pillar cell height = cards column (combined card stack) */}
-        <div className="grid w-full grid-cols-[auto_minmax(0,1fr)] items-stretch gap-x-5 md:gap-x-7 lg:gap-x-9">
-          <div className="flex min-h-0 min-w-0 flex-col self-stretch">
-            <VelocityPillar />
-          </div>
-          <div className="flex min-w-0 flex-col gap-6 md:gap-8">
-            {cards.map((card, index) => {
-              const Icon = card.icon;
-              const statBlock = (
-                <div className="flex flex-col justify-center">
-                  <span className="font-heading text-4xl md:text-5xl 2xl:text-6xl font-semibold text-foreground tracking-tight">
-                    {card.stat}
-                  </span>
-                  <span className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground mt-1">
-                    {card.label}
-                  </span>
-                </div>
-              );
-              const descBlock = (
-                <div className="flex gap-4 items-start">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
-                    <Icon className="w-5 h-5" strokeWidth={1.5} aria-hidden />
+        <div className="sig-ledger">
+          {cards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <article key={card.label} className="sig-cell flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <span className="font-heading text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+                      {card.stat}
+                    </span>
+                    <span className="mt-1 block text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                      {card.label}
+                    </span>
                   </div>
-                  <p className="text-foreground/90 text-lg md:text-xl leading-relaxed pt-0.5 min-w-0">
-                    {highlightPhrase(card.description, card.highlight, "highlightHref" in card ? card.highlightHref : undefined)}
-                  </p>
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                    <Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+                  </div>
                 </div>
-              );
-
-              return (
-                <article
-                  key={index}
-                  className="bg-card border border-border rounded-2xl p-8 md:p-10 2xl:p-12 shadow-sm flex flex-col md:flex-row md:items-center gap-8 md:gap-12"
-                >
-                  {card.statFirst ? (
-                    <>
-                      <div className="md:min-w-[180px] 2xl:min-w-[200px]">{statBlock}</div>
-                      <div className="flex-1 min-w-0">{descBlock}</div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex-1 min-w-0 order-2 md:order-1">{descBlock}</div>
-                      <div className="md:min-w-[180px] 2xl:min-w-[200px] order-1 md:order-2 md:text-right">
-                        {statBlock}
-                      </div>
-                    </>
+                <p className="text-base leading-relaxed text-foreground/90 md:text-lg">
+                  {highlightPhrase(
+                    card.description,
+                    card.highlight,
+                    "highlightHref" in card ? card.highlightHref : undefined,
                   )}
-                </article>
-              );
-            })}
-          </div>
+                </p>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

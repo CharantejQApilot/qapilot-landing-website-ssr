@@ -1,0 +1,219 @@
+/* ==========================================================================
+   QApilot — section layout utilities (archetypes)
+   Uses EXISTING site tokens only. No new colours or fonts.
+   ========================================================================== */
+
+.sig-container {
+  width: 100%;
+  max-width: 80rem; /* ~1280 — align with marketing containers */
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.75rem);
+}
+
+.sig-band {
+  position: relative;
+  padding-block: clamp(4.5rem, 8vw, 8rem);
+}
+
+.sig-band--tight {
+  padding-block: clamp(2rem, 4vw, 3.25rem);
+}
+
+.sig-band--flush-top {
+  padding-top: 0;
+}
+
+/* 12-col grid for archetype alignment */
+.sig-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .sig-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.sig-col-5 { grid-column: span 5; }
+.sig-col-6 { grid-column: span 6; }
+.sig-col-7 { grid-column: span 7; }
+.sig-col-12 { grid-column: span 12; }
+
+@media (max-width: 900px) {
+  .sig-col-5,
+  .sig-col-6,
+  .sig-col-7 {
+    grid-column: span 6;
+  }
+}
+
+/* S01 / S07 — two-up split */
+.sig-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+}
+
+.sig-split--media-start {
+  direction: rtl;
+}
+.sig-split--media-start > * {
+  direction: ltr;
+}
+
+@media (max-width: 800px) {
+  .sig-split,
+  .sig-split--media-start {
+    grid-template-columns: 1fr;
+    direction: ltr;
+  }
+}
+
+/* S06 — shared-border ledger (elevation via alignment, not new palette) */
+.sig-ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: hsl(var(--card));
+}
+
+.sig-cell {
+  padding: 1.5rem 1.5rem 2rem;
+  border-right: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.sig-cell:nth-child(3n) {
+  border-right: 0;
+}
+
+.sig-ledger--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.sig-ledger--2 > :nth-child(3n) {
+  border-right: 1px solid hsl(var(--border));
+}
+.sig-ledger--2 > :nth-child(2n) {
+  border-right: 0;
+}
+
+.sig-ledger--5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.sig-ledger--5 > :nth-child(3n) {
+  border-right: 1px solid hsl(var(--border));
+}
+.sig-ledger--5 > :nth-child(5n) {
+  border-right: 0;
+}
+
+@media (max-width: 900px) {
+  .sig-ledger {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .sig-ledger > :nth-child(3n) {
+    border-right: 1px solid hsl(var(--border));
+  }
+  .sig-ledger > :nth-child(2n) {
+    border-right: 0;
+  }
+  .sig-ledger--5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 580px) {
+  .sig-ledger,
+  .sig-ledger--2,
+  .sig-ledger--5 {
+    grid-template-columns: 1fr;
+  }
+  .sig-ledger > *,
+  .sig-ledger--2 > *,
+  .sig-ledger--5 > * {
+    border-right: 0;
+  }
+}
+
+/* S02 — trust rail */
+.sig-trust {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-block: 1.25rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+/* S03 — horizontal telemetry */
+.sig-telemetry-strip {
+  display: flex;
+  overflow-x: auto;
+  gap: 0;
+  border-block: 1px solid hsl(var(--border));
+}
+
+.sig-telemetry-item {
+  flex: 0 0 auto;
+  min-width: 10rem;
+  padding: 1.25rem 2rem;
+  border-right: 1px solid hsl(var(--border));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* S09 — proof split */
+.sig-proof {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 0;
+}
+
+.sig-proof__quote {
+  padding-right: 2rem;
+  border-right: 1px solid hsl(var(--border));
+}
+
+.sig-proof__outcomes {
+  padding-left: 2rem;
+}
+
+@media (max-width: 800px) {
+  .sig-proof {
+    grid-template-columns: 1fr;
+  }
+  .sig-proof__quote {
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    border-right: 0;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .sig-proof__outcomes {
+    padding-left: 0;
+    padding-top: 1.5rem;
+  }
+}
+
+/* S14 — centred close */
+.sig-close {
+  max-width: 40rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.sig-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.sig-close .sig-cta-row {
+  justify-content: center;
+}

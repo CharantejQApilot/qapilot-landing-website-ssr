@@ -1,4 +1,5 @@
 import { FileWarning, Globe, KeyRound, Shield } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import { cn } from "@/lib/utils";
 
@@ -63,15 +64,9 @@ export function SecurityReportsCategoriesSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <MarketingLedger cols={2} aria-label="Security issue categories">
           {CATEGORIES.map((c) => (
-            <div
-              key={c.title}
-              className={cn(
-                "relative overflow-hidden rounded-2xl border border-border/70 bg-card/90 p-5 shadow-sm transition-shadow md:p-6",
-                "motion-safe:hover:border-primary/25 motion-safe:hover:shadow-md",
-              )}
-            >
+            <MarketingLedgerCell key={c.title}>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <c.Icon className="h-7 w-7 text-primary" strokeWidth={1.35} aria-hidden />
@@ -89,9 +84,9 @@ export function SecurityReportsCategoriesSection() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

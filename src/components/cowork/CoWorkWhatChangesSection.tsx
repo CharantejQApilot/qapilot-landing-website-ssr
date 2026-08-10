@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 const BLOCKS: { from: string; to: ReactNode }[] = [
@@ -46,13 +47,9 @@ export function CoWorkWhatChangesSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="grid gap-6 md:grid-cols-3 md:gap-8">
+        <MarketingLedger cols={3} aria-label="What CoWork changes">
           {BLOCKS.map((block) => (
-            <div
-              key={block.from}
-              className="group relative overflow-hidden rounded-2xl border border-border/80 bg-muted/20 p-5 shadow-sm sm:p-6 md:p-8"
-            >
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            <MarketingLedgerCell key={block.from}>
               <div className="flex flex-col gap-6">
                 <div>
                   <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/80">
@@ -75,9 +72,9 @@ export function CoWorkWhatChangesSection() {
                   </p>
                 </div>
               </div>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

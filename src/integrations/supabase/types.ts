@@ -228,6 +228,7 @@ export type Database = {
           target_audience: string | null
           topic_cluster: string
           updated_at: string
+          writer_id: string | null
         }
         Insert: {
           competitor_url_1?: string | null
@@ -252,6 +253,7 @@ export type Database = {
           target_audience?: string | null
           topic_cluster: string
           updated_at?: string
+          writer_id?: string | null
         }
         Update: {
           competitor_url_1?: string | null
@@ -276,6 +278,7 @@ export type Database = {
           target_audience?: string | null
           topic_cluster?: string
           updated_at?: string
+          writer_id?: string | null
         }
         Relationships: [
           {
@@ -291,6 +294,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "qa_guide_topic_clusters"
             referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "qa_guide_generation_queue_writer_id_fkey"
+            columns: ["writer_id"]
+            isOneToOne: false
+            referencedRelation: "writers"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -346,6 +356,7 @@ export type Database = {
           topic_cluster: string
           updated_at: string
           url_path: string
+          writer_id: string | null
         }
         Insert: {
           author_name?: string | null
@@ -374,6 +385,7 @@ export type Database = {
           topic_cluster: string
           updated_at?: string
           url_path: string
+          writer_id?: string | null
         }
         Update: {
           author_name?: string | null
@@ -402,6 +414,7 @@ export type Database = {
           topic_cluster?: string
           updated_at?: string
           url_path?: string
+          writer_id?: string | null
         }
         Relationships: [
           {
@@ -410,6 +423,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "qa_guide_topic_clusters"
             referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "qa_guides_writer_id_fkey"
+            columns: ["writer_id"]
+            isOneToOne: false
+            referencedRelation: "writers"
+            referencedColumns: ["id"]
           },
         ]
       }

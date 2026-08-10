@@ -119,7 +119,11 @@ export default async function RootLayout({
                 __html: CLARITY_UNMASK_STYLESHEETS_SCRIPT,
               }}
             />
+            {/* Google Analytics / GTM first — highest priority connection hints + early parse. */}
             <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+            <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
+            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+            <link rel="dns-prefetch" href="https://www.google-analytics.com" />
             <link rel="preconnect" href="https://www.clarity.ms" crossOrigin="anonymous" />
             <link rel="preconnect" href="https://js.hs-scripts.com" crossOrigin="anonymous" />
             <link rel="preconnect" href="https://ddwl4m2hdecbv.cloudfront.net" crossOrigin="anonymous" />
@@ -133,7 +137,7 @@ export default async function RootLayout({
                 __html: JSON.stringify(rootSchemaGraphJsonLd),
               }}
             />
-            {/* Native head scripts — load with first HTML parse (Next Script afterInteractive is too late for full tracker coverage). */}
+            {/* Native head scripts — load with first HTML parse for full tracker coverage. */}
             <script
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -153,7 +157,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA4_MEASUREMENT_ID}');
+gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
 `,
               }}
             />

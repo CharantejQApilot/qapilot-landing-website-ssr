@@ -21,7 +21,7 @@ export function NavItem({
   const baseClass =
     `${NAV_TEXT_CLASS} font-medium transition-colors hover:text-foreground ` +
     (forceForeground ? "text-foreground" : "text-muted-foreground");
-  const activeClass = isActive ? "text-foreground font-semibold bg-primary/5" : "";
+  const activeClass = isActive ? "text-foreground font-semibold bg-muted/25" : "";
   if (to.startsWith("#")) {
     return (
       <a href={to} className={`${baseClass} ${activeClass} ${className}`}>

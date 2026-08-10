@@ -5,37 +5,20 @@ import { PlatformOverviewQualityJourneySection } from "@/components/platform-ove
 import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { buildStaticPageMetadata } from "@/lib/seo";
 
 const PRODUCT_PATH = PATHS.PRODUCT;
-const canonicalUrl = `${SITE_BASE_URL}${PRODUCT_PATH}`;
 
-export const metadata: Metadata = {
-  title: "Product — Mobile Testing Platform for Release Readiness",
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "Product — Mobile Testing for Release Readiness",
   description:
-    "QApilot is a unified mobile testing platform for release readiness: autonomous coverage, stable execution, intelligent issue detection, Flutter support, and security visibility—designed as one integrated system.",
-  alternates: {
-    canonical: canonicalUrl,
-  },
-  openGraph: {
-    type: "website",
-    url: canonicalUrl,
-    title: "Mobile Testing Platform for Release Readiness | QApilot",
-    description:
-      "Generate coverage, reduce maintenance, detect critical issues, and validate mobile releases with confidence—one platform, built as a system.",
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [defaultOpenGraphImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mobile Testing Platform for Release Readiness | QApilot",
-    description:
-      "Unified capabilities for mobile release confidence: coverage, stability, signal quality, Flutter, and risk visibility.",
-    images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
-  },
-};
+    "Unified mobile testing for release readiness: autonomous coverage, stable execution, issue detection, Flutter support, and security visibility.",
+  path: PRODUCT_PATH,
+  ogDescription:
+    "Generate coverage, cut maintenance, detect issues, and validate mobile releases—one platform.",
+  twitterDescription:
+    "Coverage, stability, Flutter, and risk visibility for mobile release confidence.",
+});
 
 export const revalidate = 120;
 

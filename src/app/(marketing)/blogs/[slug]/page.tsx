@@ -35,6 +35,8 @@ import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSu
 import { formatPageTitle, formatPageTitleString } from "@/lib/page-title";
 import {
   buildOpenGraphImageMeta,
+  defaultOpenGraphImage,
+  formatMetaDescription,
 } from "@/lib/seo";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
@@ -137,21 +139,23 @@ export async function generateMetadata({
 
   const pageTitle = formatPageTitle(metaTitle);
   const displayTitle = formatPageTitleString(metaTitle);
-  const ogImage = buildOpenGraphImageMeta(ogAbsolute, displayTitle);
+  const ogImage =
+    buildOpenGraphImageMeta(ogAbsolute, displayTitle) ?? defaultOpenGraphImage;
+  const metaDescription = formatMetaDescription(description);
 
   try {
     return {
       title: pageTitle,
-      description,
+      description: metaDescription,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
       },
       openGraph: {
         type: "article",
         title: displayTitle,
-        description,
+        description: metaDescription,
         url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
-        ...(ogImage ? { images: [ogImage] } : {}),
+        images: [ogImage],
         ...(publishedTime ? { publishedTime } : {}),
         authors: blog.author_name ? [blog.author_name] : undefined,
         siteName: "QApilot",
@@ -161,8 +165,8 @@ export async function generateMetadata({
       twitter: {
         card: "summary_large_image",
         title: displayTitle,
-        description,
-        ...(ogImage ? { images: [ogImage.url] } : {}),
+        description: metaDescription,
+        images: [ogImage.url],
       },
     };
   } catch (error) {
@@ -175,7 +179,7 @@ export async function generateMetadata({
     });
     return {
       title: pageTitle,
-      description,
+      description: metaDescription,
       alternates: {
         canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
       },

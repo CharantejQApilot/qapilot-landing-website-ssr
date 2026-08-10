@@ -3,6 +3,7 @@ import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { MarketingSectionHeader } from "@/components/marketing";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
@@ -285,19 +286,16 @@ export default function QApilotVsVisualTestingComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+            <MarketingLedger cols={3} aria-label="Where visual testing gets limited">
               {limitationCards.map((point) => (
-                <article
-                  key={point.title}
-                  className="rounded-2xl border border-border/70 bg-card/85 p-6 shadow-sm backdrop-blur-sm"
-                >
+                <MarketingLedgerCell key={point.title}>
                   <h3 className="font-heading text-lg font-semibold tracking-tight text-foreground">
                     {point.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{point.body}</p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
           </div>
         </section>
 
@@ -412,19 +410,16 @@ export default function QApilotVsVisualTestingComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <MarketingLedger cols={3} aria-label="What QApilot brings beyond visual testing">
               {featureCards.map((feature) => (
-                <article
-                  key={feature.title}
-                  className="rounded-xl border border-border/65 bg-card/85 p-4 shadow-sm"
-                >
+                <MarketingLedgerCell key={feature.title}>
                   <h3 className="font-heading text-base font-semibold tracking-tight text-foreground">
                     {feature.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
-                </article>
+                </MarketingLedgerCell>
               ))}
-            </div>
+            </MarketingLedger>
           </div>
         </section>
 
@@ -480,7 +475,8 @@ export default function QApilotVsVisualTestingComparisonPage() {
         </section>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full text-center">
+          <div className="section-full">
+            <div className="sig-close">
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               Ready To Test More Than <span className="text-primary">Pixels</span>?
             </h2>
@@ -488,8 +484,9 @@ export default function QApilotVsVisualTestingComparisonPage() {
               QApilot helps mobile teams validate real user journeys, detect release risks, and ship mobile
               apps with confidence.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="sig-cta-row">
               <BookDemoCtaButton />
+            </div>
             </div>
           </div>
         </section>

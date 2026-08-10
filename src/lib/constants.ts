@@ -17,7 +17,10 @@ export const STATUS_URL = "https://status.qapilot.io";
 /** App login and status hosts use noindex; keep crawlers on marketing URLs. */
 export const EXTERNAL_NOINDEX_SUBDOMAIN_REL = "noopener noreferrer nofollow";
 
-/** In-page “Book a Demo” CTAs open this Read AI calendar (header “Sign Up” still uses `/book-demo`). */
+/**
+ * Optional Read AI calendar URL for surfaces that need a direct scheduling link.
+ * Primary marketing “Book a Demo” CTAs use `PATHS.BOOK_DEMO` (`/book-demo`).
+ */
 export const BOOK_DEMO_CALENDAR_URL =
   "https://cal.read.ai/charan-tej-pupeb/01KEYD8ZYYAHDT5CFMV21VF3SW";
 
@@ -35,6 +38,13 @@ export const HUBSPOT_FLUTTER_HERO_FORM_ID = "b1b77d10-8753-4791-93a3-23783baf8ec
 
 /** Partners `/partners` "Become a partner" form (HubSpot Forms API). */
 export const HUBSPOT_PARTNERS_FORM_ID = "aea3fc81-f036-4592-92dc-5c8cc803ce70";
+
+/**
+ * Careers general application (HubSpot Forms API via `/api/hubspot/careers`).
+ * Embed reference: portal `47284450`, form `702b653d-94c3-4949-b431-45f7a6d035c4`.
+ */
+export const HUBSPOT_CAREERS_FORM_ID = "702b653d-94c3-4949-b431-45f7a6d035c4";
+export const HUBSPOT_CAREERS_FORM_NAME = "Careers General Application";
 
 /**
  * Lead magnet / gated content email capture (HubSpot Forms API via `/api/hubspot/lead-magnet`).

@@ -44,8 +44,18 @@ export const metadata: Metadata = {
 export default async function EnterprisePage() {
   const featuredCtaLinks = await getFeaturedResourcesCtaLinks();
   return (
-    <MarketingPageShell background="hero" contentClassName="contain-layout">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbList([{ name: "Home", path: PATHS.HOME }, { name: "Enterprise", path: PATHS.ENTERPRISE }])) }} />
+    <MarketingPageShell background="none" contentClassName="contain-layout">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "Enterprise", path: PATHS.ENTERPRISE },
+            ]),
+          ),
+        }}
+      />
       <EnterpriseHeroSection />
       <FeaturedResourcesSection ctaLinks={featuredCtaLinks} />
       <QApilotDifferenceSection />

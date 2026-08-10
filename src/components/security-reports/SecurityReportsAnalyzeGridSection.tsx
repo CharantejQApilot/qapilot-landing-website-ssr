@@ -5,8 +5,8 @@ import {
   Network,
   Radar,
 } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { cn } from "@/lib/utils";
 
 const ITEMS = [
   {
@@ -54,24 +54,15 @@ export function SecurityReportsAnalyzeGridSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-6 lg:gap-6">
-          {ITEMS.map((item, i) => (
-            <div
-              key={item.title}
-              className={cn(
-                "rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm backdrop-blur-sm transition-colors md:p-6",
-                "motion-safe:hover:border-primary/30",
-                i === 3 && "lg:col-start-2 lg:col-span-2",
-                i === 4 && "lg:col-start-4 lg:col-span-2 md:col-span-2 md:mx-auto md:w-full md:max-w-xl lg:mx-0 lg:max-w-none",
-                i < 3 && "lg:col-span-2",
-              )}
-            >
+        <MarketingLedger cols={5} aria-label="Security analysis areas">
+          {ITEMS.map((item) => (
+            <MarketingLedgerCell key={item.title}>
               <item.Icon className="h-8 w-8 text-primary" strokeWidth={1.35} aria-hidden />
               <h3 className="mt-4 font-heading text-lg font-semibold text-foreground">{item.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{item.body}</p>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

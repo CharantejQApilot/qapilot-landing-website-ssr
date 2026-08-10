@@ -147,23 +147,21 @@ export default async function BlogsPage() {
       <MarketingPageShell background="none">
         <main className="relative w-full">
           <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
-            <div className={`${BLOGS_GUTTER}`}>
-              <div className={`${BLOGS_MAX_WIDTH} py-16 md:py-24 lg:py-28 2xl:py-32`}>
-                <header className="relative mx-auto max-w-6xl text-center sm:max-w-none lg:max-w-7xl">
-                  <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
-                    QApilot blog
-                  </p>
-                  <h1 className={marketingHeroH1Class}>
-                    <span className="text-gradient">
-                      Mobile testing insights &amp; best practices
-                    </span>
-                  </h1>
-                  <p className={marketingListingHeroLeadClass}>
-                    Expert guides, tips, and strategies for mobile app testing and
-                    QA automation.
-                  </p>
-                </header>
-              </div>
+            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
+              <header className="relative w-full text-center lg:text-left">
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
+                  QApilot blog
+                </p>
+                <h1 className={marketingHeroH1Class}>
+                  <span className="text-gradient">
+                    Mobile testing insights &amp; best practices
+                  </span>
+                </h1>
+                <p className={marketingListingHeroLeadClass}>
+                  Expert guides, tips, and strategies for mobile app testing and
+                  QA automation.
+                </p>
+              </header>
             </div>
           </div>
 

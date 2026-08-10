@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl,
   },
   openGraph: {
+    type: "website",
     title: PAGE_TITLE_TEXT,
     description:
       "Specialized agents, shared context, and the knowledge graph as the foundation — from exploration to coverage and release readiness.",

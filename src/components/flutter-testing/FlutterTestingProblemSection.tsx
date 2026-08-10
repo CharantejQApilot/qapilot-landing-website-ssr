@@ -1,6 +1,6 @@
 import { Crosshair, Gauge, Unlink } from "lucide-react";
+import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { cn } from "@/lib/utils";
 
 const TILES = [
   {
@@ -37,22 +37,12 @@ export function FlutterTestingProblemSection() {
           marginBottomClassName="mb-12 md:mb-14 2xl:mb-16"
         />
 
-        <div className="grid gap-5 md:grid-cols-3 md:gap-6 lg:gap-8">
+        <MarketingLedger cols={3} aria-label="Flutter testing problems">
           {TILES.map((tile) => (
-            <div
-              key={tile.title}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm transition-shadow motion-safe:hover:shadow-md md:p-7",
-              )}
-            >
-              <div
-                className="pointer-events-none absolute right-0 top-0 h-24 w-24 rounded-bl-full bg-primary/[0.06] transition-opacity group-hover:bg-primary/[0.08]"
-                aria-hidden
-              />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
-              <div className="relative flex flex-col gap-4">
+            <MarketingLedgerCell key={tile.title}>
+              <div className="flex flex-col gap-4">
                 <span
-                  className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.08] text-primary motion-safe:transition-transform motion-safe:group-hover:scale-[1.02]"
+                  className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.08] text-primary"
                   aria-hidden
                 >
                   <tile.icon className="h-6 w-6" strokeWidth={1.35} />
@@ -66,9 +56,9 @@ export function FlutterTestingProblemSection() {
                   </p>
                 </div>
               </div>
-            </div>
+            </MarketingLedgerCell>
           ))}
-        </div>
+        </MarketingLedger>
       </div>
     </section>
   );

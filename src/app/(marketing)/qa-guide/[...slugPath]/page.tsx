@@ -13,6 +13,7 @@ import {
 import { firstNonEmptyString } from "@/lib/cms-values";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
 import { normalizeSlugPath } from "@/lib/qa-guide/resolve-slug-path";
+import { loadQaGuideWriter } from "@/lib/qa-guide/load-writer";
 import { formatPageTitle } from "@/lib/page-title";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 
@@ -132,6 +133,8 @@ export default async function QaGuideCatchAllPage({
     .maybeSingle();
 
   if (!error && guide) {
+    const writer = await loadQaGuideWriter(supabase, guide.writer_id);
+    const authorName = writer?.name ?? guide.author_name;
     const articleUrl = `${SITE_BASE_URL}${publishedUrlPath(slug)}`;
     const publishedTime = normalizeArticlePublishedTime(guide.published_date);
     const modifiedTime =
@@ -156,8 +159,8 @@ export default async function QaGuideCatchAllPage({
             name: "QApilot",
             logo: { "@type": "ImageObject", url: DEFAULT_LOGO_URL },
           },
-          ...(guide.author_name
-            ? { author: { "@type": "Person", name: guide.author_name } }
+          ...(authorName
+            ? { author: { "@type": "Person", name: authorName } }
             : {}),
         },
         buildBreadcrumbList([
@@ -177,6 +180,7 @@ export default async function QaGuideCatchAllPage({
         <MarketingPageShell background="soft">
           <QaGuideArticle
             guide={guide}
+            writer={writer}
             backHref={PATHS.QA_GUIDE}
             backLabel={`Back to ${QE_GUIDE_DISPLAY_NAME}`}
             pageUrl={articleUrl}
