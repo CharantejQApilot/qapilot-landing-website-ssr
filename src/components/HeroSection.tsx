@@ -30,7 +30,10 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="sig-trust mt-8 shrink-0 border-border sm:mt-10 md:mt-12 lg:mt-10 xl:mt-12">
+        <div
+          data-home-hero-trust
+          className="sig-trust mt-8 shrink-0 border-border sm:mt-10 md:mt-12 lg:mt-10 xl:mt-12"
+        >
           <div className="section-full w-full pb-6 sm:pb-8">
             <HomeHeroTrustMarquee
               layout="contained"

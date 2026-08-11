@@ -1,8 +1,6 @@
 import type { ComponentType } from "react";
-import Link from "next/link";
 import { Smartphone, Layers, CodeXml, Cpu } from "lucide-react";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { PATHS } from "@/lib/routes";
 
 function AppleIcon({ className }: { className?: string }) {
   return (
@@ -22,7 +20,6 @@ type Platform = {
   label: string;
   sub: string;
   icon: ComponentType<Record<string, any>>;
-  href?: string;
 };
 
 const platforms: Platform[] = [
@@ -43,7 +40,6 @@ const platforms: Platform[] = [
     label: "Flutter",
     sub: "Cross-platform",
     icon: Layers,
-    href: PATHS.FOR_FLUTTER,
   },
   {
     id: "react-native",
@@ -54,14 +50,12 @@ const platforms: Platform[] = [
   { id: "native", label: "Native", sub: "Kotlin · Swift · Obj-C", icon: Cpu },
 ];
 
-const tileLinkClass =
-  "font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary";
-
 function PlatformTile({ p }: { p: Platform }) {
   const Icon = p.icon;
   const isApple = p.id === "ios";
-  const inner = (
-    <>
+
+  return (
+    <div className="sig-cell group relative flex h-full min-h-0 flex-col justify-between transition-colors duration-200 hover:bg-muted/40">
       <div className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted/80 text-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary md:h-11 md:w-11">
         {isApple ? (
           <AppleIcon className="h-5 w-5 md:h-6 md:w-6" />
@@ -81,24 +75,8 @@ function PlatformTile({ p }: { p: Platform }) {
           {p.sub}
         </p>
       </div>
-    </>
+    </div>
   );
-  const shellClass =
-    "sig-cell group relative flex h-full min-h-0 flex-col justify-between transition-colors duration-200 hover:bg-muted/40";
-
-  if (p.href) {
-    return (
-      <Link
-        href={p.href}
-        className={shellClass}
-        aria-label={`${p.label} testing`}
-      >
-        {inner}
-      </Link>
-    );
-  }
-
-  return <div className={shellClass}>{inner}</div>;
 }
 
 /** S13 compatibility ledger. Existing framework content, split + shared borders. */
@@ -137,11 +115,8 @@ const ModernFrameworksSection = () => {
 
         <div className="mb-8 flex max-w-3xl flex-col gap-5 md:mb-10">
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-            Ship with confidence whether your team uses Android, iOS,{" "}
-            <Link href={PATHS.FOR_FLUTTER} className={tileLinkClass}>
-              Flutter
-            </Link>
-            , or React Native. One pipeline validates what users actually
+            Ship with confidence whether your team uses Android, iOS, Flutter,
+            or React Native. One pipeline validates what users actually
             experience. No framework-specific test harness required.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
