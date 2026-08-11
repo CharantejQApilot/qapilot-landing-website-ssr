@@ -25,16 +25,19 @@ export default function HomeHeroDualDevicePanel({
 }: HomeHeroDualDevicePanelProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const industriesRef = useRef<HTMLParagraphElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
     const industries = industriesRef.current;
-    if (!root || !industries) return;
+    const visual = visualRef.current;
+    if (!root || !industries || !visual) return;
 
     const placeTop = () => {
       if (!window.matchMedia(LG_MIN).matches) {
         industries.style.top = "";
+        visual.style.transform = "";
         return true;
       }
 
@@ -48,6 +51,19 @@ export default function HomeHeroDualDevicePanel({
       const sliderTop = slider.getBoundingClientRect().top;
 
       industries.style.top = `${Math.max(0, (bandBottom + sliderTop) / 2 - rootTop - industries.offsetHeight / 2)}px`;
+
+      // Only nudge the phone visual — layout of copy/industries stays unchanged
+      const siteHeader = document.querySelector("[data-site-header]");
+      const trust = document.querySelector("[data-home-hero-trust]");
+      visual.style.transform = "";
+      if (siteHeader && trust) {
+        const menuBottom = siteHeader.getBoundingClientRect().bottom;
+        const trustTop = trust.getBoundingClientRect().top;
+        const box = visual.getBoundingClientRect();
+        const targetCenter = (menuBottom + trustTop) / 2;
+        const currentCenter = box.top + box.height / 2;
+        visual.style.transform = `translateY(${targetCenter - currentCenter}px)`;
+      }
       return true;
     };
 
@@ -66,8 +82,11 @@ export default function HomeHeroDualDevicePanel({
     const ro = new ResizeObserver(rafPlace);
     ro.observe(root);
     ro.observe(industries);
+    ro.observe(visual);
     const bandHeadline = document.querySelector("[data-home-hero-band-headline]");
     if (bandHeadline) ro.observe(bandHeadline);
+    const trust = document.querySelector("[data-home-hero-trust]");
+    if (trust) ro.observe(trust);
 
     const mq = window.matchMedia(LG_MIN);
     mq.addEventListener("change", rafPlace);
@@ -129,7 +148,10 @@ export default function HomeHeroDualDevicePanel({
           </p>
         </div>
 
-        <div className="hidden w-full min-w-0 flex-1 items-center justify-end lg:flex">
+        <div
+          ref={visualRef}
+          className="hidden w-full min-w-0 flex-1 items-center justify-end lg:flex"
+        >
           <DualDeviceHeroVisual />
         </div>
       </div>

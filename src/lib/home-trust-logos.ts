@@ -34,10 +34,10 @@ export const HOME_TRUST_LOGOS: HomeTrustLogo[] = [
     visualScale: 1,
   },
   {
-    name: "Zessta",
-    logo: `${PARTNER_LOGOS_PATH_PREFIX}zessta-logo.png`,
-    url: "https://zessta.com/",
-    visualScale: 0.8,
+    name: "Endowus",
+    logo: `${PARTNER_LOGOS_PATH_PREFIX}endowus-logo.png`,
+    url: "https://endowus.com/",
+    visualScale: 1.05,
   },
   {
     name: "mySherpas",

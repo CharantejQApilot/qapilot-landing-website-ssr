@@ -138,7 +138,7 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
               <span className="flex flex-col items-start gap-y-2 px-1 leading-[inherit] sm:gap-y-2.5 md:block md:whitespace-nowrap">
                 <span className="block md:inline">Mobile-First</span>
                 <span className="hidden md:inline"> </span>
-                <span className="block md:inline">Apps Need</span>
+                <span className="block md:inline">Businesses Need</span>
               </span>
               <Link
                 href={PATHS.COMPARE_WEB_FIRST}
