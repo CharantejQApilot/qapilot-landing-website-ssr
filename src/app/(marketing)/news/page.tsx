@@ -20,8 +20,6 @@ const canonicalUrl = `${SITE_BASE_URL}${NEWS_PATH}`;
 const NEWS_LIST_SELECT =
   "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
 
-const LIST_GUTTER = "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
-
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 export const metadata: Metadata = buildStaticPageMetadata({
@@ -161,7 +159,7 @@ export default async function NewsPage() {
             </div>
           </div>
 
-          <div className={`bg-background ${LIST_GUTTER} py-14 md:py-20`}>
+          <div className="section-full bg-background py-14 md:py-20">
             <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
               <section
                 aria-labelledby="news-intro"
