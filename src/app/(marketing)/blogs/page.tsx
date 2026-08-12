@@ -20,9 +20,6 @@ const canonicalUrl = `${SITE_BASE_URL}${BLOGS_PATH}`;
 const BLOG_LIST_SELECT =
   "id, slug, title, excerpt, featured_image, youtube_url, author_name, author_designation, published_date, is_featured";
 
-/** Tighter horizontal rhythm than `section-full` so grids feel closer to edge-to-edge on large displays. */
-const BLOGS_GUTTER = "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
-
 const BLOGS_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 export const metadata: Metadata = buildStaticPageMetadata({
@@ -165,7 +162,7 @@ export default async function BlogsPage() {
             </div>
           </div>
 
-          <div className={`bg-background ${BLOGS_GUTTER} py-14 md:py-20`}>
+          <div className="section-full bg-background py-14 md:py-20">
             <div className={`${BLOGS_MAX_WIDTH} bg-dot-pattern-subtle`}>
               <section
                 aria-labelledby="blogs-intro"

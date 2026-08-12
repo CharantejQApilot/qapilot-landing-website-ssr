@@ -20,8 +20,6 @@ import {
 const EVENTS_PATH = PATHS.EVENTS;
 const canonicalUrl = `${SITE_BASE_URL}${EVENTS_PATH}`;
 
-const LIST_GUTTER = "w-full px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10";
-
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 /** Two-column grid: full content width like blogs / news listing pages */
@@ -113,7 +111,7 @@ export default function EventsPage() {
             </div>
           </div>
 
-          <div className={`bg-background ${LIST_GUTTER} py-14 md:py-20`}>
+          <div className="section-full bg-background py-14 md:py-20">
             <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
               {eventCount === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">
