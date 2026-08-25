@@ -1,3 +1,8 @@
+import {
+  stripTrailingPunctuation,
+  truncateAtWordBoundary,
+} from "@/lib/meta-text";
+
 const BRAND_SUFFIX = " | QApilot";
 
 export type AbsolutePageTitle = { absolute: string };
@@ -8,11 +13,15 @@ export const PAGE_TITLE_MAX_LEN = 65;
 /** Ubersuggest flags titles shorter than ~30 characters. */
 export const PAGE_TITLE_MIN_LEN = 30;
 
-const BRAND_SUFFIX_RE = /\s*\|\s*QApilot\s*$/i;
+/**
+ * Max length for an author-written SEO title that does not already include
+ * the brand (suffix adds {@link BRAND_SUFFIX}).
+ */
+export const PAGE_TITLE_AUTHOR_MAX_WITHOUT_BRAND =
+  PAGE_TITLE_MAX_LEN - BRAND_SUFFIX.length;
 
-/** Weak trailing words that make truncated titles look broken (e.g. "… for | QApilot"). */
-const WEAK_TRAILING_WORD_RE =
-  /\b(a|an|and|as|at|by|for|from|in|into|of|on|or|the|to|with|without|vs|via|makes?|complete|guide|qapilot)$/i;
+const BRAND_SUFFIX_RE = /\s*\|\s*QApilot\s*$/i;
+const QAPILOT_TOKEN_RE = /\bqapilot\b/i;
 
 /** Remove trailing `| QApilot` segments (CMS titles often include the brand already). */
 export function stripBrandSuffix(title: string): string {
@@ -23,42 +32,52 @@ export function stripBrandSuffix(title: string): string {
   return base;
 }
 
-function stripTrailingPunctuation(text: string): string {
-  return text.replace(/[\s,.;:\-–]+$/, "").trimEnd();
-}
-
-function truncateAtWordBoundary(text: string, maxLen: number): string {
-  if (text.length <= maxLen) return text;
-  const slice = text.slice(0, maxLen);
-  let cut = slice.lastIndexOf(" ");
-  if (cut <= maxLen * 0.55) {
-    return stripTrailingPunctuation(slice);
-  }
-  let truncated = stripTrailingPunctuation(slice.slice(0, cut));
-  // Drop dangling connector / brand words so titles don't end mid-phrase.
-  while (truncated) {
-    const parts = truncated.split(/\s+/);
-    const last = (parts[parts.length - 1] ?? "").replace(/[.,;\-–]+$/, "");
-    if (!WEAK_TRAILING_WORD_RE.test(last) || parts.length <= 2) break;
-    parts.pop();
-    truncated = stripTrailingPunctuation(parts.join(" "));
-  }
-  return truncated;
+/** True when the title already names the brand (avoid appending `| QApilot` again). */
+export function titleIncludesBrand(title: string): boolean {
+  return QAPILOT_TOKEN_RE.test(title);
 }
 
 /**
- * Normalize a page title for Next metadata: strip duplicate brand suffixes,
- * enforce max length, and return `{ absolute }` so the root layout template
- * does not append `| QApilot` twice.
+ * Full document title capped at {@link PAGE_TITLE_MAX_LEN}.
+ * Appends `| QApilot` only when the source does not already contain QApilot.
+ * If truncation leaves a dangling subtitle after `:`, drop that clause.
  */
-/** Full document title with brand suffix, capped at {@link PAGE_TITLE_MAX_LEN} characters. */
 export function formatPageTitleString(raw: string): string {
+  const stripped = stripBrandSuffix(raw);
+  const hasBrand = titleIncludesBrand(stripped);
+
+  if (hasBrand) {
+    const before = stripped.length;
+    const truncated = truncateAtWordBoundary(stripped, PAGE_TITLE_MAX_LEN);
+    return dropIncompleteSubtitle(truncated, truncated.length < before);
+  }
+
   const maxBase = PAGE_TITLE_MAX_LEN - BRAND_SUFFIX.length;
-  const base = truncateAtWordBoundary(stripBrandSuffix(raw), maxBase);
-  return `${base}${BRAND_SUFFIX}`;
+  const before = stripped.length;
+  const base = truncateAtWordBoundary(stripped, maxBase);
+  const cleaned = dropIncompleteSubtitle(base, base.length < before);
+  return `${cleaned}${BRAND_SUFFIX}`;
+}
+
+/**
+ * After forced truncation, prefer a clean stop before `:` when the trailing
+ * clause is a short/incomplete subtitle (e.g. "…: What AI Automation").
+ */
+function dropIncompleteSubtitle(text: string, wasTruncated: boolean): string {
+  if (!wasTruncated) return text;
+  const colon = text.lastIndexOf(":");
+  if (colon < Math.floor(text.length * 0.35)) return text;
+  const after = text.slice(colon + 1).trim();
+  const words = after.split(/\s+/).filter(Boolean);
+  if (words.length === 0 || words.length <= 4) {
+    return text.slice(0, colon).replace(/[\s,.;:\-–—]+$/, "").trimEnd();
+  }
+  return text;
 }
 
 /** Next.js metadata title that bypasses the root layout `%s | QApilot` template. */
 export function formatPageTitle(raw: string): AbsolutePageTitle {
   return { absolute: formatPageTitleString(raw) };
 }
+
+export { stripTrailingPunctuation };

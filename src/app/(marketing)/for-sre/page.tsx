@@ -30,7 +30,7 @@ const structuredData = {
   "@type": "WebPage",
   name: "Release Reliability for SRE Teams",
   description:
-    "How QApilot helps SRE teams improve release reliability by identifying mobile quality risks early, strengthening pre-release signals, and reducing incidents caused by poor launches.",
+    "How QApilot helps SRE teams improve release reliability by surfacing mobile quality risks early and strengthening pre-release signals.",
   url: canonicalUrl,
   mainEntity: {
     "@type": "SoftwareApplication",

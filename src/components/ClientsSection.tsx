@@ -42,7 +42,7 @@ const ClientsSection = () => {
           <p className="mb-8 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground 2xl:mb-10">
             In their words
           </p>
-          <h3 className="sr-only">Client Testimonials</h3>
+          <h2 className="sr-only">Client Testimonials</h2>
 
           <div className="grid grid-cols-1 border-t border-border pt-8 md:grid-cols-2 md:pt-10">
             {QA_PILOT_PUBLIC_TESTIMONIALS.map((item, index) => (

@@ -15,6 +15,7 @@ import { publishedUrlPath } from "@/lib/qa-guide/urls";
 import { normalizeSlugPath } from "@/lib/qa-guide/resolve-slug-path";
 import { loadQaGuideWriter } from "@/lib/qa-guide/load-writer";
 import { formatPageTitle } from "@/lib/page-title";
+import { coverImageAltForTitle } from "@/components/CmsRemoteImage";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 
 export const revalidate = 120;
@@ -81,7 +82,18 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
       title: metaTitle,
       description,
       url: canonical,
-      ...(ogAbsolute ? { images: [{ url: ogAbsolute, alt: metaTitle }] } : {}),
+      ...(ogAbsolute
+        ? {
+            images: [
+              {
+                url: ogAbsolute,
+                alt: coverImageAltForTitle(
+                  firstNonEmptyString(guide.title) ?? metaTitle,
+                ),
+              },
+            ],
+          }
+        : {}),
       ...(publishedTime ? { publishedTime } : {}),
       siteName: "QApilot",
     },

@@ -20,6 +20,19 @@ const remotePatterns = [
     protocol: "https",
     hostname: "i.ytimg.com",
   },
+  // CMS blog / news / QE Guide heroes (e.g. qapilotlabs.s3.us-east-1.amazonaws.com)
+  {
+    protocol: "https",
+    hostname: "qapilotlabs.s3.us-east-1.amazonaws.com",
+  },
+  {
+    protocol: "https",
+    hostname: "*.s3.*.amazonaws.com",
+  },
+  {
+    protocol: "https",
+    hostname: "*.s3.amazonaws.com",
+  },
 ];
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowUp, Clock, Linkedin } from "lucide-react";
+import { ArrowUp, Clock } from "lucide-react";
 import Logo from "@/components/Logo";
 import {
   marketingEyebrowClass,
@@ -25,7 +25,7 @@ import {
   QE_GUIDE_DISPLAY_NAME,
   COMPARE_NAV_LINKS,
 } from "@/lib/routes";
-import { SOCIAL_LINKS } from "@/lib/social-links";
+import { SOCIAL_LINKS, type SocialLink } from "@/lib/social-links";
 
 const BugNinja = dynamic(() => import("@/components/bug-ninja"), {
   ssr: false,
@@ -117,44 +117,36 @@ const ComplianceBadge = ({
   </figure>
 );
 
-const FOOTER_SOCIAL_ICON_SLUGS: Partial<
-  Record<(typeof SOCIAL_LINKS)[number]["name"], string>
-> = {
-  X: "x",
-  YouTube: "youtube",
-  Instagram: "instagram",
-};
+const FooterSocialIconLink = ({ social }: { social: SocialLink }) => {
+  const Icon = social.kind === "lucide" ? social.icon : null;
 
-const FooterSocialIconLink = ({
-  social,
-}: {
-  social: (typeof SOCIAL_LINKS)[number];
-}) => (
-  <a
-    href={social.href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-flex h-9 w-9 items-center justify-center rounded-md text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
-    aria-label={social.name}
-  >
-    <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-      {social.name === "LinkedIn" ? (
-        <Linkedin className="h-5 w-5 stroke-[1.75]" aria-hidden />
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element -- brand marks via Simple Icons CDN
-        <img
-          src={`https://cdn.simpleicons.org/${FOOTER_SOCIAL_ICON_SLUGS[social.name]}/ffffff`}
-          alt=""
-          width={20}
-          height={20}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-contain opacity-80"
-        />
-      )}
-    </span>
-  </a>
-);
+  return (
+    <a
+      href={social.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-md text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+      aria-label={social.name}
+    >
+      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+        {Icon ? (
+          <Icon className="h-5 w-5 stroke-[1.75]" aria-hidden />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element -- X mark via Simple Icons CDN
+          <img
+            src={`https://cdn.simpleicons.org/${social.kind === "simple-icon" ? social.iconSlug : "x"}/ffffff`}
+            alt=""
+            width={20}
+            height={20}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-contain opacity-80"
+          />
+        )}
+      </span>
+    </a>
+  );
+};
 
 const FooterLink = ({
   to,
@@ -316,6 +308,9 @@ const Footer = () => {
               <ul className={footerColumnListClass}>
                 <li>
                   <FooterLink to={PATHS.BLOGS}>Blogs</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to={PATHS.CASE_STUDIES}>Case Studies</FooterLink>
                 </li>
                 <li>
                   <FooterLink to={PATHS.QA_GUIDE}>

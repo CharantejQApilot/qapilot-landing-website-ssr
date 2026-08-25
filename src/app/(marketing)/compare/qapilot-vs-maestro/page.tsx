@@ -2,13 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { MarketingSectionHeader } from "@/components/marketing";
 import {
   MarketingLedger,
   MarketingLedgerCell,
 } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { COMPARE_FAQS } from "@/lib/compare-faqs";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
@@ -16,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 const path = PATHS.COMPARE_MAESTRO;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
+const faqs = COMPARE_FAQS.maestro;
 
 const heroComparisonCards = [
   {
@@ -120,12 +126,13 @@ export default function QApilotVsMaestroPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: JSON.stringify([
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
               { name: "QApilot vs Maestro", path },
             ]),
-          ),
+            buildFaqPageJsonLd(faqs),
+          ]),
         }}
       />
 
@@ -135,15 +142,14 @@ export default function QApilotVsMaestroPage() {
           eyebrow="QApilot vs Maestro"
           title={
             <>
-              Maestro Runs Your Flows.{" "}
-              <span className="text-primary">
-                QApilot Discovers What Matters.
-              </span>
+              QApilot vs Maestro:{" "}
+              <span className="text-primary">Discover What Matters</span>
             </>
           }
           description={
             <>
-              Maestro makes mobile UI flow testing approachable with simple YAML
+              Maestro Runs Your Flows. QApilot Discovers What Matters. Maestro
+              makes mobile UI flow testing approachable with simple YAML
               definitions. QApilot is for teams that need autonomous coverage.
               Exploring apps post-build, generating tests, healing UI changes,
               and delivering release-ready signals without maintaining every
@@ -151,6 +157,12 @@ export default function QApilotVsMaestroPage() {
             </>
           }
         />
+
+        <div className="section-edge w-full border-b border-border/50 bg-background">
+          <div className="section-full py-6 md:py-8">
+            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
+          </div>
+        </div>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
           <div className="section-full">
@@ -196,38 +208,7 @@ export default function QApilotVsMaestroPage() {
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <div className="grid gap-4 md:gap-5">
-              {comparisonRows.map(([area, maestro, qapilot]) => (
-                <article
-                  key={area}
-                  className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm"
-                >
-                  <div className="border-b border-border/60 bg-muted/35 px-4 py-3 sm:px-5">
-                    <p className="font-heading text-sm font-semibold tracking-tight text-foreground md:text-base">
-                      {area}
-                    </p>
-                  </div>
-                  <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
-                    <div className="p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                        Maestro
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-                        {maestro}
-                      </p>
-                    </div>
-                    <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-                        QApilot
-                      </p>
-                      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">
-                        {qapilot}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CompareMatrixTable competitorName="Maestro" rows={comparisonRows} />
           </div>
         </section>
 
@@ -286,6 +267,8 @@ export default function QApilotVsMaestroPage() {
             </p>
           </div>
         </section>
+
+        <CompareFaqSection faqs={faqs} />
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
           <div className="section-full">

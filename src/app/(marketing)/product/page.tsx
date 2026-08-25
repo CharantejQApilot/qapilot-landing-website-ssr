@@ -4,8 +4,10 @@ import { PlatformOverviewProblemSection } from "@/components/platform-overview/P
 import { PlatformOverviewQualityJourneySection } from "@/components/platform-overview/PlatformOverviewQualityJourneySection";
 import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 
 const PRODUCT_PATH = PATHS.PRODUCT;
 
@@ -36,6 +38,7 @@ export default function ProductPage() {
       />
       <main>
         <PlatformOverviewHero />
+        <ProductSummariseBand pageUrl={`${SITE_BASE_URL}${PRODUCT_PATH}`} />
         <PlatformOverviewProblemSection />
         <PlatformOverviewQualityJourneySection />
         <CoreAdvantageHeading />

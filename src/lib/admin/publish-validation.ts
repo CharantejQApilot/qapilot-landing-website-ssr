@@ -1,3 +1,14 @@
+import {
+  endsWithWeakTrailingWord,
+  META_DESCRIPTION_MAX_LEN,
+  META_DESCRIPTION_MIN_LEN,
+} from "@/lib/meta-text";
+import {
+  PAGE_TITLE_AUTHOR_MAX_WITHOUT_BRAND,
+  PAGE_TITLE_MAX_LEN,
+  titleIncludesBrand,
+} from "@/lib/page-title";
+
 type PublishValidationInput = {
   title: string;
   slug: string;
@@ -30,6 +41,53 @@ function isValidAbsoluteHttpUrl(value: string | null | undefined): boolean {
   }
 }
 
+function normalizeSeoText(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function validateSeoTitle(seoTitle: string): string[] {
+  const errors: string[] = [];
+  const text = normalizeSeoText(seoTitle);
+  const maxLen = titleIncludesBrand(text)
+    ? PAGE_TITLE_MAX_LEN
+    : PAGE_TITLE_AUTHOR_MAX_WITHOUT_BRAND;
+
+  if (text.length > maxLen) {
+    errors.push(
+      titleIncludesBrand(text)
+        ? `SEO title must be ≤${PAGE_TITLE_MAX_LEN} characters (includes brand).`
+        : `SEO title must be ≤${maxLen} characters (brand suffix adds ${PAGE_TITLE_MAX_LEN - maxLen}).`,
+    );
+  }
+  if (endsWithWeakTrailingWord(text)) {
+    errors.push(
+      "SEO title must not end on a conjunction or incomplete phrase (e.g. and, or, what, for).",
+    );
+  }
+  return errors;
+}
+
+function validateSeoDescription(seoDescription: string): string[] {
+  const errors: string[] = [];
+  const text = normalizeSeoText(seoDescription);
+  if (text.length < META_DESCRIPTION_MIN_LEN) {
+    errors.push(
+      `SEO description should be at least ${META_DESCRIPTION_MIN_LEN} characters.`,
+    );
+  }
+  if (text.length > META_DESCRIPTION_MAX_LEN) {
+    errors.push(
+      `SEO description must be ≤${META_DESCRIPTION_MAX_LEN} characters.`,
+    );
+  }
+  if (endsWithWeakTrailingWord(text)) {
+    errors.push(
+      "SEO description must not end on a conjunction or incomplete phrase (e.g. and, or, the, where).",
+    );
+  }
+  return errors;
+}
+
 export function validatePublishedContent(
   input: PublishValidationInput,
 ): string[] {
@@ -43,9 +101,13 @@ export function validatePublishedContent(
 
   if (!hasText(input.seoTitle)) {
     errors.push("SEO title is required before publishing.");
+  } else {
+    errors.push(...validateSeoTitle(input.seoTitle as string));
   }
   if (!hasText(input.seoDescription)) {
     errors.push("SEO description is required before publishing.");
+  } else {
+    errors.push(...validateSeoDescription(input.seoDescription as string));
   }
 
   if (!hasText(input.ogImageUrl) && !hasText(input.featuredImageUrl)) {
@@ -80,9 +142,13 @@ export function validateQaGuideForPublish(
     errors.push("Content is required before publishing.");
   if (!hasText(input.seoTitle)) {
     errors.push("SEO title is required before publishing.");
+  } else {
+    errors.push(...validateSeoTitle(input.seoTitle as string));
   }
   if (!hasText(input.seoDescription)) {
     errors.push("SEO description is required before publishing.");
+  } else {
+    errors.push(...validateSeoDescription(input.seoDescription as string));
   }
 
   return errors;

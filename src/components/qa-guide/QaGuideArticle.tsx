@@ -11,6 +11,7 @@ import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import WriterCard from "@/components/WriterCard";
 
 const ARTICLE_GUTTER =
@@ -77,13 +78,14 @@ export default function QaGuideArticle({
 
         {guide.featured_image ? (
           <div className="mb-8 w-full overflow-hidden rounded-lg">
-            <img
+            <CmsRemoteImage
               src={guide.featured_image}
               alt={`${guide.title}. QApilot ${QE_GUIDE_DISPLAY_NAME}`}
               className="h-auto w-full object-contain"
               width={1200}
               height={630}
-              loading="eager"
+              priority
+              sizes="(max-width: 1280px) 100vw, 1280px"
               style={{ aspectRatio: "1200/630" }}
             />
           </div>

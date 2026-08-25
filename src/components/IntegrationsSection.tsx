@@ -116,24 +116,13 @@ const IntegrationsSection = () => {
             className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2"
             aria-label="Integration partners"
           >
-            {/* Mobile: static wrapped row (same as trust logos) */}
-            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-5 px-4 md:hidden">
-              {integrations.map((integration) => (
-                <IntegrationLogo
-                  key={integration.name}
-                  integration={integration}
-                />
-              ))}
-            </div>
-
-            {/* Desktop: infinite scroll marquee */}
-            <div className="relative hidden overflow-hidden md:block">
+            <div className="relative overflow-hidden">
               <div
-                className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-[hsl(var(--cream))] to-transparent sm:w-24 md:w-40"
+                className="pointer-events-none absolute inset-y-0 left-0 z-20 w-10 bg-gradient-to-r from-[hsl(var(--cream))] to-transparent sm:w-16 md:w-24 lg:w-40"
                 aria-hidden
               />
               <div
-                className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-[hsl(var(--cream))] to-transparent sm:w-24 md:w-40"
+                className="pointer-events-none absolute inset-y-0 right-0 z-20 w-10 bg-gradient-to-l from-[hsl(var(--cream))] to-transparent sm:w-16 md:w-24 lg:w-40"
                 aria-hidden
               />
 

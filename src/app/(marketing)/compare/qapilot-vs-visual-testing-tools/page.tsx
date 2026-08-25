@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { COMPARE_FAQS } from "@/lib/compare-faqs";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
@@ -13,6 +18,7 @@ import { cn } from "@/lib/utils";
 
 const path = PATHS.COMPARE_VISUAL_TESTING;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
+const faqs = COMPARE_FAQS.visual;
 
 const heroComparisonCards = [
   {
@@ -157,7 +163,7 @@ const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description:
-    "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
+    "Compare QApilot vs visual testing for mobile quality. Beyond screenshots: autonomous testing, journey validation, self-healing, and release-ready reporting.",
   alternates: {
     canonical: canonicalUrl,
   },
@@ -165,7 +171,7 @@ export const metadata: Metadata = {
     type: "website",
     title: PAGE_TITLE_TEXT,
     description:
-      "Compare QApilot vs visual testing tools for mobile app quality. See how QApilot goes beyond screenshot comparison with autonomous testing, journey validation, intelligent bug detection, self-healing, and release-ready reporting.",
+      "QApilot vs visual testing: autonomous journeys, self-healing, and release-ready reporting beyond screenshots.",
     url: canonicalUrl,
     siteName: "QApilot",
     locale: "en_US",
@@ -188,12 +194,13 @@ export default function QApilotVsVisualTestingComparisonPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: JSON.stringify([
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
               { name: "QApilot vs Visual Testing Tools", path },
             ]),
-          ),
+            buildFaqPageJsonLd(faqs),
+          ]),
         }}
       />
 
@@ -203,12 +210,13 @@ export default function QApilotVsVisualTestingComparisonPage() {
           eyebrow="QApilot vs Visual Testing Tools"
           title={
             <>
-              Visual Testing Catches What Changed.{" "}
-              <span className="text-primary">QApilot Catches What Could Break Your Release.</span>
+              QApilot vs Visual Testing:{" "}
+              <span className="text-primary">Catch What Could Break the Release</span>
             </>
           }
           description={
             <>
+              Visual Testing Catches What Changed. QApilot Catches What Could Break Your Release.
               Visual testing tools are useful for spotting UI regressions. But mobile quality is more
               than pixels. QApilot validates real app journeys across screens, states, devices, gestures,
               performance signals, bugs, and release risks. Giving mobile teams confidence beyond visual
@@ -216,6 +224,12 @@ export default function QApilotVsVisualTestingComparisonPage() {
             </>
           }
         />
+
+        <div className="section-edge w-full border-b border-border/50 bg-background">
+          <div className="section-full py-6 md:py-8">
+            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
+          </div>
+        </div>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
           <div className="section-full">
@@ -365,36 +379,7 @@ export default function QApilotVsVisualTestingComparisonPage() {
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <div className="grid gap-4 md:gap-5">
-              {comparisonRows.map(([area, visualTesting, qapilot]) => (
-                <article
-                  key={area}
-                  className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm"
-                >
-                  <div className="border-b border-border/60 bg-muted/35 px-4 py-3 sm:px-5">
-                    <p className="font-heading text-sm font-semibold tracking-tight text-foreground md:text-base">
-                      {area}
-                    </p>
-                  </div>
-                  <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
-                    <div className="p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                        Visual Testing Tools
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-                        {visualTesting}
-                      </p>
-                    </div>
-                    <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">QApilot</p>
-                      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">
-                        {qapilot}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CompareMatrixTable competitorName="Visual Testing Tools" rows={comparisonRows} />
           </div>
         </section>
 
@@ -473,6 +458,8 @@ export default function QApilotVsVisualTestingComparisonPage() {
             </div>
           </div>
         </section>
+
+        <CompareFaqSection faqs={faqs} />
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
           <div className="section-full">
