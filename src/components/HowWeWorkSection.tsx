@@ -20,7 +20,7 @@ const HowWeWorkSection = () => {
           marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
         />
 
-        <div className="max-w-4xl space-y-8">
+        <div className="w-full space-y-8">
           <div className="relative border-l-2 border-primary pl-6">
             <p className="text-xl font-semibold leading-snug text-foreground md:text-2xl">
               Our culture is intentionally simple.

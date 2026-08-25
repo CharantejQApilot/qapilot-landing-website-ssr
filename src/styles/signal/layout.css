@@ -208,9 +208,10 @@
   }
 }
 
-/* S14. Centred close */
+/* S14. Close band */
 .sig-close {
-  max-width: 40rem;
+  width: 100%;
+  max-width: none;
   margin-inline: 0;
   text-align: left;
 }

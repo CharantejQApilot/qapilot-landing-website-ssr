@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowUp, Clock, Linkedin } from "lucide-react";
 import Logo from "@/components/Logo";
@@ -193,9 +194,15 @@ const FooterLink = ({
 };
 
 const Footer = () => {
+  const pathname = usePathname();
+  const hideGetStartedCta =
+    pathname === PATHS.CASE_STUDIES ||
+    pathname.startsWith(`${PATHS.CASE_STUDIES}/`);
+
   return (
     <>
       {/* CTA Section. Full-width, brand blue / navy (Harvey-style edge-to-edge) */}
+      {!hideGetStartedCta ? (
       <section className="relative section-navy overflow-hidden section-edge w-full">
         <div className="absolute inset-0 bg-dot-pattern-subtle opacity-20 pointer-events-none" />
         <div className="section-full relative z-10 py-20 md:py-28 2xl:py-36">
@@ -234,6 +241,7 @@ const Footer = () => {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* Footer Links. Edge-to-edge */}
       <footer className="section-dark border-t border-white/[0.06] section-edge w-full">
@@ -357,6 +365,9 @@ const Footer = () => {
                 </li>
                 <li>
                   <FooterLink to={PATHS.PARTNERS}>Partners</FooterLink>
+                </li>
+                <li>
+                  <FooterLink to={PATHS.CASE_STUDIES}>Case Studies</FooterLink>
                 </li>
                 <li>
                   <FooterLink to={PATHS.CAREERS}>Careers</FooterLink>

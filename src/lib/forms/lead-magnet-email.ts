@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ATTRIBUTION_PAYLOAD_FIELD_NAMES } from "@/lib/attribution";
+import { isWorkEmail, WORK_EMAIL_ERROR } from "@/lib/forms/work-email";
 
 /** Email-only lead capture for downloadable content / gated actions (HubSpot lead magnet forms). */
 export const leadMagnetEmailSchema = z.object({
@@ -8,7 +9,8 @@ export const leadMagnetEmailSchema = z.object({
     .trim()
     .min(1, "Email is required")
     .email("Please enter a valid email address")
-    .max(255, "Email must be less than 255 characters"),
+    .max(255, "Email must be less than 255 characters")
+    .refine(isWorkEmail, WORK_EMAIL_ERROR),
   pageUri: z.string().trim().max(2000).optional(),
   pageName: z.string().trim().max(500).optional(),
   hutk: z.string().trim().max(200).optional(),

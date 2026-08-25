@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { CASE_STUDIES } from "@/lib/case-studies-data";
 import { QAPILOT_EVENTS } from "@/lib/events-data";
 import { INTEGRATION_SLUGS, integrationPath } from "@/lib/integrations";
 import { PATHS } from "@/lib/routes";
@@ -103,6 +104,16 @@ const staticPages: MetadataRoute.Sitemap = [
     changeFrequency: "monthly",
     priority: 0.7,
   },
+  {
+    url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}`,
+    changeFrequency: "monthly",
+    priority: 0.78,
+  },
+  ...CASE_STUDIES.map((study) => ({
+    url: `${SITE_BASE_URL}${PATHS.CASE_STUDIES}/${study.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.74,
+  })),
   {
     url: `${SITE_BASE_URL}${PATHS.FAQS}`,
     changeFrequency: "monthly",

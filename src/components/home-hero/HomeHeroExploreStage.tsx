@@ -22,27 +22,30 @@ type HomeHeroExploreStageProps = {
   children: ReactNode;
 };
 
+const TICK_MS = 50;
+
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+/**
+ * Two-panel hero stage. Auto-advances every {@link HOME_HERO_EXPLORE_IDLE_MS},
+ * pauses only while the pointer is over the slide area (or a slide is focused),
+ * and resumes when the pointer leaves — same rules as the home case-studies strip.
+ */
 export default function HomeHeroExploreStage({
   children,
 }: HomeHeroExploreStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const landingRef = useRef<HTMLDivElement>(null);
   const secondaryRef = useRef<HTMLDivElement>(null);
+  const pausedRef = useRef(false);
+  const elapsedRef = useRef(0);
   const [panel, setPanel] = useState<PanelId>("landing");
-  const [autoPlay, setAutoPlay] = useState(true);
   const [inView, setInView] = useState(false);
-  const [timerArmed, setTimerArmed] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
-
-  const stopAutoPlay = useCallback(() => {
-    setAutoPlay(false);
-    setTimerArmed(false);
-  }, []);
 
   const goToLanding = useCallback(() => {
     setPanel("landing");
@@ -50,6 +53,14 @@ export default function HomeHeroExploreStage({
 
   const goToSecondary = useCallback(() => {
     setPanel("secondary");
+  }, []);
+
+  const pauseAuto = useCallback(() => {
+    pausedRef.current = true;
+  }, []);
+
+  const resumeAuto = useCallback(() => {
+    pausedRef.current = false;
   }, []);
 
   useEffect(() => {
@@ -79,40 +90,31 @@ export default function HomeHeroExploreStage({
   }, []);
 
   useEffect(() => {
-    if (!autoPlay || reducedMotion) return;
-
-    let engageBound = false;
-    const onPointerDown = () => {
-      if (!engageBound) return;
-      stopAutoPlay();
-    };
-
-    const grace = window.setTimeout(() => {
-      engageBound = true;
-      window.addEventListener("pointerdown", onPointerDown, { passive: true });
-    }, 150);
-
-    return () => {
-      window.clearTimeout(grace);
-      window.removeEventListener("pointerdown", onPointerDown);
-    };
-  }, [autoPlay, reducedMotion, stopAutoPlay]);
+    elapsedRef.current = 0;
+    setProgress(0);
+  }, [panel]);
 
   useEffect(() => {
-    if (reducedMotion || !autoPlay || !inView) {
-      setTimerArmed(false);
-      return;
-    }
+    if (reducedMotion || !inView) return;
 
-    setTimerArmed(true);
-    const timer = window.setTimeout(() => {
-      setPanel((current) => (current === "landing" ? "secondary" : "landing"));
-    }, HOME_HERO_EXPLORE_IDLE_MS);
+    const id = window.setInterval(() => {
+      if (pausedRef.current) return;
 
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [panel, autoPlay, inView, reducedMotion]);
+      elapsedRef.current += TICK_MS;
+      const next = Math.min(1, elapsedRef.current / HOME_HERO_EXPLORE_IDLE_MS);
+      setProgress(next);
+
+      if (elapsedRef.current >= HOME_HERO_EXPLORE_IDLE_MS) {
+        elapsedRef.current = 0;
+        setProgress(0);
+        setPanel((current) =>
+          current === "landing" ? "secondary" : "landing",
+        );
+      }
+    }, TICK_MS);
+
+    return () => window.clearInterval(id);
+  }, [inView, reducedMotion]);
 
   const showLanding = panel === "landing";
   const showSecondary = panel === "secondary";
@@ -122,7 +124,6 @@ export default function HomeHeroExploreStage({
       window.dispatchEvent(new Event("home-hero-layout"));
     };
     notify();
-    // After opacity settle. Overlays stay hidden until placed with final geometry
     const t = window.setTimeout(notify, 20);
     return () => window.clearTimeout(t);
   }, [panel]);
@@ -140,6 +141,14 @@ export default function HomeHeroExploreStage({
         ref={stageRef}
         className="relative grid w-full min-w-0"
         aria-live="polite"
+        onMouseEnter={pauseAuto}
+        onMouseLeave={resumeAuto}
+        onFocusCapture={pauseAuto}
+        onBlurCapture={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+            resumeAuto();
+          }
+        }}
       >
         <div
           ref={landingRef}
@@ -173,17 +182,14 @@ export default function HomeHeroExploreStage({
       </div>
 
       <div className="flex shrink-0 flex-col items-start gap-2.5">
-        {!reducedMotion && autoPlay && timerArmed && (
+        {!reducedMotion && inView && (
           <div
-            key={panel}
             className="h-0.5 w-24 overflow-hidden rounded-full bg-primary/15 sm:w-28"
             aria-hidden
           >
             <div
               className="h-full origin-left rounded-full bg-primary/40"
-              style={{
-                animation: `home-hero-timer-fill ${HOME_HERO_EXPLORE_IDLE_MS}ms linear forwards`,
-              }}
+              style={{ transform: `scaleX(${progress})` }}
             />
           </div>
         )}
@@ -205,10 +211,7 @@ export default function HomeHeroExploreStage({
                 ? "bg-primary"
                 : "bg-muted-foreground/35 hover:bg-muted-foreground/55",
             )}
-            onClick={() => {
-              stopAutoPlay();
-              goToLanding();
-            }}
+            onClick={goToLanding}
           />
           <button
             type="button"
@@ -221,10 +224,7 @@ export default function HomeHeroExploreStage({
                 ? "bg-primary"
                 : "bg-muted-foreground/35 hover:bg-muted-foreground/55",
             )}
-            onClick={() => {
-              stopAutoPlay();
-              goToSecondary();
-            }}
+            onClick={goToSecondary}
           />
         </div>
 

@@ -2,6 +2,8 @@
 
 Same admin session as Blogs. Queue CRUD uses the browser Supabase client; **Run** calls a server route that uses your admin JWT + `OPENAI_API_KEY`.
 
+**Agent / editor playbook** (quality gate + AI detection/mitigation + SEO): [qe-guide-content-agent-playbook.md](./qe-guide-content-agent-playbook.md). Injected into the generation system prompt, user-prompt self-check, and humanize pass via `src/lib/qa-guide/generation/content-agent-playbook.ts`.
+
 ## Operator flow
 
 1. **Admin → QA Guide → Generation queue** — add a brief (cluster, keyword, intent, author, competitor URLs).

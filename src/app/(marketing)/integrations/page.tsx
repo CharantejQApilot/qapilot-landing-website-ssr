@@ -145,7 +145,7 @@ export default function IntegrationsPage() {
               <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
                 See QApilot in <span className="text-primary">Your Stack</span>
               </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
                 Book a demo to learn how QApilot connects with your CI/CD,
                 device farms, and test management tools.
               </p>

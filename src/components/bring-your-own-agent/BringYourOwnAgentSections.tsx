@@ -251,13 +251,13 @@ export function BringYourOwnAgentFoundationSection() {
         </div>
 
         <div className="mt-8 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/[0.08] via-primary/[0.04] to-transparent px-6 py-6 md:mt-10 md:px-10 md:py-8 2xl:px-12 2xl:py-10">
-          <p className="max-w-4xl text-base font-semibold leading-relaxed text-foreground md:text-lg lg:text-xl">
+          <p className="w-full text-base font-semibold leading-relaxed text-foreground md:text-lg lg:text-xl">
             This shared context is what makes it possible for external agents to
             operate effectively within the system.
           </p>
         </div>
 
-        <p className="mt-6 max-w-3xl text-sm text-muted-foreground md:mt-8 md:text-base">
+        <p className="mt-6 w-full text-sm text-muted-foreground md:mt-8 md:text-base">
           That context is continuously built and updated as the app is explored
           and tested. So custom agents always work against reality, not stale
           assumptions.
@@ -314,7 +314,7 @@ export function BringYourOwnAgentHowSection() {
         <div className="mt-10 rounded-2xl border border-border/70 bg-muted/20 px-5 py-5 text-left md:mt-12 md:px-8 md:py-6">
           <p
             className={cn(
-              "max-w-3xl font-medium text-foreground md:text-lg",
+              "w-full font-medium text-foreground md:text-lg",
               marketingSectionIntroClass,
             )}
           >
@@ -461,12 +461,12 @@ export function BringYourOwnAgentUsefulSection() {
           id="byoa-useful-heading"
           className={cn(
             marketingSectionH2Class,
-            "mb-3 max-w-4xl text-primary-foreground md:mb-4",
+            "mb-3 w-full text-primary-foreground md:mb-4",
           )}
         >
           Where It Can Be <span className="text-primary">Useful</span>
         </h2>
-        <p className="mb-10 max-w-2xl text-base leading-relaxed text-[hsl(var(--navy-muted))] md:mb-12 md:text-lg 2xl:text-xl">
+        <p className="mb-10 w-full text-base leading-relaxed text-[hsl(var(--navy-muted))] md:mb-12 md:text-lg 2xl:text-xl">
           Concrete places teams layer BYOA on top of QApilot&apos;s graph-backed
           testing.
         </p>

@@ -86,7 +86,7 @@ export function BookDemoWhatToExpectSection() {
             <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl lg:text-3xl">
               {BOOK_DEMO_BEYOND_QA.title}
             </h3>
-            <p className="mt-3 max-w-4xl text-base leading-relaxed text-muted-foreground md:text-lg lg:mt-4 lg:text-xl 2xl:text-[1.375rem]">
+            <p className="mt-3 w-full text-base leading-relaxed text-muted-foreground md:text-lg lg:mt-4 lg:text-xl 2xl:text-[1.375rem]">
               {BOOK_DEMO_BEYOND_QA.description}
             </p>
           </div>

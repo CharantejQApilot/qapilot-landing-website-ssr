@@ -163,7 +163,7 @@ export default async function NewsPage() {
             <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
               <section
                 aria-labelledby="news-intro"
-                className="mb-14 max-w-4xl text-left md:mb-16"
+                className="mb-14 w-full text-left md:mb-16"
               >
                 <h2
                   id="news-intro"
@@ -210,7 +210,7 @@ export default async function NewsPage() {
                       aria-labelledby="news-featured"
                       className="flex flex-col items-start"
                     >
-                      <div className="mb-8 flex w-full max-w-3xl flex-col items-start gap-2 text-left md:mb-12">
+                      <div className="mb-8 flex w-full flex-col items-start gap-2 text-left md:mb-12">
                         <h2
                           id="news-featured"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
@@ -302,7 +302,7 @@ export default async function NewsPage() {
                         >
                           {featuredNews.length > 0 ? "All updates" : "Updates"}
                         </h2>
-                        <p className="max-w-2xl text-left text-base text-muted-foreground md:text-lg">
+                        <p className="w-full text-left text-base text-muted-foreground md:text-lg">
                           Browse every published announcement.
                         </p>
                       </div>

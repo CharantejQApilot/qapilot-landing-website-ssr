@@ -1,11 +1,7 @@
 import type { GeneratedArticle } from "@/lib/qa-guide/generation/generate-article";
 import { getOpenAIApiKey, getOpenAITextModel } from "@/lib/qa-guide/generation/openai-config";
-import {
-  EM_DASH,
-  QUALITY_TARGET_MAX_WORDS,
-  QUALITY_TARGET_MIN_WORDS,
-  bannedPhrasesForPrompt,
-} from "@/lib/qa-guide/generation/quality-standards";
+import { buildHumanizePlaybookForPrompt } from "@/lib/qa-guide/generation/content-agent-playbook";
+import { bannedPhrasesForPrompt } from "@/lib/qa-guide/generation/quality-standards";
 
 function stripJsonFences(raw: string): string {
   let text = raw.trim();
@@ -45,18 +41,9 @@ export async function humanizeArticle(article: GeneratedArticle): Promise<Genera
 
 Return JSON only: { "content_markdown": "...", "excerpt": "...", "meta_description": "..." }
 
-Hard rules:
-- Keep EVERY existing markdown link exactly (same URLs and anchors). Do not drop, rewrite, or invent links.
-- Keep the same H2/H3 outline order; you may tweak heading wording slightly for natural voice.
-- Preserve technical facts, product claims, checklists, and tables. Do not invent features or stats.
-- Target roughly ${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words (do not gut the article).
-- Zero em dashes (${EM_DASH}). Use commas, periods, colons, or parentheses.
-- Remove these banned phrases if present: ${bannedPhrasesForPrompt()}.
-- Vary sentence length. Prefer concrete release-week detail over abstract filler.
-- Cut stock AI openers/closers ("In today's fast-paced…", "In conclusion…", "It's important to note…", "delve", "landscape", "leverage" as empty buzzwords).
-- Keep the "Mobile testing resources" section if present.
-- excerpt: 1–2 sentences, human, ≤160 chars preferred.
-- meta_description: ≤155 chars, natural, includes the topic without keyword stuffing.`,
+${buildHumanizePlaybookForPrompt()}
+
+Remove these banned phrases if present: ${bannedPhrasesForPrompt()}.`,
         },
         {
           role: "user",

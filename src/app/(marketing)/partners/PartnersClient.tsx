@@ -435,7 +435,7 @@ const PartnersClient = () => {
             <p
               className={cn(
                 marketingSectionIntroClass,
-                "mx-auto mt-4 max-w-xl text-pretty",
+                "mt-4 w-full text-pretty",
               )}
             >
               Land with mobile testing. Expand into QA modernization, AI

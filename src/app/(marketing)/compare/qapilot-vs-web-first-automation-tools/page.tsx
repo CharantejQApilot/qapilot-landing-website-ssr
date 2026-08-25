@@ -507,7 +507,7 @@ export default function QApilotVsWebFirstComparisonPage() {
                 Ready For{" "}
                 <span className="text-primary">Mobile-First Testing</span>?
               </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
                 QApilot helps mobile teams generate coverage faster, reduce
                 maintenance, execute across devices, and understand mobile app
                 release readiness with more context.

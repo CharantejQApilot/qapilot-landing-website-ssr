@@ -46,7 +46,7 @@ export function AgenticArchitectureAgentLayerSection() {
 
         <div
           className={cn(
-            "mt-12 max-w-3xl space-y-6 text-left",
+            "mt-12 w-full space-y-6 text-left",
             marketingSectionIntroClass,
           )}
         >

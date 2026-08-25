@@ -93,6 +93,26 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Partner with QApilot: join consulting and technology firms helping customers ship mobile quality with AI-native testing, joint delivery, and outcomes-led QE.",
   },
+  "/case-studies": {
+    title: "Case Studies. Mobile Testing Customer Stories | QApilot",
+    description:
+      "How QApilot helped Wio, Geml, and GrowSari automate complex mobile journeys: banking biometrics, Flutter dating flows, and OTP-gated B2B commerce.",
+  },
+  "/case-studies/wio": {
+    title: "Wio Case Study. Mobile Banking Automation Coverage | QApilot",
+    description:
+      "How QApilot turned Wio's complex mobile-banking journeys into scalable automation: 74% sprint coverage delivered, 71% Identity suite automated, and biometric flows running on the real app.",
+  },
+  "/case-studies/geml": {
+    title: "Geml Case Study. Flutter Dating Sanity in 2 Weeks | QApilot",
+    description:
+      "How QApilot automated Geml's full Flutter dating-app sanity suite in two weeks, including mock location, swipe gestures, OTP onboarding, and a trained team owning regression.",
+  },
+  "/case-studies/growsari": {
+    title: "GrowSari Case Study. B2B Commerce App Automation | QApilot",
+    description:
+      "How QApilot moved GrowSari from regression planning to evidenced mobile automation: cloud-device login, Record & Playback on OTP-gated journeys, +161% test steps and +75% active users.",
+  },
   "/for-flutter": {
     title: "Flutter App Testing - AI-Native Testing Platform | QApilot",
     description:

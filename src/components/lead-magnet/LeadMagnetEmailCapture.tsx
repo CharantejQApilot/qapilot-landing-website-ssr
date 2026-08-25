@@ -45,6 +45,11 @@ export type LeadMagnetEmailCaptureProps = {
   title?: string;
   description?: string;
   className?: string;
+  /**
+   * `inline` — wide marketing strip (default).
+   * `stacked` — full-width column for dialogs / narrow containers.
+   */
+  layout?: "inline" | "stacked";
   /** Per-action success copy keyed by action `id`. */
   successMessages?: Record<string, string>;
 };
@@ -59,8 +64,10 @@ export function LeadMagnetEmailCapture({
   title,
   description,
   className,
+  layout = "inline",
   successMessages,
 }: LeadMagnetEmailCaptureProps) {
+  const stacked = layout === "stacked";
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
   const [pendingActionId, setPendingActionId] = useState<string | null>(null);
@@ -136,29 +143,51 @@ export function LeadMagnetEmailCapture({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-gradient-to-br from-muted/50 via-card to-card p-4 shadow-sm sm:p-5",
+        stacked
+          ? "flex w-full min-w-0 flex-col gap-5"
+          : "rounded-2xl border border-border bg-gradient-to-br from-muted/50 via-card to-card p-4 shadow-sm sm:p-5",
         className,
       )}
     >
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-10 xl:gap-12">
+      <div
+        className={cn(
+          "flex min-w-0 flex-col",
+          stacked ? "gap-6" : "gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-10 xl:gap-12",
+        )}
+      >
         {title || description ? (
-          <div className="min-w-0 lg:max-w-sm lg:flex-1 xl:max-w-md">
+          <div className={cn("min-w-0", !stacked && "lg:max-w-sm lg:flex-1 xl:max-w-md")}>
             {title ? (
-              <p className="font-heading text-base font-semibold leading-snug text-foreground sm:text-lg">
+              <p
+                className={cn(
+                  "font-heading font-semibold leading-snug text-foreground",
+                  stacked ? "text-lg sm:text-xl" : "text-base sm:text-lg",
+                )}
+              >
                 {title}
               </p>
             ) : null}
             {description ? (
-              <p className="mt-1.5 max-w-prose text-sm leading-relaxed text-muted-foreground">
+              <p
+                className={cn(
+                  "max-w-prose leading-relaxed text-muted-foreground",
+                  stacked ? "mt-2 text-[0.9375rem]" : "mt-1.5 text-sm",
+                )}
+              >
                 {description}
               </p>
             ) : null}
           </div>
         ) : null}
 
-        <div className="w-full lg:w-auto lg:shrink-0">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-3 lg:gap-4">
-            <div className="w-full sm:w-[15.5rem] lg:w-60">
+        <div className={cn("min-w-0 w-full", !stacked && "lg:w-auto lg:shrink-0")}>
+          <div
+            className={cn(
+              "flex min-w-0 flex-col",
+              stacked ? "gap-4" : "gap-3 sm:flex-row sm:items-end sm:gap-3 lg:gap-4",
+            )}
+          >
+            <div className={cn("min-w-0 w-full", !stacked && "sm:w-[15.5rem] lg:w-60")}>
               <label
                 htmlFor={fieldId}
                 className={cn(marketingFormLabelClass, "mb-1.5")}
@@ -186,12 +215,21 @@ export function LeadMagnetEmailCapture({
                 aria-describedby={`${fieldId}-error`}
                 className={cn(
                   marketingFormControlClass({ invalid: !!emailError }),
-                  "h-11 rounded-xl",
+                  "w-full rounded-xl",
+                  stacked ? "h-12" : "h-11",
                 )}
               />
             </div>
 
-            <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3 lg:flex lg:shrink-0 lg:gap-3">
+            <div
+              className={cn(
+                "grid min-w-0 gap-2.5",
+                stacked
+                  ? "grid-cols-1"
+                  : "sm:grid-cols-2 sm:gap-3 lg:flex lg:shrink-0 lg:gap-3",
+                actions.length === 1 && "sm:grid-cols-1",
+              )}
+            >
               {actions.map((action) => {
                 const Icon = action.icon;
                 const isPrimary = action.variant === "default";
@@ -203,7 +241,10 @@ export function LeadMagnetEmailCapture({
                     variant={isPrimary ? "default" : "outline"}
                     disabled={pendingActionId !== null}
                     className={cn(
-                      "h-11 min-h-11 w-full rounded-xl px-4 text-sm font-semibold shadow-sm transition sm:px-5 sm:text-[0.9375rem] lg:min-w-[9.75rem] xl:min-w-[10.5rem]",
+                      "w-full rounded-xl px-4 text-sm font-semibold shadow-sm transition sm:px-5 sm:text-[0.9375rem]",
+                      stacked ? "h-12 min-h-12" : "h-11 min-h-11",
+                      !stacked &&
+                        "lg:min-w-[9.75rem] xl:min-w-[10.5rem]",
                       !isPrimary &&
                         "border-2 border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground",
                     )}
@@ -228,7 +269,8 @@ export function LeadMagnetEmailCapture({
             aria-live="polite"
             className={cn(
               marketingFormFieldErrorClass,
-              "min-h-[1.125rem] w-full sm:w-[15.5rem] lg:w-60",
+              "min-h-[1.125rem] w-full",
+              !stacked && "sm:w-[15.5rem] lg:w-60",
             )}
           >
             {emailError}
