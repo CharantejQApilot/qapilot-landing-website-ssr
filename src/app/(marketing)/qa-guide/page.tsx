@@ -16,7 +16,9 @@ import { publishedUrlPath } from "@/lib/qa-guide/urls";
 
 export const revalidate = 120;
 
-const canonicalUrl = `${SITE_BASE_URL}${PATHS.QA_GUIDE}`;
+const QA_GUIDE_PATH = PATHS.QA_GUIDE;
+const canonicalUrl = `${SITE_BASE_URL}${QA_GUIDE_PATH}`;
+const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 const QE_GUIDE_HUB_TITLE = "QA Guide. Mobile Testing Guides & Checklists";
 const QE_GUIDE_HUB_DESCRIPTION =
@@ -49,6 +51,15 @@ export const metadata: Metadata = {
 const GUIDE_LIST_SELECT =
   "id, slug, title, excerpt, published_date, author_name";
 
+type GuideListRow = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  published_date: string | null;
+  author_name: string | null;
+};
+
 function stripJsonLdContext(node: object): Record<string, unknown> {
   const o = { ...(node as Record<string, unknown>) };
   delete o["@context"];
@@ -66,11 +77,11 @@ export default async function QaGuideHubPage() {
         .order("published_date", { ascending: false })
     : { data: null };
 
-  const list = guides ?? [];
+  const list = (guides as GuideListRow[] | null) ?? [];
 
   const breadcrumb = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
-    { name: QE_GUIDE_DISPLAY_NAME, path: PATHS.QA_GUIDE },
+    { name: QE_GUIDE_DISPLAY_NAME, path: QA_GUIDE_PATH },
   ]);
 
   const itemListElements =
@@ -103,6 +114,9 @@ export default async function QaGuideHubPage() {
     "@graph": [collectionPage, stripJsonLdContext(breadcrumb)],
   };
 
+  const gridAll =
+    "mx-auto grid w-full max-w-7xl list-none gap-6 sm:gap-8 md:grid-cols-2 xl:grid-cols-3";
+
   return (
     <>
       <script
@@ -111,86 +125,128 @@ export default async function QaGuideHubPage() {
           __html: JSON.stringify(structuredData),
         }}
       />
-      <MarketingPageShell background="soft">
-        <main className="w-full px-6 py-16 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <header className="mb-12 text-left md:mb-16">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">
-                Resources
-              </p>
-              <h1 className={marketingHeroH1Class}>
-                <span className="text-gradient">{QE_GUIDE_DISPLAY_NAME}</span>
-              </h1>
-              <p className={marketingListingHeroLeadClass}>
-                Practical mobile testing guides. Comparisons, checklists, and
-                patterns for QE leaders and engineers.
-              </p>
-            </header>
+      <MarketingPageShell background="none">
+        <main className="relative w-full">
+          <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
+            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
+              <header className="relative w-full text-left">
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
+                  Resources
+                </p>
+                <h1 className={marketingHeroH1Class}>
+                  <span className="text-gradient">{QE_GUIDE_DISPLAY_NAME}</span>
+                </h1>
+                <p className={marketingListingHeroLeadClass}>
+                  Practical mobile testing guides. Comparisons, checklists, and
+                  patterns for QE leaders and engineers.
+                </p>
+              </header>
+            </div>
+          </div>
 
-            <section
-              aria-labelledby="qa-guide-intro"
-              className="mb-12 max-w-3xl text-left md:mb-16"
-            >
-              <h2
-                id="qa-guide-intro"
-                className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+          <div className="section-full bg-background py-14 md:py-20">
+            <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
+              <section
+                aria-labelledby="qa-guide-intro"
+                className="mb-14 w-full text-left md:mb-16"
               >
-                In-depth QA guides for mobile release teams
-              </h2>
-              <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground">
-                <p>
-                  The QApilot QA Guide library collects long-form references on
-                  testing types, banking and Flutter scenarios, automation
-                  strategy, and release checklists. Each guide is written for
-                  practitioners who need actionable steps, not generic
-                  definitions.
-                </p>
-                <p>
-                  Use these resources alongside the QApilot platform to plan
-                  coverage, evaluate tooling, and align QA with product and
-                  engineering stakeholders. New guides are published after
-                  editorial review.
-                </p>
-              </div>
-            </section>
+                <h2
+                  id="qa-guide-intro"
+                  className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+                >
+                  In-depth QA guides for mobile release teams
+                </h2>
+                <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                  <p>
+                    The QApilot QA Guide library collects long-form references on
+                    testing types, banking and Flutter scenarios, automation
+                    strategy, and release checklists. Each guide is written for
+                    practitioners who need actionable steps, not generic
+                    definitions.
+                  </p>
+                  <p>
+                    Use these resources alongside the QApilot platform to plan
+                    coverage, evaluate tooling, and align QA with product and
+                    engineering stakeholders. New guides are published after
+                    editorial review.
+                  </p>
+                </div>
+              </section>
 
-            {list.length === 0 ? (
-              <div className="flex flex-col items-center py-16 text-center text-muted-foreground">
-                <BookOpen className="mb-4 h-12 w-12 opacity-40" />
-                <p>Guides will appear here after review and publish.</p>
-              </div>
-            ) : (
-              <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {list.map((g) => (
-                  <li key={g.id}>
-                    <Link
-                      href={publishedUrlPath(g.slug)}
-                      className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-shadow hover:shadow-lg"
+              {list.length === 0 ? (
+                <div className="flex flex-col items-center py-24 text-center">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">
+                    <BookOpen
+                      className="h-10 w-10 text-muted-foreground"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                  </div>
+                  <h2 className="text-2xl font-semibold text-foreground">
+                    No guides yet
+                  </h2>
+                  <p className="mt-2 max-w-md text-muted-foreground">
+                    Guides will appear here after review and publish.
+                  </p>
+                </div>
+              ) : (
+                <section aria-labelledby="qa-guide-all">
+                  <div className="mb-8 flex flex-col items-start gap-2 text-left md:mb-12">
+                    <h2
+                      id="qa-guide-all"
+                      className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"
                     >
-                      <h2 className="font-heading text-lg font-semibold group-hover:text-primary">
-                        {g.title}
-                      </h2>
-                      {g.excerpt ? (
-                        <p className="mt-3 line-clamp-4 flex-1 text-sm text-muted-foreground">
-                          {g.excerpt}
-                        </p>
-                      ) : null}
-                      <div className="mt-4 flex items-center gap-3 text-xs text-muted-foreground">
-                        {g.author_name ? <span>{g.author_name}</span> : null}
-                        {g.published_date ? (
-                          <time
-                            dateTime={g.published_date}
-                            className={g.author_name ? "ml-auto" : ""}
+                      All guides
+                    </h2>
+                    <p className="w-full text-left text-base text-muted-foreground md:text-lg">
+                      Browse every published guide.
+                    </p>
+                  </div>
+                  <ul className={gridAll}>
+                    {list.map((guide) => {
+                      const dateLabel = formatPublishedDate(
+                        guide.published_date,
+                        "MMM d, yyyy",
+                      );
+                      return (
+                        <li key={guide.id}>
+                          <Link
+                            href={publishedUrlPath(guide.slug)}
+                            className="group block h-full rounded-2xl border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                           >
-                            {formatPublishedDate(g.published_date)}
-                          </time>
-                        ) : null}
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
+                            <article className="flex h-full flex-col gap-2 p-6 sm:gap-3 sm:p-7 md:p-8">
+                              {dateLabel ? (
+                                <time
+                                  dateTime={guide.published_date ?? undefined}
+                                  className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+                                >
+                                  {dateLabel}
+                                </time>
+                              ) : null}
+                              <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary md:text-xl">
+                                {guide.title}
+                              </h3>
+                              {guide.excerpt ? (
+                                <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                                  {guide.excerpt}
+                                </p>
+                              ) : null}
+                              {guide.author_name ? (
+                                <div className="mt-3 text-sm text-muted-foreground">
+                                  <p className="font-medium text-foreground">
+                                    {guide.author_name}
+                                  </p>
+                                </div>
+                              ) : null}
+                            </article>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              )}
+            </div>
           </div>
         </main>
       </MarketingPageShell>

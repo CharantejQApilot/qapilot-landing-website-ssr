@@ -21,6 +21,8 @@ type MarketingThesisHeroProps = {
   media?: ReactNode;
   /** Match home / compare viewport height treatment */
   fillViewport?: boolean;
+  /** Overrides default section-full vertical padding */
+  paddingClassName?: string;
   className?: string;
 };
 
@@ -37,6 +39,7 @@ export function MarketingThesisHero({
   cta,
   media,
   fillViewport = false,
+  paddingClassName,
   className,
 }: MarketingThesisHeroProps) {
   const copy = (
@@ -114,9 +117,11 @@ export function MarketingThesisHero({
         <div
           className={cn(
             "section-full",
-            fillViewport
-              ? "flex flex-col px-1 pt-10 sm:px-0 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0"
-              : "py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32",
+            paddingClassName
+              ? paddingClassName
+              : fillViewport
+                ? "flex flex-col px-1 pt-10 sm:px-0 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0"
+                : "py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32",
           )}
         >
           <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">

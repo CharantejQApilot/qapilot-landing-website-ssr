@@ -211,7 +211,7 @@ export function ForQALeaderSections() {
               </li>
             ))}
           </ul>
-          <p className={cn(marketingSectionIntroClass, "mt-8 max-w-3xl")}>
+          <p className={cn(marketingSectionIntroClass, "mt-8 w-full")}>
             Adopt progressively while preserving current workflows.
           </p>
         </div>

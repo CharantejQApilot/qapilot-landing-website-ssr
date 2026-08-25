@@ -226,7 +226,7 @@ export function AlternativeLandingPage({
                 Ready for{" "}
                 <span className="text-primary">Autonomous Mobile Testing</span>?
               </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
                 See how QApilot generates coverage faster, reduces maintenance,
                 and delivers release-ready signals for mobile teams.
               </p>

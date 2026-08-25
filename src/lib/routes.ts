@@ -31,6 +31,8 @@ export const PATHS = {
   CAREERS: "/careers",
   JOB_POST: "/careers/:slug",
   PARTNERS: "/partners",
+  CASE_STUDIES: "/case-studies",
+  CASE_STUDY: "/case-studies/:slug",
   FAQS: "/faqs",
   BOOK_DEMO: "/book-demo",
   LABS: "/labs",
@@ -42,8 +44,7 @@ export const PATHS = {
   FOR_PRODUCT_OWNER: "/for-product-owner",
   FOR_SRE: "/for-sre",
   NOT_FOUND: "/not-found",
-  // Placeholder paths (no page yet)
-  CUSTOMERS: "#",
+  CUSTOMERS: "/case-studies",
   COMPARE_APPIUM: "/compare/qapilot-vs-appium",
   COMPARE_WEB_FIRST: "/compare/qapilot-vs-web-first-automation-tools",
   COMPARE_VISUAL_TESTING: "/compare/qapilot-vs-visual-testing-tools",
@@ -126,12 +127,13 @@ export const PLATFORM_AI_AGENTS = [
   },
 ] as const;
 
-/** Resources dropdown (header: Blogs, Labs, FAQs) */
+/** Resources dropdown (header: Blogs, QE Guide, Labs, FAQs, Case Studies) */
 export const RESOURCE_NAV_LINKS = [
   { path: PATHS.BLOGS, label: "Blogs" },
   { path: PATHS.QA_GUIDE, label: QE_GUIDE_DISPLAY_NAME },
   { path: PATHS.LABS, label: "Labs" },
   { path: PATHS.FAQS, label: "FAQs" },
+  { path: PATHS.CASE_STUDIES, label: "Case Studies" },
 ] as const;
 
 /** Company dropdown (header: About, Partners, Careers, Events, News) */

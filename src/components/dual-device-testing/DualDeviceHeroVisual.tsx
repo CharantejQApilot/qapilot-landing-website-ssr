@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, CheckCircle2, ChevronLeft } from "lucide-react";
+import { PhoneChassis } from "@/components/dual-device-testing/PhoneChassis";
 import { cn } from "@/lib/utils";
 
 const SHARED_MESSAGE = "Hey, good morning!";
@@ -156,79 +157,7 @@ function PhoneDevice({
  ) : null}
  </div>
 
- {/* Tall modern chassis */}
- <div
- className={cn(
- "relative w-full transition-transform duration-500",
- tilt,
- isCompact && "aspect-[9/19.5] max-h-[260px]",
- isHome && "aspect-[9/19.5] max-h-[250px] sm:max-h-[280px]",
- size === "default" &&
- "aspect-[9/20.5] max-h-[380px] sm:max-h-[420px] md:max-h-[460px] lg:max-h-[480px]",
- )}
- >
- {/* Volume / power rails */}
- <span
- className={cn(
- "absolute left-0 z-10 -translate-x-[1px] rounded-l-full bg-gradient-to-b from-neutral-500 to-neutral-800",
- (isCompact || isHome) ? "top-[16%] h-3 w-[2px]" : "top-[15%] h-3.5 w-[2.5px] sm:h-4",
- )}
- />
- <span
- className={cn(
- "absolute left-0 z-10 -translate-x-[1px] rounded-l-full bg-gradient-to-b from-neutral-500 to-neutral-800",
- (isCompact || isHome) ? "top-[24%] h-6 w-[2px]" : "top-[22%] h-8 w-[2.5px] sm:h-9",
- )}
- />
- <span
- className={cn(
- "absolute left-0 z-10 -translate-x-[1px] rounded-l-full bg-gradient-to-b from-neutral-500 to-neutral-800",
- (isCompact || isHome) ? "top-[38%] h-6 w-[2px]" : "top-[36%] h-8 w-[2.5px] sm:h-9",
- )}
- />
- <span
- className={cn(
- "absolute right-0 z-10 translate-x-[1px] rounded-r-full bg-gradient-to-b from-neutral-500 to-neutral-800",
- (isCompact || isHome) ? "top-[28%] h-9 w-[2px]" : "top-[26%] h-11 w-[2.5px] sm:h-12",
- )}
- />
-
- <div
- className={cn(
- "relative flex h-full w-full flex-col overflow-hidden",
- "bg-[linear-gradient(160deg,#2a2a2e_0%,#0c0c0e_42%,#16161a_100%)]",
- "shadow-[0_28px_50px_-18px_rgba(15,23,42,0.45),0_12px_24px_-16px_rgba(15,23,42,0.3)]",
- "ring-1 ring-white/10",
- (isCompact || isHome)
- ? "rounded-[1.55rem] p-[4px]"
- : "rounded-[1.85rem] p-[5px] sm:rounded-[2.1rem] sm:p-[6px]",
- )}
- >
- {/* Bezel gloss edge */}
- <div
- className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15"
- aria-hidden
- />
-
- {/* Screen */}
- <div
- className={cn(
- "relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#f6f7f9]",
- (isCompact || isHome) ? "rounded-[1.3rem]" : "rounded-[1.55rem] sm:rounded-[1.75rem]",
- )}
- >
- {/* Dynamic Island */}
- <div className="absolute inset-x-0 top-0 z-20 flex justify-center pt-[7px] sm:pt-2">
- <div
- className={cn(
- "rounded-full bg-neutral-950 shadow-inner shadow-black/40",
- (isCompact || isHome) ? "h-3.5 w-[3.6rem]" : "h-4 w-[4.25rem] sm:h-[1.15rem] sm:w-[4.75rem]",
- )}
- >
- <span className="absolute right-[22%] top-1/2 size-1 -translate-y-1/2 rounded-full bg-neutral-800 ring-1 ring-neutral-700/80 sm:size-1.5" />
- </div>
- </div>
-
+ <PhoneChassis size={size} className={cn("transition-transform duration-500", tilt)}>
  {/* Status bar */}
  <div
  className={cn(
@@ -358,18 +287,7 @@ function PhoneDevice({
  </span>
  </div>
 
- {/* Home indicator */}
- <div className="absolute inset-x-0 bottom-1.5 z-20 flex justify-center sm:bottom-2">
- <div
- className={cn(
- "rounded-full bg-foreground/20",
- (isCompact || isHome) ? "h-0.5 w-11" : "h-1 w-16 sm:w-[4.5rem]",
- )}
- />
- </div>
- </div>
- </div>
- </div>
+ </PhoneChassis>
  </div>
  );
 }

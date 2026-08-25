@@ -95,6 +95,7 @@ const Header = () => {
     PATHS.QA_GUIDE,
     PATHS.LABS,
     PATHS.FAQS,
+    PATHS.CASE_STUDIES,
   ].some((p) => path === p || path.startsWith(p + "/"));
   const isCompanyActive = [
     PATHS.ABOUT,

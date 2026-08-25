@@ -156,7 +156,7 @@ export function AutonomousTestingEvolutionSection() {
           </ol>
         </div>
 
-        <p className="mt-12 max-w-4xl text-left text-base leading-relaxed text-foreground/90 md:mt-14 md:text-lg 2xl:text-xl">
+        <p className="mt-12 w-full text-left text-base leading-relaxed text-foreground/90 md:mt-14 md:text-lg 2xl:text-xl">
           QApilot operates in the autonomous layer. Where testing is no longer
           manually defined, but continuously discovered, generated, and
           maintained by the system.

@@ -343,6 +343,10 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | AI Time Savings | [https://qapilot.io/ai-time-savings](https://qapilot.io/ai-time-savings) |
 | Device Coverage Matrix | [https://qapilot.io/device-coverage-matrix](https://qapilot.io/device-coverage-matrix) |
 | Partners | [https://qapilot.io/partners](https://qapilot.io/partners) |
+| Case studies | [https://qapilot.io/case-studies](https://qapilot.io/case-studies) |
+| Case study → Wio | [https://qapilot.io/case-studies/wio](https://qapilot.io/case-studies/wio) |
+| Case study → Geml | [https://qapilot.io/case-studies/geml](https://qapilot.io/case-studies/geml) |
+| Case study → GrowSari | [https://qapilot.io/case-studies/growsari](https://qapilot.io/case-studies/growsari) |
 | About | [https://qapilot.io/about](https://qapilot.io/about) |
 | Careers | [https://qapilot.io/careers](https://qapilot.io/careers) |
 | Compare → Web-First tools | [https://qapilot.io/compare/qapilot-vs-web-first-automation-tools](https://qapilot.io/compare/qapilot-vs-web-first-automation-tools) |

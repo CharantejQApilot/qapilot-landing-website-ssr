@@ -290,7 +290,7 @@ const AboutClient = () => {
                   <p
                     className={cn(
                       marketingSectionIntroClass,
-                      "mt-5 max-w-3xl text-pretty !text-foreground/90 md:text-lg",
+                      "mt-5 w-full text-pretty !text-foreground/90 md:text-lg",
                     )}
                   >
                     {originFinale.body}
@@ -331,7 +331,7 @@ const AboutClient = () => {
           <p
             className={cn(
               marketingSectionIntroClass,
-              "mb-10 max-w-3xl text-left md:text-lg",
+              "mb-10 w-full text-left md:text-lg",
             )}
           >
             From hackathons and conferences to late-night prep before events, we
