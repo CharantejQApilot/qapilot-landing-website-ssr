@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
 import { SITE_BASE_URL } from "@/lib/constants";
+import {
+  META_DESCRIPTION_MAX_LEN,
+  META_DESCRIPTION_MIN_LEN,
+  truncateAtWordBoundary,
+} from "@/lib/meta-text";
 import { formatPageTitle, formatPageTitleString } from "@/lib/page-title";
 
-/** SERP display budget for meta descriptions (~160 chars). */
-export const META_DESCRIPTION_MAX_LEN = 160;
+export { META_DESCRIPTION_MAX_LEN, META_DESCRIPTION_MIN_LEN };
 
-/** Trim description at a word boundary for SERP-safe length. */
+/** Trim description at a word boundary; never end on a conjunction. */
 export function formatMetaDescription(
   raw: string,
   maxLen = META_DESCRIPTION_MAX_LEN,
 ): string {
-  const text = raw.replace(/\s+/g, " ").trim();
-  if (text.length <= maxLen) return text;
-  const slice = text.slice(0, maxLen);
-  const lastSpace = slice.lastIndexOf(" ");
-  const cut = lastSpace > maxLen * 0.6 ? lastSpace : maxLen;
-  return slice
-    .slice(0, cut)
-    .replace(/[\s,.;:\-–]+$/, "")
-    .trimEnd();
+  return truncateAtWordBoundary(raw, maxLen, 0.6);
 }
 
 /** Organization / schema.org logo (not used for og:image or header wordmark). */

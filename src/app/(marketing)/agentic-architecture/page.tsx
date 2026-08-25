@@ -21,7 +21,7 @@ const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description:
-    "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing. Context, exploration, and outcomes in one system.",
+    "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing in one system.",
   alternates: {
     canonical: canonicalUrl,
   },

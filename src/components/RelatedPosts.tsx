@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
+import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import { getYouTubeThumbnail } from "@/utils/youtube";
 
 export type RelatedPostItem = {
@@ -26,16 +27,13 @@ const RelatedPosts = ({ posts, basePath }: RelatedPostsProps) => {
 
   return (
     <section className="mt-16 pt-12 border-t border-border">
-      <h2 className="text-2xl md:text-3xl font-bold mb-8">
-        Read More...
-      </h2>
+      <h2 className="text-2xl md:text-3xl font-bold mb-8">Read More...</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {posts.map((post) => {
           const yt =
             typeof post.youtube_url === "string" ? post.youtube_url : null;
           const imageSrc =
-            post.featured_image ||
-            (yt ? getYouTubeThumbnail(yt) : null);
+            post.featured_image || (yt ? getYouTubeThumbnail(yt) : null);
 
           return (
             <Link
@@ -46,14 +44,13 @@ const RelatedPosts = ({ posts, basePath }: RelatedPostsProps) => {
               <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 {imageSrc && (
                   <div className="aspect-video overflow-hidden">
-                    <img
+                    <CmsRemoteImage
                       src={imageSrc}
                       alt={`${post.title} - QApilot`}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                      decoding="async"
                       width={640}
                       height={360}
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
                 )}

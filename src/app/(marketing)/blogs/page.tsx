@@ -8,6 +8,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import {
   marketingHeroH1Class,
   marketingListingHeroLeadClass,
@@ -241,16 +242,13 @@ export default async function BlogsPage() {
                                 <article className="flex h-full flex-col overflow-hidden rounded-2xl">
                                   <div className="relative aspect-[16/9] w-full min-h-[200px] shrink-0 bg-muted sm:min-h-[220px] md:aspect-[2/1] md:min-h-[240px]">
                                     {imgSrc ? (
-                                      <img
+                                      <CmsRemoteImage
                                         src={imgSrc}
                                         alt={`${blog.title}. QApilot blog`}
                                         width={960}
                                         height={540}
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        fetchPriority={
-                                          index === 0 ? "high" : undefined
-                                        }
-                                        decoding="async"
+                                        priority={index === 0}
+                                        sizes="(max-width: 768px) 100vw, 960px"
                                         className="h-full w-full object-cover"
                                       />
                                     ) : (
@@ -326,13 +324,12 @@ export default async function BlogsPage() {
                                 <article className="flex h-full flex-col overflow-hidden rounded-2xl">
                                   <div className="relative aspect-[16/9] w-full shrink-0 bg-muted">
                                     {imgSrc ? (
-                                      <img
+                                      <CmsRemoteImage
                                         src={imgSrc}
                                         alt={`${blog.title}. QApilot blog`}
                                         width={800}
                                         height={450}
-                                        loading="lazy"
-                                        decoding="async"
+                                        sizes="(max-width: 768px) 100vw, 400px"
                                         className="h-full w-full object-cover"
                                       />
                                     ) : (

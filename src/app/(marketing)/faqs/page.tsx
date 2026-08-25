@@ -8,6 +8,7 @@ import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { resolveFaqsForPage, type CmsFAQ } from "@/lib/faqs-resolve";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { logMetadataFallback } from "@/lib/server-telemetry";
 
 export const metadata: Metadata = buildStaticPageMetadata({
@@ -46,18 +47,12 @@ export default async function FAQsPage() {
 
   const faqs = resolveFaqsForPage(cmsFaqs);
 
-  const faqStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answerText,
-      },
+  const faqStructuredData = buildFaqPageJsonLd(
+    faqs.map((faq) => ({
+      question: faq.question,
+      answer: faq.answerText,
     })),
-  };
+  );
 
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },

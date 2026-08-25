@@ -140,16 +140,21 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
                 <span className="hidden md:inline"> </span>
                 <span className="block md:inline">Businesses Need</span>
               </span>
-              <Link
-                href={PATHS.COMPARE_WEB_FIRST}
-                className="flex flex-col items-start gap-y-2 rounded-sm px-1 leading-[inherit] text-hero-here transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-y-2.5 md:block md:whitespace-nowrap"
-              >
+              <span className="flex flex-col items-start gap-y-2 px-1 leading-[inherit] text-hero-here sm:gap-y-2.5 md:block md:whitespace-nowrap">
                 <span className="block md:inline">Mobile-First</span>
                 <span className="hidden md:inline"> </span>
-                <span className="block md:inline">Testing</span>
-              </Link>
+                <span className="block md:inline">App Testing</span>
+              </span>
             </span>
           </h1>
+          <p className="mt-3 px-1 text-sm text-muted-foreground md:mt-4 md:text-base">
+            <Link
+              href={PATHS.COMPARE_WEB_FIRST}
+              className="font-medium text-primary underline-offset-4 transition-opacity hover:opacity-90 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              See why mobile-first beats web-first testing tools
+            </Link>
+          </p>
         </div>
       </div>
 

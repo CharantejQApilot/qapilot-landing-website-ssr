@@ -4,6 +4,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
+import { COMPARE_FAQS } from "@/lib/compare-faqs";
 
 const path = PATHS.ALTERNATIVES_SAUCE_LABS;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
@@ -73,6 +74,7 @@ const config = {
   ],
   complementaryNote:
     "QApilot complements device clouds like Sauce Labs: use QApilot for autonomous coverage generation and self-healing, and your Sauce Labs infrastructure for parallel execution at scale. See our integrations hub for details.",
+  faqs: COMPARE_FAQS.sauceLabs,
 } as const;
 
 export const metadata: Metadata = {

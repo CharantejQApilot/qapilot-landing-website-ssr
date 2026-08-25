@@ -2,13 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { MarketingSectionHeader } from "@/components/marketing";
 import {
   MarketingLedger,
   MarketingLedgerCell,
 } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { COMPARE_FAQS } from "@/lib/compare-faqs";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
@@ -16,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 const path = PATHS.COMPARE_WEB_FIRST;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
+const faqs = COMPARE_FAQS.webFirst;
 
 const comparisonRows = [
   [
@@ -111,7 +117,7 @@ const PAGE_TITLE_TEXT = PAGE_TITLE.absolute;
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description:
-    "Web-first automation tools were built for browsers, then extended to mobile. QApilot is built mobile-first, helping teams test native, hybrid, and Flutter apps with better coverage, lower maintenance, and faster release confidence.",
+    "Web-first tools were built for browsers, then extended to mobile. QApilot is mobile-first for native, hybrid, and Flutter with better coverage.",
   alternates: {
     canonical: canonicalUrl,
   },
@@ -144,12 +150,13 @@ export default function QApilotVsWebFirstComparisonPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: JSON.stringify([
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
               { name: "QApilot vs Web-First Automation Tools", path },
             ]),
-          ),
+            buildFaqPageJsonLd(faqs),
+          ]),
         }}
       />
 
@@ -157,25 +164,22 @@ export default function QApilotVsWebFirstComparisonPage() {
         <CompareHeroSection
           heroId="compare-web-first-hero"
           eyebrow="QApilot vs Web-First Automation Tools"
-          title={
-            <>
-              <span className="block sm:inline">
-                Most <span className="text-primary">&ldquo;mobile&rdquo;</span>{" "}
-                testing tools are web tools
-                <br className="sm:hidden" /> with an{" "}
-                <span className="text-primary">extra tab</span>.
-              </span>{" "}
-              <span className="text-primary">We&apos;re not.</span>
-            </>
-          }
+          title="QApilot vs Web-First Automation Tools"
           description={
             <>
+              Most &ldquo;mobile&rdquo; testing tools are web tools with an extra tab. We&apos;re not.
               QApilot vs web-first automation tools: built for native apps, real
               devices, and release-ready journeys. Not browser automation
               extended sideways.
             </>
           }
         />
+
+        <div className="section-edge w-full border-b border-border/50 bg-background">
+          <div className="section-full py-6 md:py-8">
+            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
+          </div>
+        </div>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
           <div className="section-full">
@@ -392,38 +396,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <div className="grid gap-4 md:gap-5">
-              {comparisonRows.map(([area, webFirst, qapilot]) => (
-                <article
-                  key={area}
-                  className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm"
-                >
-                  <div className="border-b border-border/60 bg-muted/35 px-4 py-3 sm:px-5">
-                    <p className="font-heading text-sm font-semibold tracking-tight text-foreground md:text-base">
-                      {area}
-                    </p>
-                  </div>
-                  <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
-                    <div className="p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                        Web-First Automation Tools
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-                        {webFirst}
-                      </p>
-                    </div>
-                    <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-                        QApilot
-                      </p>
-                      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">
-                        {qapilot}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CompareMatrixTable competitorName="Web-First Tools" rows={comparisonRows} />
           </div>
         </section>
 
@@ -499,6 +472,8 @@ export default function QApilotVsWebFirstComparisonPage() {
             </div>
           </div>
         </section>
+
+        <CompareFaqSection faqs={faqs} />
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
           <div className="section-full">

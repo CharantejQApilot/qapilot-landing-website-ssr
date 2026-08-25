@@ -4,6 +4,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
+import { COMPARE_FAQS } from "@/lib/compare-faqs";
 
 const path = PATHS.ALTERNATIVES_BROWSERSTACK;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
@@ -73,6 +74,7 @@ const config = {
   ],
   complementaryNote:
     "Many teams use QApilot alongside device clouds like BrowserStack: QApilot handles autonomous coverage and maintenance; your device farm handles execution scale. See our integrations hub for how QApilot fits your existing stack.",
+  faqs: COMPARE_FAQS.browserstack,
 } as const;
 
 export const metadata: Metadata = {

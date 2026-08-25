@@ -2,13 +2,17 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import {
   MarketingLedger,
   MarketingLedgerCell,
 } from "@/components/marketing/MarketingLedger";
 import { MarketingSectionHeader } from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PATHS } from "@/lib/routes";
+import type { FaqItem } from "@/lib/faq-jsonld";
 
 export type AlternativePageConfig = {
   path: string;
@@ -23,6 +27,7 @@ export type AlternativePageConfig = {
   comparisonRows: readonly (readonly [string, string, string])[];
   whyPoints: readonly string[];
   complementaryNote: string;
+  faqs: readonly FaqItem[];
 };
 
 type AlternativeLandingPageProps = {
@@ -45,6 +50,7 @@ export function AlternativeLandingPage({
     comparisonRows,
     whyPoints,
     complementaryNote,
+    faqs,
   } = config;
 
   return (
@@ -52,12 +58,13 @@ export function AlternativeLandingPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: JSON.stringify([
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
               { name: `${competitorName} Alternative`, path },
             ]),
-          ),
+            buildFaqPageJsonLd(faqs),
+          ]),
         }}
       />
 
@@ -112,55 +119,14 @@ export function AlternativeLandingPage({
             />
 
             {/* S11 comparison matrix. Real table markup */}
-            <div className="overflow-x-auto border border-border">
-              <table className="w-full min-w-[40rem] border-collapse text-left">
-                <thead className="sticky top-0 bg-muted/40">
-                  <tr className="border-b border-border">
-                    <th
-                      scope="col"
-                      className="sticky left-0 bg-muted/40 px-4 py-3 font-heading text-sm font-semibold text-foreground sm:px-5"
-                    >
-                      Area
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 font-heading text-sm font-semibold text-foreground sm:px-5"
-                    >
-                      {competitorName}
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3 font-heading text-sm font-semibold text-primary sm:px-5"
-                    >
-                      QApilot
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonRows.map(([area, competitor, qapilot]) => (
-                    <tr
-                      key={area}
-                      className="border-b border-border last:border-b-0"
-                    >
-                      <th
-                        scope="row"
-                        className="sticky left-0 bg-background px-4 py-4 font-heading text-sm font-semibold text-foreground sm:px-5 md:text-base"
-                      >
-                        {area}
-                      </th>
-                      <td className="px-4 py-4 text-sm leading-relaxed text-muted-foreground sm:px-5 md:text-base">
-                        {competitor}
-                      </td>
-                      <td className="px-4 py-4 text-sm font-medium leading-relaxed text-foreground sm:px-5 md:text-base">
-                        {qapilot}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <CompareMatrixTable
+              competitorName={competitorName}
+              rows={comparisonRows}
+            />
           </div>
         </section>
+
+        <CompareFaqSection faqs={faqs} />
 
         <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
           <div className="section-full">

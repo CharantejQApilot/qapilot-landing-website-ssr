@@ -11,7 +11,7 @@ const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_RELEASE_MANAGER}`;
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Release Confidence for Release Managers",
   description:
-    "Ship faster with clearer go / no-go decisions. QApilot reduces pre-launch uncertainty with faster validation, clearer quality signals, and scalable release readiness testing.",
+    "Ship faster with clearer go / no-go decisions. QApilot reduces pre-launch uncertainty with faster validation, clearer quality signals, and release readiness.",
   path: PATHS.FOR_RELEASE_MANAGER,
   ogDescription:
     "Structured readiness signals, faster validation, and resilient mobile testing for confident release sign-off.",
@@ -30,7 +30,7 @@ const structuredData = {
   "@type": "WebPage",
   name: "Release Confidence for Release Managers",
   description:
-    "How QApilot helps Release Managers reduce uncertainty before mobile launches through faster validation, clearer quality signals, and scalable release readiness testing.",
+    "How QApilot helps Release Managers reduce uncertainty before mobile launches with faster validation and clearer quality signals.",
   url: canonicalUrl,
   mainEntity: {
     "@type": "SoftwareApplication",

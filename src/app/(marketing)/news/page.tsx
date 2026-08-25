@@ -8,6 +8,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
+import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import {
   marketingHeroH1Class,
   marketingListingHeroLeadClass,
@@ -237,17 +238,15 @@ export default async function NewsPage() {
                                 <article className="flex h-full flex-col overflow-hidden rounded-2xl">
                                   <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-muted md:aspect-[2/1]">
                                     {imgSrc ? (
-                                      <img
+                                      <CmsRemoteImage
                                         src={imgSrc}
                                         alt={`${item.title}. QApilot news`}
                                         width={960}
                                         height={540}
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        fetchPriority={
-                                          index === 0 ? "high" : undefined
-                                        }
-                                        decoding="async"
-                                        className="absolute inset-0 h-full w-full object-cover object-center"
+                                        fill
+                                        priority={index === 0}
+                                        sizes="(max-width: 768px) 100vw, 960px"
+                                        className="object-cover object-center"
                                       />
                                     ) : (
                                       <NewsImagePlaceholder />
@@ -322,14 +321,14 @@ export default async function NewsPage() {
                                 <article className="flex h-full flex-col overflow-hidden rounded-2xl">
                                   <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-muted">
                                     {imgSrc ? (
-                                      <img
+                                      <CmsRemoteImage
                                         src={imgSrc}
                                         alt={`${item.title}. QApilot news`}
                                         width={800}
                                         height={450}
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="absolute inset-0 h-full w-full object-cover object-center"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 400px"
+                                        className="object-cover object-center"
                                       />
                                     ) : (
                                       <NewsImagePlaceholder />
