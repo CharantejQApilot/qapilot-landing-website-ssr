@@ -9,7 +9,7 @@ type CompareHeroSectionProps = {
   description: ReactNode;
 };
 
-/** S01 compare / alternatives thesis hero. */
+/** Compare / alternatives thesis hero — same compact height as case studies. */
 export default function CompareHeroSection({
   heroId,
   eyebrow,
@@ -23,7 +23,8 @@ export default function CompareHeroSection({
       title={title}
       lead={description}
       cta={<BookDemoCtaButton />}
-      fillViewport
+      className="border-b border-border/40"
+      paddingClassName="py-10 sm:py-12 md:py-14 lg:py-16"
     />
   );
 }
