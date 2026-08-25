@@ -17,6 +17,7 @@ import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
+import { CmsRemoteImage, coverImageAltForTitle } from "@/components/CmsRemoteImage";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { resolveSlugParam } from "@/lib/app-router-params";
@@ -41,6 +42,8 @@ import {
   defaultOpenGraphImage,
   formatMetaDescription,
 } from "@/lib/seo";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
+import { extractFaqItemsFromHtml } from "@/lib/extract-faq-from-html";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -146,8 +149,9 @@ export async function generateMetadata({
 
   const pageTitle = formatPageTitle(metaTitle);
   const displayTitle = formatPageTitleString(metaTitle);
+  const ogImageAlt = coverImageAltForTitle(baseTitle);
   const ogImage =
-    buildOpenGraphImageMeta(ogAbsolute, displayTitle) ?? defaultOpenGraphImage;
+    buildOpenGraphImageMeta(ogAbsolute, ogImageAlt) ?? defaultOpenGraphImage;
   const metaDescription = formatMetaDescription(description);
 
   try {
@@ -276,10 +280,8 @@ export default async function BlogPostPage({
       ? { author: { "@type": "Person", name: blog.author_name } }
       : {}),
   };
-  const blogJsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [articleStructuredData, breadcrumbData],
-  };
+  const blogJsonLdGraph: unknown[] = [articleStructuredData, breadcrumbData];
+  // FAQPage appended below after content is sanitized (see sanitizedContent).
 
   const publishedLabel = formatPublishedDate(blog.published_date);
   const descriptionText = firstNonEmptyString(
@@ -297,6 +299,15 @@ export default async function BlogPostPage({
       : "html";
   const content = asString(blog.content);
   const readingTimeMinutes = estimateReadingTimeMinutes(content);
+  const sanitizedContent = sanitizeRichText(content, contentFormat);
+  const faqItems = extractFaqItemsFromHtml(sanitizedContent);
+  if (faqItems) {
+    blogJsonLdGraph.push(buildFaqPageJsonLd(faqItems));
+  }
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": blogJsonLdGraph,
+  };
 
   return (
     <>
@@ -317,13 +328,14 @@ export default async function BlogPostPage({
 
             {blog.featured_image && !youtubeUrl ? (
               <div className="w-full overflow-hidden rounded-lg mb-8">
-                <img
+                <CmsRemoteImage
                   src={blog.featured_image}
                   alt={`${blog.title} - QApilot Blog`}
                   className="w-full h-auto object-contain"
                   width={1200}
                   height={630}
-                  loading="eager"
+                  priority
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                   style={{ aspectRatio: "1200/630" }}
                 />
               </div>
@@ -391,7 +403,7 @@ export default async function BlogPostPage({
             <div
               className="blog-content max-w-none"
               dangerouslySetInnerHTML={{
-                __html: sanitizeRichText(content, contentFormat),
+                __html: sanitizedContent,
               }}
             />
 

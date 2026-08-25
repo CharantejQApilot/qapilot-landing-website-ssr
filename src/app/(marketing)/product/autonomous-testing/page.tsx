@@ -8,7 +8,9 @@ import { AutonomousTestingTeamsSection } from "@/components/autonomous-testing/A
 import { AutonomousTestingWhatChangesSection } from "@/components/autonomous-testing/AutonomousTestingWhatChangesSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Autonomous Mobile Testing. No Scripts",
@@ -40,6 +42,9 @@ export default function AutonomousTestingPage() {
       />
       <main>
         <AutonomousTestingHero />
+        <ProductSummariseBand
+          pageUrl={`${SITE_BASE_URL}${PATHS.AUTONOMOUS_TESTING}`}
+        />
         <AutonomousTestingEvolutionSection />
         <AutonomousTestingWhatChangesSection />
         <AutonomousTestingDeliverySection />

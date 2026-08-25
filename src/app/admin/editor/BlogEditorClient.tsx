@@ -20,6 +20,15 @@ import {
 import { ArrowLeft, Save } from "lucide-react";
 import { AdminPageShell } from "@/components/admin/AdminPageShell";
 import { validatePublishedContent } from "@/lib/admin/publish-validation";
+import {
+  META_DESCRIPTION_MAX_LEN,
+  META_DESCRIPTION_MIN_LEN,
+} from "@/lib/meta-text";
+import {
+  PAGE_TITLE_AUTHOR_MAX_WITHOUT_BRAND,
+  PAGE_TITLE_MAX_LEN,
+  titleIncludesBrand,
+} from "@/lib/page-title";
 import { getAdminAccessState } from "@/lib/admin/admin-auth";
 import {
   clearAdminAccessCookie,
@@ -673,8 +682,19 @@ const BlogEditorClient = () => {
                       id="seo-title"
                       value={seoTitle}
                       onChange={(e) => setSeoTitle(e.target.value)}
-                      placeholder="Overrides page title and Open Graph title when set"
+                      placeholder="Complete phrase; do not end on and/or/what"
+                      maxLength={PAGE_TITLE_MAX_LEN}
                     />
+                    <p className="text-xs text-muted-foreground">
+                      {seoTitle.trim().length}/
+                      {titleIncludesBrand(seoTitle)
+                        ? PAGE_TITLE_MAX_LEN
+                        : PAGE_TITLE_AUTHOR_MAX_WITHOUT_BRAND}{" "}
+                      chars
+                      {!titleIncludesBrand(seoTitle)
+                        ? ` (≤${PAGE_TITLE_AUTHOR_MAX_WITHOUT_BRAND} before | QApilot)`
+                        : " (brand already in title)"}
+                    </p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="seo-description">
@@ -684,10 +704,15 @@ const BlogEditorClient = () => {
                       id="seo-description"
                       value={seoDescription}
                       onChange={(e) => setSeoDescription(e.target.value)}
-                      placeholder="Meta description; falls back to excerpt or description"
+                      placeholder={`Meta description ${META_DESCRIPTION_MIN_LEN}–${META_DESCRIPTION_MAX_LEN} chars; complete sentence`}
                       className="min-h-[88px]"
-                      maxLength={320}
+                      maxLength={META_DESCRIPTION_MAX_LEN}
                     />
+                    <p className="text-xs text-muted-foreground">
+                      {seoDescription.trim().length}/{META_DESCRIPTION_MAX_LEN}{" "}
+                      chars (target {META_DESCRIPTION_MIN_LEN}–
+                      {META_DESCRIPTION_MAX_LEN})
+                    </p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="og-image">

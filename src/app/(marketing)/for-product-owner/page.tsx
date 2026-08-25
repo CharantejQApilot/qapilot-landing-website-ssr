@@ -30,7 +30,7 @@ const structuredData = {
   "@type": "WebPage",
   name: "Faster Releases for Product Managers",
   description:
-    "How QApilot helps Product Managers ship mobile features faster by improving release confidence, reducing quality-related delays, and surfacing issues before users do.",
+    "How QApilot helps Product Managers ship mobile features faster with stronger release confidence and fewer quality-related delays.",
   url: canonicalUrl,
   mainEntity: {
     "@type": "SoftwareApplication",

@@ -253,7 +253,55 @@ async function main() {
     console.log(pass ? "  ✓" : "  ✗", r.status, path, r.error ?? "");
   }
 
-  console.log("\n4) Manual / browser checks (not automated here)");
+  console.log("\n4) Meta description SERP hygiene");
+  const WEAK_TRAILING =
+    /\b(a|an|and|as|at|by|for|from|in|into|of|on|or|the|to|with|without|vs|via|where|what|which)$/i;
+  async function checkMetaDescription(path) {
+    const url = `${baseUrl.replace(/\/$/, "")}${path}`;
+    try {
+      const res = await fetch(url, { redirect: "follow" });
+      const html = await res.text();
+      const m = html.match(
+        /<meta\s+name="description"\s+content="([^"]*)"/i,
+      ) || html.match(
+        /<meta\s+content="([^"]*)"\s+name="description"/i,
+      );
+      const desc = (m?.[1] ?? "")
+        .replace(/&amp;/g, "&")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .trim();
+      const lastWord = desc.split(/\s+/).pop()?.replace(/[.,;:]+$/, "") ?? "";
+      const pass =
+        desc.length > 0 &&
+        desc.length <= 160 &&
+        !WEAK_TRAILING.test(lastWord);
+      return { path, pass, len: desc.length, lastWord, desc };
+    } catch (err) {
+      return {
+        path,
+        pass: false,
+        error: err instanceof Error ? err.message : String(err),
+      };
+    }
+  }
+
+  for (const path of [
+    "/product/cowork",
+    "/blogs",
+    "/compare/qapilot-vs-appium",
+  ]) {
+    const r = await checkMetaDescription(path);
+    if (!r.pass) failed++;
+    console.log(
+      r.pass ? "  ✓" : "  ✗",
+      path,
+      r.error ??
+        `${r.len} chars, ends with “${r.lastWord}”${r.pass ? "" : " (incomplete)"}`,
+    );
+  }
+
+  console.log("\n5) Manual / browser checks (not automated here)");
   console.log("  • CoWork hero video: autoplay, loop, unmute");
   console.log(
     "  • Scenic YouTube embeds: autonomous testing, Flutter, intelligent bug detection",

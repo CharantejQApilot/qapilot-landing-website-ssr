@@ -12,7 +12,7 @@ export const metadata: Metadata = buildStaticPageMetadata({
     "How QApilot helped Wio, Geml, and GrowSari automate complex mobile journeys: banking biometrics, Flutter dating flows, and OTP-gated B2B commerce.",
   path,
   ogDescription:
-    "Customer stories from Wio, Geml, and GrowSari: evidenced mobile automation coverage on journeys generic tools stall on.",
+    "Customer stories from Wio, Geml, and GrowSari: evidenced mobile automation coverage where generic tools stall.",
   twitterDescription:
     "Wio, Geml, and GrowSari case studies: mobile banking, Flutter dating, and B2B commerce automation with QApilot.",
 });

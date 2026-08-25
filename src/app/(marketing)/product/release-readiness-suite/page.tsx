@@ -5,6 +5,7 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
+import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 
 const path = PATHS.RELEASE_READINESS_SUITE;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
@@ -12,7 +13,7 @@ const canonicalUrl = `${SITE_BASE_URL}${path}`;
 export const metadata: Metadata = {
  title: "Release Readiness Suite. Bugs, Security, Self-Healing & Device Metrics",
  description:
- "QApilot’s Release Readiness Suite combines intelligent bug detection, security reports, AI self-healing, and device metrics so mobile teams ship with clearer confidence.",
+ "Release Readiness Suite: intelligent bug detection, security reports, AI self-healing, and device metrics so mobile teams ship with clearer confidence.",
  alternates: {
  canonical: canonicalUrl,
  },
@@ -54,6 +55,7 @@ export default function ReleaseReadinessSuitePage() {
  />
  <main>
  <ReleaseReadinessSuiteHero />
+ <ProductSummariseBand pageUrl={canonicalUrl} />
  <ReleaseReadinessSuitePillars />
  </main>
  </div>

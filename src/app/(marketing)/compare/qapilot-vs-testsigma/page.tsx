@@ -2,13 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
+import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { MarketingSectionHeader } from "@/components/marketing";
 import {
   MarketingLedger,
   MarketingLedgerCell,
 } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { COMPARE_FAQS } from "@/lib/compare-faqs";
 import { SITE_BASE_URL } from "@/lib/constants";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PATHS } from "@/lib/routes";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
@@ -16,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 const path = PATHS.COMPARE_TESTSIGMA;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
+const faqs = COMPARE_FAQS.testsigma;
 
 const heroComparisonCards = [
   {
@@ -120,12 +126,13 @@ export default function QApilotVsTestsigmaPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: JSON.stringify([
             buildBreadcrumbList([
               { name: "Home", path: PATHS.HOME },
               { name: "QApilot vs Testsigma", path },
             ]),
-          ),
+            buildFaqPageJsonLd(faqs),
+          ]),
         }}
       />
 
@@ -135,14 +142,13 @@ export default function QApilotVsTestsigmaPage() {
           eyebrow="QApilot vs Testsigma"
           title={
             <>
-              No-Code Helps You Write Tests Faster.{" "}
-              <span className="text-primary">
-                QApilot Decides What To Test.
-              </span>
+              QApilot vs Testsigma:{" "}
+              <span className="text-primary">Autonomous Mobile Testing</span>
             </>
           }
           description={
             <>
+              No-Code Helps You Write Tests Faster. QApilot Decides What To Test.
               Testsigma accelerates test creation with AI-assisted, no-code
               workflows. QApilot is built for teams that need autonomous mobile
               coverage. Exploration, generation, execution, healing, and release
@@ -150,6 +156,12 @@ export default function QApilotVsTestsigmaPage() {
             </>
           }
         />
+
+        <div className="section-edge w-full border-b border-border/50 bg-background">
+          <div className="section-full py-6 md:py-8">
+            <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
+          </div>
+        </div>
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
           <div className="section-full">
@@ -195,38 +207,7 @@ export default function QApilotVsTestsigmaPage() {
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <div className="grid gap-4 md:gap-5">
-              {comparisonRows.map(([area, testsigma, qapilot]) => (
-                <article
-                  key={area}
-                  className="overflow-hidden rounded-2xl border border-border/70 bg-card/90 shadow-sm backdrop-blur-sm"
-                >
-                  <div className="border-b border-border/60 bg-muted/35 px-4 py-3 sm:px-5">
-                    <p className="font-heading text-sm font-semibold tracking-tight text-foreground md:text-base">
-                      {area}
-                    </p>
-                  </div>
-                  <div className="grid divide-y divide-border/60 md:grid-cols-2 md:divide-x md:divide-y-0">
-                    <div className="p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                        Testsigma
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-                        {testsigma}
-                      </p>
-                    </div>
-                    <div className="relative bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent p-4 sm:p-5 md:p-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-                        QApilot
-                      </p>
-                      <p className="mt-2 text-sm font-medium leading-relaxed text-foreground md:text-base">
-                        {qapilot}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            <CompareMatrixTable competitorName="Testsigma" rows={comparisonRows} />
           </div>
         </section>
 
@@ -285,6 +266,8 @@ export default function QApilotVsTestsigmaPage() {
             </p>
           </div>
         </section>
+
+        <CompareFaqSection faqs={faqs} />
 
         <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
           <div className="section-full">

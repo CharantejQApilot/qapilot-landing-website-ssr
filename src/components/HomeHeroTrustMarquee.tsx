@@ -76,16 +76,24 @@ export function HomeHeroTrustMarquee({
   density = "hero",
   title,
 }: HomeHeroTrustMarqueeProps) {
+  // One track for all breakpoints + one aria-hidden duplicate for infinite scroll.
   const marqueeItems = [...HOME_TRUST_LOGOS, ...HOME_TRUST_LOGOS];
   const contained = layout === "contained";
   const ariaLabel = title ?? "Trusted by industry leaders";
 
   return (
-    <div className={cn(contained ? "relative w-full" : "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2", className)}>
+    <div
+      className={cn(
+        contained
+          ? "relative w-full"
+          : "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2",
+        className,
+      )}
+    >
       {title ? (
         <p
           className={cn(
-            "mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground text-left",
+            "mb-4 text-left text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground",
           )}
         >
           {title}
@@ -93,31 +101,23 @@ export function HomeHeroTrustMarquee({
       ) : null}
 
       <div aria-label={ariaLabel}>
-        {/* Mobile: static wrapped grid */}
         <div
           className={cn(
-            "flex flex-wrap items-center gap-x-2 gap-y-5 md:hidden",
-            contained ? "justify-start" : "justify-start px-4",
+            "relative overflow-hidden",
+            contained && "rounded-xl",
           )}
         >
-          {HOME_TRUST_LOGOS.map((logo) => (
-            <TrustLogoLink key={logo.name} logo={logo} density={density} />
-          ))}
-        </div>
-
-        {/* Desktop: infinite scroll marquee */}
-        <div className={cn("relative hidden overflow-hidden md:block", contained && "rounded-xl")}>
           <div
             className={cn(
               "pointer-events-none absolute inset-y-0 left-0 z-20 bg-gradient-to-r from-background to-transparent",
-              contained ? "w-8 sm:w-12" : "w-16 sm:w-24 md:w-40",
+              contained ? "w-8 sm:w-12" : "w-10 sm:w-16 md:w-24 lg:w-40",
             )}
             aria-hidden
           />
           <div
             className={cn(
               "pointer-events-none absolute inset-y-0 right-0 z-20 bg-gradient-to-l from-background to-transparent",
-              contained ? "w-8 sm:w-12" : "w-16 sm:w-24 md:w-40",
+              contained ? "w-8 sm:w-12" : "w-10 sm:w-16 md:w-24 lg:w-40",
             )}
             aria-hidden
           />

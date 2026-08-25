@@ -11,13 +11,14 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.COWORK}`;
 
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "CoWork. Activate Test Cases You Already Have",
   description:
-    "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device execution on iOS, Android, and Flutter.",
+    "CoWork turns existing test cases into executable mobile automation with AI planning, human-approved replanning, and real-device runs on iOS and Android.",
   path: PATHS.COWORK,
   ogDescription:
     "Activate hundreds of existing test cases before release. AI-assisted execution with human control on real mobile devices.",
@@ -44,6 +45,7 @@ export default function CoWorkPage() {
       />
       <main>
         <CoWorkHero />
+        <ProductSummariseBand pageUrl={canonicalUrl} />
         <CoWorkResultsSection />
         <CoWorkCoverageProblemSection />
         <CoWorkWhatChangesSection />

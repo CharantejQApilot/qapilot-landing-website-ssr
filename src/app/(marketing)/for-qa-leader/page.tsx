@@ -11,7 +11,7 @@ const canonicalUrl = `${SITE_BASE_URL}${PATHS.FOR_QA_LEADER}`;
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Release Readiness for QE Leader",
   description:
-    "Scale quality engineering without scaling complexity. Reduce test maintenance, improve release confidence, and expand mobile coverage with autonomous, AI-native testing.",
+    "Scale quality engineering without scaling complexity. Reduce test maintenance, improve release confidence, and expand mobile coverage with AI-native testing.",
   path: PATHS.FOR_QA_LEADER,
   ogDescription:
     "Autonomous, AI-native mobile testing for QE leaders. Less maintenance, stronger release signals, broader coverage.",

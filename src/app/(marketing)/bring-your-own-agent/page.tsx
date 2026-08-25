@@ -18,7 +18,7 @@ const canonicalUrl = `${SITE_BASE_URL}${PATHS.BRING_YOUR_OWN_AGENT}`;
 export const metadata: Metadata = {
   title: "Bring Your Own Agent (BYOA)",
   description:
-    "Integrate your own AI agents into QApilot and use the shared knowledge graph for custom validation, domain workflows, and specialized testing. Without breaking the core system.",
+    "Integrate your own AI agents into QApilot and use the shared knowledge graph for custom validation and specialized testing without breaking the core system.",
   alternates: {
     canonical: canonicalUrl,
   },

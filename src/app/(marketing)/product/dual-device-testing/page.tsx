@@ -8,12 +8,14 @@ import {
 } from "@/components/dual-device-testing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
+import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Dual Device Testing: Synchronised Mobile Workflows",
   description:
-    "Test marketplace, messaging, and field workflows across two devices as one continuous transaction. Step-level sync, dependency-aware orchestration, and clear failure attribution.",
+    "Test marketplace, messaging, and field workflows across two devices as one continuous transaction with step-level sync and clear failure attribution.",
   path: PATHS.DUAL_DEVICE_TESTING,
   ogDescription:
     "Synchronised dual-device testing for real business journeys that span users, roles, and devices.",
@@ -40,6 +42,9 @@ export default function DualDeviceTestingPage() {
       />
       <main>
         <DualDeviceHero />
+        <ProductSummariseBand
+          pageUrl={`${SITE_BASE_URL}${PATHS.DUAL_DEVICE_TESTING}`}
+        />
         <DualDeviceUseCasesSection />
         <DualDevicePatternSection />
         <DualDeviceHowItWorksSection />

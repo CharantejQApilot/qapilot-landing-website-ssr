@@ -15,6 +15,7 @@ import { DEFAULT_SHARE_IMAGE_URL, defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
+import { CmsRemoteImage, coverImageAltForTitle } from "@/components/CmsRemoteImage";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { extractYouTubeId } from "@/utils/youtube";
@@ -176,7 +177,7 @@ export async function generateMetadata({
         images: [
           ogAbsolute === DEFAULT_SHARE_IMAGE_URL
             ? defaultOpenGraphImage
-            : { url: ogAbsolute, alt: metaTitle },
+            : { url: ogAbsolute, alt: coverImageAltForTitle(baseTitle) },
         ],
         ...(publishedTime ? { publishedTime } : {}),
         authors: newsItem.author_name ? [newsItem.author_name] : undefined,
@@ -370,13 +371,14 @@ export default async function NewsPostPage({
 
             {featuredImage && !youtubeUrl && (
               <div className="mb-8 w-full overflow-hidden rounded-lg">
-                <img
+                <CmsRemoteImage
                   src={featuredImage}
                   alt={`${newsItem.title} - QApilot News`}
                   className="h-auto w-full object-contain"
                   width={1200}
                   height={630}
-                  loading="eager"
+                  priority
+                  sizes="(max-width: 1280px) 100vw, 1280px"
                   style={{ aspectRatio: "1200/630" }}
                 />
               </div>
