@@ -120,20 +120,18 @@ export function MarketingThesisHero({
             paddingClassName
               ? paddingClassName
               : fillViewport
-                ? "flex flex-col px-1 pt-10 sm:px-0 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0"
+                ? "flex flex-col pt-10 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0"
                 : "py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32",
           )}
         >
-          <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
-            {media ? (
-              <div className="sig-split max-lg:[grid-template-columns:minmax(0,1fr)] items-center">
-                {copy}
-                <div className="hidden min-w-0 w-full lg:block">{media}</div>
-              </div>
-            ) : (
-              copy
-            )}
-          </div>
+          {media ? (
+            <div className="sig-split max-lg:[grid-template-columns:minmax(0,1fr)] items-center">
+              {copy}
+              <div className="hidden min-w-0 w-full lg:block">{media}</div>
+            </div>
+          ) : (
+            copy
+          )}
         </div>
       </div>
     </section>
