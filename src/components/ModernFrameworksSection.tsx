@@ -113,7 +113,7 @@ const ModernFrameworksSection = () => {
           }
         />
 
-        <div className="mb-8 flex max-w-3xl flex-col gap-5 md:mb-10">
+        <div className="mb-8 flex w-full flex-col gap-5 md:mb-10">
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
             Ship with confidence whether your team uses Android, iOS, Flutter,
             or React Native. One pipeline validates what users actually

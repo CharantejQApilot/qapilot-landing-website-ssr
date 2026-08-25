@@ -480,7 +480,7 @@ export default function QApilotVsVisualTestingComparisonPage() {
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               Ready To Test More Than <span className="text-primary">Pixels</span>?
             </h2>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
               QApilot helps mobile teams validate real user journeys, detect release risks, and ship mobile
               apps with confidence.
             </p>

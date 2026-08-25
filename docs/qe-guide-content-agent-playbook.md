@@ -7,6 +7,7 @@
 > **Canonical code (keep this doc in sync when thresholds change):**
 > - `src/lib/qa-guide/generation/quality-standards.ts`
 > - `src/lib/qa-guide/generation/quality-gate.ts`
+> - `src/lib/qa-guide/generation/content-agent-playbook.ts` (injected into generate + humanize prompts)
 > - `src/lib/qa-guide/generation/prompts.ts`
 > - `src/lib/qa-guide/generation/humanize-article.ts`
 >
@@ -386,6 +387,7 @@ Always end a generation or review task with:
 
 | Doc | Use |
 |-----|-----|
+| `src/lib/qa-guide/generation/content-agent-playbook.ts` | Prompt injection (generate + humanize) |
 | `docs/qa-guide-generation.md` | Admin queue / env / API |
 | `contentpipeline/daily-task-prompt.md` | Legacy daily draft prompt (shorter word band; same philosophy) |
 | `contentpipeline/README.md` | Draft vs index tiers; scaled-content rationale |

@@ -3,6 +3,10 @@
 import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 
 import {
+  buildAgentSelfCheckForPrompt,
+  buildContentAgentPlaybookForPrompt,
+} from "@/lib/qa-guide/generation/content-agent-playbook";
+import {
   EM_DASH,
   QUALITY_MAX_EXTERNAL_LINKS,
   QUALITY_MAX_INTERNAL_LINKS,
@@ -96,44 +100,15 @@ function pickStructureArchetype(runId: string, primaryKeyword: string): Structur
   return STRUCTURE_ARCHETYPES[seed % STRUCTURE_ARCHETYPES.length]!;
 }
 
-const SEO_RULES = `
-# SEO (apply without making the prose robotic)
-
-1. **Primary keyword**: H1 (\`title\`), first 100 words of \`content_markdown\`, \`slug\`, \`meta_title\`, \`meta_description\`, and naturally in 2+ H2 headings. Aim for ~0.8–1.2% density; never stuff.
-2. **Secondary keywords**: Each appears at least once in an H2 or H3 and once in body copy.
-3. **Slug**: Lowercase, hyphenated, primary keyword near the front; no dates or stop-word padding.
-4. **Meta title**: ≤60 characters; primary keyword in the first half; readable for humans (brand suffix optional if it fits).
-5. **Meta description**: 140–160 characters; include primary keyword + a concrete benefit or action; write for clicks, not keyword lists.
-6. **Headings for search**: For informational intent, use 2+ question-style H2/H3 headings that match how mobile QE leads search (People Also Ask style).
-7. **Snippet-friendly blocks**: Include at least one of: a tight definition paragraph (2–3 sentences), a numbered process (5+ steps), or a comparison table (≥3 rows).
-8. **Link anchors**: Descriptive anchor text only; never "click here" or "read more". Vary anchors across internal links.
-9. **Excerpt**: 1–2 sentences that stand alone in SERPs; include primary keyword once.
-`;
-
-const HUMAN_VOICE_RULES = `
-# Human voice (avoid the "same blog template" AI tell)
-
-1. **No em dashes**: Never use the em dash character (${EM_DASH}) in \`content_markdown\`. Use commas, periods, colons, or parentheses for asides.
-2. **No template openers**: Do not start with "In this guide", "In this article", "Whether you're…", or "When it comes to…".
-3. **Vary rhythm**: Mix short punchy sentences with longer ones. Not every paragraph should be 3 sentences. Some sections can open with a single-sentence hook.
-4. **Unique outline**: Follow the assigned structure archetype for this run. Do not default to: intro → 5 similar H2s → FAQ block → "How QApilot helps with X" every time.
-5. **Specificity over abstraction**: Name tools, artifacts, and scenarios (TestFlight build 42, Play pre-launch report, Maestro flow file) instead of generic "modern teams".
-6. **Original angles**: Use competitor texts for gaps only. If three competitors all use the same outline, deliberately choose a different entry point.
-7. **Peer guides**: Match quality and depth, not structure or phrasing. If peer guides all use FAQ sections, skip a standalone FAQ for this piece.
-8. **Self-report**: If you reused a generic outline anyway, lower \`originality_score\` and note it in \`quality_checks.claims_to_verify\`.
-`;
-
 export const ARTICLE_SYSTEM_PROMPT = `You are the lead editorial writer for QApilot's ${QE_GUIDE_DISPLAY_NAME} (qapilot.io). You write practitioner-grade guides for **mobile app testing** teams, not shallow SEO filler.
 
 ${QAPILOT_EDITORIAL_BRIEF}
 
-You will receive: (1) a content brief, (2) live text scraped from qapilot.io pages, (3) competitor excerpts for gap analysis only, (4) internal link candidates, (5) a **quality checklist** (same rules the server runs after you return), (6) optional peer guides from the same topic cluster, (7) a **structure archetype** unique to this run.
+${buildContentAgentPlaybookForPrompt()}
+
+You will receive: (1) a content brief, (2) live text scraped from qapilot.io pages, (3) competitor excerpts for gap analysis only, (4) internal link candidates, (5) a **quality checklist** (same rules the server runs after you return), (6) optional peer guides from the same topic cluster, (7) a **structure archetype** unique to this run, (8) a **playbook self-check**.
 
 Output **ONLY** one strict JSON object. No preamble, no markdown fences, no commentary.
-
-${SEO_RULES}
-
-${HUMAN_VOICE_RULES}
 
 # WRITING RULES
 
@@ -147,7 +122,7 @@ ${HUMAN_VOICE_RULES}
 8. **Information gain & structure:** Per the quality checklist in the user message.
 9. **Competitors:** Do not copy phrasing; use only for gap analysis.
 10. **Closing bridge:** Final H2 mentions QApilot in the heading or in the closing paragraphs (natural fit, not a canned sales section).
-11. **Self-check:** Before returning JSON, verify word count, link counts, banned phrases, zero em dashes, and SEO fields against the user-message checklist.
+11. **Self-check:** Before returning JSON, satisfy the content agent playbook and the user-message quality checklist (word count, links, banned phrases, zero em dashes, SEO fields, scores).
 
 Return EXACTLY one JSON object with fields:
 title, slug, primary_keyword, secondary_keywords, meta_title, meta_description, tags, excerpt, content_markdown, image_prompt, image_alt, internal_link_suggestions, external_link_suggestions, quality_checks (overall_recommendation, information_gain, structured_elements, qapilot_grounding, mobile_specificity, originality_score, usefulness_score, product_relevance_score, claims_to_verify, ai_tells_found).`;
@@ -181,6 +156,8 @@ export function buildArticleUserPrompt(params: {
 | Run id | ${params.run_id} |
 
 ${buildQualityChecklistForPrompt()}
+
+${buildAgentSelfCheckForPrompt()}
 
 # STRUCTURE ARCHETYPE (mandatory for this run: ${archetype.name})
 
@@ -235,5 +212,5 @@ ${params.qapilot_internal_urls}
 
 # TASK
 
-Write the article JSON using the **${archetype.name}** structure. **${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words.** **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** qapilot.io links and **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** external links in \`content_markdown\`. Zero em dashes. Output only JSON.`;
+Write the article JSON using the **${archetype.name}** structure and the content agent playbook. **${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words.** **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** qapilot.io links and **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** external links in \`content_markdown\`. Zero em dashes. Complete the playbook self-check, then output only JSON.`;
 }

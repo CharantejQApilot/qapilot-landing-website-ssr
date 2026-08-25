@@ -168,7 +168,7 @@ export function IntegrationLandingPage({ tool }: { tool: IntegrationTool }) {
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               See QApilot with <span className="text-primary">{tool.name}</span>
             </h2>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
               Book a short demo if you want to see this against your own{" "}
               {tool.name} setup.
             </p>

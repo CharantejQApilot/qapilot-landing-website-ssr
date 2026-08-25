@@ -136,7 +136,7 @@ export default function EventsPage() {
                       aria-labelledby="events-featured"
                       className="flex flex-col items-start"
                     >
-                      <div className="mb-8 flex w-full max-w-3xl flex-col items-start gap-2 text-left md:mb-12">
+                      <div className="mb-8 flex w-full flex-col items-start gap-2 text-left md:mb-12">
                         <h2
                           id="events-featured"
                           className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl"

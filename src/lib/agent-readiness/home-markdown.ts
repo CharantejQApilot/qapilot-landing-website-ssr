@@ -73,6 +73,7 @@ ${url("/")}
 | News | ${url(PATHS.NEWS)} |
 | Events | ${url(PATHS.EVENTS)} |
 | Partners | ${url(PATHS.PARTNERS)} |
+| Case studies | ${url(PATHS.CASE_STUDIES)} |
 | About | ${url(PATHS.ABOUT)} |
 | Careers | ${url(PATHS.CAREERS)} |
 

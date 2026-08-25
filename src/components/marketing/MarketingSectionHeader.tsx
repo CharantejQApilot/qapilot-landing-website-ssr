@@ -12,6 +12,8 @@ type MarketingSectionHeaderProps = {
   eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
+  /** Overrides the default full-width measure on the intro. */
+  descriptionClassName?: string;
   /** @deprecated Kept for call-site compat; headers are flush left. */
   variant?: "rail" | "center";
   className?: string;
@@ -27,6 +29,7 @@ export function MarketingSectionHeader({
   eyebrow,
   title,
   description,
+  descriptionClassName,
   className: _ignoredChrome,
   marginBottomClassName = "mb-10 md:mb-12 2xl:mb-14",
 }: MarketingSectionHeaderProps) {
@@ -45,11 +48,23 @@ export function MarketingSectionHeader({
       </h2>
       {description ? (
         typeof description === "string" ? (
-          <p className={cn(marketingSectionIntroClass, "mt-4 w-full max-w-3xl md:mt-5")}>
+          <p
+            className={cn(
+              marketingSectionIntroClass,
+              "mt-4 w-full max-w-none md:mt-5",
+              descriptionClassName,
+            )}
+          >
             {description}
           </p>
         ) : (
-          <div className={cn(marketingSectionIntroClass, "mt-4 w-full max-w-3xl space-y-4 md:mt-5")}>
+          <div
+            className={cn(
+              marketingSectionIntroClass,
+              "mt-4 w-full max-w-none space-y-4 md:mt-5",
+              descriptionClassName,
+            )}
+          >
             {description}
           </div>
         )

@@ -294,7 +294,7 @@ export default function QApilotVsTestsigmaPage() {
                 <span className="text-primary">Autonomous Mobile Coverage</span>
                 ?
               </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
                 See how QApilot helps mobile teams move from AI-assisted
                 authoring to fully autonomous testing.
               </p>

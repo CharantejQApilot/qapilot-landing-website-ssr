@@ -59,6 +59,7 @@ Public marketing and API discovery for [QApilot](https://qapilot.io). AI-native 
 - FAQs: ${u(PATHS.FAQS)}
 - News: ${u(PATHS.NEWS)}
 - Partners: ${u(PATHS.PARTNERS)}
+- Case studies: ${u(PATHS.CASE_STUDIES)}
 - Careers: ${u(PATHS.CAREERS)}
 
 ## API & agent discovery

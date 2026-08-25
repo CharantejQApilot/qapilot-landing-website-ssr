@@ -459,7 +459,7 @@ export default function QApilotVsAppiumComparisonPage() {
             <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
               Ready To Move Beyond <span className="text-primary">Scripted Mobile Automation</span>?
             </h2>
-            <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
               QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across real
               devices, and understand release readiness with mobile app context.
             </p>

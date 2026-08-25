@@ -22,7 +22,7 @@ export function AgenticArchitectureSystemOverviewSection() {
           <AgenticArchitectureDiagram />
         </div>
 
-        <p className="mt-10 max-w-3xl text-left text-lg font-medium leading-relaxed text-foreground md:text-xl">
+        <p className="mt-10 w-full text-left text-lg font-medium leading-relaxed text-foreground md:text-xl">
           The knowledge graph acts as the central context layer. Connecting all
           agents and enhancing every stage of the testing lifecycle.
         </p>

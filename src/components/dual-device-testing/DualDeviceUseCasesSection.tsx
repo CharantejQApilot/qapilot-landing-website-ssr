@@ -73,7 +73,7 @@ export function DualDeviceUseCasesSection() {
           ))}
         </MarketingLedger>
 
-        <p className="mt-10 max-w-3xl text-left text-base font-medium text-foreground md:text-lg">
+        <p className="mt-10 w-full text-left text-base font-medium text-foreground md:text-lg">
           The pattern, everywhere: one device acts, another responds. QApilot keeps the two in lockstep.
         </p>
       </div>
