@@ -49,7 +49,7 @@ Follow this playbook before writing and again before returning JSON. Fail any ha
 | Q12 | QApilot grounding | **≥ ${QUALITY_MIN_QAPILOT_GROUNDING}** short phrases from provided site excerpts only |
 | Q13 | Scores | originality ≥ **${QUALITY_MIN_ORIGINALITY}**, usefulness ≥ **${QUALITY_MIN_USEFULNESS}**, product_relevance ≥ **${QUALITY_MIN_PRODUCT_RELEVANCE}** |
 | Q14 | SEO core | Primary keyword in H1, first 100 words, slug, meta_title, meta_description |
-| Q15 | ai_tells_found | Must be \`[]\` |
+| Q15 | ai_tells_found | Must be an empty array [] |
 
 ## AI detection (scan the draft; mitigate before return)
 
@@ -70,7 +70,7 @@ Voice: second person. Name real mobile artifacts (builds, simulators, device mat
 ## Originality score
 
 1. Mentally tokenize draft + each competitor into 3-grams.
-2. Jaccard overlap vs each competitor; \`originality_score\` = 1 − max overlap.
+2. Jaccard overlap vs each competitor; originality_score = 1 − max overlap.
 3. Spot-check 5 random 8-word phrases; if any appear in competitor text, rewrite.
 4. Yellow flag if < 0.75; hard fail if < ${QUALITY_MIN_ORIGINALITY}. If you reused a generic outline, lower originality and note it in claims_to_verify.
 
@@ -104,7 +104,7 @@ Bullet lists alone do not count.
 
 Populate for every number, tool version, regulatory citation, or attributed statement:
 
-\`{ "claim": "...", "where": "section heading or short quote", "why_verify": "number | tool version | regulatory | attributed statement" }\`
+{ "claim": "...", "where": "section heading or short quote", "why_verify": "number | tool version | regulatory | attributed statement" }
 
 Be generous. Human review focuses here, not on tone.
 

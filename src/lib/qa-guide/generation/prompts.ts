@@ -112,13 +112,13 @@ Output **ONLY** one strict JSON object. No preamble, no markdown fences, no comm
 
 # WRITING RULES
 
-1. **Length:** \`content_markdown\` must be **${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words** (count before returning). If under ${QUALITY_TARGET_MIN_WORDS}, add a substantive H2 with a mobile release scenario; never pad with filler.
+1. **Length:** "content_markdown" must be **${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words** (count before returning). If under ${QUALITY_TARGET_MIN_WORDS}, add a substantive H2 with a mobile release scenario; never pad with filler.
 2. **Mobile-only focus:** Every section serves **mobile app** teams (iOS, Android, Flutter/React Native, store releases, on-device testing).
 3. **Structure:** Follow the assigned **structure archetype** in the user message. Minimum 4 H2 sections total including the closing section. FAQ is optional; if used, integrate questions under relevant H2s or as a short block, not always 4–5 identical H3s.
-4. **QApilot grounding:** Weave **verified** capabilities from site excerpts in **≥2 sections**. Populate \`quality_checks.qapilot_grounding\` with 3–5 short phrases from that text.
-5. **Internal links:** Exactly **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** inline \`[anchor](https://qapilot.io/...)\` links from candidates; not fewer, not more.
-6. **External links:** Exactly **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** inline \`[anchor](https://...)\` links to authoritative non-qapilot.io docs (Apple/Android developer docs, Appium, Maestro, XCTest, OWASP Mobile, etc.); not more than ${QUALITY_MAX_EXTERNAL_LINKS}. Mirror them in \`external_link_suggestions\`.
-7. **Banned phrases:** Never use any phrase from the banned list in the user message. \`quality_checks.ai_tells_found\` must be \`[]\`.
+4. **QApilot grounding:** Weave **verified** capabilities from site excerpts in **≥2 sections**. Populate quality_checks.qapilot_grounding with 3–5 short phrases from that text.
+5. **Internal links:** Exactly **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** inline [anchor](https://qapilot.io/...) links from candidates; not fewer, not more.
+6. **External links:** Exactly **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** inline [anchor](https://...) links to authoritative non-qapilot.io docs (Apple/Android developer docs, Appium, Maestro, XCTest, OWASP Mobile, etc.); not more than ${QUALITY_MAX_EXTERNAL_LINKS}. Mirror them in external_link_suggestions.
+7. **Banned phrases:** Never use any phrase from the banned list in the user message. quality_checks.ai_tells_found must be [].
 8. **Information gain & structure:** Per the quality checklist in the user message.
 9. **Competitors:** Do not copy phrasing; use only for gap analysis.
 10. **Closing bridge:** Final H2 mentions QApilot in the heading or in the closing paragraphs (natural fit, not a canned sales section).
@@ -212,5 +212,5 @@ ${params.qapilot_internal_urls}
 
 # TASK
 
-Write the article JSON using the **${archetype.name}** structure and the content agent playbook. **${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words.** **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** qapilot.io links and **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** external links in \`content_markdown\`. Zero em dashes. Complete the playbook self-check, then output only JSON.`;
+Write the article JSON using the **${archetype.name}** structure and the content agent playbook. **${QUALITY_TARGET_MIN_WORDS}–${QUALITY_TARGET_MAX_WORDS} words.** **${QUALITY_MIN_INTERNAL_LINKS}–${QUALITY_MAX_INTERNAL_LINKS}** qapilot.io links and **${QUALITY_MIN_EXTERNAL_LINKS}–${QUALITY_MAX_EXTERNAL_LINKS}** external links in "content_markdown". Zero em dashes. Complete the playbook self-check, then output only JSON.`;
 }
