@@ -17,6 +17,7 @@ import {
   Bot,
   PenLine,
   ArrowLeftRight,
+  Terminal,
 } from "lucide-react";
 import { NavItem } from "@/components/header/HeaderNavItem";
 import {
@@ -43,6 +44,7 @@ const PLATFORM_ICONS: Record<string, LucideIcon> = {
   Bot,
   PenLine,
   ArrowLeftRight,
+  Terminal,
 };
 
 export default function HeaderDesktopPlatformMenu({

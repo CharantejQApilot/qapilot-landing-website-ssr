@@ -32,6 +32,7 @@ ${url("/")}
 | Flutter testing | ${url(PATHS.FOR_FLUTTER)} |
 | Agentic architecture | ${url(PATHS.AGENTIC_ARCHITECTURE)} |
 | Bring your own agent | ${url(PATHS.BRING_YOUR_OWN_AGENT)} |
+| QApilot MCP | ${url(PATHS.MCP)} |
 | Enterprise | ${url(PATHS.ENTERPRISE)} |
 
 ## Platform by role

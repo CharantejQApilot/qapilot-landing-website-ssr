@@ -9,7 +9,7 @@ const LabsHeroSection = () => {
       title={
         <>
           Experiments. Tools.{" "}
-          <span className="text-primary">Ideas shipped fast.</span>
+          <span className="text-primary">Ideas Shipped Fast.</span>
         </>
       }
       lead="QApilot Labs is where we build and ship experiments that explore the edges of AI-native development and testing."

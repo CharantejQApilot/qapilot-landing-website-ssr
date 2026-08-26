@@ -150,7 +150,7 @@ export default async function NewsPage() {
                   QApilot news
                 </p>
                 <h1 className={marketingHeroH1Class}>
-                  <span className="text-gradient">News &amp; updates</span>
+                  <span className="text-gradient">News &amp; Updates</span>
                 </h1>
                 <p className={marketingListingHeroLeadClass}>
                   Stay up to date with the latest announcements and updates from

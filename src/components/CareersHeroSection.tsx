@@ -20,8 +20,8 @@ const CareersHeroSection = () => {
         eyebrow="Join Our Team"
         title={
           <>
-            Help shape what <span className="text-primary">quality</span> looks like in an{" "}
-            <span className="text-primary">AI-first world</span>.
+            Help Shape What <span className="text-primary">Quality</span> Looks Like In An{" "}
+            <span className="text-primary">AI-First World</span>.
           </>
         }
         lead="We're building the future of software quality assurance. Join a team of innovators, engineers, and dreamers who are redefining what's possible with AI-powered testing."

@@ -9,6 +9,8 @@ export const PATHS = {
   FOR_FLUTTER: "/for-flutter",
   BRING_YOUR_OWN_AGENT: "/bring-your-own-agent",
   AGENTIC_ARCHITECTURE: "/agentic-architecture",
+  /** QApilot MCP early-access waitlist (Platform → AI Agents). */
+  MCP: "/mcp",
   ENTERPRISE: "/enterprise",
   ABOUT: "/about",
   BLOGS: "/blogs",
@@ -115,6 +117,11 @@ export const PLATFORM_BY_ROLE = [
 
 /** Platform dropdown: AI Agents */
 export const PLATFORM_AI_AGENTS = [
+  {
+    path: PATHS.MCP,
+    label: "QApilot MCP",
+    icon: "Terminal",
+  },
   {
     path: PATHS.AGENTIC_ARCHITECTURE,
     label: "QApilot's Agentic Architecture",

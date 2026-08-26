@@ -145,8 +145,8 @@ const AboutClient = () => {
                 "max-lg:text-[clamp(1.35rem,0.95rem+2.4vw,3.45rem)] max-lg:leading-[1.12]",
               )}
             >
-              Building quality for an{" "}
-              <span className="text-primary">AI-first world</span>
+              Building Quality For An{" "}
+              <span className="text-primary">AI-First World</span>
             </h1>
             <p
               className={cn(

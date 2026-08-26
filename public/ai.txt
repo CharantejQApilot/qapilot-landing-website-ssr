@@ -24,6 +24,7 @@ Security-Reports: https://qapilot.io/product/release-readiness-suite#security-re
 Flutter-Testing: https://qapilot.io/for-flutter
 Agentic-Architecture: https://qapilot.io/agentic-architecture
 Bring-Your-Own-Agent: https://qapilot.io/bring-your-own-agent
+QApilot-MCP: https://qapilot.io/mcp
 Enterprise: https://qapilot.io/enterprise
 
 # Compare / alternatives (mobile QA positioning)

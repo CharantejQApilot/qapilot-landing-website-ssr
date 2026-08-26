@@ -28,7 +28,7 @@ export function CoWorkHero() {
             </p>
 
             <h1 className={cn(marketingHeroH1Class, "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8")}>
-              Activate the <span className="text-primary">Test Cases</span> You Already Have
+              Activate The <span className="text-primary">Test Cases</span> You Already Have
             </h1>
 
             <p

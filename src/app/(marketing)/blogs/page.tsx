@@ -152,7 +152,7 @@ export default async function BlogsPage() {
                 </p>
                 <h1 className={marketingHeroH1Class}>
                   <span className="text-gradient">
-                    Mobile testing insights &amp; best practices
+                    Mobile Testing Insights &amp; Best Practices
                   </span>
                 </h1>
                 <p className={marketingListingHeroLeadClass}>
