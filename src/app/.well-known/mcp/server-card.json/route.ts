@@ -5,7 +5,7 @@ export const dynamic = "force-static";
 
 /** MCP Server Card (SEP-1649). Transport \`endpoint\` for Streamable HTTP. */
 export function GET() {
-  const endpoint = `${SITE_BASE_URL}/mcp`;
+  const endpoint = `${SITE_BASE_URL}/api/mcp`;
   return NextResponse.json(
     {
       serverInfo: {

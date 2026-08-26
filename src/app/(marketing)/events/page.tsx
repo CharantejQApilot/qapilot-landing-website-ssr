@@ -99,7 +99,7 @@ export default function EventsPage() {
                 </p>
                 <h1 className={marketingHeroH1Class}>
                   <span className="text-gradient">
-                    Webinars, meetups &amp; live talks
+                    Webinars, Meetups &amp; Live Talks
                   </span>
                 </h1>
                 <p className={marketingListingHeroLeadClass}>

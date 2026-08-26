@@ -219,7 +219,7 @@ gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
           </>
         ) : null}
       </head>
-      <body>
+      <body className={`${fontSans.className} antialiased`}>
         {!internal ? (
           <noscript>
             <iframe

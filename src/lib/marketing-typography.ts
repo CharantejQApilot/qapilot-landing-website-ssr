@@ -30,6 +30,7 @@ export const marketingListingHeroLeadClass =
 
 /**
  * Page hero title. Same scale as {@link HeroSection} on the home page.
+ * Copy convention: Title Case (capitalize the first letter of each word).
  * Compose margins with `cn(marketingHeroH1Class, "mb-…")`; add `text-balance` or `text-gradient` as needed.
  */
 export const marketingHeroH1Class =

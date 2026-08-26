@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
 /**
- * Transport URL advertised in \`/.well-known/mcp/server-card.json\`.
- * Full MCP Streamable HTTP is not run on the marketing origin; this route reserves the path.
+ * Transport URL advertised in `/.well-known/mcp/server-card.json`.
+ * Full MCP Streamable HTTP is not run on the marketing origin; this route
+ * reserves the protocol path so `/mcp` can serve the early-access page.
  */
 export function GET() {
   return NextResponse.json(
