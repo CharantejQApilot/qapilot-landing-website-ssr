@@ -14,10 +14,10 @@ export function CaseStudiesIndex() {
         eyebrow="Customer stories"
         title={
           <span className="flex flex-col items-start gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:gap-y-4">
-            <span>Case studies from teams</span>
+            <span>Case Studies From Teams</span>
             <span>
-              shipping{" "}
-              <span className="text-hero-here">mobile releases</span>
+              Shipping{" "}
+              <span className="text-hero-here">Mobile Releases</span>
             </span>
           </span>
         }

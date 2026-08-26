@@ -83,6 +83,8 @@ QApilot is not powered by a single model. It operates as a coordinated network o
 
 QApilot also supports **Bring Your Own Agent (BYOA)**. Teams can plug in their own agents and extend the platform with custom tooling.
 
+**QApilot MCP** (early access) puts that verification in the coding agent you already use. Say what needs to hold in plain language. QApilot builds the test, runs it on your local device or emulator, and returns a markdown report the agent can query. Local-first: the app stays on your machine. Waitlist: [https://qapilot.io/mcp](https://qapilot.io/mcp).
+
 **Page:** [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture)
 
 ---
@@ -329,6 +331,7 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Integration → Jenkins | [https://qapilot.io/integrations/jenkins](https://qapilot.io/integrations/jenkins) |
 | Agentic architecture | [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture) |
 | Bring your own agent (BYOA) | [https://qapilot.io/bring-your-own-agent](https://qapilot.io/bring-your-own-agent) |
+| QApilot MCP | [https://qapilot.io/mcp](https://qapilot.io/mcp) |
 | Platform → QE Leader | [https://qapilot.io/for-qa-leader](https://qapilot.io/for-qa-leader) |
 | Platform → Release Manager | [https://qapilot.io/for-release-manager](https://qapilot.io/for-release-manager) |
 | Platform → Quality Assurance Engineer | [https://qapilot.io/for-qa-engineer](https://qapilot.io/for-qa-engineer) |

@@ -15,6 +15,7 @@ const HUBSPOT_API_ROUTES = [
   "src/app/api/hubspot/flutter-hero/route.ts",
   "src/app/api/hubspot/partners/route.ts",
   "src/app/api/hubspot/lead-magnet/route.ts",
+  "src/app/api/hubspot/mcp-waitlist/route.ts",
 ];
 
 const HUBSPOT_CONSTANTS = [
@@ -23,6 +24,7 @@ const HUBSPOT_CONSTANTS = [
   "HUBSPOT_FLUTTER_HERO_FORM_ID",
   "HUBSPOT_PARTNERS_FORM_ID",
   "HUBSPOT_LEAD_MAGNET_FORM_ID",
+  "HUBSPOT_MCP_WAITLIST_FORM_ID",
 ];
 
 /** Mirrors formatMarketingPhoneValue + marketingLeadSchema phone refine. */
@@ -75,6 +77,38 @@ function checkConstantsFile() {
   return ok;
 }
 
+const REQUIRED_MCP_HUBSPOT_FIELDS = [
+  "email",
+  "phone",
+  "company",
+  "framework",
+  "span_style__background_color__rgba_249__249__251__0_7___font_weight__500__color___151923__font_size",
+];
+
+function checkMcpWaitlistSubmitHelper() {
+  const fieldsPath = join(root, "src/lib/hubspot/mcp-waitlist-fields.ts");
+  const submitPath = join(root, "src/lib/hubspot/mcp-waitlist-submit.ts");
+  if (!existsSync(fieldsPath)) return fail("mcp-waitlist-fields.ts missing");
+  if (!existsSync(submitPath)) return fail("mcp-waitlist-submit.ts missing");
+
+  const fieldsSource = readFileSync(fieldsPath, "utf8");
+  const submitSource = readFileSync(submitPath, "utf8");
+  let ok = true;
+  for (const field of REQUIRED_MCP_HUBSPOT_FIELDS) {
+    if (!fieldsSource.includes(`"${field}"`)) {
+      ok = fail(`MCP HubSpot field map missing: ${field}`) && ok;
+    }
+  }
+  if (!submitSource.includes("MCP_WAITLIST_HUBSPOT_FIELDS")) {
+    ok = fail("mcpWaitlistHubSpotPayload does not use MCP_WAITLIST_HUBSPOT_FIELDS") && ok;
+  }
+  if (!submitSource.includes("api.hsforms.com/submissions/v3/integration/submit")) {
+    ok = fail("MCP HubSpot submit URL pattern missing") && ok;
+  }
+  if (ok) pass("mcpWaitlistHubSpotPayload maps required HubSpot fields");
+  return ok;
+}
+
 function checkHubSpotSubmitHelper() {
   const path = join(root, "src/lib/hubspot/marketing-lead-submit.ts");
   if (!existsSync(path)) return fail("marketing-lead-submit.ts missing");
@@ -102,7 +136,11 @@ function checkApiRoutes() {
       continue;
     }
     const source = readFileSync(path, "utf8");
-    if (!source.includes("submitMarketingLeadToHubSpot") && !source.includes("submitLeadMagnetEmailToHubSpot")) {
+    if (
+      !source.includes("submitMarketingLeadToHubSpot") &&
+      !source.includes("submitLeadMagnetEmailToHubSpot") &&
+      !source.includes("submitMcpWaitlistToHubSpot")
+    ) {
       ok = fail(`${rel} does not call a HubSpot submit helper`) && ok;
       continue;
     }
@@ -137,6 +175,7 @@ function main() {
     checkPhoneSamples(),
     checkConstantsFile(),
     checkHubSpotSubmitHelper(),
+    checkMcpWaitlistSubmitHelper(),
     checkApiRoutes(),
     checkPhoneInputUsesSyncPattern(),
   ];

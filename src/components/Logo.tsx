@@ -1,5 +1,5 @@
-import React from 'react';
-import logoImg from '@/assets/qapilot-logo-main.png';
+import React from "react";
+import logoImg from "@/assets/qapilot-wordmark.svg";
 
 interface LogoProps {
   className?: string;
@@ -7,10 +7,8 @@ interface LogoProps {
 }
 
 /**
- * Width/height attrs MUST match the actual image file (250x35) so the browser
+ * Width/height attrs MUST match the SVG viewBox (250×35) so the browser
  * computes `aspect-ratio` correctly for `width: auto` + fixed-height callers.
- * Mismatched attrs cause the layout box to size at the wrong ratio, which is
- * what created the header overlap on small screens.
  */
 const Logo: React.FC<LogoProps> = ({
   className = "h-6 w-auto sm:h-7 md:h-8",
@@ -25,7 +23,7 @@ const Logo: React.FC<LogoProps> = ({
       height={35}
       loading="eager"
       decoding="async"
-      fetchPriority="auto"
+      fetchPriority="high"
       className={`${className} max-h-full max-w-full w-auto object-contain object-left`}
       style={{ objectFit: "contain" }}
     />

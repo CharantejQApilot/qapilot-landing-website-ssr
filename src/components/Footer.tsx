@@ -189,7 +189,8 @@ const Footer = () => {
   const pathname = usePathname();
   const hideGetStartedCta =
     pathname === PATHS.CASE_STUDIES ||
-    pathname.startsWith(`${PATHS.CASE_STUDIES}/`);
+    pathname.startsWith(`${PATHS.CASE_STUDIES}/`) ||
+    pathname === PATHS.MCP;
 
   return (
     <>
@@ -287,6 +288,9 @@ const Footer = () => {
                     <FooterLink to={item.path}>{item.label}</FooterLink>
                   </li>
                 ))}
+                <li>
+                  <FooterLink to={PATHS.MCP}>QApilot MCP</FooterLink>
+                </li>
               </ul>
             </div>
             <div className="min-w-0 w-full">

@@ -12,7 +12,7 @@ const ProductHeroSection = () => {
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         <div className="mb-16 text-left">
           <h1 className={cn(marketingHeroH1Class, "mb-8")}>
-            Experience <span className="text-primary">Agentic Testing</span> with QApilot.
+            Experience <span className="text-primary">Agentic Testing</span> With QApilot.
           </h1>
 
           <p className="mb-1 max-w-4xl text-lg text-muted-foreground md:text-xl">

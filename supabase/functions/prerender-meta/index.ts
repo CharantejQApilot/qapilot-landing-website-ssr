@@ -129,6 +129,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "How QApilot combines specialized agents, a shared knowledge graph, and continuous learning for autonomous mobile testing. Context, exploration, and outcomes in one system.",
   },
+  "/mcp": {
+    title: "QApilot MCP. Early Access for Coding Agents",
+    description:
+      "Say what needs to hold in your editor. QApilot MCP builds the mobile test, runs it on your device, and returns a report your agent can read. Join early access.",
+  },
   "/product/release-readiness-suite": {
     title:
       "Release Readiness Suite. Bug Detection, Security & Self-Healing | QApilot",

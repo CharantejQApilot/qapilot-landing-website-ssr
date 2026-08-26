@@ -56,6 +56,18 @@ export const HUBSPOT_LEAD_MAGNET_FORM_ID =
   "fe86429e-2c1c-4f1a-9bda-a1a3285ed3b1";
 export const HUBSPOT_LEAD_MAGNET_FORM_NAME = "Lead Magnet Email Capture";
 
+/**
+ * MCP `/mcp` early-access waitlist (HubSpot Forms API via `/api/hubspot/mcp-waitlist`).
+ * Embed reference: portal `47284450`, form `25c6b568-c68d-44d5-9f6a-4ce78aab6842`.
+ */
+export const HUBSPOT_MCP_WAITLIST_FORM_ID =
+  "25c6b568-c68d-44d5-9f6a-4ce78aab6842";
+export const HUBSPOT_MCP_WAITLIST_FORM_NAME = "QApilot MCP Early Access";
+
+/**
+ * Optional override for `HUBSPOT_MCP_WAITLIST_FORM_ID` (staging / cloned forms).
+ */
+
 /** Organization logo for JSON-LD (matches public/QApilotLogo.svg; not og:image). */
 export const DEFAULT_LOGO_URL = `${SITE_BASE_URL}/QApilotLogo.svg`;
 

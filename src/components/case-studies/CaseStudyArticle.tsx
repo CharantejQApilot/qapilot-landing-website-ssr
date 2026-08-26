@@ -1,5 +1,15 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Cpu,
+  Minus,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CaseStudyHero } from "@/components/case-studies/CaseStudyHero";
 import { CaseStudyPhoneScreenshot, GemlAppMock } from "@/components/case-studies/CaseStudyPhoneFrame";
@@ -9,14 +19,17 @@ import {
   MarketingSectionHeader,
 } from "@/components/marketing";
 import { CASE_STUDIES, caseStudyPath, type CaseStudy } from "@/lib/case-studies-data";
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
+
+const SERVICE_ICONS = [Sparkles, ShieldCheck, Cpu, Users] as const;
 
 function CaseStudyLogo({ study, className }: { study: CaseStudy; className?: string }) {
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-center rounded-2xl border border-border/70 bg-card px-8 py-10",
+        "flex w-full items-center justify-center rounded-2xl border border-border/70 bg-gradient-to-br from-muted/50 via-background to-background px-8 py-10",
         className,
       )}
     >
@@ -54,8 +67,35 @@ function CaseStudyHeroMedia({
   return <CaseStudyLogo study={study} />;
 }
 
+function IconWell({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.08] text-primary",
+        className,
+      )}
+      aria-hidden
+    >
+      {children}
+    </span>
+  );
+}
+
 export function CaseStudyArticle({ study }: { study: CaseStudy }) {
   const hasDeviceMedia = Boolean(study.heroImageSrc || study.heroMock);
+  const relatedStudies = CASE_STUDIES.filter((other) => other.slug !== study.slug);
+  const aboutFacts = [
+    { label: "Industry", value: study.about.industry },
+    { label: "Headquarters", value: study.about.headquarters },
+    { label: "Engagement", value: study.about.engagement },
+    { label: "Platforms", value: study.about.platforms },
+  ] as const;
 
   return (
     <main>
@@ -111,12 +151,119 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
         </div>
       </CaseStudyHero>
 
-      <section className="section-edge w-full border-b border-border/50 bg-muted/15 py-8 md:py-10">
-        <div className="section-full">
-          <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {study.facts.map((fact) => (
-              <div key={fact.label} className="min-w-0">
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+      <section
+        className="relative w-full overflow-hidden section-edge"
+        aria-labelledby={`${study.slug}-metrics`}
+      >
+        <div className="section-navy w-full">
+          <div className="section-full relative py-8 sm:py-10 md:py-12 2xl:py-16">
+            <div
+              className="pointer-events-none absolute inset-0 bg-structured-grid opacity-10"
+              aria-hidden
+            />
+            <p className="relative z-10 mb-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/60 md:mb-4">
+              Results
+            </p>
+            <h2
+              id={`${study.slug}-metrics`}
+              className={cn(marketingSectionH2Class, "relative z-10 mb-6 text-left md:mb-8")}
+            >
+              Results by the numbers
+            </h2>
+            <dl className="relative z-10 grid gap-5 sm:grid-cols-3 sm:gap-8">
+              {study.facts.map((fact) => (
+                <div key={fact.label} className="min-w-0">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary-foreground/45 sm:text-xs">
+                    {fact.label}
+                  </dt>
+                  <dd className="mt-1.5 font-heading text-base font-semibold tracking-tight text-primary-foreground md:text-lg">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+
+        <div
+          className="w-full border-y border-border bg-background"
+          aria-label={`Key results for ${study.clientName}`}
+        >
+          <div className="section-full flex w-full overflow-x-auto">
+            {study.metrics.map((metric, index) => (
+              <div
+                key={metric.value + metric.label}
+                className="sig-telemetry-item min-w-[14rem] flex-1 sm:min-w-[16rem]"
+                style={{
+                  paddingLeft: index === 0 ? 0 : undefined,
+                  paddingRight: index === study.metrics.length - 1 ? 0 : undefined,
+                }}
+              >
+                <span className="font-heading text-3xl font-semibold tracking-tight tabular-nums text-foreground sm:text-4xl min-[1280px]:text-5xl">
+                  {metric.value}
+                </span>
+                <span className="max-w-xs text-xs leading-snug text-muted-foreground sm:text-sm">
+                  {metric.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative overflow-hidden border-t border-border/60 bg-dot-pattern-subtle section-edge w-full"
+        aria-labelledby={`${study.slug}-about`}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary-light/30 via-transparent to-transparent"
+          aria-hidden
+        />
+        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
+          <MarketingSectionHeader
+            id={`${study.slug}-about`}
+            eyebrow="About the project"
+            title={
+              <>
+                Here&apos;s a bit about{" "}
+                <span className="text-primary">{study.clientName}</span>
+              </>
+            }
+            marginBottomClassName="mb-10 md:mb-12"
+          />
+          <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:col-span-4">
+              <CaseStudyLogo study={study} />
+            </div>
+            <div className="lg:col-span-8 lg:pt-2">
+              <p className="text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
+                {study.about.body}{" "}
+                <a
+                  href={study.clientUrl}
+                  className="font-semibold text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {study.clientName} website
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+
+          <dl
+            className="mt-8 grid overflow-hidden rounded-2xl border border-border/80 bg-card sm:mt-10 md:grid-cols-4"
+            aria-label={`${study.clientName} snapshot`}
+          >
+            {aboutFacts.map((fact, index) => (
+              <div
+                key={fact.label}
+                className={cn(
+                  "min-w-0 px-5 py-5 sm:px-6 sm:py-6",
+                  index > 0 && "border-t border-border/80 md:border-t-0 md:border-l",
+                )}
+              >
+                <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
                   {fact.label}
                 </dt>
                 <dd className="mt-2 font-heading text-base font-semibold tracking-tight text-foreground md:text-lg">
@@ -128,114 +275,15 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
         </div>
       </section>
 
-      <section className="section-edge w-full border-b border-border/50 py-10 md:py-12">
-        <div className="section-full">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            Technologies and tools
-          </p>
-          <ul className="flex flex-wrap gap-2">
-            {study.tools.map((tool) => (
-              <li
-                key={tool}
-                className="rounded-lg border border-border/70 bg-card px-3 py-1.5 text-sm text-foreground"
-              >
-                {tool}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
-          <MarketingSectionHeader
-            id={`${study.slug}-metrics`}
-            eyebrow="Results"
-            title={
-              <>
-                Results by <span className="text-primary">the numbers</span>
-              </>
-            }
-            marginBottomClassName="mb-10 md:mb-12"
-          />
-          <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/70 md:grid-cols-3">
-            {study.metrics.map((metric, index) => (
-              <article
-                key={metric.value + metric.label}
-                className={cn(
-                  "p-6 md:p-8",
-                  index > 0 && "border-t border-border/70 md:border-t-0 md:border-l",
-                )}
-              >
-                <p className="font-heading text-4xl font-semibold tracking-tight text-primary md:text-5xl">
-                  {metric.value}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {metric.label}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
-          <MarketingSectionHeader
-            id={`${study.slug}-about`}
-            eyebrow="About the project"
-            title={
-              <>
-                Here&apos;s a bit about <span className="text-primary">{study.clientName}</span>
-              </>
-            }
-            marginBottomClassName="mb-10 md:mb-12"
-          />
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
-            <dl className="grid gap-6 sm:grid-cols-2 lg:col-span-5">
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Industry
-                </dt>
-                <dd className="mt-2 text-base text-foreground">{study.about.industry}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Headquarters
-                </dt>
-                <dd className="mt-2 text-base text-foreground">{study.about.headquarters}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Engagement
-                </dt>
-                <dd className="mt-2 text-base text-foreground">{study.about.engagement}</dd>
-              </div>
-              <div>
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  Platforms
-                </dt>
-                <dd className="mt-2 text-base text-foreground">{study.about.platforms}</dd>
-              </div>
-            </dl>
-            <p className="text-base leading-relaxed text-muted-foreground md:text-lg lg:col-span-7">
-              {study.about.body}{" "}
-              <a
-                href={study.clientUrl}
-                className="text-primary hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {study.clientName} website
-              </a>
-              .
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
+      <section
+        className="relative overflow-hidden border-t border-border/60 bg-background section-edge w-full"
+        aria-labelledby={`${study.slug}-impact`}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.08),transparent_55%)]"
+          aria-hidden
+        />
+        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-impact`}
             eyebrow="Impact"
@@ -246,53 +294,78 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
             }
             marginBottomClassName="mb-10 md:mb-12"
           />
-          <ul
-            className="overflow-hidden rounded-2xl border border-border/70 divide-y divide-border/70"
+
+          <div
+            className="overflow-hidden rounded-2xl border border-border/80"
+            role="list"
             aria-label={`Before and after QApilot for ${study.clientName}`}
           >
+            <div className="hidden grid-cols-2 border-b border-border/80 lg:grid">
+              <div className="flex items-center gap-3 bg-muted/40 px-6 py-4 md:px-8">
+                <IconWell className="h-8 w-8 rounded-lg border-border/70 bg-muted text-muted-foreground">
+                  <Minus className="h-4 w-4" strokeWidth={2.25} />
+                </IconWell>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Before
+                </p>
+              </div>
+              <div className="flex items-center gap-3 border-l border-border/80 bg-primary/[0.07] px-6 py-4 md:px-8">
+                <IconWell className="h-8 w-8 rounded-lg">
+                  <Check className="h-4 w-4" strokeWidth={2.25} />
+                </IconWell>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+                  With QApilot
+                </p>
+              </div>
+            </div>
+
             {study.beforeAfter.map((row, index) => (
-              <li key={row.before}>
-                <article className="grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
-                  <div className="relative bg-muted/25 px-5 py-6 sm:px-6 md:px-8 md:py-7">
-                    <div className="mb-3 flex items-center gap-3">
-                      <span className="font-heading text-[11px] font-semibold tabular-nums tracking-[0.18em] text-muted-foreground/80">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        Before
-                      </p>
-                    </div>
-                    <p className="text-sm leading-relaxed text-foreground md:text-base">
-                      {row.before}
+              <article
+                key={row.before}
+                role="listitem"
+                className={cn(
+                  "grid lg:grid-cols-2",
+                  index > 0 && "border-t border-border/80",
+                )}
+              >
+                <div className="relative bg-muted/25 px-5 py-6 sm:px-6 md:px-8 md:py-7">
+                  <div className="mb-3 flex items-center gap-3 lg:hidden">
+                    <span className="font-heading text-[11px] font-semibold tabular-nums tracking-[0.18em] text-muted-foreground/80">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      Before
                     </p>
                   </div>
-
-                  <div
-                    className="flex items-center justify-center border-y border-border/60 bg-background px-4 py-3 lg:border-x lg:border-y-0 lg:px-3"
-                    aria-hidden
-                  >
-                    <span className="flex size-9 items-center justify-center rounded-full border border-primary/25 bg-primary/10 text-primary shadow-sm shadow-primary/10">
-                      <ArrowRight className="size-4" strokeWidth={2.25} />
+                  <div className="hidden lg:mb-3 lg:flex lg:items-center">
+                    <span className="font-heading text-xs font-semibold tabular-nums tracking-[0.18em] text-muted-foreground/70">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
+                  <p className="text-sm leading-relaxed text-foreground/90 md:text-base">
+                    {row.before}
+                  </p>
+                </div>
 
-                  <div className="relative bg-primary/[0.05] px-5 py-6 sm:px-6 md:px-8 md:py-7">
-                    <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
-                      With QApilot
-                    </p>
-                    <p className="text-sm leading-relaxed text-foreground md:text-base">
-                      {row.after}
-                    </p>
-                  </div>
-                </article>
-              </li>
+                <div className="relative border-t border-border/60 bg-primary/[0.05] px-5 py-6 sm:px-6 md:px-8 md:py-7 lg:border-l lg:border-t-0">
+                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:hidden">
+                    With QApilot
+                  </p>
+                  <p className="text-sm leading-relaxed text-foreground md:text-base">
+                    {row.after}
+                  </p>
+                </div>
+              </article>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
-      <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
+      <section
+        className="relative overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background section-edge w-full"
+        aria-labelledby={`${study.slug}-approach`}
+      >
+        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-approach`}
             eyebrow="Our approach"
@@ -304,52 +377,77 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
             description={study.approach.intro}
             marginBottomClassName="mb-10 md:mb-12"
           />
-          <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-            {study.approach.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 48)}>{paragraph}</p>
-            ))}
+
+          <ol
+            className="relative"
+            aria-label={`How QApilot worked with ${study.clientName}`}
+          >
+            {study.approach.paragraphs.map((paragraph, index) => {
+              const isLast = index === study.approach.paragraphs.length - 1;
+              return (
+                <li key={paragraph.slice(0, 48)} className="relative flex gap-4 sm:gap-6">
+                  <div className="flex w-7 shrink-0 flex-col items-center self-stretch">
+                    <span
+                      className="relative z-[1] flex h-7 w-7 items-center justify-center rounded-full border-2 border-primary bg-background"
+                      aria-hidden
+                    >
+                      <span className="h-2 w-2 rounded-full bg-primary" />
+                    </span>
+                    {isLast ? null : (
+                      <span
+                        className="w-px flex-1 bg-gradient-to-b from-primary/40 via-border to-primary/20"
+                        aria-hidden
+                      />
+                    )}
+                  </div>
+                  <div className={cn("min-w-0 pb-8 sm:pb-10", isLast && "pb-0 sm:pb-0")}>
+                    <p className="font-heading text-xs font-semibold tabular-nums tracking-[0.18em] text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <p className="mt-2 text-base leading-relaxed text-foreground/90 md:text-lg">
+                      {paragraph}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+
+          <div className="mt-12 md:mt-16">
+            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground md:mb-8">
+              Engagement highlights
+            </p>
+            <MarketingLedger
+              cols={2}
+              aria-label={`Engagement highlights for ${study.clientName}`}
+            >
+              {study.highlights.map((item, index) => (
+                <MarketingLedgerCell key={item} as="div">
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="font-heading text-sm font-semibold tabular-nums tracking-tight text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="h-px w-8 bg-primary/35" aria-hidden />
+                  </div>
+                  <p className="text-base leading-relaxed text-foreground md:text-lg">
+                    {item}
+                  </p>
+                </MarketingLedgerCell>
+              ))}
+            </MarketingLedger>
           </div>
         </div>
       </section>
 
-      <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
-          <MarketingSectionHeader
-            id={`${study.slug}-highlights`}
-            eyebrow="Highlights"
-            title={
-              <>
-                Engagement <span className="text-primary">highlights</span>
-              </>
-            }
-            marginBottomClassName="mb-10 md:mb-12"
-          />
-          <ul
-            className="grid gap-x-12 gap-y-10 sm:grid-cols-2 xl:gap-x-16 xl:gap-y-12"
-            aria-label={`Engagement highlights for ${study.clientName}`}
-          >
-            {study.highlights.map((item, index) => (
-              <li key={item} className="group relative min-w-0">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="font-heading text-sm font-semibold tabular-nums tracking-tight text-primary">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className="h-px w-8 bg-primary/35 transition-[width] duration-300 group-hover:w-14"
-                    aria-hidden
-                  />
-                </div>
-                <p className="text-base leading-relaxed text-foreground md:text-lg md:leading-relaxed">
-                  {item}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
+      <section
+        className="relative overflow-hidden border-t border-border bg-background section-edge w-full"
+        aria-labelledby={`${study.slug}-delivered`}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.08),transparent_55%)]"
+          aria-hidden
+        />
+        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-delivered`}
             eyebrow="What QApilot delivered"
@@ -358,75 +456,194 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
                 What QApilot <span className="text-primary">shipped</span>
               </>
             }
-            marginBottomClassName="mb-10 md:mb-12"
+            marginBottomClassName="mb-8 md:mb-10"
           />
+
+          <div className="mb-10 md:mb-12">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Technologies and tools
+            </p>
+            <ul className="flex flex-wrap gap-2">
+              {study.tools.map((tool) => (
+                <li
+                  key={tool}
+                  className="rounded-xl border border-border/80 bg-card px-3.5 py-2 text-sm font-semibold tracking-tight text-foreground shadow-sm"
+                >
+                  {tool}
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <MarketingLedger cols={2} aria-label={`What QApilot delivered for ${study.clientName}`}>
-            {study.services.map((service, index) => (
-              <MarketingLedgerCell key={service.title}>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-2 font-heading text-lg font-semibold tracking-tight text-foreground">
-                  {service.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {service.body}
-                </p>
-                <ul className="mt-4 space-y-1.5 text-sm text-foreground">
-                  {service.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              </MarketingLedgerCell>
-            ))}
+            {study.services.map((service, index) => {
+              const Icon = SERVICE_ICONS[index % SERVICE_ICONS.length];
+              return (
+                <MarketingLedgerCell key={service.title}>
+                  <div className="flex items-start justify-between gap-4">
+                    <IconWell>
+                      <Icon className="h-5 w-5" strokeWidth={1.5} />
+                    </IconWell>
+                    <span className="font-heading text-xs font-semibold tabular-nums tracking-[0.18em] text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 font-heading text-lg font-semibold tracking-tight text-foreground md:text-xl">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+                    {service.body}
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    {service.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-start gap-2.5 text-sm text-foreground">
+                        <Check
+                          className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                          strokeWidth={2.25}
+                          aria-hidden
+                        />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </MarketingLedgerCell>
+              );
+            })}
           </MarketingLedger>
         </div>
       </section>
 
-      <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16">
-        <div className="section-full">
-          <div className="overflow-hidden rounded-2xl border border-border/70 bg-card p-6 md:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-              Facing similar challenges to {study.clientName}?
-            </p>
-            <p className="mt-4 w-full font-heading text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-              {study.takeaway}
-            </p>
-            <div className="sig-cta-row mt-8 justify-start">
-              <BookDemoCtaButton>Talk to QApilot</BookDemoCtaButton>
-            </div>
+      <section
+        className="section-navy relative section-edge w-full overflow-hidden border-t border-white/10"
+        aria-labelledby={`${study.slug}-close`}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-structured-grid opacity-10"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-20"
+          aria-hidden
+        />
+        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/55 md:mb-4">
+            Next
+          </p>
+          <h2
+            id={`${study.slug}-close`}
+            className={cn(
+              marketingSectionH2Class,
+              "mb-5 w-full text-primary-foreground md:mb-6",
+            )}
+          >
+            Facing similar challenges to {study.clientName}?
+          </h2>
+          <p className="w-full max-w-4xl text-base leading-relaxed text-[hsl(var(--navy-muted))] md:text-lg 2xl:text-xl">
+            {study.takeaway}
+          </p>
+          <div className="sig-cta-row mt-8 justify-start">
+            <BookDemoCtaButton
+              className="bg-white text-[hsl(var(--navy))] shadow-none hover:bg-white/90 hover:shadow-none"
+            >
+              Talk to QApilot
+            </BookDemoCtaButton>
           </div>
         </div>
       </section>
 
-      <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
-          <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-            Explore related capabilities:{" "}
-            {study.related.map((link, index) => (
-              <span key={link.href}>
-                {index > 0 ? ", " : null}
-                <Link href={link.href} className="text-primary hover:underline">
-                  {link.label}
-                </Link>
-              </span>
+      <section
+        className="relative overflow-hidden border-t border-border/60 bg-background section-edge w-full"
+        aria-labelledby={`${study.slug}-more`}
+      >
+        <div className="section-full py-12 md:py-16 2xl:py-20">
+          <MarketingSectionHeader
+            id={`${study.slug}-more`}
+            eyebrow="More stories"
+            title={
+              <>
+                More teams shipping{" "}
+                <span className="text-primary">with QApilot</span>
+              </>
+            }
+            marginBottomClassName="mb-8 md:mb-10"
+          />
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {relatedStudies.map((other) => (
+              <Link
+                key={other.slug}
+                href={caseStudyPath(other.slug)}
+                aria-label={`${other.clientName} case study — ${other.about.industry}`}
+                className={cn(
+                  "group relative flex w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 text-left transition",
+                  "bg-gradient-to-br from-muted/50 via-background to-background",
+                  "hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2",
+                )}
+              >
+                <div className="relative z-[1] flex items-start justify-between gap-6 px-5 pt-6 sm:px-7 sm:pt-7">
+                  <div className="min-w-0">
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
+                      {other.clientName}
+                    </p>
+                    <h3 className="mt-2 font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                      {other.about.industry}
+                    </h3>
+                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                      {other.headline}
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary transition group-hover:gap-3">
+                      Read the story
+                      <ArrowRight
+                        className="h-4 w-4 transition group-hover:translate-x-0.5"
+                        strokeWidth={2.25}
+                      />
+                    </span>
+                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={other.logoSrc}
+                    alt=""
+                    className="mt-1 h-10 w-auto max-w-[7.5rem] shrink-0 object-contain opacity-90 sm:h-12 sm:max-w-[9rem]"
+                  />
+                </div>
+                <div className="relative z-[1] mt-6 grid grid-cols-3 divide-x divide-border/60 border-t border-border/60 bg-muted/20">
+                  {other.metrics.map((metric) => (
+                    <div key={metric.label} className="flex flex-col gap-1 px-3 py-4 sm:px-5 sm:py-5">
+                      <span className="font-heading text-lg font-semibold tracking-tight tabular-nums text-foreground sm:text-2xl">
+                        {metric.value}
+                      </span>
+                      <span className="line-clamp-2 text-[11px] leading-snug text-muted-foreground sm:text-xs">
+                        {metric.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Link>
             ))}
-            .
-          </p>
-          <p className="mt-4 text-sm text-muted-foreground">
-            More stories:{" "}
-            {CASE_STUDIES.filter((other) => other.slug !== study.slug).map(
-              (other, index, list) => (
-                <span key={other.slug}>
-                  {index > 0 ? (index === list.length - 1 ? ", and " : ", ") : null}
-                  <Link href={caseStudyPath(other.slug)} className="text-primary hover:underline">
-                    {other.clientName}
+          </div>
+
+          <div className="mt-10 border-t border-border/60 pt-8 md:mt-12">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Explore related capabilities
+            </p>
+            <ul className="flex flex-wrap gap-2">
+              {study.related.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-card px-3.5 py-1.5 text-sm font-semibold text-foreground shadow-sm",
+                      "transition-colors hover:border-primary/40 hover:text-primary",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35",
+                    )}
+                  >
+                    {link.label}
+                    <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.25} aria-hidden />
                   </Link>
-                </span>
-              ),
-            )}
-            .
-          </p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
     </main>
