@@ -23,7 +23,6 @@ export default function CompareHeroSection({
       title={title}
       lead={description}
       cta={<BookDemoCtaButton />}
-      className="border-b border-border/40"
       paddingClassName="py-10 sm:py-12 md:py-14 lg:py-16"
     />
   );

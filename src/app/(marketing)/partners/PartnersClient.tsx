@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
 import {
   MarketingBackground,
+  MarketingSection,
   MarketingSectionHeader,
 } from "@/components/marketing";
 import {
@@ -177,16 +178,11 @@ const PartnersClient = () => {
   return (
     <>
       <section
-        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/40"
+        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible home-canvas"
         aria-label="Partners hero"
         aria-labelledby="partners-hero-title"
       >
-        <MarketingBackground
-          variant="hero"
-          showDiagonalGrid={false}
-          showPixelRipple={false}
-          progressiveBlur={false}
-        />
+        <MarketingBackground variant="hero" />
         <div className="relative z-10 section-full py-14 sm:py-16 md:py-20 lg:py-24 2xl:py-28">
           <div className="flex max-w-5xl flex-col items-start text-left">
             <h1
@@ -224,7 +220,7 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/25 via-background to-background py-12 md:py-16 2xl:py-20"
+        className="section-edge w-full home-tint py-12 md:py-16 2xl:py-20"
         aria-labelledby="partner-opportunity-heading"
       >
         <div className="section-full">
@@ -419,11 +415,10 @@ const PartnersClient = () => {
         </div>
       </section>
 
-      <section
-        className="section-edge w-full border-t border-primary/15 bg-gradient-to-b from-primary/[0.08] via-primary/[0.04] to-background py-12 md:py-16 2xl:py-20"
+      <MarketingSection
+        surface="ice"
         aria-labelledby="final-cta-heading"
       >
-        <div className="section-full">
           <div className="sig-close">
             <h2
               id="final-cta-heading"
@@ -446,14 +441,13 @@ const PartnersClient = () => {
                 type="button"
                 onClick={openForm}
                 size="lg"
-                className="bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:text-lg"
+                className="rounded-md bg-primary px-8 py-6 text-base font-semibold text-primary-foreground shadow-none hover:bg-primary/90 2xl:text-lg"
               >
                 Become a Partner
               </Button>
             </div>
           </div>
-        </div>
-      </section>
+      </MarketingSection>
 
       <HubSpotFormDialog
         isOpen={isPartnerFormOpen}

@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import {
-  marketingEyebrowClass,
-  marketingHeroH1Class,
-} from "@/lib/marketing-typography";
+import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 type CaseStudyHeroProps = {
@@ -35,15 +33,10 @@ export function CaseStudyHero({
 
   return (
     <section
-      className="hero-prominent relative section-edge w-full overflow-x-clip border-b border-border/40"
+      className="hero-prominent relative section-edge w-full overflow-x-clip home-canvas"
       aria-labelledby={titleId}
     >
-      <MarketingBackground
-        variant="hero"
-        showDiagonalGrid={false}
-        showPixelRipple
-        progressiveBlur={false}
-      />
+      <MarketingBackground variant="hero" />
       <div
         className={cn(
           "relative z-10 w-full",
@@ -67,9 +60,7 @@ export function CaseStudyHero({
           >
             <div className="flex min-w-0 w-full flex-col items-start text-left">
               {eyebrow ? (
-                <p className={cn(marketingEyebrowClass, "text-primary/90")}>
-                  {eyebrow}
-                </p>
+                <HomeEyebrow>{eyebrow}</HomeEyebrow>
               ) : null}
 
               <h1

@@ -46,7 +46,7 @@ const STEPS: Step[] = [
 export function CoWorkHowItWorksSection() {
   return (
     <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-dot-pattern-subtle"
+      className="section-edge relative w-full overflow-hidden border-t border-border/60"
       aria-labelledby="cowork-how-heading"
     >
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">

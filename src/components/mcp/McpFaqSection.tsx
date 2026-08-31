@@ -5,18 +5,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { MarketingSectionHeader } from "@/components/marketing";
+import { MarketingSection, MarketingSectionHeader } from "@/components/marketing";
 import { MCP_FAQS } from "@/lib/mcp-page";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 export function McpFaqSection() {
   return (
-    <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
-      aria-labelledby="mcp-faqs"
-    >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+    <MarketingSection aria-labelledby="mcp-faqs">
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[2fr_3fr] lg:gap-x-12 xl:gap-x-16 2xl:gap-x-20">
           <MarketingSectionHeader
             id="mcp-faqs"
@@ -34,7 +30,7 @@ export function McpFaqSection() {
           <Accordion
             type="multiple"
             className={cn(
-              "w-full min-w-0 rounded-2xl border border-border bg-card shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)]",
+              "w-full min-w-0 rounded-md border border-border bg-card",
               "px-4 sm:px-6 md:px-8",
             )}
           >
@@ -66,7 +62,6 @@ export function McpFaqSection() {
             ))}
           </Accordion>
         </div>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }

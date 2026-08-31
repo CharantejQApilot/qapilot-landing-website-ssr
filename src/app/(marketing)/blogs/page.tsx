@@ -7,12 +7,8 @@ import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { MarketingPageShell } from "@/components/marketing";
+import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { CmsRemoteImage } from "@/components/CmsRemoteImage";
-import {
-  marketingHeroH1Class,
-  marketingListingHeroLeadClass,
-} from "@/lib/marketing-typography";
 import { formatPublishedDate } from "@/lib/format-published";
 
 const BLOGS_PATH = PATHS.BLOGS;
@@ -144,27 +140,15 @@ export default async function BlogsPage() {
       />
       <MarketingPageShell background="none">
         <main className="relative w-full">
-          <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
-            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
-              <header className="relative w-full text-left">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
-                  QApilot blog
-                </p>
-                <h1 className={marketingHeroH1Class}>
-                  <span className="text-gradient">
-                    Mobile Testing Insights &amp; Best Practices
-                  </span>
-                </h1>
-                <p className={marketingListingHeroLeadClass}>
-                  Expert guides, tips, and strategies for mobile app testing and
-                  QA automation.
-                </p>
-              </header>
-            </div>
-          </div>
+          <MarketingThesisHero
+            titleId="blogs-hero"
+            eyebrow="QApilot blog"
+            title="Mobile Testing Insights & Best Practices"
+            lead="Expert guides, tips, and strategies for mobile app testing and QA automation."
+          />
 
-          <div className="section-full bg-background py-14 md:py-20">
-            <div className={`${BLOGS_MAX_WIDTH} bg-dot-pattern-subtle`}>
+          <div className="section-full home-canvas py-14 md:py-20">
+            <div className={BLOGS_MAX_WIDTH}>
               <section
                 aria-labelledby="blogs-intro"
                 className="mb-14 w-full text-left md:mb-16"
@@ -194,7 +178,7 @@ export default async function BlogsPage() {
               </section>
               {list.length === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">
-                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-md border border-border bg-card">
                     <FileText
                       className="h-10 w-10 text-muted-foreground"
                       strokeWidth={1.25}
@@ -237,9 +221,9 @@ export default async function BlogsPage() {
                             <li key={blog.id}>
                               <Link
                                 href={`/blogs/${blog.slug}`}
-                                className="group block h-full rounded-2xl border-2 border-primary/15 bg-card shadow-md outline-none ring-offset-background transition-shadow hover:border-primary/25 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-ring"
+                                className="group block h-full rounded-md border-2 border-primary/15 bg-card outline-none ring-offset-background transition-shadow hover:border-primary/25 focus-visible:ring-2 focus-visible:ring-ring"
                               >
-                                <article className="flex h-full flex-col overflow-hidden rounded-2xl">
+                                <article className="flex h-full flex-col overflow-hidden rounded-md">
                                   <div className="relative aspect-[16/9] w-full min-h-[200px] shrink-0 bg-muted sm:min-h-[220px] md:aspect-[2/1] md:min-h-[240px]">
                                     {imgSrc ? (
                                       <CmsRemoteImage
@@ -319,9 +303,9 @@ export default async function BlogsPage() {
                             <li key={blog.id}>
                               <Link
                                 href={`/blogs/${blog.slug}`}
-                                className="group block h-full rounded-2xl border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+                                className="group block h-full rounded-md border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                               >
-                                <article className="flex h-full flex-col overflow-hidden rounded-2xl">
+                                <article className="flex h-full flex-col overflow-hidden rounded-md">
                                   <div className="relative aspect-[16/9] w-full shrink-0 bg-muted">
                                     {imgSrc ? (
                                       <CmsRemoteImage

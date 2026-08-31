@@ -59,7 +59,7 @@ export const metadata: Metadata = {
 
 export default function IndexPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageJsonLd) }}

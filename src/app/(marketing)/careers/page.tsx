@@ -29,7 +29,7 @@ export default function CareersPage() {
   ]);
 
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}

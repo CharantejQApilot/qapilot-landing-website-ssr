@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Zap, Settings, Link2 } from "lucide-react";
+import { HomeSeam } from "@/components/home/HomeSeam";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import { PATHS } from "@/lib/routes";
 
@@ -63,10 +64,11 @@ function highlightPhrase(text: string, phrase: string, href?: string) {
 const VelocitySection = () => {
   return (
     <section
-      className="relative overflow-hidden bg-background section-edge w-full"
+      className="relative overflow-hidden home-canvas section-edge w-full"
       aria-labelledby="velocity-heading"
     >
-      <div className="section-full pt-10 md:pt-14 2xl:pt-16 pb-10 md:pb-14 2xl:pb-16">
+      <HomeSeam />
+      <div className="section-full pt-16 md:pt-20 lg:py-24 pb-16 md:pb-20">
         <MarketingSectionHeader
           id="velocity-heading"
           eyebrow="Velocity"
@@ -109,7 +111,7 @@ const VelocitySection = () => {
                       {card.label}
                     </span>
                   </div>
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-background text-muted-foreground">
                     <Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                   </div>
                 </div>

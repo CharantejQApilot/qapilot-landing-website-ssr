@@ -3,9 +3,7 @@ import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import FAQsList from "./FAQsList";
 import { PATHS } from "@/lib/routes";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { MarketingPageShell } from "@/components/marketing";
-import { marketingHeroH1Class } from "@/lib/marketing-typography";
-import { cn } from "@/lib/utils";
+import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { resolveFaqsForPage, type CmsFAQ } from "@/lib/faqs-resolve";
 import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
@@ -68,21 +66,20 @@ export default async function FAQsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <MarketingPageShell background="soft">
-        <main className="section-edge w-full py-16 md:py-24">
-          <div className="section-full w-full">
-            <header className="mb-12 text-left md:mb-14">
-              <h1
-                className={cn(
-                  marketingHeroH1Class,
-                  "max-w-4xl leading-[1.08]",
-                )}
-              >
-                <span className="block">Frequently Asked</span>
-                <span className="block text-primary">Questions</span>
-              </h1>
-            </header>
-
+      <MarketingPageShell background="none">
+        <main>
+          <MarketingThesisHero
+            titleId="faqs-hero"
+            eyebrow="Support"
+            title={
+              <>
+                Frequently Asked
+                <br />
+                <span className="text-primary">Questions</span>
+              </>
+            }
+          />
+          <div className="section-full home-canvas py-16 md:py-24">
             <FAQsList faqs={faqs} />
           </div>
         </main>

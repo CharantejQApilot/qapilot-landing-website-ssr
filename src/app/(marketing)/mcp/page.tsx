@@ -34,7 +34,7 @@ export const revalidate = 300;
 
 export default function McpWaitlistPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <HashScrollOnMount />
       <script
         type="application/ld+json"

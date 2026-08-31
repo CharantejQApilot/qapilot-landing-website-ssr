@@ -81,7 +81,7 @@ export function PlatformOverviewProblemSection() {
       {/* Full-bleed cream + overlays. Same as homepage “In their words” */}
       <div className="relative mt-10 overflow-hidden section-cream py-10 md:mt-12 md:py-12 2xl:mt-14 2xl:py-14">
         <div
-          className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle"
+          className="pointer-events-none absolute inset-0"
           aria-hidden
         />
         <div className="pointer-events-none absolute inset-0" aria-hidden>

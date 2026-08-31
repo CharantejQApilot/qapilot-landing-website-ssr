@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowUp, Clock } from "lucide-react";
 import Logo from "@/components/Logo";
-import {
-  marketingEyebrowClass,
-  marketingSectionH2Class,
-} from "@/lib/marketing-typography";
+import { HomeDarkAtmosphere } from "@/components/home/HomeDarkAtmosphere";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
+import { HomeSeam } from "@/components/home/HomeSeam";
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import {
   BOOK_DEMO_CALENDAR_URL,
@@ -190,25 +190,23 @@ const Footer = () => {
   const hideGetStartedCta =
     pathname === PATHS.CASE_STUDIES ||
     pathname.startsWith(`${PATHS.CASE_STUDIES}/`) ||
-    pathname === PATHS.MCP;
+    pathname === PATHS.MCP ||
+    pathname.startsWith("/compare/") ||
+    pathname.startsWith("/alternatives/") ||
+    pathname === PATHS.INTEGRATIONS ||
+    pathname.startsWith(`${PATHS.INTEGRATIONS}/`);
 
   return (
     <>
       {/* CTA Section. Full-width, brand blue / navy (Harvey-style edge-to-edge) */}
       {!hideGetStartedCta ? (
       <section className="relative section-navy overflow-hidden section-edge w-full">
-        <div className="absolute inset-0 bg-dot-pattern-subtle opacity-20 pointer-events-none" />
+        <HomeSeam invert />
+        <HomeDarkAtmosphere glow="bottom-right" />
         <div className="section-full relative z-10 py-20 md:py-28 2xl:py-36">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 2xl:gap-16">
             <div className="flex-1 w-full min-w-0 text-left">
-              <p
-                className={cn(
-                  marketingEyebrowClass,
-                  "text-primary-foreground/50 mb-3 md:mb-4",
-                )}
-              >
-                Get started
-              </p>
+              <HomeEyebrow invert>Get started</HomeEyebrow>
               <h2 className={cn(marketingSectionH2Class, "text-white mb-4")}>
                 Start Your Journey to Smarter Mobile App QE
               </h2>
@@ -219,7 +217,7 @@ const Footer = () => {
             <div className="flex-shrink-0">
               <Button
                 size="lg"
-                className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-lg 2xl:text-lg 2xl:px-10 2xl:py-7"
+                className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-md 2xl:text-lg 2xl:px-10 2xl:py-7"
                 asChild
               >
                 <a

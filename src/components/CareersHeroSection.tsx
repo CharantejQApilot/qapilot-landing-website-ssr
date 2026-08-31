@@ -31,7 +31,7 @@ const CareersHeroSection = () => {
             onClick={() => setIsFormOpen(true)}
             variant="outline"
             size="lg"
-            className="rounded-xl border-2 border-primary/40 bg-transparent px-8 py-6 text-base font-semibold text-foreground shadow-none transition-colors hover:border-primary hover:bg-primary/5 hover:text-primary sm:px-10 sm:py-7 sm:text-lg"
+            className="rounded-md border-2 border-primary/40 bg-transparent px-8 py-6 text-base font-semibold text-foreground shadow-none transition-colors hover:border-primary hover:bg-primary/5 hover:text-primary sm:px-10 sm:py-7 sm:text-lg"
           >
             Reach out to us
           </Button>

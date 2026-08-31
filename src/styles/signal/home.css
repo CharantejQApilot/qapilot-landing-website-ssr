@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Homepage visual system. Surfaces, seams, and logo marks.
+   Uses existing tokens. No new fonts.
+   ========================================================================== */
+
+:root {
+  --home-canvas: 0 0% 100%;
+  --home-tint: 220 14% 97%; /* ~#F7F8FA */
+  --home-ice: 218 45% 93%;
+  --home-hairline: 220 12% 90%;
+  --home-cross: 220 10% 72%;
+}
+
+.home-canvas {
+  background-color: hsl(var(--home-canvas));
+}
+
+.home-tint {
+  background-color: hsl(var(--home-tint));
+}
+
+.home-ice {
+  background-color: hsl(var(--home-ice));
+}
+
+/* White grid on ice — same 80px pitch as the hero, slightly softer than full wash. */
+.home-ice-grid {
+  background-image:
+    linear-gradient(hsl(0 0% 100% / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(0 0% 100% / 0.55) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.home-logo-mark {
+  filter: grayscale(1);
+  opacity: 0.55;
+  transition:
+    filter 180ms ease,
+    opacity 180ms ease;
+}
+
+.home-logo-mark:hover,
+a:hover .home-logo-mark,
+.group:hover .home-logo-mark {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* Light surface nested in `.section-navy` — restore heading/body colour so
+   utilities (text-foreground, text-muted-foreground, text-primary) apply. */
+.section-navy .home-light-panel h1,
+.section-navy .home-light-panel h2,
+.section-navy .home-light-panel h3,
+.section-navy .home-light-panel h4,
+.section-navy .home-light-panel h5,
+.section-navy .home-light-panel h6 {
+  color: hsl(var(--foreground));
+}
+
+.section-navy .home-light-panel p {
+  color: unset;
+}
+
+/*
+ * Hero grid scan: lattice stays put at original weight.
+ * A moving mask reveals a stronger copy so the lines light up as a band
+ * travels — reads as a pass over the grid, not a sliding wallpaper.
+ */
+.home-hero-grid-scan {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 38%,
+    #000 62%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 38%,
+    #000 62%,
+    transparent 100%
+  );
+  mask-size: 100% 55%;
+  -webkit-mask-size: 100% 55%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  animation: home-hero-grid-scan 14s ease-in-out infinite alternate;
+}
+
+@keyframes home-hero-grid-scan {
+  from {
+    -webkit-mask-position: 0% -15%;
+    mask-position: 0% -15%;
+  }
+  to {
+    -webkit-mask-position: 0% 115%;
+    mask-position: 0% 115%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-logo-mark {
+    transition: none;
+  }
+
+  .home-hero-grid-scan {
+    display: none;
+  }
+}

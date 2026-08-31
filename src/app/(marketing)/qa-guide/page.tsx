@@ -6,11 +6,7 @@ import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import { MarketingPageShell } from "@/components/marketing";
-import {
-  marketingHeroH1Class,
-  marketingListingHeroLeadClass,
-} from "@/lib/marketing-typography";
+import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { formatPublishedDate } from "@/lib/format-published";
 import { publishedUrlPath } from "@/lib/qa-guide/urls";
 
@@ -127,25 +123,15 @@ export default async function QaGuideHubPage() {
       />
       <MarketingPageShell background="none">
         <main className="relative w-full">
-          <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
-            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
-              <header className="relative w-full text-left">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
-                  Resources
-                </p>
-                <h1 className={marketingHeroH1Class}>
-                  <span className="text-gradient">{QE_GUIDE_DISPLAY_NAME}</span>
-                </h1>
-                <p className={marketingListingHeroLeadClass}>
-                  Practical mobile testing guides. Comparisons, checklists, and
-                  patterns for QE leaders and engineers.
-                </p>
-              </header>
-            </div>
-          </div>
+          <MarketingThesisHero
+            titleId="qa-guide-hero"
+            eyebrow="Resources"
+            title={QE_GUIDE_DISPLAY_NAME}
+            lead="Practical mobile testing guides. Comparisons, checklists, and patterns for QE leaders and engineers."
+          />
 
-          <div className="section-full bg-background py-14 md:py-20">
-            <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
+          <div className="section-full home-canvas py-14 md:py-20">
+            <div className={LIST_MAX_WIDTH}>
               <section
                 aria-labelledby="qa-guide-intro"
                 className="mb-14 w-full text-left md:mb-16"
@@ -175,7 +161,7 @@ export default async function QaGuideHubPage() {
 
               {list.length === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">
-                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-md border border-border bg-card">
                     <BookOpen
                       className="h-10 w-10 text-muted-foreground"
                       strokeWidth={1.25}
@@ -212,7 +198,7 @@ export default async function QaGuideHubPage() {
                         <li key={guide.id}>
                           <Link
                             href={publishedUrlPath(guide.slug)}
-                            className="group block h-full rounded-2xl border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+                            className="group block h-full rounded-md border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                           >
                             <article className="flex h-full flex-col gap-2 p-6 sm:gap-3 sm:p-7 md:p-8">
                               {dateLabel ? (

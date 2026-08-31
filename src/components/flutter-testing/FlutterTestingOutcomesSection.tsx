@@ -36,7 +36,7 @@ const ROWS: { before: string; after: ReactNode }[] = [
 export function FlutterTestingOutcomesSection() {
   return (
     <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-dot-pattern-subtle"
+      className="section-edge relative w-full overflow-hidden border-t border-border/60"
       aria-labelledby="flutter-outcomes-heading"
     >
       <div

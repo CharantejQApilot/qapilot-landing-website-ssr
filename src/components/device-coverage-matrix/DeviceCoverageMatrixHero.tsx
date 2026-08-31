@@ -5,17 +5,11 @@ import { cn } from "@/lib/utils";
 export function DeviceCoverageMatrixHero() {
   return (
     <section
-      className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible border-b border-border/60"
+      className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible home-canvas"
       aria-label="Device coverage matrix"
       aria-labelledby="device-coverage-hero-title"
     >
-      <MarketingBackground
-        variant="hero"
-        showDiagonalGrid={false}
-        showPixelRipple={false}
-        progressiveBlur={false}
-        className="opacity-60"
-      />
+      <MarketingBackground variant="hero" />
 
       <div className="relative z-10 w-full section-full py-8 sm:py-10 md:py-12">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-start px-3 text-left sm:px-4 lg:max-w-7xl">

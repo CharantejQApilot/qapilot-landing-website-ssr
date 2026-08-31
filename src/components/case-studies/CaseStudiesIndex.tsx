@@ -1,7 +1,7 @@
 import Link from "next/link";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CaseStudyPreviewCards } from "@/components/case-studies/CaseStudyPreviewCards";
-import { MarketingSectionHeader, MarketingThesisHero } from "@/components/marketing";
+import { MarketingSection, MarketingSectionHeader, MarketingThesisHero } from "@/components/marketing";
 import { CASE_STUDIES, caseStudyPath } from "@/lib/case-studies-data";
 import { cn } from "@/lib/utils";
 
@@ -23,10 +23,7 @@ export function CaseStudiesIndex() {
         }
         lead="How QApilot turned complex banking, dating, and B2B commerce apps into evidenced automation coverage."
         cta={
-          <BookDemoCtaButton
-            size="lg"
-            className="rounded-xl px-6 py-3.5 text-base font-semibold shadow-md shadow-primary/20 sm:px-8 sm:py-4 sm:text-lg"
-          />
+          <BookDemoCtaButton size="lg" />
         }
       >
         <nav className="mb-6 w-full sm:mb-8" aria-label="Featured case studies">
@@ -36,8 +33,8 @@ export function CaseStudiesIndex() {
                 <Link
                   href={caseStudyPath(study.slug)}
                   className={cn(
-                    "inline-flex items-center justify-center rounded-full border border-border/80 bg-background/80",
-                    "px-3.5 py-1.5 text-sm font-medium text-foreground/80 shadow-sm backdrop-blur-sm",
+                    "inline-flex items-center justify-center rounded-md border border-border/80 bg-background/80",
+                    "px-3.5 py-1.5 text-sm font-medium text-foreground/80",
                     "transition-colors hover:border-primary/35 hover:bg-primary/[0.06] hover:text-primary",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     "sm:px-4 sm:py-2 sm:text-[15px]",
@@ -51,8 +48,7 @@ export function CaseStudiesIndex() {
         </nav>
       </MarketingThesisHero>
 
-      <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-        <div className="section-full">
+      <MarketingSection>
           <MarketingSectionHeader
             id="case-study-list"
             title="Featured engagements"
@@ -60,8 +56,7 @@ export function CaseStudiesIndex() {
             marginBottomClassName="mb-10 md:mb-12"
           />
           <CaseStudyPreviewCards />
-        </div>
-      </section>
+      </MarketingSection>
     </main>
   );
 }
