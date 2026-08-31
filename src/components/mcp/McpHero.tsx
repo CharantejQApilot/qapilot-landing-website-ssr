@@ -1,9 +1,12 @@
 "use client";
 
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { McpWaitlistForm } from "@/components/mcp/McpWaitlistForm";
 import {
   marketingFormTitleClass,
+  marketingHeroFormCardClass,
+  marketingHeroFormInnerClass,
 } from "@/lib/forms/marketing-form-classes";
 import { MCP_WAITLIST_FORM_ID } from "@/lib/mcp-page";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
@@ -12,15 +15,11 @@ import { cn } from "@/lib/utils";
 export function McpHero() {
   return (
     <section
-      className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
+      className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible home-canvas"
       aria-label="QApilot MCP"
       aria-labelledby="mcp-hero-title"
     >
-      <MarketingBackground
-        variant="hero"
-        showDiagonalGrid={false}
-        showPixelRipple
-      />
+      <MarketingBackground variant="hero" />
 
       <div className="relative z-10 w-full section-full py-14 sm:py-16 md:py-20 lg:py-28 2xl:py-32">
         <div
@@ -31,9 +30,7 @@ export function McpHero() {
           )}
         >
           <div className="flex min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-2 xl:pr-4">
-            <p className="mb-3 w-full text-left text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
-              QApilot MCP · Early access
-            </p>
+            <HomeEyebrow>QApilot MCP · Early access</HomeEyebrow>
             <h1
               id="mcp-hero-title"
               className={cn(
@@ -64,17 +61,11 @@ export function McpHero() {
             id={MCP_WAITLIST_FORM_ID}
             className="min-w-0 w-full scroll-mt-28 lg:pl-2 xl:pl-4"
           >
-            <div
-              className={cn(
-                "relative flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border/60 bg-card/85 p-5 shadow-[0_24px_80px_-24px_hsl(220_25%_8%/0.25)] backdrop-blur-md",
-                "sm:p-7 md:p-8",
-                "before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-primary/[0.06] before:via-transparent before:to-transparent",
-              )}
-            >
+            <div className={marketingHeroFormCardClass}>
               <div className="relative z-[1] pb-5 sm:pb-6">
                 <h2 className={marketingFormTitleClass}>Request Access</h2>
               </div>
-              <div className="relative z-[1] min-h-0 min-w-0 flex-1 rounded-xl border border-border/40 bg-background/70 p-3 sm:p-4 md:p-5">
+              <div className={marketingHeroFormInnerClass}>
                 <McpWaitlistForm />
               </div>
             </div>

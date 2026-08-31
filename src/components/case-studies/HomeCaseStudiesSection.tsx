@@ -10,6 +10,9 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { CASE_STUDIES, caseStudyPath } from "@/lib/case-studies-data";
+import { HomeDarkAtmosphere } from "@/components/home/HomeDarkAtmosphere";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
+import { HomeSeam } from "@/components/home/HomeSeam";
 import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
@@ -86,20 +89,19 @@ export function HomeCaseStudiesSection() {
 
   return (
     <section
-      className="section-edge relative w-full border-y border-border/70 bg-background"
+      className="section-edge relative w-full section-navy"
       aria-labelledby="home-case-studies-label"
     >
-      <div className="section-full py-10 md:py-12">
-        <div className="mb-6 flex items-end justify-between gap-4 md:mb-8">
+      <HomeSeam invert />
+      <HomeDarkAtmosphere glow="top" />
+      <div className="section-full relative py-16 md:py-20 lg:py-24">
+        <div className="mb-8 flex items-end justify-between gap-4 md:mb-10">
           <div>
-            <p
-              id="home-case-studies-label"
-              className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-            >
+            <HomeEyebrow invert id="home-case-studies-label">
               Case studies
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground md:text-base">
-              <span className="font-semibold tabular-nums text-foreground">
+            </HomeEyebrow>
+            <p className="text-sm !text-white/50 md:text-base">
+              <span className="font-semibold tabular-nums text-white">
                 {count}
               </span>{" "}
               customer stories from teams shipping mobile releases
@@ -111,9 +113,9 @@ export function HomeCaseStudiesSection() {
               aria-label="Previous case study"
               onClick={() => api?.scrollPrev()}
               className={cn(
-                "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/80 bg-background text-foreground transition",
-                "hover:border-primary/40 hover:text-primary",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35",
+                "inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 bg-white/5 text-white transition-colors",
+                "hover:border-white/35 hover:bg-white/10",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
               )}
             >
               <ArrowLeft className="h-4 w-4" strokeWidth={2.25} />
@@ -123,9 +125,9 @@ export function HomeCaseStudiesSection() {
               aria-label="Next case study"
               onClick={() => api?.scrollNext()}
               className={cn(
-                "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/80 bg-background text-foreground transition",
-                "hover:border-primary/40 hover:text-primary",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35",
+                "inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/15 bg-white/5 text-white transition-colors",
+                "hover:border-white/35 hover:bg-white/10",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
               )}
             >
               <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
@@ -155,9 +157,8 @@ export function HomeCaseStudiesSection() {
                       onBlur={resumeAuto}
                       aria-label={`${study.clientName} case study — ${industry}`}
                       className={cn(
-                        "group relative flex w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 text-left transition",
-                        "bg-gradient-to-br from-muted/50 via-background to-background",
-                        "hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2",
+                        "home-light-panel group relative flex w-full min-w-0 flex-col overflow-hidden rounded-md border border-white/10 bg-white text-left text-foreground transition-colors",
+                        "hover:border-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--navy))]",
                       )}
                     >
                       <div className="relative z-[1] grid min-w-0 gap-8 px-5 pb-6 pt-7 sm:px-7 sm:pb-7 sm:pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-12 md:px-9 md:pb-8 md:pt-10 lg:gap-16">
@@ -183,7 +184,7 @@ export function HomeCaseStudiesSection() {
                             {study.tags.slice(0, 3).map((tag) => (
                               <li
                                 key={tag}
-                                className="rounded-full border border-border/70 bg-background/80 px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground"
+                                className="rounded-md border border-border bg-background px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground"
                               >
                                 {tag}
                               </li>
@@ -209,7 +210,7 @@ export function HomeCaseStudiesSection() {
                         </div>
                       </div>
 
-                      <div className="relative z-[1] border-t border-border/60 bg-muted/20">
+                      <div className="relative z-[1] border-t border-border">
                         <div className="grid grid-cols-1 divide-y divide-border/60 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
                           {study.metrics.map((metric) => (
                             <div
@@ -239,8 +240,8 @@ export function HomeCaseStudiesSection() {
           </Carousel>
         </div>
 
-        <div className="mt-7 border-t border-border/60 pt-5 md:mt-8 md:pt-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="mt-7 border-t border-white/10 pt-5 md:mt-8 md:pt-6">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] !text-white/40">
             {count} case studies
           </p>
           <ul
@@ -252,7 +253,7 @@ export function HomeCaseStudiesSection() {
               return (
                 <li key={study.slug} className="flex items-center">
                   {index > 0 ? (
-                    <span className="mx-2 text-border sm:mx-3" aria-hidden>
+                    <span className="mx-2 text-white/20 sm:mx-3" aria-hidden>
                       /
                     </span>
                   ) : null}
@@ -261,10 +262,10 @@ export function HomeCaseStudiesSection() {
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "rounded-md px-1 py-0.5 font-heading text-base font-semibold tracking-tight transition sm:text-lg",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35",
                       active
-                        ? "text-primary"
-                        : "text-muted-foreground hover:text-foreground",
+                        ? "text-white"
+                        : "text-white/45 hover:text-white",
                     )}
                   >
                     {study.clientName}
@@ -273,10 +274,10 @@ export function HomeCaseStudiesSection() {
               );
             })}
           </ul>
-          <p className="mt-2 text-sm text-muted-foreground" aria-live="polite">
+          <p className="mt-2 text-sm !text-white/40" aria-live="polite">
             Showing{" "}
-            <span className="font-medium text-foreground">{selected + 1}</span>{" "}
-            of {count}: {CASE_STUDIES[selected]?.about.industry}
+            <span className="font-medium text-white">{selected + 1}</span> of{" "}
+            {count}: {CASE_STUDIES[selected]?.about.industry}
           </p>
         </div>
       </div>

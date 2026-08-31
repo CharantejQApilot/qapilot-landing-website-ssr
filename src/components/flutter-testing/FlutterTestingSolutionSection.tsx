@@ -28,7 +28,7 @@ const CARDS = [
 export function FlutterTestingSolutionSection() {
   return (
     <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/40 bg-dot-pattern-subtle"
+      className="section-edge relative w-full overflow-hidden border-t border-border/40"
       aria-labelledby="flutter-solution-heading"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-muted/[0.35] via-transparent to-transparent" aria-hidden />

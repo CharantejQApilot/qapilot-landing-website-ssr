@@ -125,16 +125,11 @@ const AboutClient = () => {
   return (
     <>
       <section
-        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
+        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible home-canvas"
         aria-label="About hero"
         aria-labelledby="about-hero-title"
       >
-        <MarketingBackground
-          variant="hero"
-          showDiagonalGrid={false}
-          showPixelRipple={false}
-          progressiveBlur={false}
-        />
+        <MarketingBackground variant="hero" />
         <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start px-3 text-left sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
             <h1
@@ -162,9 +157,9 @@ const AboutClient = () => {
               {valueTiles.map(({ label, Icon }) => (
                 <li
                   key={label}
-                  className="flex items-center gap-3 rounded-2xl border border-border/80 bg-card/80 p-3 shadow-sm backdrop-blur-sm sm:p-4"
+                  className="flex items-center gap-3 rounded-md border border-border/80 bg-card p-3 sm:p-4"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/80 bg-muted/30">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border/80 bg-muted/30">
                     <Icon className="h-5 w-5 text-primary" aria-hidden />
                   </div>
                   <span className="text-left text-sm font-medium text-foreground">
@@ -178,7 +173,7 @@ const AboutClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-t border-border/60 bg-gradient-to-b from-muted/[0.12] via-background to-background"
+        className="section-edge w-full home-tint"
         aria-labelledby="about-origin-heading"
       >
         <div className="section-full py-14 md:py-20 2xl:py-24">

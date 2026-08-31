@@ -6,8 +6,10 @@ import {
   GitBranch,
   Layers,
 } from "lucide-react";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { HomeHeroTrustMarquee } from "@/components/HomeHeroTrustMarquee";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
+import { MarketingSection } from "@/components/marketing/MarketingSection";
 import {
   MCP_BUILDING_TOWARD,
   MCP_COMPARE_LINKS,
@@ -16,10 +18,7 @@ import {
   MCP_SHIPS_TODAY,
   MCP_WORKFLOW_FRAMES,
 } from "@/lib/mcp-page";
-import {
-  marketingEyebrowClass,
-  marketingSectionH2Class,
-} from "@/lib/marketing-typography";
+import { marketingSectionH2Class } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
@@ -118,53 +117,43 @@ function McpStepsPipeline() {
 function SectionShell({
   labelledBy,
   children,
-  className,
+  surface = "canvas",
 }: {
   labelledBy: string;
   children: ReactNode;
   className?: string;
+  surface?: "canvas" | "tint" | "navy";
 }) {
   return (
-    <section
-      className={cn(
-        "section-edge relative w-full overflow-hidden border-t border-border/60 bg-background",
-        className,
-      )}
+    <MarketingSection
+      surface={surface}
       aria-labelledby={labelledBy}
     >
-      <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
-        {children}
-      </div>
-    </section>
+      {children}
+    </MarketingSection>
   );
 }
 
 export function McpGapSection() {
   return (
-    <section
-      className="relative w-full overflow-hidden section-edge"
-      aria-labelledby="mcp-gap-heading"
-    >
-      <div className="section-navy w-full">
-        <div className="section-full relative py-8 sm:py-10 md:py-12">
-          <div
-            className="pointer-events-none absolute inset-0 bg-structured-grid opacity-10"
-            aria-hidden
-          />
-          <p className="relative z-10 mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/60">
-            The gap
-          </p>
-          <h2
-            id="mcp-gap-heading"
-            className={cn(marketingSectionH2Class, "relative z-10 text-left")}
-          >
-            Agents Made Code Cheap.{" "}
-            <span className="text-primary-foreground">Verification Got Costly.</span>
-          </h2>
-        </div>
-      </div>
+    <>
+      <MarketingSection
+        surface="navy"
+        glow="top"
+        paddingClassName="py-8 sm:py-10 md:py-12"
+        aria-labelledby="mcp-gap-heading"
+      >
+        <HomeEyebrow invert>The gap</HomeEyebrow>
+        <h2
+          id="mcp-gap-heading"
+          className={cn(marketingSectionH2Class, "text-left")}
+        >
+          Agents Made Code Cheap.{" "}
+          <span className="text-primary-foreground">Verification Got Costly.</span>
+        </h2>
+      </MarketingSection>
       <div
-        className="w-full border-y border-border bg-background"
+        className="w-full home-canvas"
         aria-label="Verification gap"
       >
         <div className="section-full flex w-full overflow-x-auto">
@@ -187,17 +176,13 @@ export function McpGapSection() {
           ))}
         </div>
       </div>
-    </section>
+    </>
   );
 }
 
 export function McpProblemOutcomeSection() {
   return (
-    <section
-      className="section-edge w-full border-t border-border/60 bg-background"
-      aria-labelledby="mcp-problem-outcome-heading"
-    >
-      <div className="section-full py-12 md:py-16 2xl:py-20">
+    <MarketingSection aria-labelledby="mcp-problem-outcome-heading">
         <MarketingSectionHeader
           id="mcp-problem-outcome-heading"
           eyebrow="Before the PR"
@@ -229,24 +214,18 @@ export function McpProblemOutcomeSection() {
             </article>
           ))}
         </div>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 
 export function McpStepsSection() {
   return (
-    <section
-      className="relative overflow-hidden border-t border-border/60 bg-dot-pattern-subtle section-edge w-full"
+    <MarketingSection
+      surface="tint"
       aria-labelledby="mcp-steps-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary-light/25 via-transparent to-transparent"
-        aria-hidden
-      />
-      <div className="section-full relative py-12 md:py-14 2xl:py-16">
         <header className="mb-10 md:mb-12">
-          <p className={cn(marketingEyebrowClass, "text-left")}>In your editor</p>
+          <HomeEyebrow>In your editor</HomeEyebrow>
           <h2
             id="mcp-steps-heading"
             className={cn(marketingSectionH2Class, "text-left")}
@@ -255,18 +234,13 @@ export function McpStepsSection() {
           </h2>
         </header>
         <McpStepsPipeline />
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 
 export function McpWorkflowSection() {
   return (
-    <section
-      className="section-edge w-full border-t border-border/60 bg-background"
-      aria-labelledby="mcp-workflow-heading"
-    >
-      <div className="section-full py-12 md:py-16 2xl:py-20">
+    <MarketingSection aria-labelledby="mcp-workflow-heading">
         <MarketingSectionHeader
           id="mcp-workflow-heading"
           eyebrow="One session"
@@ -313,22 +287,16 @@ export function McpWorkflowSection() {
             );
           })}
         </div>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 
 export function McpDifferentiatorsSection() {
   return (
-    <section
-      className="relative overflow-hidden section-edge w-full border-t border-border/60 section-cream"
+    <MarketingSection
+      surface="tint"
       aria-labelledby="mcp-differentiators-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-[0.15]"
-        aria-hidden
-      />
-      <div className="section-full relative py-12 md:py-16 2xl:py-20">
         <MarketingSectionHeader
           id="mcp-differentiators-heading"
           eyebrow="Why QApilot MCP"
@@ -373,18 +341,13 @@ export function McpDifferentiatorsSection() {
             </Fragment>
           ))}
         </p>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 
 export function McpPrinciplesSection() {
   return (
-    <section
-      className="section-edge w-full border-t border-border/60 bg-background"
-      aria-labelledby="mcp-principles-heading"
-    >
-      <div className="section-full py-12 md:py-16 2xl:py-20">
+    <MarketingSection aria-labelledby="mcp-principles-heading">
         <MarketingSectionHeader
           id="mcp-principles-heading"
           eyebrow="Ships in early access"
@@ -412,18 +375,13 @@ export function McpPrinciplesSection() {
             </article>
           ))}
         </div>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 
 export function McpRoadmapSection() {
   return (
-    <section
-      className="relative isolate overflow-hidden section-cream section-edge w-full border-t border-border/60"
-      aria-labelledby="mcp-roadmap-heading"
-    >
-      <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
+    <MarketingSection surface="tint" aria-labelledby="mcp-roadmap-heading">
         <MarketingSectionHeader
           id="mcp-roadmap-heading"
           eyebrow="Building toward"
@@ -438,34 +396,27 @@ export function McpRoadmapSection() {
           {MCP_BUILDING_TOWARD.map((item) => (
             <span
               key={item}
-              className="inline-flex rounded-full border border-border/80 bg-card px-3.5 py-1.5 text-xs font-semibold text-foreground sm:px-4 sm:py-2 sm:text-sm"
+              className="inline-flex rounded-md border border-border/80 bg-card px-3.5 py-1.5 text-xs font-semibold text-foreground sm:px-4 sm:py-2 sm:text-sm"
             >
               {item}
             </span>
           ))}
         </div>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 
 export function McpScopeSection() {
   return (
-    <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/60 section-navy"
+    <MarketingSection
+      surface="navy"
+      glow="right"
       aria-labelledby="mcp-scope-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-structured-grid opacity-10"
-        aria-hidden
-      />
-      <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/50">
-          Two jobs
-        </p>
+        <HomeEyebrow invert>Two jobs</HomeEyebrow>
         <h2
           id="mcp-scope-heading"
-          className={cn(marketingSectionH2Class, "mb-8 text-white md:mb-10")}
+          className={cn(marketingSectionH2Class, "mb-8 md:mb-10")}
         >
           Verify The Change.{" "}
           <span className="text-primary-foreground">Certify The Release.</span>
@@ -503,8 +454,7 @@ export function McpScopeSection() {
         <p className="mt-6 text-sm font-medium text-white/70 md:text-base">
           Same engine. Wider job.
         </p>
-      </div>
-    </section>
+    </MarketingSection>
   );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { HomeHeroAtmosphere } from "@/components/home/HomeHeroAtmosphere";
 import { ProductOrbitalVisual } from "@/components/product/ProductOrbitalVisual";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { BOOK_DEMO_CALENDAR_URL } from "@/lib/constants";
@@ -8,7 +9,8 @@ import { cn } from "@/lib/utils";
 
 const ProductHeroSection = () => {
   return (
-    <section className="relative flex min-h-screen w-full items-center justify-center section-edge py-20 pb-8">
+    <section className="relative flex min-h-[calc(100dvh-4.375rem)] w-full items-center justify-center section-edge home-canvas py-20 pb-8">
+      <HomeHeroAtmosphere />
       <div className="section-full relative z-10 mx-auto max-w-screen-xl">
         <div className="mb-16 text-left">
           <h1 className={cn(marketingHeroH1Class, "mb-8")}>
@@ -23,8 +25,7 @@ const ProductHeroSection = () => {
           <ProductOrbitalVisual />
 
           <div className="relative mx-auto max-w-4xl animate-fade-in" style={{ animationDelay: "2.0s" }}>
-            <div className="relative rounded-2xl border border-border bg-card p-6 transition-all duration-500 hover:scale-[1.01] hover:shadow-glow sm:p-8">
-              <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 bg-[length:200%_100%] opacity-30 animate-[shimmer_3s_ease-in-out_infinite]" />
+            <div className="relative rounded-md border border-border bg-card p-6 sm:p-8">
 
               <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                 <div className="flex-1 animate-fade-in text-left" style={{ animationDelay: "2.2s" }}>
@@ -37,7 +38,7 @@ const ProductHeroSection = () => {
                 <div className="flex-shrink-0 animate-fade-in" style={{ animationDelay: "2.4s" }}>
                   <Button
                     asChild
-                    className="relative overflow-hidden rounded-full bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-glow"
+                    className="relative overflow-hidden rounded-md bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground hover:bg-primary/90"
                   >
                     <a
                       href={BOOK_DEMO_CALENDAR_URL}

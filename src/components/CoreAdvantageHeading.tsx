@@ -5,7 +5,8 @@ import { useNearViewport } from "@/hooks/use-near-viewport";
 import Link from "next/link";
 import { Network } from "lucide-react";
 import { AbstractFrameBackdrop } from "@/components/marketing/AbstractFrameBackdrop";
-import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { HomeDarkAtmosphere } from "@/components/home/HomeDarkAtmosphere";
+import { HomeSeam } from "@/components/home/HomeSeam";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import { marketingSectionIntroClass } from "@/lib/marketing-typography";
 import { PATHS, PLATFORM_BY_SOLUTION } from "@/lib/routes";
@@ -190,142 +191,6 @@ const TABS: TabItem[] = TAB_DEFINITIONS.map((tab) => ({
   knowMoreHref: knowMoreHrefForSolutionLabel(tab.label),
 }));
 
-/** Cream section atmosphere aligned with hero: gradients, grid, corner orbs, rings. */
-function DeliverSectionBackgroundDecor() {
-  return (
-    <div
-      className="pointer-events-none absolute inset-0 z-[1] min-h-full overflow-hidden"
-      aria-hidden
-    >
-      <div className="absolute inset-0 bg-deliver-section-gradient" />
-      <div className="absolute inset-0 bg-deliver-diagonal-grid" />
-      <div className="absolute inset-0 bg-dot-pattern-subtle opacity-[0.2] [mask-image:radial-gradient(ellipse_68%_70%_at_50%_48%,transparent_30%,black_100%)] [-webkit-mask-image:radial-gradient(ellipse_68%_70%_at_50%_48%,transparent_30%,black_100%)]" />
-      <div className="absolute inset-0 bg-deliver-section-grain" />
-      <div className="deliver-section-vignette" />
-
-      {/* Corner orbs. Kept to edges so center stays clean cream */}
-      <span
-        className="hero-corner-orb absolute -left-10 top-0 hidden h-56 w-56 rounded-full bg-primary/5 md:block sm:left-0 sm:h-52 sm:w-52"
-        style={{ boxShadow: "0 0 100px 70px hsl(218 65% 28% / 0.09)" }}
-      />
-      <span
-        className="hero-corner-orb absolute -right-8 bottom-0 hidden h-52 w-52 rounded-full bg-primary/[0.07] md:block sm:right-0 sm:bottom-0"
-        style={{
-          boxShadow: "0 0 90px 60px hsl(218 65% 28% / 0.14)",
-          animationDelay: "-6s",
-        }}
-      />
-
-      <svg
-        className="absolute right-0 top-[4%] h-auto w-[min(42vw,360px)] max-w-none text-primary opacity-[0.13] sm:w-[min(38vw,320px)]"
-        viewBox="0 0 400 400"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="280"
-          cy="120"
-          r="160"
-          stroke="currentColor"
-          strokeWidth="1.15"
-        />
-        <circle
-          cx="280"
-          cy="120"
-          r="120"
-          stroke="currentColor"
-          strokeWidth="0.95"
-          opacity="0.85"
-        />
-        <circle
-          cx="280"
-          cy="120"
-          r="85"
-          stroke="currentColor"
-          strokeWidth="0.8"
-          opacity="0.72"
-        />
-        <circle
-          cx="280"
-          cy="120"
-          r="52"
-          stroke="currentColor"
-          strokeWidth="0.65"
-          opacity="0.58"
-        />
-      </svg>
-
-      <svg
-        className="absolute bottom-[6%] left-0 w-[min(46vw,380px)] text-foreground opacity-[0.09]"
-        viewBox="0 0 360 280"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0 220 Q 100 80 320 20"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-        <path
-          d="M20 260 Q 130 130 340 70"
-          stroke="currentColor"
-          strokeWidth="0.85"
-          strokeLinecap="round"
-          opacity="0.8"
-        />
-      </svg>
-
-      <svg
-        className="absolute left-[2%] top-[34%] hidden h-36 w-36 text-primary opacity-[0.11] md:block lg:left-[4%]"
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="50" cy="18" r="4" fill="currentColor" />
-        <circle cx="82" cy="50" r="3.5" fill="currentColor" opacity="0.88" />
-        <circle cx="50" cy="82" r="4" fill="currentColor" opacity="0.75" />
-        <circle cx="18" cy="50" r="3" fill="currentColor" opacity="0.82" />
-        <path
-          d="M50 22 L79 47 M50 78 L79 53 M50 22 L21 47 M50 78 L21 53"
-          stroke="currentColor"
-          strokeWidth="0.6"
-          opacity="0.65"
-        />
-      </svg>
-
-      <svg
-        className="absolute right-[3%] top-[38%] hidden h-32 w-32 text-primary opacity-[0.085] lg:block"
-        viewBox="0 0 88 88"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="10"
-          y="10"
-          width="68"
-          height="68"
-          rx="10"
-          stroke="currentColor"
-          strokeWidth="1"
-          transform="rotate(14 44 44)"
-        />
-        <rect
-          x="22"
-          y="22"
-          width="44"
-          height="44"
-          rx="7"
-          stroke="currentColor"
-          strokeWidth="0.72"
-          opacity="0.75"
-          transform="rotate(14 44 44)"
-        />
-      </svg>
-    </div>
-  );
-}
-
 /**
  * Core advantage: heading, crawler card, and capability tabs (merged former Deliver section).
  */
@@ -340,12 +205,12 @@ const CoreAdvantageHeading = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate overflow-hidden section-cream section-edge w-full"
+      className="relative isolate overflow-hidden home-canvas section-edge w-full"
       aria-labelledby="core-advantage-heading"
     >
-      <DeliverSectionBackgroundDecor />
+      <HomeSeam />
 
-      <div className="section-full relative z-10 pt-10 md:pt-14 2xl:pt-16 pb-16 md:pb-20 2xl:pb-24">
+      <div className="section-full relative z-10 pt-20 md:pt-28 lg:pt-36 pb-16 md:pb-20 2xl:pb-24">
         <MarketingSectionHeader
           id="core-advantage-heading"
           eyebrow="Platform"
@@ -360,11 +225,8 @@ const CoreAdvantageHeading = () => {
         />
 
         {/* Crawler card. Same navy as QApilot By The Numbers banner */}
-        <article className="section-navy relative z-[1] w-full overflow-hidden rounded-xl border border-white/15 shadow-md">
-          <div
-            className="absolute inset-0 bg-structured-grid opacity-10 pointer-events-none"
-            aria-hidden="true"
-          />
+        <article className="section-navy relative z-[1] w-full overflow-hidden rounded-md border border-white/10">
+          <HomeDarkAtmosphere glow="top-right" />
 
           {/* White L-frames inset inside the card */}
           <svg
@@ -401,7 +263,7 @@ const CoreAdvantageHeading = () => {
           </svg>
 
           <div className="relative z-[2] flex flex-col gap-5 px-5 py-6 sm:px-6 sm:py-8 md:flex-row md:items-start md:gap-6 md:px-8 md:py-8 2xl:px-10 2xl:py-10">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white/10 text-primary-foreground md:h-14 md:w-14">
+            <div className="flex h-10 w-12 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/10 text-primary-foreground md:h-12 md:w-12">
               <Network
                 className="h-6 w-6 md:h-7 md:w-7"
                 strokeWidth={1.5}
@@ -435,7 +297,7 @@ const CoreAdvantageHeading = () => {
 
         {/* Capability tabs + panel */}
         <div
-          className="relative z-[1] mt-10 md:mt-12 2xl:mt-14 mb-8 md:mb-10 flex gap-2 overflow-x-auto pb-2 md:flex-wrap md:justify-center md:gap-3 md:overflow-visible md:pb-0 scrollbar-thin [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="relative z-[1] mt-10 md:mt-12 2xl:mt-14 mb-0 flex gap-0 overflow-x-auto border-x border-t border-b border-border scrollbar-thin [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           role="tablist"
           aria-label="Product capabilities"
         >
@@ -450,10 +312,10 @@ const CoreAdvantageHeading = () => {
                 aria-controls={`deliver-panel-${tab.id}`}
                 id={`deliver-tab-${tab.id}`}
                 onClick={() => setActive(i)}
-                className={`shrink-0 rounded-xl border px-4 py-2.5 text-left text-sm font-semibold transition-all duration-200 md:px-5 md:py-3 md:text-center ${
+                className={`shrink-0 border-b-2 px-3.5 py-3 text-left text-sm font-semibold transition-colors md:px-4 md:py-3.5 ${
                   isActive
-                    ? "border-primary bg-primary text-primary-foreground shadow-md shadow-primary/15"
-                    : "border-border bg-card text-muted-foreground shadow-sm hover:border-primary/35 hover:bg-muted hover:text-foreground"
+                    ? "border-primary text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {tab.label}
@@ -466,17 +328,11 @@ const CoreAdvantageHeading = () => {
           role="tabpanel"
           id={`deliver-panel-${current.id}`}
           aria-labelledby={`deliver-tab-${current.id}`}
-          className="relative z-[1] overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_48px_-12px_hsl(220_20%_12%/0.08)]"
+          className="relative z-[1] overflow-hidden rounded-none border-x border-b border-border bg-card"
         >
           {/* S04/S07: copy column; product media from lg up */}
           <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
-            <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden bg-muted px-6 py-8 md:px-8 md:py-10 lg:border-r lg:px-10 lg:py-10 lg:flex-[0_0_38%]">
-              {/* `soft` only. Full `hero` stacks 8× backdrop-filter layers that read as fog over this copy */}
-              <MarketingBackground variant="soft" />
-              <div
-                className="pointer-events-none absolute inset-0 bg-muted/88"
-                aria-hidden
-              />
+            <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden bg-[hsl(var(--home-tint))] px-6 py-8 md:px-8 md:py-10 lg:border-r lg:px-10 lg:py-10 lg:flex-[0_0_38%]">
               <div
                 key={current.id}
                 className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"

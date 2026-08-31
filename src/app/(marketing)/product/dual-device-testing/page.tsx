@@ -27,7 +27,7 @@ export const revalidate = 300;
 
 export default function DualDeviceTestingPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

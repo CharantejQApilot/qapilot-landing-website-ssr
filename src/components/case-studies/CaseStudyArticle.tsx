@@ -13,9 +13,11 @@ import {
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CaseStudyHero } from "@/components/case-studies/CaseStudyHero";
 import { CaseStudyPhoneScreenshot, GemlAppMock } from "@/components/case-studies/CaseStudyPhoneFrame";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import {
   MarketingLedger,
   MarketingLedgerCell,
+  MarketingSection,
   MarketingSectionHeader,
 } from "@/components/marketing";
 import { CASE_STUDIES, caseStudyPath, type CaseStudy } from "@/lib/case-studies-data";
@@ -29,7 +31,7 @@ function CaseStudyLogo({ study, className }: { study: CaseStudy; className?: str
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-center rounded-2xl border border-border/70 bg-gradient-to-br from-muted/50 via-background to-background px-8 py-10",
+        "flex w-full items-center justify-center rounded-md border border-border/70 bg-card px-8 py-10",
         className,
       )}
     >
@@ -151,22 +153,16 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
         </div>
       </CaseStudyHero>
 
-      <section
-        className="relative w-full overflow-hidden section-edge"
+      <MarketingSection
+        surface="navy"
+        glow="top"
+        paddingClassName="py-8 sm:py-10 md:py-12 2xl:py-16"
         aria-labelledby={`${study.slug}-metrics`}
       >
-        <div className="section-navy w-full">
-          <div className="section-full relative py-8 sm:py-10 md:py-12 2xl:py-16">
-            <div
-              className="pointer-events-none absolute inset-0 bg-structured-grid opacity-10"
-              aria-hidden
-            />
-            <p className="relative z-10 mb-3 text-left text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/60 md:mb-4">
-              Results
-            </p>
+            <HomeEyebrow invert>Results</HomeEyebrow>
             <h2
               id={`${study.slug}-metrics`}
-              className={cn(marketingSectionH2Class, "relative z-10 mb-6 text-left md:mb-8")}
+              className={cn(marketingSectionH2Class, "mb-6 text-left md:mb-8")}
             >
               Results by the numbers
             </h2>
@@ -182,11 +178,10 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
                 </div>
               ))}
             </dl>
-          </div>
-        </div>
+      </MarketingSection>
 
         <div
-          className="w-full border-y border-border bg-background"
+          className="w-full home-canvas"
           aria-label={`Key results for ${study.clientName}`}
         >
           <div className="section-full flex w-full overflow-x-auto">
@@ -209,17 +204,10 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
             ))}
           </div>
         </div>
-      </section>
 
-      <section
-        className="relative overflow-hidden border-t border-border/60 bg-dot-pattern-subtle section-edge w-full"
+      <MarketingSection
         aria-labelledby={`${study.slug}-about`}
       >
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary-light/30 via-transparent to-transparent"
-          aria-hidden
-        />
-        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-about`}
             eyebrow="About the project"
@@ -252,7 +240,7 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
           </div>
 
           <dl
-            className="mt-8 grid overflow-hidden rounded-2xl border border-border/80 bg-card sm:mt-10 md:grid-cols-4"
+            className="mt-8 grid overflow-hidden rounded-md border border-border/80 bg-card sm:mt-10 md:grid-cols-4"
             aria-label={`${study.clientName} snapshot`}
           >
             {aboutFacts.map((fact, index) => (
@@ -272,18 +260,12 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
               </div>
             ))}
           </dl>
-        </div>
-      </section>
+      </MarketingSection>
 
-      <section
-        className="relative overflow-hidden border-t border-border/60 bg-background section-edge w-full"
+      <MarketingSection
+        surface="tint"
         aria-labelledby={`${study.slug}-impact`}
       >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.08),transparent_55%)]"
-          aria-hidden
-        />
-        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-impact`}
             eyebrow="Impact"
@@ -296,7 +278,7 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
           />
 
           <div
-            className="overflow-hidden rounded-2xl border border-border/80"
+            className="overflow-hidden rounded-md border border-border/80"
             role="list"
             aria-label={`Before and after QApilot for ${study.clientName}`}
           >
@@ -358,14 +340,12 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
               </article>
             ))}
           </div>
-        </div>
-      </section>
+      </MarketingSection>
 
-      <section
-        className="relative overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background section-edge w-full"
+      <MarketingSection
+        surface="canvas"
         aria-labelledby={`${study.slug}-approach`}
       >
-        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-approach`}
             eyebrow="Our approach"
@@ -436,18 +416,12 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
               ))}
             </MarketingLedger>
           </div>
-        </div>
-      </section>
+      </MarketingSection>
 
-      <section
-        className="relative overflow-hidden border-t border-border bg-background section-edge w-full"
+      <MarketingSection
+        surface="tint"
         aria-labelledby={`${study.slug}-delivered`}
       >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.08),transparent_55%)]"
-          aria-hidden
-        />
-        <div className="section-full relative z-10 py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-delivered`}
             eyebrow="What QApilot delivered"
@@ -510,25 +484,14 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
               );
             })}
           </MarketingLedger>
-        </div>
-      </section>
+      </MarketingSection>
 
-      <section
-        className="section-navy relative section-edge w-full overflow-hidden border-t border-white/10"
+      <MarketingSection
+        surface="navy"
+        glow="bottom-right"
         aria-labelledby={`${study.slug}-close`}
       >
-        <div
-          className="pointer-events-none absolute inset-0 bg-structured-grid opacity-10"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-20"
-          aria-hidden
-        />
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-primary-foreground/55 md:mb-4">
-            Next
-          </p>
+          <HomeEyebrow invert>Next</HomeEyebrow>
           <h2
             id={`${study.slug}-close`}
             className={cn(
@@ -548,14 +511,11 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
               Talk to QApilot
             </BookDemoCtaButton>
           </div>
-        </div>
-      </section>
+      </MarketingSection>
 
-      <section
-        className="relative overflow-hidden border-t border-border/60 bg-background section-edge w-full"
+      <MarketingSection
         aria-labelledby={`${study.slug}-more`}
       >
-        <div className="section-full py-12 md:py-16 2xl:py-20">
           <MarketingSectionHeader
             id={`${study.slug}-more`}
             eyebrow="More stories"
@@ -575,7 +535,7 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
                 href={caseStudyPath(other.slug)}
                 aria-label={`${other.clientName} case study — ${other.about.industry}`}
                 className={cn(
-                  "group relative flex w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 text-left transition",
+                  "group relative flex w-full min-w-0 flex-col overflow-hidden rounded-md border border-border/70 text-left transition",
                   "bg-gradient-to-br from-muted/50 via-background to-background",
                   "hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2",
                 )}
@@ -632,7 +592,7 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
                   <Link
                     href={link.href}
                     className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-card px-3.5 py-1.5 text-sm font-semibold text-foreground shadow-sm",
+                      "inline-flex items-center gap-1.5 rounded-md border border-border/80 bg-card px-3.5 py-1.5 text-sm font-semibold text-foreground shadow-sm",
                       "transition-colors hover:border-primary/40 hover:text-primary",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35",
                     )}
@@ -644,8 +604,7 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
               ))}
             </ul>
           </div>
-        </div>
-      </section>
+      </MarketingSection>
     </main>
   );
 }

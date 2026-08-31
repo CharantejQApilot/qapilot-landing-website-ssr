@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
  * Fixed box metrics for home hero CTAs. Padding-based sizing caused height drift between buttons.
  */
 export const homeHeroCtaBoxClass = cn(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl font-semibold leading-none",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md font-semibold leading-none",
   "h-12 min-h-12 px-7 text-base",
   "sm:h-14 sm:min-h-14 sm:px-9",
   "lg:text-lg",
@@ -15,8 +15,8 @@ export const homeHeroCtaBoxClass = cn(
 );
 
 const homeHeroCtaPrimaryClass = cn(
-  "border-0 bg-primary text-primary-foreground shadow-md shadow-primary/20 transition-shadow",
-  "hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25",
+  "border-0 bg-primary text-primary-foreground shadow-none transition-colors",
+  "hover:bg-primary/90",
 );
 
 const homeHeroCtaInverseClass = cn(

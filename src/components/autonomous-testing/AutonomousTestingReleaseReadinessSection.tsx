@@ -6,7 +6,7 @@ export function AutonomousTestingReleaseReadinessSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 section-cream"
       aria-labelledby="autonomous-release-heading"
     >
-      <div className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle" aria-hidden />
+      <div className="pointer-events-none absolute inset-0" aria-hidden />
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <svg className="absolute inset-0 h-full w-full opacity-[0.09]" xmlns="http://www.w3.org/2000/svg">
           <defs>

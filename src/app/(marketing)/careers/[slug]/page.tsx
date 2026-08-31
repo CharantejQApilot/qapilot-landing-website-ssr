@@ -306,7 +306,7 @@ export default async function JobPostPage({
   ]);
 
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -316,15 +316,10 @@ export default async function JobPostPage({
 
       <main>
         <section
-          className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
+        className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible home-canvas"
           aria-labelledby="job-hero-title"
         >
-          <MarketingBackground
-            variant="hero"
-            showDiagonalGrid={false}
-            showPixelRipple={false}
-            progressiveBlur={false}
-          />
+          <MarketingBackground variant="hero" />
           <div className="relative z-10 w-full section-full py-14 sm:py-16 md:py-20 lg:py-24">
             <div className="mx-auto w-full max-w-6xl px-3 sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
               <Link
@@ -336,10 +331,10 @@ export default async function JobPostPage({
               </Link>
 
               <div className="mb-4 flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+                <span className="rounded-md border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
                   {job.department}
                 </span>
-                <span className="rounded-full border border-border/80 bg-muted/50 px-3 py-1 text-sm font-medium text-muted-foreground">
+                <span className="rounded-md border border-border/80 bg-muted/50 px-3 py-1 text-sm font-medium text-muted-foreground">
                   {getEmploymentTypeLabel(job.employment_type)}
                 </span>
               </div>

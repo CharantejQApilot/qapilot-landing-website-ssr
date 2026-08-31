@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { Smartphone, Layers, CodeXml, Cpu } from "lucide-react";
+import { HomeSeam } from "@/components/home/HomeSeam";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 
 function AppleIcon({ className }: { className?: string }) {
@@ -55,8 +56,8 @@ function PlatformTile({ p }: { p: Platform }) {
   const isApple = p.id === "ios";
 
   return (
-    <div className="sig-cell group relative flex h-full min-h-0 flex-col justify-between transition-colors duration-200 hover:bg-muted/40">
-      <div className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted/80 text-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary md:h-11 md:w-11">
+    <div className="sig-cell group relative flex h-full min-h-0 flex-col justify-between transition-colors duration-200 hover:bg-muted/30">
+      <div className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-foreground transition-colors group-hover:border-primary/30 group-hover:text-primary md:h-11 md:w-11">
         {isApple ? (
           <AppleIcon className="h-5 w-5 md:h-6 md:w-6" />
         ) : (
@@ -83,15 +84,12 @@ function PlatformTile({ p }: { p: Platform }) {
 const ModernFrameworksSection = () => {
   return (
     <section
-      className="relative overflow-hidden border-t border-border bg-background section-edge w-full"
+      className="relative overflow-hidden home-canvas section-edge w-full"
       aria-labelledby="frameworks-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.08),transparent_55%)]"
-        aria-hidden
-      />
+      <HomeSeam />
 
-      <div className="section-full relative z-10 pt-10 md:pt-14 2xl:pt-16 pb-[2.8rem] md:pb-14 2xl:pb-[4.2rem]">
+      <div className="section-full relative z-10 pt-16 md:pt-20 lg:pt-24 pb-16 md:pb-20 2xl:pb-24">
         <MarketingSectionHeader
           id="frameworks-heading"
           eyebrow="Compatibility"

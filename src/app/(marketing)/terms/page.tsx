@@ -76,7 +76,7 @@ export default async function TermsPage() {
 
             <div className="max-w-none">
               <div
-                className="prose prose-slate max-w-none rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12"
+                className="prose prose-slate max-w-none rounded-md border border-border bg-card p-6 sm:p-8 lg:p-12"
                 dangerouslySetInnerHTML={{
                   __html: sanitizeRichText(content, "html"),
                 }}

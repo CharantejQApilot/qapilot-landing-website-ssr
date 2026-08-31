@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { Button } from "@/components/ui/button";
 import { PATHS } from "@/lib/routes";
 
@@ -18,10 +17,9 @@ const CAPABILITIES = [
 export function AutonomousTestingAgentsSection() {
   return (
     <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
+      className="section-edge relative w-full overflow-hidden home-canvas"
       aria-labelledby="autonomous-agents-heading"
     >
-      <MarketingBackground variant="hero" showDiagonalGrid={false} />
 
       <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
         <MarketingSectionHeader

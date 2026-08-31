@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
 import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
-import { MarketingSectionHeader } from "@/components/marketing";
+import {
+  MarketingCloseCta,
+  MarketingSection,
+  MarketingSectionHeader,
+} from "@/components/marketing";
 import { MarketingLedger, MarketingLedgerCell } from "@/components/marketing/MarketingLedger";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { COMPARE_FAQS } from "@/lib/compare-faqs";
@@ -165,7 +168,7 @@ export const revalidate = 300;
 
 export default function QApilotVsAppiumComparisonPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -200,15 +203,12 @@ export default function QApilotVsAppiumComparisonPage() {
           }
         />
 
-        <div className="section-edge w-full border-b border-border/50 bg-background">
-          <div className="section-full py-6 md:py-8">
+        <MarketingSection paddingClassName="py-6 md:py-8">
             <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
-          </div>
-        </div>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
-            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+        <MarketingSection surface="tint">
+            <div className="grid gap-0 overflow-hidden rounded-md border border-border/60 md:grid-cols-2">
               {heroComparisonCards.map((card, index) => (
                 <article
                   key={card.title}
@@ -258,11 +258,9 @@ export default function QApilotVsAppiumComparisonPage() {
               }
               marginBottomClassName="mb-0 mt-12 md:mt-14"
             />
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="appium-hard-to-scale"
               title={
@@ -283,11 +281,9 @@ export default function QApilotVsAppiumComparisonPage() {
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="appium-flutter-gap"
               title={
@@ -313,7 +309,7 @@ export default function QApilotVsAppiumComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+            <div className="grid gap-0 overflow-hidden rounded-md border border-border/60 md:grid-cols-2">
               <article className="border-b border-border/60 p-6 md:border-b-0 md:border-r md:p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Appium</p>
                 <p className="mt-3 font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
@@ -327,11 +323,9 @@ export default function QApilotVsAppiumComparisonPage() {
                 </p>
               </article>
             </div>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/10 to-background py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="comparison-table"
               title={
@@ -343,11 +337,9 @@ export default function QApilotVsAppiumComparisonPage() {
             />
 
             <CompareMatrixTable competitorName="Appium" rows={comparisonRows} />
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="what-qapilot-brings"
               title={
@@ -368,11 +360,9 @@ export default function QApilotVsAppiumComparisonPage() {
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="journeys-not-steps"
               title={
@@ -395,7 +385,7 @@ export default function QApilotVsAppiumComparisonPage() {
               marginBottomClassName="mb-8 md:mb-10"
             />
 
-            <div className="overflow-hidden rounded-2xl border border-border/60 bg-card/85 p-6 md:p-8">
+            <div className="overflow-hidden rounded-md border border-border/60 bg-card/85 p-6 md:p-8">
               <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
                 When QApilot Is The <span className="text-primary">Better Fit</span>
               </h3>
@@ -437,27 +427,19 @@ export default function QApilotVsAppiumComparisonPage() {
               </Link>
               .
             </p>
-          </div>
-        </section>
+        </MarketingSection>
 
         <CompareFaqSection faqs={faqs} />
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full">
-            <div className="sig-close">
-            <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
+        <MarketingCloseCta
+          title={
+            <>
               Ready To Move Beyond <span className="text-primary">Scripted Mobile Automation</span>?
-            </h2>
-            <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
-              QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across real
-              devices, and understand release readiness with mobile app context.
-            </p>
-            <div className="sig-cta-row">
-              <BookDemoCtaButton />
-            </div>
-            </div>
-          </div>
-        </section>
+            </>
+          }
+          lead={<>QApilot helps mobile teams generate coverage faster, reduce maintenance, execute across real
+              devices, and understand release readiness with mobile app context.</>}
+        />
       </main>
 
     </div>

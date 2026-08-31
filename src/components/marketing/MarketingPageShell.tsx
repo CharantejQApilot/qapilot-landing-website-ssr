@@ -4,11 +4,10 @@ import {
   type MarketingBackgroundVariant,
 } from "./MarketingBackground";
 
-/** Passed to `MarketingBackground` when `background="hero"` (e.g. match home hero: no diagonal grid + pixel ripple). */
+/** @deprecated Hero atmosphere lives on the hero band, not the page shell. */
 export type MarketingHeroBackgroundOptions = {
   showDiagonalGrid?: boolean;
   showPixelRipple?: boolean;
-  /** When false, skips stacked viewport blur layers (matches home hero). */
   progressiveBlur?: boolean;
 };
 
@@ -19,33 +18,27 @@ type MarketingPageShellProps = {
   className?: string;
   /** Applied to the content wrapper above the background (e.g. contain-layout). */
   contentClassName?: string;
-  /** Only applies when `background="hero"`. */
+  /** @deprecated Ignored. Hero atmosphere is per-hero. */
   heroBackgroundOptions?: MarketingHeroBackgroundOptions;
 };
 
 /**
- * Standard marketing page wrapper: min-height, optional unified background, content above layers.
+ * Marketing page wrapper. White canvas like home. Heroes paint their own grid.
  */
 export function MarketingPageShell({
   children,
-  background = "hero",
+  background = "none",
   className,
   contentClassName,
-  heroBackgroundOptions,
 }: MarketingPageShellProps) {
   return (
     <div
       className={cn(
-        "relative isolate z-0 min-h-screen bg-background",
+        "relative isolate z-0 min-h-screen home-canvas",
         className,
       )}
     >
-      {background !== "none" ? (
-        <MarketingBackground
-          variant={background}
-          {...(background === "hero" ? (heroBackgroundOptions ?? {}) : {})}
-        />
-      ) : null}
+      {background === "hero" ? <MarketingBackground variant="hero" /> : null}
       <div className={cn("relative z-10", contentClassName)}>{children}</div>
     </div>
   );

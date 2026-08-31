@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { MarketingBackground } from "@/components/marketing/MarketingBackground";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
+import { HomeHeroAtmosphere } from "@/components/home/HomeHeroAtmosphere";
 import {
   marketingHeroH1Class,
   marketingHeroLeadClass,
@@ -17,6 +18,8 @@ type MarketingThesisHeroProps = {
   /** Extra paragraphs / supporting copy under the lead */
   children?: ReactNode;
   cta?: ReactNode;
+  /** Optional mark between eyebrow and H1 (e.g. integration logo). */
+  beforeTitle?: ReactNode;
   /** Optional right-column media (S01 split). */
   media?: ReactNode;
   /** Match home / compare viewport height treatment */
@@ -28,6 +31,7 @@ type MarketingThesisHeroProps = {
 
 /**
  * S01 thesis hero. Left-aligned copy; optional media from lg up.
+ * Same white canvas + grid scan as the home hero.
  */
 export function MarketingThesisHero({
   ariaLabel,
@@ -37,6 +41,7 @@ export function MarketingThesisHero({
   lead,
   children,
   cta,
+  beforeTitle,
   media,
   fillViewport = false,
   paddingClassName,
@@ -49,11 +54,8 @@ export function MarketingThesisHero({
         media && "lg:max-w-none",
       )}
     >
-      {eyebrow ? (
-        <p className="mb-3 w-full text-xs font-semibold uppercase tracking-[0.22em] text-primary/90 sm:mb-4">
-          {eyebrow}
-        </p>
-      ) : null}
+      {eyebrow ? <HomeEyebrow>{eyebrow}</HomeEyebrow> : null}
+      {beforeTitle}
 
       <h1
         id={titleId}
@@ -81,9 +83,7 @@ export function MarketingThesisHero({
       {children}
 
       {cta ? (
-        <div className="sig-cta-row mt-2 w-full justify-start">
-          {cta}
-        </div>
+        <div className="sig-cta-row mt-2 w-full justify-start">{cta}</div>
       ) : null}
     </div>
   );
@@ -91,20 +91,15 @@ export function MarketingThesisHero({
   return (
     <section
       className={cn(
-        "hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible",
+        "hero-prominent relative section-edge w-full overflow-x-clip home-canvas",
         fillViewport &&
-          "border-b border-border/40 lg:flex lg:min-h-[calc(100dvh-4.375rem)] lg:flex-col",
+          "lg:flex lg:min-h-[calc(100dvh-4.375rem)] lg:flex-col",
         className,
       )}
       aria-label={ariaLabel}
       aria-labelledby={titleId}
     >
-      <MarketingBackground
-        variant="hero"
-        showDiagonalGrid={false}
-        showPixelRipple
-        progressiveBlur={false}
-      />
+      <HomeHeroAtmosphere />
 
       <div
         className={cn(

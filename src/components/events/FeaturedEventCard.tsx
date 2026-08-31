@@ -95,7 +95,7 @@ export function FeaturedEventCard({ event }: { event: QApilotEvent }) {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-45"
+        className="pointer-events-none absolute inset-0 opacity-45"
         aria-hidden
       />
       <div

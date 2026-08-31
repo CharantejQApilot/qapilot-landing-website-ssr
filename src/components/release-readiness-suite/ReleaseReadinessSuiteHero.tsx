@@ -20,15 +20,10 @@ const HERO_PILLARS = [
 export function ReleaseReadinessSuiteHero() {
  return (
  <section
- className="hero-prominent relative section-edge w-full overflow-x-clip"
+ className="hero-prominent relative section-edge w-full overflow-x-clip home-canvas"
  aria-labelledby="release-readiness-suite-hero-title"
  >
- <MarketingBackground
- variant="hero"
- showDiagonalGrid={false}
- showPixelRipple
- progressiveBlur={false}
- />
+ <MarketingBackground variant="hero" />
 
  <div className="relative z-10 w-full">
  <div className="section-full py-16 sm:py-20 md:py-24 lg:py-28">

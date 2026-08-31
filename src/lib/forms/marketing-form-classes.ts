@@ -30,7 +30,14 @@ export const marketingFormStatusErrorClass =
   "rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm font-sans text-destructive";
 
 export const marketingFormSubmitClass =
-  "w-full rounded-full font-semibold font-sans";
+  "w-full rounded-md font-semibold font-sans";
+
+/** Lead-form panel beside a thesis hero. Hairline card, no glow orbs. */
+export const marketingHeroFormCardClass =
+  "relative flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-md border border-border/80 bg-card p-5 sm:p-7 md:p-8";
+
+export const marketingHeroFormInnerClass =
+  "min-h-0 min-w-0 flex-1 rounded-md border border-border/50 bg-background p-3 sm:p-4 md:p-5";
 
 /** Inner segment of composite fields (e.g. phone number beside country code). No own border. */
 export const marketingFormCompositeSegmentClass =

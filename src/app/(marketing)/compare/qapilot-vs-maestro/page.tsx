@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
 import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
-import { MarketingSectionHeader } from "@/components/marketing";
+import {
+  MarketingCloseCta,
+  MarketingSection,
+  MarketingSectionHeader,
+} from "@/components/marketing";
 import {
   MarketingLedger,
   MarketingLedgerCell,
@@ -122,7 +125,7 @@ export const revalidate = 300;
 
 export default function QApilotVsMaestroPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -158,15 +161,12 @@ export default function QApilotVsMaestroPage() {
           }
         />
 
-        <div className="section-edge w-full border-b border-border/50 bg-background">
-          <div className="section-full py-6 md:py-8">
+        <MarketingSection paddingClassName="py-6 md:py-8">
             <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
-          </div>
-        </div>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
-            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+        <MarketingSection surface="tint">
+            <div className="grid gap-0 overflow-hidden rounded-md border border-border/60 md:grid-cols-2">
               {heroComparisonCards.map((card, index) => (
                 <article
                   key={card.title}
@@ -193,11 +193,9 @@ export default function QApilotVsMaestroPage() {
                 </article>
               ))}
             </div>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="comparison-table"
               title={
@@ -209,11 +207,9 @@ export default function QApilotVsMaestroPage() {
             />
 
             <CompareMatrixTable competitorName="Maestro" rows={comparisonRows} />
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="what-qapilot-brings"
               title={
@@ -265,28 +261,20 @@ export default function QApilotVsMaestroPage() {
               </Link>
               .
             </p>
-          </div>
-        </section>
+        </MarketingSection>
 
         <CompareFaqSection faqs={faqs} />
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full">
-            <div className="sig-close">
-              <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
-                Ready To Go{" "}
+        <MarketingCloseCta
+          title={
+            <>
+              Ready To Go{" "}
                 <span className="text-primary">Beyond Flow Files</span>?
-              </h2>
-              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
-                See how QApilot autonomously explores your app and delivers
-                release-ready mobile coverage.
-              </p>
-              <div className="sig-cta-row">
-                <BookDemoCtaButton />
-              </div>
-            </div>
-          </div>
-        </section>
+            </>
+          }
+          lead={<>See how QApilot autonomously explores your app and delivers
+                release-ready mobile coverage.</>}
+        />
       </main>
     </div>
   );
