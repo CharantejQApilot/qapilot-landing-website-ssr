@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import {
-  marketingEyebrowClass,
   marketingSectionH2Class,
   marketingSectionIntroClass,
 } from "@/lib/marketing-typography";
@@ -18,6 +18,8 @@ type MarketingSectionHeaderProps = {
   variant?: "rail" | "center";
   className?: string;
   marginBottomClassName?: string;
+  /** Navy chapters: fade the eyebrow to white. */
+  invert?: boolean;
 };
 
 /**
@@ -32,10 +34,11 @@ export function MarketingSectionHeader({
   descriptionClassName,
   className: _ignoredChrome,
   marginBottomClassName = "mb-10 md:mb-12 2xl:mb-14",
+  invert = false,
 }: MarketingSectionHeaderProps) {
   return (
-    <header className={cn("relative w-full border-b border-border pb-6 md:pb-8", marginBottomClassName)}>
-      {eyebrow ? <p className={marketingEyebrowClass}>{eyebrow}</p> : null}
+    <header className={cn("relative w-full border-b border-border/80 pb-6 md:pb-8", invert && "border-white/15", marginBottomClassName)}>
+      {eyebrow ? <HomeEyebrow invert={invert}>{eyebrow}</HomeEyebrow> : null}
       <h2
         id={id}
         className={cn(
@@ -52,6 +55,7 @@ export function MarketingSectionHeader({
             className={cn(
               marketingSectionIntroClass,
               "mt-4 w-full max-w-none md:mt-5",
+              invert && "!text-white/65",
               descriptionClassName,
             )}
           >
@@ -62,6 +66,7 @@ export function MarketingSectionHeader({
             className={cn(
               marketingSectionIntroClass,
               "mt-4 w-full max-w-none space-y-4 md:mt-5",
+              invert && "!text-white/65",
               descriptionClassName,
             )}
           >

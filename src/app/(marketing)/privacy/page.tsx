@@ -66,7 +66,7 @@ export default function PrivacyPage() {
 
             <article
               className={cn(
-                "rounded-lg border border-border bg-card p-6 shadow-sm sm:p-8 lg:p-12",
+                "rounded-md border border-border bg-card p-6 sm:p-8 lg:p-12",
                 proseSection,
               )}
             >

@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
 import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import {
+  MarketingCloseCta,
   MarketingLedger,
   MarketingLedgerCell,
-} from "@/components/marketing/MarketingLedger";
-import { MarketingSectionHeader } from "@/components/marketing";
+  MarketingSection,
+  MarketingSectionHeader,
+} from "@/components/marketing";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PATHS } from "@/lib/routes";
@@ -54,7 +56,7 @@ export function AlternativeLandingPage({
   } = config;
 
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -76,13 +78,10 @@ export function AlternativeLandingPage({
           description={lead}
         />
 
-        <section className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
-            <div className="sig-split items-start">
+        <MarketingSection>
+          <div className="sig-split items-start">
               <article className="min-w-0 border-b border-border pb-8 md:border-b-0 md:pb-0 md:pr-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  {competitorName}
-                </p>
+                <HomeEyebrow>{competitorName}</HomeEyebrow>
                 <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                   {competitorSubtitle}
                 </h2>
@@ -91,9 +90,7 @@ export function AlternativeLandingPage({
                 </p>
               </article>
               <article className="min-w-0 md:pl-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                  QApilot
-                </p>
+                <HomeEyebrow>QApilot</HomeEyebrow>
                 <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground">
                   {qapilotSubtitle}
                 </h2>
@@ -102,11 +99,9 @@ export function AlternativeLandingPage({
                 </p>
               </article>
             </div>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="comparison-table"
               title={
@@ -123,13 +118,11 @@ export function AlternativeLandingPage({
               competitorName={competitorName}
               rows={comparisonRows}
             />
-          </div>
-        </section>
+        </MarketingSection>
 
         <CompareFaqSection faqs={faqs} />
 
-        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="why-qapilot"
               title={
@@ -182,26 +175,17 @@ export function AlternativeLandingPage({
               </Link>
               .
             </p>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full">
-            <div className="sig-close">
-              <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
-                Ready for{" "}
-                <span className="text-primary">Autonomous Mobile Testing</span>?
-              </h2>
-              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
-                See how QApilot generates coverage faster, reduces maintenance,
-                and delivers release-ready signals for mobile teams.
-              </p>
-              <div className="sig-cta-row">
-                <BookDemoCtaButton />
-              </div>
-            </div>
-          </div>
-        </section>
+        <MarketingCloseCta
+          title={
+            <>
+              Ready for{" "}
+              <span className="text-primary">Autonomous Mobile Testing</span>?
+            </>
+          }
+          lead="See how QApilot generates coverage faster, reduces maintenance, and delivers release-ready signals for mobile teams."
+        />
       </main>
     </div>
   );

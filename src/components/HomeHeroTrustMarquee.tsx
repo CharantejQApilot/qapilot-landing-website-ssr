@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { HOME_TRUST_LOGOS, type HomeTrustLogo } from "@/lib/home-trust-logos";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +11,8 @@ type HomeHeroTrustMarqueeProps = {
   layout?: "fullBleed" | "contained";
   density?: TrustMarqueeDensity;
   title?: string;
+  /** Match the rail surface so logo-edge fades don’t flash white. */
+  edgeFade?: "canvas" | "ice";
 };
 
 function TrustLogoLink({
@@ -75,11 +78,16 @@ export function HomeHeroTrustMarquee({
   layout = "fullBleed",
   density = "hero",
   title,
+  edgeFade = "canvas",
 }: HomeHeroTrustMarqueeProps) {
   // One track for all breakpoints + one aria-hidden duplicate for infinite scroll.
   const marqueeItems = [...HOME_TRUST_LOGOS, ...HOME_TRUST_LOGOS];
   const contained = layout === "contained";
   const ariaLabel = title ?? "Trusted by industry leaders";
+  const fadeFrom =
+    edgeFade === "ice"
+      ? "from-[hsl(var(--home-ice))]"
+      : "from-[hsl(var(--home-canvas))]";
 
   return (
     <div
@@ -90,33 +98,22 @@ export function HomeHeroTrustMarquee({
         className,
       )}
     >
-      {title ? (
-        <p
-          className={cn(
-            "mb-4 text-left text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground",
-          )}
-        >
-          {title}
-        </p>
-      ) : null}
+      {title ? <HomeEyebrow>{title}</HomeEyebrow> : null}
 
       <div aria-label={ariaLabel}>
-        <div
-          className={cn(
-            "relative overflow-hidden",
-            contained && "rounded-xl",
-          )}
-        >
+        <div className="relative overflow-hidden">
           <div
             className={cn(
-              "pointer-events-none absolute inset-y-0 left-0 z-20 bg-gradient-to-r from-background to-transparent",
+              "pointer-events-none absolute inset-y-0 left-0 z-20 bg-gradient-to-r to-transparent",
+              fadeFrom,
               contained ? "w-8 sm:w-12" : "w-10 sm:w-16 md:w-24 lg:w-40",
             )}
             aria-hidden
           />
           <div
             className={cn(
-              "pointer-events-none absolute inset-y-0 right-0 z-20 bg-gradient-to-l from-background to-transparent",
+              "pointer-events-none absolute inset-y-0 right-0 z-20 bg-gradient-to-l to-transparent",
+              fadeFrom,
               contained ? "w-8 sm:w-12" : "w-10 sm:w-16 md:w-24 lg:w-40",
             )}
             aria-hidden

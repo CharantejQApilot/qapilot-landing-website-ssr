@@ -62,7 +62,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
   };
 
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import { CalendarDays } from "lucide-react";
-import { MarketingPageShell } from "@/components/marketing";
+import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { FeaturedEventCard } from "@/components/events/FeaturedEventCard";
 import { EventListItem } from "@/components/events/EventListItem";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
-import {
-  marketingHeroH1Class,
-  marketingListingHeroLeadClass,
-} from "@/lib/marketing-typography";
 import {
   getAllEvents,
   getFeaturedEvent,
@@ -91,31 +87,18 @@ export default function EventsPage() {
       />
       <MarketingPageShell background="none">
         <main className="relative w-full">
-          <div className="w-full border-b border-border bg-gradient-to-b from-primary-light/50 via-background to-background bg-dot-pattern-subtle">
-            <div className="section-full py-16 md:py-24 lg:py-28 2xl:py-32">
-              <header className="relative w-full text-left">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary sm:mb-5">
-                  Events
-                </p>
-                <h1 className={marketingHeroH1Class}>
-                  <span className="text-gradient">
-                    Webinars, Meetups &amp; Live Talks
-                  </span>
-                </h1>
-                <p className={marketingListingHeroLeadClass}>
-                  Practical sessions on AI mobile testing, agentic QA, and the
-                  engineering practices that make shipping faster feel safe.
-                  Join us live or catch the recordings.
-                </p>
-              </header>
-            </div>
-          </div>
+          <MarketingThesisHero
+            titleId="events-hero"
+            eyebrow="Events"
+            title="Webinars, Meetups & Live Talks"
+            lead="Practical sessions on AI mobile testing, agentic QA, and the engineering practices that make shipping faster feel safe. Join us live or catch the recordings."
+          />
 
-          <div className="section-full bg-background py-14 md:py-20">
-            <div className={`${LIST_MAX_WIDTH} bg-dot-pattern-subtle`}>
+          <div className="section-full home-canvas py-14 md:py-20">
+            <div className={LIST_MAX_WIDTH}>
               {eventCount === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">
-                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-card shadow-sm">
+                  <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-md border border-border bg-card">
                     <CalendarDays
                       className="h-10 w-10 text-muted-foreground"
                       strokeWidth={1.25}

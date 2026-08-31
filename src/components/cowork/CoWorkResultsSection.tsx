@@ -53,7 +53,7 @@ export function CoWorkResultsSection() {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-dot-pattern-subtle opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-40"
         aria-hidden
       />
 

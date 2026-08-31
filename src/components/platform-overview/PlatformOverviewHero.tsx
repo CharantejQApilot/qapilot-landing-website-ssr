@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export function PlatformOverviewHero() {
   return (
     <section
-      className="section-edge relative flex min-h-screen w-full flex-col justify-center overflow-x-hidden overflow-y-visible lg:h-screen lg:overflow-hidden"
+      className="section-edge relative flex min-h-[calc(100dvh-4.375rem)] w-full flex-col justify-center overflow-x-hidden overflow-y-visible home-canvas lg:h-[calc(100dvh-4.375rem)] lg:overflow-hidden"
       aria-label="Platform overview"
     >
       <MarketingBackground variant="hero" />
@@ -25,7 +25,7 @@ export function PlatformOverviewHero() {
             <div className="mt-6 sm:mt-8 md:mt-10">
               <BookDemoLinkButton
                 size="lg"
-                className="rounded-lg bg-primary px-8 py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90 2xl:px-10 2xl:py-7 2xl:text-lg"
+                className="rounded-md bg-primary px-8 py-6 text-base font-semibold text-primary-foreground shadow-none hover:bg-primary/90 2xl:px-10 2xl:py-7 2xl:text-lg"
               />
             </div>
           </div>

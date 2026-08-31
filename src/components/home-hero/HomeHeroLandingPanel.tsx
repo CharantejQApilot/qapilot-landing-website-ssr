@@ -169,9 +169,9 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
               <Link
                 href={item.href}
                 className={cn(
-                  "inline-flex items-center justify-center rounded-full border border-border/80 bg-background/80",
-                  "px-3.5 py-1.5 text-sm font-medium text-foreground/80 shadow-sm backdrop-blur-sm",
-                  "transition-colors hover:border-primary/35 hover:bg-primary/[0.06] hover:text-primary",
+                  "inline-flex items-center justify-center rounded-md border border-border bg-background",
+                  "px-3.5 py-1.5 text-sm font-medium text-foreground/80",
+                  "transition-colors hover:border-foreground/25 hover:text-foreground",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                   "sm:px-4 sm:py-2 sm:text-[15px]",
                 )}

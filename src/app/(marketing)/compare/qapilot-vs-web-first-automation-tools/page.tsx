@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import CompareHeroSection from "@/components/compare/CompareHeroSection";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CompareMatrixTable } from "@/components/compare/CompareMatrixTable";
 import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
-import { MarketingSectionHeader } from "@/components/marketing";
+import {
+  MarketingCloseCta,
+  MarketingSection,
+  MarketingSectionHeader,
+} from "@/components/marketing";
 import {
   MarketingLedger,
   MarketingLedgerCell,
@@ -146,7 +149,7 @@ export const revalidate = 300;
 
 export default function QApilotVsWebFirstComparisonPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge bg-background">
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -175,14 +178,11 @@ export default function QApilotVsWebFirstComparisonPage() {
           }
         />
 
-        <div className="section-edge w-full border-b border-border/50 bg-background">
-          <div className="section-full py-6 md:py-8">
+        <MarketingSection paddingClassName="py-6 md:py-8">
             <ArticleSummariseWithAI pageUrl={`${SITE_BASE_URL}${path}`} />
-          </div>
-        </div>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/20 via-background to-background py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="mobile-app-engineering-underserved"
               title={
@@ -220,11 +220,9 @@ export default function QApilotVsWebFirstComparisonPage() {
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="self-healing-contrast"
               title={
@@ -237,7 +235,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               marginBottomClassName="mb-10 md:mb-12"
             />
 
-            <div className="grid gap-0 overflow-hidden rounded-2xl border border-border/60 md:grid-cols-2">
+            <div className="grid gap-0 overflow-hidden rounded-md border border-border/60 md:grid-cols-2">
               <article className="border-b border-border/60 p-6 md:border-b-0 md:border-r md:p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   Web
@@ -303,11 +301,9 @@ export default function QApilotVsWebFirstComparisonPage() {
                 That is the gap QApilot is built to solve.
               </p>
             </div>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="built-around-mobile-context"
               title={
@@ -380,11 +376,9 @@ export default function QApilotVsWebFirstComparisonPage() {
               </Link>
               .
             </p>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-muted/10 to-background py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="comparison-table"
               title={
@@ -397,11 +391,9 @@ export default function QApilotVsWebFirstComparisonPage() {
             />
 
             <CompareMatrixTable competitorName="Web-First Tools" rows={comparisonRows} />
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="what-qapilot-brings"
               title={
@@ -428,11 +420,9 @@ export default function QApilotVsWebFirstComparisonPage() {
                 </MarketingLedgerCell>
               ))}
             </MarketingLedger>
-          </div>
-        </section>
+        </MarketingSection>
 
-        <section className="section-edge w-full border-b border-border/50 py-12 md:py-16 2xl:py-20">
-          <div className="section-full">
+        <MarketingSection>
             <MarketingSectionHeader
               id="why-this-matters-and-fit"
               title={
@@ -443,7 +433,7 @@ export default function QApilotVsWebFirstComparisonPage() {
               }
               marginBottomClassName="mb-8 md:mb-10"
             />
-            <div className="overflow-hidden rounded-2xl border border-border/60 bg-muted/15 md:grid md:grid-cols-2">
+            <div className="overflow-hidden rounded-md border border-border/60 bg-muted/15 md:grid md:grid-cols-2">
               <div className="border-b border-border/50 p-6 md:border-b-0 md:border-r md:p-8">
                 <h3 className="font-heading text-xl font-semibold tracking-tight text-foreground">
                   Why <span className="text-primary">This Matters</span>
@@ -470,29 +460,21 @@ export default function QApilotVsWebFirstComparisonPage() {
                 </p>
               </div>
             </div>
-          </div>
-        </section>
+        </MarketingSection>
 
         <CompareFaqSection faqs={faqs} />
 
-        <section className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-primary/[0.08] to-background py-12 md:py-16">
-          <div className="section-full">
-            <div className="sig-close">
-              <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground md:text-5xl">
-                Ready For{" "}
+        <MarketingCloseCta
+          title={
+            <>
+              Ready For{" "}
                 <span className="text-primary">Mobile-First Testing</span>?
-              </h2>
-              <p className="mt-4 w-full text-base leading-relaxed text-muted-foreground md:text-lg">
-                QApilot helps mobile teams generate coverage faster, reduce
+            </>
+          }
+          lead={<>QApilot helps mobile teams generate coverage faster, reduce
                 maintenance, execute across devices, and understand mobile app
-                release readiness with more context.
-              </p>
-              <div className="sig-cta-row">
-                <BookDemoCtaButton />
-              </div>
-            </div>
-          </div>
-        </section>
+                release readiness with more context.</>}
+        />
       </main>
     </div>
   );

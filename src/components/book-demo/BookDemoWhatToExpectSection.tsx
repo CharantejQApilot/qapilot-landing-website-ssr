@@ -56,7 +56,7 @@ function TestingModeBlock({ mode, outcomesFirst }: { mode: BookDemoTestingMode; 
 export function BookDemoWhatToExpectSection() {
   return (
     <section
-      className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-dot-pattern-subtle"
+      className="section-edge relative w-full overflow-hidden border-t border-border/60"
       aria-labelledby="book-demo-expect-heading"
     >
       <div

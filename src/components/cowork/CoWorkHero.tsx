@@ -1,5 +1,6 @@
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CoWorkHeroMediaColumn } from "@/components/cowork/CoWorkHeroMediaColumn";
+import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { marketingHeroH1Class, marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -7,10 +8,10 @@ import { cn } from "@/lib/utils";
 export function CoWorkHero() {
   return (
     <section
-      className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible"
+      className="hero-prominent relative section-edge w-full overflow-x-hidden overflow-y-visible home-canvas"
       aria-label="CoWork"
     >
-      <MarketingBackground variant="hero" showDiagonalGrid={false} showPixelRipple />
+      <MarketingBackground variant="hero" />
 
       <div className="relative z-10 w-full section-full py-14 sm:py-16 md:py-20 lg:py-28 2xl:py-32">
         <div
@@ -23,9 +24,7 @@ export function CoWorkHero() {
           <div
             className="flex min-w-0 flex-1 flex-col items-start justify-center text-left lg:max-w-none lg:pr-2 xl:pr-4"
           >
-            <p className="mb-3 w-full text-left text-xs font-semibold uppercase tracking-[0.14em] text-primary sm:mb-4 sm:text-sm">
-              Agentic · Human in the loop
-            </p>
+            <HomeEyebrow>Agentic · Human in the loop</HomeEyebrow>
 
             <h1 className={cn(marketingHeroH1Class, "mb-5 w-full text-left text-balance sm:mb-6 md:mb-8")}>
               Activate The <span className="text-primary">Test Cases</span> You Already Have
