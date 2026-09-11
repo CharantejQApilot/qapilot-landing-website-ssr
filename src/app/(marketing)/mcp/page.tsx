@@ -20,14 +20,14 @@ import { PATHS } from "@/lib/routes";
 import { buildStaticPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "QApilot MCP. Early Access for Coding Agents",
+  title: "QApilot MCP. Mobile Tests for Coding Agents",
   description:
-    "Say what needs to hold in your editor. QApilot MCP builds the mobile test, runs it on your device, and returns a report your agent can read. Join early access.",
+    "Say what needs to hold in your editor. QApilot MCP builds the mobile test, runs it on your device, and returns a report your agent can read.",
   path: PATHS.MCP,
   ogDescription:
-    "Local-first mobile verification for coding agents. Join the QApilot MCP early access list.",
+    "Local-first mobile verification for coding agents. Follow the guide or request a walkthrough.",
   twitterDescription:
-    "Your coding agent writes mobile code faster than anyone can check it. We're building the thing that checks it.",
+    "Your coding agent writes mobile code faster than anyone can check it. QApilot MCP checks it on your device.",
 });
 
 export const revalidate = 300;

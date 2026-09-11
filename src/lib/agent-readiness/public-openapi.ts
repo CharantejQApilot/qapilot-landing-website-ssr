@@ -91,7 +91,7 @@ export function getPublicOpenApiDocument(): Record<string, unknown> {
       "/api/hubspot/mcp-waitlist": {
         post: {
           operationId: "submitMcpWaitlist",
-          summary: "Submit QApilot MCP early-access waitlist (HubSpot)",
+          summary: "Submit QApilot MCP walkthrough request (HubSpot)",
           requestBody: {
             required: true,
             content: { "application/json": { schema: { type: "object" } } },

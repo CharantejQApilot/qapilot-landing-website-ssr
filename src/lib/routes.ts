@@ -9,7 +9,7 @@ export const PATHS = {
   FOR_FLUTTER: "/for-flutter",
   BRING_YOUR_OWN_AGENT: "/bring-your-own-agent",
   AGENTIC_ARCHITECTURE: "/agentic-architecture",
-  /** QApilot MCP early-access waitlist (Platform → AI Agents). */
+  /** QApilot MCP product page (walkthrough form). */
   MCP: "/mcp",
   /** QApilot MCP CLI user guide. */
   MCP_GUIDE: "/mcp/guide",
