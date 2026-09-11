@@ -288,10 +288,7 @@ const Footer = () => {
                   </li>
                 ))}
                 <li>
-                  <FooterLink to={PATHS.MCP}>QApilot MCP</FooterLink>
-                </li>
-                <li>
-                  <FooterLink to={PATHS.MCP_GUIDE}>MCP CLI Guide</FooterLink>
+                  <FooterLink to={PATHS.MCP_GUIDE}>QApilot MCP</FooterLink>
                 </li>
               </ul>
             </div>

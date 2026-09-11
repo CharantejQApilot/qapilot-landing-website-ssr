@@ -120,14 +120,9 @@ export const PLATFORM_BY_ROLE = [
 /** Platform dropdown: AI Agents */
 export const PLATFORM_AI_AGENTS = [
   {
-    path: PATHS.MCP,
+    path: PATHS.MCP_GUIDE,
     label: "QApilot MCP",
     icon: "Terminal",
-  },
-  {
-    path: PATHS.MCP_GUIDE,
-    label: "MCP CLI Guide",
-    icon: "BookOpen",
   },
   {
     path: PATHS.AGENTIC_ARCHITECTURE,
