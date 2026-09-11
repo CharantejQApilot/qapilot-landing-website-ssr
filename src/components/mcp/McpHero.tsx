@@ -1,8 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { McpWaitlistForm } from "@/components/mcp/McpWaitlistForm";
+import { PATHS } from "@/lib/routes";
 import {
   marketingFormTitleClass,
   marketingHeroFormCardClass,
@@ -55,6 +58,13 @@ export function McpHero() {
               faster than anyone can check it. QApilot runs the test on your
               device and returns a report your agent can read.
             </p>
+            <Link
+              href={PATHS.MCP_GUIDE}
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              MCP CLI User Guide
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
           </div>
 
           <div

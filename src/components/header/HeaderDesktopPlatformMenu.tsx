@@ -18,6 +18,7 @@ import {
   PenLine,
   ArrowLeftRight,
   Terminal,
+  BookOpen,
 } from "lucide-react";
 import { NavItem } from "@/components/header/HeaderNavItem";
 import {
@@ -45,6 +46,7 @@ const PLATFORM_ICONS: Record<string, LucideIcon> = {
   PenLine,
   ArrowLeftRight,
   Terminal,
+  BookOpen,
 };
 
 export default function HeaderDesktopPlatformMenu({
