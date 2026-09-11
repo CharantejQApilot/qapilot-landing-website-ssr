@@ -10,13 +10,14 @@ export function McpWaitlistSection() {
     >
       <MarketingSectionHeader
         id="mcp-waitlist-heading"
-        eyebrow="Early access"
+        eyebrow="Walkthrough"
         title={
           <>
-            Get In Early. <span className="text-primary">Help Shape It.</span>
+            Want a Live Session?{" "}
+            <span className="text-primary">Request a Walkthrough.</span>
           </>
         }
-        description="Tell us your agent, stack, and team size so we can prioritize your workflow."
+        description="Tell us your agent and stack. We'll walk MCP with you on your device."
         marginBottomClassName="mb-8 md:mb-10"
       />
 

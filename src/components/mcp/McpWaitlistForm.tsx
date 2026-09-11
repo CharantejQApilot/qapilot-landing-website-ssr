@@ -133,7 +133,7 @@ export function McpWaitlistForm() {
       <div className="space-y-4">
         {status === "success" && (
           <div className={marketingFormStatusSuccessClass}>
-            You&apos;re on the list. We&apos;ll email when your build is ready.
+            You&apos;re on the list. We&apos;ll email to schedule your walkthrough.
           </div>
         )}
         {status === "error" && (
@@ -278,10 +278,10 @@ export function McpWaitlistForm() {
             disabled={isSubmitting}
             className={marketingFormSubmitClass}
           >
-            {isSubmitting ? "Submitting…" : "Request Access"}
+            {isSubmitting ? "Submitting…" : "Request Walkthrough"}
           </Button>
           <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-            No spam. We&apos;ll email when your build is ready and nothing else.
+            No spam. We&apos;ll email to schedule a walkthrough and nothing else.
           </p>
         </form>
       </div>

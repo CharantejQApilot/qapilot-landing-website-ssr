@@ -25,7 +25,7 @@ export function mcpWaitlistHubSpotPayload(data: McpWaitlistWithAttributionInput)
     fields,
     context: {
       pageUri: data.pageUri ?? "",
-      pageName: data.pageName?.trim() || "QApilot MCP. Early Access",
+      pageName: data.pageName?.trim() || "QApilot MCP Walkthrough",
       ...(data.hutk ? { hutk: data.hutk } : {}),
     },
   };

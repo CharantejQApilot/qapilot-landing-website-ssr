@@ -144,9 +144,9 @@ export const MCP_WORKFLOW_FRAMES = [
 
 export const MCP_FAQS: readonly FaqItem[] = [
   {
-    question: "When will this be available?",
+    question: "How do I get started?",
     answer:
-      "First builds go to early users shortly. Join the list and we email when your build is ready. Nothing else.",
+      "Follow the MCP CLI guide to install and run tests locally. Request a walkthrough if you want us on the call with you.",
   },
   {
     question: "Does my app leave my machine?",

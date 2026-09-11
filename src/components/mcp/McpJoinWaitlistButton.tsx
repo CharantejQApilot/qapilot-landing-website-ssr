@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function McpJoinWaitlistButton({
   className,
-  children = "Request Access",
+  children = "Request Walkthrough",
 }: {
   className?: string;
   children?: string;
