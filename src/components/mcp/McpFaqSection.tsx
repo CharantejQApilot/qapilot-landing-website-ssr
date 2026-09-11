@@ -23,7 +23,7 @@ export function McpFaqSection() {
                 <span className="text-primary">Questions</span>
               </>
             }
-            description="Quick answers before you join."
+            description="Quick answers before you start."
             marginBottomClassName="mb-0 max-lg:mb-8 lg:sticky lg:top-28 lg:pb-0 lg:border-b-0"
           />
 

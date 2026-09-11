@@ -350,7 +350,7 @@ export function McpPrinciplesSection() {
     <MarketingSection aria-labelledby="mcp-principles-heading">
         <MarketingSectionHeader
           id="mcp-principles-heading"
-          eyebrow="Ships in early access"
+          eyebrow="Ships today"
           title={
             <>
               Local. Portable. <span className="text-primary">Yours.</span>

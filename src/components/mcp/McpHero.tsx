@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import { McpWaitlistForm } from "@/components/mcp/McpWaitlistForm";
+import { HomeHeroCta } from "@/lib/home-hero-cta";
 import { PATHS } from "@/lib/routes";
 import {
   marketingFormTitleClass,
@@ -33,7 +32,7 @@ export function McpHero() {
           )}
         >
           <div className="flex min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-2 xl:pr-4">
-            <HomeEyebrow>QApilot MCP · Early access</HomeEyebrow>
+            <HomeEyebrow>QApilot MCP</HomeEyebrow>
             <h1
               id="mcp-hero-title"
               className={cn(
@@ -58,13 +57,11 @@ export function McpHero() {
               faster than anyone can check it. QApilot runs the test on your
               device and returns a report your agent can read.
             </p>
-            <Link
-              href={PATHS.MCP_GUIDE}
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline"
-            >
-              MCP CLI User Guide
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            <div className="sig-cta-row mt-8 w-full justify-start sm:mt-10">
+              <HomeHeroCta href={PATHS.MCP_GUIDE} variant="primary">
+                Open the Guide
+              </HomeHeroCta>
+            </div>
           </div>
 
           <div
@@ -73,7 +70,7 @@ export function McpHero() {
           >
             <div className={marketingHeroFormCardClass}>
               <div className="relative z-[1] pb-5 sm:pb-6">
-                <h2 className={marketingFormTitleClass}>Request Access</h2>
+                <h2 className={marketingFormTitleClass}>Request Walkthrough</h2>
               </div>
               <div className={marketingHeroFormInnerClass}>
                 <McpWaitlistForm />

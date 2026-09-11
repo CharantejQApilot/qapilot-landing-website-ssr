@@ -116,13 +116,13 @@ export default function McpGuidePage() {
               <span className="text-hero-here">your editor</span>?
             </>
           }
-          lead="Join the QApilot MCP early access list. Local device, your agent, a report it can read."
+          lead="Want a live walkthrough of MCP on your stack? We’ll set it up with you."
           cta={
             <Link
               href={PATHS.MCP}
               className="inline-flex h-12 items-center justify-center rounded-md bg-white px-8 text-base font-semibold text-[hsl(var(--navy))] hover:bg-white/90 sm:h-14 sm:px-9 lg:text-lg"
             >
-              Request Access
+              Request Walkthrough
             </Link>
           }
         />

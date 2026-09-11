@@ -1,5 +1,5 @@
 /**
- * HubSpot field names for the MCP early-access form.
+ * HubSpot field names for the MCP walkthrough form.
  * Embed: portal `47284450`, form `25c6b568-c68d-44d5-9f6a-4ce78aab6842`.
  *
  * Visible on `/mcp` hero UI; attribution properties are hidden and filled on submit.

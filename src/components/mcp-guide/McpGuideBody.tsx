@@ -4,6 +4,7 @@ import {
   MCP_CLI_INSTALL_COMMAND,
   MCP_CLI_VERIFY_COMMAND,
   MCP_GUIDE_TOOLS,
+  MCP_SLACK_INVITE_URL,
 } from "@/lib/mcp-guide";
 import { McpGuideConfigTabs } from "./McpGuideConfigTabs";
 import {
@@ -206,17 +207,22 @@ export function McpGuideBody() {
           </GuideStep>
           <GuideStep
             n="3"
+            title="Create Project"
+            description="Log in to your QApilot account and create a project in which you'd like to have your tests saved."
+          />
+          <GuideStep
+            n="4"
             title="Launch your app"
             description="Provide the Android package ID. The default project and device are selected automatically."
             last
           >
             <GuidePrompts>
               <GuidePrompt label="Sample prompt">
-                Launch the CarWale app — package ID is com.carwale.android
+                Launch the CarWale app — package ID is com.carwale
               </GuidePrompt>
               <GuidePrompt label="All-in-one session start">
-                Start a QApilot session and open com.carwale.android on the
-                local emulator
+                Start a QApilot session and open com.carwale on the local
+                emulator
               </GuidePrompt>
             </GuidePrompts>
           </GuideStep>
@@ -375,6 +381,25 @@ export function McpGuideBody() {
           </GuideCallout>
         </GuideSection>
 
+        <GuideSection id="community">
+          <GuideSectionLabel n="10" tone="green">
+            Join the Slack Community
+          </GuideSectionLabel>
+          <GuideP>
+            Questions, prompts, and setup help from other QApilot MCP users —
+            join the Slack community and say hello.
+          </GuideP>
+          <a
+            href={MCP_SLACK_INVITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex h-12 items-center gap-3 rounded-md border border-border bg-card px-5 text-sm font-semibold text-foreground shadow-sm transition-colors hover:border-primary/40 hover:bg-primary-light sm:h-14 sm:px-6 sm:text-base"
+          >
+            <SlackMark className="h-6 w-6 shrink-0" />
+            Join Slack
+          </a>
+        </GuideSection>
+
         <GuideSection id="all-tools">
           <GuideSectionLabel n="⚙" tone="plain">
             All MCP Tools
@@ -412,5 +437,33 @@ export function McpGuideBody() {
         </GuideSection>
       </div>
     </div>
+  );
+}
+
+function SlackMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 122.8 122.8"
+      className={className}
+      aria-hidden
+      focusable="false"
+    >
+      <path
+        fill="#E01E5A"
+        d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z"
+      />
+      <path
+        fill="#36C5F0"
+        d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z"
+      />
+      <path
+        fill="#2EB67D"
+        d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z"
+      />
+      <path
+        fill="#ECB22E"
+        d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z"
+      />
+    </svg>
   );
 }
