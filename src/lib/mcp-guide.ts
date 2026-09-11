@@ -10,6 +10,8 @@ export const MCP_CLI_INSTALL_URL =
 
 export const MCP_CLI_INSTALL_COMMAND = `npm install -g ${MCP_CLI_INSTALL_URL}`;
 
+export const MCP_CLI_VERIFY_COMMAND = "npx qapilot-mcp --stdio";
+
 export const MCP_SLACK_INVITE_URL =
   "https://join.slack.com/t/qapilotmcp/shared_invite/zt-4a0dag17k-XxOoyGlYrT55NrVOdHnQ1A";
 
