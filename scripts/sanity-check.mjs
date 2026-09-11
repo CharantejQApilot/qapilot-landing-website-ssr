@@ -50,6 +50,7 @@ const STATIC_PATHS = [
   "/agentic-architecture",
   "/bring-your-own-agent",
   "/mcp",
+  "/mcp/guide",
   "/for-qa-leader",
   "/for-release-manager",
   "/for-qa-engineer",

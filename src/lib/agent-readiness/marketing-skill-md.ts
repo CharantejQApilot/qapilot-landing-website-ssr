@@ -44,6 +44,7 @@ Public marketing and API discovery for [QApilot](https://qapilot.io). AI-native 
 - Agentic architecture: ${u(PATHS.AGENTIC_ARCHITECTURE)}
 - Bring your own agent: ${u(PATHS.BRING_YOUR_OWN_AGENT)}
 - QApilot MCP (early access): ${u(PATHS.MCP)}
+- MCP CLI guide: ${u(PATHS.MCP_GUIDE)}
 - Enterprise: ${u(PATHS.ENTERPRISE)}
 
 ## Compare pages

@@ -191,6 +191,7 @@ const Footer = () => {
     pathname === PATHS.CASE_STUDIES ||
     pathname.startsWith(`${PATHS.CASE_STUDIES}/`) ||
     pathname === PATHS.MCP ||
+    pathname.startsWith(`${PATHS.MCP}/`) ||
     pathname.startsWith("/compare/") ||
     pathname.startsWith("/alternatives/") ||
     pathname === PATHS.INTEGRATIONS ||
@@ -287,7 +288,7 @@ const Footer = () => {
                   </li>
                 ))}
                 <li>
-                  <FooterLink to={PATHS.MCP}>QApilot MCP</FooterLink>
+                  <FooterLink to={PATHS.MCP_GUIDE}>QApilot MCP</FooterLink>
                 </li>
               </ul>
             </div>

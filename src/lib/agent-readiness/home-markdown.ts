@@ -33,6 +33,7 @@ ${url("/")}
 | Agentic architecture | ${url(PATHS.AGENTIC_ARCHITECTURE)} |
 | Bring your own agent | ${url(PATHS.BRING_YOUR_OWN_AGENT)} |
 | QApilot MCP | ${url(PATHS.MCP)} |
+| MCP CLI guide | ${url(PATHS.MCP_GUIDE)} |
 | Enterprise | ${url(PATHS.ENTERPRISE)} |
 
 ## Platform by role

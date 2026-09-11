@@ -332,6 +332,7 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Agentic architecture | [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture) |
 | Bring your own agent (BYOA) | [https://qapilot.io/bring-your-own-agent](https://qapilot.io/bring-your-own-agent) |
 | QApilot MCP | [https://qapilot.io/mcp](https://qapilot.io/mcp) |
+| MCP CLI guide | [https://qapilot.io/mcp/guide](https://qapilot.io/mcp/guide) |
 | Platform → QE Leader | [https://qapilot.io/for-qa-leader](https://qapilot.io/for-qa-leader) |
 | Platform → Release Manager | [https://qapilot.io/for-release-manager](https://qapilot.io/for-release-manager) |
 | Platform → Quality Assurance Engineer | [https://qapilot.io/for-qa-engineer](https://qapilot.io/for-qa-engineer) |
