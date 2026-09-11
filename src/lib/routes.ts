@@ -11,6 +11,8 @@ export const PATHS = {
   AGENTIC_ARCHITECTURE: "/agentic-architecture",
   /** QApilot MCP early-access waitlist (Platform → AI Agents). */
   MCP: "/mcp",
+  /** QApilot MCP CLI user guide. */
+  MCP_GUIDE: "/mcp/guide",
   ENTERPRISE: "/enterprise",
   ABOUT: "/about",
   BLOGS: "/blogs",
@@ -118,7 +120,7 @@ export const PLATFORM_BY_ROLE = [
 /** Platform dropdown: AI Agents */
 export const PLATFORM_AI_AGENTS = [
   {
-    path: PATHS.MCP,
+    path: PATHS.MCP_GUIDE,
     label: "QApilot MCP",
     icon: "Terminal",
   },
