@@ -4,11 +4,12 @@ import { ReleaseReadinessSuitePillars } from "@/components/release-readiness-sui
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { openGraphImageForPath } from "@/lib/seo";
 import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 
 const path = PATHS.RELEASE_READINESS_SUITE;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
+const ogImage = openGraphImageForPath(path);
 
 export const metadata: Metadata = {
  title: "Release Readiness Suite. Bugs, Security, Self-Healing & Device Metrics",
@@ -25,14 +26,14 @@ export const metadata: Metadata = {
  url: canonicalUrl,
  siteName: "QApilot",
  locale: "en_US",
- images: [defaultOpenGraphImage],
+ images: [ogImage],
  },
  twitter: {
  card: "summary_large_image",
  title: "Release Readiness Suite | QApilot",
  description:
  "Intelligent bug detection, security reports, and AI self-healing. One suite for mobile release readiness.",
- images: [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],
+ images: [{ url: ogImage.url, alt: ogImage.alt }],
  },
 };
 

@@ -26,7 +26,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "QApilot figures out what to test. BrowserStack is where those runs hit real phones and tablets.",
     metaTitle: "BrowserStack Integration. Autonomous Mobile Testing",
     metaDescription:
-      "Connect QApilot with BrowserStack: generate and heal mobile tests in QApilot, run them on BrowserStack device clouds for iOS and Android.",
+      "Connect QApilot with BrowserStack: generate and heal mobile tests in QApilot, then run them on BrowserStack device clouds for iOS and Android coverage.",
     heroLead:
       "Use QApilot to build and maintain mobile coverage, then push execution onto BrowserStack's device cloud when you need breadth.",
     highlights: [
@@ -53,7 +53,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "QApilot builds the suite. LambdaTest spreads it across the devices you care about.",
     metaTitle: "LambdaTest Integration. Autonomous Mobile Testing",
     metaDescription:
-      "Connect QApilot with LambdaTest: explore and generate mobile tests in QApilot, execute across LambdaTest’s device grid.",
+      "Connect QApilot with LambdaTest: explore and generate mobile tests in QApilot, then execute them across LambdaTest’s device grid for broader coverage.",
     heroLead:
       "Discover and maintain coverage in QApilot, then run it on LambdaTest when you need more devices in the mix.",
     highlights: [
@@ -80,7 +80,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "QApilot handles coverage and upkeep. Sauce Labs handles parallel runs on your device matrix.",
     metaTitle: "Sauce Labs Integration. Autonomous Mobile Testing",
     metaDescription:
-      "Connect QApilot with Sauce Labs: generate mobile coverage in QApilot, execute in parallel on Sauce Labs infrastructure.",
+      "Connect QApilot with Sauce Labs: build and maintain mobile coverage in QApilot, then run parallel suites on your Sauce Labs device matrix at scale.",
     heroLead:
       "Keep Sauce Labs for execution scale. Let QApilot decide what runs and keep those tests from rotting every sprint.",
     highlights: [
@@ -107,7 +107,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "Cases you already track in TestRail can become runnable mobile automation through QApilot CoWork.",
     metaTitle: "TestRail Integration. CoWork Mobile Automation",
     metaDescription:
-      "Connect QApilot with TestRail: import cases into CoWork and turn managed test cases into executable mobile automation.",
+      "Connect QApilot with TestRail: import planned cases into CoWork and turn managed test cases into executable mobile automation on real devices.",
     heroLead:
       "Bring TestRail cases into CoWork so planned coverage stops living only as checklists.",
     highlights: [
@@ -134,7 +134,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "Failures land in Jira with enough context that eng can act without a Slack scavenger hunt.",
     metaTitle: "Jira Integration. Actionable Mobile Bug Tickets",
     metaDescription:
-      "Connect QApilot with Jira: auto-create tickets with screen context, severity, and reproduction detail from mobile test failures.",
+      "Connect QApilot with Jira: auto-create tickets with screen context, severity, and reproduction detail from mobile test failures your team can act on.",
     heroLead:
       "When QApilot catches a failure, Jira gets a ticket with the screen, severity, and enough trail to reproduce.",
     highlights: [
@@ -161,7 +161,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "Run updates and release signals show up in the Teams channels people already watch.",
     metaTitle: "Microsoft Teams Integration. Release Alerts",
     metaDescription:
-      "Connect QApilot with Microsoft Teams: send build and test notifications to the channels release and QE teams already use.",
+      "Connect QApilot with Microsoft Teams: send build and test notifications to the channels release and QE teams already use for faster failure triage.",
     heroLead:
       "Push QApilot run status into Microsoft Teams so release and QE folks hear about failures without digging for them.",
     highlights: [
@@ -188,7 +188,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "Run results and readiness notes land in Slack while the team is already there.",
     metaTitle: "Slack Integration. Real-Time QA Alerts",
     metaDescription:
-      "Connect QApilot with Slack: get alerts on mobile test runs, failures, and release readiness in the channels you already use.",
+      "Connect QApilot with Slack: get alerts on mobile test runs, failures, and release readiness in the channels your engineering squad already watches.",
     heroLead:
       "Get QApilot failures and readiness updates in Slack instead of finding out from a red build an hour later.",
     highlights: [
@@ -215,7 +215,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "Kick off QApilot runs from the Jenkins jobs you already trust for builds.",
     metaTitle: "Jenkins Integration. CI/CD Mobile QA",
     metaDescription:
-      "Connect QApilot with Jenkins: trigger mobile QA from pipelines and use quality signals as part of your release gate.",
+      "Connect QApilot with Jenkins: trigger mobile QA from existing CI pipelines and use quality signals as part of your release gate before ship.",
     heroLead:
       "Hook QApilot into Jenkins so a green build can also mean the mobile suite actually ran.",
     highlights: [
@@ -242,7 +242,7 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
       "Keep XRAY as the Jira-side test record while QApilot does the heavy lifting on devices.",
     metaTitle: "XRAY Integration. Jira-Native Test Management",
     metaDescription:
-      "Connect QApilot with XRAY: keep Jira-native test management in sync with autonomous mobile execution and coverage.",
+      "Connect QApilot with XRAY: keep Jira-native test management in sync with autonomous mobile execution, coverage, and clear release readiness signals.",
     heroLead:
       "Stay in XRAY for planning and traceability. Let QApilot run the mobile work those plans describe.",
     highlights: [

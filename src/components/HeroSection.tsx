@@ -8,8 +8,6 @@ const heroContentShellClass =
 
 /**
  * S01 thesis hero + S02 trust rail.
- * Product Hunt badge lives in a top band (inside HomeHeroExploreStage) outside
- * slide centering so it is never clipped by overflow or short viewports.
  */
 export default function HeroSection() {
   return (

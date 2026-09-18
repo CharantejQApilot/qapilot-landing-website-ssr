@@ -10,6 +10,13 @@ export const META_DESCRIPTION_MAX_LEN = 160;
 export const META_DESCRIPTION_MIN_LEN = 140;
 
 /**
+ * Benefit clause appended when a description is under the SERP floor.
+ * Grounded in product positioning only — no invented stats or claims.
+ */
+export const META_DESCRIPTION_PAD =
+  " Autonomous mobile testing for iOS, Android, and Flutter teams.";
+
+/**
  * Connectors stripped after truncation so SERP text never ends mid-phrase.
  * Broader than authoring validation (includes guide / brand leftovers).
  */
@@ -69,4 +76,27 @@ export function endsWithWeakTrailingWord(text: string): boolean {
   const parts = trimmed.split(/\s+/);
   const last = (parts[parts.length - 1] ?? "").replace(/[.,;\-–—]+$/, "");
   return INCOMPLETE_TRAILING_WORD_RE.test(last);
+}
+
+/**
+ * Bring a meta description into the 140–160 SERP window: pad short copy,
+ * then truncate long copy at a word boundary.
+ */
+export function ensureMetaDescriptionLength(
+  raw: string,
+  minLen = META_DESCRIPTION_MIN_LEN,
+  maxLen = META_DESCRIPTION_MAX_LEN,
+): string {
+  const normalized = raw.replace(/\s+/g, " ").trim();
+  if (!normalized) return normalized;
+
+  let text = normalized;
+  if (text.length < minLen) {
+    const base = stripTrailingPunctuation(text);
+    const joined = `${base}.${META_DESCRIPTION_PAD}`.replace(/\s+/g, " ").trim();
+    text = joined.length >= minLen ? joined : `${joined} Book a demo.`;
+  }
+
+  if (text.length <= maxLen) return text;
+  return truncateAtWordBoundary(text, maxLen, 0.6);
 }

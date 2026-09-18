@@ -31,6 +31,9 @@ contentpipeline/.env
 # vercel
 .vercel
 
+# local pre-deploy SEO audit stamp (written by the Cursor skill)
+.cursor/cache/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

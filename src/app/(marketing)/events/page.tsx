@@ -25,12 +25,12 @@ const EVENTS_GRID =
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Events. Webinars, Meetups & Live Talks",
   description:
-    "Webinars, meetups, and live talks on AI-native mobile testing, autonomous QA, Flutter validation, and release readiness.",
+    "Webinars, meetups, and live talks on AI-native mobile testing, autonomous QA, Flutter validation, and release readiness for modern mobile teams.",
   path: EVENTS_PATH,
   ogDescription:
-    "Practical sessions on AI mobile testing, agentic QA, and safer shipping practices.",
+    "Practical sessions on AI mobile testing, agentic QA, and safer shipping practices for mobile teams.",
   twitterDescription:
-    "Join QApilot webinars and meetups on AI-native mobile testing.",
+    "Join QApilot webinars and meetups on AI-native mobile testing and release readiness.",
 });
 
 export const revalidate = 3600;

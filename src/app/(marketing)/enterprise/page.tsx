@@ -7,12 +7,13 @@ import FeaturedResourcesSection from "@/components/FeaturedResourcesSection";
 import { getFeaturedResourcesCtaLinks } from "@/lib/featured-resources-ctas";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { openGraphImageForPath } from "@/lib/seo";
 import { formatPageTitle } from "@/lib/page-title";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell } from "@/components/marketing";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.ENTERPRISE}`;
+const ogImage = openGraphImageForPath(PATHS.ENTERPRISE);
 
 const PAGE_TITLE = formatPageTitle(
   "Enterprise Mobile Testing. Scale QA Automation",
@@ -32,16 +33,14 @@ export const metadata: Metadata = {
       "Scale mobile QA with AI-powered testing for iOS and Android. Built for enterprise teams.",
     siteName: "QApilot",
     locale: "en_US",
-    images: [defaultOpenGraphImage],
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Enterprise Mobile Testing Solutions | QApilot",
     description:
       "Enterprise-grade mobile testing automation for iOS and Android at scale.",
-    images: [
-      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
-    ],
+    images: [{ url: ogImage.url, alt: ogImage.alt }],
   },
 };
 

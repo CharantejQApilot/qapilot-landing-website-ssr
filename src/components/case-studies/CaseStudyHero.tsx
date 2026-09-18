@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { HomeEyebrow } from "@/components/home/HomeEyebrow";
-import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { marketingHeroH1Class } from "@/lib/marketing-typography";
+import { HomeHeroAtmosphere } from "@/components/home/HomeHeroAtmosphere";
+import { marketingHeroLeadClass } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 
 type CaseStudyHeroProps = {
@@ -11,13 +11,11 @@ type CaseStudyHeroProps = {
   lead: ReactNode;
   cta?: ReactNode;
   children?: ReactNode;
-  media?: ReactNode;
-  mediaVariant?: "logo" | "device";
 };
 
 /**
- * Case-study thesis hero. Device variant uses home-hero H1 scale so the
- * headline wraps across more lines beside the phone.
+ * Text-only case-study thesis header. Same atmosphere as other marketing
+ * heroes; H1 stays sentence-scale so long titles stay readable.
  */
 export function CaseStudyHero({
   titleId,
@@ -26,97 +24,42 @@ export function CaseStudyHero({
   lead,
   cta,
   children,
-  media,
-  mediaVariant = "logo",
 }: CaseStudyHeroProps) {
-  const isDevice = mediaVariant === "device";
-
   return (
     <section
       className="hero-prominent relative section-edge w-full overflow-x-clip home-canvas"
       aria-labelledby={titleId}
     >
-      <MarketingBackground variant="hero" />
-      <div
-        className={cn(
-          "relative z-10 w-full",
-          isDevice
-            ? "py-12 sm:py-14 md:py-16 lg:py-16 xl:py-20"
-            : "py-12 sm:py-14 md:py-16 lg:py-20",
-        )}
-      >
+      <HomeHeroAtmosphere />
+      <div className="relative z-10 w-full py-14 sm:py-16 md:py-20 lg:py-24">
         <div className="section-full">
-          <div
-            className={cn(
-              "w-full min-w-0",
-              media &&
-                isDevice &&
-                "grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-8 xl:gap-x-10",
-              media &&
-                !isDevice &&
-                "flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1.65fr)_minmax(14rem,0.7fr)] lg:items-start lg:gap-12 xl:gap-16",
-              !media && "flex flex-col",
-            )}
-          >
-            <div className="flex min-w-0 w-full flex-col items-start text-left">
-              {eyebrow ? (
-                <HomeEyebrow>{eyebrow}</HomeEyebrow>
-              ) : null}
+          <div className="flex w-full min-w-0 flex-col items-start text-left">
+            {eyebrow ? <HomeEyebrow>{eyebrow}</HomeEyebrow> : null}
 
-              <h1
-                id={titleId}
-                className={cn(
-                  isDevice
-                    ? cn(marketingHeroH1Class, "w-full text-pretty")
-                    : "w-full max-w-3xl font-heading text-[1.85rem] font-semibold leading-[1.18] tracking-tight text-foreground text-pretty sm:text-4xl sm:leading-[1.16] md:text-[2.5rem] md:leading-[1.14] lg:text-[2.75rem] xl:text-5xl xl:leading-[1.12]",
-                )}
-              >
-                {title}
-              </h1>
+            <h1
+              id={titleId}
+              className="w-full max-w-5xl font-heading text-[1.85rem] font-semibold leading-[1.18] tracking-tight text-pretty text-foreground sm:text-4xl sm:leading-[1.16] md:text-[2.5rem] md:leading-[1.14] lg:text-[2.75rem] xl:text-5xl xl:leading-[1.12]"
+            >
+              {title}
+            </h1>
 
-              {lead ? (
-                typeof lead === "string" ? (
-                  <p
-                    className={cn(
-                      "mt-5 w-full leading-relaxed text-muted-foreground sm:mt-6",
-                      isDevice
-                        ? "text-lg sm:text-xl md:text-[1.35rem] md:leading-relaxed"
-                        : "max-w-2xl text-base md:text-lg",
-                    )}
-                  >
-                    {lead}
-                  </p>
-                ) : (
-                  <div
-                    className={cn(
-                      "mt-5 w-full leading-relaxed text-muted-foreground sm:mt-6",
-                      isDevice
-                        ? "text-lg sm:text-xl md:text-[1.35rem] md:leading-relaxed"
-                        : "max-w-2xl text-base md:text-lg",
-                    )}
-                  >
-                    {lead}
-                  </div>
-                )
-              ) : null}
-
-              {children}
-
-              {cta ? (
-                <div className="sig-cta-row mt-8 w-full justify-start sm:mt-9">
-                  {cta}
+            {lead ? (
+              typeof lead === "string" ? (
+                <p className={cn(marketingHeroLeadClass, "mt-5 sm:mt-6 md:mt-7")}>
+                  {lead}
+                </p>
+              ) : (
+                <div className={cn(marketingHeroLeadClass, "mt-5 sm:mt-6 md:mt-7")}>
+                  {lead}
                 </div>
-              ) : null}
-            </div>
+              )
+            ) : null}
 
-            {media ? (
-              <div
-                className={cn(
-                  "hidden min-w-0 lg:flex",
-                  isDevice ? "items-center justify-center" : "w-full pt-10",
-                )}
-              >
-                {media}
+            {children}
+
+            {cta ? (
+              <div className="sig-cta-row mt-8 w-full justify-start sm:mt-9">
+                {cta}
               </div>
             ) : null}
           </div>

@@ -7,9 +7,11 @@ import {
   MarketingSection,
   MarketingThesisHero,
 } from "@/components/marketing";
+import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 import { McpGuideBody } from "@/components/mcp-guide";
 import { McpGuideInstallSlider } from "@/components/mcp-guide/McpGuideInstallSlider";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { PRODUCT_HUNT_MCP_TOP_POST_BADGE } from "@/lib/product-hunt-badge";
 import {
   buildMcpGuideJsonLd,
   MCP_GUIDE_CHIPS,
@@ -66,6 +68,13 @@ export default function McpGuidePage() {
         <div id="overview" data-guide-section="overview" className="scroll-mt-8">
           <MarketingThesisHero
             titleId="mcp-guide-hero"
+            beforeEyebrow={
+              <HomeHeroProductHuntBadge
+                align="start"
+                className="mb-3 sm:mb-4"
+                badge={PRODUCT_HUNT_MCP_TOP_POST_BADGE}
+              />
+            }
             eyebrow="AI-Native Android Automation"
             title={
               <>

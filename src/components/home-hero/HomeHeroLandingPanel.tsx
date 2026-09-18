@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
-import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -23,42 +22,36 @@ type HomeHeroLandingPanelProps = {
 
 /**
  * Slide 1 content.
- * Mobile: document-flow stack (badge → headline → capsules) to avoid overlap.
- * Desktop (lg+): badge + capsules are absolutely placed in the midpoints of the
- * empty bands (menu → headline, headline → slider).
+ * Mobile: document-flow stack (headline → capsules) to avoid overlap.
+ * Desktop (lg+): capsules are absolutely placed in the midpoint of the
+ * empty band (headline → slider).
  */
 export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingPanelProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
   const capsulesRef = useRef<HTMLElement>(null);
   const [ready, setReady] = useState(false);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
     const headline = headlineRef.current;
-    const badge = badgeRef.current;
     const capsules = capsulesRef.current;
-    if (!root || !headline || !badge || !capsules) return;
+    if (!root || !headline || !capsules) return;
 
     const placeTops = () => {
       // Mobile uses in-flow layout; clear any leftover absolute tops.
       if (!window.matchMedia(LG_MIN).matches) {
-        badge.style.top = "";
         capsules.style.top = "";
         return true;
       }
 
-      const siteHeader = document.querySelector("[data-site-header]");
       const slider = document.querySelector("[data-hero-slider]");
-      if (!siteHeader || !slider) return false;
+      if (!slider) return false;
 
       const rootTop = root.getBoundingClientRect().top;
-      const menuBottom = siteHeader.getBoundingClientRect().bottom;
       const headlineBox = headline.getBoundingClientRect();
       const sliderTop = slider.getBoundingClientRect().top;
 
-      badge.style.top = `${Math.max(0, (menuBottom + headlineBox.top) / 2 - rootTop - badge.offsetHeight / 2)}px`;
       capsules.style.top = `${Math.max(0, (headlineBox.bottom + sliderTop) / 2 - rootTop - capsules.offsetHeight / 2)}px`;
       return true;
     };
@@ -78,7 +71,6 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
     const ro = new ResizeObserver(rafPlace);
     ro.observe(root);
     ro.observe(headline);
-    ro.observe(badge);
     ro.observe(capsules);
 
     const mq = window.matchMedia(LG_MIN);
@@ -107,50 +99,32 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
       ref={rootRef}
       className="relative flex h-full w-full min-w-0 flex-col items-start justify-center gap-5 sm:gap-6 lg:block lg:gap-0"
     >
-      <div
-        ref={badgeRef}
-        className={cn(
-          "z-[2] flex w-full justify-start",
-          "relative shrink-0",
-          "lg:absolute lg:inset-x-0 lg:top-0",
-          !showDesktopOverlays && "lg:invisible",
-        )}
-      >
-        <HomeHeroProductHuntBadge className="shrink-0 self-start" />
-      </div>
-
-      <div className="flex w-full min-w-0 flex-col items-start lg:h-full lg:items-center lg:justify-start">
-        <div className="flex w-full min-w-0 flex-col items-start gap-0 lg:h-full lg:justify-center lg:gap-8">
-          {/* Desktop-only spacer so the headline stays vertically centered under the absolute badge */}
-          <div className="invisible hidden shrink-0 lg:block" aria-hidden>
-            <HomeHeroProductHuntBadge />
-          </div>
-          <h1
-            ref={headlineRef}
-            data-home-hero-band-headline
-            className={cn(
-              marketingHeroH1Class,
-              "mb-0 w-full text-left sm:mb-0",
-              "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
-            )}
-          >
-            <span className="flex flex-col items-start gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:gap-y-4">
-              <span className="flex flex-col items-start gap-y-2 px-1 leading-[inherit] sm:gap-y-2.5 md:block md:whitespace-nowrap">
-                <span className="block md:inline">Mobile-First</span>
-                <span className="hidden md:inline"> </span>
-                <span className="block md:inline">Businesses Need</span>
-              </span>
-              <Link
-                href={PATHS.COMPARE_WEB_FIRST}
-                className="flex flex-col items-start gap-y-2 rounded-sm px-1 leading-[inherit] text-hero-here transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-y-2.5 md:block md:whitespace-nowrap"
-              >
-                <span className="block md:inline">Mobile-First</span>
-                <span className="hidden md:inline"> </span>
-                <span className="block md:inline">App Testing</span>
-              </Link>
+      <div className="flex w-full min-w-0 flex-col items-start lg:h-full lg:items-center lg:justify-center">
+        <h1
+          ref={headlineRef}
+          data-home-hero-band-headline
+          className={cn(
+            marketingHeroH1Class,
+            "mb-0 w-full text-left sm:mb-0",
+            "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
+          )}
+        >
+          <span className="flex flex-col items-start gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:gap-y-4">
+            <span className="flex flex-col items-start gap-y-2 px-1 leading-[inherit] sm:gap-y-2.5 md:block md:whitespace-nowrap">
+              <span className="block md:inline">Mobile-First</span>
+              <span className="hidden md:inline"> </span>
+              <span className="block md:inline">Businesses Need</span>
             </span>
-          </h1>
-        </div>
+            <Link
+              href={PATHS.COMPARE_WEB_FIRST}
+              className="flex flex-col items-start gap-y-2 rounded-sm px-1 leading-[inherit] text-hero-here transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-y-2.5 md:block md:whitespace-nowrap"
+            >
+              <span className="block md:inline">Mobile-First</span>
+              <span className="hidden md:inline"> </span>
+              <span className="block md:inline">App Testing</span>
+            </Link>
+          </span>
+        </h1>
       </div>
 
       <nav

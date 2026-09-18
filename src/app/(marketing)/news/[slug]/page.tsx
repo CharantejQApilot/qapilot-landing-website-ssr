@@ -11,7 +11,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
-import { DEFAULT_SHARE_IMAGE_URL, defaultOpenGraphImage } from "@/lib/seo";
+import { DEFAULT_SHARE_IMAGE_URL, defaultOpenGraphImage, formatMetaDescription } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
@@ -130,13 +130,14 @@ export async function generateMetadata({
   }
 
   const baseTitle = firstNonEmptyString(newsItem.title) ?? "QApilot news";
-  const description =
+  const description = formatMetaDescription(
     firstNonEmptyString(
       newsItem.seo_description,
       newsItem.excerpt,
       newsItem.description,
     ) ??
-    `Read ${baseTitle} on QApilot News. Latest updates on AI-powered mobile app testing.`;
+      `Read ${baseTitle} on QApilot News. Latest updates on AI-powered mobile app testing and release readiness.`,
+  );
 
   const metaTitle =
     firstNonEmptyString(newsItem.seo_title, newsItem.title) ?? baseTitle;
@@ -478,9 +479,15 @@ export default async function NewsPostPage({
 
             {backlinks.length > 0 ? (
               <nav
-                aria-label="Related organizations"
+                aria-labelledby="news-related-orgs-heading"
                 className="mt-12 border-t border-border pt-8"
               >
+                <h2
+                  id="news-related-orgs-heading"
+                  className="mb-6 text-center text-lg font-semibold text-foreground"
+                >
+                  Related organizations
+                </h2>
                 <div className="flex flex-wrap justify-center gap-6">
                   {backlinks.map((backlink) => {
                     const isLink = !!backlink.link_url;
@@ -501,9 +508,9 @@ export default async function NewsPostPage({
                             height={64}
                           />
                         </div>
-                        <h4 className="mb-2 text-sm font-semibold text-foreground">
+                        <h3 className="mb-2 text-sm font-semibold text-foreground">
                           {backlink.header}
-                        </h4>
+                        </h3>
                         {backlink.description ? (
                           <p className="mb-3 text-sm text-muted-foreground">
                             {backlink.description}

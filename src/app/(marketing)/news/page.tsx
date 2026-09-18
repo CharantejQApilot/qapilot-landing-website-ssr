@@ -22,12 +22,12 @@ const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "News. Mobile Testing Updates & Announcements",
   description:
-    "Product updates, partnerships, and mobile testing insights from QApilot. Stay current on AI-native QA.",
+    "Product updates, partnerships, and mobile testing insights from QApilot. Stay current on AI-native QA for iOS, Android, and Flutter teams shipping faster.",
   path: NEWS_PATH,
   ogDescription:
-    "Latest announcements, product updates, and insights from QApilot.",
+    "Latest announcements, product updates, and insights from QApilot on AI-native mobile testing.",
   twitterDescription:
-    "News and announcements on AI-native mobile testing from QApilot.",
+    "News and announcements on AI-native mobile testing from QApilot for modern app teams.",
 });
 
 export const revalidate = 120;

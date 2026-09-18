@@ -1,32 +1,30 @@
 "use client";
 
 import { type ReactNode, useState } from "react";
-import { useNearViewport } from "@/hooks/use-near-viewport";
 import Link from "next/link";
-import { Network } from "lucide-react";
-import { AbstractFrameBackdrop } from "@/components/marketing/AbstractFrameBackdrop";
-import { HomeDarkAtmosphere } from "@/components/home/HomeDarkAtmosphere";
+import { ArrowRight } from "lucide-react";
 import { HomeSeam } from "@/components/home/HomeSeam";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
-import { marketingSectionIntroClass } from "@/lib/marketing-typography";
+import { HOME_PAGE_MCP } from "@/lib/home-page-seo";
 import { PATHS, PLATFORM_BY_SOLUTION } from "@/lib/routes";
+import { cn } from "@/lib/utils";
 
-/** Suite pillar tabs are not separate Platform nav items. Deep-link into the suite. */
-const RELEASE_READINESS_TAB_HREFS: Record<string, string> = {
+/** Suite pillars + MCP are not separate Platform → By Solution items. */
+const KNOW_MORE_HREFS: Record<string, string> = {
   "Intelligent Bug Detection": PATHS.INTELLIGENT_BUG_DETECTION,
   "Security Reports": PATHS.SECURITY_REPORTS,
   "AI Self Healing": PATHS.AI_SELF_HEALING,
+  "QApilot MCP": PATHS.MCP,
 };
 
-/** Same destinations as Platform → By Solution (excludes Overview), plus suite pillar anchors. */
-function knowMoreHrefForSolutionLabel(label: string): string {
-  const suiteHref = RELEASE_READINESS_TAB_HREFS[label];
-  if (suiteHref) return suiteHref;
+function knowMoreHrefForLabel(label: string): string {
+  const specialHref = KNOW_MORE_HREFS[label];
+  if (specialHref) return specialHref;
 
   const entry = PLATFORM_BY_SOLUTION.find((i) => i.label === label);
   if (!entry || entry.path === PATHS.OVERVIEW) {
     throw new Error(
-      `Missing Platform → By Solution path for capability tab: ${label}`,
+      `Missing Platform → By Solution path for capability: ${label}`,
     );
   }
   return entry.path;
@@ -47,18 +45,14 @@ function SeoLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
-type TabItem = {
+type Capability = {
   id: string;
   label: string;
   description: ReactNode;
-  knowMoreHref: string;
-  imageAlt: string;
-  imageSrc?: string;
-  /** Softer wash behind pale, full-width UI shots */
-  frameScrim?: "light";
+  href: string;
 };
 
-const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
+const CAPABILITY_DEFINITIONS: Omit<Capability, "href">[] = [
   {
     id: "autonomous",
     label: "Autonomous Testing",
@@ -75,9 +69,6 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         <CapHighlight>instant visibility into app health</CapHighlight>.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-autonomous-testing.png",
-    imageAlt:
-      "QApilot crawler flow showing an app knowledge graph with connected screens, playback controls, and state details for autonomous mobile testing",
   },
   {
     id: "cowork",
@@ -90,9 +81,6 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         planned coverage stops living only as a checklist.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-cowork.png",
-    imageAlt:
-      "QApilot CoWork: TaskRabbit booking flow on device, BDD planner steps, and live execution plan with pass and fail status",
   },
   {
     id: "flutter",
@@ -108,9 +96,6 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         custom handling.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-flutter-testing.png",
-    imageAlt:
-      "QApilot Flutter testing workspace: NATIVE_APP context, Urgent Care app in the emulator with clinic cards, Actions panel with Create Step and step text, selected element identifiers with Verify links, and Steps panel with Write a Step",
   },
   {
     id: "dual-device",
@@ -126,9 +111,6 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         they break in production.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-dual-device-testing.png",
-    imageAlt:
-      "QApilot dual device testing: Galaxy S24 customer app and Galaxy S25 partner app running in sync, with live steps and a sync trigger waiting on Plan B",
   },
   {
     id: "security",
@@ -143,10 +125,6 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         strengthen security before every release.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-security-reports.png",
-    imageAlt:
-      "QApilot security dashboard: app risk score, severity distribution, tracker detection, manifest and code vulnerability summaries, certificate issues, and dangerous permissions such as fine location",
-    frameScrim: "light",
   },
   {
     id: "self-healing",
@@ -161,9 +139,6 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         <CapHighlight>test suite stable</CapHighlight> over time.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-self-healing.png",
-    imageAlt:
-      "QApilot AI self-healing in a completed sanity suite run: AI-assisted step, dialog to update healed XPath for Enter your destination, execution vs recorded phone screenshots, element screenshot, and find-element timeline",
   },
   {
     id: "bug-detection",
@@ -180,31 +155,40 @@ const TAB_DEFINITIONS: Omit<TabItem, "knowMoreHref">[] = [
         teams <CapHighlight>catch issues early</CapHighlight> and continuously.
       </>
     ),
-    imageSrc: "/lovable-uploads/core-advantage-intelligent-bug-detection.png",
-    imageAlt:
-      "QApilot Intelligent Bug Detection: mobile emulator with highlighted issues, pages list, and accessibility details including touch targets, contrast, and content descriptions",
+  },
+  {
+    id: "mcp",
+    label: "QApilot MCP",
+    description: (
+      <>
+        <SeoLink href={PATHS.MCP}>{HOME_PAGE_MCP.name}</SeoLink> puts mobile
+        verification in the coding agent you already use. Say what needs to
+        hold in plain language. QApilot builds the test, runs it on your{" "}
+        <CapHighlight>local device or emulator</CapHighlight>, and returns a{" "}
+        <CapHighlight>markdown report</CapHighlight> the agent can query.{" "}
+        <CapHighlight>Local-first</CapHighlight>: the app stays on your
+        machine. Works with {HOME_PAGE_MCP.agents.slice(0, -1).join(", ")}, and{" "}
+        {HOME_PAGE_MCP.agents[HOME_PAGE_MCP.agents.length - 1]}.
+      </>
+    ),
   },
 ];
 
-const TABS: TabItem[] = TAB_DEFINITIONS.map((tab) => ({
-  ...tab,
-  knowMoreHref: knowMoreHrefForSolutionLabel(tab.label),
+const CAPABILITIES: Capability[] = CAPABILITY_DEFINITIONS.map((item) => ({
+  ...item,
+  href: knowMoreHrefForLabel(item.label),
 }));
 
 /**
- * Core advantage: heading, crawler card, and capability tabs (merged former Deliver section).
+ * Platform capabilities: pick one at a time (earlier UX).
+ * Left nav fills the old screenshot column; detail stays focused.
  */
-const CoreAdvantageHeading = () => {
+export default function CoreAdvantageHeading() {
   const [active, setActive] = useState(0);
-  const current = TABS[active];
-  const { ref: sectionRef, isNear } = useNearViewport<HTMLElement>({
-    rootMargin: "280px 0px",
-    threshold: 0,
-  });
+  const current = CAPABILITIES[active];
 
   return (
     <section
-      ref={sectionRef}
       className="relative isolate overflow-hidden home-canvas section-edge w-full"
       aria-labelledby="core-advantage-heading"
     >
@@ -220,179 +204,111 @@ const CoreAdvantageHeading = () => {
               Testing
             </>
           }
-          description="From autonomous exploration to security and self-healing, QApilot unifies the capabilities your team needs to ship mobile quality with less manual effort."
+          description="Autonomous exploration is a script-free way to map real app journeys. From exploration to security, self-healing, and QApilot MCP, QApilot unifies the capabilities your team needs to ship mobile quality with less manual effort."
           marginBottomClassName="mb-8 md:mb-10 2xl:mb-12"
         />
 
-        {/* Crawler card. Same navy as QApilot By The Numbers banner */}
-        <article className="section-navy relative z-[1] w-full overflow-hidden rounded-md border border-white/10">
-          <HomeDarkAtmosphere glow="top-right" />
-
-          {/* White L-frames inset inside the card */}
-          <svg
-            className="pointer-events-none absolute left-3 top-3 z-[1] h-12 w-12 sm:left-4 sm:top-4 sm:h-14 sm:w-14"
-            viewBox="0 0 64 64"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
+        <div className="relative z-[1] overflow-hidden border border-border bg-background">
+          {/* Mobile: horizontal chips */}
+          <div
+            className="flex gap-0 overflow-x-auto border-b border-border lg:hidden scrollbar-thin [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            role="tablist"
+            aria-label="Product capabilities"
           >
-            <path
-              d="M 8 52 L 8 8 L 52 8"
-              stroke="white"
-              strokeOpacity={0.45}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <svg
-            className="pointer-events-none absolute bottom-3 right-3 z-[1] h-12 w-12 sm:bottom-4 sm:right-4 sm:h-14 sm:w-14"
-            viewBox="0 0 64 64"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              d="M 56 12 L 56 56 L 12 56"
-              stroke="white"
-              strokeOpacity={0.45}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-
-          <div className="relative z-[2] flex flex-col gap-5 px-5 py-6 sm:px-6 sm:py-8 md:flex-row md:items-start md:gap-6 md:px-8 md:py-8 2xl:px-10 2xl:py-10">
-            <div className="flex h-10 w-12 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/10 text-primary-foreground md:h-12 md:w-12">
-              <Network
-                className="h-6 w-6 md:h-7 md:w-7"
-                strokeWidth={1.5}
-                aria-hidden
-              />
-            </div>
-            <div className="min-w-0 flex-1">
-              <h3 className="font-heading text-lg font-bold text-primary-foreground md:text-xl 2xl:text-2xl">
-                Meet QApilot&apos;s Autonomous Mobile App Crawler
-              </h3>
-              <p className="mt-3 text-base leading-relaxed text-[hsl(var(--navy-muted))] md:mt-4 md:text-lg 2xl:text-xl">
-                QApilot&apos;s mobile app crawler navigates even the trickiest
-                app flows, building a live{" "}
-                <strong className="font-semibold text-primary-foreground">
-                  Knowledge Graph
-                </strong>{" "}
-                that becomes the brain of QApilot&apos;s autonomous agent
-                network.
-              </p>
-              <p className="mt-3 text-base leading-relaxed text-[hsl(var(--navy-muted))] md:mt-4 md:text-lg 2xl:text-xl">
-                The result?{" "}
-                <strong className="font-semibold text-primary-foreground">
-                  Zero-touch sanity testing
-                </strong>{" "}
-                of your app&apos;s critical flows. Validated in minutes. No
-                scripts, no setup.
-              </p>
-            </div>
+            {CAPABILITIES.map((item, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`deliver-panel-${item.id}`}
+                  id={`deliver-tab-mobile-${item.id}`}
+                  onClick={() => setActive(i)}
+                  className={cn(
+                    "shrink-0 border-b-2 px-3.5 py-3 text-left text-sm font-semibold transition-colors",
+                    isActive
+                      ? "border-primary text-foreground"
+                      : "border-transparent text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </div>
-        </article>
 
-        {/* Capability tabs + panel */}
-        <div
-          className="relative z-[1] mt-10 md:mt-12 2xl:mt-14 mb-0 flex gap-0 overflow-x-auto border-x border-t border-b border-border scrollbar-thin [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          role="tablist"
-          aria-label="Product capabilities"
-        >
-          {TABS.map((tab, i) => {
-            const isActive = i === active;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`deliver-panel-${tab.id}`}
-                id={`deliver-tab-${tab.id}`}
-                onClick={() => setActive(i)}
-                className={`shrink-0 border-b-2 px-3.5 py-3 text-left text-sm font-semibold transition-colors md:px-4 md:py-3.5 ${
-                  isActive
-                    ? "border-primary text-foreground"
-                    : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
+          <div className="grid lg:grid-cols-[minmax(14rem,18.5rem)_minmax(0,1fr)]">
+            {/* Desktop: vertical capability list (fills former media column) */}
+            <div
+              className="hidden border-r border-border bg-[hsl(var(--home-tint))] lg:block"
+              role="tablist"
+              aria-label="Product capabilities"
+              aria-orientation="vertical"
+            >
+              {CAPABILITIES.map((item, i) => {
+                const isActive = i === active;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={`deliver-panel-${item.id}`}
+                    id={`deliver-tab-${item.id}`}
+                    onClick={() => setActive(i)}
+                    className={cn(
+                      "flex w-full items-center justify-between gap-3 border-b border-border px-5 py-3.5 text-left text-sm font-semibold transition-colors last:border-b-0",
+                      isActive
+                        ? "bg-background text-foreground"
+                        : "text-muted-foreground hover:bg-background/60 hover:text-foreground",
+                    )}
+                  >
+                    <span className="min-w-0 leading-snug">{item.label}</span>
+                    <span
+                      className={cn(
+                        "font-heading shrink-0 text-xs tabular-nums",
+                        isActive
+                          ? "text-primary"
+                          : "text-muted-foreground/45",
+                      )}
+                      aria-hidden
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
-        <div
-          role="tabpanel"
-          id={`deliver-panel-${current.id}`}
-          aria-labelledby={`deliver-tab-${current.id}`}
-          className="relative z-[1] overflow-hidden rounded-none border-x border-b border-border bg-card"
-        >
-          {/* S04/S07: copy column; product media from lg up */}
-          <div className="flex min-h-0 flex-col lg:min-h-[min(58vh,656px)] lg:flex-row">
-            <div className="relative isolate flex min-w-0 flex-1 flex-col justify-center overflow-hidden bg-[hsl(var(--home-tint))] px-6 py-8 md:px-8 md:py-10 lg:border-r lg:px-10 lg:py-10 lg:flex-[0_0_38%]">
+            <div
+              role="tabpanel"
+              id={`deliver-panel-${current.id}`}
+              aria-labelledby={`deliver-tab-${current.id}`}
+              className="flex min-h-0 flex-col justify-center px-6 py-8 sm:px-8 sm:py-10 md:px-10 lg:min-h-[22rem] lg:px-12 lg:py-12"
+            >
               <div
                 key={current.id}
-                className="relative z-[1] flex flex-col gap-7 animate-in fade-in duration-300 md:gap-9 lg:gap-10"
+                className="flex max-w-2xl flex-col gap-5 animate-in fade-in duration-300 md:gap-6"
               >
-                <div className="flex items-start gap-3 md:gap-3.5">
-                  <span
-                    className="mt-2 size-3 shrink-0 rounded-sm bg-primary md:mt-2.5"
-                    aria-hidden="true"
-                  />
-                  <h3 className="font-heading text-xl font-bold tracking-tight text-foreground md:text-2xl 2xl:text-[1.65rem] leading-snug">
-                    {current.label}
-                  </h3>
-                </div>
-                <p className={marketingSectionIntroClass}>
+                <h3 className="font-heading text-xl font-bold tracking-tight text-foreground md:text-2xl leading-snug">
+                  {current.label}
+                </h3>
+                <p className="text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
                   {current.description}
                 </p>
                 <Link
-                  href={current.knowMoreHref}
-                  className="inline-flex font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+                  href={current.href}
+                  className="group inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-primary transition-colors hover:text-primary/80 md:text-base"
                 >
                   Know more
-                </Link>
-              </div>
-            </div>
-
-            <div className="relative isolate hidden min-h-[280px] min-w-0 w-full overflow-hidden bg-background lg:block lg:min-h-0 lg:flex-[0_0_62%]">
-              <div className="absolute inset-0">
-                <AbstractFrameBackdrop
-                  scrim={current.frameScrim}
-                  animate={isNear}
-                />
-              </div>
-              <div
-                key={`${current.id}-media`}
-                className="relative z-[2] flex min-h-full w-full items-center justify-center px-[6%] py-6 xl:py-7 animate-in fade-in duration-300"
-              >
-                {current.imageSrc ? (
-                  <img
-                    src={current.imageSrc}
-                    alt={current.imageAlt}
-                    className="relative h-auto max-h-[min(54vh,576px)] w-full max-w-full object-contain object-center outline outline-1 outline-white/55 [outline-offset:0] xl:max-h-[min(56vh,608px)]"
-                    loading="lazy"
-                    decoding="async"
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    strokeWidth={2.25}
+                    aria-hidden
                   />
-                ) : (
-                  <div className="flex w-full max-w-none flex-col items-center justify-center gap-4 py-4 text-center md:py-6">
-                    <div className="w-full max-w-2xl border border-dashed border-white/35 bg-card/85 px-6 py-12 outline outline-1 outline-white/30 [outline-offset:0] backdrop-blur-sm md:px-8 md:py-16">
-                      <p className="font-heading text-lg font-semibold text-foreground md:text-xl">
-                        {current.imageAlt}
-                      </p>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        Add{" "}
-                        <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono text-foreground">
-                          imageSrc
-                        </code>{" "}
-                        on this tab
-                      </p>
-                    </div>
-                  </div>
-                )}
+                </Link>
               </div>
             </div>
           </div>
@@ -400,6 +316,4 @@ const CoreAdvantageHeading = () => {
       </div>
     </section>
   );
-};
-
-export default CoreAdvantageHeading;
+}

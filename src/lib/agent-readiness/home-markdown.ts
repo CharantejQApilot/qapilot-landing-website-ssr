@@ -1,5 +1,15 @@
 import { APP_URL, DOCS_URL, SITE_BASE_URL, STATUS_URL } from "@/lib/constants";
-import { HOME_PAGE_DESCRIPTION, HOME_PAGE_TITLE } from "@/lib/home-page-seo";
+import {
+  HOME_PAGE_AUTHORITY_SOURCES,
+  HOME_PAGE_CRAWLER,
+  HOME_PAGE_DESCRIPTION,
+  HOME_PAGE_FRAMEWORK_COMPATIBILITY,
+  HOME_PAGE_KEY_TAKEAWAYS,
+  HOME_PAGE_LAST_REVIEWED,
+  HOME_PAGE_MCP,
+  HOME_PAGE_QUESTIONS,
+  HOME_PAGE_TITLE,
+} from "@/lib/home-page-seo";
 import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 
 function url(path: string): string {
@@ -8,11 +18,61 @@ function url(path: string): string {
 
 /** Markdown representation of the homepage for `Accept: text/markdown` (Markdown for Agents). */
 export function getHomePageMarkdown(): string {
+  const takeaways = HOME_PAGE_KEY_TAKEAWAYS.map((item) => `- ${item}`).join(
+    "\n",
+  );
+  const questions = HOME_PAGE_QUESTIONS.map(
+    (item) => `### ${item.question}\n\n${item.answer}`,
+  ).join("\n\n");
+  const sources = HOME_PAGE_AUTHORITY_SOURCES.map(
+    (source) => `- [${source.label}](${source.href})`,
+  ).join("\n");
+  const platforms = HOME_PAGE_FRAMEWORK_COMPATIBILITY.platforms
+    .map((p) => `| ${p.name} | ${p.detail} |`)
+    .join("\n");
+
   return `# ${HOME_PAGE_TITLE}
 
 ${HOME_PAGE_DESCRIPTION}
 
 QApilot is an AI-native autonomous mobile app testing platform for iOS and Android. It discovers app journeys, generates and executes tests, self-heals UI changes, detects bugs and accessibility issues, and surfaces security and release-readiness signals. Without manual scripting.
+
+Last reviewed: ${HOME_PAGE_LAST_REVIEWED}
+
+## Key takeaways
+
+${takeaways}
+
+## Common questions
+
+${questions}
+
+## Authoritative sources
+
+${sources}
+
+## ${HOME_PAGE_CRAWLER.name}
+
+${HOME_PAGE_CRAWLER.summary}
+
+## ${HOME_PAGE_MCP.name}
+
+${HOME_PAGE_MCP.summary}
+
+Works with: ${HOME_PAGE_MCP.agents.join(", ")}.
+
+- Product page: ${url(PATHS.MCP)}
+- CLI guide: ${url(PATHS.MCP_GUIDE)}
+
+## Compatibility
+
+${HOME_PAGE_FRAMEWORK_COMPATIBILITY.summary}
+
+${HOME_PAGE_FRAMEWORK_COMPATIBILITY.keywords.join(" · ")}
+
+| Framework | Coverage |
+|-----------|----------|
+${platforms}
 
 ## Canonical URL
 

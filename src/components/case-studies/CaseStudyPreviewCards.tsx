@@ -14,7 +14,7 @@ export function CaseStudyPreviewCards({
   return (
     <ul className={cn("grid gap-6 md:grid-cols-3", className)}>
       {CASE_STUDIES.map((study) => (
-        <li key={study.slug}>
+        <li key={study.slug} className="h-full min-h-0">
           <Link
             href={caseStudyPath(study.slug)}
             className={cn(
@@ -47,7 +47,7 @@ export function CaseStudyPreviewCards({
               <h3 className="mt-2 font-heading text-xl font-semibold tracking-tight text-foreground">
                 {study.clientName}
               </h3>
-              <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-muted-foreground">
                 {study.headline}
               </p>
               <p className="mt-auto pt-5 text-sm font-semibold text-primary">
