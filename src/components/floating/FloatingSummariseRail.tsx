@@ -31,7 +31,7 @@ export function FloatingSummariseRail() {
             // eslint-disable-next-line @next/next/no-img-element -- brand mark via Simple Icons CDN
             <img
               src={assistant.iconSrc}
-              alt=""
+              alt={`${assistant.shortName} logo`}
               width={18}
               height={18}
               className="h-[18px] w-[18px] shrink-0 opacity-90"

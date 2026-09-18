@@ -11,9 +11,8 @@ export type QaGuideSitemapRow = {
   featured_image: string | null;
 };
 
+/** Always emit the live flat slug path — stale `url_path` values 404. */
 function canonicalGuidePath(row: QaGuideSitemapRow): string {
-  const fromDb = row.url_path?.trim();
-  if (fromDb?.startsWith("/")) return fromDb;
   return publishedUrlPath(row.slug);
 }
 

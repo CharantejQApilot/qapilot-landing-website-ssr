@@ -7,7 +7,6 @@ import { HomeExitIntentEmailForm } from "@/components/home-exit-intent/HomeExitI
 import { useHomeEngagementPopup } from "@/components/home-exit-intent/useHomeEngagementPopup";
 import { Dialog, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { HOME_TRUST_LOGOS, type HomeTrustLogo } from "@/lib/home-trust-logos";
-import { PRODUCT_HUNT_TOP_POST_BADGE } from "@/lib/product-hunt-badge";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +33,7 @@ function TrustLogo({ logo }: { logo: HomeTrustLogo }) {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={logo.logo}
-      alt=""
+      alt={`${logo.name} logo`}
       width={120}
       height={36}
       loading="lazy"
@@ -144,22 +143,6 @@ export default function HomeExitIntentPopup() {
                   ))}
                 </ul>
               </div>
-              <div className="w-full border-t border-border/60" aria-hidden />
-              <a
-                href={PRODUCT_HUNT_TOP_POST_BADGE.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex justify-center transition-opacity hover:opacity-90"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  alt={PRODUCT_HUNT_TOP_POST_BADGE.imageAlt}
-                  width={180}
-                  height={38}
-                  src={PRODUCT_HUNT_TOP_POST_BADGE.imageSrc}
-                  className="h-auto w-[min(11.5rem,72vw)] max-w-full sm:w-[13.5em]"
-                />
-              </a>
             </div>
 
             <div className="flex min-w-0 flex-1 flex-col justify-center px-4 py-4 sm:px-[1.6em] sm:py-[1.5em]">

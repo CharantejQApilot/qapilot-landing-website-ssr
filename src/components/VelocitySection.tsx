@@ -19,7 +19,7 @@ const cards = [
     stat: "90%",
     label: "Less Test Maintenance",
     description:
-      "AI-native self-healing adapts to UI changes automatically, eliminating flaky tests and freeing your team from endless maintenance loops.",
+      "AI-native self-healing is an approach that adapts tests to UI changes automatically, eliminating flaky tests and freeing your team from endless maintenance loops.",
     highlight: "AI-native self-healing",
     highlightHref: PATHS.AI_SELF_HEALING,
     icon: Settings,

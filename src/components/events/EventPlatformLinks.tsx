@@ -36,7 +36,7 @@ export function EventPlatformLinks({ links, className }: EventPlatformLinksProps
                   // eslint-disable-next-line @next/next/no-img-element -- Simple Icons CDN brand marks
                   <img
                     src={iconUrl}
-                    alt=""
+                    alt={`${link.name} logo`}
                     width={24}
                     height={24}
                     className="h-6 w-6 shrink-0"

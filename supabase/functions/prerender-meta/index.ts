@@ -7,10 +7,43 @@ const corsHeaders = {
 };
 
 const SITE = "https://qapilot.io";
-/** Keep in sync with `DEFAULT_SHARE_IMAGE_URL` in `src/lib/seo.ts` */
+/** Keep in sync with `DEFAULT_SHARE_IMAGE_*` / `openGraphImageForPath` in `src/lib/seo.ts` */
 const DEFAULT_OG_IMAGE = `${SITE}/og/default-share.png`;
-const DEFAULT_OG_IMAGE_WIDTH = "993";
-const DEFAULT_OG_IMAGE_HEIGHT = "545";
+const DEFAULT_OG_IMAGE_WIDTH = "1024";
+const DEFAULT_OG_IMAGE_HEIGHT = "537";
+
+const STATIC_OG_BY_PATH: Record<string, string> = {
+  "/": DEFAULT_OG_IMAGE,
+  "/about": `${SITE}/og/about.png`,
+  "/blogs": `${SITE}/og/blogs.png`,
+  "/careers": `${SITE}/og/careers.png`,
+  "/case-studies": `${SITE}/og/case-studies.png`,
+  "/enterprise": `${SITE}/og/enterprise.png`,
+  "/events": `${SITE}/og/events.png`,
+  "/faqs": `${SITE}/og/faqs.png`,
+  "/for-flutter": `${SITE}/og/for-flutter.png`,
+  "/for-product-owner": `${SITE}/og/for-product-owner.png`,
+  "/for-qa-engineer": `${SITE}/og/for-qa-engineer.png`,
+  "/for-qa-leader": `${SITE}/og/for-qa-leader.png`,
+  "/for-release-manager": `${SITE}/og/for-release-manager.png`,
+  "/for-sre": `${SITE}/og/for-sre.png`,
+  "/labs": `${SITE}/og/labs.png`,
+  "/mcp/guide": `${SITE}/og/mcp-guide.png`,
+  "/news": `${SITE}/og/news.png`,
+  "/news-updates": `${SITE}/og/news.png`,
+  "/partners": `${SITE}/og/partners.png`,
+  "/product": `${SITE}/og/product.png`,
+  "/product/autonomous-testing": `${SITE}/og/product-autonomous-testing.png`,
+  "/product/cowork": `${SITE}/og/product-cowork.png`,
+  "/cowork": `${SITE}/og/product-cowork.png`,
+  "/product/dual-device-testing": `${SITE}/og/product-dual-device-testing.png`,
+  "/product/release-readiness-suite": `${SITE}/og/product-release-readiness-suite.png`,
+  "/qa-guide": `${SITE}/og/qa-guide.png`,
+};
+
+function ogImageForPath(path: string): string {
+  return STATIC_OG_BY_PATH[path] || DEFAULT_OG_IMAGE;
+}
 
 // ── Static page metadata (keep titles/descriptions aligned with Next.js `metadata` on each route) ──
 interface PageMeta {
@@ -96,12 +129,12 @@ const STATIC_PAGES: Record<string, PageMeta> = {
   "/case-studies": {
     title: "Case Studies. Mobile Testing Customer Stories | QApilot",
     description:
-      "How QApilot helped Wio, Geml, and GrowSari automate complex mobile journeys: banking biometrics, Flutter dating flows, and OTP-gated B2B commerce.",
+      "How QApilot helped Wio, Geml, and GrowSari automate complex mobile journeys: Flutter banking, dating-app sanity, and OTP-gated B2B commerce.",
   },
   "/case-studies/wio": {
-    title: "Wio Case Study. Mobile Banking Automation Coverage | QApilot",
+    title: "Wio Case Study. Flutter Banking Automation | QApilot",
     description:
-      "How QApilot turned Wio's complex mobile-banking journeys into scalable automation: 74% sprint coverage delivered, 71% Identity suite automated, and biometric flows running on the real app.",
+      "How QApilot automated WIO's Flutter banking app for a small QA team: 89.3% step success, 11,025 nightly steps, and 97% of runs outside work hours.",
   },
   "/case-studies/geml": {
     title: "Geml Case Study. Flutter Dating Sanity in 2 Weeks | QApilot",
@@ -133,6 +166,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     title: "QApilot MCP. Mobile Tests for Coding Agents",
     description:
       "Say what needs to hold in your editor. QApilot MCP builds the mobile test, runs it on your device, and returns a report your agent can read.",
+  },
+  "/mcp/guide": {
+    title: "QApilot MCP CLI Guide. Android Automation | QApilot",
+    description:
+      "Automate real Android devices and emulators in Claude, Cursor, or any MCP client. Describe test flows in plain English — no Appium code required.",
   },
   "/product/release-readiness-suite": {
     title:
@@ -314,11 +352,10 @@ function buildHtml(meta: {
       .replace(/>/g, "&gt;");
 
   /** Avoid declaring wrong dimensions for arbitrary CMS images (many crawlers ignore these). */
-  const dimensionTags =
-    meta.image === DEFAULT_OG_IMAGE
-      ? `<meta property="og:image:width" content="${DEFAULT_OG_IMAGE_WIDTH}" />
+  const dimensionTags = meta.image.startsWith(`${SITE}/og/`)
+    ? `<meta property="og:image:width" content="${DEFAULT_OG_IMAGE_WIDTH}" />
  <meta property="og:image:height" content="${DEFAULT_OG_IMAGE_HEIGHT}" />`
-      : "";
+    : "";
 
   const articleTags =
     meta.ogType === "article" && meta.publishedDate
@@ -377,7 +414,7 @@ Deno.serve(async (req) => {
       title: staticMeta.title,
       description: staticMeta.description,
       url: canonicalUrl,
-      image: staticMeta.ogImage || DEFAULT_OG_IMAGE,
+      image: staticMeta.ogImage || ogImageForPath(path),
       ogType: staticMeta.ogType || "website",
     });
     return new Response(html, {

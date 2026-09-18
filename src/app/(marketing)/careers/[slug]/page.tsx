@@ -26,7 +26,7 @@ import {
   absoluteUrlForOpenGraph,
   normalizeArticlePublishedTime,
 } from "@/lib/share-metadata";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { defaultOpenGraphImage, formatMetaDescription } from "@/lib/seo";
 import { logMetadataFallback } from "@/lib/server-telemetry";
 
 interface JobOrganization {
@@ -189,7 +189,9 @@ export async function generateMetadata({
   }
 
   const typedJob = job as JobOpening;
-  const description = `Join us as a ${typedJob.role} in ${typedJob.department}. ${typedJob.location}. ${getEmploymentTypeLabel(typedJob.employment_type)} position at QApilot.`;
+  const description = formatMetaDescription(
+    `Join QApilot as a ${typedJob.role} in ${typedJob.department} (${typedJob.location}, ${getEmploymentTypeLabel(typedJob.employment_type)}). Help ship AI-native mobile testing and release readiness.`,
+  );
   const canonicalPath = `${PATHS.CAREERS}/${typedJob.slug || typedJob.id}`;
   const canonicalUrl = `${SITE_BASE_URL}${canonicalPath}`;
   const ogImage = absoluteUrlForOpenGraph(DEFAULT_LOGO_URL);
@@ -375,6 +377,7 @@ export default async function JobPostPage({
           <div className="section-full py-14 md:py-20 2xl:py-24">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-7">
+                <h2 className="sr-only">About the role</h2>
                 <div
                   className="prose prose-lg max-w-none prose-slate
  prose-headings:font-heading prose-headings:font-bold prose-headings:text-foreground

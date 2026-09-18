@@ -63,10 +63,8 @@ Deno.serve(async (req) => {
     </image:image>`
             : "";
 
-          const path =
-            (typeof guide.url_path === "string" && guide.url_path.trim().startsWith("/")
-              ? guide.url_path.trim()
-              : "") || `/qa-guide/${guide.slug}`;
+          // Prefer live slug path — stale url_path rows still 404 after renames.
+          const path = `/qa-guide/${guide.slug}`;
 
           return `  <url>
     <loc>${escapeXml(`${base}${path}`)}</loc>

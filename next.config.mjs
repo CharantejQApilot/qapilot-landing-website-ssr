@@ -147,6 +147,22 @@ const nextConfig = {
         destination: "/qa-guide/:slug",
         permanent: true,
       },
+      // Renamed QE Guide slugs (stale url_path / external links still hit these)
+      {
+        source: "/qa-guide/comprehensive-guide-testing-types-mobile-app-development",
+        destination: "/qa-guide/testing-types-in-mobile-app-development",
+        permanent: true,
+      },
+      {
+        source: "/qa-guide/what-is-regression-testing-mobile-app-development",
+        destination: "/qa-guide/regression-testing",
+        permanent: true,
+      },
+      {
+        source: "/qa-guide/behaviour-driven-development-mobile-apps",
+        destination: "/qa-guide/behaviour-driven-development",
+        permanent: true,
+      },
     ];
   },
   async headers() {

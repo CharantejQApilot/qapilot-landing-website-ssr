@@ -25,6 +25,7 @@ import {
   QE_GUIDE_DISPLAY_NAME,
   COMPARE_NAV_LINKS,
 } from "@/lib/routes";
+import { PRODUCT_HUNT_RATING_BADGE } from "@/lib/product-hunt-badge";
 import { SOCIAL_LINKS, type SocialLink } from "@/lib/social-links";
 
 const BugNinja = dynamic(() => import("@/components/bug-ninja"), {
@@ -117,6 +118,46 @@ const ComplianceBadge = ({
   </figure>
 );
 
+function FooterProductHuntRating() {
+  return (
+    <a
+      href={PRODUCT_HUNT_RATING_BADGE.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex max-w-full shrink-0 transition-opacity hover:opacity-90"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- self-hosted PH rating badge */}
+      <img
+        src={PRODUCT_HUNT_RATING_BADGE.imageSrc}
+        alt={PRODUCT_HUNT_RATING_BADGE.imageAlt}
+        width={PRODUCT_HUNT_RATING_BADGE.width}
+        height={PRODUCT_HUNT_RATING_BADGE.height}
+        loading="lazy"
+        decoding="async"
+        className="block h-auto w-full max-w-[min(242px,100%)] object-contain"
+      />
+    </a>
+  );
+}
+
+function ComplianceBadgeRow() {
+  return (
+    <div className="flex flex-wrap items-start gap-x-6 gap-y-4 sm:gap-x-8">
+      {COMPLIANCE_BADGES.map((badge) => (
+        <ComplianceBadge
+          key={badge.label}
+          src={badge.src}
+          alt={badge.alt}
+          label={badge.label}
+          width={badge.width}
+          height={badge.height}
+          imageScale={"imageScale" in badge ? badge.imageScale : undefined}
+        />
+      ))}
+    </div>
+  );
+}
+
 const FooterSocialIconLink = ({ social }: { social: SocialLink }) => {
   const Icon = social.kind === "lucide" ? social.icon : null;
 
@@ -135,7 +176,7 @@ const FooterSocialIconLink = ({ social }: { social: SocialLink }) => {
           // eslint-disable-next-line @next/next/no-img-element -- X mark via Simple Icons CDN
           <img
             src={`https://cdn.simpleicons.org/${social.kind === "simple-icon" ? social.iconSlug : "x"}/ffffff`}
-            alt=""
+            alt={`${social.name} logo`}
             width={20}
             height={20}
             loading="lazy"
@@ -204,18 +245,22 @@ const Footer = () => {
       <section className="relative section-navy overflow-hidden section-edge w-full">
         <HomeSeam invert />
         <HomeDarkAtmosphere glow="bottom-right" />
-        <div className="section-full relative z-10 py-20 md:py-28 2xl:py-36">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-10 2xl:gap-16">
-            <div className="flex-1 w-full min-w-0 text-left">
+        <div className="section-full relative z-10 py-10 md:py-12 2xl:py-14">
+          <div className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:items-center 2xl:gap-12">
+            <div className="min-w-0 w-full flex-1 text-left">
               <HomeEyebrow invert>Get started</HomeEyebrow>
-              <h2 className={cn(marketingSectionH2Class, "text-white mb-4")}>
+              <h2 className={cn(marketingSectionH2Class, "mb-3 text-white")}>
                 Start Your Journey to Smarter Mobile App QE
               </h2>
               <p className="w-full min-w-0 max-w-none text-base leading-relaxed text-white/40 md:text-lg 2xl:text-xl">
                 Rethink how your team approaches mobile testing.
               </p>
+              <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-5 sm:gap-x-8">
+                <FooterProductHuntRating />
+                <ComplianceBadgeRow />
+              </div>
             </div>
-            <div className="flex-shrink-0">
+            <div className="flex shrink-0 items-center justify-center lg:justify-end">
               <Button
                 size="lg"
                 className="bg-white text-[hsl(var(--navy))] hover:bg-white/90 font-semibold text-base px-8 py-6 rounded-md 2xl:text-lg 2xl:px-10 2xl:py-7"
@@ -238,8 +283,8 @@ const Footer = () => {
       {/* Footer Links. Edge-to-edge */}
       <footer className="section-dark border-t border-white/[0.06] section-edge w-full">
         <div className="section-full py-16 2xl:py-20 pb-10 2xl:pb-12">
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-[minmax(0,2fr)_repeat(6,minmax(0,1fr))] gap-x-8 gap-y-10 sm:gap-x-10 sm:gap-y-12 xl:gap-x-12 items-start justify-items-start">
-            <div className="min-w-0 w-full xs:col-span-2 sm:col-span-3 lg:col-span-4 xl:col-span-1 flex flex-col gap-6 xl:max-w-md 2xl:max-w-lg">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-[minmax(15rem,1.6fr)_repeat(6,minmax(0,1fr))] gap-x-8 gap-y-10 sm:gap-x-10 sm:gap-y-12 xl:gap-x-10 2xl:gap-x-12 items-start justify-items-start">
+            <div className="min-w-0 w-full xs:col-span-2 sm:col-span-3 lg:col-span-4 xl:col-span-1 flex flex-col gap-5">
               <Link
                 href={PATHS.HOME}
                 className="inline-flex min-w-0 items-center leading-none"
@@ -251,26 +296,11 @@ const Footer = () => {
                 AI-powered mobile testing for modern teams. Ship faster with
                 confidence.
               </p>
-              <div className="flex flex-wrap items-start gap-x-8 gap-y-4 md:flex-nowrap md:gap-x-6 lg:gap-x-8">
-                {COMPLIANCE_BADGES.map((badge) => (
-                  <ComplianceBadge
-                    key={badge.label}
-                    src={badge.src}
-                    alt={badge.alt}
-                    label={badge.label}
-                    width={badge.width}
-                    height={badge.height}
-                    imageScale={
-                      "imageScale" in badge ? badge.imageScale : undefined
-                    }
-                  />
-                ))}
-              </div>
               <div className="flex flex-col gap-3">
                 <h3 className="text-xs font-semibold uppercase tracking-widest text-white/30">
                   Follow Us
                 </h3>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {SOCIAL_LINKS.map((social) => (
                     <FooterSocialIconLink key={social.name} social={social} />
                   ))}

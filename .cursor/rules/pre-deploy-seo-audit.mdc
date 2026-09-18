@@ -1,0 +1,16 @@
+---
+description: Block production deploys until the site-wide SEO audit skill has been run and critical issues are fixed
+alwaysApply: true
+---
+
+# Pre-deploy SEO audit gate
+
+When the user asks to deploy, ship, push to `main`/`master`, merge to production, or run `vercel --prod`:
+
+1. Read and follow `.cursor/skills/pre-deploy-seo-audit/SKILL.md` first.
+2. Run `npx skills use "https://github.com/coreyhaines31/marketingskills" --skill "seo-audit"` and follow the generated skill instructions now. Read its complete output, redirecting it to a temporary file first if necessary. Resolve relative paths from the supporting-files directory it provides.
+3. Audit **every public page** (sitemaps + `scripts/sanity-check.mjs` paths). Fix critical/high issues before deploying.
+4. Write `.cursor/cache/seo-audit-stamp.json` only after fixes, for the current git HEAD.
+5. Do not push to production while `criticalOpen` is non-zero.
+
+A Cursor hook also denies production `git push` / `vercel --prod` / `gh pr merge` without a fresh stamp. That hook does not run if someone deploys from the Vercel/GitHub UI — those still need the `npm run build` SEO validators.

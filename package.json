@@ -6,7 +6,7 @@
     "dev": "next dev",
     "clean": "rm -rf .next",
     "dev:clean": "rm -rf .next && next dev",
-    "build": "npm run validate:marketing-forms && next build",
+    "build": "npm run validate:marketing-forms && npm run validate:static-seo && next build",
     "start": "next start",
     "lint": "next lint",
     "validate:marketing-forms": "node scripts/validate-marketing-forms.mjs",

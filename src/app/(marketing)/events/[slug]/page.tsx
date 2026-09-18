@@ -8,6 +8,7 @@ import { defaultOpenGraphImage } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { formatPageTitle } from "@/lib/page-title";
+import { formatMetaDescription } from "@/lib/seo";
 import { getEventBySlug, getRelatedEvents } from "@/lib/events";
 import { QAPILOT_EVENTS } from "@/lib/events-data";
 import { getYouTubeThumbnail } from "@/utils/youtube";
@@ -38,6 +39,7 @@ export async function generateMetadata({
 
   const canonicalUrl = `${SITE_BASE_URL}${PATHS.EVENTS}/${event.slug}`;
   const title = `${event.title} | QApilot Events`;
+  const description = formatMetaDescription(event.excerpt);
   const coverImageUrl = event.coverImageUrl
     ? `${SITE_BASE_URL}${event.coverImageUrl}`
     : event.youtubeUrl
@@ -49,13 +51,13 @@ export async function generateMetadata({
 
   return {
     title: formatPageTitle(event.title),
-    description: event.excerpt,
+    description,
     alternates: { canonical: canonicalUrl },
     openGraph: {
       type: "website",
       url: canonicalUrl,
       title,
-      description: event.excerpt,
+      description,
       siteName: "QApilot",
       locale: "en_US",
       images: ogImages,
@@ -63,7 +65,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title,
-      description: event.excerpt,
+      description,
       images: coverImageUrl
         ? [{ url: coverImageUrl, alt: event.title }]
         : [{ url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt }],

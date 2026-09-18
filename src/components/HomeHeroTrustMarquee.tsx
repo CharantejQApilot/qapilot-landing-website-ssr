@@ -36,7 +36,7 @@ function TrustLogoLink({
   const logoImage = (
     <Image
       src={logo.logo}
-      alt={decorative ? "" : `${logo.name} logo`}
+      alt={`${logo.name} logo`}
       width={160}
       height={48}
       loading="lazy"
