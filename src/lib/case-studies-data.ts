@@ -27,14 +27,12 @@ export type CaseStudy = {
   clientUrl: string;
   logoSrc: string;
   logoAlt: string;
-  /** Product screenshot shown in a phone frame on the article hero. Falls back to the logo. */
-  heroImageSrc?: string;
-  heroImageAlt?: string;
-  heroImageWidth?: number;
-  heroImageHeight?: number;
-  /** Built-in phone mock when no store screenshot exists yet. */
-  heroMock?: "geml";
   tags: string[];
+  quote?: {
+    text: string;
+    name: string;
+    org: string;
+  };
   titleBefore: string;
   titleAccent: string;
   titleAfter: string;
@@ -71,140 +69,152 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     clientUrl: "https://wio.io/",
     logoSrc: "/case-studies/wio.png",
     logoAlt: "Wio Bank logo",
-    heroImageSrc: "/case-studies/wio-personal.jpg",
-    heroImageAlt:
-      "Wio Personal app showing total balance, accounts, savings, and investments",
-    heroImageWidth: 576,
-    heroImageHeight: 1024,
-    tags: ["Digital banking", "Mobile-first", "Identity & biometrics"],
-    titleBefore: "Complex mobile banking journeys, turned into ",
-    titleAccent: "scalable automation coverage",
-    titleAfter: "",
+    tags: ["Digital banking", "Flutter", "Android and iOS"],
+    titleBefore: "Reliable automation on a ",
+    titleAccent: "Flutter banking app",
+    titleAfter: ", owned by a small QA team",
     headline:
-      "Complex mobile banking journeys, turned into scalable automation coverage",
+      "Reliable automation on a Flutter banking app, owned by a small QA team",
     subtitle:
-      "How QApilot helped Wio's automation team scale coverage across onboarding, credit applications, identity verification, biometric flows, API validations, and cross-OS execution.",
+      "WIO needed dependable UI automation across onboarding, identity, credit, and retail journeys without assembling a toolchain. QApilot replaced the stitched-together stack with a single platform built for canvas-rendered apps and banking-specific flows. It now runs the retail regression suite unattended, every night.",
+    quote: {
+      text: "Our automation speed is much faster now, test maintenance is far easier, and even a small team can achieve strong automation coverage. As a result, our app quality has improved as we run sanity testing schedulers daily and on demand.",
+      name: "Umair Shah",
+      org: "WIO",
+    },
     facts: [
       { label: "Client", value: "WIO Bank" },
       { label: "Industry", value: "Digital Banking" },
-      { label: "Platforms", value: "iOS, Android" },
+      { label: "Platforms", value: "iOS, Android, Flutter" },
     ],
     tools: [
-      "QApilot Recorder",
-      "CoWork",
+      "Element-aware Flutter recording",
       "AI healing",
-      "LambdaTest biometric bypass",
-      "Face ID / fingerprint validation",
-      "HTTP keywords",
+      "Autonomous crawler",
+      "Assisted RCA",
+      "Nightly scheduler",
+      "Biometric / Face ID validation",
       "Dynamic test data",
       "Cross-OS execution",
     ],
     metrics: [
       {
-        value: "74%",
-        label: "of planned sprint automation delivered",
+        value: "89.3%",
+        label: "step success rate on executed steps, skipped excluded",
       },
       {
-        value: "71%",
-        label: "of the Identity suite automated, including biometric-gated journeys",
+        value: "2.5",
+        label: "engineer-days of unattended execution delivered every day",
       },
       {
-        value: "35%",
-        label: "of Retail flows automated in the first delivery wave",
+        value: "97%",
+        label: "of runs execute outside working hours",
+      },
+      {
+        value: "11,025",
+        label: "steps per daily cycle across 29 plans and 13 device models",
       },
     ],
     about: {
       industry: "Digital banking",
       headquarters: "Abu Dhabi, UAE",
       engagement: "Ongoing",
-      platforms: "iOS, Android (Wio Personal and Wio Business)",
+      platforms: "iOS, Android, Flutter (Wio Personal and Wio Business)",
       body:
-        "Wio is a Central Bank of the UAE-licensed digital bank. Customers open Personal and Business accounts from the mobile app with Emirates ID or UAE visa verification, then save, spend, borrow, and invest in one place. Those same journeys, onboarding, identity, biometrics, credit applications, and API-backed checks, are exactly where record-and-playback tools stall. QApilot automated those release-critical mobile flows on the real banking app, not a simplified demo.",
+        "Wio is a Central Bank of the UAE-licensed digital bank. Customers open Personal and Business accounts from the mobile app, then save, spend, borrow, and invest in one place. Release cadence depends on proving, every sprint, that onboarding, identity verification, credit, retail, and SME journeys still work on Android and iOS. A small QA group needed one platform they could own end to end — record, save, execute, report, repeat — rather than a set of tools bridged by scripts.",
     },
     beforeAfter: [
       {
-        before: "Banking journeys that defeat record-and-playback: biometrics, identity, API-driven validation, dynamic test data, and cross-OS runs.",
-        after: "Structured automation across retail, SME, identity, onboarding, credit-application, and API-heavy flows.",
+        before:
+          "Flutter renders to a canvas. There is no native element tree for conventional locator-based tools to walk, so record-and-playback degrades as soon as the interface changes.",
+        after:
+          "Element-aware recording works against Flutter's rendered widgets rather than an assumed DOM, with execution, reporting, and test-case management in the same place.",
       },
       {
-        before: "Squads still learning the platform, with little sprint coverage converting into reliable automated suites.",
-        after: "War-room support, daily syncs, and one-to-one enablement turned adoption into measurable sprint delivery.",
+        before:
+          "Banking specifics compounded the problem: biometric authentication, identity verification, API-driven validation, dynamic test data, and cross-OS execution each defeat a generic tool on its own.",
+        after:
+          "Biometric bypass, Face ID and fingerprint validation, API response reuse, dynamic and random test data, cross-OS runs, and larger-APK support — well beyond UI-only scenarios.",
       },
       {
-        before: "Failed and stopped runs on dynamic app behaviour, with little recovery once a step broke.",
-        after: "Step- and case-level conditions, assertions, if/else, recovery, exception blocks, and AI healing toward reliable completions.",
+        before:
+          "Failed and stopped runs on dynamic app behaviour, with little recovery once a step broke and maintenance compounding as suites grew.",
+        after:
+          "Step- and case-level conditions, assertions, if/else, recovery, exception blocks, and AI healing that re-resolves shifted elements instead of failing the run.",
       },
       {
-        before: "UI-only scenarios that could not represent Face ID, fingerprint, or API response reuse.",
-        after: "Biometric bypass, Face ID / fingerprint validation, HTTP keywords, random/API test data, and larger-APK cross-OS execution.",
+        before:
+          "Quality signal arrived after a release decision, with engineers present for long execution windows and little overnight coverage.",
+        after:
+          "The scheduler runs 20.3 hours of test execution per cycle with no engineer present — 97% outside working hours, so squads open a result in the morning instead of starting a run.",
       },
     ],
     approach: {
       intro:
-        "QApilot joined as a product partner, not a dropped-in tool. The goal was measurable coverage on the journeys that matter for release: retail, SME, identity, onboarding, credit, and API-backed checks.",
+        "QApilot joined as a product partner, not a dropped-in tool. The requirement was a single solution a small QA team could own: record, save, execute, report, repeat — on the Flutter journeys that matter for release.",
       paragraphs: [
-        "The first move was out of platform exploration and into structured delivery: retail, SME, identity, onboarding, credit-application, and API-heavy suites, tagged so each squad could see coverage land against their own journeys.",
-        "Stability work targeted dynamic behaviour. Conditions, assertions, recovery and fallback, exception blocks, and AI healing for XPath identification cut failed and stopped runs. Banking-specific execution followed: biometric auth bypass on LambdaTest, Face ID and fingerprint validation, HTTP keywords in Recorder, update-test-data during execution, and random data generation across API and RPA.",
-        "Results followed the same suites. Planned sprint automation reached 74%. Identity hit 71%, including biometric-gated journeys that generic tools never finished. Retail opened with 35% automated in the first delivery wave, with biometric, Face ID / fingerprint, and HTTP capabilities shipping mid-engagement so coverage could keep expanding on the real app.",
+        "Achieving reliable UI automation on WIO's Flutter apps was the starting constraint. Multiple product squads were ramping at the same time, with progress dependent on access, environment, and test-data readiness. QApilot consolidated the stitched toolchain into one platform and moved from exploratory use into sprint-aligned delivery across retail, SME, identity, onboarding, credit-application, and API-heavy flows.",
+        "The engineering layer covered banking reality: biometric bypass, Face ID and fingerprint validation, API response reuse, dynamic test data, and cross-OS execution. Stability work added conditions, assertions, recovery, and exception blocks. When an element shifts between builds, AI healing re-resolves it. The autonomous crawler proposes coverage so squads extend a baseline instead of authoring every case from zero, and assisted RCA directs time at genuine defects rather than environment noise.",
+        "A Forward Deployed Engineer model ran war-room support, daily syncs, and one-to-one enablement across squads, plus alignment sessions that bridged documented test cases with actual application behaviour. An extended scheduler now runs daily sanity and on-demand execution: 11,025 steps across 29 test plans and 13 device models, both operating systems, and three application builds on the same day. Step success is 89.3% on executed steps, with skipped steps excluded entirely. Android sits at 92.2% and iOS at 91.3% on the platform reporting basis. Platform enhancements shipped mid-engagement in direct response to WIO's requirements.",
       ],
     },
     highlights: [
-      "Biometric auth bypass, Face ID / fingerprint validation, and HTTP keywords shipped mid-engagement",
-      "Update test data during execution, random data generation, exception / execute-on-failure blocks",
-      "Extended scheduler window, AI healing for XPath, reset-app keyword, step cloning",
-      "Import and create functional blocks in Recorder, squad-tag and user-wise filtering, larger-APK execution",
-      "Forward-deployed RCA on failed runs, XPath guidance, onboarding-flow setup, and CoWork enablement",
-      "Alignment sessions that bridged documented test cases with actual app behaviour",
+      "AI healing re-resolves shifted elements so maintenance falls as suites grow",
+      "Autonomous, crawler-led test generation extends an existing baseline",
+      "Assisted root-cause analysis on failed and stopped executions",
+      "Forward Deployed Engineer war-room, daily syncs, and one-to-one enablement",
+      "Nightly scheduler: 11,025 steps, 29 plans, 13 device models, 20.3 hours unattended",
+      "Cards, transfers, lending, onboarding, biometrics, Open Finance, and scheduled sanity",
     ],
     services: [
       {
-        title: "Faster coverage across complex flows",
-        body: "Moved from platform exploration to structured automation delivery across retail, SME, identity, onboarding, credit-application, and API-heavy journeys.",
-        bullets: [
-          "Squad-tagged suites",
-          "Sprint-level coverage delivered",
-          "Release-critical journey focus",
-        ],
-      },
-      {
-        title: "Stability for dynamic app behaviour",
-        body: "Step- and case-level conditions, assertions, if/else, recovery, exception blocks, and AI healing so runs complete instead of stopping on the first mismatch.",
-        bullets: [
-          "AI healing for XPath identification",
-          "Exception / execute-on-failure blocks",
-          "Reusable functional blocks",
-        ],
-      },
-      {
         title: "Banking-specific execution",
-        body: "Biometric bypass, Face ID / fingerprint validation, API response reuse, dynamic and random test data, and cross-OS support beyond UI-only scenarios.",
+        body: "Biometric bypass, Face ID and fingerprint validation, API response reuse across steps, dynamic and random test data, cross-OS runs, and larger-APK support — well beyond UI-only scenarios.",
         bullets: [
-          "LambdaTest biometric bypass",
-          "HTTP keyword in Recorder",
-          "Larger-APK and cross-OS runs",
+          "Biometric and Face ID flows",
+          "API response reuse",
+          "Cross-OS and larger-APK runs",
         ],
       },
       {
-        title: "Forward-deployed engineering",
-        body: "War-room support during ramp-up, daily syncs, RCA, CoWork enablement on recording, execution, reporting, and test-case management.",
+        title: "Stability for dynamic behaviour",
+        body: "Step- and case-level conditions, assertions, if/else branching, recovery and fallback paths, and exception blocks, cutting failed and stopped runs toward reliable completions.",
         bullets: [
-          "One-to-one enablement",
-          "Documented-vs-actual flow alignment",
-          "Onboarding-flow setup",
+          "AI healing for element identification",
+          "Conditions, assertions, and recovery",
+          "Exception and fallback paths",
+        ],
+      },
+      {
+        title: "Coverage across the journey",
+        body: "Structured automation delivery across retail, SME, identity, onboarding, credit-application, and API-heavy flows, replacing exploratory platform use with sprint-aligned delivery.",
+        bullets: [
+          "Retail and SME journeys",
+          "Identity and onboarding",
+          "Credit and API-heavy flows",
+        ],
+      },
+      {
+        title: "Operationalizing at scale",
+        body: "Forward Deployed Engineer support during ramp-up, an extended scheduler for daily sanity and on-demand runs, and platform enhancements shipped mid-engagement against WIO's requirements.",
+        bullets: [
+          "War-room and one-to-one enablement",
+          "Nightly unattended regression",
+          "Product partnership, not a fixed handoff",
         ],
       },
     ],
     takeaway:
-      "Record-and-playback tools stall on biometrics, identity, and API-driven banking flows. QApilot automated them, shipped banking-specific capabilities mid-engagement, and left Wio with measurable coverage on the journeys that matter for release.",
+      "WIO needed one platform a small QA team could own on Flutter-rendered banking journeys. QApilot now runs the retail regression suite unattended every night — 11,025 steps, 89.3% step success, and 2.5 engineer-days of execution with no engineer present.",
     related: [
       { href: PATHS.AUTONOMOUS_TESTING, label: "Autonomous testing" },
       { href: PATHS.AI_SELF_HEALING, label: "AI self-healing" },
       { href: PATHS.COWORK, label: "CoWork" },
-      { href: PATHS.ENTERPRISE, label: "Enterprise" },
+      { href: PATHS.FOR_FLUTTER, label: "Flutter testing" },
     ],
-    seoTitle: "Wio Case Study. Mobile Banking Automation Coverage",
+    seoTitle: "Wio Case Study. Flutter Banking Automation",
     seoDescription:
-      "How QApilot turned Wio's complex mobile-banking journeys into scalable automation: 74% sprint coverage delivered, 71% Identity suite automated, and biometric flows running on the real app.",
+      "How QApilot automated WIO's Flutter banking app for a small QA team: 89.3% step success, 11,025 nightly steps, and 97% of runs outside work hours.",
   },
   {
     slug: "geml",
@@ -212,7 +222,6 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     clientUrl: "https://www.geml.co/",
     logoSrc: "/case-studies/geml.png",
     logoAlt: "Geml logo",
-    heroMock: "geml",
     tags: ["Dating app", "Flutter", "Pre-launch"],
     titleBefore: "Full sanity automation for a pre-launch dating app, in ",
     titleAccent: "two weeks",
@@ -348,11 +357,6 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     clientUrl: "https://growsari.com/",
     logoSrc: "/case-studies/growsari.webp",
     logoAlt: "GrowSari logo",
-    heroImageSrc: "/case-studies/growsari-app.jpg",
-    heroImageAlt:
-      "GrowSari mobile commerce app with product catalog, cart, and partner benefits",
-    heroImageWidth: 576,
-    heroImageHeight: 1024,
     tags: ["B2B retail", "Commerce app", "OTP-gated flows"],
     titleBefore: "Regression readiness turned into ",
     titleAccent: "real automation progress",

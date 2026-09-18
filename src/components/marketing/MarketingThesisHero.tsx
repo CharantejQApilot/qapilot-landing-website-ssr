@@ -18,6 +18,8 @@ type MarketingThesisHeroProps = {
   /** Extra paragraphs / supporting copy under the lead */
   children?: ReactNode;
   cta?: ReactNode;
+  /** Optional mark above the eyebrow (e.g. Product Hunt badge). */
+  beforeEyebrow?: ReactNode;
   /** Optional mark between eyebrow and H1 (e.g. integration logo). */
   beforeTitle?: ReactNode;
   /** Optional right-column media (S01 split). */
@@ -41,6 +43,7 @@ export function MarketingThesisHero({
   lead,
   children,
   cta,
+  beforeEyebrow,
   beforeTitle,
   media,
   fillViewport = false,
@@ -54,6 +57,7 @@ export function MarketingThesisHero({
         media && "lg:max-w-none",
       )}
     >
+      {beforeEyebrow}
       {eyebrow ? <HomeEyebrow>{eyebrow}</HomeEyebrow> : null}
       {beforeTitle}
 

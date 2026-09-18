@@ -100,7 +100,15 @@ export function HomeCaseStudiesSection() {
             <HomeEyebrow invert id="home-case-studies-label">
               Case studies
             </HomeEyebrow>
-            <p className="text-sm !text-white/50 md:text-base">
+            <h2
+              className={cn(
+                marketingSectionH2Class,
+                "mt-2 text-left text-white",
+              )}
+            >
+              Customer case studies
+            </h2>
+            <p className="mt-2 text-sm !text-white/50 md:text-base">
               <span className="font-semibold tabular-nums text-white">
                 {count}
               </span>{" "}
@@ -145,24 +153,24 @@ export function HomeCaseStudiesSection() {
             opts={{ align: "start", loop: true }}
             className="w-full min-w-0"
           >
-            <CarouselContent className="-ml-0">
+            <CarouselContent className="-ml-0 items-stretch">
               {CASE_STUDIES.map((study) => {
                 const industry = study.about.industry;
 
                 return (
-                  <CarouselItem key={study.slug} className="basis-full pl-0">
+                  <CarouselItem key={study.slug} className="flex basis-full pl-0">
                     <Link
                       href={caseStudyPath(study.slug)}
                       onFocus={pauseAuto}
                       onBlur={resumeAuto}
                       aria-label={`${study.clientName} case study — ${industry}`}
                       className={cn(
-                        "home-light-panel group relative flex w-full min-w-0 flex-col overflow-hidden rounded-md border border-white/10 bg-white text-left text-foreground transition-colors",
+                        "home-light-panel group relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-md border border-white/10 bg-white text-left text-foreground transition-colors",
                         "hover:border-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--navy))]",
                       )}
                     >
-                      <div className="relative z-[1] grid min-w-0 gap-8 px-5 pb-6 pt-7 sm:px-7 sm:pb-7 sm:pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-12 md:px-9 md:pb-8 md:pt-10 lg:gap-16">
-                        <div className="min-w-0">
+                      <div className="relative z-[1] grid min-h-0 min-w-0 flex-1 gap-8 px-5 pb-6 pt-7 sm:px-7 sm:pb-7 sm:pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-12 md:px-9 md:pb-8 md:pt-10 lg:gap-16">
+                        <div className="flex min-w-0 flex-col">
                           <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
                             {study.clientName}
                           </p>
@@ -210,8 +218,15 @@ export function HomeCaseStudiesSection() {
                         </div>
                       </div>
 
-                      <div className="relative z-[1] border-t border-border">
-                        <div className="grid grid-cols-1 divide-y divide-border/60 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                      <div className="relative z-[1] mt-auto border-t border-border">
+                        <div
+                          className={cn(
+                            "grid divide-border/60",
+                            study.metrics.length >= 4
+                              ? "grid-cols-2 divide-x divide-y lg:grid-cols-4 lg:divide-y-0"
+                              : "grid-cols-1 divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0",
+                          )}
+                        >
                           {study.metrics.map((metric) => (
                             <div
                               key={metric.label}
@@ -220,7 +235,7 @@ export function HomeCaseStudiesSection() {
                               <span className="font-heading text-2xl font-semibold tracking-tight tabular-nums text-foreground sm:text-3xl">
                                 {metric.value}
                               </span>
-                              <span className="text-xs leading-snug text-muted-foreground sm:text-sm">
+                              <span className="line-clamp-2 min-h-[2.5rem] text-xs leading-snug text-muted-foreground sm:min-h-[2.625rem] sm:text-sm">
                                 {metric.label}
                               </span>
                             </div>

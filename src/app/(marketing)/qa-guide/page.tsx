@@ -4,7 +4,7 @@ import { BookOpen } from "lucide-react";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import { PATHS, QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { defaultOpenGraphImage } from "@/lib/seo";
+import { openGraphImageForPath } from "@/lib/seo";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { formatPublishedDate } from "@/lib/format-published";
@@ -14,6 +14,7 @@ export const revalidate = 120;
 
 const QA_GUIDE_PATH = PATHS.QA_GUIDE;
 const canonicalUrl = `${SITE_BASE_URL}${QA_GUIDE_PATH}`;
+const ogImage = openGraphImageForPath(QA_GUIDE_PATH);
 const LIST_MAX_WIDTH = "mx-auto max-w-[1920px]";
 
 const QE_GUIDE_HUB_TITLE = "QA Guide. Mobile Testing Guides & Checklists";
@@ -32,15 +33,13 @@ export const metadata: Metadata = {
     description: QE_GUIDE_HUB_DESCRIPTION,
     siteName: "QApilot",
     locale: "en_US",
-    images: [defaultOpenGraphImage],
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: `${QE_GUIDE_HUB_TITLE} | QApilot`,
     description: QE_GUIDE_HUB_DESCRIPTION,
-    images: [
-      { url: defaultOpenGraphImage.url, alt: defaultOpenGraphImage.alt },
-    ],
+    images: [{ url: ogImage.url, alt: ogImage.alt }],
   },
 };
 

@@ -91,7 +91,7 @@ const IntegrationsSection = () => {
                 className="h-8 w-auto max-w-[7.5rem] object-contain sm:h-10 sm:max-w-[9rem]"
               />
             </li>
-          ))}
+            ))}
           </ul>
         </div>
 
@@ -102,6 +102,13 @@ const IntegrationsSection = () => {
             className="font-medium text-primary hover:underline"
           >
             See all integrations
+          </Link>
+          . Coding agents connect via{" "}
+          <Link
+            href={PATHS.MCP}
+            className="font-medium text-primary hover:underline"
+          >
+            QApilot MCP
           </Link>
           .
         </p>

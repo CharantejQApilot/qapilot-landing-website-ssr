@@ -9,12 +9,12 @@ const path = PATHS.CASE_STUDIES;
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Case Studies. Mobile Testing Customer Stories",
   description:
-    "How QApilot helped Wio, Geml, and GrowSari automate complex mobile journeys: banking biometrics, Flutter dating flows, and OTP-gated B2B commerce.",
+    "How QApilot helped Wio, Geml, and GrowSari automate complex mobile journeys: Flutter banking, dating-app sanity, and OTP-gated B2B commerce.",
   path,
   ogDescription:
     "Customer stories from Wio, Geml, and GrowSari: evidenced mobile automation coverage where generic tools stall.",
   twitterDescription:
-    "Wio, Geml, and GrowSari case studies: mobile banking, Flutter dating, and B2B commerce automation with QApilot.",
+    "Wio, Geml, and GrowSari case studies: Flutter banking, dating-app sanity, and B2B commerce automation with QApilot.",
 });
 
 export const revalidate = 3600;

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | QApilot",
   },
   description:
-    "Automate mobile app testing with QApilot. AI-powered iOS and Android coverage in minutes. Start your free trial today.",
+    "Automate mobile app testing with QApilot. AI-powered iOS, Android, and Flutter coverage with self-healing tests. Start your free trial today.",
   authors: [{ name: "QApilot" }],
   robots: {
     index: true,
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     url: SITE_BASE_URL,
     title: "QApilot. AI Mobile App Testing & QA Automation",
     description:
-      "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.",
+      "Automate mobile app testing with AI. Instant iOS, Android, and Flutter coverage with self-healing tests for modern mobile teams. Start free today.",
     images: [defaultOpenGraphImage],
     siteName: "QApilot",
     locale: "en_US",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     creator: "@QApilot",
     title: "QApilot. AI Mobile App Testing",
     description:
-      "Automate mobile app testing with AI. Instant iOS and Android coverage. Start free today.",
+      "Automate mobile app testing with AI. Instant iOS, Android, and Flutter coverage with self-healing tests for modern mobile teams. Start free today.",
     images: [
       {
         url: defaultOpenGraphImage.url,

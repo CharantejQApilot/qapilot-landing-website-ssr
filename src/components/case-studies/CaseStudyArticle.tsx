@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { CaseStudyHero } from "@/components/case-studies/CaseStudyHero";
-import { CaseStudyPhoneScreenshot, GemlAppMock } from "@/components/case-studies/CaseStudyPhoneFrame";
 import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import {
   MarketingLedger,
@@ -45,30 +44,6 @@ function CaseStudyLogo({ study, className }: { study: CaseStudy; className?: str
   );
 }
 
-function CaseStudyHeroMedia({
-  study,
-  priority = false,
-}: {
-  study: CaseStudy;
-  priority?: boolean;
-}) {
-  if (study.heroImageSrc) {
-    return (
-      <CaseStudyPhoneScreenshot
-        src={study.heroImageSrc}
-        alt={study.heroImageAlt ?? study.logoAlt}
-        priority={priority}
-      />
-    );
-  }
-
-  if (study.heroMock === "geml") {
-    return <GemlAppMock />;
-  }
-
-  return <CaseStudyLogo study={study} />;
-}
-
 function IconWell({
   children,
   className,
@@ -90,7 +65,6 @@ function IconWell({
 }
 
 export function CaseStudyArticle({ study }: { study: CaseStudy }) {
-  const hasDeviceMedia = Boolean(study.heroImageSrc || study.heroMock);
   const relatedStudies = CASE_STUDIES.filter((other) => other.slug !== study.slug);
   const aboutFacts = [
     { label: "Industry", value: study.about.industry },
@@ -130,8 +104,6 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
             Book a Demo
           </BookDemoCtaButton>
         }
-        media={<CaseStudyHeroMedia study={study} priority />}
-        mediaVariant={hasDeviceMedia ? "device" : "logo"}
       >
         <ul className="mt-5 flex flex-wrap gap-2 sm:mt-6">
           {study.tags.map((tag) => (
@@ -143,14 +115,6 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
             </li>
           ))}
         </ul>
-        <div
-          className={cn(
-            "w-full lg:hidden",
-            hasDeviceMedia ? "mt-8 flex justify-center" : "mt-6",
-          )}
-        >
-          <CaseStudyHeroMedia study={study} />
-        </div>
       </CaseStudyHero>
 
       <MarketingSection
@@ -184,26 +148,56 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
           className="w-full home-canvas"
           aria-label={`Key results for ${study.clientName}`}
         >
-          <div className="section-full flex w-full overflow-x-auto">
-            {study.metrics.map((metric, index) => (
+          <div
+            className={cn(
+              "section-full grid w-full divide-border/70",
+              study.metrics.length >= 4
+                ? "grid-cols-2 divide-x divide-y lg:grid-cols-4 lg:divide-y-0"
+                : "grid-cols-1 sm:grid-cols-3 sm:divide-x",
+            )}
+          >
+            {study.metrics.map((metric) => (
               <div
                 key={metric.value + metric.label}
-                className="sig-telemetry-item min-w-[14rem] flex-1 sm:min-w-[16rem]"
-                style={{
-                  paddingLeft: index === 0 ? 0 : undefined,
-                  paddingRight: index === study.metrics.length - 1 ? 0 : undefined,
-                }}
+                className="flex min-w-0 flex-col gap-2 px-4 py-5 sm:px-6 sm:py-6"
               >
-                <span className="font-heading text-3xl font-semibold tracking-tight tabular-nums text-foreground sm:text-4xl min-[1280px]:text-5xl">
+                <span className="font-heading text-3xl font-semibold tracking-tight tabular-nums text-foreground sm:text-4xl min-[1280px]:text-[2.75rem]">
                   {metric.value}
                 </span>
-                <span className="max-w-xs text-xs leading-snug text-muted-foreground sm:text-sm">
+                <span className="text-xs leading-snug text-muted-foreground sm:text-sm">
                   {metric.label}
                 </span>
               </div>
             ))}
           </div>
         </div>
+
+      {study.quote ? (
+        <MarketingSection
+          aria-labelledby={`${study.slug}-quote`}
+          paddingClassName="py-8 sm:py-10 md:py-12"
+        >
+          <figure className="mx-auto w-full max-w-4xl">
+            <blockquote cite={study.clientUrl}>
+              <p
+                id={`${study.slug}-quote`}
+                className="font-heading text-xl font-medium leading-snug tracking-tight text-foreground sm:text-2xl md:text-[1.75rem] md:leading-snug"
+              >
+                “{study.quote.text}”
+              </p>
+            </blockquote>
+            <figcaption className="mt-6 text-sm font-semibold tracking-wide text-muted-foreground">
+              <span className="uppercase tracking-[0.16em] text-primary">
+                {study.quote.name}
+              </span>
+              <span className="mx-2 text-border" aria-hidden>
+                /
+              </span>
+              {study.quote.org}
+            </figcaption>
+          </figure>
+        </MarketingSection>
+      ) : null}
 
       <MarketingSection
         aria-labelledby={`${study.slug}-about`}
@@ -562,11 +556,16 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={other.logoSrc}
-                    alt=""
+                    alt={other.logoAlt}
                     className="mt-1 h-10 w-auto max-w-[7.5rem] shrink-0 object-contain opacity-90 sm:h-12 sm:max-w-[9rem]"
                   />
                 </div>
-                <div className="relative z-[1] mt-6 grid grid-cols-3 divide-x divide-border/60 border-t border-border/60 bg-muted/20">
+                <div
+                  className={cn(
+                    "relative z-[1] mt-6 grid divide-x divide-border/60 border-t border-border/60 bg-muted/20",
+                    other.metrics.length >= 4 ? "grid-cols-2 lg:grid-cols-4" : "grid-cols-3",
+                  )}
+                >
                   {other.metrics.map((metric) => (
                     <div key={metric.label} className="flex flex-col gap-1 px-3 py-4 sm:px-5 sm:py-5">
                       <span className="font-heading text-lg font-semibold tracking-tight tabular-nums text-foreground sm:text-2xl">

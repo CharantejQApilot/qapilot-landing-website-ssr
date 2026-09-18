@@ -17,6 +17,7 @@ import { loadQaGuideWriter } from "@/lib/qa-guide/load-writer";
 import { formatPageTitle } from "@/lib/page-title";
 import { coverImageAltForTitle } from "@/components/CmsRemoteImage";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
+import { formatMetaDescription } from "@/lib/seo";
 
 export const revalidate = 120;
 
@@ -61,9 +62,10 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
   if (!guide) return NOT_FOUND_METADATA;
 
   const metaTitle = firstNonEmptyString(guide.seo_title, guide.title) ?? guide.title;
-  const description =
+  const description = formatMetaDescription(
     firstNonEmptyString(guide.seo_description, guide.excerpt) ??
-    `Read ${metaTitle} on the QApilot ${QE_GUIDE_DISPLAY_NAME}.`;
+      `Read ${metaTitle} on the QApilot ${QE_GUIDE_DISPLAY_NAME}. Practical guidance for mobile QA teams.`,
+  );
   const canonical = `${SITE_BASE_URL}${publishedUrlPath(slug)}`;
   const ogAbsolute = absoluteUrlForOpenGraph(
     firstNonEmptyString(guide.og_image_url, guide.featured_image),

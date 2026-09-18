@@ -1,19 +1,23 @@
-import { PRODUCT_HUNT_TOP_POST_BADGE } from "@/lib/product-hunt-badge";
+import {
+  PRODUCT_HUNT_TOP_POST_BADGE,
+  type ProductHuntTopPostBadge,
+} from "@/lib/product-hunt-badge";
 import { cn } from "@/lib/utils";
 
 type ProductHuntTopPostBadgeProps = {
   align?: "center" | "start";
   className?: string;
+  badge?: ProductHuntTopPostBadge;
 };
 
 /**
- * Product Hunt #2 Product of the Day badge.
- * In-flow only. Lives in a dedicated hero top band so it is never clipped by
- * overflow or flex vertical centering.
+ * Product Hunt top-post badge.
+ * In-flow only so it is never clipped by overflow or flex vertical centering.
  */
 export default function HomeHeroProductHuntBadge({
   align = "center",
   className,
+  badge = PRODUCT_HUNT_TOP_POST_BADGE,
 }: ProductHuntTopPostBadgeProps) {
   return (
     <div
@@ -24,7 +28,7 @@ export default function HomeHeroProductHuntBadge({
       )}
     >
       <a
-        href={PRODUCT_HUNT_TOP_POST_BADGE.href}
+        href={badge.href}
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
@@ -34,10 +38,10 @@ export default function HomeHeroProductHuntBadge({
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- self-hosted PH badge; keep H1 as LCP */}
         <img
-          alt={PRODUCT_HUNT_TOP_POST_BADGE.imageAlt}
-          width={PRODUCT_HUNT_TOP_POST_BADGE.width}
-          height={PRODUCT_HUNT_TOP_POST_BADGE.height}
-          src={PRODUCT_HUNT_TOP_POST_BADGE.imageSrc}
+          alt={badge.imageAlt}
+          width={badge.width}
+          height={badge.height}
+          src={badge.imageSrc}
           loading="eager"
           decoding="async"
           fetchPriority="low"

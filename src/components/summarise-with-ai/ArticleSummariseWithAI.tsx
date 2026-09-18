@@ -37,7 +37,7 @@ export function ArticleSummariseWithAI({ pageUrl, className }: ArticleSummariseW
                 ) : (
                   <img
                     src={assistant.iconSrc}
-                    alt=""
+                    alt={`${assistant.shortName} logo`}
                     width={18}
                     height={18}
                     className="h-[18px] w-[18px] opacity-90 group-hover:opacity-100"

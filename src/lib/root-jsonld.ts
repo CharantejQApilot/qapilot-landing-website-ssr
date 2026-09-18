@@ -61,7 +61,7 @@ const softwareApplication = {
   "@type": "SoftwareApplication",
   name: "QApilot",
   applicationCategory: "DeveloperApplication",
-  operatingSystem: "Web, iOS, Android",
+  operatingSystem: "Web, iOS, Android, Flutter, React Native",
   url: SITE_BASE_URL,
   description:
     "AI-powered autonomous mobile app testing platform with zero-touch sanity testing, intelligent crawlers, and knowledge graph technology.",
@@ -74,8 +74,12 @@ const softwareApplication = {
   featureList: [
     "Zero-touch sanity testing",
     "AI-powered test generation",
-    "Cross-platform iOS and Android support",
-    "Knowledge graph technology",
+    "Autonomous mobile app crawler",
+    "Knowledge graph of app screens and journeys",
+    "QApilot MCP for coding agents",
+    "Cross-platform iOS, Android, Flutter, and React Native support",
+    "Post-build validation on application binaries",
+    "Framework-agnostic mobile testing",
     "CI/CD integration",
     "Visual regression testing",
     "Real device testing",

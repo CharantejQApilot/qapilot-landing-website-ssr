@@ -75,8 +75,9 @@ export default function ReleaseReadinessFlowSection({
               "mt-4 w-full min-w-0 max-w-none px-0 text-left md:mt-5",
             )}
           >
-            Trace every stage from build upload to release sign-off. Structured
-            visibility so teams always know where quality stands.
+            Release readiness is a structured path from build upload to release
+            sign-off. Trace every stage with structured visibility so teams
+            always know where quality stands.
           </p>
         </header>
 

@@ -39,7 +39,7 @@ const WriterCard = ({ name, designation, description, linkedinUrl, profileImage 
           {/* Content */}
           <div className="text-center sm:text-left min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-              <h3 className="text-xl font-semibold text-foreground">{name}</h3>
+              <p className="text-xl font-semibold text-foreground">{name}</p>
               {linkedinUrl && (
                 <a
                   href={linkedinUrl}
