@@ -24,11 +24,14 @@ import {
   HOME_PAGE_DESCRIPTION,
   HOME_PAGE_OG_DESCRIPTION,
   HOME_PAGE_OG_TITLE,
+  HOME_PAGE_QUESTIONS,
   HOME_PAGE_TITLE,
   HOME_PAGE_TWITTER_DESCRIPTION,
   HOME_PAGE_TWITTER_TITLE,
   homeWebPageJsonLd,
 } from "@/lib/home-page-seo";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
+import { softwareApplicationJsonLd } from "@/lib/root-jsonld";
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
 
@@ -61,6 +64,25 @@ export default function IndexPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareApplicationJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildFaqPageJsonLd(
+              HOME_PAGE_QUESTIONS.map(({ question, answer }) => ({
+                question,
+                answer,
+              })),
+            ),
+          ),
+        }}
       />
       <main>
         {/* S01–S02 hero + trust · S09 proof · S03 metrics · S04 product · S07 demo · S12 ecosystem · takeaways */}

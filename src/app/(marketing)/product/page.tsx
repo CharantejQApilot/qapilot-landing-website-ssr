@@ -8,6 +8,7 @@ import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { buildStaticPageMetadata } from "@/lib/seo";
 import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
+import { softwareApplicationJsonLd } from "@/lib/root-jsonld";
 
 const PRODUCT_PATH = PATHS.PRODUCT;
 
@@ -35,6 +36,12 @@ export default function ProductPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbList) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareApplicationJsonLd),
+        }}
       />
       <main>
         <PlatformOverviewHero />

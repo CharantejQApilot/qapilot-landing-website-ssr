@@ -32,18 +32,6 @@ const structuredData = {
   description:
     "How QApilot helps Product Managers ship mobile features faster with stronger release confidence and fewer quality-related delays.",
   url: canonicalUrl,
-  mainEntity: {
-    "@type": "SoftwareApplication",
-    name: "QApilot",
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "iOS, Android",
-    description:
-      "AI-native mobile testing with autonomous coverage, reporting, intelligent bug detection, and security insights for release-ready product teams.",
-    offers: {
-      "@type": "Offer",
-      category: "Mobile App Testing",
-    },
-  },
   breadcrumb: breadcrumbList,
 };
 

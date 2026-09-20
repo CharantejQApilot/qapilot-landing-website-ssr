@@ -1,64 +1,82 @@
 import type { Metadata } from "next";
 import { ReleaseReadinessSuiteHero } from "@/components/release-readiness-suite/ReleaseReadinessSuiteHero";
 import { ReleaseReadinessSuitePillars } from "@/components/release-readiness-suite/ReleaseReadinessSuitePillars";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { openGraphImageForPath } from "@/lib/seo";
 import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
+import { RELEASE_READINESS_FAQS } from "@/lib/page-faqs";
 
 const path = PATHS.RELEASE_READINESS_SUITE;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
 const ogImage = openGraphImageForPath(path);
 
 export const metadata: Metadata = {
- title: "Release Readiness Suite. Bugs, Security, Self-Healing & Device Metrics",
- description:
- "Release Readiness Suite: intelligent bug detection, security reports, AI self-healing, and device metrics so mobile teams ship with clearer confidence.",
- alternates: {
- canonical: canonicalUrl,
- },
- openGraph: {
- type: "website",
- title: "Release Readiness Suite | QApilot",
- description:
- "Bug signals, security insight, and self-healing tests in one suite for mobile release readiness.",
- url: canonicalUrl,
- siteName: "QApilot",
- locale: "en_US",
- images: [ogImage],
- },
- twitter: {
- card: "summary_large_image",
- title: "Release Readiness Suite | QApilot",
- description:
- "Intelligent bug detection, security reports, and AI self-healing. One suite for mobile release readiness.",
- images: [{ url: ogImage.url, alt: ogImage.alt }],
- },
+  title: "Release Readiness Suite. Bugs, Security, Self-Healing & Device Metrics",
+  description:
+    "Release Readiness Suite: intelligent bug detection, security reports, AI self-healing, and device metrics so mobile teams ship with clearer confidence.",
+  alternates: {
+    canonical: canonicalUrl,
+  },
+  openGraph: {
+    type: "website",
+    title: "Release Readiness Suite | QApilot",
+    description:
+      "Bug signals, security insight, and self-healing tests in one suite for mobile release readiness.",
+    url: canonicalUrl,
+    siteName: "QApilot",
+    locale: "en_US",
+    images: [ogImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Release Readiness Suite | QApilot",
+    description:
+      "Intelligent bug detection, security reports, and AI self-healing. One suite for mobile release readiness.",
+    images: [{ url: ogImage.url, alt: ogImage.alt }],
+  },
 };
 
 export const revalidate = 300;
 
 export default function ReleaseReadinessSuitePage() {
- return (
- <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
- <script
- type="application/ld+json"
- dangerouslySetInnerHTML={{
- __html: JSON.stringify(
- buildBreadcrumbList([
- { name: "Home", path: PATHS.HOME },
- { name: "Platform overview", path: PATHS.PRODUCT },
- { name: "Release Readiness Suite", path },
- ]),
- ),
- }}
- />
- <main>
- <ReleaseReadinessSuiteHero />
- <ProductSummariseBand pageUrl={canonicalUrl} />
- <ReleaseReadinessSuitePillars />
- </main>
- </div>
- );
+  return (
+    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildBreadcrumbList([
+              { name: "Home", path: PATHS.HOME },
+              { name: "Platform overview", path: PATHS.PRODUCT },
+              { name: "Release Readiness Suite", path },
+            ]),
+          ),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildFaqPageJsonLd(RELEASE_READINESS_FAQS)),
+        }}
+      />
+      <main>
+        <ReleaseReadinessSuiteHero />
+        <ProductSummariseBand pageUrl={canonicalUrl} />
+        <ReleaseReadinessSuitePillars />
+        <CompareFaqSection
+          faqs={RELEASE_READINESS_FAQS}
+          headingId="release-readiness-faqs"
+          title={
+            <>
+              Frequently asked <span className="text-primary">questions</span>
+            </>
+          }
+        />
+      </main>
+    </div>
+  );
 }

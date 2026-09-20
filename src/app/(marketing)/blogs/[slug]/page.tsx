@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -36,14 +36,22 @@ import {
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
+import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import { formatPageTitle, formatPageTitleString } from "@/lib/page-title";
+import {
+  blogSlugRedirectTarget,
+  canonicalBlogSlug,
+  resolveBlogCmsSlug,
+} from "@/lib/content-slug-aliases";
+import { faqsForBlogSlug } from "@/lib/page-faqs";
+import { extractFaqItemsFromHtml } from "@/lib/extract-faq-from-html";
+import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import {
   buildOpenGraphImageMeta,
   defaultOpenGraphImage,
   formatMetaDescription,
 } from "@/lib/seo";
-import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
-import { extractFaqItemsFromHtml } from "@/lib/extract-faq-from-html";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -67,7 +75,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
     .filter(
       (slug): slug is string => typeof slug === "string" && slug.length > 0,
     )
-    .map((slug) => ({ slug }));
+    .map((slug) => ({ slug: canonicalBlogSlug(slug) }));
 }
 
 /**
@@ -90,13 +98,14 @@ export async function generateMetadata({
 }: {
   params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const slug = await resolveSlugParam(params);
+  const urlSlug = await resolveSlugParam(params);
+  const cmsSlug = resolveBlogCmsSlug(urlSlug);
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     logMetadataFallback({
       route: "/blogs/[slug]",
       contentType: "blogs",
-      slug,
+      slug: urlSlug,
       reason: "supabase-unavailable",
     });
     return NOT_FOUND_METADATA;
@@ -104,7 +113,7 @@ export async function generateMetadata({
   const { data: blog, error } = await supabase
     .from("blogs")
     .select("*")
-    .eq("slug", slug)
+    .eq("slug", cmsSlug)
     .eq("published", true)
     .maybeSingle();
 
@@ -112,7 +121,7 @@ export async function generateMetadata({
     logMetadataFallback({
       route: "/blogs/[slug]",
       contentType: "blogs",
-      slug,
+      slug: urlSlug,
       reason: "query-error",
       details: {
         message: error.message,
@@ -124,6 +133,9 @@ export async function generateMetadata({
   if (error || !blog) {
     return NOT_FOUND_METADATA;
   }
+
+  const publicSlug = canonicalBlogSlug(blog.slug);
+  const publicPath = `${PATHS.BLOGS}/${publicSlug}`;
 
   const baseTitle = firstNonEmptyString(blog.title) ?? "QApilot blog";
   const description =
@@ -159,13 +171,13 @@ export async function generateMetadata({
       title: pageTitle,
       description: metaDescription,
       alternates: {
-        canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+        canonical: `${SITE_BASE_URL}${publicPath}`,
       },
       openGraph: {
         type: "article",
         title: displayTitle,
         description: metaDescription,
-        url: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+        url: `${SITE_BASE_URL}${publicPath}`,
         images: [ogImage],
         ...(publishedTime ? { publishedTime } : {}),
         authors: blog.author_name ? [blog.author_name] : undefined,
@@ -184,7 +196,7 @@ export async function generateMetadata({
     logMetadataFallback({
       route: "/blogs/[slug]",
       contentType: "blogs",
-      slug,
+      slug: urlSlug,
       reason: "metadata-build-error",
       details: summarizeUnknownError(error),
     });
@@ -192,7 +204,7 @@ export async function generateMetadata({
       title: pageTitle,
       description: metaDescription,
       alternates: {
-        canonical: `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`,
+        canonical: `${SITE_BASE_URL}${publicPath}`,
       },
     };
   }
@@ -208,17 +220,25 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  const slug = await resolveSlugParam(params);
+  const urlSlug = await resolveSlugParam(params);
+  const redirectTo = blogSlugRedirectTarget(urlSlug);
+  if (redirectTo) {
+    permanentRedirect(`${PATHS.BLOGS}/${redirectTo}`);
+  }
+  const cmsSlug = resolveBlogCmsSlug(urlSlug);
   const { data: blog, error: blogError } = await supabase
     .from("blogs")
     .select("*")
-    .eq("slug", slug)
+    .eq("slug", cmsSlug)
     .eq("published", true)
     .maybeSingle();
 
   if (blogError || !blog) {
     notFound();
   }
+
+  const publicSlug = canonicalBlogSlug(blog.slug);
+  const publicPath = `${PATHS.BLOGS}/${publicSlug}`;
 
   let writer = null;
   if (blog.writer_id) {
@@ -240,12 +260,17 @@ export default async function BlogPostPage({
     .order("published_date", { ascending: false })
     .limit(3);
 
-  const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
+  const safeRelatedPosts = relatedPostsError
+    ? null
+    : (relatedPosts ?? []).map((post) => ({
+        ...post,
+        slug: canonicalBlogSlug(post.slug),
+      }));
 
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
     { name: "Blogs", path: PATHS.BLOGS },
-    { name: blog.title, path: `${PATHS.BLOGS}/${blog.slug}` },
+    { name: blog.title, path: publicPath },
   ]);
   const articlePublishedTime = normalizeArticlePublishedTime(
     blog.published_date,
@@ -260,7 +285,7 @@ export default async function BlogPostPage({
       blog.featured_image,
     ),
   );
-  const articleUrl = `${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`;
+  const articleUrl = `${SITE_BASE_URL}${publicPath}`;
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -281,7 +306,6 @@ export default async function BlogPostPage({
       : {}),
   };
   const blogJsonLdGraph: unknown[] = [articleStructuredData, breadcrumbData];
-  // FAQPage appended below after content is sanitized (see sanitizedContent).
 
   const publishedLabel = formatPublishedDate(blog.published_date);
   const descriptionText = firstNonEmptyString(
@@ -300,7 +324,10 @@ export default async function BlogPostPage({
   const content = asString(blog.content);
   const readingTimeMinutes = estimateReadingTimeMinutes(content);
   const sanitizedContent = sanitizeRichText(content, contentFormat);
-  const faqItems = extractFaqItemsFromHtml(sanitizedContent);
+  const faqItems =
+    extractFaqItemsFromHtml(sanitizedContent) ??
+    faqsForBlogSlug(blog.slug) ??
+    null;
   if (faqItems) {
     blogJsonLdGraph.push(buildFaqPageJsonLd(faqItems));
   }
@@ -346,13 +373,11 @@ export default async function BlogPostPage({
             </h1>
 
             <ArticleSummariseWithAI
-              pageUrl={`${SITE_BASE_URL}${PATHS.BLOGS}/${blog.slug}`}
+              pageUrl={`${SITE_BASE_URL}${publicPath}`}
             />
 
             {descriptionText ? (
-              <p className="mb-8 text-xl text-muted-foreground">
-                {descriptionText}
-              </p>
+              <ArticleKeyTakeaways summary={descriptionText} />
             ) : null}
 
             {category || tags.length > 0 ? (
@@ -417,6 +442,20 @@ export default async function BlogPostPage({
                 linkedinUrl={writer.linkedin_url}
                 profileImage={writer.profile_image}
               />
+            ) : null}
+
+            {faqItems ? (
+              <div className="mt-12 md:mt-16">
+                <CompareFaqSection
+                  faqs={faqItems}
+                  headingId="blog-faqs"
+                  title={
+                    <>
+                      Frequently asked <span className="text-primary">questions</span>
+                    </>
+                  }
+                />
+              </div>
             ) : null}
 
             <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />

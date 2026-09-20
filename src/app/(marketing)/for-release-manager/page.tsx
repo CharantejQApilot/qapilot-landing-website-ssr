@@ -32,18 +32,6 @@ const structuredData = {
   description:
     "How QApilot helps Release Managers reduce uncertainty before mobile launches with faster validation and clearer quality signals.",
   url: canonicalUrl,
-  mainEntity: {
-    "@type": "SoftwareApplication",
-    name: "QApilot",
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "iOS, Android",
-    description:
-      "AI-native mobile testing platform with autonomous testing, intelligent bug detection, reporting, and release readiness signals.",
-    offers: {
-      "@type": "Offer",
-      category: "Mobile App Testing",
-    },
-  },
   breadcrumb: breadcrumbList,
 };
 

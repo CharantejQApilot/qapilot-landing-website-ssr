@@ -31,6 +31,24 @@ const SANITIZER_OPTIONS: sanitizeHtml.IOptions = {
   ]),
   transformTags: {
     h1: "h2",
+    img: (_tagName, attribs) => {
+      const alt =
+        typeof attribs.alt === "string" ? attribs.alt.trim() : "";
+      if (alt) {
+        return { tagName: "img", attribs };
+      }
+      const fromTitle =
+        typeof attribs.title === "string" ? attribs.title.trim() : "";
+      const fromSrc =
+        typeof attribs.src === "string"
+          ? attribs.src.split("/").pop()?.split("?")[0]?.replace(/[-_]/g, " ")
+          : "";
+      const fallback = fromTitle || fromSrc || "Article image";
+      return {
+        tagName: "img",
+        attribs: { ...attribs, alt: fallback },
+      };
+    },
   },
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,

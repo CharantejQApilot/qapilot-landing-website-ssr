@@ -163,14 +163,75 @@ const nextConfig = {
         destination: "/qa-guide/behaviour-driven-development",
         permanent: true,
       },
+      // Long CMS slugs → short SEO-canonical URLs
+      {
+        source:
+          "/blogs/leveraging-image-recognition-for-robust-and-self-healing-test-automation-with-qapilot",
+        destination: "/blogs/image-recognition-self-healing-tests",
+        permanent: true,
+      },
+      {
+        source:
+          "/blogs/beyond-sequential-testing-accelerate-your-mobile-app-testing-with-parallel-execution",
+        destination: "/blogs/parallel-mobile-app-testing",
+        permanent: true,
+      },
+      {
+        source:
+          "/news/qapilot-s-gold-sponsorship-speaker-session-and-community-engagement-at-qe-conclave-2025",
+        destination: "/news/qapilot-qe-conclave-2025",
+        permanent: true,
+      },
+      {
+        source:
+          "/news/joe-colantonio-on-flutter-testing-in-2026-why-mobile-teams-need-a-new-playbook",
+        destination: "/news/joe-colantonio-flutter-testing-2026",
+        permanent: true,
+      },
+      {
+        source:
+          "/news/qapilot-announces-strategic-partnership-with-qualizeal-to-elevate-mobile-app-quality-engineering",
+        destination: "/news/qapilot-qualizeal-partnership",
+        permanent: true,
+      },
+      {
+        source:
+          "/news/observing-the-agentic-ai-ecosystem-qapilot-at-the-nasscom-and-google-agentic-ai-roadshow",
+        destination: "/news/qapilot-nasscom-google-agentic-ai",
+        permanent: true,
+      },
+      {
+        source:
+          "/news/surendranath-jillela-featured-in-ceo-insights-leading-ai-native-quality-engineering",
+        destination: "/news/surendranath-jillela-ceo-insights",
+        permanent: true,
+      },
     ];
   },
   async headers() {
     /**
-     * Preload product screenshots only. Scenic photo backdrops were removed (CSS patterns).
+     * Site-wide security headers (HSTS is already set by Vercel).
+     * CSP omitted — HubSpot / GTM / Clarity / embeds would need a long allowlist.
      * Agent discovery (RFC 8288) stays on `/`.
      */
+    const securityHeaders = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      {
+        key: "Referrer-Policy",
+        value: "strict-origin-when-cross-origin",
+      },
+      {
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=()",
+      },
+    ];
+
     return [
+      {
+        source: "/:path*",
+        headers: securityHeaders,
+      },
       {
         source: "/",
         headers: [

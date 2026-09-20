@@ -11,6 +11,7 @@ import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
 import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import WriterCard from "@/components/WriterCard";
 
@@ -98,9 +99,7 @@ export default function QaGuideArticle({
         <ArticleSummariseWithAI pageUrl={pageUrl} />
 
         {descriptionText ? (
-          <p className="mb-8 text-xl text-muted-foreground">
-            {descriptionText}
-          </p>
+          <ArticleKeyTakeaways summary={descriptionText} />
         ) : null}
 
         {tags.length > 0 ? (
