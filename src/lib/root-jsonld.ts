@@ -57,7 +57,18 @@ const organization = {
   areaServed: "Worldwide",
 };
 
-const softwareApplication = {
+const webSite = {
+  "@type": "WebSite",
+  name: "QApilot",
+  url: SITE_BASE_URL,
+};
+
+/**
+ * Product schema — homepage + /product only.
+ * Do not inject site-wide: crawlers flag SoftwareApplication on guides/blogs.
+ */
+export const softwareApplicationJsonLd = {
+  "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "QApilot",
   applicationCategory: "DeveloperApplication",
@@ -86,14 +97,8 @@ const softwareApplication = {
   ],
 };
 
-const webSite = {
-  "@type": "WebSite",
-  name: "QApilot",
-  url: SITE_BASE_URL,
-};
-
-/** Single graph: Organization + WebSite + SoftwareApplication. */
+/** Site-wide graph: Organization + WebSite only. */
 export const rootSchemaGraphJsonLd = {
   "@context": "https://schema.org",
-  "@graph": [organization, webSite, softwareApplication],
+  "@graph": [organization, webSite],
 };

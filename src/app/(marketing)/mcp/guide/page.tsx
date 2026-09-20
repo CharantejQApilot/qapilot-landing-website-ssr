@@ -15,6 +15,7 @@ import { PRODUCT_HUNT_MCP_TOP_POST_BADGE } from "@/lib/product-hunt-badge";
 import {
   buildMcpGuideJsonLd,
   MCP_GUIDE_CHIPS,
+  MCP_GUIDE_DATE_MODIFIED,
   MCP_GUIDE_DESCRIPTION,
   MCP_GUIDE_TITLE,
 } from "@/lib/mcp-guide";
@@ -106,6 +107,20 @@ export default function McpGuidePage() {
                 </span>
               ))}
             </div>
+            <p className="mb-2 text-sm text-muted-foreground">
+              <time dateTime={MCP_GUIDE_DATE_MODIFIED}>
+                Last updated{" "}
+                {new Date(`${MCP_GUIDE_DATE_MODIFIED}T00:00:00Z`).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    timeZone: "UTC",
+                  },
+                )}
+              </time>
+            </p>
           </MarketingThesisHero>
         </div>
 

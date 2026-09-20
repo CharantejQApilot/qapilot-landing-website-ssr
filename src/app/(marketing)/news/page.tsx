@@ -10,6 +10,7 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import { formatPublishedDate } from "@/lib/format-published";
+import { canonicalNewsSlug } from "@/lib/content-slug-aliases";
 
 const NEWS_PATH = PATHS.NEWS;
 const canonicalUrl = `${SITE_BASE_URL}${NEWS_PATH}`;
@@ -87,7 +88,7 @@ export default async function NewsPage() {
           "@type": "ListItem",
           position: i + 1,
           name: item.title,
-          item: `${SITE_BASE_URL}${NEWS_PATH}/${item.slug}`,
+          item: `${SITE_BASE_URL}${NEWS_PATH}/${canonicalNewsSlug(item.slug)}`,
         }))
       : undefined;
 
@@ -218,7 +219,7 @@ export default async function NewsPage() {
                           return (
                             <li key={item.id}>
                               <Link
-                                href={`/news/${item.slug}`}
+                                href={`/news/${canonicalNewsSlug(item.slug)}`}
                                 className="group block h-full rounded-md border-2 border-primary/15 bg-card outline-none ring-offset-background transition-shadow hover:border-primary/25 focus-visible:ring-2 focus-visible:ring-ring"
                               >
                                 <article className="flex h-full flex-col overflow-hidden rounded-md">
@@ -301,7 +302,7 @@ export default async function NewsPage() {
                           return (
                             <li key={item.id}>
                               <Link
-                                href={`/news/${item.slug}`}
+                                href={`/news/${canonicalNewsSlug(item.slug)}`}
                                 className="group block h-full rounded-md border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                               >
                                 <article className="flex h-full flex-col overflow-hidden rounded-md">

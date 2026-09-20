@@ -32,18 +32,6 @@ const structuredData = {
   description:
     "How QApilot helps SRE teams improve release reliability by surfacing mobile quality risks early and strengthening pre-release signals.",
   url: canonicalUrl,
-  mainEntity: {
-    "@type": "SoftwareApplication",
-    name: "QApilot",
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "iOS, Android",
-    description:
-      "Mobile testing platform for pre-release risk signals, intelligent bug detection, rich diagnostics, and autonomous coverage.",
-    offers: {
-      "@type": "Offer",
-      category: "Mobile App Testing",
-    },
-  },
   breadcrumb: breadcrumbList,
 };
 

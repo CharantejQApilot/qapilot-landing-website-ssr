@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import WriterCard from "@/components/WriterCard";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -35,7 +35,13 @@ import {
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
+import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
 import { formatPageTitle } from "@/lib/page-title";
+import {
+  newsSlugRedirectTarget,
+  canonicalNewsSlug,
+  resolveNewsCmsSlug,
+} from "@/lib/content-slug-aliases";
 
 /** Match blog article: readable column + comfortable side margin. */
 const ARTICLE_GUTTER =
@@ -63,7 +69,7 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
     .filter(
       (slug): slug is string => typeof slug === "string" && slug.length > 0,
     )
-    .map((slug) => ({ slug }));
+    .map((slug) => ({ slug: canonicalNewsSlug(slug) }));
 }
 
 interface Backlink {
@@ -94,13 +100,14 @@ export async function generateMetadata({
 }: {
   params: { slug: string } | Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const slug = await resolveSlugParam(params);
+  const urlSlug = await resolveSlugParam(params);
+  const cmsSlug = resolveNewsCmsSlug(urlSlug);
   const supabase = tryCreateServerSupabaseClient();
   if (!supabase) {
     logMetadataFallback({
       route: "/news/[slug]",
       contentType: "news_updates",
-      slug,
+      slug: urlSlug,
       reason: "supabase-unavailable",
     });
     return NOT_FOUND_METADATA;
@@ -108,7 +115,7 @@ export async function generateMetadata({
   const { data: newsItem, error } = await supabase
     .from("news_updates")
     .select("*")
-    .eq("slug", slug)
+    .eq("slug", cmsSlug)
     .eq("published", true)
     .maybeSingle();
 
@@ -116,7 +123,7 @@ export async function generateMetadata({
     logMetadataFallback({
       route: "/news/[slug]",
       contentType: "news_updates",
-      slug,
+      slug: urlSlug,
       reason: "query-error",
       details: {
         message: error.message,
@@ -128,6 +135,9 @@ export async function generateMetadata({
   if (error || !newsItem) {
     return NOT_FOUND_METADATA;
   }
+
+  const publicSlug = canonicalNewsSlug(newsItem.slug);
+  const publicPath = `${PATHS.NEWS}/${publicSlug}`;
 
   const baseTitle = firstNonEmptyString(newsItem.title) ?? "QApilot news";
   const description = formatMetaDescription(
@@ -168,13 +178,13 @@ export async function generateMetadata({
       title: pageTitle,
       description,
       alternates: {
-        canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+        canonical: `${SITE_BASE_URL}${publicPath}`,
       },
       openGraph: {
         type: "article",
         title: metaTitle,
         description,
-        url: `${SITE_BASE_URL}${PATHS.NEWS}/${slug}`,
+        url: `${SITE_BASE_URL}${publicPath}`,
         images: [
           ogAbsolute === DEFAULT_SHARE_IMAGE_URL
             ? defaultOpenGraphImage
@@ -196,7 +206,7 @@ export async function generateMetadata({
     logMetadataFallback({
       route: "/news/[slug]",
       contentType: "news_updates",
-      slug,
+      slug: urlSlug,
       reason: "metadata-build-error",
       details: summarizeUnknownError(error),
     });
@@ -204,7 +214,7 @@ export async function generateMetadata({
       title: pageTitle,
       description,
       alternates: {
-        canonical: `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`,
+        canonical: `${SITE_BASE_URL}${publicPath}`,
       },
     };
   }
@@ -219,18 +229,26 @@ export default async function NewsPostPage({
   if (!supabase) {
     notFound();
   }
-  const slug = await resolveSlugParam(params);
 
+  const urlSlug = await resolveSlugParam(params);
+  const redirectTo = newsSlugRedirectTarget(urlSlug);
+  if (redirectTo) {
+    permanentRedirect(`${PATHS.NEWS}/${redirectTo}`);
+  }
+  const cmsSlug = resolveNewsCmsSlug(urlSlug);
   const { data: newsItem, error: newsError } = await supabase
     .from("news_updates")
     .select("*")
-    .eq("slug", slug)
+    .eq("slug", cmsSlug)
     .eq("published", true)
     .maybeSingle();
 
   if (newsError || !newsItem) {
     notFound();
   }
+
+  const publicSlug = canonicalNewsSlug(newsItem.slug);
+  const publicPath = `${PATHS.NEWS}/${publicSlug}`;
 
   let writer = null;
   if (newsItem.writer_id) {
@@ -261,7 +279,12 @@ export default async function NewsPostPage({
     .order("published_date", { ascending: false })
     .limit(3);
 
-  const safeRelatedPosts = relatedPostsError ? null : relatedPosts;
+  const safeRelatedPosts = relatedPostsError
+    ? null
+    : (relatedPosts ?? []).map((post) => ({
+        ...post,
+        slug: canonicalNewsSlug(post.slug),
+      }));
 
   const youtubeUrl = asTrimmedString(newsItem.youtube_url);
   const videoId = youtubeUrl ? extractYouTubeId(youtubeUrl) : null;
@@ -285,7 +308,7 @@ export default async function NewsPostPage({
   const category = firstNonEmptyString(newsItem.category);
   const tags = commaSeparatedList(newsItem.tags);
 
-  const articleUrl = `${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`;
+  const articleUrl = `${SITE_BASE_URL}${publicPath}`;
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -338,7 +361,7 @@ export default async function NewsPostPage({
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
     { name: "News", path: PATHS.NEWS },
-    { name: newsItem.title, path: `${PATHS.NEWS}/${newsItem.slug}` },
+    { name: newsItem.title, path: publicPath },
   ]);
 
   const pageJsonLd = {
@@ -390,13 +413,11 @@ export default async function NewsPostPage({
             </h1>
 
             <ArticleSummariseWithAI
-              pageUrl={`${SITE_BASE_URL}${PATHS.NEWS}/${newsItem.slug}`}
+              pageUrl={`${SITE_BASE_URL}${publicPath}`}
             />
 
             {leadDescription ? (
-              <p className="mb-8 text-xl text-muted-foreground">
-                {leadDescription}
-              </p>
+              <ArticleKeyTakeaways summary={leadDescription} />
             ) : null}
 
             {category || tags.length > 0 ? (

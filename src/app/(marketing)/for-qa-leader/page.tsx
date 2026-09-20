@@ -32,18 +32,6 @@ const structuredData = {
   description:
     "How QApilot helps QE leaders reduce automation maintenance, improve release confidence, and expand mobile test coverage with autonomous, AI-native testing.",
   url: canonicalUrl,
-  mainEntity: {
-    "@type": "SoftwareApplication",
-    name: "QApilot",
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "iOS, Android",
-    description:
-      "AI-native mobile testing platform with autonomous exploration, intelligent bug detection, self-healing, and enterprise-ready reporting.",
-    offers: {
-      "@type": "Offer",
-      category: "Mobile App Testing",
-    },
-  },
   breadcrumb: breadcrumbList,
 };
 

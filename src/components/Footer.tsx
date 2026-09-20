@@ -320,6 +320,16 @@ const Footer = () => {
                 <li>
                   <FooterLink to={PATHS.MCP_GUIDE}>QApilot MCP</FooterLink>
                 </li>
+                <li>
+                  <FooterLink to={PATHS.BRING_YOUR_OWN_AGENT}>
+                    Bring Your Own Agent
+                  </FooterLink>
+                </li>
+                <li>
+                  <FooterLink to={PATHS.AGENTIC_ARCHITECTURE}>
+                    Agentic Architecture
+                  </FooterLink>
+                </li>
               </ul>
             </div>
             <div className="min-w-0 w-full">
