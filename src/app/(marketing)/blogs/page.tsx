@@ -10,6 +10,7 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { MarketingPageShell, MarketingThesisHero } from "@/components/marketing";
 import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import { formatPublishedDate } from "@/lib/format-published";
+import { canonicalBlogSlug } from "@/lib/content-slug-aliases";
 
 const BLOGS_PATH = PATHS.BLOGS;
 const canonicalUrl = `${SITE_BASE_URL}${BLOGS_PATH}`;
@@ -87,7 +88,7 @@ export default async function BlogsPage() {
           "@type": "ListItem",
           position: i + 1,
           name: b.title,
-          item: `${SITE_BASE_URL}${BLOGS_PATH}/${b.slug}`,
+          item: `${SITE_BASE_URL}${BLOGS_PATH}/${canonicalBlogSlug(b.slug)}`,
         }))
       : undefined;
 
@@ -220,7 +221,7 @@ export default async function BlogsPage() {
                           return (
                             <li key={blog.id}>
                               <Link
-                                href={`/blogs/${blog.slug}`}
+                                href={`/blogs/${canonicalBlogSlug(blog.slug)}`}
                                 className="group block h-full rounded-md border-2 border-primary/15 bg-card outline-none ring-offset-background transition-shadow hover:border-primary/25 focus-visible:ring-2 focus-visible:ring-ring"
                               >
                                 <article className="flex h-full flex-col overflow-hidden rounded-md">
@@ -302,7 +303,7 @@ export default async function BlogsPage() {
                           return (
                             <li key={blog.id}>
                               <Link
-                                href={`/blogs/${blog.slug}`}
+                                href={`/blogs/${canonicalBlogSlug(blog.slug)}`}
                                 className="group block h-full rounded-md border border-border bg-card outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
                               >
                                 <article className="flex h-full flex-col overflow-hidden rounded-md">

@@ -115,6 +115,37 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
             </li>
           ))}
         </ul>
+        <p className="mt-4 text-sm text-muted-foreground">
+          <time dateTime={study.publishedDate}>
+            Published{" "}
+            {new Date(`${study.publishedDate}T00:00:00Z`).toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                timeZone: "UTC",
+              },
+            )}
+          </time>
+          {study.dateModified && study.dateModified !== study.publishedDate ? (
+            <>
+              {" · "}
+              <time dateTime={study.dateModified}>
+                Updated{" "}
+                {new Date(`${study.dateModified}T00:00:00Z`).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    timeZone: "UTC",
+                  },
+                )}
+              </time>
+            </>
+          ) : null}
+        </p>
       </CaseStudyHero>
 
       <MarketingSection

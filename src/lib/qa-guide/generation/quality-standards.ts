@@ -109,6 +109,7 @@ The server scores your draft against this list. Aim to pass every item; editors 
 | SEO | Primary keyword in H1, first 100 words, slug, meta_title, meta_description; each secondary keyword in at least one H2/H3; 2+ question-style headings where intent is informational |
 | information_gain | **≥${QUALITY_MIN_INFORMATION_GAIN}** items in quality_checks.information_gain |
 | structured_elements | **≥${QUALITY_MIN_STRUCTURED_ELEMENTS}** items (tables, checklists, numbered processes) |
+| Citability | Include **≥3** concrete statistics or data points (percentages, timings, device counts, or cited research figures) with sources when claiming numbers |
 | qapilot_grounding | **≥${QUALITY_MIN_QAPILOT_GROUNDING}** short quotes from provided site excerpts |
 | mobile_specificity | **≥6** mobile testing terms listed in quality_checks.mobile_specificity |
 | Scores | originality_score, usefulness_score, product_relevance_score each **≥${QUALITY_MIN_ORIGINALITY}** if the draft is strong |

@@ -5,6 +5,10 @@ export const MCP_GUIDE_TITLE = "QApilot MCP CLI Guide. Android Automation";
 export const MCP_GUIDE_DESCRIPTION =
   "Automate real Android devices and emulators in Claude, Cursor, or any MCP client. Describe test flows in plain English — no Appium code required.";
 
+/** Visible + schema freshness for EEAT crawlers. */
+export const MCP_GUIDE_DATE_PUBLISHED = "2026-06-01";
+export const MCP_GUIDE_DATE_MODIFIED = "2026-09-18";
+
 export const MCP_CLI_INSTALL_URL =
   "https://api.qapilot.io/internal/qapilot-mobile-mcp.tgz";
 
@@ -202,5 +206,7 @@ export function buildMcpGuideJsonLd() {
     description: MCP_GUIDE_DESCRIPTION,
     url,
     mainEntityOfPage: url,
+    datePublished: MCP_GUIDE_DATE_PUBLISHED,
+    dateModified: MCP_GUIDE_DATE_MODIFIED,
   };
 }

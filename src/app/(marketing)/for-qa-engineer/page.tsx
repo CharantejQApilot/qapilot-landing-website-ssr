@@ -32,18 +32,6 @@ const structuredData = {
   description:
     "How QApilot helps QA Engineers create coverage faster, debug failures quicker, and reduce brittle automation across mobile apps.",
   url: canonicalUrl,
-  mainEntity: {
-    "@type": "SoftwareApplication",
-    name: "QApilot",
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "iOS, Android",
-    description:
-      "AI-native mobile testing with autonomous exploration, self-healing, intelligent bug detection, and rich execution evidence.",
-    offers: {
-      "@type": "Offer",
-      category: "Mobile App Testing",
-    },
-  },
   breadcrumb: breadcrumbList,
 };
 

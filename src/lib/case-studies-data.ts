@@ -58,6 +58,10 @@ export type CaseStudy = {
   services: CaseStudyService[];
   takeaway: string;
   related: CaseStudyRelatedLink[];
+  /** ISO date (YYYY-MM-DD) for visible UI + Article JSON-LD */
+  publishedDate: string;
+  /** ISO date (YYYY-MM-DD); defaults to publishedDate when omitted in consumers */
+  dateModified?: string;
   seoTitle: string;
   seoDescription: string;
 };
@@ -212,6 +216,8 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
       { href: PATHS.COWORK, label: "CoWork" },
       { href: PATHS.FOR_FLUTTER, label: "Flutter testing" },
     ],
+    publishedDate: "2026-08-25",
+    dateModified: "2026-09-18",
     seoTitle: "Wio Case Study. Flutter Banking Automation",
     seoDescription:
       "How QApilot automated WIO's Flutter banking app for a small QA team: 89.3% step success, 11,025 nightly steps, and 97% of runs outside work hours.",
@@ -347,6 +353,8 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
       { href: PATHS.COWORK, label: "CoWork" },
       { href: PATHS.PARTNERS, label: "Partners" },
     ],
+    publishedDate: "2026-08-25",
+    dateModified: "2026-09-18",
     seoTitle: "Geml Case Study. Flutter Dating Sanity in 2 Weeks",
     seoDescription:
       "How QApilot automated Geml's full Flutter dating-app sanity suite in two weeks, including mock location, swipe gestures, OTP onboarding, and a trained team owning regression.",
@@ -489,6 +497,8 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
       { href: PATHS.DUAL_DEVICE_TESTING, label: "Dual device testing" },
       { href: PATHS.PARTNERS, label: "Partners" },
     ],
+    publishedDate: "2026-08-25",
+    dateModified: "2026-09-18",
     seoTitle: "GrowSari Case Study. B2B Commerce App Automation",
     seoDescription:
       "How QApilot moved GrowSari from regression planning to evidenced mobile automation: cloud-device login, Record & Playback on OTP-gated journeys, +161% test steps and +75% active users.",

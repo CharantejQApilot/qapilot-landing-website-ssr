@@ -17,7 +17,11 @@ import { loadQaGuideWriter } from "@/lib/qa-guide/load-writer";
 import { formatPageTitle } from "@/lib/page-title";
 import { coverImageAltForTitle } from "@/components/CmsRemoteImage";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
-import { formatMetaDescription } from "@/lib/seo";
+import {
+  buildOpenGraphImageMeta,
+  formatMetaDescription,
+  openGraphImageForPath,
+} from "@/lib/seo";
 
 export const revalidate = 120;
 
@@ -70,6 +74,13 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
   const ogAbsolute = absoluteUrlForOpenGraph(
     firstNonEmptyString(guide.og_image_url, guide.featured_image),
   );
+  const ogImageAlt = coverImageAltForTitle(
+    firstNonEmptyString(guide.title) ?? metaTitle,
+  );
+  // Always emit og:image — Next does not deep-merge parent images when openGraph is set.
+  const ogImage =
+    buildOpenGraphImageMeta(ogAbsolute, ogImageAlt) ??
+    openGraphImageForPath(PATHS.QA_GUIDE);
   const publishedTime = normalizeArticlePublishedTime(guide.published_date);
 
   const pageTitle = formatPageTitle(metaTitle);
@@ -84,18 +95,7 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
       title: metaTitle,
       description,
       url: canonical,
-      ...(ogAbsolute
-        ? {
-            images: [
-              {
-                url: ogAbsolute,
-                alt: coverImageAltForTitle(
-                  firstNonEmptyString(guide.title) ?? metaTitle,
-                ),
-              },
-            ],
-          }
-        : {}),
+      images: [ogImage],
       ...(publishedTime ? { publishedTime } : {}),
       siteName: "QApilot",
     },
@@ -103,7 +103,7 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
       card: "summary_large_image",
       title: metaTitle,
       description,
-      ...(ogAbsolute ? { images: [ogAbsolute] } : {}),
+      images: [ogImage.url],
     },
   };
 }
