@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
+import HomeHeroProductHuntQuotes from "@/components/home-hero/HomeHeroProductHuntQuotes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -111,7 +112,7 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
         >
           <span className="flex flex-col items-start gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:gap-y-4">
             <span className="flex flex-col items-start gap-y-2 px-1 leading-[inherit] sm:gap-y-2.5 md:block md:whitespace-nowrap">
-              <span className="block md:inline">Mobile-First</span>
+              <span className="block md:inline">Mobile First</span>
               <span className="hidden md:inline"> </span>
               <span className="block md:inline">Businesses Need</span>
             </span>
@@ -119,9 +120,9 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
               href={PATHS.COMPARE_WEB_FIRST}
               className="flex flex-col items-start gap-y-2 rounded-sm px-1 leading-[inherit] text-hero-here transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:gap-y-2.5 md:block md:whitespace-nowrap"
             >
-              <span className="block md:inline">Mobile-First</span>
+              <span className="block md:inline">Mobile First</span>
               <span className="hidden md:inline"> </span>
-              <span className="block md:inline">App Testing</span>
+              <span className="block md:inline">Testing</span>
             </Link>
           </span>
         </h1>
@@ -132,7 +133,7 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
         className={cn(
           "z-[2] flex w-full justify-start",
           "relative shrink-0",
-          "lg:absolute lg:inset-x-0",
+          "lg:absolute lg:inset-x-0 lg:max-w-[calc(100%-26rem)]",
           !showDesktopOverlays && "lg:invisible",
         )}
         aria-label="Product highlights"
@@ -156,6 +157,15 @@ export default function HomeHeroLandingPanel({ active = true }: HomeHeroLandingP
           ))}
         </ul>
       </nav>
+
+      <div
+        className={cn(
+          "z-[2] hidden w-[min(24.5rem,46%)] lg:block",
+          "lg:absolute lg:bottom-0 lg:right-0 lg:translate-y-8",
+        )}
+      >
+        <HomeHeroProductHuntQuotes active={active} />
+      </div>
     </div>
   );
 }

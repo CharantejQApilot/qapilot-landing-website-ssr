@@ -3,7 +3,6 @@ import { ArrowRight } from "lucide-react";
 import { HomeSeam } from "@/components/home/HomeSeam";
 import { MarketingSectionHeader } from "@/components/marketing/MarketingSectionHeader";
 import {
-  HOME_PAGE_AUTHORITY_SOURCES,
   HOME_PAGE_KEY_TAKEAWAYS,
   HOME_PAGE_LAST_REVIEWED,
   HOME_PAGE_QUESTIONS,
@@ -30,7 +29,7 @@ function formatReviewedDate(isoDate: string): string {
 }
 
 /**
- * Below-fold GEO strip: Key takeaways, FAQ-style Q&A, authority sources, last reviewed.
+ * Below-fold GEO strip: Key takeaways, FAQ-style Q&A, last reviewed.
  * Restates existing homepage claims — styled like other home ledgers.
  */
 export default function HomeKeyTakeawaysSection() {
@@ -51,7 +50,6 @@ export default function HomeKeyTakeawaysSection() {
               Key <span className="text-primary">takeaways</span>
             </>
           }
-          description="What QApilot is, in four lines — the definitions search and AI assistants look for."
           marginBottomClassName="mb-8 md:mb-10 2xl:mb-12"
         />
 
@@ -92,7 +90,6 @@ export default function HomeKeyTakeawaysSection() {
                 <span className="text-primary">mobile app testing</span>
               </>
             }
-            description="Direct answers drawn from how QApilot works on this page — no new claims."
             marginBottomClassName="mb-8 md:mb-10"
           />
 
@@ -115,30 +112,6 @@ export default function HomeKeyTakeawaysSection() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="mt-10 border border-border bg-background px-5 py-6 sm:px-6 sm:py-7 md:px-8 md:py-8">
-          <h3 className="font-heading text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-            Authoritative sources
-          </h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-base">
-            Mobile release quality sits alongside established software-assurance
-            guidance. For deeper reading on app vetting and assurance practice:
-          </p>
-          <ul className="mt-4 flex flex-col gap-2">
-            {HOME_PAGE_AUTHORITY_SOURCES.map((source) => (
-              <li key={source.href}>
-                <a
-                  href={source.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-semibold text-primary underline decoration-primary/40 underline-offset-2 transition-colors hover:decoration-primary md:text-base"
-                >
-                  {source.label}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div className="mt-8 flex flex-col gap-4 border-t border-border/80 pt-6 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-8 sm:gap-y-3 md:pt-8">

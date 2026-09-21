@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-const NAV_TEXT_CLASS = "text-[15px]";
+const NAV_TEXT_CLASS = "text-[14px]";
 
 export function NavItem({
   to,
@@ -19,7 +19,7 @@ export function NavItem({
   forceForeground?: boolean;
 }) {
   const baseClass =
-    `${NAV_TEXT_CLASS} font-medium transition-colors hover:text-foreground ` +
+    `${NAV_TEXT_CLASS} font-heading font-medium transition-colors hover:text-foreground ` +
     (forceForeground ? "text-foreground" : "text-muted-foreground");
   const activeClass = isActive ? "text-foreground font-semibold bg-muted/25" : "";
   if (to.startsWith("#")) {

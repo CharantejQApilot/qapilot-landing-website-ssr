@@ -31,7 +31,7 @@ const deviceCoverageWebAppJsonLd = {
     "Free QApilot Labs tool to plan mobile device coverage from real OEM + platform share data.",
   url: canonicalUrl,
   applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
+  operatingSystem: "Any",
   offers: {
     "@type": "Offer",
     price: "0",
