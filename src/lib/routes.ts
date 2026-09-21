@@ -117,7 +117,7 @@ export const PLATFORM_BY_ROLE = [
   { path: PATHS.FOR_SRE, label: "Site Reliability Engineer", icon: "Server" },
 ] as const;
 
-/** Platform dropdown: AI Agents */
+/** Platform dropdown: AI Capabilities */
 export const PLATFORM_AI_AGENTS = [
   {
     path: PATHS.MCP_GUIDE,

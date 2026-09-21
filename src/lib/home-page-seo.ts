@@ -20,7 +20,7 @@ export const HOME_PAGE_TWITTER_DESCRIPTION = HOME_PAGE_DESCRIPTION;
  * Editorial freshness for homepage GEO (`dateModified` in JSON-LD + visible “Last reviewed”).
  * Bump when homepage claims or positioning change.
  */
-export const HOME_PAGE_LAST_REVIEWED = "2026-09-18";
+export const HOME_PAGE_LAST_REVIEWED = "2026-09-21";
 
 /** Short takeaways restating claims already on the homepage (no new facts). */
 export const HOME_PAGE_KEY_TAKEAWAYS = [
@@ -32,7 +32,7 @@ export const HOME_PAGE_KEY_TAKEAWAYS = [
 
 /**
  * Question headings + immediate answers for AEO (featured-snippet style).
- * Answers restate existing homepage claims only — no new stats or ratings.
+ * Answers restate existing homepage / product claims only — no new stats or ratings.
  */
 export const HOME_PAGE_QUESTIONS = [
   {
@@ -50,11 +50,36 @@ export const HOME_PAGE_QUESTIONS = [
     answer:
       "Mobile-first businesses ship on real devices and frameworks where web-first automation often falls short. Mobile-first app testing validates what users experience on iOS, Android, and Flutter builds — from exploration through release-readiness signals.",
   },
+  {
+    question: "How can I access QApilot?",
+    answer:
+      "Book a demo from this page to see QApilot on your app. The walkthrough covers setup, autonomous coverage, self-healing, and how it fits an iOS, Android, and Flutter release workflow — including execution and reporting with your team.",
+  },
+  {
+    question: "Which mobile frameworks does QApilot support?",
+    answer:
+      "QApilot works post-build: it validates real application behavior on your binaries, independent of how they were built. Teams use it with Android, iOS, Flutter, React Native, and native apps (Kotlin, Swift, Objective-C). One pipeline checks what users actually experience, without a framework-specific test harness.",
+  },
+  {
+    question: "What is dual-device testing?",
+    answer:
+      "Real journeys span users and roles: buyer and seller, sender and receiver, agent and supervisor. Dual-device testing runs both sides as one continuous transaction with step-level sync, so marketplace, messaging, and field workflows are proven before they break in production.",
+  },
+  {
+    question: "What is QApilot MCP?",
+    answer:
+      "QApilot MCP puts mobile verification in the coding agent you already use. Say what needs to hold in plain language. QApilot builds the test, runs it on your local device or emulator, and returns a markdown report the agent can query. Local-first: the app stays on your machine. Works with Claude Code, Cursor, Codex, Copilot, and Windsurf.",
+  },
+  {
+    question: "What is CoWork in QApilot?",
+    answer:
+      "CoWork turns the test cases you already have into runnable mobile automation. AI plans the steps, a human approves what matters, and execution happens on real devices — so planned coverage stops living only as a checklist.",
+  },
 ] as const;
 
 /**
  * Authoritative outbound sources for GEO (government / .edu research).
- * Linked from the homepage takeaways strip — topics already discussed on-page.
+ * Kept for agent markdown — not shown in the homepage UI.
  */
 export const HOME_PAGE_AUTHORITY_SOURCES = [
   {
@@ -139,11 +164,9 @@ export const homeWebPageJsonLd = {
       description: HOME_PAGE_CRAWLER.summary,
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "Thing",
       name: HOME_PAGE_MCP.name,
-      applicationCategory: "DeveloperApplication",
       description: HOME_PAGE_MCP.summary,
-      featureList: HOME_PAGE_MCP.agents,
     },
     {
       "@type": "ItemList",

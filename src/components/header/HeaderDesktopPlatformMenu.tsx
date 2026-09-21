@@ -26,7 +26,7 @@ import {
   PLATFORM_BY_SOLUTION,
 } from "@/lib/routes";
 
-const NAV_TEXT_CLASS = "text-[15px]";
+const NAV_TEXT_CLASS = "text-[14px]";
 
 const PLATFORM_ICONS: Record<string, LucideIcon> = {
   LayoutDashboard,
@@ -57,7 +57,7 @@ export default function HeaderDesktopPlatformMenu({
       <div className="grid w-max max-w-full grid-cols-3 gap-8 sm:gap-9 lg:gap-10 xl:gap-12">
         <div className="min-w-0">
           <div
-            className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
+            className={`${NAV_TEXT_CLASS} font-heading font-medium text-muted-foreground mb-4`}
           >
             By Solution
           </div>
@@ -86,7 +86,7 @@ export default function HeaderDesktopPlatformMenu({
         </div>
         <div className="min-w-0">
           <div
-            className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
+            className={`${NAV_TEXT_CLASS} font-heading font-medium text-muted-foreground mb-4`}
           >
             By Role
           </div>
@@ -115,9 +115,9 @@ export default function HeaderDesktopPlatformMenu({
         </div>
         <div className="min-w-0">
           <div
-            className={`${NAV_TEXT_CLASS} font-medium text-muted-foreground mb-4`}
+            className={`${NAV_TEXT_CLASS} font-heading font-medium text-muted-foreground mb-4`}
           >
-            AI Agents
+            AI Capabilities
           </div>
           <ul className="space-y-2">
             {PLATFORM_AI_AGENTS.map((item) => {

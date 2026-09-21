@@ -36,7 +36,7 @@ const HeaderDesktopPlatformMenu = dynamic(
 );
 
 /** Dropdowns, mobile drawer, and in-panel links */
-const NAV_TEXT_CLASS = "text-[15px]";
+const NAV_TEXT_CLASS = "text-[14px]";
 /** Desktop top bar only. Slightly larger than dropdown/mobile */
 const RIBBON_NAV_TEXT_CLASS = "text-[15.75px]";
 
@@ -311,7 +311,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-solution")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-heading font-medium text-foreground hover:bg-muted/30 rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -344,7 +344,7 @@ const Header = () => {
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-role")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-heading font-medium text-foreground hover:bg-muted/30 rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -370,12 +370,12 @@ const Header = () => {
                         </div>
                       )}
                     </div>
-                    {/* AI Agents */}
+                    {/* AI Capabilities */}
                     <div>
                       <button
                         type="button"
                         onClick={() => toggleMobileSection("platform-agents")}
-                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-medium text-foreground hover:bg-muted/30 rounded-md`}
+                        className={`flex w-full items-center gap-2 py-2 px-2 text-left ${NAV_TEXT_CLASS} font-heading font-medium text-foreground hover:bg-muted/30 rounded-md`}
                       >
                         <ChevronRight
                           size={16}
@@ -383,7 +383,7 @@ const Header = () => {
                             mobileExpanded["platform-agents"] ? "rotate-90" : ""
                           }`}
                         />
-                        AI Agents
+                        AI Capabilities
                       </button>
                       {mobileExpanded["platform-agents"] && (
                         <div className="pl-6 space-y-0">
