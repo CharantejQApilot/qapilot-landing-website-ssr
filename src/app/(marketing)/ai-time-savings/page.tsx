@@ -31,7 +31,7 @@ const aiTimeSavingsWebAppJsonLd = {
     "Free QApilot Labs tool to model real effort savings from AI-generated test cases versus manual QA.",
   url: canonicalUrl,
   applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
+  operatingSystem: "Any",
   offers: {
     "@type": "Offer",
     price: "0",

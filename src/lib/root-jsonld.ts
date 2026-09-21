@@ -72,7 +72,7 @@ export const softwareApplicationJsonLd = {
   "@type": "SoftwareApplication",
   name: "QApilot",
   applicationCategory: "DeveloperApplication",
-  operatingSystem: "Web, iOS, Android, Flutter, React Native",
+  operatingSystem: "iOS, Android",
   url: SITE_BASE_URL,
   description:
     "AI-powered autonomous mobile app testing platform with zero-touch sanity testing, intelligent crawlers, and knowledge graph technology.",
