@@ -45,7 +45,10 @@ import {
   resolveBlogCmsSlug,
 } from "@/lib/content-slug-aliases";
 import { faqsForBlogSlug } from "@/lib/page-faqs";
-import { extractFaqItemsFromHtml } from "@/lib/extract-faq-from-html";
+import {
+  extractFaqItemsFromHtml,
+  stripFaqSectionFromHtml,
+} from "@/lib/extract-faq-from-html";
 import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import {
   buildOpenGraphImageMeta,
@@ -328,6 +331,10 @@ export default async function BlogPostPage({
     extractFaqItemsFromHtml(sanitizedContent) ??
     faqsForBlogSlug(blog.slug) ??
     null;
+  // Keep FAQs only in the accordion below the article, not inline in the body.
+  const articleHtml = faqItems
+    ? stripFaqSectionFromHtml(sanitizedContent)
+    : sanitizedContent;
   if (faqItems) {
     blogJsonLdGraph.push(buildFaqPageJsonLd(faqItems));
   }
@@ -428,7 +435,7 @@ export default async function BlogPostPage({
             <div
               className="blog-content max-w-none"
               dangerouslySetInnerHTML={{
-                __html: sanitizedContent,
+                __html: articleHtml,
               }}
             />
 
