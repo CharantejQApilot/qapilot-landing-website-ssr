@@ -43,6 +43,7 @@ import {
   blogSlugRedirectTarget,
   canonicalBlogSlug,
   resolveBlogCmsSlug,
+  RETIRED_BLOG_SLUGS,
 } from "@/lib/content-slug-aliases";
 import { faqsForBlogSlug } from "@/lib/page-faqs";
 import {
@@ -76,7 +77,10 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return data
     .map((row) => row.slug)
     .filter(
-      (slug): slug is string => typeof slug === "string" && slug.length > 0,
+      (slug): slug is string =>
+        typeof slug === "string" &&
+        slug.length > 0 &&
+        !(slug in RETIRED_BLOG_SLUGS),
     )
     .map((slug) => ({ slug: canonicalBlogSlug(slug) }));
 }

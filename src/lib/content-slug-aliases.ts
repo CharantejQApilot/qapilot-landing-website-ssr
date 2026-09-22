@@ -11,6 +11,14 @@ export const BLOG_SHORT_TO_CMS: Record<string, string> = {
     "beyond-sequential-testing-accelerate-your-mobile-app-testing-with-parallel-execution",
 };
 
+/**
+ * Retired blog slug → the post that replaced it.
+ * Kept separate from BLOG_SHORT_TO_CMS so the canonical URL does not resolve back to the retired row.
+ */
+export const RETIRED_BLOG_SLUGS: Record<string, string> = {
+  "best-browserstack-alternatives-2026": "browserstack-alternatives-2026",
+};
+
 /** short slug → CMS slug */
 export const NEWS_SHORT_TO_CMS: Record<string, string> = {
   "qapilot-qe-conclave-2025":
@@ -46,6 +54,8 @@ export function canonicalBlogSlug(cmsSlug: string): string {
 
 /** If the request used a long CMS slug, return the short canonical to redirect to. */
 export function blogSlugRedirectTarget(urlSlug: string): string | null {
+  const retired = RETIRED_BLOG_SLUGS[urlSlug];
+  if (retired && retired !== urlSlug) return retired;
   const short = BLOG_CMS_TO_SHORT[urlSlug];
   return short && short !== urlSlug ? short : null;
 }
@@ -73,6 +83,11 @@ export function contentSlugRedirects(): Array<{
     ...Object.entries(BLOG_CMS_TO_SHORT).map(([cms, short]) => ({
       source: `/blogs/${cms}`,
       destination: `/blogs/${short}`,
+      permanent: true,
+    })),
+    ...Object.entries(RETIRED_BLOG_SLUGS).map(([from, to]) => ({
+      source: `/blogs/${from}`,
+      destination: `/blogs/${to}`,
       permanent: true,
     })),
     ...Object.entries(NEWS_CMS_TO_SHORT).map(([cms, short]) => ({

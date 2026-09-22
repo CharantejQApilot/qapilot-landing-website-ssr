@@ -1,0 +1,25 @@
+---
+description: Edit blogs, news, FAQs, and other CMS copy from this repo with scripts/cms-content.mjs
+alwaysApply: true
+---
+
+# CMS content edits
+
+When the user asks to change live CMS copy (blogs, news, FAQs, careers, terms, writers, or QA Guide body text), use `scripts/cms-content.mjs`. Do not add a SQL migration for a content edit, and do not tell the user to paste it into the admin UI unless the script cannot reach Supabase.
+
+The script reads `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` from `.env.local`. It writes only with `--apply`. Run a dry run first, then apply.
+
+```bash
+node scripts/cms-content.mjs list blogs --q "keyword"
+node scripts/cms-content.mjs get blogs --slug the-slug --full
+node scripts/cms-content.mjs update blogs --slug the-slug --set seo_title="New title"
+node scripts/cms-content.mjs update blogs --slug the-slug --patch ./patch.json --apply
+```
+
+- Tables: `blogs`, `news_updates`, `faqs`, `qa_guides`, `terms_content`, `job_openings`, `job_organizations`, `writers`.
+- FAQs, terms, organizations, and writers match on `--id`, not `--slug`.
+- Long body copy: `--set content=@./body.md` or a JSON `--patch` file.
+- QA Guide publish tier, robots, and URL changes stay on `PATCH /api/posts/:id`. This script edits guide copy only.
+- Database updates fire the existing revalidate webhook, so production pages refresh without a deploy.
+
+Case study pages at `/case-studies` render `src/lib/case-studies-data.ts`. Edit that file for copy visitors see. The `case_studies` table is not what those pages read.
