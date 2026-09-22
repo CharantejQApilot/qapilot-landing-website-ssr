@@ -30,6 +30,9 @@ export type AlternativePageConfig = {
   whyPoints: readonly string[];
   complementaryNote: string;
   faqs: readonly FaqItem[];
+  directAnswer?: { heading: string; body: string };
+  pricing?: { heading: string; body: string };
+  furtherReading?: { href: string; label: string; lead: string };
 };
 
 type AlternativeLandingPageProps = {
@@ -53,6 +56,9 @@ export function AlternativeLandingPage({
     whyPoints,
     complementaryNote,
     faqs,
+    directAnswer,
+    pricing,
+    furtherReading,
   } = config;
 
   return (
@@ -101,6 +107,19 @@ export function AlternativeLandingPage({
             </div>
         </MarketingSection>
 
+        {directAnswer ? (
+          <MarketingSection>
+            <MarketingSectionHeader
+              id="direct-answer"
+              title={directAnswer.heading}
+              marginBottomClassName="mb-4 md:mb-6"
+            />
+            <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              {directAnswer.body}
+            </p>
+          </MarketingSection>
+        ) : null}
+
         <MarketingSection surface="tint">
             <MarketingSectionHeader
               id="comparison-table"
@@ -119,6 +138,26 @@ export function AlternativeLandingPage({
               rows={comparisonRows}
             />
         </MarketingSection>
+
+        {pricing ? (
+          <MarketingSection>
+            <MarketingSectionHeader
+              id="pricing"
+              title={pricing.heading}
+              marginBottomClassName="mb-4 md:mb-6"
+            />
+            <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              {pricing.body}
+            </p>
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+              <Link href={PATHS.BOOK_DEMO} className="text-primary hover:underline">
+                Book a demo
+              </Link>{" "}
+              to see QApilot on your app and talk through the plan that fits
+              your team.
+            </p>
+          </MarketingSection>
+        ) : null}
 
         <CompareFaqSection faqs={faqs} />
 
@@ -150,6 +189,19 @@ export function AlternativeLandingPage({
             <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:text-base">
               {complementaryNote}
             </p>
+
+            {furtherReading ? (
+              <p className="mt-6 text-sm leading-relaxed text-muted-foreground md:text-base">
+                {furtherReading.lead}{" "}
+                <Link
+                  href={furtherReading.href}
+                  className="text-primary hover:underline"
+                >
+                  {furtherReading.label}
+                </Link>
+                .
+              </p>
+            ) : null}
 
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground md:text-base">
               Explore related capabilities:{" "}

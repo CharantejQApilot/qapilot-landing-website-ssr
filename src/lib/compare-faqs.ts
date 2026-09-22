@@ -158,6 +158,16 @@ export const COMPARE_FAQS = {
       answer:
         "Teams that already have devices but lack autonomous coverage, or that want mobile-first testing without growing script maintenance.",
     },
+    {
+      question: "How does QApilot pricing compare with BrowserStack?",
+      answer:
+        "QApilot does not publish a public rate card. Plans are sized with your team on a demo. This page does not quote BrowserStack prices. Decide whether you need more device access, autonomous coverage with less script maintenance, or both.",
+    },
+    {
+      question: "Which mobile frameworks does QApilot cover next to a device cloud?",
+      answer:
+        "QApilot works post-build on Android, iOS, Flutter, React Native, and native apps. It validates the binary your users receive, and it can sit alongside a device cloud rather than replacing it.",
+    },
   ],
   sauceLabs: [
     {

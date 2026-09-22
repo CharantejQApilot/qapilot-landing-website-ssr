@@ -177,6 +177,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/blogs/best-browserstack-alternatives-2026",
+        destination: "/blogs/browserstack-alternatives-2026",
+        permanent: true,
+      },
+      {
         source:
           "/news/qapilot-s-gold-sponsorship-speaker-session-and-community-engagement-at-qe-conclave-2025",
         destination: "/news/qapilot-qe-conclave-2025",

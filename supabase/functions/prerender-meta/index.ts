@@ -212,9 +212,9 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "Compare QApilot vs Maestro for mobile app testing. See how autonomous exploration and self-healing go beyond YAML flow automation for release-ready mobile QA.",
   },
   "/alternatives/browserstack": {
-    title: "BrowserStack Alternative. Autonomous Mobile Testing | QApilot",
+    title: "BrowserStack Alternatives for Mobile Testing | QApilot",
     description:
-      "Looking for a BrowserStack alternative? QApilot adds autonomous test generation, self-healing, and release readiness. Mobile-first from day one.",
+      "BrowserStack alternatives for mobile teams: QApilot adds autonomous test generation, self-healing, and release readiness on top of a device cloud. Book a demo.",
   },
   "/alternatives/sauce-labs": {
     title: "Sauce Labs Alternative. Autonomous Mobile Testing | QApilot",
