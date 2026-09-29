@@ -1,10 +1,4 @@
 import type { ReactNode } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { MarketingSection, MarketingSectionHeader } from "@/components/marketing";
 import type { FaqItem } from "@/lib/faq-jsonld";
 
@@ -33,18 +27,30 @@ export function CompareFaqSection({
         title={title}
         marginBottomClassName="mb-8 md:mb-10"
       />
-      <Accordion type="multiple" className="w-full max-w-3xl">
-        {faqs.map((faq, index) => (
-          <AccordionItem key={faq.question} value={`faq-${index}`}>
-            <AccordionTrigger className="text-left font-heading text-base font-semibold tracking-tight md:text-lg">
-              {faq.question}
-            </AccordionTrigger>
-            <AccordionContent className="text-sm leading-relaxed text-muted-foreground md:text-base">
+      <div className="w-full max-w-3xl">
+        {faqs.map((faq) => (
+          <details
+            key={faq.question}
+            open
+            className="group border-b border-border"
+          >
+            <summary className="cursor-pointer list-none py-4 text-left font-heading text-base font-semibold tracking-tight marker:content-none md:text-lg [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center justify-between gap-4">
+                {faq.question}
+                <span
+                  className="shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+                  aria-hidden
+                >
+                  ▾
+                </span>
+              </span>
+            </summary>
+            <p className="pb-4 text-sm leading-relaxed text-muted-foreground md:text-base">
               {faq.answer}
-            </AccordionContent>
-          </AccordionItem>
+            </p>
+          </details>
         ))}
-      </Accordion>
+      </div>
     </MarketingSection>
   );
 }

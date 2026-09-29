@@ -52,7 +52,7 @@ export function CaseStudiesIndex() {
           <MarketingSectionHeader
             id="case-study-list"
             title="Featured engagements"
-            description="Wio, Geml, and GrowSari — open any story to read the full engagement."
+            description="Wio, Geml, and GrowSari. Each card shows a measured outcome from the engagement."
             marginBottomClassName="mb-10 md:mb-12"
           />
           <CaseStudyPreviewCards />

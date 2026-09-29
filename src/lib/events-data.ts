@@ -59,6 +59,8 @@ export type QApilotEvent = {
   isTeaser?: boolean;
   /** Optional explore CTAs (max 3). Falls back to site defaults when omitted. */
   exploreCtas?: EventExploreCta[];
+  /** Concrete points covered, rendered as an ordered list on the detail page. */
+  takeaways?: string[];
 };
 
 export const EVENT_TYPE_LABELS: Record<EventType, string> = {
@@ -100,6 +102,11 @@ export const QAPILOT_EVENTS: QApilotEvent[] = [
     isUpcoming: false,
     externalUrl: NAVEEN_WEBINAR_YOUTUBE_URL,
     youtubeUrl: NAVEEN_WEBINAR_YOUTUBE_URL,
+    takeaways: [
+      "Autonomous mobile exploration on real devices, shown live.",
+      "Flutter coverage without a separate toolchain.",
+      "Where autonomous testing fits in a CI/CD pipeline.",
+    ],
     participants: [
       {
         name: "Naveen Khunteta",
@@ -166,6 +173,11 @@ export const QAPILOT_EVENTS: QApilotEvent[] = [
       },
     ],
     youtubeUrl: "https://www.youtube.com/watch?v=LGjEVFSAehw",
+    takeaways: [
+      "Why mobile test automation breaks at scale.",
+      "How flaky tests destroy pipeline confidence.",
+      "What reliable mobile automation looks like for a release team.",
+    ],
   },
   {
     slug: "alan-aditya-mobile-qa-podcast",

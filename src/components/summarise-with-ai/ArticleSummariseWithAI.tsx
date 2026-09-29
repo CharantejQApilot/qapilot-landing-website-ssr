@@ -4,6 +4,7 @@ import {
   buildSummariseAssistantLinks,
 } from "@/lib/summarise-with-ai";
 import { OpenAIIcon } from "@/components/summarise-with-ai/OpenAIIcon";
+import { SummariseAssistantButton } from "@/components/summarise-with-ai/SummariseAssistantButton";
 
 type ArticleSummariseWithAIProps = {
   pageUrl: string;
@@ -21,11 +22,9 @@ export function ArticleSummariseWithAI({ pageUrl, className }: ArticleSummariseW
       <ul className="flex flex-wrap items-stretch gap-2 sm:gap-3">
         {assistants.map((assistant) => (
           <li key={assistant.id}>
-            <a
+            <SummariseAssistantButton
               href={assistant.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={assistant.label}
+              label={assistant.label}
               className={cn(
                 "group flex h-10 items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2 transition-colors sm:h-11 sm:gap-2.5 sm:px-3.5",
                 "hover:border-primary/25 hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -49,7 +48,7 @@ export function ArticleSummariseWithAI({ pageUrl, className }: ArticleSummariseW
               <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground">
                 {assistant.shortName}
               </span>
-            </a>
+            </SummariseAssistantButton>
           </li>
         ))}
       </ul>

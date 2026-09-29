@@ -18,7 +18,6 @@ import { cn } from "@/lib/utils";
 
 /** Time on the active card before advancing (wall time only while not hovered). */
 const AUTO_MS = 10_000;
-const TICK_MS = 50;
 
 /**
  * Home proof rail: one forefront case-study stripe, auto-advances, company index below.
@@ -27,9 +26,8 @@ const TICK_MS = 50;
 export function HomeCaseStudiesSection() {
   const [api, setApi] = useState<CarouselApi>();
   const [selected, setSelected] = useState(0);
-  const [progress, setProgress] = useState(0);
   const pausedRef = useRef(false);
-  const elapsedRef = useRef(0);
+  const barRef = useRef<HTMLDivElement>(null);
   const count = CASE_STUDIES.length;
 
   const sync = useCallback((instance: CarouselApi) => {
@@ -49,42 +47,19 @@ export function HomeCaseStudiesSection() {
   }, [api, sync]);
 
   useEffect(() => {
-    elapsedRef.current = 0;
-    setProgress(0);
+    const bar = barRef.current;
+    if (!bar) return;
+    bar.style.animationPlayState = pausedRef.current ? "paused" : "running";
   }, [selected]);
-
-  useEffect(() => {
-    if (!api) return;
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
-
-    const id = window.setInterval(() => {
-      if (pausedRef.current) return;
-
-      elapsedRef.current += TICK_MS;
-      const next = Math.min(1, elapsedRef.current / AUTO_MS);
-      setProgress(next);
-
-      if (elapsedRef.current >= AUTO_MS) {
-        elapsedRef.current = 0;
-        setProgress(0);
-        api.scrollNext();
-      }
-    }, TICK_MS);
-
-    return () => window.clearInterval(id);
-  }, [api]);
 
   const pauseAuto = () => {
     pausedRef.current = true;
+    if (barRef.current) barRef.current.style.animationPlayState = "paused";
   };
 
   const resumeAuto = () => {
     pausedRef.current = false;
+    if (barRef.current) barRef.current.style.animationPlayState = "running";
   };
 
   return (
@@ -154,8 +129,9 @@ export function HomeCaseStudiesSection() {
             className="w-full min-w-0"
           >
             <CarouselContent className="-ml-0 items-stretch">
-              {CASE_STUDIES.map((study) => {
+              {CASE_STUDIES.map((study, index) => {
                 const industry = study.about.industry;
+                const active = index === selected;
 
                 return (
                   <CarouselItem key={study.slug} className="flex basis-full pl-0">
@@ -242,8 +218,26 @@ export function HomeCaseStudiesSection() {
                           ))}
                         </div>
                         <div
-                          className="h-0.5 origin-left bg-primary"
-                          style={{ transform: `scaleX(${progress})` }}
+                          ref={active ? barRef : undefined}
+                          className={cn(
+                            "h-0.5 origin-left bg-primary",
+                            active && "home-hero-timer-bar",
+                          )}
+                          style={
+                            active
+                              ? {
+                                  animationName: "home-hero-timer-fill",
+                                  animationDuration: `${AUTO_MS}ms`,
+                                  animationTimingFunction: "linear",
+                                  animationFillMode: "forwards",
+                                }
+                              : { transform: "scaleX(0)" }
+                          }
+                          onAnimationEnd={(event) => {
+                            if (event.target !== event.currentTarget) return;
+                            if (pausedRef.current) return;
+                            api?.scrollNext();
+                          }}
                           aria-hidden
                         />
                       </div>

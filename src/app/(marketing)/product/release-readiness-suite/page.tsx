@@ -5,40 +5,24 @@ import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
-import { openGraphImageForPath } from "@/lib/seo";
+import { buildStaticPageMetadata } from "@/lib/seo";
 import { ProductSummariseBand } from "@/components/product/ProductSummariseBand";
 import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { RELEASE_READINESS_FAQS } from "@/lib/page-faqs";
 
 const path = PATHS.RELEASE_READINESS_SUITE;
 const canonicalUrl = `${SITE_BASE_URL}${path}`;
-const ogImage = openGraphImageForPath(path);
 
-export const metadata: Metadata = {
-  title: "Release Readiness Suite. Bugs, Security, Self-Healing & Device Metrics",
+export const metadata: Metadata = buildStaticPageMetadata({
+  title: "Release Readiness. Bugs, Security, Self-Healing",
   description:
     "Release Readiness Suite: intelligent bug detection, security reports, AI self-healing, and device metrics so mobile teams ship with clearer confidence.",
-  alternates: {
-    canonical: canonicalUrl,
-  },
-  openGraph: {
-    type: "website",
-    title: "Release Readiness Suite | QApilot",
-    description:
-      "Bug signals, security insight, and self-healing tests in one suite for mobile release readiness.",
-    url: canonicalUrl,
-    siteName: "QApilot",
-    locale: "en_US",
-    images: [ogImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Release Readiness Suite | QApilot",
-    description:
-      "Intelligent bug detection, security reports, and AI self-healing. One suite for mobile release readiness.",
-    images: [{ url: ogImage.url, alt: ogImage.alt }],
-  },
-};
+  path,
+  ogDescription:
+    "Bug signals, security insight, and self-healing tests in one suite for mobile release readiness.",
+  twitterDescription:
+    "Intelligent bug detection, security reports, and AI self-healing for mobile release readiness.",
+});
 
 export const revalidate = 300;
 

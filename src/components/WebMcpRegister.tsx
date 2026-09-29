@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { DOCS_URL, SITE_BASE_URL } from "@/lib/constants";
 
 /**
@@ -65,7 +65,7 @@ function buildTools(): WebMcpTool[] {
 }
 
 export default function WebMcpRegister() {
-  useLayoutEffect(() => {
+  useEffect(() => {
     const mc = getModelContext();
     if (!mc) return undefined;
 
