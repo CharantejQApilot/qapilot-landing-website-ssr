@@ -19,7 +19,7 @@ type HomeHeroProductHuntQuotesProps = {
 
 /**
  * One Product Hunt quote at a time in the lower-right of hero slide 1.
- * Rotates periodically. Only the rating line links out to reviews.
+ * Rotates periodically. The quote and the rating line both open reviews.
  */
 export default function HomeHeroProductHuntQuotes({
   active = true,
@@ -70,21 +70,27 @@ export default function HomeHeroProductHuntQuotes({
       <blockquote
         aria-live="polite"
         className={cn(
-          "flex h-[7.75rem] w-full shrink-0 items-center justify-start overflow-hidden",
+          "group flex h-[7.75rem] w-full shrink-0 overflow-hidden",
           "rounded-md border border-border bg-background",
-          "px-5 sm:px-6",
+          "transition-colors hover:border-primary/40",
         )}
       >
-        <p
+        <a
+          href={PRODUCT_HUNT_REVIEWS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className={cn(
-            "text-left font-heading text-xl leading-snug tracking-tight text-foreground/85 sm:text-[1.375rem] sm:leading-snug",
-            "line-clamp-3",
+            "flex h-full w-full items-center px-5 text-left sm:px-6",
+            "font-heading text-xl leading-snug tracking-tight text-foreground/85 sm:text-[1.375rem] sm:leading-snug",
             "transition-opacity duration-300",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/35",
+            "hover:text-foreground",
             visible ? "opacity-100" : "opacity-0",
           )}
         >
-          “{quote}”
-        </p>
+          <span className="line-clamp-3">“{quote}”</span>
+          <span className="sr-only"> (opens Product Hunt reviews in a new tab)</span>
+        </a>
       </blockquote>
       <figcaption className="mt-3">
         <a

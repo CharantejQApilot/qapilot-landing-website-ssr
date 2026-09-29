@@ -99,6 +99,17 @@ a:hover .home-logo-mark,
   }
 }
 
+/* Skip layout of below-fold homepage blocks until they near the viewport. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+.home-hero-timer-bar {
+  transform-origin: left center;
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-logo-mark {
     transition: none;
@@ -106,5 +117,9 @@ a:hover .home-logo-mark,
 
   .home-hero-grid-scan {
     display: none;
+  }
+
+  .home-hero-timer-bar {
+    animation: none;
   }
 }

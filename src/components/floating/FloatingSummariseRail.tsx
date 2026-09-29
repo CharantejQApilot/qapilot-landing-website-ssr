@@ -4,6 +4,7 @@ import {
 } from "@/lib/summarise-with-ai";
 import { cn } from "@/lib/utils";
 import { OpenAIIcon } from "@/components/summarise-with-ai/OpenAIIcon";
+import { SummariseAssistantButton } from "@/components/summarise-with-ai/SummariseAssistantButton";
 import { floatingRailButtonClass, floatingRailShellLeftClass } from "@/components/floating/floating-rail-styles";
 
 const assistants = buildSummariseAssistantLinks(SUMMARISE_QAPILOT_SITE_PROMPT, {
@@ -17,12 +18,10 @@ export function FloatingSummariseRail() {
       className={cn(floatingRailShellLeftClass, "top-40 hidden md:top-36 lg:flex")}
     >
       {assistants.map((assistant) => (
-        <a
+        <SummariseAssistantButton
           key={assistant.id}
           href={assistant.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={assistant.label}
+          label={assistant.label}
           className={floatingRailButtonClass}
         >
           {assistant.id === "chatgpt" ? (
@@ -39,7 +38,7 @@ export function FloatingSummariseRail() {
               decoding="async"
             />
           )}
-        </a>
+        </SummariseAssistantButton>
       ))}
     </nav>
   );

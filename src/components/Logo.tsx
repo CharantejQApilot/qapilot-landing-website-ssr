@@ -23,7 +23,7 @@ const Logo: React.FC<LogoProps> = ({
       height={35}
       loading="eager"
       decoding="async"
-      fetchPriority="high"
+      fetchPriority="auto"
       className={`${className} max-h-full max-w-full w-auto object-contain object-left`}
       style={{ objectFit: "contain" }}
     />

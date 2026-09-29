@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PlatformOverviewHero } from "@/components/platform-overview/PlatformOverviewHero";
 import { PlatformOverviewProblemSection } from "@/components/platform-overview/PlatformOverviewProblemSection";
 import { PlatformOverviewQualityJourneySection } from "@/components/platform-overview/PlatformOverviewQualityJourneySection";
 import CoreAdvantageHeading from "@/components/CoreAdvantageHeading";
-import { PATHS } from "@/lib/routes";
+import { PATHS, PLATFORM_BY_SOLUTION } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { buildStaticPageMetadata } from "@/lib/seo";
@@ -46,6 +47,23 @@ export default function ProductPage() {
       <main>
         <PlatformOverviewHero />
         <ProductSummariseBand pageUrl={`${SITE_BASE_URL}${PRODUCT_PATH}`} />
+        <nav
+          aria-label="Platform capabilities"
+          className="section-full border-t border-border/70 py-6"
+        >
+          <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+            Platform capabilities:{" "}
+            {PLATFORM_BY_SOLUTION.filter((item) => item.path !== PATHS.OVERVIEW)
+              .map((item, index, items) => (
+                <span key={item.path}>
+                  <Link href={item.path} className="font-semibold text-primary hover:underline">
+                    {item.label}
+                  </Link>
+                  {index < items.length - 1 ? ", " : "."}
+                </span>
+              ))}
+          </p>
+        </nav>
         <PlatformOverviewProblemSection />
         <PlatformOverviewQualityJourneySection />
         <CoreAdvantageHeading />

@@ -421,9 +421,13 @@ export default function QApilotVsAppiumComparisonPage() {
               <Link href={PATHS.INTELLIGENT_BUG_DETECTION} className="text-primary hover:underline">
                 intelligent bug detection
               </Link>
-              , and{" "}
+              ,{" "}
               <Link href={PATHS.FOR_FLUTTER} className="text-primary hover:underline">
                 Flutter testing automation
+              </Link>
+              , and{" "}
+              <Link href={PATHS.COMPARE_VISUAL_TESTING} className="text-primary hover:underline">
+                QApilot vs visual testing tools
               </Link>
               .
             </p>

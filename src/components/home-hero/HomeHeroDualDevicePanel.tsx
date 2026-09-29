@@ -72,37 +72,56 @@ export default function HomeHeroDualDevicePanel({
       return;
     }
 
-    if (placeTop()) setReady(true);
+    const mq = window.matchMedia(LG_MIN);
+    let ro: ResizeObserver | null = null;
 
     const onLayout = () => {
+      if (!mq.matches) {
+        industries.style.top = "";
+        visual.style.transform = "";
+        return;
+      }
       if (placeTop()) setReady(true);
     };
-    const rafPlace = () => requestAnimationFrame(onLayout);
 
-    const ro = new ResizeObserver(rafPlace);
-    ro.observe(root);
-    ro.observe(industries);
-    ro.observe(visual);
-    const bandHeadline = document.querySelector("[data-home-hero-band-headline]");
-    if (bandHeadline) ro.observe(bandHeadline);
-    const trust = document.querySelector("[data-home-hero-trust]");
-    if (trust) ro.observe(trust);
+    const detach = () => {
+      ro?.disconnect();
+      ro = null;
+      window.removeEventListener("resize", onLayout);
+      window.removeEventListener("scroll", onLayout);
+      window.removeEventListener("home-hero-layout", onLayout);
+    };
 
-    const mq = window.matchMedia(LG_MIN);
-    mq.addEventListener("change", rafPlace);
-    window.addEventListener("resize", rafPlace);
-    window.addEventListener("scroll", rafPlace, { passive: true });
-    window.addEventListener("home-hero-layout", rafPlace);
+    const attach = () => {
+      detach();
+      if (!mq.matches) {
+        industries.style.top = "";
+        visual.style.transform = "";
+        return;
+      }
+      if (placeTop()) setReady(true);
+      ro = new ResizeObserver(onLayout);
+      ro.observe(root);
+      ro.observe(industries);
+      ro.observe(visual);
+      const bandHeadline = document.querySelector("[data-home-hero-band-headline]");
+      if (bandHeadline) ro.observe(bandHeadline);
+      const trust = document.querySelector("[data-home-hero-trust]");
+      if (trust) ro.observe(trust);
+      window.addEventListener("resize", onLayout);
+      window.addEventListener("scroll", onLayout, { passive: true });
+      window.addEventListener("home-hero-layout", onLayout);
+    };
+
+    attach();
+    mq.addEventListener("change", attach);
     if (document.fonts?.ready) {
-      void document.fonts.ready.then(rafPlace);
+      void document.fonts.ready.then(onLayout);
     }
 
     return () => {
-      ro.disconnect();
-      mq.removeEventListener("change", rafPlace);
-      window.removeEventListener("resize", rafPlace);
-      window.removeEventListener("scroll", rafPlace);
-      window.removeEventListener("home-hero-layout", rafPlace);
+      detach();
+      mq.removeEventListener("change", attach);
     };
   }, [active]);
 
