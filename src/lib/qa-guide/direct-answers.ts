@@ -44,9 +44,10 @@ export function promoteDirectAnswers(html: string): string {
   const headingRe = /<h([2-4])\b[^>]*>[\s\S]*?<\/h\1>/gi;
   let out = "";
   let last = 0;
+  let match: RegExpExecArray | null;
 
-  for (const match of html.matchAll(headingRe)) {
-    const start = match.index ?? 0;
+  while ((match = headingRe.exec(html)) !== null) {
+    const start = match.index;
     const headingEnd = start + match[0].length;
     out += html.slice(last, headingEnd);
 
@@ -86,8 +87,15 @@ function splitFirstSentence(
   }
 
   const raw = textChars.map((entry) => entry.ch).join("");
-  const match = raw.match(/^([\s\S]*?[.!?])(\s+)(\p{Lu})/u);
+  const match = raw.match(/^([\s\S]*?[.!?])(\s+)(.)/);
   if (!match) return null;
+  const nextChar = match[3];
+  if (
+    nextChar.toUpperCase() === nextChar.toLowerCase() ||
+    nextChar !== nextChar.toUpperCase()
+  ) {
+    return null;
+  }
 
   const leadText = stripTags(match[1]);
   const words = leadText.split(/\s+/).filter(Boolean);
