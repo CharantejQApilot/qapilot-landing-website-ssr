@@ -7,6 +7,7 @@ import {
   HOME_PAGE_LAST_REVIEWED,
   HOME_PAGE_QUESTIONS,
 } from "@/lib/home-page-seo";
+import { TestingApproachTable } from "@/components/seo/TestingApproachTable";
 import { PATHS } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
@@ -80,6 +81,8 @@ export default function HomeKeyTakeawaysSection() {
           ))}
         </ol>
 
+        <TestingApproachTable />
+
         <div className="mt-12 md:mt-14">
           <MarketingSectionHeader
             id="home-common-questions-heading"
@@ -107,8 +110,14 @@ export default function HomeKeyTakeawaysSection() {
                   {item.question}
                 </h3>
                 <p className="text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
-                  {item.answer}
+                  {item.lead}
                 </p>
+                {item.answer.startsWith(item.lead) &&
+                item.answer.length > item.lead.length ? (
+                  <p className="text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
+                    {item.answer.slice(item.lead.length).trim()}
+                  </p>
+                ) : null}
               </div>
             ))}
           </div>

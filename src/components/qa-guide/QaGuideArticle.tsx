@@ -10,10 +10,16 @@ import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
+import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { QaGuideCrawlSupplements } from "@/components/qa-guide/QaGuideCrawlSupplements";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
 import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import WriterCard from "@/components/WriterCard";
+import {
+  guideTitleDirectAnswer,
+  promoteDirectAnswers,
+} from "@/lib/qa-guide/direct-answers";
 
 const ARTICLE_GUTTER =
   "w-full px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14";
@@ -65,6 +71,10 @@ export default function QaGuideArticle({
   const publishedLabel = formatPublishedDate(guide.published_date);
   const readingTimeMinutes = estimateReadingTimeMinutes(content);
   const bylineName = writer?.name ?? guide.author_name;
+  const titleAnswer = guideTitleDirectAnswer(guide.slug, guide.title);
+  const articleHtml = promoteDirectAnswers(
+    sanitizeRichText(content, contentFormat),
+  );
 
   return (
     <main className="section-edge w-full py-16 md:py-20 lg:py-24">
@@ -95,6 +105,12 @@ export default function QaGuideArticle({
         <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
           {guide.title}
         </h1>
+
+        {titleAnswer ? (
+          <p className="mb-6 max-w-3xl text-base leading-relaxed text-foreground/90 md:text-lg md:leading-relaxed">
+            {titleAnswer}
+          </p>
+        ) : null}
 
         <ArticleSummariseWithAI pageUrl={pageUrl} />
 
@@ -141,9 +157,23 @@ export default function QaGuideArticle({
         <div
           className="blog-content max-w-none"
           dangerouslySetInnerHTML={{
-            __html: sanitizeRichText(content, contentFormat),
+            __html: articleHtml,
           }}
         />
+
+        <QaGuideCrawlSupplements slug={guide.slug} />
+
+        <div className="mt-12 border-t border-border pt-8">
+          <p className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+            See QApilot on your app
+          </p>
+          <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
+            Book a demo to run autonomous coverage on an iOS or Android build.
+          </p>
+          <div className="mt-4">
+            <BookDemoCtaButton />
+          </div>
+        </div>
 
         {writer ? (
           <WriterCard

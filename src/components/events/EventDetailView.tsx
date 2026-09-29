@@ -128,6 +128,18 @@ export function EventDetailView({
                 {event.description.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
+                {event.takeaways && event.takeaways.length > 0 ? (
+                  <>
+                    <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                      What this session covered
+                    </h2>
+                    <ol className="list-decimal space-y-2 pl-5 text-foreground/90">
+                      {event.takeaways.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ol>
+                  </>
+                ) : null}
               </div>
 
               {event.isTeaser ? (

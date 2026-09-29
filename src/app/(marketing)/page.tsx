@@ -87,13 +87,27 @@ export default function IndexPage() {
       <main>
         {/* S01–S02 hero + trust · S09 proof · S03 metrics · S04 product · S07 demo · S12 ecosystem · takeaways */}
         <HeroSection />
-        <HomeCaseStudiesSection />
-        <ClientsSection />
-        <MetricsSection />
-        <CoreAdvantageHeading />
-        <ProductShowcaseSection />
-        <IntegrationsSection />
-        <HomeKeyTakeawaysSection />
+        <div className="cv-auto">
+          <HomeCaseStudiesSection />
+        </div>
+        <div className="cv-auto">
+          <ClientsSection />
+        </div>
+        <div className="cv-auto">
+          <MetricsSection />
+        </div>
+        <div className="cv-auto">
+          <CoreAdvantageHeading />
+        </div>
+        <div className="cv-auto">
+          <ProductShowcaseSection />
+        </div>
+        <div className="cv-auto">
+          <IntegrationsSection />
+        </div>
+        <div className="cv-auto">
+          <HomeKeyTakeawaysSection />
+        </div>
       </main>
       <HomeExitIntentPopup />
     </div>

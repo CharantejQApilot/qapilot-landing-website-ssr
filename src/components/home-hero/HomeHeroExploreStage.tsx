@@ -22,8 +22,6 @@ type HomeHeroExploreStageProps = {
   children: ReactNode;
 };
 
-const TICK_MS = 50;
-
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -41,10 +39,9 @@ export default function HomeHeroExploreStage({
   const landingRef = useRef<HTMLDivElement>(null);
   const secondaryRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
-  const elapsedRef = useRef(0);
+  const barRef = useRef<HTMLDivElement>(null);
   const [panel, setPanel] = useState<PanelId>("landing");
   const [inView, setInView] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const goToLanding = useCallback(() => {
@@ -55,13 +52,22 @@ export default function HomeHeroExploreStage({
     setPanel("secondary");
   }, []);
 
+  const syncBar = useCallback(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    bar.style.animationPlayState =
+      inView && !pausedRef.current ? "running" : "paused";
+  }, [inView]);
+
   const pauseAuto = useCallback(() => {
     pausedRef.current = true;
+    if (barRef.current) barRef.current.style.animationPlayState = "paused";
   }, []);
 
   const resumeAuto = useCallback(() => {
     pausedRef.current = false;
-  }, []);
+    syncBar();
+  }, [syncBar]);
 
   useEffect(() => {
     const landing = landingRef.current;
@@ -90,31 +96,8 @@ export default function HomeHeroExploreStage({
   }, []);
 
   useEffect(() => {
-    elapsedRef.current = 0;
-    setProgress(0);
-  }, [panel]);
-
-  useEffect(() => {
-    if (reducedMotion || !inView) return;
-
-    const id = window.setInterval(() => {
-      if (pausedRef.current) return;
-
-      elapsedRef.current += TICK_MS;
-      const next = Math.min(1, elapsedRef.current / HOME_HERO_EXPLORE_IDLE_MS);
-      setProgress(next);
-
-      if (elapsedRef.current >= HOME_HERO_EXPLORE_IDLE_MS) {
-        elapsedRef.current = 0;
-        setProgress(0);
-        setPanel((current) =>
-          current === "landing" ? "secondary" : "landing",
-        );
-      }
-    }, TICK_MS);
-
-    return () => window.clearInterval(id);
-  }, [inView, reducedMotion]);
+    syncBar();
+  }, [syncBar, panel]);
 
   const showLanding = panel === "landing";
   const showSecondary = panel === "secondary";
@@ -182,14 +165,30 @@ export default function HomeHeroExploreStage({
       </div>
 
       <div className="flex shrink-0 flex-col items-start gap-2.5">
-        {!reducedMotion && inView && (
+        {!reducedMotion && (
           <div
-            className="h-0.5 w-24 overflow-hidden rounded-full bg-primary/15 sm:w-28"
+            className={cn(
+              "h-0.5 w-24 overflow-hidden rounded-full bg-primary/15 sm:w-28",
+              !inView && "invisible h-0",
+            )}
             aria-hidden
           >
             <div
-              className="h-full origin-left rounded-full bg-primary/40"
-              style={{ transform: `scaleX(${progress})` }}
+              key={panel}
+              ref={barRef}
+              className="home-hero-timer-bar h-full rounded-full bg-primary/40"
+              style={{
+                animationName: "home-hero-timer-fill",
+                animationDuration: `${HOME_HERO_EXPLORE_IDLE_MS}ms`,
+                animationTimingFunction: "linear",
+                animationFillMode: "forwards",
+              }}
+              onAnimationEnd={(event) => {
+                if (event.target !== event.currentTarget) return;
+                setPanel((current) =>
+                  current === "landing" ? "secondary" : "landing",
+                );
+              }}
             />
           </div>
         )}

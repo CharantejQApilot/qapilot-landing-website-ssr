@@ -50,6 +50,16 @@ export function CaseStudyPreviewCards({
               <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-muted-foreground">
                 {study.headline}
               </p>
+              {study.metrics[0] ? (
+                <p className="mt-3 text-sm leading-relaxed text-foreground">
+                  <span className="font-semibold text-primary">
+                    {study.metrics[0].value}
+                  </span>{" "}
+                  <span className="text-muted-foreground">
+                    {study.metrics[0].label}
+                  </span>
+                </p>
+              ) : null}
               <p className="mt-auto pt-5 text-sm font-semibold text-primary">
                 Read the story
               </p>

@@ -15,6 +15,7 @@ import {
   SITE_BASE_URL,
 } from "@/lib/constants";
 import { CLARITY_UNMASK_STYLESHEETS_SCRIPT } from "@/lib/clarity-unmask-stylesheets-script";
+import { deferredMarketingScriptsHtml } from "@/lib/deferred-marketing-scripts";
 import { fontHeading, fontSans } from "@/lib/fonts";
 import { isInternalRouteRequest } from "@/lib/internal-routes";
 import "./globals.css";
@@ -119,13 +120,6 @@ export default async function RootLayout({
         ) : null}
         {!internal ? (
           <>
-            {/* Must run before Clarity initializes so strict masking keeps stylesheet hrefs in replays. */}
-            <script
-              dangerouslySetInnerHTML={{
-                __html: CLARITY_UNMASK_STYLESHEETS_SCRIPT,
-              }}
-            />
-            {/* Google Analytics / GTM first. Highest priority connection hints + early parse. */}
             <link
               rel="preconnect"
               href="https://www.googletagmanager.com"
@@ -136,49 +130,16 @@ export default async function RootLayout({
               href="https://www.google-analytics.com"
               crossOrigin="anonymous"
             />
-            <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-            <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-            <link
-              rel="preconnect"
-              href="https://www.clarity.ms"
-              crossOrigin="anonymous"
+            {/* Must run before Clarity initializes so strict masking keeps stylesheet hrefs in replays. */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: CLARITY_UNMASK_STYLESHEETS_SCRIPT,
+              }}
             />
-            <link
-              rel="preconnect"
-              href="https://js.hs-scripts.com"
-              crossOrigin="anonymous"
-            />
-            <link
-              rel="preconnect"
-              href="https://ddwl4m2hdecbv.cloudfront.net"
-              crossOrigin="anonymous"
-            />
-            <link
-              rel="preconnect"
-              href="https://app.factors.ai"
-              crossOrigin="anonymous"
-            />
-            <link
-              rel="preconnect"
-              href="https://api.factors.ai"
-              crossOrigin="anonymous"
-            />
-            <link rel="dns-prefetch" href="https://js.hsforms.net" />
-            <link rel="dns-prefetch" href="https://js.hs-analytics.net" />
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
                 __html: JSON.stringify(rootSchemaGraphJsonLd),
-              }}
-            />
-            {/* Native head scripts. Load with first HTML parse for full tracker coverage. */}
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`,
               }}
             />
             <script
@@ -195,25 +156,16 @@ gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
 `,
               }}
             />
-            <script
-              async
-              defer
-              id="hs-script-loader"
-              src={`https://js.hs-scripts.com/${HUBSPOT_NA1_PORTAL_ID}.js`}
-            />
+            {/* GTM, HubSpot, Clarity, Factors, and reb2b load after first interaction or 5s after load. */}
             <script
               dangerouslySetInnerHTML={{
-                __html: `!function(key){if(window.reb2b)return;window.reb2b={loaded:true};var s=document.createElement("script");s.async=true;s.src="https://ddwl4m2hdecbv.cloudfront.net/b/"+key+"/"+key+".js.gz";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);}("${REB2B_SCRIPT_KEY}");`,
-              }}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `window.faitracker=window.faitracker||function(){this.q=[];var t=new CustomEvent("FAITRACKER_QUEUED_EVENT");return this.init=function(t,e,a){this.TOKEN=t,this.INIT_PARAMS=e,this.INIT_CALLBACK=a,window.dispatchEvent(new CustomEvent("FAITRACKER_INIT_EVENT"))},this.call=function(){var e={k:"",a:[]};if(arguments&&arguments.length>=1){for(var a=1;a<arguments.length;a++)e.a.push(arguments[a]);e.k=arguments[0]}this.q.push(e),window.dispatchEvent(t)},this.message=function(){window.addEventListener("message",function(t){"faitracker"===t.data.origin&&this.call("message",t.data.type,t.data.message)})},this.message(),this.init("${FACTORS_AI_TOKEN}",{host:"https://api.factors.ai"}),this}(),function(){var t=document.createElement("script");t.type="text/javascript",t.src="https://app.factors.ai/assets/factors.js",t.async=!0,(d=document.getElementsByTagName("script")[0]).parentNode.insertBefore(t,d)}();`,
-              }}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;(l.head||l.documentElement).appendChild(t);})(window,document,"clarity","script","${CLARITY_PROJECT_ID}");`,
+                __html: deferredMarketingScriptsHtml({
+                  gtmId: GTM_CONTAINER_ID,
+                  hubspotPortalId: HUBSPOT_NA1_PORTAL_ID,
+                  reb2bKey: REB2B_SCRIPT_KEY,
+                  factorsToken: FACTORS_AI_TOKEN,
+                  clarityId: CLARITY_PROJECT_ID,
+                }),
               }}
             />
           </>

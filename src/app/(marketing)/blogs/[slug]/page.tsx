@@ -35,6 +35,7 @@ import {
   logMetadataFallback,
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
+import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
 import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
@@ -383,6 +384,20 @@ export default async function BlogPostPage({
               {blog.title}
             </h1>
 
+            {blog.slug === "sauce-labs-alternative-autonomous-mobile-testing" ? (
+              <p className="mb-6 max-w-3xl text-base leading-relaxed text-foreground/90 md:text-lg">
+                This post is the story of why teams leave Sauce Labs. The
+                side-by-side comparison lives on{" "}
+                <Link
+                  href={PATHS.ALTERNATIVES_SAUCE_LABS}
+                  className="font-semibold text-primary hover:underline"
+                >
+                  the Sauce Labs alternative page
+                </Link>
+                .
+              </p>
+            ) : null}
+
             <ArticleSummariseWithAI
               pageUrl={`${SITE_BASE_URL}${publicPath}`}
             />
@@ -468,6 +483,18 @@ export default async function BlogPostPage({
                 />
               </div>
             ) : null}
+
+            <div className="mt-12 border-t border-border pt-8">
+              <p className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+                See QApilot on your app
+              </p>
+              <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
+                Book a demo to run autonomous coverage on an iOS or Android build.
+              </p>
+              <div className="mt-4">
+                <BookDemoCtaButton />
+              </div>
+            </div>
 
             <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
           </div>

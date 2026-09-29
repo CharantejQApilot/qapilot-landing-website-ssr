@@ -27,9 +27,11 @@ import {
   MarketingBackground,
   MarketingSectionHeader,
 } from "@/components/marketing";
+import { TestingApproachTable } from "@/components/seo/TestingApproachTable";
 import {
   marketingHeroH1Class,
   marketingHeroLeadClass,
+  marketingSectionH2Class,
   marketingSectionIntroClass,
 } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -108,6 +110,18 @@ const leaders = [
   },
 ] as const;
 
+const aboutQuestions = [
+  {
+    question: "What is QApilot?",
+    answer:
+      "QApilot understands apps, explores them like real users, and adapts as apps change.",
+  },
+  {
+    question: "Who founded QApilot?",
+    answer: "Aditya Challa and Chaitanya Devalapally co-founded QApilot.",
+  },
+] as const;
+
 const valueTiles = [
   { label: "Innovation", Icon: Lightbulb },
   { label: "Quality", Icon: Shield },
@@ -150,7 +164,8 @@ const AboutClient = () => {
               )}
             >
               A team united by the belief that testing should be intelligent,
-              effortless, and built for the future.
+              effortless, and built for the future. QApilot was founded in
+              2024.
             </p>
 
             <ul className="grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
@@ -169,6 +184,85 @@ const AboutClient = () => {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      <section
+        className="section-edge w-full border-t border-border/80"
+        aria-labelledby="about-questions-heading"
+      >
+        <div className="section-full py-14 md:py-20">
+          <h2
+            id="about-questions-heading"
+            className={cn(marketingSectionH2Class, "mb-8 md:mb-10")}
+          >
+            Questions about <span className="text-primary">QApilot</span>
+          </h2>
+          <div className="flex w-full max-w-3xl flex-col border border-border bg-background">
+            {aboutQuestions.map((item, index) => (
+              <div
+                key={item.question}
+                className={cn(
+                  "flex flex-col gap-3 px-5 py-6 sm:px-6 sm:py-7 md:px-8",
+                  index < aboutQuestions.length - 1 && "border-b border-border",
+                )}
+              >
+                <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+                  {item.question}
+                </h3>
+                <p className={marketingSectionIntroClass}>{item.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section-edge w-full border-t border-border/80 bg-background"
+        aria-labelledby="about-definitions-heading"
+      >
+        <div className="section-full py-14 md:py-20">
+          <h2
+            id="about-definitions-heading"
+            className={cn(marketingSectionH2Class, "mb-8 md:mb-10")}
+          >
+            What the words <span className="text-primary">mean</span>
+          </h2>
+          <div className="flex w-full max-w-3xl flex-col gap-8">
+            <div>
+              <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+                What is autonomous testing?
+              </h3>
+              <p className={cn(marketingSectionIntroClass, "mt-3")}>
+                Autonomous testing is exploration of a mobile app by an agent
+                that builds coverage without a hand-written script.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+                What is zero-touch sanity?
+              </h3>
+              <p className={cn(marketingSectionIntroClass, "mt-3")}>
+                Zero-touch sanity is a release check that runs after a build
+                without a tester starting each case by hand.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+                How does a release get covered?
+              </h3>
+              <p className={cn(marketingSectionIntroClass, "mt-3")}>
+                A release gets covered by uploading the build, letting QApilot
+                explore it, and reviewing the signals before you ship.
+              </p>
+              <ol className="mt-3 list-decimal space-y-2 pl-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+                <li>Upload the iOS or Android build.</li>
+                <li>QApilot explores the app and generates coverage.</li>
+                <li>Review the release signals before you ship.</li>
+              </ol>
+            </div>
+          </div>
+          <TestingApproachTable />
         </div>
       </section>
 
