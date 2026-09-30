@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import {
+  BookDemoFaqSection,
   BookDemoHero,
   BookDemoWhatToExpectSection,
 } from "@/components/book-demo";
@@ -7,6 +8,7 @@ import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL } from "@/lib/constants";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { buildBookDemoFaqJsonLd, buildBookDemoWebPageJsonLd } from "@/lib/book-demo-seo";
 
 const canonicalUrl = `${SITE_BASE_URL}${PATHS.BOOK_DEMO}`;
 
@@ -35,9 +37,22 @@ export default function BookDemoPage() {
           ),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildBookDemoWebPageJsonLd()),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildBookDemoFaqJsonLd()),
+        }}
+      />
       <main>
         <BookDemoHero />
         <BookDemoWhatToExpectSection />
+        <BookDemoFaqSection />
       </main>
     </div>
   );

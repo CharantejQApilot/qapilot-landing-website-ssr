@@ -1,8 +1,12 @@
 import { BookDemoLeadForm } from "@/components/book-demo/BookDemoLeadForm";
-import { BookDemoTrustLogos } from "@/components/book-demo/BookDemoTrustLogos";
+import {
+  BookDemoWioCaseStudy,
+  BookDemoWioQuote,
+} from "@/components/book-demo/BookDemoWioCaseStudy";
 import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 import { BOOK_DEMO_FORM_ID } from "@/lib/book-demo";
+import { BOOK_DEMO_HERO } from "@/lib/book-demo-what-to-expect";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
 import {
   marketingFormIntroClass,
@@ -38,10 +42,10 @@ export function BookDemoHero() {
 
         <div className="section-full flex min-h-0 flex-1 flex-col pb-10 sm:pb-14 md:pb-20 lg:justify-center lg:pb-16 2xl:pb-20">
           <div className={bookDemoShellClass}>
-            <div className="sig-split w-full items-center gap-10 sm:gap-12 xl:gap-x-16 2xl:gap-x-20">
-              <div className="flex min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-4 xl:pr-6">
+            <div className="sig-split w-full !items-stretch gap-10 sm:gap-12 xl:gap-x-16 2xl:gap-x-20">
+              <div className="flex h-full min-w-0 flex-col items-start text-left lg:max-w-none lg:pr-4 xl:pr-6">
                 <div className="w-full min-w-0">
-                  <HomeEyebrow>Transform Your Mobile App Testing Now</HomeEyebrow>
+                  <HomeEyebrow>{BOOK_DEMO_HERO.eyebrow}</HomeEyebrow>
 
                   <h1
                     className={cn(
@@ -50,8 +54,8 @@ export function BookDemoHero() {
                       "max-lg:text-[clamp(1.75rem,5.5vw,3.25rem)] max-lg:leading-[1.1]",
                     )}
                   >
-                    Book A Demo Of{" "}
-                    <span className="text-hero-here">QApilot</span>
+                    {BOOK_DEMO_HERO.titleLead}{" "}
+                    <span className="text-hero-here">{BOOK_DEMO_HERO.titleAccent}</span>
                   </h1>
                 </div>
 
@@ -63,29 +67,21 @@ export function BookDemoHero() {
                     "max-lg:text-base max-lg:sm:text-lg",
                   )}
                 >
-                  See how agentic and AI-assisted testing streamlines your mobile QA lifecycle. Ship
-                  faster, cut maintenance, and move toward{" "}
-                  <span className="font-semibold text-primary">3× coverage</span> with the QE team you already
-                  have.
+                  {BOOK_DEMO_HERO.leadBefore}
+                  <span className="font-semibold text-primary">{BOOK_DEMO_HERO.leadHighlight}</span>
+                  {BOOK_DEMO_HERO.leadAfter}
                 </p>
 
-                <div
-                  className={cn(
-                    "mt-8 w-full border-t border-border/50 pt-8 sm:mt-10 sm:pt-10",
-                    "lg:mt-10 lg:max-w-xl lg:pt-10 xl:max-w-2xl",
-                  )}
-                >
-                  <BookDemoTrustLogos />
+                <div className="mt-8 flex w-full flex-1 flex-col justify-end sm:mt-10 lg:mt-10">
+                  <BookDemoWioCaseStudy />
                 </div>
               </div>
 
               <div id={BOOK_DEMO_FORM_ID} className="min-w-0 w-full scroll-mt-28 lg:pl-2 xl:pl-4">
                 <div className={marketingHeroFormCardClass}>
                   <div className="relative z-[1] space-y-1.5 pb-5 sm:pb-6">
-                    <h2 className={marketingFormTitleClass}>Test Your Mobile App on QApilot</h2>
-                    <p className={marketingFormIntroClass}>
-                      Share a few details and we&apos;ll reach out to schedule a session.
-                    </p>
+                    <h2 className={marketingFormTitleClass}>{BOOK_DEMO_HERO.formTitle}</h2>
+                    <p className={marketingFormIntroClass}>{BOOK_DEMO_HERO.formIntro}</p>
                   </div>
                   <div className={marketingHeroFormInnerClass}>
                     <BookDemoLeadForm />
@@ -93,6 +89,7 @@ export function BookDemoHero() {
                 </div>
               </div>
             </div>
+            <BookDemoWioQuote />
           </div>
         </div>
       </div>
