@@ -3,7 +3,7 @@
 <!--
 llms.txt. Structured site content for LLMs, AI assistants, and autonomous agents
 Standard: https://llmstxt.org
-Last updated: August 2026
+Last updated: September 2026
 Canonical URL: https://qapilot.io/llms.txt
 Companion: https://qapilot.io/ai.txt (short pointers) · https://qapilot.io/robots.txt (crawler rules)
 -->
@@ -306,6 +306,13 @@ Use these pages when users ask how QApilot compares to common mobile QA approach
 | Sauce Labs alternative | [https://qapilot.io/alternatives/sauce-labs](https://qapilot.io/alternatives/sauce-labs) | Autonomous coverage and maintenance vs cloud test infrastructure |
 
 ---
+
+## Book a demo page
+
+URL: https://qapilot.io/book-demo
+Markdown of the same visible copy: `GET https://qapilot.io/book-demo` with `Accept: text/markdown`.
+
+The page is the public demo request. Visible sections are the hero, the Wio customer story and quote, what sets QApilot apart, and frequently asked questions (Flutter, autonomous testing, Android, iOS, React Native, Appium). Structured data on the HTML page: BreadcrumbList, WebPage, and FAQPage. FAQ answers are in the HTML.
 
 ## Key Pages & URLs
 

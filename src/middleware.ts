@@ -119,28 +119,39 @@ export async function middleware(request: NextRequest) {
     return NextResponse.rewrite(rewritten);
   }
 
-  if (pathname !== "/") {
-    return nextWithContentCanonical(request);
-  }
-  /** Let React Server Components / router internals through (not public markdown). */
-  if (request.headers.has("RSC") || request.headers.has("Next-Router-State-Tree")) {
-    return nextWithContentCanonical(request);
-  }
-  if (!wantsMarkdown(request.headers.get("accept"))) {
-    return nextWithContentCanonical(request);
+  const isMarkdownPage = pathname === "/" || pathname === "/book-demo";
+  const isRouterRequest =
+    request.headers.has("RSC") || request.headers.has("Next-Router-State-Tree");
+
+  if (
+    isMarkdownPage &&
+    !isRouterRequest &&
+    wantsMarkdown(request.headers.get("accept"))
+  ) {
+    const body =
+      pathname === "/"
+        ? (await import("@/lib/agent-readiness/home-markdown")).getHomePageMarkdown()
+        : (await import("@/lib/agent-readiness/book-demo-markdown")).getBookDemoMarkdown();
+    const approxTokens = Math.ceil(body.length / 4);
+    return new NextResponse(body, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "x-markdown-tokens": String(approxTokens),
+        "Cache-Control": "public, max-age=0, must-revalidate",
+        Vary: "Accept",
+      },
+    });
   }
 
-  const { getHomePageMarkdown } = await import("@/lib/agent-readiness/home-markdown");
-  const body = getHomePageMarkdown();
-  const approxTokens = Math.ceil(body.length / 4);
-  return new NextResponse(body, {
-    status: 200,
-    headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
-      "x-markdown-tokens": String(approxTokens),
-      "Cache-Control": "public, max-age=0, must-revalidate",
-    },
-  });
+  const response = nextWithContentCanonical(request);
+  if (pathname === "/book-demo") {
+    response.headers.append(
+      "Link",
+      '</book-demo>; rel="alternate"; type="text/markdown"',
+    );
+  }
+  return response;
 }
 
 export const config = {
