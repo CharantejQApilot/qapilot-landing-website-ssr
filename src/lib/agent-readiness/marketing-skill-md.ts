@@ -70,5 +70,6 @@ Public marketing and API discovery for [QApilot](https://qapilot.io). AI-native 
 - API catalog: ${u("/.well-known/api-catalog")}
 - Agent skills index: ${u("/.well-known/agent-skills/index.json")}
 - Homepage Markdown: ${u("/")} with \`Accept: text/markdown\`
+- Book a demo Markdown: ${u(PATHS.BOOK_DEMO)} with \`Accept: text/markdown\`
 - Sitemap: ${u("/sitemap-index.xml")}
 `;

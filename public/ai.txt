@@ -59,6 +59,7 @@ OpenAPI: https://qapilot.io/openapi.json
 API-Catalog: https://qapilot.io/.well-known/api-catalog
 Agent-Skills: https://qapilot.io/.well-known/agent-skills/index.json
 Homepage-Markdown: https://qapilot.io/ (Accept: text/markdown)
+Book-Demo-Markdown: https://qapilot.io/book-demo (Accept: text/markdown)
 
 # Crawler policy (Content-Signal: search=yes, ai-input=yes, ai-train=no)
 Robots: https://qapilot.io/robots.txt
