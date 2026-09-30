@@ -77,6 +77,16 @@ export const GTM_CONTAINER_ID = "GTM-D8GSMN6Q";
 /** GA4 property. Loaded via gtag in addition to GTM (GTM alone did not report pageviews). */
 export const GA4_MEASUREMENT_ID = "G-YVK0J06RCR";
 
+/** Google Ads account tag, configured on the same gtag as GA4. */
+export const GOOGLE_ADS_ID = "AW-16956806550";
+
+/**
+ * "Book a demo form" conversion. Fire only after HubSpot accepts the /book-demo lead.
+ * Label is from the Google Ads event snippet (send_to).
+ */
+export const GOOGLE_ADS_BOOK_DEMO_SEND_TO =
+  "AW-16956806550/e5UPCJLuiosdEJar0ZU_";
+
 /** RB2B / REB2B visitor-identification script key. */
 export const REB2B_SCRIPT_KEY = "9NMMZHRD91NW";
 
