@@ -8,6 +8,7 @@ import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
 import {
   CLARITY_PROJECT_ID,
   GA4_MEASUREMENT_ID,
+  GOOGLE_ADS_ID,
   GTM_CONTAINER_ID,
   HUBSPOT_NA1_PORTAL_ID,
   FACTORS_AI_TOKEN,
@@ -153,6 +154,7 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
+gtag('config', '${GOOGLE_ADS_ID}');
 `,
               }}
             />
