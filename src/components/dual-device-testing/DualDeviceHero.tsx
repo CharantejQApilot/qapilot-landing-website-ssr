@@ -12,7 +12,7 @@ export function DualDeviceHero() {
           Dual Device <span className="text-hero-here">Testing</span>
         </>
       }
-      lead="Real journeys span two devices. QApilot runs both sides as one continuous transaction."
+      lead="Real journeys span two devices. QApilot runs both sides as one continuous transaction. WIO's daily sanity already spans 13 device models and both operating systems in the same run."
       cta={<BookDemoCtaButton />}
       media={<DualDeviceHeroVisual />}
     />

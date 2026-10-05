@@ -20,7 +20,8 @@ export function PlatformOverviewHero() {
             </h1>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg xl:text-xl 2xl:text-2xl">
               A unified system of capabilities designed to help teams generate coverage, reduce test maintenance,
-              detect critical issues, and validate mobile releases with confidence.
+              detect critical issues, and validate mobile releases with confidence. The published WIO run is
+              11,025 steps at 89.3% step success. Aditya Challa and Chaitanya Devalapally founded QApilot in 2024.
             </p>
             <div className="mt-6 sm:mt-8 md:mt-10">
               <BookDemoLinkButton

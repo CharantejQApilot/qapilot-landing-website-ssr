@@ -78,6 +78,7 @@ export default async function FAQsPage() {
                 <span className="text-primary">Questions</span>
               </>
             }
+            lead="Answers from the QApilot team in Hyderabad. Aditya Challa and Chaitanya Devalapally founded the company in 2024. Support is support@qapilot.com."
           />
           <div className="section-full home-canvas py-16 md:py-24">
             <FAQsList faqs={faqs} />

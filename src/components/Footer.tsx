@@ -356,6 +356,9 @@ const Footer = () => {
                   <FooterLink to={PATHS.CASE_STUDIES}>Case Studies</FooterLink>
                 </li>
                 <li>
+                  <FooterLink to={PATHS.INTEGRATIONS}>Integrations</FooterLink>
+                </li>
+                <li>
                   <FooterLink to={PATHS.QA_GUIDE}>
                     {QE_GUIDE_DISPLAY_NAME}
                   </FooterLink>

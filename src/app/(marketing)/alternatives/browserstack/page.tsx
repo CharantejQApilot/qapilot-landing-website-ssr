@@ -26,7 +26,7 @@ const config = {
       Autonomous Mobile Testing
     </>
   ),
-  lead: "BrowserStack gives you devices and browsers in the cloud. QApilot gives you autonomous coverage. AI-native exploration, test generation, self-healing, and release-ready reporting for iOS and Android apps.",
+  lead: "BrowserStack gives you devices and browsers in the cloud. QApilot gives you autonomous coverage. On WIO, that coverage is 11,025 nightly steps at 89.3% step success. Aditya Challa and Chaitanya Devalapally founded QApilot in 2024.",
   competitorSubtitle: "Device Cloud & Execution",
   competitorBody:
     "BrowserStack provides access to real devices and browsers for manual and automated testing. Teams still author, maintain, and debug the tests that run on those devices.",

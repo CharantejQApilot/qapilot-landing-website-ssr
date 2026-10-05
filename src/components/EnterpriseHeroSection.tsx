@@ -50,7 +50,7 @@ export default function EnterpriseHeroSection() {
           <span className="text-primary">Enterprise-Grade</span> Mobile App Testing with QApilot
         </>
       }
-      lead="Deliver flawless apps at scale with autonomous smoke tests, flexible execution, and enterprise-ready reporting."
+      lead="Deliver flawless apps at scale with autonomous smoke tests, flexible execution, and enterprise-ready reporting. WIO runs 11,025 nightly steps on a Flutter banking app, with 97% of that execution outside working hours."
       cta={<BookDemoCtaButton />}
       media={<EnterpriseHeroSurface />}
       fillViewport

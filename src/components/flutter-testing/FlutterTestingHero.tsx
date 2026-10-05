@@ -49,7 +49,9 @@ export function FlutterTestingHero() {
               were never built to handle. QApilot brings reliable Flutter test
               automation with context switching across Flutter, native, and
               webviews, AI-assisted element discovery, and lower-maintenance
-              execution built for modern mobile teams.
+              execution built for modern mobile teams. WIO&apos;s Flutter
+              banking regression is the published example: 11,025 steps, 89.3%
+              step success.
             </p>
             <p
               className={cn(

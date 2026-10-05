@@ -22,7 +22,8 @@ export function ForReleaseManagerHero() {
       <p className="mb-8 w-full text-pretty text-base leading-relaxed text-muted-foreground sm:mb-10 sm:text-lg md:mb-11 md:text-xl md:leading-relaxed">
         QApilot helps Release Managers reduce uncertainty before mobile launches
         through faster validation, clearer quality signals, and scalable release
-        readiness testing.
+        readiness testing. WIO&apos;s scheduler runs 20.3 hours of execution per
+        cycle, and 97% of that time is outside working hours.
       </p>
     </MarketingThesisHero>
   );

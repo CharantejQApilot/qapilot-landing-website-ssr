@@ -64,6 +64,15 @@ export default function AiTimeSavingsPage() {
       <div className="relative z-0 min-h-screen w-full bg-background section-edge">
         <main>
           <AiTimeSavingsHero />
+          <section className="section-full bg-background pb-2 pt-2 md:pt-4">
+            <p className="max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              A worked example from WIO: one regression cycle is 20.3 hours of
+              execution, equal to about 2.5 engineer-days, and 97% of it runs
+              with no engineer present. The calculator below is for your own
+              inputs. QApilot was founded in 2024 by Aditya Challa and
+              Chaitanya Devalapally.
+            </p>
+          </section>
           <AiTimeSavingsCalculator />
           <section className="section-full bg-background pb-12 pt-0 md:pb-16">
             <div className="mx-auto w-full min-w-0 max-w-[100rem]">

@@ -21,7 +21,9 @@ export function ForQAEngineerHero() {
     >
       <p className="mb-8 w-full text-pretty text-base leading-relaxed text-muted-foreground sm:mb-10 sm:text-lg md:mb-11 md:text-xl md:leading-relaxed">
         QApilot helps QA Engineers create coverage faster, debug failures
-        quicker, and reduce brittle automation work across mobile apps.
+        quicker, and reduce brittle automation work across mobile apps. At
+        GrowSari, recorded test steps grew 161% and active users 75% while
+        app-side OTP work was still open.
       </p>
     </MarketingThesisHero>
   );
