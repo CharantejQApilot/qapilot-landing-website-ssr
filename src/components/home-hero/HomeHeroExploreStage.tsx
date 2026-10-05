@@ -11,9 +11,14 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
-import HomeHeroDualDevicePanel from "@/components/home-hero/HomeHeroDualDevicePanel";
+import dynamic from "next/dynamic";
 import { HOME_HERO_EXPLORE_IDLE_MS } from "@/lib/home-hero-explore";
 import { cn } from "@/lib/utils";
+
+/** Own chunk. The slide stays in the server HTML so the hero height does not jump. */
+const HomeHeroDualDevicePanel = dynamic(
+  () => import("@/components/home-hero/HomeHeroDualDevicePanel"),
+);
 
 type PanelId = "landing" | "secondary";
 

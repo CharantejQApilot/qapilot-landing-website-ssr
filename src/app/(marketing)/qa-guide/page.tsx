@@ -145,9 +145,10 @@ export default async function QaGuideHubPage() {
                   <p>
                     The QApilot QA Guide library collects long-form references on
                     testing types, banking and Flutter scenarios, automation
-                    strategy, and release checklists. Each guide is written for
-                    practitioners who need actionable steps, not generic
-                    definitions.
+                    strategy, and release checklists. Guides cite measured runs,
+                    including WIO&apos;s 89.3% step success on 11,025 nightly
+                    steps. Aditya Challa and Chaitanya Devalapally founded
+                    QApilot in Hyderabad in 2024.
                   </p>
                   <p>
                     Use these resources alongside the QApilot platform to plan

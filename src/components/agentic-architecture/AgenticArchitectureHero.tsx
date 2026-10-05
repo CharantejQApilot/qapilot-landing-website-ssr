@@ -11,7 +11,7 @@ export function AgenticArchitectureHero() {
           <span className="text-primary">Agentic Architecture</span>
         </>
       }
-      lead="QApilot is powered by a network of specialized AI agents working on a shared knowledge graph. Enabling autonomous exploration, adaptive testing, and continuous learning across your app."
+      lead="QApilot is powered by a network of specialized AI agents working on a shared knowledge graph. On WIO that graph covers 11,025 steps across 29 test plans. Aditya Challa and Chaitanya Devalapally founded the company in Hyderabad in 2024."
       cta={<BookDemoCtaButton />}
     />
   );

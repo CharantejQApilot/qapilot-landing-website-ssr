@@ -22,7 +22,9 @@ export function ForSREHero() {
       <p className="mb-8 w-full text-pretty text-base leading-relaxed text-muted-foreground sm:mb-10 sm:text-lg md:mb-11 md:text-xl md:leading-relaxed">
         QApilot helps SRE teams improve release reliability by identifying
         mobile quality risks early, strengthening pre-release signals, and
-        reducing incidents caused by poor launches.
+        reducing incidents caused by poor launches. On the WIO suite, skipped
+        steps are excluded from the rate: Android step success is 92.2% and
+        iOS is 91.3%.
       </p>
     </MarketingThesisHero>
   );

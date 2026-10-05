@@ -221,9 +221,9 @@ export default function QApilotVsVisualTestingComparisonPage() {
             <>
               Visual Testing Catches What Changed. QApilot Catches What Could Break Your Release.
               Visual testing tools are useful for spotting UI regressions. But mobile quality is more
-              than pixels. QApilot validates real app journeys across screens, states, devices, gestures,
-              performance signals, bugs, and release risks. Giving mobile teams confidence beyond visual
-              comparison.
+              than pixels. On WIO, the release number is 89.3% step success across 11,025 journey steps,
+              not a screenshot diff. QApilot validates real app journeys across screens, states, devices, gestures,
+              performance signals, bugs, and release risks.
             </>
           }
         />

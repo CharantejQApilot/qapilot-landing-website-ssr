@@ -17,7 +17,12 @@ function attachContentCanonicalHeader(
 }
 
 function nextWithContentCanonical(request: NextRequest): NextResponse {
-  return attachContentCanonicalHeader(request, NextResponse.next());
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-qapilot-pathname", request.nextUrl.pathname);
+  return attachContentCanonicalHeader(
+    request,
+    NextResponse.next({ request: { headers: requestHeaders } }),
+  );
 }
 
 function continueWithInternalRouting(request: NextRequest): NextResponse {

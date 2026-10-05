@@ -11,7 +11,7 @@ export function BringYourOwnAgentHero() {
           Bring Your Own <span className="text-primary">Agent</span>
         </>
       }
-      lead="Integrate your own AI agents into QApilot and leverage the knowledge graph to build custom testing workflows."
+      lead="Integrate your own AI agents into QApilot and leverage the knowledge graph to build custom testing workflows. The published WIO graph is 11,025 steps and 13 device models. Support is support@qapilot.com."
       cta={<BookDemoCtaButton />}
     />
   );

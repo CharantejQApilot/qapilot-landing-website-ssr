@@ -6,6 +6,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Real 700 / 500 files live on their own families so they are not preloaded
+   with the first-screen fonts. Same glyphs as before. */
+.font-heading.font-bold {
+  font-family: var(--font-heading-bold), var(--font-heading), var(--font-sans),
+    sans-serif;
+}
+
+.font-medium:not(.font-heading) {
+  font-family: var(--font-sans-medium), var(--font-sans), sans-serif;
+}
+
 /* QApilot Design Foundation v5. Harvey, Spur, PlayerZero, TestMu inspired
    Elegant SaaS: clean backgrounds, refined typography, subtle depth
    Space Grotesk headings · Source Sans 3 body · HSL tokens */

@@ -17,7 +17,7 @@ import {
 } from "@/lib/constants";
 import { CLARITY_UNMASK_STYLESHEETS_SCRIPT } from "@/lib/clarity-unmask-stylesheets-script";
 import { deferredMarketingScriptsHtml } from "@/lib/deferred-marketing-scripts";
-import { fontHeading, fontSans } from "@/lib/fonts";
+import { fontHeading, fontHeadingBold, fontSans, fontSansMedium } from "@/lib/fonts";
 import { isInternalRouteRequest } from "@/lib/internal-routes";
 import "./globals.css";
 import dynamic from "next/dynamic";
@@ -103,15 +103,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const supabaseOrigin = supabasePreconnectOrigin();
-  const internal = isInternalRouteRequest(await headers());
+  const requestHeaders = await headers();
+  const internal = isInternalRouteRequest(requestHeaders);
+  const isHome = requestHeaders.get("x-qapilot-pathname") === "/";
 
   return (
     <html
       lang="en"
-      className={`${fontHeading.variable} ${fontSans.variable} scroll-smooth`}
+      className={`${fontHeading.variable} ${fontHeadingBold.variable} ${fontSans.variable} ${fontSansMedium.variable} scroll-smooth`}
     >
       <head>
         <meta httpEquiv="content-language" content="en-US" />
+        {isHome ? (
+          <link rel="canonical" href={`${SITE_BASE_URL}/`} />
+        ) : null}
         {supabaseOrigin ? (
           <link
             rel="preconnect"

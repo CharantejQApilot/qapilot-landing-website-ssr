@@ -80,8 +80,49 @@ export default function DeviceCoverageMatrixPage() {
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
               The Device Coverage Matrix is a free planning tool. It turns a
               market and a coverage target into a ranked list of Android OEM
-              and iOS profiles to test before a release.
+              and iOS profiles to test before a release. The baseline is
+              StatCounter active-device share for April 2026, across 23
+              markets and 10,479 OEM and OS-version rows.
             </p>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              In India that month, Vivo is 19.0% of active devices, Xiaomi
+              17.2%, Realme 13.1%, Samsung 13.0%, and Oppo 11.9%. A coverage
+              target of 70% therefore starts with those five OEMs, not a
+              generic flagship list.
+            </p>
+            <div className="mt-6 max-w-3xl overflow-x-auto">
+              <table className="w-full min-w-[28rem] border-collapse text-left text-sm md:text-base">
+                <caption className="mb-3 text-left font-heading text-lg font-semibold tracking-tight text-foreground">
+                  India active-device share, April 2026
+                </caption>
+                <thead>
+                  <tr className="border-b border-border">
+                    <th scope="col" className="py-3 pr-4 font-semibold text-foreground">
+                      OEM
+                    </th>
+                    <th scope="col" className="py-3 font-semibold text-foreground">
+                      Share
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ["Vivo", "19.0%"],
+                    ["Xiaomi", "17.2%"],
+                    ["Realme", "13.1%"],
+                    ["Samsung", "13.0%"],
+                    ["Oppo", "11.9%"],
+                  ].map(([oem, share]) => (
+                    <tr key={oem} className="border-b border-border/80">
+                      <th scope="row" className="py-3 pr-4 font-semibold text-foreground">
+                        {oem}
+                      </th>
+                      <td className="py-3 text-muted-foreground">{share}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <h3 className="mt-8 font-heading text-lg font-semibold tracking-tight text-foreground md:text-xl">
               How to use it
             </h3>
