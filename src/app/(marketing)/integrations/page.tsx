@@ -50,7 +50,7 @@ export default function IntegrationsPage() {
               <span className="text-primary">Existing Testing Stack</span>
             </>
           }
-          lead="QApilot fits into the tools your team already uses for planning, communication, CI/CD, and device execution. So autonomous mobile testing enhances your workflow instead of replacing it."
+          lead="QApilot fits into the tools your team already uses for planning, communication, CI/CD, and device execution. This index lists 9 connectors, including Jira, Jenkins, TestRail, Slack, Teams, BrowserStack, Sauce Labs, and LambdaTest."
           cta={<BookDemoCtaButton />}
         />
 

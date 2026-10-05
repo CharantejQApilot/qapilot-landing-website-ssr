@@ -22,7 +22,9 @@ export function ForProductOwnerHero() {
       <p className="mb-8 w-full text-pretty text-base leading-relaxed text-muted-foreground sm:mb-10 sm:text-lg md:mb-11 md:text-xl md:leading-relaxed">
         QApilot helps Product Managers ship mobile features faster by improving
         release confidence, reducing quality-related delays, and surfacing
-        issues before users do.
+        issues before users do. On WIO&apos;s Flutter banking app, the nightly
+        regression is 11,025 steps at 89.3% step success, with no engineer
+        present for the run.
       </p>
     </MarketingThesisHero>
   );

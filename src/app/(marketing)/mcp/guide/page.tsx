@@ -85,7 +85,7 @@ export default function McpGuidePage() {
               </>
             }
             paddingClassName="py-12 sm:py-16 md:py-20 lg:py-24"
-            lead="Automate real Android devices and emulators by talking to Claude, Cursor, or any MCP-compatible AI client. Describe test flows in plain English — no Appium code required."
+            lead="Automate real Android devices and emulators by talking to Claude, Cursor, or any MCP-compatible AI client. Describe test flows in plain English — no Appium code required. The app stays on your machine. QApilot was founded in 2024 by Aditya Challa and Chaitanya Devalapally."
             cta={<McpGuideInstallSlider />}
           >
             <div className="mb-8 flex flex-wrap gap-2 sm:mb-10">

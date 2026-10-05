@@ -38,7 +38,8 @@ const canonicalUrl = `${SITE_BASE_URL}/`;
 export const metadata: Metadata = {
   title: { absolute: HOME_PAGE_TITLE },
   description: HOME_PAGE_DESCRIPTION,
-  alternates: { canonical: canonicalUrl },
+  // Canonical is emitted from the root layout. Next strips a trailing slash
+  // from metadata when the path is `/`, which pointed this tag at a variant.
   openGraph: {
     type: "website",
     url: canonicalUrl,

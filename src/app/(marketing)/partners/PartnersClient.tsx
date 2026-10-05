@@ -205,7 +205,9 @@ const PartnersClient = () => {
               Help customers move from brittle mobile automation to AI-native
               release readiness. QApilot gives partners a mobile-first platform
               to land faster, expand wider, and bring agentic AI into every QA
-              conversation.
+              conversation. Feuji-partnered workshops at GrowSari walked the
+              team through intake, recording, and cloud execution while test
+              steps grew 161%.
             </p>
             <Button
               type="button"
