@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Read and update CMS rows in Supabase from this repo.
+ * Read and update CMS rows from this repo.
  *
- * Uses NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY from .env.local.
+ * Blogs go through the Lovable blogs-api (BLOGS_API_KEY in .env.local).
+ * Do not look up SUPABASE_SERVICE_ROLE_KEY for blog copy.
+ * Other tables still use SUPABASE_SERVICE_ROLE_KEY.
  * Writes require --apply. Without it, the command prints the change and does not write.
  *
  *   node scripts/cms-content.mjs list blogs --q flutter
@@ -202,22 +204,143 @@ function parseArgs(argv) {
   return { command: positional[0], table: positional[1], extra: positional.slice(2), flags };
 }
 
-function loadEnvLocal() {
+function readEnvFile() {
   const envPath = path.join(__dirname, "..", ".env.local");
-  if (!fs.existsSync(envPath)) {
-    fail("Missing .env.local. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.");
-  }
+  if (!fs.existsSync(envPath)) fail("Missing .env.local.");
   const raw = fs.readFileSync(envPath, "utf8");
-  const get = (name) => {
+  return (name) => {
     const match = raw.match(new RegExp(`^${name}=(.*)$`, "m"));
     return match?.[1]?.trim()?.replace(/^["']|["']$/g, "") ?? "";
   };
+}
+
+function loadEnvLocal() {
+  const get = readEnvFile();
   const url = get("NEXT_PUBLIC_SUPABASE_URL");
   const serviceKey = get("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !serviceKey) {
     fail("NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in .env.local");
   }
   return { url, serviceKey };
+}
+
+/** Lovable Cloud tunnel. Blog copy only. There is no news function on this path. */
+function loadBlogsApiEnv() {
+  const get = readEnvFile();
+  const url = get("NEXT_PUBLIC_SUPABASE_URL").replace(/\/$/, "");
+  const anonKey = get("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  const blogsApiKey = get("BLOGS_API_KEY");
+  if (!url || !anonKey || !blogsApiKey) {
+    fail(
+      "Blog copy uses the Lovable blogs-api. Set NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, and BLOGS_API_KEY in .env.local. Do not search for SUPABASE_SERVICE_ROLE_KEY.",
+    );
+  }
+  return { url, anonKey, blogsApiKey };
+}
+
+async function blogsApi(env, method, { slug, limit, body } = {}) {
+  const endpoint = new URL(`${env.url}/functions/v1/blogs-api`);
+  if (slug) endpoint.searchParams.set("slug", slug);
+  if (limit) endpoint.searchParams.set("limit", String(limit));
+  const response = await fetch(endpoint, {
+    method,
+    headers: {
+      "x-api-key": env.blogsApiKey,
+      apikey: env.anonKey,
+      Authorization: `Bearer ${env.anonKey}`,
+      ...(body ? { "Content-Type": "application/json" } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const text = await response.text();
+  let payload = null;
+  try {
+    payload = text ? JSON.parse(text) : null;
+  } catch {
+    payload = { error: text.slice(0, 300) };
+  }
+  if (!response.ok) {
+    const message = payload && typeof payload === "object" && payload.error
+      ? payload.error
+      : `blogs-api ${method} failed (${response.status})`;
+    fail(String(message));
+  }
+  return payload;
+}
+
+function trimBlog(post, full) {
+  if (!post || full) return post;
+  const { content, ...rest } = post;
+  return rest;
+}
+
+async function runBlogsApi(command, flags, patch) {
+  const env = loadBlogsApiEnv();
+  const note = {
+    via: "lovable-blogs-api",
+    note: "Blog writes use /functions/v1/blogs-api. News is not on this function.",
+  };
+
+  if (command === "list") {
+    const limit = Math.min(Math.max(Number(flags.limit ?? 20) || 20, 1), 50);
+    const payload = await blogsApi(env, "GET", { limit: 50 });
+    let posts = Array.isArray(payload?.posts) ? payload.posts : [];
+    if (flags.q) {
+      const q = escapeSearch(flags.q).toLowerCase();
+      if (!q) fail("Search text is empty after removing filter characters.");
+      posts = posts.filter((post) =>
+        `${post.title ?? ""} ${post.slug ?? ""}`.toLowerCase().includes(q),
+      );
+    }
+    const rows = posts.slice(0, limit).map((post) => trimBlog(post, false));
+    printResult({ table: "blogs", count: rows.length, total: payload?.total ?? null, rows, ...note });
+    return;
+  }
+
+  if (command === "get") {
+    const slug = flags.slug;
+    if (!slug) fail("blogs-api reads by slug. Pass --slug.");
+    const payload = await blogsApi(env, "GET", { slug });
+    const post = payload?.post;
+    if (!post) fail(`No blogs row where slug=${slug}`);
+    printResult({ table: "blogs", row: trimBlog(post, flags.full), ...note });
+    return;
+  }
+
+  const slug = flags.slug ?? patch?.slug;
+  if (!slug) fail("blogs-api writes by slug. Pass --slug.");
+
+  if (!flags.apply) {
+    const payload = command === "update" ? await blogsApi(env, "GET", { slug }) : null;
+    const match = payload?.post ? trimBlog(payload.post, false) : null;
+    if (command === "update" && !match) fail(`No blogs row where slug=${slug}`);
+    printResult({
+      dryRun: true,
+      table: "blogs",
+      command,
+      match,
+      set: previewPatch(patch),
+      hint: "Re-run with --apply to write this change through blogs-api.",
+      ...note,
+    });
+    return;
+  }
+
+  if (command === "update") {
+    const payload = await blogsApi(env, "PATCH", { slug, body: { slug, ...patch } });
+    const post = payload?.post ?? payload;
+    printResult({
+      applied: true,
+      table: "blogs",
+      row: trimBlog(post, false),
+      updated: Object.keys(patch),
+      ...note,
+    });
+    return;
+  }
+
+  const payload = await blogsApi(env, "POST", { body: { slug, ...patch } });
+  printResult({ applied: true, table: "blogs", row: trimBlog(payload?.post ?? payload, false), ...note });
 }
 
 function readPatchValue(raw) {
@@ -334,6 +457,11 @@ async function main() {
     for (const key of spec.requiredCreate) {
       if (patch[key] == null || patch[key] === "") fail(`create ${table} requires ${key}.`);
     }
+  }
+
+  if (table === "blogs") {
+    await runBlogsApi(command, flags, patch);
+    return;
   }
 
   const { url, serviceKey } = loadEnvLocal();

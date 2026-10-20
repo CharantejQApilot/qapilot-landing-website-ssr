@@ -7,7 +7,7 @@ export function SecurityReportsOverviewSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-gradient-to-b from-background via-muted/10 to-background"
       aria-labelledby="sr-overview-heading"
     >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="sr-overview-heading"
           title={

@@ -13,7 +13,7 @@ export function BookDemoWhatToExpectSection() {
       className="section-edge relative w-full border-t border-border/60"
       aria-labelledby="book-demo-expect-heading"
     >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="book-demo-expect-heading"
           title={

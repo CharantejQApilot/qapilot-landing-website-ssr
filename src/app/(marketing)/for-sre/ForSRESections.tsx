@@ -87,7 +87,7 @@ export function ForSRESections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="sre-challenge-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="sre-challenge-heading"
             eyebrow="The challenge"
@@ -137,7 +137,7 @@ export function ForSRESections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="sre-outcomes-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="sre-outcomes-heading"
             eyebrow="Outcomes"
@@ -180,7 +180,7 @@ export function ForSRESections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="sre-built-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="sre-built-heading"
             eyebrow="Operations"
@@ -222,7 +222,7 @@ export function ForSRESections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background"
         aria-labelledby="sre-why-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <div className="sig-close">
             <MarketingSectionHeader
               id="sre-why-heading"

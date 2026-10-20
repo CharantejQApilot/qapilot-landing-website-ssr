@@ -59,7 +59,6 @@ export const MCP_GUIDE_NAV: readonly McpGuideNavGroup[] = [
   {
     heading: "Getting Started",
     links: [
-      { href: "#overview", label: "Overview" },
       { href: "#prereqs", label: "Prerequisites" },
       { href: "#install", label: "Install CLI" },
       { href: "#appium", label: "Appium Setup" },

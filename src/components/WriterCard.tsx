@@ -41,16 +41,17 @@ const WriterCard = ({ name, designation, description, linkedinUrl, profileImage 
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
               <p className="text-xl font-semibold text-foreground">{name}</p>
               {linkedinUrl && (
-                <a
-                  href={linkedinUrl}
-                  target="_blank"
-                  rel="noopener"
+                <button
+                  type="button"
                   className="inline-flex items-center justify-center sm:justify-start gap-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
                   title={`Connect with ${name} on LinkedIn`}
+                  onClick={() => {
+                    window.open(linkedinUrl, "_blank", "noopener,noreferrer");
+                  }}
                 >
                   <Linkedin className="w-4 h-4" />
                   <span>LinkedIn</span>
-                </a>
+                </button>
               )}
             </div>
             {designation && (

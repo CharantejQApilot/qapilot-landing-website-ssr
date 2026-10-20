@@ -19,6 +19,11 @@ const RELATED_GUIDE: Record<string, { href: string; text: string }> = {
   },
 };
 
+const NEXT_STEP: Record<string, string> = {
+  "api-automation-testing-tool-guide":
+    "Next step: use the comparison in this guide to pick the API checks you need, then book a demo to run one mobile flow that depends on those APIs.",
+};
+
 const FURTHER_READING: Record<string, { href: string; label: string }> = {
   "regression-testing": {
     href: "https://developer.android.com/training/testing/fundamentals",
@@ -38,10 +43,16 @@ const FURTHER_READING: Record<string, { href: string; label: string }> = {
 export function QaGuideCrawlSupplements({ slug }: { slug: string }) {
   const related = RELATED_GUIDE[slug];
   const further = FURTHER_READING[slug];
-  if (!GUIDE_SLUGS.has(slug) && !related) return null;
+  const nextStep = NEXT_STEP[slug];
+  if (!GUIDE_SLUGS.has(slug) && !related && !nextStep) return null;
 
   return (
     <div className="mt-10 border-t border-border pt-8">
+      {nextStep ? (
+        <p className="mb-6 text-base leading-relaxed text-foreground/90 md:text-lg">
+          {nextStep}
+        </p>
+      ) : null}
       {related ? (
         <p className="mb-6 text-base leading-relaxed text-foreground/90 md:text-lg">
           {related.text}{" "}

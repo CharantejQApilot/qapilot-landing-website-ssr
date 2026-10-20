@@ -117,9 +117,9 @@ const STATIC_PAGES: Record<string, PageMeta> = {
       "QApilot exists to make mobile testing effortless, scalable, and future-ready for every team, from startups to global enterprises. Learn about our mission and vision.",
   },
   "/careers": {
-    title: "Careers - Join the QApilot Team",
+    title: "Careers. Working at QApilot",
     description:
-      "Join the QApilot team. Help shape what quality looks like in an AI-first world. Reach out with a general application for careers in AI-powered quality assurance.",
+      "What working at QApilot is like: a small distributed team building AI-native mobile testing for Android, iOS, and Flutter. The group grows when the work needs another owner.",
   },
   "/partners": {
     title: "Partners Program. Grow Mobile QA | QApilot",

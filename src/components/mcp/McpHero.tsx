@@ -41,10 +41,10 @@ export function McpHero() {
               )}
             >
               <span className="flex flex-col items-start gap-y-2 sm:gap-y-2.5 md:gap-y-3.5 lg:gap-y-4">
-                <span>Test At The Speed Of</span>
                 <span>
-                  Your <span className="text-hero-here">Coding Agents</span>
+                  <span className="text-hero-here">QApilot</span> MCP
                 </span>
+                <span>For Your Coding Agents</span>
               </span>
             </h1>
             <p
@@ -53,9 +53,10 @@ export function McpHero() {
                 "lg:max-w-xl xl:max-w-2xl",
               )}
             >
-              Say what needs to hold. Your coding agent writes mobile code
-              faster than anyone can check it. QApilot runs the test on your
-              device and returns a report your agent can read.
+              Test at the speed of your coding agents. Say what needs to
+              hold. Your coding agent writes mobile code faster than anyone
+              can check it. QApilot runs the test on your device and returns a
+              report your agent can read.
             </p>
             <div className="sig-cta-row mt-8 w-full justify-start sm:mt-10">
               <HomeHeroCta href={PATHS.MCP_GUIDE} variant="primary">

@@ -129,7 +129,7 @@ export default async function QaGuideHubPage() {
             lead="Practical mobile testing guides. Comparisons, checklists, and patterns for QE leaders and engineers."
           />
 
-          <div className="section-full home-canvas py-14 md:py-20">
+          <div className="section-full home-canvas pb-14 pt-6 md:pb-20 md:pt-8">
             <div className={LIST_MAX_WIDTH}>
               <section
                 aria-labelledby="qa-guide-intro"
@@ -147,8 +147,7 @@ export default async function QaGuideHubPage() {
                     testing types, banking and Flutter scenarios, automation
                     strategy, and release checklists. Guides cite measured runs,
                     including WIO&apos;s 89.3% step success on 11,025 nightly
-                    steps. Aditya Challa and Chaitanya Devalapally founded
-                    QApilot in Hyderabad in 2024.
+                    steps.
                   </p>
                   <p>
                     Use these resources alongside the QApilot platform to plan

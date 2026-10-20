@@ -17,7 +17,7 @@ export function GuideSection({
     <section
       id={id}
       data-guide-section={id}
-      className="scroll-mt-8 border-b border-border/80 py-12 last:border-b-0 last:pb-0 md:py-14"
+      className="scroll-mt-24 border-b border-border/80 py-12 last:border-b-0 last:pb-0 md:py-14"
     >
       {children}
     </section>

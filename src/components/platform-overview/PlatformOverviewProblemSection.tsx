@@ -65,7 +65,7 @@ export function PlatformOverviewProblemSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
       aria-labelledby="platform-problem-heading"
     >
-      <div className="section-full pt-10 md:pt-14 2xl:pt-16">
+      <div className="section-full pt-16 md:pt-20 lg:pt-24">
         <MarketingSectionHeader
           id="platform-problem-heading"
           title={
@@ -146,7 +146,7 @@ export function PlatformOverviewProblemSection() {
         </div>
       </div>
 
-      <div className="section-full border-t border-border/50 pt-8 pb-10 md:pt-10 md:pb-12 2xl:pt-12 2xl:pb-14">
+      <div className="section-full border-t border-border/50 pt-8 pb-16 md:pt-10 md:pb-20 lg:pb-24 2xl:pt-12">
         <p className="max-w-none text-left text-lg font-medium leading-snug tracking-tight text-foreground md:text-xl lg:text-xl lg:whitespace-nowrap lg:leading-tight xl:text-2xl">
           Solving any one of these in isolation isn&apos;t enough. Reliable
           mobile testing requires addressing all three -{" "}

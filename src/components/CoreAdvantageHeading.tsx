@@ -194,7 +194,7 @@ export default function CoreAdvantageHeading() {
     >
       <HomeSeam />
 
-      <div className="section-full relative z-10 pt-20 md:pt-28 lg:pt-36 pb-16 md:pb-20 2xl:pb-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="core-advantage-heading"
           eyebrow="Platform"

@@ -25,7 +25,7 @@ export default function TestingModesSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
       aria-labelledby="testing-modes-heading"
     >
-      <div className="section-full py-14 md:py-20 2xl:py-24">
+      <div className="section-full py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="testing-modes-heading"
           title={

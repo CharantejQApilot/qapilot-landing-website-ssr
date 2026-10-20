@@ -119,7 +119,10 @@ a:hover .home-logo-mark,
     display: none;
   }
 
-  .home-hero-timer-bar {
+  .home-hero-timer-bar,
+  .mcp-terminal-float,
+  .mcp-terminal-glow,
+  .mcp-terminal-scan {
     animation: none;
   }
 }

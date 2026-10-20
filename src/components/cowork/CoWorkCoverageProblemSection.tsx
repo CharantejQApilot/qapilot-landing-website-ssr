@@ -14,7 +14,7 @@ export function CoWorkCoverageProblemSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60"
       aria-labelledby="cowork-coverage-heading"
     >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="cowork-coverage-heading"
           title={

@@ -48,8 +48,22 @@ Deno.serve(async (req) => {
 
     const base = siteBaseUrl()
 
+    // CMS rows keep the long slug. The site 308s those to a short canonical.
+    // Keep in sync with src/lib/content-slug-aliases.ts.
+    const BLOG_CMS_TO_SHORT: Record<string, string> = {
+      'leveraging-image-recognition-for-robust-and-self-healing-test-automation-with-qapilot':
+        'image-recognition-self-healing-tests',
+      'beyond-sequential-testing-accelerate-your-mobile-app-testing-with-parallel-execution':
+        'parallel-mobile-app-testing',
+    }
+    const RETIRED_BLOG_SLUGS = new Set([
+      'best-browserstack-alternatives-2026',
+    ])
+
     // Generate XML sitemap with image and video extensions
-    const urlEntries = blogs?.map(blog => {
+    const urlEntries = blogs?.flatMap(blog => {
+      if (RETIRED_BLOG_SLUGS.has(blog.slug)) return []
+      const slug = BLOG_CMS_TO_SHORT[blog.slug] ?? blog.slug
       let imageTag = ''
       if (blog.featured_image) {
         imageTag = `
@@ -73,12 +87,12 @@ Deno.serve(async (req) => {
         }
       }
 
-      return `  <url>
-    <loc>${base}/blogs/${blog.slug}</loc>
+      return [`  <url>
+    <loc>${base}/blogs/${slug}</loc>
     <lastmod>${new Date(blog.updated_at).toISOString().split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>${imageTag}${videoTag}
-  </url>`
+  </url>`]
     }).join('\n') || ''
 
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>

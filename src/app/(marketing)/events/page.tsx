@@ -94,7 +94,7 @@ export default function EventsPage() {
             lead="Practical sessions on AI mobile testing, agentic QA, and the engineering practices that make shipping faster feel safe. Join us live or catch the recordings."
           />
 
-          <div className="section-full home-canvas py-14 md:py-20">
+          <div className="section-full home-canvas pb-14 pt-6 md:pb-20 md:pt-8">
             <div className={LIST_MAX_WIDTH}>
               {eventCount === 0 ? (
                 <div className="flex flex-col items-center py-24 text-center">

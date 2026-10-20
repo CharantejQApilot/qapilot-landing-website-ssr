@@ -113,7 +113,7 @@ export function BringYourOwnAgentWhySection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
       aria-labelledby="byoa-why-heading"
     >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="byoa-why-heading"
           eyebrow="Extensibility"
@@ -194,7 +194,7 @@ export function BringYourOwnAgentFoundationSection() {
         aria-hidden
       />
 
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="byoa-foundation-heading"
           eyebrow="Shared context"
@@ -278,7 +278,7 @@ export function BringYourOwnAgentHowSection() {
         aria-hidden
       />
 
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="byoa-how-heading"
           eyebrow="Architecture"
@@ -335,7 +335,7 @@ export function BringYourOwnAgentEnablesSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
       aria-labelledby="byoa-enables-heading"
     >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="byoa-enables-heading"
           eyebrow="Coverage"
@@ -378,7 +378,7 @@ export function BringYourOwnAgentPositioningSection() {
       className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-muted/10"
       aria-labelledby="byoa-positioning-heading"
     >
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="byoa-positioning-heading"
           eyebrow="Principles"
@@ -441,7 +441,7 @@ export function BringYourOwnAgentPositioningSection() {
 export function BringYourOwnAgentUsefulSection() {
   return (
     <section
-      className="section-navy relative section-edge w-full overflow-hidden border-t border-white/10 pb-8 pt-14 md:pb-12 md:pt-20 2xl:pb-14 2xl:pt-24"
+      className="section-navy relative section-edge w-full overflow-hidden border-t border-white/10 py-16 md:py-20 lg:py-24"
       aria-labelledby="byoa-useful-heading"
     >
       <div

@@ -32,7 +32,7 @@ function PillarShell({
  return (
  <div id={id} className="scroll-mt-24">
  <div className="section-edge relative w-full border-t border-border/60 bg-background">
- <div className="section-full relative z-10 pt-14 md:pt-20 2xl:pt-24">
+ <div className="section-full relative z-10 pt-16 md:pt-20 lg:pt-24">
  <MarketingSectionHeader
  id={titleId}
  eyebrow="Release Readiness Suite"

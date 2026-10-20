@@ -8,7 +8,7 @@ const HowWeWorkSection = () => {
       className="section-edge relative w-full border-t border-border/60 bg-background"
       aria-labelledby="how-we-work-heading"
     >
-      <div className="section-full py-14 md:py-20 2xl:py-24">
+      <div className="section-full py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="how-we-work-heading"
           title={
@@ -29,7 +29,9 @@ const HowWeWorkSection = () => {
 
           <p className={cn(marketingSectionIntroClass, "!text-foreground/90")}>
             People take responsibility, step in where needed, and focus on
-            outcomes over roles.
+            outcomes over roles. A demo, a customer call, or a broken nightly
+            run can change the plan the same day, and nobody waits on a handoff
+            to start.
           </p>
 
           <div className="flex flex-wrap gap-3">

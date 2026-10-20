@@ -155,7 +155,7 @@ export function PlatformOverviewQualityJourneySection() {
     >
       <MarketingBackground variant="soft" className="z-0" />
 
-      <div className="section-full relative z-[1] pt-10 pb-10 md:pt-14 md:pb-14 2xl:pt-16 2xl:pb-16">
+      <div className="section-full relative z-[1] py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="platform-quality-journey-heading"
           title={

@@ -21,7 +21,7 @@ export function AutonomousTestingAgentsSection() {
       aria-labelledby="autonomous-agents-heading"
     >
 
-      <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+      <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
         <MarketingSectionHeader
           id="autonomous-agents-heading"
           title={
