@@ -50,6 +50,8 @@ export function MarketingThesisHero({
   paddingClassName,
   className,
 }: MarketingThesisHeroProps) {
+  const copyOnly = !media && !cta && !children;
+  const hasBelowTitle = Boolean(lead || children || cta);
   const copy = (
     <div
       className={cn(
@@ -65,7 +67,8 @@ export function MarketingThesisHero({
         id={titleId}
         className={cn(
           marketingHeroH1Class,
-          "mb-5 w-full text-balance sm:mb-6 md:mb-8",
+          "w-full text-balance",
+          hasBelowTitle && "mb-5 sm:mb-6 md:mb-8",
           "max-lg:text-[clamp(1.9rem,7.5vw,4.15rem)] max-lg:leading-[1.08]",
         )}
       >
@@ -74,11 +77,21 @@ export function MarketingThesisHero({
 
       {lead ? (
         typeof lead === "string" ? (
-          <p className={cn(marketingHeroLeadClass, "mb-8 sm:mb-10 md:mb-11")}>
+          <p
+            className={cn(
+              marketingHeroLeadClass,
+              (children || cta) && "mb-8 sm:mb-10 md:mb-11",
+            )}
+          >
             {lead}
           </p>
         ) : (
-          <div className={cn(marketingHeroLeadClass, "mb-8 sm:mb-10 md:mb-11")}>
+          <div
+            className={cn(
+              marketingHeroLeadClass,
+              (children || cta) && "mb-8 sm:mb-10 md:mb-11",
+            )}
+          >
             {lead}
           </div>
         )
@@ -120,7 +133,9 @@ export function MarketingThesisHero({
               ? paddingClassName
               : fillViewport
                 ? "flex flex-col pt-10 sm:pt-16 md:pt-20 lg:pt-0 lg:pb-0"
-                : "py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32",
+                : copyOnly
+                  ? "pb-6 pt-10 sm:pb-8 sm:pt-12 md:pt-14 lg:pb-8 lg:pt-16"
+                  : "pb-8 pt-10 sm:pb-10 sm:pt-12 md:pt-14 lg:pb-10 lg:pt-16",
           )}
         >
           {media ? (

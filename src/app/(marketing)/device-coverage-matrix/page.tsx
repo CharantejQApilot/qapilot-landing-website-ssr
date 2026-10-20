@@ -25,13 +25,12 @@ export const revalidate = 3600;
 
 const deviceCoverageWebAppJsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "Service",
   name: "Device Coverage Matrix",
+  serviceType: "Device coverage planning",
   description:
     "Free QApilot Labs tool to plan mobile device coverage from real OEM + platform share data.",
   url: canonicalUrl,
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Any",
   offers: {
     "@type": "Offer",
     price: "0",

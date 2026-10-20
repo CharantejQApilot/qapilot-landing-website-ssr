@@ -147,7 +147,7 @@ export default async function NewsPage() {
             lead="Stay up to date with the latest announcements and updates from QApilot."
           />
 
-          <div className="section-full home-canvas py-14 md:py-20">
+          <div className="section-full home-canvas pb-14 pt-6 md:pb-20 md:pt-8">
             <div className={LIST_MAX_WIDTH}>
               <section
                 aria-labelledby="news-intro"

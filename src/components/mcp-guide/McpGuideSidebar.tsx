@@ -47,7 +47,7 @@ function NavLinks({
 }
 
 export function McpGuideSidebar() {
-  const [activeHref, setActiveHref] = useState("#overview");
+  const [activeHref, setActiveHref] = useState("#prereqs");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function McpGuideSidebar() {
 
   const activeLabel =
     MCP_GUIDE_NAV.flatMap((g) => g.links).find((l) => l.href === activeHref)
-      ?.label ?? "Overview";
+      ?.label ?? "Prerequisites";
 
   return (
     <>

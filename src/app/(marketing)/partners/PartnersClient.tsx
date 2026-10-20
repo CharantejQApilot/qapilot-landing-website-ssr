@@ -183,7 +183,7 @@ const PartnersClient = () => {
         aria-labelledby="partners-hero-title"
       >
         <MarketingBackground variant="hero" />
-        <div className="relative z-10 section-full py-14 sm:py-16 md:py-20 lg:py-24 2xl:py-28">
+        <div className="relative z-10 section-full pb-8 pt-10 sm:pt-12 md:pt-14 lg:pt-16">
           <div className="flex max-w-5xl flex-col items-start text-left">
             <h1
               id="partners-hero-title"
@@ -193,8 +193,7 @@ const PartnersClient = () => {
                 "max-lg:text-[clamp(1.35rem,0.95rem+2.4vw,3.45rem)] max-lg:leading-[1.12]",
               )}
             >
-              Build The Next Chapter Of{" "}
-              <span className="text-primary">Mobile QE</span> With Us
+              <span className="text-primary">QApilot</span> Partner Program
             </h1>
             <p
               className={cn(
@@ -202,7 +201,8 @@ const PartnersClient = () => {
                 "mb-10 sm:mb-11",
               )}
             >
-              Help customers move from brittle mobile automation to AI-native
+              Build the next chapter of mobile QE with us. Help customers
+              move from brittle mobile automation to AI-native
               release readiness. QApilot gives partners a mobile-first platform
               to land faster, expand wider, and bring agentic AI into every QA
               conversation. Feuji-partnered workshops at GrowSari walked the
@@ -222,7 +222,7 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full home-tint py-12 md:py-16 2xl:py-20"
+        className="section-edge w-full home-tint py-16 md:py-20 lg:py-24"
         aria-labelledby="partner-opportunity-heading"
       >
         <div className="section-full">
@@ -269,7 +269,7 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
+        className="section-edge w-full border-b border-border/50 bg-background py-16 md:py-20 lg:py-24"
         aria-labelledby="partners-logos-heading why-partners-heading"
       >
         <div className="section-full">
@@ -320,7 +320,7 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-background to-muted/15 py-12 md:py-16 2xl:py-20"
+        className="section-edge w-full border-b border-border/50 bg-gradient-to-b from-background to-muted/15 py-16 md:py-20 lg:py-24"
         aria-labelledby="partner-types-heading"
       >
         <div className="section-full">
@@ -355,7 +355,7 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-b border-border/50 bg-background py-12 md:py-16 2xl:py-20"
+        className="section-edge w-full border-b border-border/50 bg-background py-16 md:py-20 lg:py-24"
         aria-labelledby="revenue-heading"
       >
         <div className="section-full">
@@ -389,7 +389,7 @@ const PartnersClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-b border-border/50 bg-muted/10 py-12 md:py-16 2xl:py-20"
+        className="section-edge w-full border-b border-border/50 bg-muted/10 py-16 md:py-20 lg:py-24"
         aria-labelledby="portfolio-heading"
       >
         <div className="section-full">

@@ -12,13 +12,13 @@ const heroContentShellClass =
 export default function HeroSection() {
   return (
     <section
-      className="hero-prominent relative section-edge flex w-full flex-col overflow-x-clip home-canvas lg:min-h-[calc(100dvh-4.375rem)]"
+      className="hero-prominent relative section-edge flex w-full flex-col overflow-x-clip home-canvas"
       aria-label="Hero"
     >
       <div className="relative z-10 flex min-h-0 w-full flex-1 flex-col">
         <div className="relative flex min-h-0 flex-1 flex-col">
           <HomeHeroAtmosphere />
-          <div className="section-full relative z-[1] flex min-h-0 flex-1 flex-col pt-5 sm:pt-6 md:pt-8 lg:pt-6 pb-8 sm:pb-10 md:pb-12">
+          <div className="section-full relative z-[1] flex min-h-0 flex-1 flex-col pt-5 sm:pt-6 md:pt-8 lg:pt-24 pb-8 sm:pb-10 md:pb-12 lg:pb-28">
             <div className={`${heroContentShellClass} min-h-0 flex-1`}>
               <HomeHeroContent />
             </div>

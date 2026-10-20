@@ -16,8 +16,8 @@ import { HOME_HERO_EXPLORE_IDLE_MS } from "@/lib/home-hero-explore";
 import { cn } from "@/lib/utils";
 
 /** Own chunk. The slide stays in the server HTML so the hero height does not jump. */
-const HomeHeroDualDevicePanel = dynamic(
-  () => import("@/components/home-hero/HomeHeroDualDevicePanel"),
+const HomeHeroMcpPanel = dynamic(
+  () => import("@/components/home-hero/HomeHeroMcpPanel"),
 );
 
 type PanelId = "landing" | "secondary";
@@ -124,20 +124,19 @@ export default function HomeHeroExploreStage({
   });
 
   return (
-    <div className="flex min-h-0 w-full flex-1 flex-col items-stretch justify-center gap-3 sm:gap-4">
-      <div
-        ref={stageRef}
-        className="relative grid w-full min-w-0"
-        aria-live="polite"
-        onMouseEnter={pauseAuto}
-        onMouseLeave={resumeAuto}
-        onFocusCapture={pauseAuto}
-        onBlurCapture={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-            resumeAuto();
-          }
-        }}
-      >
+    <div
+      ref={stageRef}
+      className="flex w-full flex-col"
+      onMouseEnter={pauseAuto}
+      onMouseLeave={resumeAuto}
+      onFocusCapture={pauseAuto}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          resumeAuto();
+        }
+      }}
+    >
+      <div className="grid w-full min-w-0" aria-live="polite">
         <div
           ref={landingRef}
           className={cn(
@@ -164,12 +163,12 @@ export default function HomeHeroExploreStage({
           aria-hidden={!showSecondary}
         >
           <div className="h-full min-h-0 w-full min-w-0">
-            <HomeHeroDualDevicePanel active={showSecondary} />
+            <HomeHeroMcpPanel />
           </div>
         </div>
       </div>
 
-      <div className="flex shrink-0 flex-col items-start gap-2.5">
+      <div className="mt-8 flex shrink-0 flex-col items-start gap-2.5 lg:mt-10">
         {!reducedMotion && (
           <div
             className={cn(
@@ -221,7 +220,7 @@ export default function HomeHeroExploreStage({
             type="button"
             role="tab"
             aria-selected={showSecondary}
-            aria-label="Show Dual Device Testing"
+            aria-label="Show QApilot MCP"
             className={cn(
               "h-1.5 w-4 rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               showSecondary
@@ -238,7 +237,7 @@ export default function HomeHeroExploreStage({
             onClick={goToSecondary}
             className="rounded-sm text-sm font-medium text-primary underline decoration-primary/45 underline-offset-[0.2em] transition-colors hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            Dual Device Testing
+            QApilot MCP
           </button>
         )}
       </div>

@@ -1,13 +1,25 @@
 ---
-description: Edit blogs, news, FAQs, and other CMS copy from this repo with scripts/cms-content.mjs
+description: Edit live CMS copy. Blogs go through the Lovable blogs-api, never the Supabase service-role key.
 alwaysApply: true
 ---
 
 # CMS content edits
 
-When the user asks to change live CMS copy (blogs, news, FAQs, careers, terms, writers, or QA Guide body text), use `scripts/cms-content.mjs`. Do not add a SQL migration for a content edit, and do not tell the user to paste it into the admin UI unless the script cannot reach Supabase.
+When the user asks to change live CMS copy (blogs, news, FAQs, careers, terms, writers, or QA Guide body text), use `scripts/cms-content.mjs`. Do not add a SQL migration for a content edit, and do not tell the user to paste it into the admin UI unless the script cannot reach the CMS.
 
-The script reads `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` from `.env.local`. It writes only with `--apply`. Run a dry run first, then apply.
+## Blogs — Lovable blogs-api
+
+Blog reads and writes do **not** use `SUPABASE_SERVICE_ROLE_KEY`. That key is not in `.env.local`. Do not search for it, and do not report that blog edits failed because it is missing.
+
+`scripts/cms-content.mjs` sends blog commands to the Lovable Cloud function `https://<project>.supabase.co/functions/v1/blogs-api`. Auth comes from `.env.local`:
+
+- `BLOGS_API_KEY` as the `x-api-key` header
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` as `apikey` and `Authorization: Bearer`
+- `NEXT_PUBLIC_SUPABASE_URL` for the function host
+
+`PATCH` must include `slug` in the JSON body. The same commands as below work; the script routes `blogs` itself. News is not on this function.
+
+The script writes only with `--apply`. Run a dry run first, then apply. Other tables still need `SUPABASE_SERVICE_ROLE_KEY` when that key exists.
 
 ```bash
 node scripts/cms-content.mjs list blogs --q "keyword"

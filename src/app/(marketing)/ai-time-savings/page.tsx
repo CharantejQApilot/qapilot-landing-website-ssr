@@ -25,13 +25,12 @@ export const revalidate = 3600;
 
 const aiTimeSavingsWebAppJsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "Service",
   name: "AI Time Savings Calculator",
+  serviceType: "QA effort calculator",
   description:
     "Free QApilot Labs tool to model real effort savings from AI-generated test cases versus manual QA.",
   url: canonicalUrl,
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Any",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -69,8 +68,7 @@ export default function AiTimeSavingsPage() {
               A worked example from WIO: one regression cycle is 20.3 hours of
               execution, equal to about 2.5 engineer-days, and 97% of it runs
               with no engineer present. The calculator below is for your own
-              inputs. QApilot was founded in 2024 by Aditya Challa and
-              Chaitanya Devalapally.
+              inputs.
             </p>
           </section>
           <AiTimeSavingsCalculator />

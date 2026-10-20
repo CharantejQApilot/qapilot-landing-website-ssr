@@ -16,12 +16,12 @@ export function PlatformOverviewHero() {
         <div className="sig-split max-lg:[grid-template-columns:minmax(0,1fr)] min-h-0 items-center gap-8 sm:gap-10 lg:min-h-[70vh] lg:items-stretch lg:gap-14 lg:[grid-template-columns:2fr_3fr] xl:gap-16 2xl:gap-20">
           <div className="order-1 flex flex-col justify-center text-left">
             <h1 className={cn(marketingHeroH1Class, "mb-3 sm:mb-5 md:mb-6")}>
-              Built For <span className="text-primary">Release Readiness</span>
+              QApilot for <span className="text-primary">Release Readiness</span>
             </h1>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg xl:text-xl 2xl:text-2xl">
               A unified system of capabilities designed to help teams generate coverage, reduce test maintenance,
               detect critical issues, and validate mobile releases with confidence. The published WIO run is
-              11,025 steps at 89.3% step success. Aditya Challa and Chaitanya Devalapally founded QApilot in 2024.
+              11,025 steps at 89.3% step success.
             </p>
             <div className="mt-6 sm:mt-8 md:mt-10">
               <BookDemoLinkButton

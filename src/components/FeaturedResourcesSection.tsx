@@ -42,7 +42,7 @@ export default function FeaturedResourcesSection({
 
   return (
     <section className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background">
-      <div className="section-full py-14 md:py-20 2xl:py-24">
+      <div className="section-full py-16 md:py-20 lg:py-24">
         <MarketingLedger cols={2} aria-label="Enterprise capabilities">
           {resources.map((resource) => (
             <MarketingLedgerCell key={resource.header} className="flex flex-col">

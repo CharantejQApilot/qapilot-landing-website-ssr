@@ -6,17 +6,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Real 700 / 500 files live on their own families so they are not preloaded
-   with the first-screen fonts. Same glyphs as before. */
-.font-heading.font-bold {
-  font-family: var(--font-heading-bold), var(--font-heading), var(--font-sans),
-    sans-serif;
-}
-
-.font-medium:not(.font-heading) {
-  font-family: var(--font-sans-medium), var(--font-sans), sans-serif;
-}
-
 /* QApilot Design Foundation v5. Harvey, Spur, PlayerZero, TestMu inspired
    Elegant SaaS: clean backgrounds, refined typography, subtle depth
    Space Grotesk headings · Source Sans 3 body · HSL tokens */
@@ -669,6 +658,47 @@
     to {
       transform: scaleX(1);
     }
+  }
+
+  @keyframes mcp-terminal-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes mcp-terminal-glow {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes mcp-terminal-scan {
+    0% {
+      transform: translateY(-120%);
+    }
+    100% {
+      transform: translateY(420%);
+    }
+  }
+
+  .mcp-terminal-float {
+    animation: mcp-terminal-float 7s ease-in-out infinite;
+  }
+
+  .mcp-terminal-glow {
+    animation: mcp-terminal-glow 4.5s ease-in-out infinite;
+  }
+
+  .mcp-terminal-scan {
+    animation: mcp-terminal-scan 5.5s ease-in-out infinite;
   }
 
   /* "Here" / accent word in hero headlines */

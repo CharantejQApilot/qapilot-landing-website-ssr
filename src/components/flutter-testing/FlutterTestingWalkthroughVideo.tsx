@@ -9,6 +9,7 @@ export function FlutterTestingWalkthroughVideo() {
     <ScenicYoutubeVideo
       videoId={VIDEO_ID}
       ariaLabel="Walkthrough: Flutter testing on QApilot"
+      className="mb-0 lg:mb-0 2xl:mb-0"
     />
   );
 }

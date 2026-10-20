@@ -23,7 +23,7 @@ const MetricsSection = () => {
     <section className="relative w-full overflow-hidden section-edge section-navy">
       <HomeSeam invert />
       <HomeDarkAtmosphere glow="left" />
-      <div className="section-full relative py-16 md:py-20 lg:pb-0 lg:pt-20">
+      <div className="section-full relative pt-16 md:pt-20 lg:pt-24">
         <HomeEyebrow invert>At scale</HomeEyebrow>
         <h2
           className={cn(
@@ -40,7 +40,7 @@ const MetricsSection = () => {
       </div>
 
       <div
-        className="relative mt-10 w-full border-t border-white/10 md:mt-12"
+        className="relative mt-10 w-full border-t border-white/10 pb-12 md:mt-12 md:pb-16 lg:pb-20"
         aria-label="Platform metrics"
       >
         <div className="section-full flex w-full overflow-x-auto">

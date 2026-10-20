@@ -158,7 +158,7 @@ export function HomeExitIntentEmailForm({
               "h-[2.75em] w-full rounded-lg text-[1em] font-semibold",
             )}
           >
-            {isSubmitting ? "Sending…" : "Book my demo"}
+            {isSubmitting ? "Sending…" : "Book a Demo"}
           </Button>
 
           {submitError ? (

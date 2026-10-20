@@ -31,7 +31,7 @@ export function DeviceMetricsSection() {
       className="section-edge relative w-full overflow-hidden bg-gradient-to-b from-muted/10 via-background to-background"
       aria-label="Device metrics capabilities"
     >
-      <div className="section-full relative z-10 pb-14 pt-10 md:pb-20 md:pt-12 2xl:pb-24">
+      <div className="section-full relative z-10 pb-16 pt-10 md:pb-20 md:pt-12 lg:pb-24">
         <MarketingLedger cols={2} aria-label="Device metrics capabilities">
           {METRICS.map(({ title, line, Icon }) => (
             <MarketingLedgerCell key={title} as="article">

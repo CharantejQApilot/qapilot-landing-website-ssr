@@ -26,7 +26,7 @@ const config = {
       Autonomous Mobile QA
     </>
   ),
-  lead: "Sauce Labs provides cloud-based device and browser infrastructure for test execution. QApilot adds autonomous coverage: WIO's published suite is 11,025 steps at 89.3% step success, run by a team Aditya Challa and Chaitanya Devalapally started in 2024.",
+  lead: "Sauce Labs provides cloud-based device and browser infrastructure for test execution. QApilot adds autonomous coverage: WIO's published suite is 11,025 steps at 89.3% step success.",
   competitorSubtitle: "Continuous Testing Platform",
   competitorBody:
     "Sauce Labs offers device clouds, test orchestration, and analytics for teams running automated tests at scale. Test authoring, maintenance, and coverage gaps remain the team's responsibility.",
