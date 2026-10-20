@@ -78,7 +78,7 @@ export function ForProductOwnerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="pm-challenge-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="pm-challenge-heading"
             eyebrow="The challenge"
@@ -128,7 +128,7 @@ export function ForProductOwnerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="pm-outcomes-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="pm-outcomes-heading"
             eyebrow="Outcomes"
@@ -171,7 +171,7 @@ export function ForProductOwnerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="pm-built-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="pm-built-heading"
             eyebrow="Delivery"
@@ -213,7 +213,7 @@ export function ForProductOwnerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background"
         aria-labelledby="pm-why-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <div className="sig-close">
             <MarketingSectionHeader
               id="pm-why-heading"

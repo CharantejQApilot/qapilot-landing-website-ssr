@@ -5,7 +5,7 @@ import {
 import { cn } from "@/lib/utils";
 
 type ProductHuntTopPostBadgeProps = {
-  align?: "center" | "start";
+  align?: "center" | "start" | "end";
   className?: string;
   badge?: ProductHuntTopPostBadge;
 };
@@ -23,7 +23,7 @@ export default function HomeHeroProductHuntBadge({
     <div
       className={cn(
         "flex w-full min-w-0 shrink-0",
-        align === "center" ? "justify-center" : "justify-start",
+        align === "center" ? "justify-center" : align === "end" ? "justify-end" : "justify-start",
         className,
       )}
     >
@@ -33,7 +33,7 @@ export default function HomeHeroProductHuntBadge({
         rel="noopener noreferrer"
         className={cn(
           "inline-flex max-w-full transition-opacity hover:opacity-90",
-          align === "center" ? "justify-center" : "justify-start",
+          align === "center" ? "justify-center" : align === "end" ? "justify-end" : "justify-start",
         )}
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- self-hosted PH badge; keep H1 as LCP */}

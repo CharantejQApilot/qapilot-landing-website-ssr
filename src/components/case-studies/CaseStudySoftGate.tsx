@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
+import { X } from "lucide-react";
 import { LeadMagnetEmailCapture } from "@/components/lead-magnet";
 import type { CaseStudy } from "@/lib/case-studies-data";
 import {
@@ -22,6 +25,12 @@ type CaseStudySoftGateProps = {
 export function CaseStudySoftGate({ study, children }: CaseStudySoftGateProps) {
   const [unlocked, setUnlocked] = useState(false);
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
+
+  const closeGate = () => {
+    if (window.history.length > 1) router.back();
+    else router.push("/case-studies");
+  };
 
   useEffect(() => {
     setUnlocked(isCaseStudiesUnlockedIncludingSession());
@@ -51,14 +60,22 @@ export function CaseStudySoftGate({ study, children }: CaseStudySoftGateProps) {
         {children}
       </div>
 
-      {showGate ? (
+      {showGate ? createPortal(
         <div
           className="fixed inset-0 z-[1200] flex items-end justify-center bg-background/70 p-4 backdrop-blur-[2px] sm:items-center sm:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby={`case-study-gate-title-${study.slug}`}
         >
-          <div className="w-full max-w-lg rounded-2xl border border-border bg-background p-6 shadow-lg sm:p-8">
+          <div className="relative w-full max-w-lg rounded-2xl border border-border bg-background p-6 shadow-lg sm:p-8">
+            <button
+              type="button"
+              onClick={closeGate}
+              aria-label="Close and go back"
+              className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+            >
+              <X className="h-5 w-5" aria-hidden />
+            </button>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
               Case studies
             </p>
@@ -98,7 +115,8 @@ export function CaseStudySoftGate({ study, children }: CaseStudySoftGateProps) {
               />
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </div>
   );

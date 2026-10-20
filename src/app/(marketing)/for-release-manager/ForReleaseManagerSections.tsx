@@ -80,7 +80,7 @@ export function ForReleaseManagerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="rm-challenge-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="rm-challenge-heading"
             eyebrow="The challenge"
@@ -130,7 +130,7 @@ export function ForReleaseManagerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="rm-outcomes-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="rm-outcomes-heading"
             eyebrow="Outcomes"
@@ -173,7 +173,7 @@ export function ForReleaseManagerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-background"
         aria-labelledby="rm-release-ops-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="rm-release-ops-heading"
             eyebrow="Release ops"
@@ -220,7 +220,7 @@ export function ForReleaseManagerSections() {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background"
         aria-labelledby="rm-why-heading"
       >
-        <div className="section-full relative z-10 py-14 md:py-20 2xl:py-24">
+        <div className="section-full relative z-10 py-16 md:py-20 lg:py-24">
           <div className="sig-close">
             <MarketingSectionHeader
               id="rm-why-heading"

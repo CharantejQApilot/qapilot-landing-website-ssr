@@ -45,7 +45,22 @@ Deno.serve(async (req) => {
     };
 
     const baseUrl = siteBaseUrl();
-    const urlEntries = (newsItems ?? []).map(item => {
+    // CMS rows keep the long slug. The site 308s those to a short canonical.
+    // Keep in sync with src/lib/content-slug-aliases.ts.
+    const NEWS_CMS_TO_SHORT: Record<string, string> = {
+      'qapilot-s-gold-sponsorship-speaker-session-and-community-engagement-at-qe-conclave-2025':
+        'qapilot-qe-conclave-2025',
+      'joe-colantonio-on-flutter-testing-in-2026-why-mobile-teams-need-a-new-playbook':
+        'joe-colantonio-flutter-testing-2026',
+      'qapilot-announces-strategic-partnership-with-qualizeal-to-elevate-mobile-app-quality-engineering':
+        'qapilot-qualizeal-partnership',
+      'observing-the-agentic-ai-ecosystem-qapilot-at-the-nasscom-and-google-agentic-ai-roadshow':
+        'qapilot-nasscom-google-agentic-ai',
+      'surendranath-jillela-featured-in-ceo-insights-leading-ai-native-quality-engineering':
+        'surendranath-jillela-ceo-insights',
+    };
+    const urlEntries = (newsItems ?? []).flatMap(item => {
+      const slug = NEWS_CMS_TO_SHORT[item.slug] ?? item.slug;
       let imageTag = '';
       if (item.featured_image) {
         imageTag = '\n    <image:image>' +
@@ -67,12 +82,12 @@ Deno.serve(async (req) => {
         }
       }
 
-      return '  <url>\n' +
-        '    <loc>' + baseUrl + '/news/' + item.slug + '</loc>\n' +
+      return ['  <url>\n' +
+        '    <loc>' + baseUrl + '/news/' + slug + '</loc>\n' +
         '    <lastmod>' + new Date(item.updated_at).toISOString() + '</lastmod>\n' +
         '    <changefreq>weekly</changefreq>\n' +
         '    <priority>0.7</priority>' + imageTag + videoTag + '\n' +
-        '  </url>';
+        '  </url>'];
     }).join('\n');
 
     const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +

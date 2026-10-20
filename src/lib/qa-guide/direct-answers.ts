@@ -9,6 +9,8 @@ const TITLE_ANSWERS: Record<string, string> = {
     "Mobile app testing types include unit, integration, system, UI, regression, performance, security, usability, and compatibility testing.",
   "behaviour-driven-development":
     "Behaviour-driven development writes mobile tests in plain-language scenarios that describe the user outcome before the implementation.",
+  "api-automation-testing-tool-guide":
+    "An API automation testing tool for mobile apps should check the API inside the same device flow, not in a separate suite.",
 };
 
 export function isQuestionHeading(text: string): boolean {
@@ -21,8 +23,9 @@ export function guideTitleDirectAnswer(
   slug: string,
   title: string,
 ): string | null {
+  if (TITLE_ANSWERS[slug]) return TITLE_ANSWERS[slug];
   if (!isQuestionHeading(title)) return null;
-  return TITLE_ANSWERS[slug] ?? null;
+  return null;
 }
 
 function stripTags(value: string): string {

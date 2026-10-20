@@ -148,7 +148,7 @@ export default async function BlogsPage() {
             lead="Expert guides, tips, and strategies for mobile app testing and QA automation."
           />
 
-          <div className="section-full home-canvas py-14 md:py-20">
+          <div className="section-full home-canvas pb-14 pt-6 md:pb-20 md:pt-8">
             <div className={BLOGS_MAX_WIDTH}>
               <section
                 aria-labelledby="blogs-intro"

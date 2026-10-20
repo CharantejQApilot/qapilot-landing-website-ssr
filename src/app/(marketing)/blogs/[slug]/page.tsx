@@ -36,6 +36,8 @@ import {
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
 import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { BlogBookDemoCta, BlogCaseStudyCta } from "@/components/BlogInlineCtas";
+import { splitBlogArticleForCtas } from "@/lib/blog-inline-ctas";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
 import { CompareFaqSection } from "@/components/compare/CompareFaqSection";
@@ -57,6 +59,7 @@ import {
   defaultOpenGraphImage,
   formatMetaDescription,
 } from "@/lib/seo";
+import { crawlMetaDescription } from "@/lib/crawl-meta-overrides";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -147,6 +150,7 @@ export async function generateMetadata({
 
   const baseTitle = firstNonEmptyString(blog.title) ?? "QApilot blog";
   const description =
+    crawlMetaDescription(cmsSlug, urlSlug) ??
     firstNonEmptyString(
       (blog as { seo_description?: unknown }).seo_description,
       blog.excerpt,
@@ -413,6 +417,7 @@ export default async function BlogPostPage({
   if (faqItems) {
     blogJsonLdGraph.push(buildFaqPageJsonLd(faqItems));
   }
+  const articleParts = splitBlogArticleForCtas(articleHtml);
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@graph": blogJsonLdGraph,
@@ -523,12 +528,35 @@ export default async function BlogPostPage({
 
             <BlogCrawlLead slug={publicSlug} />
 
-            <div
-              className="blog-content max-w-none"
-              dangerouslySetInnerHTML={{
-                __html: articleHtml,
-              }}
-            />
+            {articleParts ? (
+              <>
+                <div
+                  className="blog-content max-w-none"
+                  dangerouslySetInnerHTML={{ __html: articleParts.intro }}
+                />
+                <BlogCaseStudyCta />
+                <div
+                  className="blog-content max-w-none"
+                  dangerouslySetInnerHTML={{ __html: articleParts.middle }}
+                />
+                {articleParts.showDemoCta ? (
+                  <>
+                    <BlogBookDemoCta />
+                    <div
+                      className="blog-content max-w-none"
+                      dangerouslySetInnerHTML={{ __html: articleParts.rest }}
+                    />
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <div
+                className="blog-content max-w-none"
+                dangerouslySetInnerHTML={{
+                  __html: articleHtml,
+                }}
+              />
+            )}
 
             {writer &&
             typeof writer.name === "string" &&

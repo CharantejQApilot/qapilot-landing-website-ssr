@@ -31,6 +31,7 @@ type HomeHeroCtaProps = {
   children: ReactNode;
   /** Open in a new tab (e.g. external calendar). */
   external?: boolean;
+  className?: string;
 };
 
 /** Matched-size hero CTA link. Primary Book a Demo (inverse kept for other surfaces). */
@@ -39,11 +40,13 @@ export function HomeHeroCta({
   variant,
   children,
   external = false,
+  className,
 }: HomeHeroCtaProps) {
-  const className = cn(
+  const classes = cn(
     buttonVariants({ variant: "default" }),
     homeHeroCtaBoxClass,
     variant === "primary" ? homeHeroCtaPrimaryClass : homeHeroCtaInverseClass,
+    className,
   );
 
   if (external) {
@@ -52,7 +55,7 @@ export function HomeHeroCta({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={className}
+        className={classes}
       >
         {children}
       </a>
@@ -60,7 +63,7 @@ export function HomeHeroCta({
   }
 
   return (
-    <Link href={href} className={className}>
+    <Link href={href} className={classes}>
       {children}
     </Link>
   );

@@ -1,12 +1,15 @@
 import { SITE_BASE_URL } from "@/lib/constants";
 import { ORG_LOGO_HEIGHT, ORG_LOGO_URL, ORG_LOGO_WIDTH } from "@/lib/seo";
 
+/** Homepage returns 200 at the trailing-slash URL. Schema should name that URL. */
+const HOME_URL = `${SITE_BASE_URL}/`;
+
 const organization = {
   "@type": "Organization",
   name: "QApilot",
   alternateName: "QApilot",
   legalName: "Digitral Private Limited",
-  url: SITE_BASE_URL,
+  url: HOME_URL,
   logo: {
     "@type": "ImageObject",
     url: ORG_LOGO_URL,
@@ -60,20 +63,25 @@ const organization = {
 const webSite = {
   "@type": "WebSite",
   name: "QApilot",
-  url: SITE_BASE_URL,
+  url: HOME_URL,
 };
 
 /**
  * Product schema — homepage + /product only.
- * Do not inject site-wide: crawlers flag SoftwareApplication on guides/blogs.
+ * Service, not SoftwareApplication: Google’s software-app rich result requires
+ * aggregateRating or review, and we do not publish either.
  */
 export const softwareApplicationJsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Service",
   name: "QApilot",
-  applicationCategory: "DeveloperApplication",
-  operatingSystem: "iOS, Android",
-  url: SITE_BASE_URL,
+  serviceType: "Mobile application testing",
+  url: HOME_URL,
+  provider: {
+    "@type": "Organization",
+    name: "QApilot",
+    url: HOME_URL,
+  },
   description:
     "AI-powered autonomous mobile app testing platform with zero-touch sanity testing, intelligent crawlers, and knowledge graph technology.",
   offers: {

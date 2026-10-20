@@ -374,7 +374,7 @@ export default async function JobPostPage({
         </section>
 
         <section className="section-edge w-full border-t border-border/60 bg-background">
-          <div className="section-full py-14 md:py-20 2xl:py-24">
+          <div className="section-full py-16 md:py-20 lg:py-24">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-7">
                 <h2 className="sr-only">About the role</h2>

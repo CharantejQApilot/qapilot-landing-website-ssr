@@ -12,6 +12,7 @@ import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { DEFAULT_SHARE_IMAGE_URL, defaultOpenGraphImage, formatMetaDescription } from "@/lib/seo";
+import { crawlMetaDescription } from "@/lib/crawl-meta-overrides";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
@@ -141,11 +142,12 @@ export async function generateMetadata({
 
   const baseTitle = firstNonEmptyString(newsItem.title) ?? "QApilot news";
   const description = formatMetaDescription(
-    firstNonEmptyString(
-      newsItem.seo_description,
-      newsItem.excerpt,
-      newsItem.description,
-    ) ??
+    crawlMetaDescription(cmsSlug, urlSlug, newsItem.slug) ??
+      firstNonEmptyString(
+        newsItem.seo_description,
+        newsItem.excerpt,
+        newsItem.description,
+      ) ??
       `Read ${baseTitle} on QApilot News. Latest updates on AI-powered mobile app testing and release readiness.`,
   );
 

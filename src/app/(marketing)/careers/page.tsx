@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import CareersHeroSection from "@/components/CareersHeroSection";
 import HowWeWorkSection from "@/components/HowWeWorkSection";
 import { PATHS } from "@/lib/routes";
@@ -10,48 +9,24 @@ import {
   marketingSectionIntroClass,
 } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
-import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
-import { ArrowRight, MapPin } from "lucide-react";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Careers. Join the Team",
+  title: "Careers. Working at QApilot",
   description:
-    "Join QApilot and help shape quality in an AI-first world. Reach out with a general application for careers in AI-powered mobile testing and quality assurance.",
+    "A small distributed team building AI-native mobile testing for Android, iOS, and Flutter. The group grows when the work needs another owner.",
   path: PATHS.CAREERS,
   ogDescription:
-    "Join the team building AI-native mobile testing and release readiness.",
+    "A small team building AI-native mobile testing and release readiness.",
   twitterDescription:
-    "Join the team building AI-native mobile testing and release readiness.",
+    "A small team building AI-native mobile testing and release readiness.",
 });
 
-export const revalidate = 120;
-
-type OpenRole = {
-  role: string;
-  department: string;
-  location: string;
-  slug: string | null;
-  id: string;
-};
-
-async function loadOpenRoles(): Promise<OpenRole[]> {
-  const supabase = tryCreateServerSupabaseClient();
-  if (!supabase) return [];
-  const { data } = await supabase
-    .from("job_openings")
-    .select("id, role, department, location, slug")
-    .eq("published", true)
-    .order("role", { ascending: true });
-  return (data ?? []) as OpenRole[];
-}
-
-export default async function CareersPage() {
+export default function CareersPage() {
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
     { name: "Platform overview", path: PATHS.PRODUCT },
     { name: "Careers", path: PATHS.CAREERS },
   ]);
-  const openRoles = await loadOpenRoles();
 
   return (
     <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
@@ -61,70 +36,11 @@ export default async function CareersPage() {
       />
       <main>
         <CareersHeroSection />
-        {openRoles.length > 0 ? (
-          <section
-            aria-labelledby="careers-open-roles"
-            className="section-edge border-b border-border/60"
-          >
-            <div className="section-full py-14 md:py-20 2xl:py-24">
-              <h2
-                id="careers-open-roles"
-                className={cn(
-                  marketingSectionH2Class,
-                  "w-full text-balance text-foreground",
-                )}
-              >
-                Open <span className="text-primary">roles</span>
-              </h2>
-              <p
-                className={cn(
-                  marketingSectionIntroClass,
-                  "mt-4 max-w-2xl text-pretty",
-                )}
-              >
-                Browse current openings. Each role links to the full description
-                and application form.
-              </p>
-              <ul className="mt-8 divide-y divide-border border border-border bg-background">
-                {openRoles.map((job) => {
-                  const href = `${PATHS.CAREERS}/${job.slug || job.id}`;
-                  return (
-                    <li key={job.id}>
-                      <Link
-                        href={href}
-                        className="group flex flex-col gap-2 px-5 py-5 transition-colors hover:bg-muted/40 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-                      >
-                        <div className="min-w-0">
-                          <p className="font-heading text-lg font-semibold text-foreground group-hover:text-primary">
-                            {job.role}
-                          </p>
-                          <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
-                            <span>{job.department}</span>
-                            {job.location ? (
-                              <span className="inline-flex items-center gap-1">
-                                <MapPin className="h-3.5 w-3.5" aria-hidden />
-                                {job.location}
-                              </span>
-                            ) : null}
-                          </p>
-                        </div>
-                        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                          View role
-                          <ArrowRight className="h-4 w-4" aria-hidden />
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </section>
-        ) : null}
         <section
           aria-labelledby="careers-about"
           className="section-edge border-b border-border/60 bg-muted/30"
         >
-          <div className="section-full py-14 md:py-20 2xl:py-24">
+          <div className="section-full py-16 md:py-20 lg:py-24">
             <h2
               id="careers-about"
               className={cn(
@@ -142,17 +58,29 @@ export default async function CareersPage() {
               )}
             >
               <p>
-                QApilot is growing a distributed team of engineers, product
-                builders, and customer champions who care about release quality
-                for Android, iOS, and Flutter apps. We work on autonomous
+                QApilot is a distributed team of engineers, product builders,
+                and customer champions who care about release quality for
+                Android, iOS, and Flutter apps. The work is autonomous
                 exploration, intelligent bug detection, and the knowledge graph
                 that powers context-aware automation.
               </p>
               <p>
-                If you enjoy solving hard mobile QA problems, partnering with
-                enterprise customers, and shipping quickly with high ownership,
-                reach out above. We value curiosity, clear communication, and
-                outcomes over rigid job descriptions.
+                The people who do well here like hard mobile QA problems, close
+                work with enterprise customers, and shipping with high
+                ownership. Curiosity and clear communication matter more than a
+                perfect match to a job description.
+              </p>
+              <p>
+                Headcount follows the work. A new seat appears when a problem
+                is large enough to need another owner, and the team would
+                rather wait than hire ahead of that.
+              </p>
+              <p>
+                Days are spent on real devices and real release trains: an
+                Android build that needs coverage before it ships, a Flutter
+                flow that broke overnight, a customer who wants a signal they
+                can trust. The same small group writes the product, sits with
+                customers, and decides what quality means for the next release.
               </p>
             </div>
           </div>

@@ -31,7 +31,6 @@ import { TestingApproachTable } from "@/components/seo/TestingApproachTable";
 import {
   marketingHeroH1Class,
   marketingHeroLeadClass,
-  marketingSectionH2Class,
   marketingSectionIntroClass,
 } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
@@ -150,7 +149,7 @@ const AboutClient = () => {
         aria-labelledby="about-hero-title"
       >
         <MarketingBackground variant="hero" />
-        <div className="relative z-10 w-full section-full py-16 sm:py-20 md:py-24 lg:py-28 2xl:py-32">
+        <div className="relative z-10 w-full section-full pb-8 pt-10 sm:pt-12 md:pt-14 lg:pt-16">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start px-3 text-left sm:px-4 lg:max-w-7xl 2xl:max-w-[90rem]">
             <h1
               id="about-hero-title"
@@ -160,8 +159,7 @@ const AboutClient = () => {
                 "max-lg:text-[clamp(1.35rem,0.95rem+2.4vw,3.45rem)] max-lg:leading-[1.12]",
               )}
             >
-              Building Quality For An{" "}
-              <span className="text-primary">AI-First World</span>
+              About <span className="text-primary">QApilot</span>
             </h1>
             <p
               className={cn(
@@ -169,9 +167,9 @@ const AboutClient = () => {
                 "mb-10 sm:mb-11 md:mb-12",
               )}
             >
-              A team united by the belief that testing should be intelligent,
-              effortless, and built for the future. QApilot was founded in
-              2024.
+              Building quality for an AI-first world. A team united by the
+              belief that testing should be intelligent, effortless, and built
+              for the future. QApilot was founded in 2024.
             </p>
 
             <ul className="grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
@@ -194,30 +192,47 @@ const AboutClient = () => {
       </section>
 
       <section
-        className="section-edge w-full border-t border-border/80"
+        className="section-edge hidden w-full border-t border-border/60 bg-background lg:block"
+        aria-label="Life at QApilot video"
+      >
+        <div className="section-full py-10 md:py-14 2xl:py-16">
+          <YouTubeVideoPlayer
+            videoId="qwNEigdExx4"
+            title="Life at QApilot - Culture and Team"
+            description="A glimpse into the culture and people at QApilot. From hackathons and conferences to building the future of mobile testing together."
+            uploadDate="2024-12-01T00:00:00Z"
+            duration="PT2M30S"
+          />
+        </div>
+      </section>
+
+      <section
+        className="section-edge w-full border-t border-border/80 home-tint"
         aria-labelledby="about-questions-heading"
       >
-        <div className="section-full py-14 md:py-20">
-          <h2
+        <div className="section-full py-16 md:py-20 lg:py-24">
+          <MarketingSectionHeader
             id="about-questions-heading"
-            className={cn(marketingSectionH2Class, "mb-8 md:mb-10")}
-          >
-            Questions about <span className="text-primary">QApilot</span>
-          </h2>
-          <div className="flex w-full max-w-3xl flex-col border border-border bg-background">
-            {aboutQuestions.map((item, index) => (
-              <div
+            title={
+              <>
+                Questions about <span className="text-primary">QApilot</span>
+              </>
+            }
+            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+          />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
+            {aboutQuestions.map((item) => (
+              <article
                 key={item.question}
-                className={cn(
-                  "flex flex-col gap-3 px-5 py-6 sm:px-6 sm:py-7 md:px-8",
-                  index < aboutQuestions.length - 1 && "border-b border-border",
-                )}
+                className="flex flex-col rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8"
               >
-                <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+                <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
                   {item.question}
                 </h3>
-                <p className={marketingSectionIntroClass}>{item.answer}</p>
-              </div>
+                <p className={cn(marketingSectionIntroClass, "mt-4 text-pretty")}>
+                  {item.answer}
+                </p>
+              </article>
             ))}
           </div>
         </div>
@@ -227,48 +242,67 @@ const AboutClient = () => {
         className="section-edge w-full border-t border-border/80 bg-background"
         aria-labelledby="about-definitions-heading"
       >
-        <div className="section-full py-14 md:py-20">
-          <h2
+        <div className="section-full py-16 md:py-20 lg:py-24">
+          <MarketingSectionHeader
             id="about-definitions-heading"
-            className={cn(marketingSectionH2Class, "mb-8 md:mb-10")}
-          >
-            What the words <span className="text-primary">mean</span>
-          </h2>
-          <div className="flex w-full max-w-3xl flex-col gap-8">
-            <div>
-              <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+            title={
+              <>
+                What the words <span className="text-primary">mean</span>
+              </>
+            }
+            marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
+          />
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
+            <article className="flex flex-col rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm md:p-8">
+              <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
                 What is autonomous testing?
               </h3>
-              <p className={cn(marketingSectionIntroClass, "mt-3")}>
+              <p className={cn(marketingSectionIntroClass, "mt-4 text-pretty")}>
                 Autonomous testing is exploration of a mobile app by an agent
                 that builds coverage without a hand-written script.
               </p>
-            </div>
-            <div>
-              <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+            </article>
+            <article className="flex flex-col rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm md:p-8">
+              <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
                 What is zero-touch sanity?
               </h3>
-              <p className={cn(marketingSectionIntroClass, "mt-3")}>
+              <p className={cn(marketingSectionIntroClass, "mt-4 text-pretty")}>
                 Zero-touch sanity is a release check that runs after a build
                 without a tester starting each case by hand.
               </p>
-            </div>
-            <div>
-              <h3 className="font-heading text-lg font-bold tracking-tight text-foreground md:text-xl">
+            </article>
+            <article className="flex flex-col rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm md:p-8">
+              <h3 className="font-heading text-lg font-semibold leading-snug tracking-tight text-foreground md:text-xl">
                 How does a release get covered?
               </h3>
-              <p className={cn(marketingSectionIntroClass, "mt-3")}>
+              <p className={cn(marketingSectionIntroClass, "mt-4 text-pretty")}>
                 A release gets covered by uploading the build, letting QApilot
                 explore it, and reviewing the signals before you ship.
               </p>
-              <ol className="mt-3 list-decimal space-y-2 pl-5 text-base leading-relaxed text-muted-foreground md:text-lg">
-                <li>Upload the iOS or Android build.</li>
-                <li>QApilot explores the app and generates coverage.</li>
-                <li>Review the release signals before you ship.</li>
-              </ol>
-            </div>
+            </article>
           </div>
-          <TestingApproachTable />
+          <ol className="mt-5 grid grid-cols-1 gap-4 md:mt-6 md:grid-cols-3">
+            {[
+              "Upload the iOS or Android build.",
+              "QApilot explores the app and generates coverage.",
+              "Review the release signals before you ship.",
+            ].map((step, index) => (
+              <li
+                key={step}
+                className="flex items-start gap-4 rounded-2xl border border-border/80 bg-card/80 p-5 shadow-sm md:p-6"
+              >
+                <span className="font-heading text-2xl font-bold leading-none text-primary/30 tabular-nums">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="text-base leading-relaxed text-foreground">
+                  {step}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-6 rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm md:mt-8 md:p-8 [&>div]:my-0">
+            <TestingApproachTable />
+          </div>
         </div>
       </section>
 
@@ -276,7 +310,7 @@ const AboutClient = () => {
         className="section-edge w-full home-tint"
         aria-labelledby="about-origin-heading"
       >
-        <div className="section-full py-14 md:py-20 2xl:py-24">
+        <div className="section-full py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="about-origin-heading"
             title={
@@ -401,7 +435,7 @@ const AboutClient = () => {
         className="section-edge w-full border-t border-border/60 bg-background"
         aria-labelledby="about-life-heading"
       >
-        <div className="section-full py-14 md:py-20 2xl:py-24">
+        <div className="section-full py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="about-life-heading"
             title={
@@ -412,16 +446,6 @@ const AboutClient = () => {
             description="We build fast, learn in public, and show up for the community."
             marginBottomClassName="mb-10 md:mb-12 2xl:mb-14"
           />
-
-          <div className="mb-12 md:mb-14">
-            <YouTubeVideoPlayer
-              videoId="qwNEigdExx4"
-              title="Life at QApilot - Culture and Team"
-              description="A glimpse into the culture and people at QApilot. From hackathons and conferences to building the future of mobile testing together."
-              uploadDate="2024-12-01T00:00:00Z"
-              duration="PT2M30S"
-            />
-          </div>
 
           <p
             className={cn(
@@ -486,7 +510,7 @@ const AboutClient = () => {
         className="section-edge relative w-full overflow-hidden border-t border-border/60 bg-gradient-to-b from-muted/15 via-background to-background"
         aria-labelledby="about-team-heading"
       >
-        <div className="section-full py-14 md:py-20 2xl:py-24">
+        <div className="section-full py-16 md:py-20 lg:py-24">
           <MarketingSectionHeader
             id="about-team-heading"
             title={

@@ -51,11 +51,11 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
     logo: `${PARTNER_LOGOS_PATH_PREFIX}9f5ef4eb-33b0-4852-a38a-61a25aaebe56.png`,
     description:
       "QApilot builds the suite. LambdaTest spreads it across the devices you care about.",
-    metaTitle: "LambdaTest Integration. Autonomous Mobile Testing",
+    metaTitle: "LambdaTest Integration. Device Grid for QApilot Suites",
     metaDescription:
       "Connect QApilot with LambdaTest: explore and generate mobile tests in QApilot, then execute them across LambdaTest’s device grid for broader coverage.",
     heroLead:
-      "Discover and maintain coverage in QApilot, then run it on LambdaTest when you need more devices in the mix.",
+      "LambdaTest is the device grid. Discover and maintain coverage in QApilot, then run it there when you need more devices in the mix.",
     highlights: [
       "Coverage discovery before you burn device minutes",
       "Less locator churn when screens change",
@@ -78,11 +78,11 @@ export const INTEGRATION_TOOLS: readonly IntegrationTool[] = [
     logo: `${PARTNER_LOGOS_PATH_PREFIX}445698aa-1a01-42ef-9a78-96903c80c41f.png`,
     description:
       "QApilot handles coverage and upkeep. Sauce Labs handles parallel runs on your device matrix.",
-    metaTitle: "Sauce Labs Integration. Autonomous Mobile Testing",
+    metaTitle: "Sauce Labs Integration. Parallel Runs for QApilot Suites",
     metaDescription:
       "Connect QApilot with Sauce Labs: build and maintain mobile coverage in QApilot, then run parallel suites on your Sauce Labs device matrix at scale.",
     heroLead:
-      "Keep Sauce Labs for execution scale. Let QApilot decide what runs and keep those tests from rotting every sprint.",
+      "Sauce Labs is the parallel-run layer. Keep it for execution scale, and let QApilot decide what runs and keep those tests from rotting every sprint.",
     highlights: [
       "Generation and healing in QApilot",
       "Parallel mobile runs on Sauce Labs",
