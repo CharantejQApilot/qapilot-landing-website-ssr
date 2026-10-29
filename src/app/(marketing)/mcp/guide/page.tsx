@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { HashScrollOnMount } from "@/components/marketing/HashScrollOnMount";
+import HomeHeroProductHuntBadge from "@/components/home-hero/HomeHeroProductHuntBadge";
 import {
   MarketingCloseCta,
   MarketingPageShell,
   MarketingSection,
+  MarketingThesisHero,
 } from "@/components/marketing";
 import { McpGuideBody } from "@/components/mcp-guide";
+import { McpGuideEntryScroll } from "@/components/mcp-guide/McpGuideEntryScroll";
+import { McpGuideInstallSlider } from "@/components/mcp-guide/McpGuideInstallSlider";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
+import { PRODUCT_HUNT_MCP_TOP_POST_BADGE } from "@/lib/product-hunt-badge";
 import {
   buildMcpGuideJsonLd,
+  MCP_GUIDE_CHIPS,
+  MCP_GUIDE_DATE_MODIFIED,
   MCP_GUIDE_DESCRIPTION,
   MCP_GUIDE_TITLE,
 } from "@/lib/mcp-guide";
 import { PATHS } from "@/lib/routes";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildStaticPageMetadata({
   title: MCP_GUIDE_TITLE,
@@ -28,10 +35,16 @@ export const metadata: Metadata = buildStaticPageMetadata({
 
 export const revalidate = 300;
 
+const CHIP_DOT: Record<(typeof MCP_GUIDE_CHIPS)[number]["tone"], string> = {
+  blue: "bg-primary",
+  green: "bg-emerald-500",
+  amber: "bg-orange",
+};
+
 export default function McpGuidePage() {
   return (
     <MarketingPageShell>
-      <HashScrollOnMount />
+      <McpGuideEntryScroll />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -53,6 +66,57 @@ export default function McpGuidePage() {
       />
 
       <main>
+        <MarketingThesisHero
+          titleId="mcp-guide-hero"
+          beforeEyebrow={
+            <HomeHeroProductHuntBadge
+              align="start"
+              className="mb-3 sm:mb-4"
+              badge={PRODUCT_HUNT_MCP_TOP_POST_BADGE}
+            />
+          }
+          eyebrow="AI-Native Android Automation"
+          title={
+            <>
+              QApilot <span className="text-hero-here">MCP CLI</span>
+              <br />
+              User Guide
+            </>
+          }
+          paddingClassName="py-12 sm:py-16 md:py-20 lg:py-24"
+          lead="Automate real Android devices and emulators by talking to Claude, Cursor, or any MCP-compatible AI client. Describe test flows in plain English — no Appium code required. The app stays on your machine. QApilot was founded in 2024 by Aditya Challa and Chaitanya Devalapally."
+          cta={<McpGuideInstallSlider />}
+        >
+          <div className="mb-8 flex flex-wrap gap-2 sm:mb-10">
+            {MCP_GUIDE_CHIPS.map((chip) => (
+              <span
+                key={chip.label}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground shadow-sm"
+              >
+                <span
+                  className={cn("h-1.5 w-1.5 rounded-full", CHIP_DOT[chip.tone])}
+                  aria-hidden
+                />
+                {chip.label}
+              </span>
+            ))}
+          </div>
+          <p className="mb-2 text-sm text-muted-foreground">
+            <time dateTime={MCP_GUIDE_DATE_MODIFIED}>
+              Last updated{" "}
+              {new Date(`${MCP_GUIDE_DATE_MODIFIED}T00:00:00Z`).toLocaleDateString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC",
+                },
+              )}
+            </time>
+          </p>
+        </MarketingThesisHero>
+
         <MarketingSection
           id="overview"
           surface="canvas"
