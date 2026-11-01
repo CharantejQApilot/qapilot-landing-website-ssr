@@ -665,8 +665,8 @@ const BlogEditorClient = () => {
                     placeholder="https://www.youtube.com/watch?v=..."
                   />
                   <p className="text-xs text-muted-foreground">
-                    Paste a YouTube URL to embed the video at the top of the
-                    blog post
+                    If set, the article shows this video instead of the cover.
+                    The cover image is still used for cards and link previews.
                   </p>
                 </div>
 

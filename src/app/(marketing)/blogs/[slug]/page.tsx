@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
+import { ArticleHeroMedia } from "@/components/article/ArticleHeroMedia";
+import { ArticleReadingLayout } from "@/components/article/ArticleReadingLayout";
 import WriterCard from "@/components/WriterCard";
-import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
 import RelatedPosts from "@/components/RelatedPosts";
 import { ArrowLeft } from "lucide-react";
@@ -17,7 +18,7 @@ import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { articleMainEntityOfPage } from "@/lib/article-jsonld";
 import { MarketingPageShell } from "@/components/marketing";
-import { CmsRemoteImage, coverImageAltForTitle } from "@/components/CmsRemoteImage";
+import { coverImageAltForTitle } from "@/components/CmsRemoteImage";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { resolveSlugParam } from "@/lib/app-router-params";
@@ -35,7 +36,6 @@ import {
   logMetadataFallback,
   summarizeUnknownError,
 } from "@/lib/server-telemetry";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
 import { BlogBookDemoCta, BlogCaseStudyCta } from "@/components/BlogInlineCtas";
 import { splitBlogArticleForCtas } from "@/lib/blog-inline-ctas";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
@@ -149,12 +149,15 @@ export async function generateMetadata({
   const publicPath = `${PATHS.BLOGS}/${publicSlug}`;
 
   const baseTitle = firstNonEmptyString(blog.title) ?? "QApilot blog";
+  const keyTakeaways = firstNonEmptyString(
+    (blog as { description?: unknown }).description,
+    blog.excerpt,
+  );
   const description =
+    keyTakeaways ??
     crawlMetaDescription(cmsSlug, urlSlug) ??
     firstNonEmptyString(
       (blog as { seo_description?: unknown }).seo_description,
-      blog.excerpt,
-      (blog as { description?: unknown }).description,
     ) ??
     `Read ${baseTitle} on the QApilot blog. Expert insights on mobile app testing and QA automation.`;
 
@@ -368,13 +371,17 @@ export default async function BlogPostPage({
     ),
   );
   const articleUrl = `${SITE_BASE_URL}${publicPath}`;
+  const descriptionText = firstNonEmptyString(
+    (blog as { description?: unknown }).description,
+    blog.excerpt,
+  );
   const articleStructuredData: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: blog.title,
     url: articleUrl,
     ...articleMainEntityOfPage(articleUrl),
-    ...(blog.excerpt ? { description: blog.excerpt } : {}),
+    ...(descriptionText ? { description: descriptionText } : {}),
     ...(articlePublishedTime ? { datePublished: articlePublishedTime } : {}),
     ...(articleModifiedTime ? { dateModified: articleModifiedTime } : {}),
     ...(articleImageUrl ? { image: articleImageUrl } : {}),
@@ -390,10 +397,6 @@ export default async function BlogPostPage({
   const blogJsonLdGraph: unknown[] = [articleStructuredData, breadcrumbData];
 
   const publishedLabel = formatPublishedDate(blog.published_date);
-  const descriptionText = firstNonEmptyString(
-    (blog as { description?: unknown }).description,
-    blog.excerpt,
-  );
   const category = asTrimmedString((blog as { category?: unknown }).category);
   const tags = commaSeparatedList((blog as { tags?: unknown }).tags);
   const youtubeUrl = asTrimmedString(blog.youtube_url);
@@ -440,92 +443,92 @@ export default async function BlogPostPage({
               Back to Blogs
             </Link>
 
-            {blog.featured_image && !youtubeUrl ? (
-              <div className="w-full overflow-hidden rounded-lg mb-8">
-                <CmsRemoteImage
-                  src={blog.featured_image}
-                  alt={`${blog.title} - QApilot Blog`}
-                  className="w-full h-auto object-contain"
-                  width={1200}
-                  height={630}
-                  priority
-                  sizes="(max-width: 1280px) 100vw, 1280px"
-                  style={{ aspectRatio: "1200/630" }}
+            <ArticleReadingLayout
+              media={
+                <ArticleHeroMedia
+                  youtubeUrl={youtubeUrl}
+                  imageUrl={blog.featured_image}
+                  imageAlt={`${blog.title} - QApilot Blog`}
                 />
-              </div>
-            ) : null}
+              }
+              pageName={`Blog: ${blog.title}`}
+              fieldIdPrefix={`blog-${publicSlug}`}
+              header={
+                <>
+                  <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
+                    {blog.title}
+                  </h1>
 
-            <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
-              {blog.title}
-            </h1>
+                  {blog.slug === "sauce-labs-alternative-autonomous-mobile-testing" ? (
+                    <p data-nosnippet="" className="mb-6 max-w-3xl text-base leading-relaxed text-foreground/90 md:text-lg">
+                      This post is the story of why teams leave Sauce Labs. The
+                      side-by-side comparison lives on{" "}
+                      <Link
+                        href={PATHS.ALTERNATIVES_SAUCE_LABS}
+                        className="font-semibold text-primary hover:underline"
+                      >
+                        the Sauce Labs alternative page
+                      </Link>
+                      .
+                    </p>
+                  ) : null}
 
-            {blog.slug === "sauce-labs-alternative-autonomous-mobile-testing" ? (
-              <p className="mb-6 max-w-3xl text-base leading-relaxed text-foreground/90 md:text-lg">
-                This post is the story of why teams leave Sauce Labs. The
-                side-by-side comparison lives on{" "}
-                <Link
-                  href={PATHS.ALTERNATIVES_SAUCE_LABS}
-                  className="font-semibold text-primary hover:underline"
-                >
-                  the Sauce Labs alternative page
-                </Link>
-                .
-              </p>
-            ) : null}
+                  <div data-nosnippet="">
+                    <ArticleSummariseWithAI
+                      pageUrl={`${SITE_BASE_URL}${publicPath}`}
+                    />
+                  </div>
 
-            <ArticleSummariseWithAI
-              pageUrl={`${SITE_BASE_URL}${publicPath}`}
-            />
+                  {descriptionText ? (
+                    <ArticleKeyTakeaways summary={descriptionText} />
+                  ) : null}
 
-            {descriptionText ? (
-              <ArticleKeyTakeaways summary={descriptionText} />
-            ) : null}
+                  {category || tags.length > 0 ? (
+                    <div data-nosnippet="" className="mb-6 flex flex-wrap gap-2 text-sm">
+                      {category ? (
+                        <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
+                          {category}
+                        </span>
+                      ) : null}
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
 
-            {category || tags.length > 0 ? (
-              <div className="mb-6 flex flex-wrap gap-2 text-sm">
-                {category ? (
-                  <span className="rounded-md bg-primary/10 px-2.5 py-1 font-medium text-primary">
-                    {category}
-                  </span>
-                ) : null}
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-
-            <div className="flex items-center gap-4 mb-8 pb-8 border-b border-border">
-              <div>
-                {blog.author_name && (
-                  <p className="font-semibold text-foreground">
-                    {blog.author_name}
-                  </p>
-                )}
-                {blog.author_designation && (
-                  <p className="text-sm text-muted-foreground">
-                    {blog.author_designation}
-                  </p>
-                )}
-              </div>
-              <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
-                {readingTimeMinutes ? (
-                  <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
-                ) : null}
-                {publishedLabel ? (
-                  <time dateTime={blog.published_date ?? undefined}>
-                    {publishedLabel}
-                  </time>
-                ) : null}
-              </div>
-            </div>
-
-            {youtubeUrl ? <YouTubeEmbed url={youtubeUrl} /> : null}
-
+                  <div data-nosnippet="" className="mb-8 flex items-center gap-4 border-b border-border pb-8">
+                    <div>
+                      {blog.author_name && (
+                        <p className="font-semibold text-foreground">
+                          {blog.author_name}
+                        </p>
+                      )}
+                      {blog.author_designation && (
+                        <p className="text-sm text-muted-foreground">
+                          {blog.author_designation}
+                        </p>
+                      )}
+                    </div>
+                    <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
+                      {readingTimeMinutes ? (
+                        <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
+                      ) : null}
+                      {publishedLabel ? (
+                        <time dateTime={blog.published_date ?? undefined}>
+                          {publishedLabel}
+                        </time>
+                      ) : null}
+                    </div>
+                  </div>
+                </>
+              }
+            >
+            <div data-nosnippet="">
             <BlogCrawlLead slug={publicSlug} />
 
             {articleParts ? (
@@ -583,20 +586,12 @@ export default async function BlogPostPage({
                 />
               </div>
             ) : null}
-
-            <div className="mt-12 border-t border-border pt-8">
-              <p className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-                See QApilot on your app
-              </p>
-              <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
-                Book a demo to run autonomous coverage on an iOS or Android build.
-              </p>
-              <div className="mt-4">
-                <BookDemoCtaButton />
-              </div>
             </div>
+            </ArticleReadingLayout>
 
-            <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
+            <div data-nosnippet="">
+              <RelatedPosts posts={safeRelatedPosts} basePath={PATHS.BLOGS} />
+            </div>
           </div>
         </main>
       </MarketingPageShell>

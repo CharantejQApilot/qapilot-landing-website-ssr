@@ -357,6 +357,7 @@ export type Database = {
           updated_at: string
           url_path: string
           writer_id: string | null
+          youtube_url: string | null
         }
         Insert: {
           author_name?: string | null
@@ -386,6 +387,7 @@ export type Database = {
           updated_at?: string
           url_path: string
           writer_id?: string | null
+          youtube_url?: string | null
         }
         Update: {
           author_name?: string | null
@@ -415,6 +417,7 @@ export type Database = {
           updated_at?: string
           url_path?: string
           writer_id?: string | null
+          youtube_url?: string | null
         }
         Relationships: [
           {

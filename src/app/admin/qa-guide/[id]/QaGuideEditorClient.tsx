@@ -47,6 +47,7 @@ export default function QaGuideEditorClient() {
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDescription, setSeoDescription] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -111,6 +112,7 @@ export default function QaGuideEditorClient() {
     setExcerpt(guide.excerpt ?? "");
     setContent(guide.content ?? "");
     setFeaturedImage(guide.featured_image ?? "");
+    setYoutubeUrl(guide.youtube_url ?? "");
     setSeoTitle(guide.seo_title ?? "");
     setSeoDescription(guide.seo_description ?? "");
     setAuthorName(guide.author_name ?? "");
@@ -136,6 +138,7 @@ export default function QaGuideEditorClient() {
           excerpt: excerpt || null,
           content,
           featured_image: featuredImage || null,
+          youtube_url: youtubeUrl.trim() || null,
           seo_title: seoTitle || null,
           seo_description: seoDescription || null,
           author_name: authorName || null,
@@ -361,6 +364,19 @@ export default function QaGuideEditorClient() {
                 value={featuredImage}
                 onChange={(e) => setFeaturedImage(e.target.value)}
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="youtube-url">YouTube URL (optional)</Label>
+              <Input
+                id="youtube-url"
+                value={youtubeUrl}
+                onChange={(e) => setYoutubeUrl(e.target.value)}
+                placeholder="https://www.youtube.com/watch?v=..."
+              />
+              <p className="text-xs text-muted-foreground">
+                If set, the article shows this video instead of the cover. The
+                cover image is still used for cards and link previews.
+              </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
