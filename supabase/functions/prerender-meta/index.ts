@@ -460,9 +460,9 @@ Deno.serve(async (req) => {
         const baseTitle = trimStr(row.title);
         const pageTitle = seoTitle || legacyArticleTitle(baseTitle);
         const description =
-          trimStr(row.seo_description) ||
-          trimStr(row.excerpt) ||
           trimStr(row.description) ||
+          trimStr(row.excerpt) ||
+          trimStr(row.seo_description) ||
           `Read ${baseTitle || "this post"} on the QApilot blog.`;
         const image = blogShareImage(row);
         const html = buildHtml({

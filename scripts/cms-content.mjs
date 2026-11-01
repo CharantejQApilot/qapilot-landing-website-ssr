@@ -110,6 +110,7 @@ const TABLES = {
       "title",
       "topic_cluster",
       "writer_id",
+      "youtube_url",
     ],
     booleans: [],
     create: false,

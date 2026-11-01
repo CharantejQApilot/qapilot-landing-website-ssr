@@ -10,11 +10,11 @@ import { QE_GUIDE_DISPLAY_NAME } from "@/lib/routes";
 import { marketingHeroH1Class } from "@/lib/marketing-typography";
 import { cn } from "@/lib/utils";
 import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
-import BookDemoCtaButton from "@/components/compare/BookDemoCtaButton";
+import { ArticleHeroMedia } from "@/components/article/ArticleHeroMedia";
+import { ArticleReadingLayout } from "@/components/article/ArticleReadingLayout";
 import { QaGuideCrawlSupplements } from "@/components/qa-guide/QaGuideCrawlSupplements";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
-import { CmsRemoteImage } from "@/components/CmsRemoteImage";
 import WriterCard from "@/components/WriterCard";
 import {
   guideTitleDirectAnswer,
@@ -32,6 +32,7 @@ export type QaGuideArticleData = {
   content: string | null;
   content_format: string | null;
   featured_image: string | null;
+  youtube_url?: string | null;
   author_name: string | null;
   published_date: string | null;
   tags: string | null;
@@ -87,103 +88,91 @@ export default function QaGuideArticle({
           {backLabel}
         </Link>
 
-        {guide.featured_image ? (
-          <div className="mb-8 w-full overflow-hidden rounded-lg">
-            <CmsRemoteImage
-              src={guide.featured_image}
-              alt={`${guide.title}. QApilot ${QE_GUIDE_DISPLAY_NAME}`}
-              className="h-auto w-full object-contain"
-              width={1200}
-              height={630}
-              priority
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              style={{ aspectRatio: "1200/630" }}
+        <ArticleReadingLayout
+          media={
+            <ArticleHeroMedia
+              youtubeUrl={guide.youtube_url}
+              imageUrl={guide.featured_image}
+              imageAlt={`${guide.title}. QApilot ${QE_GUIDE_DISPLAY_NAME}`}
             />
-          </div>
-        ) : null}
+          }
+          pageName={`${QE_GUIDE_DISPLAY_NAME}: ${guide.title}`}
+          fieldIdPrefix={`qa-guide-${guide.slug}`}
+          header={
+            <>
+              <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
+                {guide.title}
+              </h1>
 
-        <h1 className={cn(marketingHeroH1Class, "mb-4 text-gradient")}>
-          {guide.title}
-        </h1>
-
-        {titleAnswer ? (
-          <p className="mb-6 max-w-3xl text-base leading-relaxed text-foreground/90 md:text-lg md:leading-relaxed">
-            {titleAnswer}
-          </p>
-        ) : null}
-
-        <ArticleSummariseWithAI pageUrl={pageUrl} />
-
-        {descriptionText ? (
-          <ArticleKeyTakeaways summary={descriptionText} />
-        ) : null}
-
-        {tags.length > 0 ? (
-          <div className="mb-6 flex flex-wrap gap-2 text-sm">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        ) : null}
-
-        <div className="mb-8 flex items-center gap-4 border-b border-border pb-8">
-          {bylineName ? (
-            <div>
-              <p className="font-semibold text-foreground">{bylineName}</p>
-              {writer?.designation ? (
-                <p className="text-sm text-muted-foreground">
-                  {writer.designation}
+              {titleAnswer ? (
+                <p className="mb-6 max-w-3xl text-base leading-relaxed text-foreground/90 md:text-lg md:leading-relaxed">
+                  {titleAnswer}
                 </p>
               ) : null}
-            </div>
-          ) : null}
-          <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
-            {readingTimeMinutes ? (
-              <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
-            ) : null}
-            {publishedLabel ? (
-              <time dateTime={guide.published_date ?? undefined}>
-                {publishedLabel}
-              </time>
-            ) : null}
-          </div>
-        </div>
 
-        <div
-          className="blog-content max-w-none"
-          dangerouslySetInnerHTML={{
-            __html: articleHtml,
-          }}
-        />
+              <ArticleSummariseWithAI pageUrl={pageUrl} />
 
-        <QaGuideCrawlSupplements slug={guide.slug} />
+              {descriptionText ? (
+                <ArticleKeyTakeaways summary={descriptionText} />
+              ) : null}
 
-        <div className="mt-12 border-t border-border pt-8">
-          <p className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-            See QApilot on your app
-          </p>
-          <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Book a demo to run autonomous coverage on an iOS or Android build.
-          </p>
-          <div className="mt-4">
-            <BookDemoCtaButton />
-          </div>
-        </div>
+              {tags.length > 0 ? (
+                <div className="mb-6 flex flex-wrap gap-2 text-sm">
+                  {tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-md border border-border bg-muted/50 px-2.5 py-1 text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
 
-        {writer ? (
-          <WriterCard
-            name={writer.name}
-            designation={writer.designation}
-            description={writer.description}
-            linkedinUrl={writer.linkedin_url}
-            profileImage={writer.profile_image}
+              <div className="mb-8 flex items-center gap-4 border-b border-border pb-8">
+                {bylineName ? (
+                  <div>
+                    <p className="font-semibold text-foreground">{bylineName}</p>
+                    {writer?.designation ? (
+                      <p className="text-sm text-muted-foreground">
+                        {writer.designation}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
+                <div className="ml-auto flex flex-col items-end gap-1 text-sm text-muted-foreground">
+                  {readingTimeMinutes ? (
+                    <span>{formatReadingTimeLabel(readingTimeMinutes)}</span>
+                  ) : null}
+                  {publishedLabel ? (
+                    <time dateTime={guide.published_date ?? undefined}>
+                      {publishedLabel}
+                    </time>
+                  ) : null}
+                </div>
+              </div>
+            </>
+          }
+        >
+          <div
+            className="blog-content max-w-none"
+            dangerouslySetInnerHTML={{
+              __html: articleHtml,
+            }}
           />
-        ) : null}
+
+          <QaGuideCrawlSupplements slug={guide.slug} />
+
+          {writer ? (
+            <WriterCard
+              name={writer.name}
+              designation={writer.designation}
+              description={writer.description}
+              linkedinUrl={writer.linkedin_url}
+              profileImage={writer.profile_image}
+            />
+          ) : null}
+        </ArticleReadingLayout>
       </div>
     </main>
   );
