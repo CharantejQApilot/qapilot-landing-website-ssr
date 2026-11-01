@@ -143,8 +143,8 @@ export default function HomeHeroExploreStage({
             // Opacity-only: transforms skew getBoundingClientRect and flash overlay placement
             "col-start-1 row-start-1 flex h-full w-full self-stretch duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:transition-opacity",
             showLanding
-              ? "z-[1] opacity-100"
-              : "pointer-events-none z-0 opacity-0",
+              ? "visible z-[1] opacity-100"
+              : "pointer-events-none invisible z-0 opacity-0",
           )}
           aria-hidden={!showLanding}
         >
@@ -157,8 +157,8 @@ export default function HomeHeroExploreStage({
             // Match landing: full-stage stretch so overlay midpoints use the same band as slide 1
             "col-start-1 row-start-1 flex h-full min-h-0 w-full self-stretch duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:transition-opacity",
             showSecondary
-              ? "z-[1] opacity-100"
-              : "pointer-events-none z-0 opacity-0",
+              ? "visible z-[1] opacity-100"
+              : "pointer-events-none invisible z-0 opacity-0",
           )}
           aria-hidden={!showSecondary}
         >
