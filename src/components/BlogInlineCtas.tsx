@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { BookDemoLinkButton } from "@/components/book-demo/BookDemoLinkButton";
+import { ARTICLE_DEMO_FORM_ID } from "@/components/article/article-demo-form-id";
+import { Button } from "@/components/ui/button";
 import { caseStudyPath, getCaseStudy } from "@/lib/case-studies-data";
 
 /** Mid-article case study teaser. The case study page itself holds the email gate. */
@@ -56,7 +57,7 @@ export function BlogCaseStudyCta() {
   );
 }
 
-/** Mid-article demo prompt. Opens the booking calendar like every other Book a Demo CTA. */
+/** Mid-article demo prompt. Scrolls to the Book a demo form on this page. */
 export function BlogBookDemoCta() {
   return (
     <aside
@@ -71,9 +72,12 @@ export function BlogBookDemoCta() {
           A live walkthrough on your iOS or Android build. No scripts to write.
         </p>
       </div>
-      <BookDemoLinkButton className="h-11 w-fit shrink-0 rounded-lg px-6 text-sm font-semibold shadow-none">
-        Book a Demo
-      </BookDemoLinkButton>
+      <Button
+        asChild
+        className="h-11 w-fit shrink-0 rounded-lg px-6 text-sm font-semibold shadow-none"
+      >
+        <a href={`#${ARTICLE_DEMO_FORM_ID}`}>Book a Demo</a>
+      </Button>
     </aside>
   );
 }
