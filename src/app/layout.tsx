@@ -22,6 +22,7 @@ import { isInternalRouteRequest } from "@/lib/internal-routes";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import DeferredAnalytics from "@/components/DeferredAnalytics";
+import { RouteMemory } from "@/components/route-memory";
 
 const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
@@ -191,6 +192,7 @@ gtag('config', '${GOOGLE_ADS_ID}');
         ) : null}
 
         <Providers trackAnalytics={!internal}>
+          <RouteMemory />
           {!internal ? <WebMcpRegister /> : null}
           {!internal ? (
             <div className="relative z-[1200] w-full bg-background">

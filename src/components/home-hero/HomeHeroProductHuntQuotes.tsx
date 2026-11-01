@@ -26,9 +26,7 @@ export default function HomeHeroProductHuntQuotes({
   className,
 }: HomeHeroProductHuntQuotesProps) {
   const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
   const pausedRef = useRef(false);
-  const fadeTimerRef = useRef<number>(0);
 
   useEffect(() => {
     if (
@@ -41,17 +39,11 @@ export default function HomeHeroProductHuntQuotes({
 
     const id = window.setInterval(() => {
       if (pausedRef.current) return;
-      setVisible(false);
-      window.clearTimeout(fadeTimerRef.current);
-      fadeTimerRef.current = window.setTimeout(() => {
-        setIndex((current) => (current + 1) % HOME_HERO_PRODUCT_HUNT_QUOTES.length);
-        setVisible(true);
-      }, 280);
+      setIndex((current) => (current + 1) % HOME_HERO_PRODUCT_HUNT_QUOTES.length);
     }, HOME_HERO_QUOTE_ROTATE_MS);
 
     return () => {
       window.clearInterval(id);
-      window.clearTimeout(fadeTimerRef.current);
     };
   }, [active]);
 
@@ -82,10 +74,8 @@ export default function HomeHeroProductHuntQuotes({
           className={cn(
             "flex h-full w-full items-center px-5 text-left sm:px-6",
             "font-heading text-xl leading-snug tracking-tight text-foreground/85 sm:text-[1.375rem] sm:leading-snug",
-            "transition-opacity duration-300",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/35",
             "hover:text-foreground",
-            visible ? "opacity-100" : "opacity-0",
           )}
         >
           <span className="line-clamp-3">“{quote}”</span>
