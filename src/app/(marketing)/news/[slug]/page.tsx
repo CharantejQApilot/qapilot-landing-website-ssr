@@ -11,6 +11,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import { formatPublishedDate } from "@/lib/format-published";
 import { PATHS } from "@/lib/routes";
 import { SITE_BASE_URL, DEFAULT_LOGO_URL } from "@/lib/constants";
+import "@/styles/article-content.css";
 import { DEFAULT_SHARE_IMAGE_URL, defaultOpenGraphImage, formatMetaDescription } from "@/lib/seo";
 import { crawlMetaDescription } from "@/lib/crawl-meta-overrides";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";

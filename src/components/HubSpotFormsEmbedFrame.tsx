@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import "@/styles/hubspot-forms.css";
 
 const PORTAL_ID = "47284450";
 const SCRIPT_SRC = `https://js.hsforms.net/forms/embed/${PORTAL_ID}.js`;

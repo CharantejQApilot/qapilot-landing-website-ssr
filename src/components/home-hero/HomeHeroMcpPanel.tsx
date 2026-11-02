@@ -42,10 +42,13 @@ export default function HomeHeroMcpPanel() {
           <div className="relative overflow-hidden rounded-2xl shadow-[0_30px_80px_-24px_hsl(215_60%_20%/0.6)] ring-1 ring-[hsl(205_78%_52%/0.35)]">
             {/* eslint-disable-next-line @next/next/no-img-element -- self-hosted hero visual */}
             <img
-              src="/home-hero/qapilot-mcp-terminal.png"
+              src="/home-hero/qapilot-mcp-terminal.webp"
               alt="QApilot MCP terminal running a checkout test, with the device showing payment confirmed"
               width={1024}
               height={577}
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
               className="block h-auto w-full"
             />
             <div

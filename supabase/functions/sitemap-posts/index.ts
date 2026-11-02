@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
     // Fetch all published blog posts with featured images and youtube URLs
     const { data: blogs, error } = await supabaseClient
       .from('blogs')
-      .select('slug, updated_at, title, featured_image, youtube_url')
+      .select('slug, updated_at, published_date, title, excerpt, featured_image, youtube_url')
       .eq('published', true)
       .order('published_date', { ascending: false })
 
@@ -77,12 +77,21 @@ Deno.serve(async (req) => {
       if (blog.youtube_url) {
         const videoId = extractYouTubeId(blog.youtube_url)
         if (videoId) {
+          const videoDescription =
+            (typeof blog.excerpt === 'string' && blog.excerpt.trim()) || blog.title
+          const published = blog.published_date
+            ? new Date(blog.published_date).toISOString()
+            : ''
+          const publicationTag = published
+            ? `
+      <video:publication_date>${escapeXml(published)}</video:publication_date>`
+            : ''
           videoTag = `
     <video:video>
-      <video:thumbnail_loc>https://img.youtube.com/vi/${videoId}/maxresdefault.jpg</video:thumbnail_loc>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/${videoId}/hqdefault.jpg</video:thumbnail_loc>
       <video:title>${escapeXml(blog.title)}</video:title>
-      <video:description>${escapeXml(blog.title)}</video:description>
-      <video:player_loc>https://www.youtube.com/embed/${videoId}</video:player_loc>
+      <video:description>${escapeXml(videoDescription)}</video:description>
+      <video:player_loc>https://www.youtube.com/embed/${videoId}</video:player_loc>${publicationTag}
     </video:video>`
         }
       }

@@ -25,6 +25,8 @@ function inject(src,id){
 function load(){
   if(started)return;
   started=true;
+  var path=location.pathname||"";
+  if(path==="/admin"||path.indexOf("/admin/")===0||path==="/auth"||path.indexOf("/auth/")===0)return;
   window.dataLayer.push({"gtm.start":new Date().getTime(),event:"gtm.js"});
   inject("https://www.googletagmanager.com/gtm.js?id="+cfg.gtmId);
   inject("https://js.hs-scripts.com/"+cfg.hubspotPortalId+".js","hs-script-loader");

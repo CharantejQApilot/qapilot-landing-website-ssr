@@ -13,6 +13,7 @@ import { commaSeparatedList, firstNonEmptyString } from "@/lib/cms-values";
 import { ArticleHeroMedia } from "@/components/article/ArticleHeroMedia";
 import { ArticleReadingLayout } from "@/components/article/ArticleReadingLayout";
 import { QaGuideCrawlSupplements } from "@/components/qa-guide/QaGuideCrawlSupplements";
+import "@/styles/article-content.css";
 import { ArticleSummariseWithAI } from "@/components/summarise-with-ai/ArticleSummariseWithAI";
 import { ArticleKeyTakeaways } from "@/components/ArticleKeyTakeaways";
 import WriterCard from "@/components/WriterCard";

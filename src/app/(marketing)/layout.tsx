@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 
-/** Shared site footer for all public marketing routes (single ISR surface with Header in root layout). */
+/** Shared site footer for all public marketing routes. */
 export default function MarketingLayout({
   children,
 }: {
