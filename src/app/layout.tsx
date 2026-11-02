@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Providers from "./providers";
-import Header from "@/components/Header";
-import SitePromoBanner from "@/components/SitePromoBanner";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import { rootSchemaGraphJsonLd } from "@/lib/root-jsonld";
 import {
@@ -13,16 +10,17 @@ import {
   HUBSPOT_NA1_PORTAL_ID,
   FACTORS_AI_TOKEN,
   REB2B_SCRIPT_KEY,
-  SITE_BASE_URL,
 } from "@/lib/constants";
 import { CLARITY_UNMASK_STYLESHEETS_SCRIPT } from "@/lib/clarity-unmask-stylesheets-script";
 import { deferredMarketingScriptsHtml } from "@/lib/deferred-marketing-scripts";
 import { fontHeading, fontSans } from "@/lib/fonts";
-import { isInternalRouteRequest } from "@/lib/internal-routes";
 import "./globals.css";
-import dynamic from "next/dynamic";
-import DeferredAnalytics from "@/components/DeferredAnalytics";
 import { RouteMemory } from "@/components/route-memory";
+import { PublicChrome } from "@/components/PublicChrome";
+import Header from "@/components/Header";
+import SitePromoBanner from "@/components/SitePromoBanner";
+import DeferredAnalytics from "@/components/DeferredAnalytics";
+import dynamic from "next/dynamic";
 
 const WebMcpRegister = dynamic(() => import("@/components/WebMcpRegister"), {
   ssr: false,
@@ -57,7 +55,6 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: SITE_BASE_URL,
     title: "QApilot. AI Mobile App Testing & QA Automation",
     description:
       "Automate mobile app testing with AI. Instant iOS, Android, and Flutter coverage with self-healing tests for modern mobile teams. Start free today.",
@@ -98,15 +95,12 @@ function supabasePreconnectOrigin(): string | null {
   }
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const supabaseOrigin = supabasePreconnectOrigin();
-  const requestHeaders = await headers();
-  const internal = isInternalRouteRequest(requestHeaders);
-  const isHome = requestHeaders.get("x-qapilot-pathname") === "/";
 
   return (
     <html
@@ -115,9 +109,6 @@ export default async function RootLayout({
     >
       <head>
         <meta httpEquiv="content-language" content="en-US" />
-        {isHome ? (
-          <link rel="canonical" href={`${SITE_BASE_URL}/`} />
-        ) : null}
         {supabaseOrigin ? (
           <link
             rel="preconnect"
@@ -125,9 +116,7 @@ export default async function RootLayout({
             crossOrigin="anonymous"
           />
         ) : null}
-        {!internal ? (
-          <>
-            <link
+        <link
               rel="preconnect"
               href="https://www.googletagmanager.com"
               crossOrigin="anonymous"
@@ -158,9 +147,12 @@ export default async function RootLayout({
                 __html: `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
-gtag('config', '${GOOGLE_ADS_ID}');
+var path = location.pathname || "";
+if (path !== "/admin" && path.indexOf("/admin/") !== 0 && path !== "/auth" && path.indexOf("/auth/") !== 0) {
+  gtag('js', new Date());
+  gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
+  gtag('config', '${GOOGLE_ADS_ID}');
+}
 `,
               }}
             />
@@ -176,35 +168,33 @@ gtag('config', '${GOOGLE_ADS_ID}');
                 }),
               }}
             />
-          </>
-        ) : null}
       </head>
       <body className={`${fontSans.className} antialiased`}>
-        {!internal ? (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            />
-          </noscript>
-        ) : null}
-
-        <Providers trackAnalytics={!internal}>
+        <Providers>
           <RouteMemory />
-          {!internal ? <WebMcpRegister /> : null}
-          {!internal ? (
+          <PublicChrome>
+            <noscript>
+              <iframe
+                src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
+                height="0"
+                width="0"
+                style={{ display: "none", visibility: "hidden" }}
+              />
+            </noscript>
+            <WebMcpRegister />
             <div className="relative z-[1200] w-full bg-background">
               <SitePromoBanner />
               <Header />
             </div>
-          ) : null}
+          </PublicChrome>
           <div className="relative z-0 isolate">{children}</div>
-          {!internal ? <FloatingSiteRails /> : null}
+          <PublicChrome>
+            <FloatingSiteRails />
+          </PublicChrome>
         </Providers>
-
-        {!internal ? <DeferredAnalytics /> : null}
+        <PublicChrome>
+          <DeferredAnalytics />
+        </PublicChrome>
       </body>
     </html>
   );

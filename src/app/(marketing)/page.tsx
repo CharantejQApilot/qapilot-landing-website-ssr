@@ -38,11 +38,10 @@ const canonicalUrl = `${SITE_BASE_URL}/`;
 export const metadata: Metadata = {
   title: { absolute: HOME_PAGE_TITLE },
   description: HOME_PAGE_DESCRIPTION,
-  // Canonical is emitted from the root layout. Next strips a trailing slash
-  // from metadata when the path is `/`, which pointed this tag at a variant.
+  // Next strips a trailing slash from metadata when the path is `/`, so the
+  // canonical and og:url are real tags below. Both name https://qapilot.io/.
   openGraph: {
     type: "website",
-    url: canonicalUrl,
     title: HOME_PAGE_OG_TITLE,
     description: HOME_PAGE_OG_DESCRIPTION,
     siteName: "QApilot",
@@ -62,6 +61,8 @@ export const metadata: Metadata = {
 export default function IndexPage() {
   return (
     <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
+      <link rel="canonical" href={canonicalUrl} />
+      <meta property="og:url" content={canonicalUrl} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeWebPageJsonLd) }}

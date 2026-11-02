@@ -189,6 +189,10 @@ export function HomeCaseStudiesSection() {
                           <img
                             src={study.logoSrc}
                             alt={study.logoAlt}
+                            width={study.logoWidth}
+                            height={study.logoHeight}
+                            loading="lazy"
+                            decoding="async"
                             className="h-14 w-auto max-w-[11rem] object-contain opacity-90 transition group-hover:opacity-100 sm:h-16 sm:max-w-[13rem] md:h-[4.5rem] md:max-w-[15rem]"
                           />
                         </div>

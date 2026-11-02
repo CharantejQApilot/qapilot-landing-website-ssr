@@ -1,0 +1,195 @@
+/* Article body typography. Loaded on blogs, news, and QA Guide articles. */
+/* ── Blog Content Styling ── */
+  .blog-content {
+    @apply text-foreground text-lg leading-relaxed;
+  }
+  .blog-content h1 {
+    @apply text-4xl font-bold mt-8 mb-4;
+  }
+  .blog-content h2 {
+    @apply text-3xl font-bold mt-6 mb-3;
+  }
+  .blog-content h3 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+  .blog-content h4 {
+    @apply text-xl font-semibold mt-4 mb-2;
+  }
+  .blog-content h5 {
+    @apply text-lg font-semibold mt-4 mb-2;
+  }
+  .blog-content h6 {
+    @apply text-base font-semibold mt-4 mb-2;
+  }
+  .blog-content p {
+    @apply mb-4 leading-relaxed text-foreground;
+  }
+  .blog-content ul {
+    @apply list-disc mb-6 space-y-2 pl-8;
+  }
+  .blog-content ol {
+    @apply list-decimal mb-6 space-y-2 pl-8;
+  }
+  .blog-content li {
+    @apply leading-relaxed text-foreground pl-2;
+  }
+  .blog-content ul ul,
+  .blog-content ol ul {
+    @apply list-disc mt-2 mb-2 pl-6;
+  }
+  .blog-content ul ol,
+  .blog-content ol ol {
+    @apply list-decimal mt-2 mb-2 pl-6;
+  }
+  .blog-content blockquote {
+    @apply border-l-4 border-primary pl-6 py-2 italic my-6 text-muted-foreground;
+  }
+  .blog-content code {
+    @apply bg-muted px-2 py-1 rounded text-sm font-mono;
+  }
+  .blog-content pre {
+    @apply bg-muted p-4 rounded my-6 overflow-x-auto;
+  }
+  .blog-content pre code {
+    @apply bg-transparent p-0;
+  }
+  .blog-content a,
+  .blog-content a:visited {
+    @apply text-primary underline underline-offset-2 decoration-2 font-medium hover:text-primary/80 transition-colors;
+  }
+  .blog-content strong a,
+  .blog-content a strong,
+  .blog-content b a,
+  .blog-content a b {
+    @apply text-primary underline font-semibold;
+  }
+  .blog-content img {
+    @apply rounded-lg my-6 max-w-full h-auto;
+  }
+  .blog-content strong,
+  .blog-content b {
+    @apply font-bold text-foreground;
+  }
+  .blog-content em,
+  .blog-content i {
+    @apply italic;
+  }
+  .blog-content u {
+    @apply underline;
+  }
+  .blog-content hr {
+    @apply my-8 border-border;
+  }
+  .blog-content table {
+    @apply w-full border-collapse my-6 text-left;
+  }
+  .blog-content table th {
+    @apply bg-muted font-semibold text-foreground border border-border px-4 py-3;
+  }
+  .blog-content table td {
+    @apply border border-border px-4 py-3 text-foreground;
+  }
+  .blog-content table tr:nth-child(even) {
+    @apply bg-muted/30;
+  }
+  .blog-content table tr:hover {
+    @apply bg-muted/50 transition-colors;
+  }
+
+  /* ── News Content Styling ── */
+  .news-content {
+    @apply text-foreground text-lg leading-relaxed;
+  }
+  .news-content h1 {
+    @apply text-4xl font-bold mt-8 mb-4;
+  }
+  .news-content h2 {
+    @apply text-3xl font-bold mt-6 mb-3;
+  }
+  .news-content h3 {
+    @apply text-2xl font-semibold mt-6 mb-3;
+  }
+  .news-content h4 {
+    @apply text-xl font-semibold mt-4 mb-2;
+  }
+  .news-content h5 {
+    @apply text-lg font-semibold mt-4 mb-2;
+  }
+  .news-content h6 {
+    @apply text-base font-semibold mt-4 mb-2;
+  }
+  .news-content p {
+    @apply mb-4 leading-relaxed text-foreground;
+  }
+  .news-content ul {
+    @apply list-disc mb-6 space-y-2 pl-8;
+  }
+  .news-content ol {
+    @apply list-decimal mb-6 space-y-2 pl-8;
+  }
+  .news-content li {
+    @apply leading-relaxed text-foreground pl-2;
+  }
+  .news-content ul ul,
+  .news-content ol ul {
+    @apply list-disc mt-2 mb-2 pl-6;
+  }
+  .news-content ul ol,
+  .news-content ol ol {
+    @apply list-decimal mt-2 mb-2 pl-6;
+  }
+  .news-content blockquote {
+    @apply border-l-4 border-primary pl-6 py-2 italic my-6 text-muted-foreground;
+  }
+  .news-content code {
+    @apply bg-muted px-2 py-1 rounded text-sm font-mono;
+  }
+  .news-content pre {
+    @apply bg-muted p-4 rounded my-6 overflow-x-auto;
+  }
+  .news-content pre code {
+    @apply bg-transparent p-0;
+  }
+  .news-content a,
+  .news-content a:visited {
+    @apply text-primary underline underline-offset-2 decoration-2 font-medium hover:text-primary/80 transition-colors;
+  }
+  .news-content strong a,
+  .news-content a strong,
+  .news-content b a,
+  .news-content a b {
+    @apply text-primary underline font-semibold;
+  }
+  .news-content img {
+    @apply rounded-lg my-6 max-w-full h-auto;
+  }
+  .news-content strong,
+  .news-content b {
+    @apply font-bold text-foreground;
+  }
+  .news-content em,
+  .news-content i {
+    @apply italic;
+  }
+  .news-content u {
+    @apply underline;
+  }
+  .news-content hr {
+    @apply my-8 border-border;
+  }
+  .news-content table {
+    @apply w-full border-collapse my-6 text-left;
+  }
+  .news-content table th {
+    @apply bg-muted font-semibold text-foreground border border-border px-4 py-3;
+  }
+  .news-content table td {
+    @apply border border-border px-4 py-3 text-foreground;
+  }
+  .news-content table tr:nth-child(even) {
+    @apply bg-muted/30;
+  }
+  .news-content table tr:hover {
+    @apply bg-muted/50 transition-colors;
+  }
+

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
 import { ArticleHeroMedia } from "@/components/article/ArticleHeroMedia";
+import "@/styles/article-content.css";
 import { ArticleReadingLayout } from "@/components/article/ArticleReadingLayout";
 import WriterCard from "@/components/WriterCard";
 import { sanitizeRichText } from "@/lib/sanitizeRichText";
@@ -60,6 +61,7 @@ import {
   formatMetaDescription,
 } from "@/lib/seo";
 import { crawlMetaDescription } from "@/lib/crawl-meta-overrides";
+import { extractYouTubeId } from "@/utils/youtube";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
 const ARTICLE_GUTTER =
@@ -400,6 +402,19 @@ export default async function BlogPostPage({
   const category = asTrimmedString((blog as { category?: unknown }).category);
   const tags = commaSeparatedList((blog as { tags?: unknown }).tags);
   const youtubeUrl = asTrimmedString(blog.youtube_url);
+  const videoId = youtubeUrl ? extractYouTubeId(youtubeUrl) : null;
+  if (videoId && articlePublishedTime) {
+    articleStructuredData.video = {
+      "@type": "VideoObject",
+      name: blog.title,
+      description: descriptionText || blog.title,
+      thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+      uploadDate: articlePublishedTime,
+      embedUrl: `https://www.youtube.com/embed/${videoId}`,
+      contentUrl: `https://www.youtube.com/watch?v=${videoId}`,
+      publisher: { "@type": "Organization", name: "QApilot" },
+    };
+  }
   const contentFormat =
     asTrimmedString(
       (blog as { content_format?: unknown }).content_format,

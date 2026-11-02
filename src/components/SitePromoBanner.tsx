@@ -31,7 +31,7 @@ export default function SitePromoBanner() {
     const run = () => {
       void (async () => {
         try {
-          const res = await fetch("/api/site-promo", { cache: "no-store" });
+          const res = await fetch("/api/site-promo", { cache: "no-cache" });
           const data = (await res.json()) as SitePromoPayload | null;
           if (!cancelled) setPayload(data ?? null);
         } catch {
