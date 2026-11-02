@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { usePathname } from "next/navigation";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HubSpotFormProvider, useHubSpotForm } from "@/hooks/useHubSpotForm";
 import { Toaster } from "@/components/ui/toaster";
@@ -51,9 +52,17 @@ export default function Providers({
   children: React.ReactNode;
   trackAnalytics?: boolean;
 }) {
+  const pathname = usePathname();
+  const internal =
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname === "/auth" ||
+    pathname.startsWith("/auth/");
+  const track = trackAnalytics && !internal;
+
   return (
     <>
-      {trackAnalytics ? (
+      {track ? (
         <Suspense fallback={null}>
           <AttributionTracker />
           <ClarityTracker />
@@ -62,7 +71,7 @@ export default function Providers({
       <TooltipProvider>
         <HubSpotFormProvider>
           <Toaster />
-          <AppShell trackAnalytics={trackAnalytics}>{children}</AppShell>
+          <AppShell trackAnalytics={track}>{children}</AppShell>
         </HubSpotFormProvider>
       </TooltipProvider>
     </>

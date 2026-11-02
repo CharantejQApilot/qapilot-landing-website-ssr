@@ -4,6 +4,7 @@ import { ADMIN_ACCESS_COOKIE } from "@/lib/admin/constants";
 import { verifyAdminAccessToken } from "@/lib/admin/verify-admin-access-token";
 import { getIndexableContentCanonical } from "@/lib/indexable-content-canonical";
 import { INTERNAL_ROUTE_HEADER, isInternalPath } from "@/lib/internal-routes";
+import { SITE_BASE_URL } from "@/lib/constants";
 
 function attachContentCanonicalHeader(
   request: NextRequest,
@@ -150,6 +151,9 @@ export async function middleware(request: NextRequest) {
   }
 
   const response = nextWithContentCanonical(request);
+  if (pathname === "/") {
+    response.headers.append("Link", `<${SITE_BASE_URL}/>; rel="canonical"`);
+  }
   if (pathname === "/book-demo") {
     response.headers.append(
       "Link",

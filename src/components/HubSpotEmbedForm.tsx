@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { cn } from "@/lib/utils";
+import "@/styles/hubspot-forms.css";
 
 // Extend the Window interface to include dataLayer and gtag functions
 declare global {

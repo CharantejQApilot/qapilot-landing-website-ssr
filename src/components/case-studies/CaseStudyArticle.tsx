@@ -38,6 +38,9 @@ function CaseStudyLogo({ study, className }: { study: CaseStudy; className?: str
       <img
         src={study.logoSrc}
         alt={study.logoAlt}
+        width={study.logoWidth}
+        height={study.logoHeight}
+        decoding="async"
         className="max-h-14 w-auto max-w-[12rem] object-contain sm:max-h-16"
       />
     </div>
@@ -588,6 +591,10 @@ export function CaseStudyArticle({ study }: { study: CaseStudy }) {
                   <img
                     src={other.logoSrc}
                     alt={other.logoAlt}
+                    width={other.logoWidth}
+                    height={other.logoHeight}
+                    loading="lazy"
+                    decoding="async"
                     className="mt-1 h-10 w-auto max-w-[7.5rem] shrink-0 object-contain opacity-90 sm:h-12 sm:max-w-[9rem]"
                   />
                 </div>

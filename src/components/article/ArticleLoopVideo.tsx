@@ -1,17 +1,68 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
+import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 
 type YtPlayer = {
   mute: () => void;
   unMute: () => void;
   isMuted: () => boolean;
+  getVolume: () => number;
   setVolume: (volume: number) => void;
   playVideo: () => void;
+  pauseVideo: () => void;
   seekTo: (seconds: number, allowSeekAhead?: boolean) => void;
+  getCurrentTime: () => number;
+  getDuration: () => number;
+  getPlayerState: () => number;
   destroy: () => void;
+  getIframe?: () => HTMLIFrameElement;
+  unloadModule?: (module: string) => void;
+  getOption?: (module: string, option: string) => { languageCode?: string } | null;
+  setOption?: (module: string, option: string, value: unknown) => void;
 };
+
+/**
+ * YouTube draws previous, pause, and next at a fixed size inside the iframe
+ * whenever the playhead is moved. Mounting the player larger and scaling it
+ * back down shrinks that chrome to nothing. The video itself is sized in
+ * percentages, so it still fills the frame.
+ * 14 keeps a max-width article under the size where the player stops filling
+ * the frame.
+ */
+const YOUTUBE_CHROME_SCALE = 14;
+
+function concealYouTubeChrome(iframe: HTMLIFrameElement) {
+  const scale = YOUTUBE_CHROME_SCALE;
+  iframe.style.setProperty("position", "absolute", "important");
+  iframe.style.setProperty("top", "0", "important");
+  iframe.style.setProperty("left", "0", "important");
+  iframe.style.setProperty("width", `${scale * 100}%`, "important");
+  iframe.style.setProperty("height", `${scale * 100}%`, "important");
+  iframe.style.setProperty("max-width", "none", "important");
+  iframe.style.setProperty("border", "0", "important");
+  iframe.style.setProperty("pointer-events", "none", "important");
+  iframe.style.setProperty("transform", `scale(${1 / scale})`, "important");
+  iframe.style.setProperty("transform-origin", "0 0", "important");
+}
+
+function hideYouTubeCaptions(player: YtPlayer) {
+  try {
+    const track = player.getOption?.("captions", "track");
+    if (!track?.languageCode) return;
+    player.setOption?.("captions", "track", {});
+  } catch {
+    /* captions module not ready */
+  }
+}
 
 let youtubeApiPromise: Promise<void> | null = null;
 
@@ -38,9 +89,11 @@ function loadYouTubeIframeApi(): Promise<void> {
   return youtubeApiPromise;
 }
 
-function unmutePlayer(player: YtPlayer) {
-  player.unMute();
-  player.setVolume(100);
+function formatTime(seconds: number) {
+  const total = Math.max(0, Math.floor(seconds));
+  const minutes = Math.floor(total / 60);
+  const remainder = total % 60;
+  return `${minutes}:${remainder.toString().padStart(2, "0")}`;
 }
 
 type ArticleLoopVideoProps = {
@@ -49,16 +102,73 @@ type ArticleLoopVideoProps = {
 };
 
 /**
- * Muted, looping YouTube hero. Hover unmutes when the browser allows it
- * (hover is not a user gesture in Chrome/Safari until the page has been
- * clicked). A sound button unmutes on click. Pointer leave mutes again.
- * Touch keeps the video muted until the sound button is tapped.
+ * Autoplaying, looping YouTube hero with no YouTube chrome.
+ * Sound stays muted until the sound button is used, and that choice
+ * is reapplied when the iframe scrolls off screen and back — the
+ * player otherwise drops mute on its own. A seek bar scrubs the video.
+ * Seeking makes YouTube paint previous, pause, and next in the middle;
+ * the player is scaled so that chrome shrinks away. Play and pause are our own.
  */
 export function ArticleLoopVideo({ videoId, title }: ArticleLoopVideoProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YtPlayer | null>(null);
-  const hoveringRef = useRef(false);
+  const seekRef = useRef<HTMLDivElement>(null);
+  const mutedRef = useRef(true);
+  const userPausedRef = useRef(false);
+  const durationRef = useRef(0);
+  const progressRef = useRef(0);
+  const draggingRef = useRef(false);
+  const seekId = useId();
   const [muted, setMuted] = useState(true);
+  const [playing, setPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  const enforcePause = (player: YtPlayer) => {
+    if (!userPausedRef.current) return;
+    try {
+      const paused = window.YT?.PlayerState?.PAUSED;
+      const ended = window.YT?.PlayerState?.ENDED;
+      if (paused == null) return;
+      const state = player.getPlayerState();
+      if (state === paused || state === ended) return;
+      player.pauseVideo();
+    } catch {
+      /* player not ready */
+    }
+  };
+
+  const applyMute = (player: YtPlayer) => {
+    try {
+      if (mutedRef.current) {
+        if (!player.isMuted()) {
+          player.mute();
+          player.setVolume(0);
+        }
+      } else if (player.isMuted() || player.getVolume() === 0) {
+        player.unMute();
+        player.setVolume(100);
+      }
+    } catch {
+      /* player not ready */
+    }
+    // Unmuting resumes a paused YouTube video. Put the pause back.
+    enforcePause(player);
+  };
+
+  const seekToRatio = (ratio: number) => {
+    const player = playerRef.current;
+    const duration = durationRef.current;
+    if (!player || !(duration > 0)) return;
+    const clamped = Math.min(1, Math.max(0, ratio));
+    progressRef.current = clamped;
+    setProgress(clamped);
+    try {
+      player.seekTo(clamped * duration, true);
+    } catch {
+      /* ignore */
+    }
+    applyMute(player);
+  };
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -69,6 +179,35 @@ export function ArticleLoopVideo({ videoId, title }: ArticleLoopVideoProps) {
     frame.appendChild(mount);
 
     let cancelled = false;
+
+    const chromeObserver = new MutationObserver(() => {
+      const iframe = frame.querySelector("iframe");
+      if (iframe) concealYouTubeChrome(iframe);
+    });
+    chromeObserver.observe(frame, { childList: true, subtree: true });
+
+    const syncFromPlayer = () => {
+      if (cancelled) return;
+      const player = playerRef.current;
+      if (!player) return;
+      applyMute(player);
+      hideYouTubeCaptions(player);
+      if (draggingRef.current) return;
+      try {
+        const duration = player.getDuration();
+        const current = player.getCurrentTime();
+        if (duration > 0) {
+          durationRef.current = duration;
+          const next = Math.min(1, Math.max(0, current / duration));
+          if (Math.abs(next - progressRef.current) > 0.002) {
+            progressRef.current = next;
+            setProgress(next);
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+    };
 
     loadYouTubeIframeApi().then(() => {
       if (cancelled || !mount.isConnected || !window.YT?.Player) return;
@@ -81,12 +220,15 @@ export function ArticleLoopVideo({ videoId, title }: ArticleLoopVideoProps) {
         playerVars: {
           autoplay: 1,
           mute: 1,
-          loop: 1,
-          playlist: videoId,
-          controls: 1,
+          controls: 0,
           modestbranding: 1,
           playsinline: 1,
           rel: 0,
+          fs: 0,
+          disablekb: 1,
+          iv_load_policy: 3,
+          cc_load_policy: 0,
+          showinfo: 0,
           enablejsapi: 1,
           origin: window.location.origin,
         },
@@ -101,64 +243,109 @@ export function ArticleLoopVideo({ videoId, title }: ArticleLoopVideoProps) {
               return;
             }
             playerRef.current = event.target;
+            const iframe = event.target.getIframe?.();
+            if (iframe) {
+              iframe.tabIndex = -1;
+              iframe.setAttribute("aria-hidden", "true");
+              concealYouTubeChrome(iframe);
+            }
             try {
+              hideYouTubeCaptions(event.target);
               event.target.mute();
+              event.target.setVolume(0);
               event.target.playVideo();
-              if (hoveringRef.current) {
-                unmutePlayer(event.target);
-                setMuted(event.target.isMuted());
-              }
             } catch {
               /* ignore */
             }
           },
+          onApiChange: (event: { target: YtPlayer }) => {
+            if (cancelled) return;
+            hideYouTubeCaptions(event.target);
+            applyMute(event.target);
+          },
           onStateChange: (event: { data: number; target: YtPlayer }) => {
-            const ended = window.YT?.PlayerState?.ENDED;
-            if (ended == null || event.data !== ended) return;
-            try {
-              event.target.seekTo(0, true);
-              event.target.playVideo();
-            } catch {
-              /* ignore */
+            if (cancelled) return;
+            applyMute(event.target);
+            const playerState = window.YT?.PlayerState;
+            if (!playerState) return;
+            if (event.data === playerState.PLAYING || event.data === playerState.BUFFERING) {
+              enforcePause(event.target);
             }
+            if (event.data === playerState.ENDED) {
+              if (userPausedRef.current) return;
+              try {
+                event.target.seekTo(0, true);
+                event.target.playVideo();
+                applyMute(event.target);
+              } catch {
+                /* ignore */
+              }
+              return;
+            }
+            if (event.data !== playerState.PAUSED || userPausedRef.current) return;
+            window.setTimeout(() => {
+              if (cancelled || userPausedRef.current) return;
+              try {
+                if (event.target.getPlayerState() === playerState.PAUSED) {
+                  event.target.playVideo();
+                  applyMute(event.target);
+                }
+              } catch {
+                /* ignore */
+              }
+            }, 320);
           },
         },
       });
     });
 
+    const poll = window.setInterval(syncFromPlayer, 200);
+
+    const onVisibility = () => {
+      const player = playerRef.current;
+      if (player) applyMute(player);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    const root = frame.parentElement;
+    const observer = new IntersectionObserver(onVisibility, {
+      threshold: [0, 0.01, 0.25],
+    });
+    if (root) observer.observe(root);
+
     return () => {
       cancelled = true;
+      chromeObserver.disconnect();
+      window.clearInterval(poll);
+      document.removeEventListener("visibilitychange", onVisibility);
+      observer.disconnect();
       try {
         playerRef.current?.destroy();
       } catch {
         /* ignore */
       }
       playerRef.current = null;
+      durationRef.current = 0;
+      progressRef.current = 0;
       mount.remove();
     };
   }, [videoId]);
 
-  const onPointerEnter = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse") return;
-    hoveringRef.current = true;
+  const onPlayClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     const player = playerRef.current;
+    const nextPaused = !userPausedRef.current;
+    userPausedRef.current = nextPaused;
+    setPlaying(!nextPaused);
     if (!player) return;
     try {
-      unmutePlayer(player);
-      setMuted(player.isMuted());
-    } catch {
-      /* ignore */
-    }
-  };
-
-  const onPointerLeave = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse") return;
-    hoveringRef.current = false;
-    const player = playerRef.current;
-    if (!player) return;
-    try {
-      player.mute();
-      setMuted(true);
+      if (nextPaused) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+        applyMute(player);
+      }
     } catch {
       /* ignore */
     }
@@ -168,30 +355,91 @@ export function ArticleLoopVideo({ videoId, title }: ArticleLoopVideoProps) {
     event.preventDefault();
     event.stopPropagation();
     const player = playerRef.current;
+    const nextMuted = !mutedRef.current;
+    mutedRef.current = nextMuted;
+    setMuted(nextMuted);
     if (!player) return;
     try {
-      if (muted) {
-        unmutePlayer(player);
-        setMuted(player.isMuted());
-      } else {
+      if (nextMuted) {
         player.mute();
-        setMuted(true);
+        player.setVolume(0);
+      } else {
+        player.unMute();
+        player.setVolume(100);
       }
+      enforcePause(player);
     } catch {
       /* ignore */
     }
   };
 
+  const ratioFromPointer = (event: PointerEvent<HTMLDivElement>) => {
+    const bar = seekRef.current;
+    if (!bar) return null;
+    const rect = bar.getBoundingClientRect();
+    if (rect.width <= 0) return null;
+    return (event.clientX - rect.left) / rect.width;
+  };
+
+  const onSeekPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    draggingRef.current = true;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const ratio = ratioFromPointer(event);
+    if (ratio != null) seekToRatio(ratio);
+  };
+
+  const onSeekPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current) return;
+    const ratio = ratioFromPointer(event);
+    if (ratio != null) seekToRatio(ratio);
+  };
+
+  const onSeekPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (!draggingRef.current) return;
+    draggingRef.current = false;
+    const ratio = ratioFromPointer(event);
+    if (ratio != null) seekToRatio(ratio);
+  };
+
+  const onSeekKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const step = event.shiftKey ? 0.1 : 0.05;
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      seekToRatio(progressRef.current + step);
+    } else if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      seekToRatio(progressRef.current - step);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      seekToRatio(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      seekToRatio(1);
+    }
+  };
+
+  const duration = durationRef.current;
+  const shownSeconds = progress * (duration > 0 ? duration : 0);
+
   return (
-    <div
-      className="relative aspect-video w-full bg-muted"
-      onPointerEnter={onPointerEnter}
-      onPointerLeave={onPointerLeave}
-    >
+    <div className="relative aspect-video w-full overflow-hidden bg-black">
       <div
         ref={frameRef}
-        className="absolute inset-0 [&_iframe]:h-full [&_iframe]:w-full"
+        className="absolute inset-0"
       />
+      <button
+        type="button"
+        onClick={onPlayClick}
+        aria-label={playing ? "Pause video" : "Play video"}
+        className="absolute left-1/2 top-1/2 z-20 inline-flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/55 text-white shadow-sm backdrop-blur-sm transition-colors hover:bg-black/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+      >
+        {playing ? (
+          <Pause className="h-5 w-5" aria-hidden />
+        ) : (
+          <Play className="ml-0.5 h-5 w-5" aria-hidden />
+        )}
+      </button>
       <button
         type="button"
         onClick={onSoundClick}
@@ -205,6 +453,41 @@ export function ArticleLoopVideo({ videoId, title }: ArticleLoopVideoProps) {
           <Volume2 className="h-4 w-4" aria-hidden />
         )}
       </button>
+      <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2.5 pt-8">
+        <div
+          ref={seekRef}
+          id={seekId}
+          role="slider"
+          tabIndex={0}
+          aria-label="Seek video"
+          aria-valuemin={0}
+          aria-valuemax={1000}
+          aria-valuenow={Math.round(progress * 1000)}
+          aria-valuetext={
+            duration > 0
+              ? `${formatTime(shownSeconds)} of ${formatTime(duration)}`
+              : "Video loading"
+          }
+          onPointerDown={onSeekPointerDown}
+          onPointerMove={onSeekPointerMove}
+          onPointerUp={onSeekPointerUp}
+          onPointerCancel={onSeekPointerUp}
+          onKeyDown={onSeekKeyDown}
+          className="group relative flex h-6 cursor-pointer touch-none items-center focus-visible:outline-none"
+        >
+          <div className="relative h-1 w-full rounded-full bg-white/35 transition-[height] group-hover:h-1.5 group-focus-visible:h-1.5">
+            <div
+              className="absolute inset-y-0 left-0 rounded-full bg-white"
+              style={{ width: `${progress * 100}%` }}
+            />
+          </div>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white shadow-sm"
+            style={{ left: `clamp(0px, calc(${progress * 100}% - 6px), calc(100% - 12px))` }}
+          />
+        </div>
+      </div>
       <p className="sr-only">{title}</p>
     </div>
   );

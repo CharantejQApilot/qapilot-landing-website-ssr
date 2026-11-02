@@ -27,6 +27,9 @@ export type CaseStudy = {
   clientUrl: string;
   logoSrc: string;
   logoAlt: string;
+  /** Intrinsic pixel size of logoSrc. Keeps the slot stable before the file loads. */
+  logoWidth: number;
+  logoHeight: number;
   tags: string[];
   quote?: {
     text: string;
@@ -73,6 +76,8 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     clientUrl: "https://wio.io/",
     logoSrc: "/case-studies/wio.png",
     logoAlt: "Wio Bank logo",
+    logoWidth: 300,
+    logoHeight: 300,
     tags: ["Digital banking", "Flutter", "Android and iOS"],
     titleBefore: "Reliable automation on a ",
     titleAccent: "Flutter banking app",
@@ -226,8 +231,10 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     slug: "geml",
     clientName: "Geml",
     clientUrl: "https://www.geml.co/",
-    logoSrc: "/case-studies/geml.png",
+    logoSrc: "/case-studies/geml.webp",
     logoAlt: "Geml logo",
+    logoWidth: 192,
+    logoHeight: 192,
     tags: ["Dating app", "Flutter", "Pre-launch"],
     titleBefore: "Full sanity automation for a pre-launch dating app, in ",
     titleAccent: "two weeks",
@@ -365,6 +372,8 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     clientUrl: "https://growsari.com/",
     logoSrc: "/case-studies/growsari.webp",
     logoAlt: "GrowSari logo",
+    logoWidth: 400,
+    logoHeight: 228,
     tags: ["B2B retail", "Commerce app", "OTP-gated flows"],
     titleBefore: "Regression readiness turned into ",
     titleAccent: "real automation progress",
