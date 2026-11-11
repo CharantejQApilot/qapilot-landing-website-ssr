@@ -102,7 +102,7 @@ export function PlayPolicyEmailForm({
       <div
         id={id}
         className={cn(
-          "max-w-xl text-base font-medium leading-relaxed sm:text-lg",
+          "max-w-md text-base font-medium leading-relaxed sm:text-lg",
           navy ? "text-white" : "text-foreground",
           className,
         )}
@@ -117,7 +117,7 @@ export function PlayPolicyEmailForm({
     <form
       id={id}
       onSubmit={onSubmit}
-      className={cn("w-full max-w-xl", className)}
+      className={cn("w-full max-w-md", className)}
       noValidate
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start">

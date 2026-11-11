@@ -36,7 +36,7 @@ export function PlayPolicyHero() {
             </p>
             <PlayPolicyEmailForm
               id={PLAY_POLICY_ACCESS_ID}
-              className="mt-8 max-w-none scroll-mt-28 sm:mt-10"
+              className="mt-8 scroll-mt-28 sm:mt-10"
             />
           </div>
           <PlayPolicyReportCard />
