@@ -80,6 +80,11 @@ const staticPages: MetadataRoute.Sitemap = [
     priority: 0.8,
   },
   {
+    url: `${SITE_BASE_URL}${PATHS.PLAY_POLICY_CHECKER}`,
+    changeFrequency: "weekly",
+    priority: 0.86,
+  },
+  {
     url: `${SITE_BASE_URL}${PATHS.NEWS}`,
     changeFrequency: "weekly",
     priority: 0.8,

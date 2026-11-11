@@ -167,6 +167,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Say what needs to hold in your editor. QApilot MCP builds the mobile test, runs it on your device, and returns a report your agent can read.",
   },
+  "/play-policy-checker": {
+    title: "Play Policy Checker. Know Before You Submit | QApilot",
+    description:
+      "Upload an APK or pick your Play listing. QApilot crawls the app, scans the build, and emails every Play policy blocker before you submit. Android only.",
+  },
   "/mcp/guide": {
     title: "QApilot MCP CLI Guide. Android Automation | QApilot",
     description:

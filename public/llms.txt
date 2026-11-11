@@ -85,6 +85,8 @@ QApilot also supports **Bring Your Own Agent (BYOA)**. Teams can plug in their o
 
 **QApilot MCP** puts that verification in the coding agent you already use. Say what needs to hold in plain language. QApilot builds the test, runs it on your local device or emulator, and returns a markdown report the agent can query. Local-first: the app stays on your machine. Guide: [https://qapilot.io/mcp/guide](https://qapilot.io/mcp/guide). Walkthrough: [https://qapilot.io/mcp](https://qapilot.io/mcp).
 
+**Play Policy Checker** tells you whether Google Play is likely to reject an Android app before you submit. Upload an APK or pick a Play listing. QApilot crawls the app, scans the build, and emails a readiness score with every blocker. It is not an official Google review. Page: [https://qapilot.io/play-policy-checker](https://qapilot.io/play-policy-checker).
+
 **Page:** [https://qapilot.io/agentic-architecture](https://qapilot.io/agentic-architecture)
 
 ---
@@ -340,6 +342,7 @@ These paths match the Next.js marketing app (`qapilot.io`). There is **no** dedi
 | Bring your own agent (BYOA) | [https://qapilot.io/bring-your-own-agent](https://qapilot.io/bring-your-own-agent) |
 | QApilot MCP | [https://qapilot.io/mcp](https://qapilot.io/mcp) |
 | MCP CLI guide | [https://qapilot.io/mcp/guide](https://qapilot.io/mcp/guide) |
+| Play Policy Checker | [https://qapilot.io/play-policy-checker](https://qapilot.io/play-policy-checker) |
 | Platform → QE Leader | [https://qapilot.io/for-qa-leader](https://qapilot.io/for-qa-leader) |
 | Platform → Release Manager | [https://qapilot.io/for-release-manager](https://qapilot.io/for-release-manager) |
 | Platform → Quality Assurance Engineer | [https://qapilot.io/for-qa-engineer](https://qapilot.io/for-qa-engineer) |

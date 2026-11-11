@@ -26,6 +26,7 @@ Agentic-Architecture: https://qapilot.io/agentic-architecture
 Bring-Your-Own-Agent: https://qapilot.io/bring-your-own-agent
 QApilot-MCP: https://qapilot.io/mcp
 MCP-CLI-Guide: https://qapilot.io/mcp/guide
+Play-Policy-Checker: https://qapilot.io/play-policy-checker
 Enterprise: https://qapilot.io/enterprise
 
 # Compare / alternatives (mobile QA positioning)
