@@ -94,6 +94,7 @@ ${url("/")}
 | Bring your own agent | ${url(PATHS.BRING_YOUR_OWN_AGENT)} |
 | QApilot MCP | ${url(PATHS.MCP)} |
 | MCP CLI guide | ${url(PATHS.MCP_GUIDE)} |
+| Play Policy Checker | ${url(PATHS.PLAY_POLICY_CHECKER)} |
 | Enterprise | ${url(PATHS.ENTERPRISE)} |
 
 ## Platform by role

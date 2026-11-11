@@ -233,6 +233,7 @@ const Footer = () => {
     pathname.startsWith(`${PATHS.CASE_STUDIES}/`) ||
     pathname === PATHS.MCP ||
     pathname.startsWith(`${PATHS.MCP}/`) ||
+    pathname === PATHS.PLAY_POLICY_CHECKER ||
     pathname.startsWith("/compare/") ||
     pathname.startsWith("/alternatives/") ||
     pathname === PATHS.INTEGRATIONS ||

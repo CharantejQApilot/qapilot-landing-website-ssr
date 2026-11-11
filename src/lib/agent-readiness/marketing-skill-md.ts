@@ -45,6 +45,7 @@ Public marketing and API discovery for [QApilot](https://qapilot.io). AI-native 
 - Bring your own agent: ${u(PATHS.BRING_YOUR_OWN_AGENT)}
 - QApilot MCP: ${u(PATHS.MCP)}
 - MCP CLI guide: ${u(PATHS.MCP_GUIDE)}
+- Play Policy Checker: ${u(PATHS.PLAY_POLICY_CHECKER)}
 - Enterprise: ${u(PATHS.ENTERPRISE)}
 
 ## Compare pages

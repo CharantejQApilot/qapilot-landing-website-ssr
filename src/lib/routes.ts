@@ -13,6 +13,10 @@ export const PATHS = {
   MCP: "/mcp",
   /** QApilot MCP CLI user guide. */
   MCP_GUIDE: "/mcp/guide",
+  /**
+   * Play policy checker. Working title stays off this path.
+   */
+  PLAY_POLICY_CHECKER: "/play-policy-checker",
   ENTERPRISE: "/enterprise",
   ABOUT: "/about",
   BLOGS: "/blogs",
@@ -93,6 +97,11 @@ export const PLATFORM_BY_SOLUTION = [
     path: PATHS.RELEASE_READINESS_SUITE,
     label: "Release Readiness Suite",
     icon: "ShieldCheck",
+  },
+  {
+    path: PATHS.PLAY_POLICY_CHECKER,
+    label: "Play Policy Checker",
+    icon: "ClipboardCheck",
   },
 ] as const;
 
