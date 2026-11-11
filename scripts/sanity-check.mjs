@@ -51,6 +51,7 @@ const STATIC_PATHS = [
   "/bring-your-own-agent",
   "/mcp",
   "/mcp/guide",
+  "/play-policy-checker",
   "/for-qa-leader",
   "/for-release-manager",
   "/for-qa-engineer",

@@ -86,6 +86,7 @@ const Header = () => {
     path === PATHS.AGENTIC_ARCHITECTURE ||
     path === PATHS.MCP ||
     path.startsWith(`${PATHS.MCP}/`) ||
+    path === PATHS.PLAY_POLICY_CHECKER ||
     path === PATHS.FOR_RELEASE_MANAGER ||
     path === PATHS.FOR_QA_ENGINEER ||
     path === PATHS.FOR_QA_LEADER ||
