@@ -1,13 +1,6 @@
 "use client";
 
 import { useCallback, useId, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  marketingFormControlClass,
-  marketingFormFieldErrorClass,
-  marketingFormLabelClass,
-  marketingFormStatusErrorClass,
-} from "@/lib/forms/marketing-form-classes";
 import {
   isAcceptedApkFilename,
   PLAY_POLICY_MAX_UPLOAD_BYTES,
@@ -112,11 +105,10 @@ export function PlayPolicyAppPicker({
   const canContinue = selection !== null;
 
   return (
-    <div className="flex flex-col gap-5 font-sans">
+    <div className="flex flex-col gap-5">
       <div>
-        <label htmlFor={projectId} className={marketingFormLabelClass}>
-          Project name{" "}
-          <span className="font-normal text-muted-foreground">(optional)</span>
+        <label htmlFor={projectId} className="qg-label">
+          Project name <span className="qg-hint">(optional)</span>
         </label>
         <input
           id={projectId}
@@ -125,14 +117,12 @@ export function PlayPolicyAppPicker({
           value={projectName}
           onChange={(e) => onProjectNameChange(e.target.value.slice(0, 120))}
           placeholder="Main Android App"
-          className={marketingFormControlClass()}
+          className="qg-input"
         />
       </div>
 
       <div>
-        <p className={cn(marketingFormLabelClass, "mb-2")}>
-          Select from Play Store
-        </p>
+        <p className="qg-label">Select from Play Store</p>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
           <div className="min-w-0 flex-1">
             <label htmlFor={searchId} className="sr-only">
@@ -154,23 +144,21 @@ export function PlayPolicyAppPicker({
                 }
               }}
               placeholder="Search the Play Store by app name"
-              className={marketingFormControlClass({
-                invalid: Boolean(searchError),
-              })}
+              aria-invalid={searchError ? true : undefined}
+              className="qg-input"
             />
           </div>
-          <Button
+          <button
             type="button"
-            variant="secondary"
+            className="qg-btn qg-btn--secondary shrink-0"
             disabled={searching}
             onClick={() => void runSearch()}
-            className="h-10 shrink-0 px-5 font-semibold"
           >
             {searching ? "Searching" : "Search"}
-          </Button>
+          </button>
         </div>
         {searchError ? (
-          <p className={marketingFormFieldErrorClass} role="alert">
+          <p className="qg-error" role="alert">
             {searchError}
           </p>
         ) : null}
@@ -178,20 +166,18 @@ export function PlayPolicyAppPicker({
 
       {(searching || searched) && (
         <div
-          className="max-h-64 overflow-y-auto rounded-md border border-border"
+          className="qg-results"
           role="listbox"
           aria-label="Play Store search results"
         >
           {searching ? (
-            <p className="px-4 py-6 text-center text-sm text-muted-foreground">
-              Searching…
-            </p>
+            <p className="qg-results__empty">Searching…</p>
           ) : results.length === 0 ? (
-            <p className="px-4 py-6 text-center text-sm text-muted-foreground">
+            <p className="qg-results__empty">
               No apps found. Try another name, or upload an APK below.
             </p>
           ) : (
-            <ul className="divide-y divide-border">
+            <ul>
               {results.map((app) => {
                 const selected = selectedAppId === app.appId;
                 return (
@@ -204,26 +190,13 @@ export function PlayPolicyAppPicker({
                         setFileError(null);
                         onSelectionChange({ kind: "playstore", app });
                       }}
-                      className={cn(
-                        "flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-muted/60",
-                        selected && "border-l-2 border-l-primary bg-primary/5",
-                      )}
+                      className={cn("qg-result", selected && "is-selected")}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element -- Play Store CDN icons; host not in remotePatterns */}
-                      <img
-                        src={app.icon}
-                        alt=""
-                        width={40}
-                        height={40}
-                        className="h-10 w-10 shrink-0 rounded-md bg-muted object-cover"
-                      />
+                      <img src={app.icon} alt="" width={40} height={40} />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm font-medium text-foreground">
-                          {app.title}
-                        </span>
-                        <span className="block truncate text-xs text-muted-foreground">
-                          {app.developer}
-                        </span>
+                        <span className="qg-result__title">{app.title}</span>
+                        <span className="qg-result__meta">{app.developer}</span>
                       </span>
                     </button>
                   </li>
@@ -234,12 +207,8 @@ export function PlayPolicyAppPicker({
         </div>
       )}
 
-      <div className="flex items-center gap-3" aria-hidden>
-        <div className="h-px flex-1 bg-border" />
-        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          or
-        </span>
-        <div className="h-px flex-1 bg-border" />
+      <div className="qg-or" aria-hidden>
+        or
       </div>
 
       <div>
@@ -278,58 +247,48 @@ export function PlayPolicyAppPicker({
             acceptFile(e.dataTransfer.files?.[0] ?? null);
           }}
           className={cn(
-            "flex w-full flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed px-4 py-8 text-center transition-colors",
-            dragging
-              ? "border-primary bg-primary/5"
-              : selectedFile
-                ? "border-primary/60 bg-primary/5"
-                : "border-border hover:border-primary/40 hover:bg-muted/40",
+            "qg-drop",
+            dragging && "is-hot",
+            selectedFile && "is-selected",
           )}
         >
           {selectedFile ? (
             <>
-              <span className="text-sm font-medium text-foreground">
-                {selectedFile.name}
-              </span>
-              <span className="text-xs text-muted-foreground">
+              <span className="qg-drop__name">{selectedFile.name}</span>
+              <span className="qg-drop__meta">
                 {formatBytes(selectedFile.size)} · Click or drop to replace
               </span>
             </>
           ) : (
             <>
-              <span className="text-sm font-medium text-foreground">
+              <span className="qg-drop__name">
                 Drop your APK or XAPK file here to upload
               </span>
-              <span className="text-xs text-muted-foreground">
+              <span className="qg-drop__meta">
                 or click to browse · Max 110 MB
               </span>
             </>
           )}
         </button>
         {fileError ? (
-          <p className={cn(marketingFormStatusErrorClass, "mt-2")} role="alert">
+          <p className="qg-alert mt-2" role="alert">
             {fileError}
           </p>
         ) : null}
       </div>
 
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onBack}
-          className="font-semibold"
-        >
+        <button type="button" className="qg-btn qg-btn--secondary" onClick={onBack}>
           Go back
-        </Button>
-        <Button
+        </button>
+        <button
           type="button"
+          className="qg-btn qg-btn--primary"
           disabled={!canContinue}
           onClick={onContinue}
-          className="font-semibold"
         >
           Continue
-        </Button>
+        </button>
       </div>
     </div>
   );

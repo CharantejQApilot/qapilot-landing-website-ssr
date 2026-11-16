@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useId, useState } from "react";
+import { goMono } from "@/components/play-policy/go-font";
 import {
   PlayPolicyAppPicker,
   type PlayPolicySelection,
 } from "@/components/play-policy/PlayPolicyAppPicker";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,21 +13,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
 import { playPolicyEmailClientSchema } from "@/lib/forms/play-policy-checker-email";
-import {
-  marketingFormControlClass,
-  marketingFormFieldErrorClass,
-  marketingFormLabelClass,
-  marketingFormStatusErrorClass,
-} from "@/lib/forms/marketing-form-classes";
 import {
   checkQuota,
   startPlaystoreScan,
   uploadApkScan,
 } from "@/lib/play-policy-api";
 import { submitPlayPolicyLead } from "@/lib/play-policy-lead";
-import { cn } from "@/lib/utils";
 
 type Step = "select" | "email" | "submitting" | "success" | "limit";
 
@@ -183,7 +175,7 @@ export function PlayPolicyAnalyzeDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
-        className="max-h-[85vh] max-h-[85dvh] max-w-lg overflow-y-auto border border-border/20 bg-background font-sans antialiased shadow-2xl sm:max-w-xl"
+        className={`${goMono.variable} qapilot-go qg-dialog max-h-[85vh] max-h-[85dvh] max-w-lg overflow-y-auto shadow-2xl sm:max-w-xl`}
         onEscapeKeyDown={(e) => {
           if (lockWhileSubmitting) e.preventDefault();
         }}
@@ -195,11 +187,9 @@ export function PlayPolicyAnalyzeDialog({
         }}
       >
         <DialogHeader className="space-y-2 text-left sm:text-left">
-          <DialogTitle className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-            {title}
-          </DialogTitle>
+          <DialogTitle className="qg-dialog__title">{title}</DialogTitle>
           {description ? (
-            <DialogDescription className="font-sans text-sm text-muted-foreground sm:text-base">
+            <DialogDescription className="qg-dialog__lede">
               {description}
             </DialogDescription>
           ) : (
@@ -225,36 +215,24 @@ export function PlayPolicyAnalyzeDialog({
           ) : null}
 
           {step === "email" || step === "submitting" ? (
-            <div className="flex flex-col gap-5 font-sans">
+            <div className="flex flex-col gap-5">
               {selection?.kind === "playstore" ? (
-                <div className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2.5">
+                <div className="qg-appchip">
                   {/* eslint-disable-next-line @next/next/no-img-element -- Play Store CDN icons */}
-                  <img
-                    src={selection.app.icon}
-                    alt=""
-                    width={36}
-                    height={36}
-                    className="h-9 w-9 shrink-0 rounded-md bg-muted object-cover"
-                  />
+                  <img src={selection.app.icon} alt="" width={36} height={36} />
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-foreground">
-                      {selection.app.title}
-                    </p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {selection.app.developer}
-                    </p>
+                    <p className="qg-appchip__title">{selection.app.title}</p>
+                    <p className="qg-appchip__meta">{selection.app.developer}</p>
                   </div>
                 </div>
               ) : selection?.kind === "file" ? (
-                <div className="rounded-md border border-border bg-muted/40 px-3 py-2.5">
-                  <p className="truncate text-sm font-medium text-foreground">
-                    {selection.file.name}
-                  </p>
+                <div className="qg-appchip">
+                  <p className="qg-appchip__title">{selection.file.name}</p>
                 </div>
               ) : null}
 
               <div>
-                <label htmlFor={emailId} className={marketingFormLabelClass}>
+                <label htmlFor={emailId} className="qg-label">
                   Work or personal email
                 </label>
                 <input
@@ -280,18 +258,10 @@ export function PlayPolicyAnalyzeDialog({
                       void startScan();
                     }
                   }}
-                  className={cn(
-                    marketingFormControlClass({
-                      invalid: Boolean(emailError),
-                    }),
-                    "h-12 text-base",
-                  )}
+                  className="qg-input"
                 />
                 {emailError ? (
-                  <p
-                    id={`${emailId}-error`}
-                    className={marketingFormFieldErrorClass}
-                  >
+                  <p id={`${emailId}-error`} className="qg-error">
                     {emailError}
                   </p>
                 ) : null}
@@ -299,104 +269,101 @@ export function PlayPolicyAnalyzeDialog({
 
               {step === "submitting" && selection?.kind === "file" ? (
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Uploading…</span>
-                    <span>{uploadPct}%</span>
+                  <div className="flex items-center justify-between">
+                    <span className="qg-muted">Uploading…</span>
+                    <span className="qg-muted">{uploadPct}%</span>
                   </div>
-                  <Progress value={uploadPct} className="h-2" />
+                  <div
+                    className="qg-progress"
+                    role="progressbar"
+                    aria-valuenow={uploadPct}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                  >
+                    <span style={{ width: `${uploadPct}%` }} />
+                  </div>
                 </div>
               ) : null}
 
               {step === "submitting" && selection?.kind === "playstore" ? (
-                <p className="text-sm text-muted-foreground" role="status">
+                <p className="qg-muted" role="status">
                   Starting your scan…
                 </p>
               ) : null}
 
               {submitError ? (
-                <p
-                  className={marketingFormStatusErrorClass}
-                  role="alert"
-                >
+                <p className="qg-alert" role="alert">
                   {submitError}
                 </p>
               ) : null}
 
               <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
-                <Button
+                <button
                   type="button"
-                  variant="outline"
+                  className="qg-btn qg-btn--secondary"
                   disabled={step === "submitting"}
                   onClick={() => {
                     setSubmitError(null);
                     setStep("select");
                   }}
-                  className="font-semibold"
                 >
                   Back
-                </Button>
-                <Button
+                </button>
+                <button
                   type="button"
+                  className="qg-btn qg-btn--primary"
                   disabled={step === "submitting"}
                   onClick={() => void startScan()}
-                  className="font-semibold"
                 >
                   {step === "submitting" ? "Starting…" : "Start scan"}
-                </Button>
+                </button>
               </div>
             </div>
           ) : null}
 
           {step === "success" ? (
-            <div className="flex flex-col gap-5 font-sans">
-              <p
-                className="text-base leading-relaxed text-foreground"
-                role="status"
-              >
+            <div className="flex flex-col gap-5">
+              <p className="qg-body" role="status">
                 Your report will be sent to{" "}
                 <span className="font-semibold">{submittedEmail}</span> in 2
                 to 3 hours.
               </p>
               <div className="flex justify-end">
-                <Button
+                <button
                   type="button"
+                  className="qg-btn qg-btn--primary"
                   onClick={() => handleOpenChange(false)}
-                  className="font-semibold"
                 >
                   Done
-                </Button>
+                </button>
               </div>
             </div>
           ) : null}
 
           {step === "limit" ? (
-            <div className="flex flex-col gap-5 font-sans">
-              <p
-                className="text-base leading-relaxed text-foreground"
-                role="status"
-              >
+            <div className="flex flex-col gap-5">
+              <p className="qg-body" role="status">
                 You&apos;ve used your 5 free scans for this email. Contact us
                 to continue.
               </p>
               <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
-                <Button
+                <button
                   type="button"
-                  variant="outline"
+                  className="qg-btn qg-btn--secondary"
                   onClick={() => handleOpenChange(false)}
-                  className="font-semibold"
                 >
                   Close
-                </Button>
-                <Button
+                </button>
+                <button
                   type="button"
+                  className="qg-btn qg-btn--primary"
                   onClick={() => {
                     handleOpenChange(false);
                     onContactUs();
                   }}
-                  className="font-semibold"
                 >
                   Contact us
-                </Button>
+                </button>
               </div>
             </div>
           ) : null}

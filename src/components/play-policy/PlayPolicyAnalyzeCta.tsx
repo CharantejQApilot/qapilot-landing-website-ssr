@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
 import { PlayPolicyAnalyzeDialog } from "@/components/play-policy/PlayPolicyAnalyzeDialog";
-import { Button } from "@/components/ui/button";
 import { PLAY_POLICY_ACCESS_ID } from "@/lib/play-policy-checker";
 import { cn } from "@/lib/utils";
 
@@ -26,14 +25,31 @@ export function PlayPolicyAnalyzeCta({ className }: PlayPolicyAnalyzeCtaProps) {
       id={PLAY_POLICY_ACCESS_ID}
       className={cn("w-full max-w-md scroll-mt-28", className)}
     >
-      <Button
-        type="button"
-        onClick={() => setAnalyzeOpen(true)}
-        className="h-12 px-6 text-base font-semibold sm:h-14 sm:px-7"
-      >
-        Analyze your app
-      </Button>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+      <span className="qg-cta-glow">
+        <span className="qg-cta-glow__spin" aria-hidden="true" />
+        <button
+          type="button"
+          className="qg-btn qg-btn--hero"
+          onClick={() => setAnalyzeOpen(true)}
+        >
+          Analyze your app
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="M13 6l6 6-6 6" />
+          </svg>
+        </button>
+      </span>
+      <p className="qg-cta-note">
         Android only. 5 free scans per email. Report by email in 2 to 3 hours.
       </p>
 

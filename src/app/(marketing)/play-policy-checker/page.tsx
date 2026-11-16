@@ -6,11 +6,13 @@ import {
   PlayPolicyPipeline,
   PlayPolicyVerdict,
 } from "@/components/play-policy";
+import { goMono } from "@/components/play-policy/go-font";
 import { buildBreadcrumbList } from "@/lib/breadcrumb";
 import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { PLAY_POLICY_FAQS } from "@/lib/play-policy-checker";
 import { PATHS } from "@/lib/routes";
 import { buildStaticPageMetadata } from "@/lib/seo";
+import "@/styles/qapilot-go.css";
 
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Play Policy Checker. Know Before You Submit",
@@ -23,7 +25,9 @@ export const revalidate = 300;
 
 export default function PlayPolicyCheckerPage() {
   return (
-    <div className="relative z-0 min-h-screen w-full section-edge home-canvas">
+    <div
+      className={`${goMono.variable} qapilot-go relative z-0 min-h-screen w-full section-edge`}
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
