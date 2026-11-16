@@ -1,8 +1,7 @@
 import { HomeEyebrow } from "@/components/home/HomeEyebrow";
 import { MarketingBackground } from "@/components/marketing/MarketingBackground";
-import { PlayPolicyEmailForm } from "@/components/play-policy/PlayPolicyEmailForm";
+import { PlayPolicyAnalyzeCta } from "@/components/play-policy/PlayPolicyAnalyzeCta";
 import { PlayPolicyReportCard } from "@/components/play-policy/PlayPolicyReportCard";
-import { PLAY_POLICY_ACCESS_ID } from "@/lib/play-policy-checker";
 import { cn } from "@/lib/utils";
 
 /** Large, but sized so the claim, the form, and the report card share the first screen. */
@@ -34,10 +33,7 @@ export function PlayPolicyHero() {
               Upload an APK or pick your Play listing. We crawl the app, scan
               the build, and email you every blocker.
             </p>
-            <PlayPolicyEmailForm
-              id={PLAY_POLICY_ACCESS_ID}
-              className="mt-8 scroll-mt-28 sm:mt-10"
-            />
+            <PlayPolicyAnalyzeCta className="mt-8 sm:mt-10" />
           </div>
           <PlayPolicyReportCard />
         </div>
