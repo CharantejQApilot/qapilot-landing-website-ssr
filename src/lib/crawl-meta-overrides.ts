@@ -24,15 +24,63 @@ const CRAWL_META_DESCRIPTIONS: Record<string, string> = {
     "A report from GDG Hyderabad DevFest: sessions on AI, decentralized protocols, and how that community is shaping mobile engineering in public.",
   "tech-bridges-across-continents-qapilot-at-london-tech-week-and-eurostar-2025":
     "QApilot at London Tech Week and EuroSTAR 2025: the sessions and conversations from two technology events on two continents in the same year.",
+  "the-fintech-exception-mobile-login-crashes-automation":
+    "Why mobile login, biometrics, and MFA still break automation in FinTech apps, and which of those checks a QA team can prove before release day.",
+  "tips-for-reducing-mobile-app-testing-time-without-sacrificing-quality":
+    "How mobile teams cut testing time without dropping coverage: which cases to run every build, which to sample, and what to stop repeating by hand.",
+  "automation-testing-mobile":
+    "Decide what a mobile team should automate: which journeys to script, which to leave manual, and when an AI-native run replaces an Appium suite.",
+  "load-testing-tools-mobile-apps":
+    "How to judge load testing tools for a mobile app: which traffic a device actually feels, and which results should block an iOS or Android release.",
+  "performance-testing-tools-mobile":
+    "How to pick performance testing tools for a mobile app: what to measure on a real device, which results matter, and where load tools fall short.",
+  "automated-functional-testing-mobile":
+    "Which functional checks to automate on a mobile app first, how they differ from a web suite, and which passes should stay a manual device check.",
+  "software-testing-and-artificial-intelligence-mobile":
+    "Where artificial intelligence belongs in mobile testing: what it can explore on a real build, and what a team still judges before the release.",
+  "software-testing-strategies-mobile-apps":
+    "How mobile teams choose a testing strategy across risk, devices, and release cadence, and which checks belong in each stage before you ship.",
+  "multiple-device-testing-mobile-apps":
+    "How to test one mobile journey across phone models: which devices to cover, what to skip, and how a two-handset flow differs from one device.",
+  "how-to-create-tests-mobile-apps":
+    "How to create mobile app tests that survive a UI change: start from the user journey, name the check, and keep the case tied to the release.",
 };
+
+/**
+ * Document titles for pages whose visible H1 overlaps another URL.
+ * The on-page heading stays the CMS or component title.
+ */
+const CRAWL_META_TITLES: Record<string, string> = {
+  "software-testing-and-artificial-intelligence-mobile":
+    "Where AI Fits in Mobile App Testing",
+  "ai-mobile-app-testing": "What AI Testing Changes on Android and iOS",
+  "autonomous-testing-mobile-apps": "Autonomous Testing on a Real Mobile Build",
+  "load-testing-tools-mobile-apps": "Traffic and Load Testing for Mobile Apps",
+  "automated-functional-testing-mobile":
+    "Functional Checks to Automate on Mobile",
+  "the-fintech-exception-mobile-login-crashes-automation":
+    "Why Mobile Login Still Breaks FinTech Tests",
+};
+
+function lookup(
+  table: Record<string, string>,
+  slugs: Array<string | null | undefined>,
+): string | undefined {
+  for (const slug of slugs) {
+    if (slug && table[slug]) return table[slug];
+  }
+  return undefined;
+}
 
 export function crawlMetaDescription(
   ...slugs: Array<string | null | undefined>
 ): string | undefined {
-  for (const slug of slugs) {
-    if (slug && CRAWL_META_DESCRIPTIONS[slug]) {
-      return CRAWL_META_DESCRIPTIONS[slug];
-    }
-  }
-  return undefined;
+  return lookup(CRAWL_META_DESCRIPTIONS, slugs);
+}
+
+/** SERP title only. Does not change the visible H1. */
+export function crawlMetaTitle(
+  ...slugs: Array<string | null | undefined>
+): string | undefined {
+  return lookup(CRAWL_META_TITLES, slugs);
 }

@@ -15,6 +15,14 @@ export const PLAY_POLICY_EMAIL_API_PATH =
 
 export const PLAY_POLICY_ACCESS_ID = "play-policy-access" as const;
 
+/**
+ * Off until the scan backend ships. While off, the hero collects an email for
+ * HubSpot instead of opening the upload dialog. Set
+ * NEXT_PUBLIC_PLAY_POLICY_SCAN_ENABLED=true to bring the dialog back.
+ */
+export const PLAY_POLICY_SCAN_ENABLED =
+  process.env.NEXT_PUBLIC_PLAY_POLICY_SCAN_ENABLED === "true";
+
 export const PLAY_POLICY_STAGES = [
   {
     n: "01",

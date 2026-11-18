@@ -11,23 +11,27 @@ function readHubSpotUtk(): string | undefined {
   return v ? decodeURIComponent(v) : undefined;
 }
 
+export function postPlayPolicyLead(email: string): Promise<Response> {
+  return fetch(PLAY_POLICY_EMAIL_API_PATH, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    keepalive: true,
+    body: JSON.stringify({
+      email,
+      pageUri: typeof window !== "undefined" ? window.location.href : "",
+      hutk: readHubSpotUtk(),
+      ...getCleanAttributionPayloadForHubSpot(),
+    }),
+  });
+}
+
 /**
  * Fire-and-forget HubSpot lead capture. Errors are ignored so they never
  * block starting a scan.
  */
 export function submitPlayPolicyLead(email: string): void {
   try {
-    void fetch(PLAY_POLICY_EMAIL_API_PATH, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
-      body: JSON.stringify({
-        email,
-        pageUri: typeof window !== "undefined" ? window.location.href : "",
-        hutk: readHubSpotUtk(),
-        ...getCleanAttributionPayloadForHubSpot(),
-      }),
-    });
+    void postPlayPolicyLead(email).catch(() => {});
   } catch {
     /* ignore */
   }

@@ -3,7 +3,11 @@
 import { useCallback, useState } from "react";
 import HubSpotFormDialog from "@/components/HubSpotFormDialog";
 import { PlayPolicyAnalyzeDialog } from "@/components/play-policy/PlayPolicyAnalyzeDialog";
-import { PLAY_POLICY_ACCESS_ID } from "@/lib/play-policy-checker";
+import { PlayPolicyEmailCapture } from "@/components/play-policy/PlayPolicyEmailCapture";
+import {
+  PLAY_POLICY_ACCESS_ID,
+  PLAY_POLICY_SCAN_ENABLED,
+} from "@/lib/play-policy-checker";
 import { cn } from "@/lib/utils";
 
 type PlayPolicyAnalyzeCtaProps = {
@@ -19,6 +23,17 @@ export function PlayPolicyAnalyzeCta({ className }: PlayPolicyAnalyzeCtaProps) {
     // Let the analyze dialog unmount/close before opening HubSpot (same z-index).
     window.setTimeout(() => setContactOpen(true), 150);
   }, []);
+
+  if (!PLAY_POLICY_SCAN_ENABLED) {
+    return (
+      <div
+        id={PLAY_POLICY_ACCESS_ID}
+        className={cn("w-full max-w-xl scroll-mt-28", className)}
+      >
+        <PlayPolicyEmailCapture />
+      </div>
+    );
+  }
 
   return (
     <div

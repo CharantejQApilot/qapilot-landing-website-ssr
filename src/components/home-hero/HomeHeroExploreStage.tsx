@@ -220,7 +220,7 @@ export default function HomeHeroExploreStage({
             type="button"
             role="tab"
             aria-selected={showSecondary}
-            aria-label="Show QApilot MCP"
+            aria-label="Show QApilot Go"
             className={cn(
               "h-1.5 w-4 rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               showSecondary
@@ -237,7 +237,7 @@ export default function HomeHeroExploreStage({
             onClick={goToSecondary}
             className="rounded-sm text-sm font-medium text-primary underline decoration-primary/45 underline-offset-[0.2em] transition-colors hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            QApilot MCP
+            QApilot Go
           </button>
         )}
       </div>

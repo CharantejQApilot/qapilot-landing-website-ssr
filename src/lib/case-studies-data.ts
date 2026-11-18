@@ -85,7 +85,7 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     headline:
       "Reliable automation on a Flutter banking app, owned by a small QA team",
     subtitle:
-      "WIO needed dependable UI automation across onboarding, identity, credit, and retail journeys without assembling a toolchain. QApilot replaced the stitched-together stack with a single platform built for canvas-rendered apps and banking-specific flows. It now runs the retail regression suite unattended, every night.",
+      "WIO needed dependable UI automation across onboarding, identity, credit, and retail journeys without assembling a toolchain. QApilot replaced the stitched-together stack with a single platform built for canvas-rendered apps and banking-specific flows. It now runs the retail regression suite unattended, every night. Each nightly cycle is 11,025 steps at 89.3% step success.",
     quote: {
       text: "Our automation speed is much faster now, test maintenance is far easier, and even a small team can achieve strong automation coverage. As a result, our app quality has improved as we run sanity testing schedulers daily and on demand.",
       name: "Umair Shah",
@@ -242,7 +242,7 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     headline:
       "Full sanity automation for a pre-launch dating app, in two weeks",
     subtitle:
-      "How QApilot automated Geml's entire sanity suite, trained the team, and handed off regression in a two-week engagement, cracking the Flutter, mock-location, and swipe-gesture automation that stalls generic tools on dating apps.",
+      "How QApilot automated Geml's entire sanity suite, trained the team, and handed off regression in a two-week engagement, cracking the Flutter, mock-location, and swipe-gesture automation that stalls generic tools on dating apps. The sanity suite is 100% automated, and pre-launch cycles are 10× faster.",
     facts: [
       { label: "Client", value: "Geml" },
       { label: "Industry", value: "Consumer Dating" },
@@ -380,7 +380,7 @@ export const CASE_STUDIES: readonly CaseStudy[] = [
     titleAfter: "",
     headline: "Regression readiness turned into real automation progress",
     subtitle:
-      "How QApilot moved GrowSari from a regression plan to evidenced mobile automation on a real B2B commerce app: cloud-device login, Record & Playback through OTP-gated store-owner journeys, and team adoption that kept growing while app-side OTP fixes continued.",
+      "How QApilot moved GrowSari from a regression plan to evidenced mobile automation on a real B2B commerce app: cloud-device login, Record & Playback through OTP-gated store-owner journeys, and team adoption that kept growing while app-side OTP fixes continued. Created test steps grew 161% across the reporting checkpoints.",
     facts: [
       { label: "Client", value: "GrowSari" },
       { label: "Industry", value: "B2B Retail Commerce" },

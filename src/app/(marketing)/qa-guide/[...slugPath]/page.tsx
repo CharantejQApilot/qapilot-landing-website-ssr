@@ -22,6 +22,10 @@ import {
   formatMetaDescription,
   openGraphImageForPath,
 } from "@/lib/seo";
+import {
+  crawlMetaDescription,
+  crawlMetaTitle,
+} from "@/lib/crawl-meta-overrides";
 
 export const revalidate = 120;
 
@@ -65,9 +69,13 @@ async function metadataForPublishedSlug(slug: string): Promise<Metadata> {
 
   if (!guide) return NOT_FOUND_METADATA;
 
-  const metaTitle = firstNonEmptyString(guide.seo_title, guide.title) ?? guide.title;
+  const metaTitle =
+    crawlMetaTitle(slug) ??
+    firstNonEmptyString(guide.seo_title, guide.title) ??
+    guide.title;
   const description = formatMetaDescription(
-    firstNonEmptyString(guide.seo_description, guide.excerpt) ??
+    crawlMetaDescription(slug) ??
+      firstNonEmptyString(guide.seo_description, guide.excerpt) ??
       `Read ${metaTitle} on the QApilot ${QE_GUIDE_DISPLAY_NAME}. Practical guidance for mobile QA teams.`,
   );
   const canonical = `${SITE_BASE_URL}${publishedUrlPath(slug)}`;

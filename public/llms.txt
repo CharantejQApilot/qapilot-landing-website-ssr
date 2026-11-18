@@ -10,7 +10,7 @@ Companion: https://qapilot.io/ai.txt (short pointers) · https://qapilot.io/robo
 
 > QApilot is the industry's first AI-native autonomous testing platform for mobile applications (iOS & Android).
 > It eliminates manual scripting, auto-heals broken tests, and delivers instant release-ready coverage from Day 0.
-> Founded 2024 by Aditya Challa and Chaitanya Devalapally. Headquartered in Hyderabad, Telangana, India.
+> Headquartered in Hyderabad, Telangana, India.
 > Bootstrapped. Trusted by enterprise teams across the Middle East, Southeast Asia, and India.
 
 ---
@@ -272,9 +272,6 @@ A: Yes. Security reports are generated on every build upload. They cover permiss
 **Q: What is AI Self-Healing?**
 A: When a test step fails because a UI element changed, QApilot automatically re-identifies the element using a 4-layer fallback (Element ID → XPath → Visual matching → Coordinate fallback) and continues execution. Healed steps are flagged in reports. Teams review and approve locator updates with one click.
 
-**Q: Who are QApilot's founders?**
-A: Aditya Challa and Chaitanya Devalapally co-founded QApilot in 2024, headquartered in Hyderabad, India. The leadership team also includes Surendranath Jillella (Head of AI) and Subrahmanyam Marella (Head of Engineering).
-
 **Q: Is QApilot funded?**
 A: QApilot is bootstrapped as of 2026.
 
@@ -442,7 +439,6 @@ Public marketing APIs (see OpenAPI): `/api/health`, `/api/site-promo`, `/api/hub
 |---|---|
 | Name | QApilot (QApilot HQ) |
 | Founded | 2024 |
-| Co-Founders | Aditya Challa, Chaitanya Devalapally |
 | Head of AI | Surendranath Jillella |
 | Head of Engineering | Subrahmanyam Marella |
 | HQ | Hyderabad, Telangana, India |
