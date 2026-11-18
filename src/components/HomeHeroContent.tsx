@@ -8,7 +8,7 @@ import { PATHS } from "@/lib/routes";
 export default function HomeHeroContent() {
   return (
     <div className="flex h-full min-h-0 w-full min-w-0 flex-1 flex-col items-stretch justify-center">
-      {/* Positioning box for the slide 1 quote card and the slide 2 terminal. */}
+      {/* Positioning box for the slide 1 quote card and the slide 2 report. */}
       <div className="relative flex w-full flex-col">
         <HomeHeroExploreStage>
           <HomeHeroLandingPanel />
@@ -17,11 +17,11 @@ export default function HomeHeroContent() {
         <div className="mt-8 grid w-fit max-w-full shrink-0 grid-cols-1 gap-3 self-start sm:grid-cols-2 lg:mt-10">
           <HomeHeroDemoButton className="w-full" />
           <HomeHeroCta
-            href={`${PATHS.MCP_GUIDE}#install`}
+            href={PATHS.PLAY_POLICY_CHECKER}
             variant="inverse"
             className="w-full"
           >
-            Install QApilot MCP
+            Analyze your app
           </HomeHeroCta>
         </div>
       </div>

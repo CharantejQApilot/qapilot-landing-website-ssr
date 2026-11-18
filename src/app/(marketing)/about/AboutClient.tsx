@@ -116,11 +116,6 @@ const aboutQuestions = [
       "QApilot understands apps, explores them like real users, and adapts as apps change.",
   },
   {
-    question: "Who founded QApilot?",
-    answer:
-      "Aditya Challa and Chaitanya Devalapally co-founded QApilot in 2024. The company is Digitral Private Limited, in Hyderabad, and support is support@qapilot.com.",
-  },
-  {
     question: "What has QApilot measured on a customer app?",
     answer:
       "On WIO's Flutter banking app, a nightly regression is 11,025 steps at 89.3% step success. 97% of that execution happens outside working hours.",

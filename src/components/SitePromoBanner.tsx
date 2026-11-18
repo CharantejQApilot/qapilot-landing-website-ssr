@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import type { SitePromoPayload } from "@/lib/site-promo-banner";
+import { HARDCODED_PROMO_BANNERS } from "@/lib/site-promo-hardcoded";
 
 function normalizePathname(path: string): string {
   if (path.length > 1 && path.endsWith("/")) {
@@ -54,14 +55,29 @@ export default function SitePromoBanner() {
     };
   }, []);
 
-  if (!payload) return null;
+  const pinned = pathname
+    ? HARDCODED_PROMO_BANNERS.find((b) =>
+        b.paths?.includes(normalizePathname(pathname)),
+      )
+    : undefined;
+  const active: SitePromoPayload | null = pinned
+    ? {
+        kind: "custom",
+        href: pinned.href,
+        text: pinned.text,
+        external: pinned.external,
+      }
+    : payload;
 
-  const href = hrefFromPayload(payload);
+  if (!active) return null;
+
+  const href = hrefFromPayload(active);
   if (pathname && normalizePathname(pathname) === normalizePathname(href)) {
     return null;
   }
 
-  const opensNewTab = payload.kind === "custom" && payload.external;
+  const opensNewTab = active.kind === "custom" && active.external;
+  const Icon = opensNewTab ? ExternalLink : ArrowRight;
 
   return (
     <a
@@ -73,8 +89,11 @@ export default function SitePromoBanner() {
     >
       <div className="section-full py-2.5">
         <div className="flex items-center justify-center gap-2 text-center">
-          <span className="text-sm font-medium">{payload.text}</span>
-          <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+          {pinned ? (
+            <Sparkles className="h-4 w-4 shrink-0" aria-hidden />
+          ) : null}
+          <span className="text-sm font-medium">{active.text}</span>
+          <Icon className="h-4 w-4 shrink-0" aria-hidden />
         </div>
       </div>
     </a>

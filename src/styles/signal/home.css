@@ -19,6 +19,14 @@
   background-color: hsl(var(--home-tint));
 }
 
+/* Hero graph paper. 48px hairline on white. Heroes only. */
+.hero-grid {
+  background-image:
+    linear-gradient(hsl(220 14% 58% / 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(220 14% 58% / 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
 .home-ice {
   background-color: hsl(var(--home-ice));
 }

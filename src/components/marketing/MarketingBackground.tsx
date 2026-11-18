@@ -15,7 +15,7 @@ type MarketingBackgroundProps = {
 };
 
 /**
- * Site-wide atmosphere. Hero: structured grid + scan (same as home).
+ * Site-wide atmosphere. Hero: the same light graph paper as home.
  * Soft: none — parent `home-canvas` is the surface.
  */
 export function MarketingBackground({

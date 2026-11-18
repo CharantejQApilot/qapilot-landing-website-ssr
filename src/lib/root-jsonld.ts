@@ -16,11 +16,6 @@ const organization = {
     width: ORG_LOGO_WIDTH,
     height: ORG_LOGO_HEIGHT,
   },
-  foundingDate: "2024",
-  founders: [
-    { "@type": "Person", name: "Aditya Challa" },
-    { "@type": "Person", name: "Chaitanya Devalapally" },
-  ],
   address: {
     "@type": "PostalAddress",
     streetAddress:

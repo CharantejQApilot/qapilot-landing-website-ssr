@@ -59,6 +59,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: [
       "lucide-react",
+      "embla-carousel-react",
       "@radix-ui/react-tooltip",
       "@radix-ui/react-toast",
       "@radix-ui/react-dialog",

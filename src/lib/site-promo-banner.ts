@@ -1,28 +1,15 @@
 import { tryCreateServerSupabaseClient } from "@/integrations/supabase/server";
+import { HARDCODED_PROMO_BANNERS } from "@/lib/site-promo-hardcoded";
 
 export type SitePromoPayload =
   | { kind: "news"; slug: string; text: string }
   | { kind: "blog"; slug: string; text: string }
   | { kind: "custom"; href: string; text: string; external: boolean };
 
-type HardcodedBanner = {
-  text: string;
-  href: string;
-  /** Open in a new tab (for pages outside this Next.js app, e.g. event pages). */
-  external: boolean;
-};
-
-/**
- * Hardcoded banners for content that isn't managed in the admin dashboard
- * (e.g. event/webinar pages). The first entry wins and takes precedence over
- * CMS (news/blog) banners. Managed manually. Comment out or remove entries
- * when they're no longer relevant.
- */
-const HARDCODED_PROMO_BANNERS: HardcodedBanner[] = [];
-
 /** Shared by `/api/site-promo` and any server code that needs the active promo row. */
 export async function fetchSitePromoBanner(): Promise<SitePromoPayload | null> {
-  const hardcoded = HARDCODED_PROMO_BANNERS[0];
+  // Path-scoped banners are picked by SitePromoBanner from the pathname.
+  const hardcoded = HARDCODED_PROMO_BANNERS.find((b) => !b.paths);
   if (hardcoded) {
     return {
       kind: "custom",
