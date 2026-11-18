@@ -116,16 +116,6 @@ export default function RootLayout({
             crossOrigin="anonymous"
           />
         ) : null}
-        <link
-              rel="preconnect"
-              href="https://www.googletagmanager.com"
-              crossOrigin="anonymous"
-            />
-            <link
-              rel="preconnect"
-              href="https://www.google-analytics.com"
-              crossOrigin="anonymous"
-            />
             {/* Must run before Clarity initializes so strict masking keeps stylesheet hrefs in replays. */}
             <script
               dangerouslySetInnerHTML={{
@@ -138,28 +128,12 @@ export default function RootLayout({
                 __html: JSON.stringify(rootSchemaGraphJsonLd),
               }}
             />
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-var path = location.pathname || "";
-if (path !== "/admin" && path.indexOf("/admin/") !== 0 && path !== "/auth" && path.indexOf("/auth/") !== 0) {
-  gtag('js', new Date());
-  gtag('config', '${GA4_MEASUREMENT_ID}', { send_page_view: true });
-  gtag('config', '${GOOGLE_ADS_ID}');
-}
-`,
-              }}
-            />
-            {/* GTM, HubSpot, Clarity, Factors, and reb2b load after first interaction or 5s after load. */}
+            {/* GA4 loads on idle after the load event. Other tags wait for a click or 5s. */}
             <script
               dangerouslySetInnerHTML={{
                 __html: deferredMarketingScriptsHtml({
+                  ga4Id: GA4_MEASUREMENT_ID,
+                  googleAdsId: GOOGLE_ADS_ID,
                   gtmId: GTM_CONTAINER_ID,
                   hubspotPortalId: HUBSPOT_NA1_PORTAL_ID,
                   reb2bKey: REB2B_SCRIPT_KEY,

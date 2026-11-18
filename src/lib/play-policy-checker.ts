@@ -15,6 +15,14 @@ export const PLAY_POLICY_EMAIL_API_PATH =
 
 export const PLAY_POLICY_ACCESS_ID = "play-policy-access" as const;
 
+/**
+ * Off until the scan backend ships. While off, the hero collects an email for
+ * HubSpot instead of opening the upload dialog. Set
+ * NEXT_PUBLIC_PLAY_POLICY_SCAN_ENABLED=true to bring the dialog back.
+ */
+export const PLAY_POLICY_SCAN_ENABLED =
+  process.env.NEXT_PUBLIC_PLAY_POLICY_SCAN_ENABLED === "true";
+
 export const PLAY_POLICY_STAGES = [
   {
     n: "01",
@@ -34,7 +42,7 @@ export const PLAY_POLICY_STAGES = [
   {
     n: "04",
     title: "The report arrives",
-    body: "Status, score, coverage, and every finding with the policy behind it. In your inbox.",
+    body: "Status, score, coverage, and every finding with the policy behind it. In your inbox in 2 to 3 hours.",
   },
 ] as const;
 
@@ -121,6 +129,16 @@ export const PLAY_POLICY_FAQS: readonly FaqItem[] = [
     question: "What do you need from me?",
     answer:
       "An APK, or the app's Play listing, and an email. We install it on an Android emulator, crawl it, scan the build, and send the report to that inbox.",
+  },
+  {
+    question: "How long does it take?",
+    answer:
+      "The report is emailed in 2 to 3 hours. It is not an instant in-browser result.",
+  },
+  {
+    question: "Is it free?",
+    answer:
+      "Yes for the first 5 scans per email. Failed scans do not count against that limit.",
   },
   {
     question: "What is in the report?",

@@ -1,23 +1,11 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
-import { HomeCaseStudiesSection } from "@/components/case-studies/HomeCaseStudiesSection";
 import ClientsSection from "@/components/ClientsSection";
+import { HomeSponsorshipSection } from "@/components/home/HomeSponsorshipSection";
 import MetricsSection from "@/components/MetricsSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 import HomeKeyTakeawaysSection from "@/components/HomeKeyTakeawaysSection";
-
-/** Below-fold client sections. Split JS bundles without changing SSR output or visuals. */
-const CoreAdvantageHeading = dynamic(
-  () => import("@/components/CoreAdvantageHeading"),
-);
-const ProductShowcaseSection = dynamic(
-  () => import("@/components/ProductShowcaseSection"),
-);
-const HomeExitIntentPopup = dynamic(
-  () => import("@/components/home-exit-intent/HomeExitIntentPopup"),
-  { ssr: false },
-);
 import { SITE_BASE_URL } from "@/lib/constants";
 import { defaultOpenGraphImage } from "@/lib/seo";
 import {
@@ -32,6 +20,23 @@ import {
 } from "@/lib/home-page-seo";
 import { buildFaqPageJsonLd } from "@/lib/faq-jsonld";
 import { softwareApplicationJsonLd } from "@/lib/root-jsonld";
+
+/** Below-fold client sections. Split JS bundles without changing SSR output or visuals. */
+const HomeCaseStudiesSection = dynamic(() =>
+  import("@/components/case-studies/HomeCaseStudiesSection").then(
+    (mod) => mod.HomeCaseStudiesSection,
+  ),
+);
+const CoreAdvantageHeading = dynamic(
+  () => import("@/components/CoreAdvantageHeading"),
+);
+const ProductShowcaseSection = dynamic(
+  () => import("@/components/ProductShowcaseSection"),
+);
+const HomeExitIntentPopup = dynamic(
+  () => import("@/components/home-exit-intent/HomeExitIntentPopup"),
+  { ssr: false },
+);
 
 const canonicalUrl = `${SITE_BASE_URL}/`;
 
@@ -106,6 +111,9 @@ export default function IndexPage() {
         </div>
         <div className="cv-auto">
           <IntegrationsSection />
+        </div>
+        <div className="cv-auto">
+          <HomeSponsorshipSection />
         </div>
         <div className="cv-auto">
           <HomeKeyTakeawaysSection />

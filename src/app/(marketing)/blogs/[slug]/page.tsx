@@ -60,7 +60,10 @@ import {
   defaultOpenGraphImage,
   formatMetaDescription,
 } from "@/lib/seo";
-import { crawlMetaDescription } from "@/lib/crawl-meta-overrides";
+import {
+  crawlMetaDescription,
+  crawlMetaTitle,
+} from "@/lib/crawl-meta-overrides";
 import { extractYouTubeId } from "@/utils/youtube";
 
 /** Between narrow `max-w-6xl` + `section-full` and full-bleed: readable column + visible side margin. */
@@ -156,18 +159,20 @@ export async function generateMetadata({
     blog.excerpt,
   );
   const description =
-    keyTakeaways ??
     crawlMetaDescription(cmsSlug, urlSlug) ??
     firstNonEmptyString(
       (blog as { seo_description?: unknown }).seo_description,
     ) ??
+    keyTakeaways ??
     `Read ${baseTitle} on the QApilot blog. Expert insights on mobile app testing and QA automation.`;
 
   const metaTitle =
+    crawlMetaTitle(cmsSlug, urlSlug) ??
     firstNonEmptyString(
       (blog as { seo_title?: unknown }).seo_title,
       blog.title,
-    ) ?? baseTitle;
+    ) ??
+    baseTitle;
 
   const ogRaw = firstNonEmptyString(
     (blog as { og_image_url?: unknown }).og_image_url,

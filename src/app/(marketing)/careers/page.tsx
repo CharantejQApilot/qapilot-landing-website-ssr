@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = buildStaticPageMetadata({
-  title: "Careers. Working at QApilot",
+  title: "Careers at QApilot. Open roles",
   description:
     "A small distributed team building AI-native mobile testing for Android, iOS, and Flutter. The group grows when the work needs another owner.",
   path: PATHS.CAREERS,
