@@ -10,6 +10,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/auth/",
   "/api/",
   "/seo-drafts/",
+  "/play-policy/reports/",
   PARTNER_LOGOS_PATH_PREFIX,
 ] as const;
 

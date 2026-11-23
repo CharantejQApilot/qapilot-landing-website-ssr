@@ -17,6 +17,8 @@ export const PATHS = {
    * Play policy checker. Working title stays off this path.
    */
   PLAY_POLICY_CHECKER: "/play-policy-checker",
+  /** Hosted Play Policy scan report (proxied from the Play Policy API). */
+  PLAY_POLICY_REPORT: "/play-policy/reports/:scanId",
   ENTERPRISE: "/enterprise",
   ABOUT: "/about",
   BLOGS: "/blogs",
