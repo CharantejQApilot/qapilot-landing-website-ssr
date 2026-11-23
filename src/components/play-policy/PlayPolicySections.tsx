@@ -148,7 +148,7 @@ export function PlayPolicyVerdict() {
           ))}
         </div>
         <p className="qg-note qg-oneline">
-          The score sits next to coverage. 18 of 22 means four applicable rules
+          The score sits next to coverage. 51 of 60 means nine applicable checks
           did not run, and the number does not pretend they did.
         </p>
         <ul className="qg-findings">
@@ -176,11 +176,10 @@ export function PlayPolicyEvidence() {
         <div className="qg-section-head">
           <p className="qg-eyebrow">The evidence</p>
           <h2 id="play-policy-evidence" className="qg-section-title">
-            130+ rules. <em>24 are blockers.</em>
+            60+ checks. <em>6 are blockers.</em>
           </h2>
           <p className="qg-lede">
-            The catalog is the Play policy set. A report only scores the rules
-            that had evidence.
+            A report only scores the checks that had evidence.
           </p>
         </div>
         <div className="qg-tile-grid qg-tile-grid--3">

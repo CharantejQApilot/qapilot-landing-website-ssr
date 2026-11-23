@@ -3,9 +3,8 @@ import type { FaqItem } from "@/lib/faq-jsonld";
 /**
  * Play Policy Checker landing copy.
  * Working title "Prognosis" stays off the URL and the page.
- * Rule counts are the catalog in Google_Play_Developer_Content_Policies (134 rules,
- * 24 blockers). The page says 130+ so a later rule edit does not make the line false.
- * Coverage on the report is what tells a visitor how many of those rules ran.
+ * The page says 60+ checks and 6 blockers. That is the reduced scope we actually run.
+ * Coverage on the sample report is an illustration: 51 of 60 checks ran.
  */
 export const PLAY_POLICY_CHECKER_PAGE_NAME =
   "Play Policy Checker. Try it out" as const;

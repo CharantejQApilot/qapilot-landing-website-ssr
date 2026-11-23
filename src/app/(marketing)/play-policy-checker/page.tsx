@@ -17,7 +17,7 @@ import "@/styles/qapilot-go.css";
 export const metadata: Metadata = buildStaticPageMetadata({
   title: "Play Policy Checker. Know Before You Submit",
   description:
-    "Upload an APK or pick your Play listing. QApilot crawls the app, scans the build, and emails every Play policy blocker before you submit. Android only.",
+    "Upload an APK or pick your Play listing. QApilot crawls the app, scans the build, and emails the Play policy blockers it finds before you submit. Android only.",
   path: PATHS.PLAY_POLICY_CHECKER,
 });
 

@@ -50,7 +50,7 @@ export function PlayPolicyReportCard() {
           <p className="qg-readiness__title">Play readiness</p>
           <span className="qg-status qg-status--blocked">Blocked</span>
           <p className="qg-readiness__meta">
-            1 blocker · 2 high · 18 of 22 rules ran
+            1 blocker · 2 high · 51 of 60 checks ran
           </p>
         </div>
       </div>
