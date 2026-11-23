@@ -42,7 +42,7 @@ export const PLAY_POLICY_STAGES = [
   {
     n: "04",
     title: "The report arrives",
-    body: "Status, score, coverage, and every finding with the policy behind it. In your inbox in 2 to 3 hours.",
+    body: "Status, score, coverage, and every finding with the policy behind it. In your inbox in 2 hours.",
   },
 ] as const;
 
@@ -133,7 +133,7 @@ export const PLAY_POLICY_FAQS: readonly FaqItem[] = [
   {
     question: "How long does it take?",
     answer:
-      "The report is emailed in 2 to 3 hours. It is not an instant in-browser result.",
+      "The report is emailed in 2 hours. It is not an instant in-browser result.",
   },
   {
     question: "Is it free?",

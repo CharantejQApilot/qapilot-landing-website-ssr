@@ -14,12 +14,9 @@ export type PlayPolicySelection =
   | { kind: "file"; file: File };
 
 type PlayPolicyAppPickerProps = {
-  projectName: string;
-  onProjectNameChange: (value: string) => void;
   selection: PlayPolicySelection | null;
   onSelectionChange: (value: PlayPolicySelection | null) => void;
-  onBack: () => void;
-  onContinue: () => void;
+  disabled?: boolean;
 };
 
 function formatBytes(bytes: number): string {
@@ -28,14 +25,10 @@ function formatBytes(bytes: number): string {
 }
 
 export function PlayPolicyAppPicker({
-  projectName,
-  onProjectNameChange,
   selection,
   onSelectionChange,
-  onBack,
-  onContinue,
+  disabled = false,
 }: PlayPolicyAppPickerProps) {
-  const projectId = useId();
   const searchId = useId();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const searchSeq = useRef(0);
@@ -102,25 +95,8 @@ export function PlayPolicyAppPicker({
     [onSelectionChange],
   );
 
-  const canContinue = selection !== null;
-
   return (
     <div className="flex flex-col gap-5">
-      <div>
-        <label htmlFor={projectId} className="qg-label">
-          Project name <span className="qg-hint">(optional)</span>
-        </label>
-        <input
-          id={projectId}
-          type="text"
-          maxLength={120}
-          value={projectName}
-          onChange={(e) => onProjectNameChange(e.target.value.slice(0, 120))}
-          placeholder="Main Android App"
-          className="qg-input"
-        />
-      </div>
-
       <div>
         <p className="qg-label">Select from Play Store</p>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
@@ -133,6 +109,7 @@ export function PlayPolicyAppPicker({
               type="search"
               value={query}
               maxLength={200}
+              disabled={disabled}
               onChange={(e) => {
                 setQuery(e.target.value);
                 if (searchError) setSearchError(null);
@@ -151,7 +128,7 @@ export function PlayPolicyAppPicker({
           <button
             type="button"
             className="qg-btn qg-btn--secondary shrink-0"
-            disabled={searching}
+            disabled={disabled || searching}
             onClick={() => void runSearch()}
           >
             {searching ? "Searching" : "Search"}
@@ -186,6 +163,7 @@ export function PlayPolicyAppPicker({
                       type="button"
                       role="option"
                       aria-selected={selected}
+                      disabled={disabled}
                       onClick={() => {
                         setFileError(null);
                         onSelectionChange({ kind: "playstore", app });
@@ -217,6 +195,7 @@ export function PlayPolicyAppPicker({
           type="file"
           accept=".apk,.xapk,application/vnd.android.package-archive"
           className="sr-only"
+          disabled={disabled}
           onChange={(e) => {
             acceptFile(e.target.files?.[0] ?? null);
             e.target.value = "";
@@ -224,16 +203,17 @@ export function PlayPolicyAppPicker({
         />
         <button
           type="button"
+          disabled={disabled}
           onClick={() => fileInputRef.current?.click()}
           onDragEnter={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            setDragging(true);
+            if (!disabled) setDragging(true);
           }}
           onDragOver={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            setDragging(true);
+            if (!disabled) setDragging(true);
           }}
           onDragLeave={(e) => {
             e.preventDefault();
@@ -244,7 +224,7 @@ export function PlayPolicyAppPicker({
             e.preventDefault();
             e.stopPropagation();
             setDragging(false);
-            acceptFile(e.dataTransfer.files?.[0] ?? null);
+            if (!disabled) acceptFile(e.dataTransfer.files?.[0] ?? null);
           }}
           className={cn(
             "qg-drop",
@@ -275,20 +255,6 @@ export function PlayPolicyAppPicker({
             {fileError}
           </p>
         ) : null}
-      </div>
-
-      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3">
-        <button type="button" className="qg-btn qg-btn--secondary" onClick={onBack}>
-          Go back
-        </button>
-        <button
-          type="button"
-          className="qg-btn qg-btn--primary"
-          disabled={!canContinue}
-          onClick={onContinue}
-        >
-          Continue
-        </button>
       </div>
     </div>
   );

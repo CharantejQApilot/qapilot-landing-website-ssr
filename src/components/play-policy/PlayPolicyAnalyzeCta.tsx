@@ -65,7 +65,7 @@ export function PlayPolicyAnalyzeCta({ className }: PlayPolicyAnalyzeCtaProps) {
         </button>
       </span>
       <p className="qg-cta-note">
-        Android only. 5 free scans per email. Report by email in 2 to 3 hours.
+        Android only. 5 free scans per email. Report by email in 2 hours.
       </p>
 
       <PlayPolicyAnalyzeDialog
