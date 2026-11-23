@@ -134,6 +134,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/terms-conditions",
+        destination: "/terms",
+        permanent: true,
+      },
+      {
         source: "/solutions/flutter-testing",
         destination: "/for-flutter",
         permanent: true,
