@@ -24,15 +24,3 @@ export function postPlayPolicyLead(email: string): Promise<Response> {
     }),
   });
 }
-
-/**
- * Fire-and-forget HubSpot lead capture. Errors are ignored so they never
- * block starting a scan.
- */
-export function submitPlayPolicyLead(email: string): void {
-  try {
-    void postPlayPolicyLead(email).catch(() => {});
-  } catch {
-    /* ignore */
-  }
-}

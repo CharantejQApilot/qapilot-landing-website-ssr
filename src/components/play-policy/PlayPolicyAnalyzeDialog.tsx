@@ -19,9 +19,8 @@ import {
   startPlaystoreScan,
   uploadApkScan,
 } from "@/lib/play-policy-api";
-import { submitPlayPolicyLead } from "@/lib/play-policy-lead";
 
-type Step = "select" | "email" | "submitting" | "success" | "limit";
+type Step = "form" | "submitting" | "success" | "limit";
 
 type PlayPolicyAnalyzeDialogProps = {
   open: boolean;
@@ -30,8 +29,7 @@ type PlayPolicyAnalyzeDialogProps = {
 };
 
 const INITIAL = {
-  step: "select" as Step,
-  projectName: "",
+  step: "form" as Step,
   selection: null as PlayPolicySelection | null,
   email: "",
   emailError: null as string | null,
@@ -46,7 +44,6 @@ export function PlayPolicyAnalyzeDialog({
 }: PlayPolicyAnalyzeDialogProps) {
   const emailId = useId();
   const [step, setStep] = useState<Step>(INITIAL.step);
-  const [projectName, setProjectName] = useState(INITIAL.projectName);
   const [selection, setSelection] = useState<PlayPolicySelection | null>(
     INITIAL.selection,
   );
@@ -62,7 +59,6 @@ export function PlayPolicyAnalyzeDialog({
 
   const reset = useCallback(() => {
     setStep(INITIAL.step);
-    setProjectName(INITIAL.projectName);
     setSelection(INITIAL.selection);
     setEmail(INITIAL.email);
     setEmailError(INITIAL.emailError);
@@ -81,6 +77,10 @@ export function PlayPolicyAnalyzeDialog({
   );
 
   const lockWhileSubmitting = step === "submitting";
+  const canSubmit =
+    step === "form" &&
+    selection !== null &&
+    email.trim().length > 0;
 
   const startScan = useCallback(async () => {
     setSubmitError(null);
@@ -95,7 +95,6 @@ export function PlayPolicyAnalyzeDialog({
     }
     if (!selection) {
       setSubmitError("Select an app or upload a file first.");
-      setStep("select");
       return;
     }
 
@@ -105,18 +104,12 @@ export function PlayPolicyAnalyzeDialog({
     setStep("submitting");
     setUploadPct(0);
 
-    submitPlayPolicyLead(validEmail);
-
-    const trimmedProject = projectName.trim().slice(0, 120);
-    const projectNameOpt = trimmedProject || undefined;
-
     try {
       if (selection.kind === "playstore") {
         const { app } = selection;
         const result = await startPlaystoreScan({
           email: validEmail,
           packageName: app.appId,
-          projectName: projectNameOpt,
           title: app.title || undefined,
           developer: app.developer || undefined,
           iconUrl: app.icon || undefined,
@@ -136,7 +129,6 @@ export function PlayPolicyAnalyzeDialog({
       }
 
       const result = await uploadApkScan(validEmail, selection.file, {
-        projectName: projectNameOpt,
         onProgress: setUploadPct,
       });
       if (result.kind === "limit") {
@@ -150,27 +142,21 @@ export function PlayPolicyAnalyzeDialog({
           ? err.message
           : "Something went wrong. Please try again.",
       );
-      setStep("email");
+      setStep("form");
     }
-  }, [email, projectName, selection]);
+  }, [email, selection]);
 
   const title =
     step === "success"
       ? "Scan started"
       : step === "limit"
         ? "Free scans used"
-        : step === "email" || step === "submitting"
-          ? "Where should we send the report?"
-          : "Analyze your app";
+        : "Analyze your app";
 
   const description =
-    step === "success"
+    step === "success" || step === "limit"
       ? undefined
-      : step === "limit"
-        ? undefined
-        : step === "email" || step === "submitting"
-          ? "The report arrives by email in 2 to 3 hours."
-          : "Pick a Play Store listing or upload an APK / XAPK. Android only.";
+      : "Pick a Play Store listing or upload an APK / XAPK. The report arrives by email in 2 hours. Android only.";
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -200,36 +186,13 @@ export function PlayPolicyAnalyzeDialog({
         </DialogHeader>
 
         <div className="mt-1">
-          {step === "select" ? (
-            <PlayPolicyAppPicker
-              projectName={projectName}
-              onProjectNameChange={setProjectName}
-              selection={selection}
-              onSelectionChange={setSelection}
-              onBack={() => handleOpenChange(false)}
-              onContinue={() => {
-                setSubmitError(null);
-                setStep("email");
-              }}
-            />
-          ) : null}
-
-          {step === "email" || step === "submitting" ? (
+          {step === "form" || step === "submitting" ? (
             <div className="flex flex-col gap-5">
-              {selection?.kind === "playstore" ? (
-                <div className="qg-appchip">
-                  {/* eslint-disable-next-line @next/next/no-img-element -- Play Store CDN icons */}
-                  <img src={selection.app.icon} alt="" width={36} height={36} />
-                  <div className="min-w-0">
-                    <p className="qg-appchip__title">{selection.app.title}</p>
-                    <p className="qg-appchip__meta">{selection.app.developer}</p>
-                  </div>
-                </div>
-              ) : selection?.kind === "file" ? (
-                <div className="qg-appchip">
-                  <p className="qg-appchip__title">{selection.file.name}</p>
-                </div>
-              ) : null}
+              <PlayPolicyAppPicker
+                selection={selection}
+                onSelectionChange={setSelection}
+                disabled={step === "submitting"}
+              />
 
               <div>
                 <label htmlFor={emailId} className="qg-label">
@@ -253,7 +216,7 @@ export function PlayPolicyAnalyzeDialog({
                     if (emailError) setEmailError(null);
                   }}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" && step === "email") {
+                    if (e.key === "Enter" && canSubmit) {
                       e.preventDefault();
                       void startScan();
                     }
@@ -302,17 +265,14 @@ export function PlayPolicyAnalyzeDialog({
                   type="button"
                   className="qg-btn qg-btn--secondary"
                   disabled={step === "submitting"}
-                  onClick={() => {
-                    setSubmitError(null);
-                    setStep("select");
-                  }}
+                  onClick={() => handleOpenChange(false)}
                 >
-                  Back
+                  Go back
                 </button>
                 <button
                   type="button"
                   className="qg-btn qg-btn--primary"
-                  disabled={step === "submitting"}
+                  disabled={!canSubmit}
                   onClick={() => void startScan()}
                 >
                   {step === "submitting" ? "Starting…" : "Start scan"}
@@ -326,7 +286,7 @@ export function PlayPolicyAnalyzeDialog({
               <p className="qg-body" role="status">
                 Your report will be sent to{" "}
                 <span className="font-semibold">{submittedEmail}</span> in 2
-                to 3 hours.
+                hours.
               </p>
               <div className="flex justify-end">
                 <button
