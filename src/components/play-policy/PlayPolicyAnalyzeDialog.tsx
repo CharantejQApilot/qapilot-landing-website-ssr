@@ -196,7 +196,7 @@ export function PlayPolicyAnalyzeDialog({
 
               <div>
                 <label htmlFor={emailId} className="qg-label">
-                  Work or personal email
+                  Email
                 </label>
                 <input
                   id={emailId}
