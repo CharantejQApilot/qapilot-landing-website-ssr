@@ -76,6 +76,20 @@ export function PlayPolicyAppPicker({
     }
   }, [query]);
 
+  const selectApp = useCallback(
+    (app: PlayStoreAppSummary) => {
+      searchSeq.current += 1;
+      setFileError(null);
+      setSearchError(null);
+      setSearching(false);
+      setSearched(false);
+      setResults([]);
+      setQuery(app.title);
+      onSelectionChange({ kind: "playstore", app });
+    },
+    [onSelectionChange],
+  );
+
   const acceptFile = useCallback(
     (file: File | undefined | null) => {
       setFileError(null);
@@ -111,8 +125,15 @@ export function PlayPolicyAppPicker({
               maxLength={200}
               disabled={disabled}
               onChange={(e) => {
-                setQuery(e.target.value);
+                const next = e.target.value;
+                setQuery(next);
                 if (searchError) setSearchError(null);
+                if (
+                  selection?.kind === "playstore" &&
+                  next !== selection.app.title
+                ) {
+                  onSelectionChange(null);
+                }
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -164,10 +185,7 @@ export function PlayPolicyAppPicker({
                       role="option"
                       aria-selected={selected}
                       disabled={disabled}
-                      onClick={() => {
-                        setFileError(null);
-                        onSelectionChange({ kind: "playstore", app });
-                      }}
+                      onClick={() => selectApp(app)}
                       className={cn("qg-result", selected && "is-selected")}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element -- Play Store CDN icons; host not in remotePatterns */}
