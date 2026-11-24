@@ -8,6 +8,7 @@ import {
   DEFAULT_SHARE_IMAGE_URL,
 } from "@/lib/seo";
 import { formatPageTitleString } from "@/lib/page-title";
+import { isClosedJob } from "@/lib/closed-jobs";
 
 const DEFAULT_TITLE = "QApilot - AI-Powered Mobile App Testing & QA Automation";
 const DEFAULT_DESCRIPTION =
@@ -237,7 +238,9 @@ async function careersMeta(pathname: string): Promise<MetaPayload | null> {
   const department = asTrimmedString(data.department);
   const location = asTrimmedString(data.location);
   const title = `${role}${department ? ` - ${department}` : ""} | QApilot Careers`;
-  const description = `${role}${location ? ` in ${location}` : ""}. Explore careers at QApilot.`;
+  const description = isClosedJob(data)
+    ? `This ${role} role at QApilot is closed.`
+    : `${role}${location ? ` in ${location}` : ""}. Explore careers at QApilot.`;
   const ogImage = buildOpenGraphImageMeta(DEFAULT_SHARE_IMAGE_URL, title);
   return {
     title,
