@@ -1,8 +1,8 @@
 /**
- * Marketing tags stay off the critical path.
- * GA4 and Ads queue a pageview and load on idle after the load event, so the
- * hit is not waiting on a click. GTM, HubSpot, Clarity, Factors, and reb2b
- * load on the first interaction, or 5s after load.
+ * Google Ads starts in this head script, before first paint, so the gclid is
+ * stored before a click. GA4 still loads on idle after the load event.
+ * GTM, HubSpot, Clarity, Factors, and reb2b load on the first interaction,
+ * or 5s after load.
  */
 export function deferredMarketingScriptsHtml(ids: {
   ga4Id: string;
@@ -40,17 +40,29 @@ function load(){
   window.faitracker=window.faitracker||function(){this.q=[];var t=new CustomEvent("FAITRACKER_QUEUED_EVENT");return this.init=function(t,e,a){this.TOKEN=t,this.INIT_PARAMS=e,this.INIT_CALLBACK=a,window.dispatchEvent(new CustomEvent("FAITRACKER_INIT_EVENT"))},this.call=function(){var e={k:"",a:[]};if(arguments&&arguments.length>=1){for(var a=1;a<arguments.length;a++)e.a.push(arguments[a]);e.k=arguments[0]}this.q.push(e),window.dispatchEvent(t)},this.message=function(){window.addEventListener("message",function(t){"faitracker"===t.data.origin&&this.call("message",t.data.type,t.data.message)})},this.message(),this.init(cfg.factorsToken,{host:"https://api.factors.ai"}),this}(),function(){var t=document.createElement("script");t.type="text/javascript",t.src="https://app.factors.ai/assets/factors.js",t.async=!0,document.head.appendChild(t)}();
   (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;(l.head||l.documentElement).appendChild(t);})(window,document,"clarity","script",cfg.clarityId);
 }
+function isPrivate(){
+  var path=location.pathname||"";
+  return path==="/admin"||path.indexOf("/admin/")===0||path==="/auth"||path.indexOf("/auth/")===0;
+}
+function loadAds(){
+  if(isPrivate())return;
+  window.gtag=function(){window.dataLayer.push(arguments);};
+  window.gtag("js", new Date());
+  window.gtag("config", cfg.googleAdsId);
+  inject("https://www.googletagmanager.com/gtag/js?id="+cfg.googleAdsId);
+}
+loadAds();
 var gaStarted=false;
 function loadGa(){
   if(gaStarted)return;
   gaStarted=true;
-  var path=location.pathname||"";
-  if(path==="/admin"||path.indexOf("/admin/")===0||path==="/auth"||path.indexOf("/auth/")===0)return;
-  window.gtag=function(){window.dataLayer.push(arguments);};
-  window.gtag("js", new Date());
+  if(isPrivate())return;
+  if(!window.gtag){
+    window.gtag=function(){window.dataLayer.push(arguments);};
+    window.gtag("js", new Date());
+    inject("https://www.googletagmanager.com/gtag/js?id="+cfg.ga4Id);
+  }
   window.gtag("config", cfg.ga4Id, {send_page_view:true});
-  window.gtag("config", cfg.googleAdsId);
-  inject("https://www.googletagmanager.com/gtag/js?id="+cfg.ga4Id);
 }
 function arm(){
   ["pointerdown","keydown","touchstart"].forEach(function(evt){
