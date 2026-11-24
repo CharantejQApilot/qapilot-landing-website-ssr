@@ -28,6 +28,7 @@ import {
 } from "@/lib/share-metadata";
 import { defaultOpenGraphImage, formatMetaDescription } from "@/lib/seo";
 import { logMetadataFallback } from "@/lib/server-telemetry";
+import { isClosedJob } from "@/lib/closed-jobs";
 
 interface JobOrganization {
   id: string;
@@ -189,8 +190,11 @@ export async function generateMetadata({
   }
 
   const typedJob = job as JobOpening;
+  const closed = isClosedJob(typedJob);
   const description = formatMetaDescription(
-    `Join QApilot as a ${typedJob.role} in ${typedJob.department} (${typedJob.location}, ${getEmploymentTypeLabel(typedJob.employment_type)}). Help ship AI-native mobile testing and release readiness.`,
+    closed
+      ? `This ${typedJob.role} role at QApilot is closed. The posting stays up for reference.`
+      : `Join QApilot as a ${typedJob.role} in ${typedJob.department} (${typedJob.location}, ${getEmploymentTypeLabel(typedJob.employment_type)}). Help ship AI-native mobile testing and release readiness.`,
   );
   const canonicalPath = `${PATHS.CAREERS}/${typedJob.slug || typedJob.id}`;
   const canonicalUrl = `${SITE_BASE_URL}${canonicalPath}`;
@@ -257,6 +261,7 @@ export default async function JobPostPage({
   }
 
   const job = jobData as JobOpening;
+  const closed = isClosedJob(job);
 
   let organization: JobOrganization | null = null;
   if (job.organization_id) {
@@ -272,33 +277,35 @@ export default async function JobPostPage({
   const datePosted = normalizeArticlePublishedTime(job.created_at);
   const validThrough = addDaysIso(job.updated_at, 90);
 
-  const jobPostingData = {
-    "@context": "https://schema.org",
-    "@type": "JobPosting",
-    url: canonicalUrl,
-    ...articleMainEntityOfPage(canonicalUrl),
-    title: job.role,
-    description: job.description.replace(/<[^>]*>/g, ""),
-    ...(datePosted ? { datePosted } : {}),
-    ...(validThrough ? { validThrough } : {}),
-    employmentType: getEmploymentTypeSchema(job.employment_type),
-    jobLocation: {
-      "@type": "Place",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: job.location,
-        addressCountry: "IN",
-      },
-    },
-    hiringOrganization: {
-      "@type": "Organization",
-      name: organization?.name || "QApilot",
-      sameAs: organization?.website_url || SITE_BASE_URL,
-      logo: organization?.logo_url || DEFAULT_LOGO_URL,
-    },
-    industry: "Software Testing & QA",
-    occupationalCategory: job.department,
-  };
+  const jobPostingData = closed
+    ? null
+    : {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        url: canonicalUrl,
+        ...articleMainEntityOfPage(canonicalUrl),
+        title: job.role,
+        description: job.description.replace(/<[^>]*>/g, ""),
+        ...(datePosted ? { datePosted } : {}),
+        ...(validThrough ? { validThrough } : {}),
+        employmentType: getEmploymentTypeSchema(job.employment_type),
+        jobLocation: {
+          "@type": "Place",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: job.location,
+            addressCountry: "IN",
+          },
+        },
+        hiringOrganization: {
+          "@type": "Organization",
+          name: organization?.name || "QApilot",
+          sameAs: organization?.website_url || SITE_BASE_URL,
+          logo: organization?.logo_url || DEFAULT_LOGO_URL,
+        },
+        industry: "Software Testing & QA",
+        occupationalCategory: job.department,
+      };
 
   const breadcrumbData = buildBreadcrumbList([
     { name: "Home", path: PATHS.HOME },
@@ -312,7 +319,9 @@ export default async function JobPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([jobPostingData, breadcrumbData]),
+          __html: JSON.stringify(
+            jobPostingData ? [jobPostingData, breadcrumbData] : [breadcrumbData],
+          ),
         }}
       />
 
@@ -333,6 +342,11 @@ export default async function JobPostPage({
               </Link>
 
               <div className="mb-4 flex flex-wrap items-center gap-2">
+                {closed ? (
+                  <span className="rounded-md border border-border/80 bg-muted px-3 py-1 text-sm font-medium text-foreground">
+                    Role closed
+                  </span>
+                ) : null}
                 <span className="rounded-md border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
                   {job.department}
                 </span>
@@ -347,6 +361,12 @@ export default async function JobPostPage({
               >
                 {job.role}
               </h1>
+
+              {closed ? (
+                <p className="mb-6 max-w-3xl text-base leading-relaxed text-foreground md:text-lg">
+                  This role is closed. We are not taking applications.
+                </p>
+              ) : null}
 
               <p
                 className={cn(
@@ -440,19 +460,39 @@ export default async function JobPostPage({
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-24">
                   <div className="rounded-2xl border border-border/80 bg-card/80 p-6 shadow-sm backdrop-blur-sm md:p-8">
-                    <div className="mb-6 text-center md:text-left">
-                      <h2 className="font-heading text-xl font-bold text-foreground md:text-2xl">
-                        Apply for this role
-                      </h2>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        Fill out the form below and we&apos;ll review your
-                        application.
-                      </p>
-                    </div>
-                    <HubSpotEmbedForm
-                      formId={CAREERS_FORM_ID}
-                      portalId="47284450"
-                    />
+                    {closed ? (
+                      <div className="text-center md:text-left">
+                        <h2 className="font-heading text-xl font-bold text-foreground md:text-2xl">
+                          This role is closed
+                        </h2>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          The description is still here. Applications are
+                          closed.
+                        </p>
+                        <Link
+                          href={PATHS.CAREERS}
+                          className="mt-6 inline-flex text-sm font-medium text-primary hover:underline"
+                        >
+                          Back to careers
+                        </Link>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="mb-6 text-center md:text-left">
+                          <h2 className="font-heading text-xl font-bold text-foreground md:text-2xl">
+                            Apply for this role
+                          </h2>
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            Fill out the form below and we&apos;ll review your
+                            application.
+                          </p>
+                        </div>
+                        <HubSpotEmbedForm
+                          formId={CAREERS_FORM_ID}
+                          portalId="47284450"
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

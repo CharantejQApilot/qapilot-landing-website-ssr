@@ -128,7 +128,7 @@ export default function RootLayout({
                 __html: JSON.stringify(rootSchemaGraphJsonLd),
               }}
             />
-            {/* GA4 loads on idle after the load event. Other tags wait for a click or 5s. */}
+            {/* Google Ads starts here, before first paint. GA4 loads on idle after load. Other tags wait for a click or 5s. */}
             <script
               dangerouslySetInnerHTML={{
                 __html: deferredMarketingScriptsHtml({
