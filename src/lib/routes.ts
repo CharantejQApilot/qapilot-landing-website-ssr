@@ -68,6 +68,7 @@ export const PATHS = {
   AUTONOMOUS_TESTING: "/product/autonomous-testing",
   COWORK: "/product/cowork",
   DUAL_DEVICE_TESTING: "/product/dual-device-testing",
+  DESIGN_TESTING: "/product/design-testing",
   RELEASE_READINESS_SUITE: "/product/release-readiness-suite",
   /** Deep links into Release Readiness Suite pillars (legacy page names). */
   INTELLIGENT_BUG_DETECTION:
@@ -94,6 +95,11 @@ export const PLATFORM_BY_SOLUTION = [
     path: PATHS.DUAL_DEVICE_TESTING,
     label: "Dual Device Testing",
     icon: "ArrowLeftRight",
+  },
+  {
+    path: PATHS.DESIGN_TESTING,
+    label: "Design Testing",
+    icon: "Palette",
   },
   {
     path: PATHS.RELEASE_READINESS_SUITE,

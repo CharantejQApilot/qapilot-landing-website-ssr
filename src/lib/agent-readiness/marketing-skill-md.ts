@@ -36,6 +36,7 @@ Public marketing and API discovery for [QApilot](https://qapilot.io). AI-native 
 - Overview: ${u(PATHS.PRODUCT)}
 - Autonomous testing: ${u(PATHS.AUTONOMOUS_TESTING)}
 - Dual Device Testing: ${u(PATHS.DUAL_DEVICE_TESTING)}
+- Design Testing: ${u(PATHS.DESIGN_TESTING)}
 - Release Readiness Suite: ${u(PATHS.RELEASE_READINESS_SUITE)}
 - Intelligent bug detection: ${u(PATHS.INTELLIGENT_BUG_DETECTION)}
 - AI self-healing: ${u(PATHS.AI_SELF_HEALING)}

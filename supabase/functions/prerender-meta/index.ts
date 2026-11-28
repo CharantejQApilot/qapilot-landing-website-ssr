@@ -80,6 +80,11 @@ const STATIC_PAGES: Record<string, PageMeta> = {
     description:
       "Test marketplace, messaging, and field workflows across two devices as one continuous transaction. Step-level sync, dependency-aware orchestration, and clear failure attribution.",
   },
+  "/product/design-testing": {
+    title: "Design Testing. The Screen That Shipped | QApilot",
+    description:
+      "Compare the running app with the intended UI. Design Testing names spacing, type, color, and missing elements before release.",
+  },
   "/cowork": {
     title: "CoWork. Activate Test Cases You Already Have | QApilot",
     description:

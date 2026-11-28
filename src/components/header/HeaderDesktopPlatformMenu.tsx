@@ -19,6 +19,7 @@ import {
   ArrowLeftRight,
   Terminal,
   ClipboardCheck,
+  Palette,
 } from "lucide-react";
 import { NavItem } from "@/components/header/HeaderNavItem";
 import {
@@ -47,6 +48,7 @@ const PLATFORM_ICONS: Record<string, LucideIcon> = {
   ArrowLeftRight,
   Terminal,
   ClipboardCheck,
+  Palette,
 };
 
 export default function HeaderDesktopPlatformMenu({
