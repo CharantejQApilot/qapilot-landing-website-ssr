@@ -10,6 +10,7 @@ const BRAND_CONTEXT_PATHS = [
   "/product",
   "/product/autonomous-testing",
   "/product/dual-device-testing",
+  "/product/design-testing",
   "/product/release-readiness-suite",
   "/for-flutter",
 ] as const;
