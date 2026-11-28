@@ -85,6 +85,7 @@ ${url("/")}
 | Platform overview | ${url(PATHS.PRODUCT)} |
 | Autonomous testing | ${url(PATHS.AUTONOMOUS_TESTING)} |
 | Dual Device Testing | ${url(PATHS.DUAL_DEVICE_TESTING)} |
+| Design Testing | ${url(PATHS.DESIGN_TESTING)} |
 | Release Readiness Suite | ${url(PATHS.RELEASE_READINESS_SUITE)} |
 | Intelligent bug detection | ${url(PATHS.INTELLIGENT_BUG_DETECTION)} |
 | AI self-healing | ${url(PATHS.AI_SELF_HEALING)} |

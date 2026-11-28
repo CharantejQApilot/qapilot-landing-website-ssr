@@ -29,6 +29,7 @@ const STATIC_PATHS = [
   "/product/autonomous-testing",
   "/product/cowork",
   "/product/dual-device-testing",
+  "/product/design-testing",
   "/product/release-readiness-suite",
   "/for-flutter",
   "/enterprise",

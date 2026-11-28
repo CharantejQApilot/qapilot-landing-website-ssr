@@ -32,6 +32,7 @@ const ALLOWED_EXACT_PATHS = new Set([
   "/for-product-owner",
   "/for-sre",
   "/product/dual-device-testing",
+  "/product/design-testing",
   "/product/release-readiness-suite",
   "/partners",
   "/case-studies",
